@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Stormbreaker.Models;
 
 namespace Stormbreaker.Repositories {
@@ -6,10 +7,11 @@ namespace Stormbreaker.Repositories {
     /// The IRepository interface 
     /// </summary>
     public interface IRepository {
-        /* *******************************************************************
-	    * Methods
-	    * *******************************************************************/
+        T GetByUrlSegment<T>(string urlSegment) where T : IContentItem;
+        T Get<T>(string id);
         T Get<T>(Func<T, bool> where);
-        void Update(IContentItem item);
+        void Save(IContentItem item);
+        void SaveChanges();
+        IEnumerable<IContentItem> GetChildrenFor(IContentItem item);
     }
 }

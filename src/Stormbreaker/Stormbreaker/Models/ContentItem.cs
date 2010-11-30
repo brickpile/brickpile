@@ -1,5 +1,6 @@
-using System;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using Stormbreaker.Resources;
 
 namespace Stormbreaker.Models {
     /// <summary>
@@ -17,41 +18,44 @@ namespace Stormbreaker.Models {
         /// Get/Sets the Id of the ContentItem
         /// </summary>
         /// <value></value>
-        public string Id { get; private set; }
+        [ScaffoldColumn(false)]
+        public string Id { get; set; }
         #endregion
         #region public IMetaData MetaData
         /// <summary>
         /// Get/Sets the MetaData of the ContentItem
         /// </summary>
         /// <value></value>
-        public IMetaData MetaData { get; set; }
+        public virtual IMetaData MetaData { get; private set; }
         #endregion
         #region public IStructureInfo StructureInfo
         /// <summary>
         /// Get/Sets the StructureInfo of the ContentItem
         /// </summary>
         /// <value></value>
-        public IStructureInfo StructureInfo { get; set; }
+        public virtual IStructureInfo StructureInfo { get; private set; }
         #endregion
-        #region public string Url
+        #region public virtual string Url
         /// <summary>
-        /// Get/Sets the Url of the ContentItem
+        /// Gets the Url of the ContentItem
         /// </summary>
         /// <value></value>
-        public string Url { get; set; }
+        [ScaffoldColumn(false)]
+        [Display(Name = "Url", ResourceType = typeof(Common))]
+        public virtual string Url
+        {
+            get { return MetaData.UrlSegment; }
+        }
         #endregion
         /* *******************************************************************
 	    * Constructors
 	    * *******************************************************************/
-        #region protected ContentItem(string name)
+        #region protected ContentItem()
         /// <summary>
         /// Initializes a new instance of the <b>ContentItem</b> class.
         /// </summary>
-        /// <param name="name"></param>
-        protected ContentItem(string name)
+        protected ContentItem()
         {
-            // transform the name to look the same as the urlsegment
-            Id = string.Format("contentitems/{0}", name);
             MetaData = new MetaData();
             StructureInfo = new StructureInfo();
         }

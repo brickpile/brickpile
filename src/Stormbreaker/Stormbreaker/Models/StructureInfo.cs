@@ -5,19 +5,19 @@ namespace Stormbreaker.Models {
         /* *******************************************************************
 	    * Properties
 	    * *******************************************************************/
-        #region public IContentItem Parent
+        #region public string Parent
         /// <summary>
         /// Get/Sets the Parent of the StructureInfo
         /// </summary>
         /// <value></value>
-        public IContentItem Parent { get; set; }
+        public string ParentId { get; set; }
         #endregion
-        #region public IList<IContentItem> Children
+        #region public IList<string> Children
         /// <summary>
         /// Get/Sets the Children of the StructureInfo
         /// </summary>
         /// <value></value>
-        public IList<IContentItem> Children { get; set; }
+        public IList<string> Children { get; set; }
         #endregion
     }
 }

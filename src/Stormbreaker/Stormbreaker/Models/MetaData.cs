@@ -52,15 +52,6 @@ namespace Stormbreaker.Models {
         [Display(Name = "StopPublish", ResourceType = typeof(Common), Order = 3)]
         public DateTime? StopPublish { get; set; }
         #endregion
-        #region public bool Visible
-        /// <summary>
-        /// Get/Sets the Visible of the MetaData
-        /// </summary>
-        /// <value></value>
-        [Display(Name = "Visible", ResourceType = typeof(Common), Order = 4)]
-        [ScaffoldColumn(false)]
-        public bool Visible { get; set; }
-        #endregion
         #region public string UrlSegment
         /// <summary>
         /// Get/Sets the UrlSegment of the MetaData
