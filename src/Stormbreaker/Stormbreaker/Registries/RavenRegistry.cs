@@ -9,21 +9,15 @@ namespace Stormbreaker.Registries {
         /* *******************************************************************
 	    * Constructors
 	    * *******************************************************************/
-        #region public RavenRegistry()
-        /// <summary>
-        /// Initializes a new instance of the <b>RavenRegistry</b> class.
-        /// </summary>
         public RavenRegistry()
         {
-            var documentStore = new DocumentStore
+            var documentStore = new DocumentStore()
                                     {
-                                        Url = "http://localhost:8080",
-                                        Conventions =
-                                            {
-                                                FindTypeTagName = type => typeof(IContentItem).IsAssignableFrom(type) ? "ContentItems" : null
-                                            }
+                                        Url = "http://localhost:8080"
                                     };
+
             documentStore.Initialize();
+            documentStore.Conventions.FindTypeTagName = type => typeof(IDocument).IsAssignableFrom(type) ? "Documents" : null;
 
             For<IDocumentStore>().Use(documentStore);
             For<IDocumentSession>()
@@ -34,6 +28,5 @@ namespace Stormbreaker.Registries {
                              return store.OpenSession();
                          });
         }
-        #endregion
     }
 }

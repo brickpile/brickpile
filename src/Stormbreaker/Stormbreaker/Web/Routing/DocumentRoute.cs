@@ -10,7 +10,7 @@ namespace Stormbreaker.Web.Routing {
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
-    public class ContentRoute : RouteBase {
+    public class DocumentRoute : RouteBase {
 
         private readonly IPathResolver _pathResolver;
         private readonly IVirtualPathResolver _virtualPathResolver;
@@ -22,55 +22,25 @@ namespace Stormbreaker.Web.Routing {
         /* *******************************************************************
 	    * Properties
 	    * *******************************************************************/
-        #region public static string ContentItemKey
-        /// <summary>
-        /// Gets the ContentItemKey of the ContentRoute
-        /// </summary>
-        /// <value></value>
-        public static string ContentItemKey
+        public static string DocumentKey
         {
-            get { return "item"; }
+            get { return "document"; }
         }
-        #endregion
-        #region public static string ActionKey
-        /// <summary>
-        /// Gets the ActionKey of the ContentRoute
-        /// </summary>
-        /// <value></value>
+
         public static string ActionKey
         {
             get { return "action"; }
         }
-        #endregion
-        #region public static string DefaultAction
-        /// <summary>
-        /// Gets the DefaultAction of the ContentRoute
-        /// </summary>
-        /// <value></value>
+
         public static string DefaultAction
         {
             get { return "index"; }
         }
-        #endregion
         /* *******************************************************************
 	    * Constructors
 	    * *******************************************************************/
-        #region public ContentRoute(IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver)
-        /// <summary>
-        /// Initializes a new instance of the <b>ContentRoute</b> class.
-        /// </summary>
-        /// <param name="pathResolver"></param>
-        /// <param name="virtualPathResolver"></param>
-        public ContentRoute(IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver) : this(pathResolver, virtualPathResolver, null) { }
-        #endregion
-        #region public ContentRoute(IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver, Route innerRoute)
-        /// <summary>
-        /// Initializes a new instance of the <b>ContentRoute</b> class.
-        /// </summary>
-        /// <param name="pathResolver"></param>
-        /// <param name="virtualPathResolver"></param>
-        /// <param name="innerRoute"></param>
-        public ContentRoute(IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver, Route innerRoute)
+        public DocumentRoute(IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver) : this(pathResolver, virtualPathResolver, null) { }
+        public DocumentRoute(IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver, Route innerRoute)
         {
             _pathResolver = pathResolver;
             _virtualPathResolver = virtualPathResolver;
@@ -81,16 +51,9 @@ namespace Stormbreaker.Web.Routing {
                                                         new RouteValueDictionary(),
                                                         _routeHandler);
         }
-        #endregion
         /* *******************************************************************
 	    *  Methods 
 	    * *******************************************************************/
-        #region public override RouteData GetRouteData(HttpContextBase httpContextBase)
-        /// <summary>
-        /// Responsible for unlocking the route data
-        /// </summary>
-        /// <param name="httpContextBase"></param>
-        /// <returns>Route data for current request containing the controller name, action and</returns>
         public override RouteData GetRouteData(HttpContextBase httpContextBase)
         {
 
@@ -102,28 +65,23 @@ namespace Stormbreaker.Web.Routing {
                 routeData.DataTokens[tokenPair.Key] = tokenPair.Value;
 
             // get the virtual path of the request
-            var virtualPath = httpContextBase.Request.CurrentExecutionFilePath;
+            var virtualPath = httpContextBase.Request.CurrentExecutionFilePath.Trim(new[] {'/'} );
+            if(string.IsNullOrEmpty(virtualPath)) {
+                return null;
+            }
 
             // try to resolve the current item
-            var pathData = _pathResolver.ResolvePath(virtualPath.Trim(new[] { '/' }));
+            var pathData = _pathResolver.ResolvePath(virtualPath);
 
             // Abort and proceed to other routes in the route table
             if (pathData == null) {
                 return null;
             }
 
-            routeData.ApplyCurrentItem(pathData.Controller, pathData.Action, pathData.CurrentItem);
+            routeData.ApplyCurrentDocument(pathData.Controller, pathData.Action, pathData.CurrentDocument);
 
             return routeData;
         }
-        #endregion
-        #region public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
-        /// <summary>
-        /// Responsible for resolving the virtual path to every item
-        /// </summary>
-        /// <param name="requestContext"></param>
-        /// <param name="values"></param>
-        /// <returns>VirtualPathData for each and every item</returns>
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
 
             var vpd = _innerRoute.GetVirtualPath(requestContext, values);
@@ -133,13 +91,12 @@ namespace Stormbreaker.Web.Routing {
 
             vpd.Route = this;
 
-            var item = values[ContentItemKey] as IContentItem;
+            var item = values[DocumentKey] as IDocument;
 
 
             vpd.VirtualPath = _virtualPathResolver.ResolveVirtualPath(item, values);
 
             return vpd;
         }
-        #endregion
     }
 }

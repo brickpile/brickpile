@@ -31,20 +31,33 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\lib\RavenDB-Build-193\Client-3.5\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.1.1\lib\Elmah.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Abstractions-3.5, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b9a188c8922137c6, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\RavenDB-Build-193\Client-3.5\Raven.Abstractions-3.5.dll</HintPath>
+      <HintPath>..\..\..\lib\RavenDB-Build-193\EmbeddedClient\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Client.Lightweight-3.5">
-      <HintPath>..\..\..\lib\RavenDB-Build-193\Client-3.5\Raven.Client.Lightweight-3.5.dll</HintPath>
+    <Reference Include="Raven.Abstractions">
+      <HintPath>..\..\..\lib\RavenDB-Build-193\EmbeddedClient\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Embedded">
+      <HintPath>..\..\..\lib\RavenDB-Build-193\EmbeddedClient\Raven.Client.Embedded.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\..\..\lib\RavenDB-Build-193\EmbeddedClient\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Database">
+      <HintPath>..\..\..\lib\RavenDB-Build-193\EmbeddedClient\Raven.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Http">
+      <HintPath>..\..\..\lib\RavenDB-Build-193\EmbeddedClient\Raven.Http.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.1.0\lib\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -57,48 +70,71 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\Configuration.cs" />
-    <Compile Include="Configuration\IConfiguration.cs" />
-    <Compile Include="Indexes\DocumentsByUrlSegment.cs" />
-    <Compile Include="Registries\ConfigurationRegistry.cs" />
-    <Compile Include="Registries\PathDataRegistry.cs" />
-    <Compile Include="Registries\PathResolverRegistry.cs" />
+    <Compile Include="Controllers\DocumentController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\DenormalizedReference.cs" />
+    <Compile Include="Models\Document.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\IDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\DocumentExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\RouteDataExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\TypeExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Registries\RavenRegistry.cs" />
-    <Compile Include="Registries\RepositoryRegistry.cs" />
-    <Compile Include="StructureMapBootstrapper.cs" />
-    <Compile Include="Registries\VirtualPathResolverRegistry.cs" />
-    <Compile Include="Controllers\ContentController.cs" />
+    <Compile Include="Bootstrapperer.cs" />
     <Compile Include="ControlsAttribute.cs" />
-    <Compile Include="Extensions\ContentItemExtensions.cs" />
-    <Compile Include="Extensions\RouteDataExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
-    <Compile Include="Models\MetaData.cs" />
-    <Compile Include="Models\ContentItem.cs" />
-    <Compile Include="Models\IMetaData.cs" />
-    <Compile Include="Models\IContentItem.cs" />
-    <Compile Include="Models\IStructureInfo.cs" />
-    <Compile Include="Models\StructureInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registries\RepositoryRegistry.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Resources\Common.Designer.cs" />
     <Compile Include="Resources\Common.sv.Designer.cs" />
-    <Compile Include="Web\ContentItemPathResolver.cs" />
-    <Compile Include="Web\ContentItemVirtualPathResolver.cs" />
-    <Compile Include="Web\IPathData.cs" />
-    <Compile Include="Web\IPathResolver.cs" />
-    <Compile Include="Web\IVirtualPathResolver.cs" />
-    <Compile Include="Web\Routing\ContentRoute.cs" />
     <Compile Include="Web\Mvc\Html\MenuHelper.cs" />
-    <Compile Include="Web\Routing\RouteCollectionExtensions.cs" />
-    <Compile Include="Web\Mvc\StructuremapControllerFactory.cs" />
-    <Compile Include="Web\Mvc\ViewModels\BaseViewModel.cs" />
-    <Compile Include="Web\Mvc\ViewModels\IViewModel.cs" />
-    <Compile Include="Web\Routing\PathData.cs" />
-    <Compile Include="Web\UI\Navigation\INavigationInfo.cs" />
-    <Compile Include="Web\UI\Navigation\INavigationItem.cs" />
-    <Compile Include="Web\UI\Navigation\NavigationInfo.cs" />
-    <Compile Include="Web\UI\Navigation\NavigationItem.cs" />
+    <Compile Include="Web\Mvc\StructuremapControllerFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\PathResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\UI\HierarchyNode.cs" />
+    <Compile Include="Web\VirtualPathResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\IPathData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\IPathResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\IVirtualPathResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\Mvc\ViewModels\BaseViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\Mvc\ViewModels\IViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\Routing\DocumentRoute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\Routing\PathData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\Routing\RouteCollectionExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -107,7 +143,9 @@
     <EmbeddedResource Include="Resources\Common.resx" />
     <EmbeddedResource Include="Resources\Common.sv.resx" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Indexes\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

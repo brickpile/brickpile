@@ -29,7 +29,7 @@ namespace Stormbreaker.Web.Mvc {
                 object dashboardControllerType;
                 if (requestContext.RouteData.DataTokens.TryGetValue("controllerType", out dashboardControllerType))
                 {
-                    var item = requestContext.RouteData.DataTokens["item"] as IContentItem;
+                    var item = requestContext.RouteData.DataTokens["document"] as IDocument;
                     if (item != null)
                     {
                         var genericType = ((Type)dashboardControllerType).MakeGenericType(item.GetType());

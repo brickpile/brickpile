@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Stormbreaker.Models;
-using Stormbreaker.Web.UI.Navigation;
+using Stormbreaker.Web.UI;
 
 namespace Stormbreaker.Web.Mvc.Html {
     /// <summary>
@@ -15,78 +16,52 @@ namespace Stormbreaker.Web.Mvc.Html {
         //* *******************************************************************
         //*  Methods 
         //* *******************************************************************/
-        #region public static string Menu<T>(this HtmlHelper html, INavigationInfo navigationInfo, Func<T, MvcHtmlString> itemContent)
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="html"></param>
-        /// <param name="navigationInfo"></param>
-        /// <param name="itemContent"></param>
-        /// <returns></returns>
-        public static string Menu<T>(this HtmlHelper html, INavigationInfo navigationInfo, Func<T, MvcHtmlString> itemContent) where T : IContentItem
+        public static string Menu<T>(this HtmlHelper html, T currentItem, IEnumerable<HierarchyNode<T>> structureInfo, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent) where T : IDocument
         {
-            return Menu(html, navigationInfo, itemContent);
-        }
-        #endregion
-        #region public static string Menu<T>(this HtmlHelper html, INavigationInfo navigationInfo, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent)
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="html"></param>
-        /// <param name="navigationInfo"></param>
-        /// <param name="itemContent"></param>
-        /// <param name="selectedItemContent"></param>
-        /// <returns></returns>
-        public static string Menu<T>(this HtmlHelper html, INavigationInfo navigationInfo, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent) where T : IContentItem
-        {
-            if (navigationInfo.NavigationItems == null)
-            {
-                return string.Empty;
-            }
+            // only render the top level items
+            var items = structureInfo.Where(x => x.Depth == 1);
 
             var sb = new StringBuilder();
+            sb.AppendLine("<ul>");
+
+            foreach (var item in items)
+            {
+                RenderLi(sb, "<li>{0}</li>", item.Entity, item.Entity.Equals(currentItem) ? selectedItemContent : itemContent);
+            }
+
+            sb.AppendLine("</ul>");
+            return sb.ToString();
+        }
+
+        public static string SubMenu<T>(this HtmlHelper html, IEnumerable<HierarchyNode<T>> structureInfo, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemConten) where T : IDocument
+        {
+            var sb = new StringBuilder();
+            AppendChildrenRecursive(sb, structureInfo.Last(), structureInfo, x => x.ChildNodes, itemContent, selectedItemConten);
+            return sb.ToString();
+        }
+        private static void AppendChildrenRecursive<T>(StringBuilder sb, HierarchyNode<T> currentNode, IEnumerable<HierarchyNode<T>> structureInfo, Func<HierarchyNode<T>, IEnumerable<HierarchyNode<T>>> childrenProperty, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent) where T : IDocument
+        {
+
+            var children = childrenProperty(currentNode);
+
+            if (children == null || children.Count() == 0)
+            {
+                sb.AppendLine("</li>");
+                return;
+            }
 
             sb.AppendLine("<ul>");
 
-            RenderLi(sb, "<li>{0}</li>", (T)navigationInfo.StartItem, navigationInfo.StartItem.Id.Equals(navigationInfo.CurrentItem.Id) ? selectedItemContent : itemContent);
-
-            AppendChildren(sb, (T)navigationInfo.CurrentItem, navigationInfo.NavigationItems, itemContent, selectedItemContent);
-
-            sb.AppendLine("</ul>");
-
-            return sb.ToString();
-        }
-        #endregion
-
-        #region private static void AppendChildren<T>(StringBuilder sb, T currentPage, IEnumerable<INavigationItem> children, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent)
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sb"></param>
-        /// <param name="currentPage"></param>
-        /// <param name="children"></param>
-        /// <param name="itemContent"></param>
-        /// <param name="selectedItemContent"></param>
-        private static void AppendChildren<T>(StringBuilder sb, T currentPage, IEnumerable<INavigationItem> children, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent) where T : IContentItem
-        {
-            foreach (var child in children)
+            foreach (var item in children)
             {
-                RenderLi(sb, "<li>{0}</li>", (T)child.ContentItem, child.ContentItem.Id.Equals(currentPage.Id) ? selectedItemContent : itemContent);
+                RenderLi(sb, "<li>{0}", item.Entity, itemContent);
+                AppendChildrenRecursive(sb, item, structureInfo, childrenProperty, itemContent, selectedItemContent);
             }
+
+            sb.AppendLine("</ul></li>");
         }
-        #endregion
-        #region private static void RenderLi<T>(StringBuilder sb, string format, T item, Func<T, MvcHtmlString> itemContent)
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sb"></param>
-        /// <param name="format"></param>
-        /// <param name="item"></param>
-        /// <param name="itemContent"></param>
-        private static void RenderLi<T>(StringBuilder sb, string format, T item, Func<T, MvcHtmlString> itemContent) where T : IContentItem
-        {
+        private static void RenderLi<T>(StringBuilder sb, string format, T item, Func<T, MvcHtmlString> itemContent) where T : IDocument {
             sb.AppendFormat(format, itemContent(item));
         }
-        #endregion
     }
 }

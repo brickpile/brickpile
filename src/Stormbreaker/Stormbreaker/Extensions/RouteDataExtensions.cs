@@ -1,6 +1,5 @@
 using System.Web.Routing;
 using Stormbreaker.Models;
-using Stormbreaker.Web.Mvc;
 using Stormbreaker.Web.Routing;
 
 namespace Stormbreaker.Extensions {
@@ -8,22 +7,12 @@ namespace Stormbreaker.Extensions {
         /* *******************************************************************
 	    *  Methods 
 	    * *******************************************************************/
-        #region public static RouteData ApplyCurrentItem(this RouteData data, string controllerName, string actionName, IContentItem contentItem)
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="controllerName"></param>
-        /// <param name="actionName"></param>
-        /// <param name="contentItem"></param>
-        /// <returns></returns>
-        public static RouteData ApplyCurrentItem(this RouteData data, string controllerName, string actionName, IContentItem contentItem)
+        public static RouteData ApplyCurrentDocument(this RouteData data, string controllerName, string actionName, IDocument document)
         {
-            data.Values[ContentRoute.ControllerKey] = controllerName;
-            data.Values[ContentRoute.ActionKey] = actionName;
-            data.DataTokens[ContentRoute.ContentItemKey] = contentItem;
+            data.Values[DocumentRoute.ControllerKey] = controllerName;
+            data.Values[DocumentRoute.ActionKey] = actionName;
+            data.DataTokens[DocumentRoute.DocumentKey] = document;
             return data;
         }
-        #endregion
     }
 }

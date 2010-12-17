@@ -1,24 +1,15 @@
 using Stormbreaker.Repositories;
+using Stormbreaker.Web;
+using Stormbreaker.Web.Routing;
 using StructureMap.Configuration.DSL;
 
 namespace Stormbreaker.Registries {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <remarks></remarks>
-    /// <example></example>
     public class RepositoryRegistry : Registry {
-        /* *******************************************************************
-	    * Constructors
-	    * *******************************************************************/
-        #region public RepositoryRegistry()
-        /// <summary>
-        /// Initializes a new instance of the <b>RepositoryRegistry</b> class.
-        /// </summary>
-        public RepositoryRegistry()
-        {
+        public RepositoryRegistry() {
             For<IRepository>().Use<Repository>();
+            For<IPathResolver>().Use<PathResolver>();
+            For<IVirtualPathResolver>().Use<VirtualPathResolver>();
+            For<IPathData>().Use<PathData>();
         }
-        #endregion
     }
 }
