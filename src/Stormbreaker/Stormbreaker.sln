@@ -8,6 +8,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\..\README = ..\..\README
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Areas", "Areas", "{07100C53-8172-4CA4-86DE-26B5B7DC1D4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stormbreaker.Test", "Stormbreaker.Test\Stormbreaker.Test.csproj", "{737B5DDB-98F3-4A3C-BAFE-FD7C17EDF971}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stormbreaker.Demo", "Stormbreaker.Demo\Stormbreaker.Demo.csproj", "{406F9BC9-3CEC-4E55-A42A-8260E55CB320}"
 EndProject
 Global
@@ -20,6 +24,10 @@ Global
 		{8754711B-B701-4C3D-A133-A07CBF0E4AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8754711B-B701-4C3D-A133-A07CBF0E4AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8754711B-B701-4C3D-A133-A07CBF0E4AD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{737B5DDB-98F3-4A3C-BAFE-FD7C17EDF971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{737B5DDB-98F3-4A3C-BAFE-FD7C17EDF971}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{737B5DDB-98F3-4A3C-BAFE-FD7C17EDF971}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{737B5DDB-98F3-4A3C-BAFE-FD7C17EDF971}.Release|Any CPU.Build.0 = Release|Any CPU
 		{406F9BC9-3CEC-4E55-A42A-8260E55CB320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{406F9BC9-3CEC-4E55-A42A-8260E55CB320}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{406F9BC9-3CEC-4E55-A42A-8260E55CB320}.Release|Any CPU.ActiveCfg = Release|Any CPU

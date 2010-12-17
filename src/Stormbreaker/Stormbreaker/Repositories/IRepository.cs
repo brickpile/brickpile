@@ -9,8 +9,7 @@ namespace Stormbreaker.Repositories {
 
         IEnumerable<T> GetChildren<T>(IDocument entity);
 
-        T[] LoadEntityBySlug<T>(string slug);
-        T[] LoadChildren<T>(IDocument entity);
+        T LoadEntityBySlug<T>(string slug);
         T Load<T>(string id);
 
         void Store(IDocument entity);

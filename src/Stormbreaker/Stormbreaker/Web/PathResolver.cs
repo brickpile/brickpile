@@ -32,17 +32,15 @@ namespace Stormbreaker.Web {
             IDocument document = null;
             for (var i = 0; i < slugs.Length; i++) {
 
-                var documents = _repository.LoadEntityBySlug<IDocument>(slugs[i]);
-
-                //if (document == null)
-                //{
-                //    document = _repository.LoadEntityBySlug<IDocument>(slugs[i]);
-                //}
-                //else
-                //{
-                //    var reference = document.Children.Where(x => x.Slug == slugs[i]).FirstOrDefault();
-                //    document = reference != null ? _repository.LoadEntityBySlug<IDocument>(reference.Slug) : null;
-                //})
+                if (document == null)
+                {
+                    document = _repository.LoadEntityBySlug<IDocument>(slugs[i]);
+                }
+                else
+                {
+                    var reference = document.Children.Where(x => x.Slug == slugs[i]).FirstOrDefault();
+                    document = reference != null ? _repository.LoadEntityBySlug<IDocument>(reference.Slug) : null;
+                }
 
                 if (document != null)
                 {
