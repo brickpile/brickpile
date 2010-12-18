@@ -1,5 +1,7 @@
 using Raven.Client;
 using Raven.Client.Document;
+using Raven.Client.Indexes;
+using Stormbreaker.Indexes;
 using Stormbreaker.Models;
 using StructureMap.Configuration.DSL;
 
@@ -18,7 +20,7 @@ namespace Stormbreaker.Registries {
 
             documentStore.Initialize();
             documentStore.Conventions.FindTypeTagName = type => typeof(IDocument).IsAssignableFrom(type) ? "Documents" : null;
-
+            IndexCreation.CreateIndexes(typeof(Document_BySlug).Assembly, documentStore);
             For<IDocumentStore>().Use(documentStore);
             For<IDocumentSession>()
                 .HybridHttpOrThreadLocalScoped()

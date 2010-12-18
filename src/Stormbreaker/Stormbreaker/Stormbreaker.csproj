@@ -73,6 +73,7 @@
     <Compile Include="Controllers\DocumentController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Indexes\Document_BySlug.cs" />
     <Compile Include="Models\DenormalizedReference.cs" />
     <Compile Include="Models\Document.cs">
       <SubType>Code</SubType>
@@ -143,9 +144,7 @@
     <EmbeddedResource Include="Resources\Common.resx" />
     <EmbeddedResource Include="Resources\Common.sv.resx" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Indexes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -34,12 +34,12 @@ namespace Stormbreaker.Web {
 
                 if (document == null)
                 {
-                    document = _repository.LoadEntityBySlug<IDocument>(slugs[i]);
+                    document = _repository.LoadDocumentBySlug<IDocument>(slugs[i]);
                 }
                 else
                 {
                     var reference = document.Children.Where(x => x.Slug == slugs[i]).FirstOrDefault();
-                    document = reference != null ? _repository.LoadEntityBySlug<IDocument>(reference.Slug) : null;
+                    document = reference != null ? _repository.LoadDocumentBySlug<IDocument>(reference.Slug) : null;
                 }
 
                 if (document != null)

@@ -10,7 +10,7 @@ namespace Stormbreaker.Controllers {
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
-    public class DocumentController<T> : Controller where T : IDocument {
+    public class DocumentController<T> : Controller where T : class, IDocument {
         private readonly IRepository _repository;
         /* *******************************************************************
 	    * Properties

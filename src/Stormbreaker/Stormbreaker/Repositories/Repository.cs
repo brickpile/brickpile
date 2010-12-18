@@ -15,16 +15,18 @@ namespace Stormbreaker.Repositories {
         public Repository(IDocumentSession documentSession) {
             _documentSession = documentSession;
         }
+
         public T Load<T>(string id)
         {
             return _documentSession.Load<T>(id);
         }
-        public IEnumerable<T> GetChildren<T>(IDocument entity) {
-            return _documentSession.Advanced.LuceneQuery<T>("DocumentsByStructureInfo").Where("Id:" + entity.Id).ToArray();
+
+        public IDocument[] GetChildren<T>(IDocument parent) {
+            return _documentSession.Query<IDocument>().Where(d => d.Parent.Id == parent.Id).ToArray();
         }
 
-        public T LoadEntityBySlug<T>(string slug) {
-            return _documentSession.Advanced.LuceneQuery<T>("DocumentsBySlug").Where("Slug:" + slug).FirstOrDefault();
+        public T LoadDocumentBySlug<T>(string slug) {
+            return _documentSession.Advanced.LuceneQuery<T>("Document/BySlug").Where("Slug:" + slug).FirstOrDefault();
         }
 
         public void Store(IDocument entity) {

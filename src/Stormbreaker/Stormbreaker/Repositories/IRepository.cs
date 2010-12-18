@@ -7,9 +7,9 @@ namespace Stormbreaker.Repositories {
     /// </summary>
     public interface IRepository {
 
-        IEnumerable<T> GetChildren<T>(IDocument entity);
+        IDocument[] GetChildren<T>(IDocument entity);
 
-        T LoadEntityBySlug<T>(string slug);
+        T LoadDocumentBySlug<T>(string slug);
         T Load<T>(string id);
 
         void Store(IDocument entity);
