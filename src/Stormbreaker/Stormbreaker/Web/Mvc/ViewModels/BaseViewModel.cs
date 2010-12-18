@@ -19,16 +19,10 @@ namespace Stormbreaker.Web.Mvc.ViewModels {
             get
             {
                 var items = new List<IDocument>();
-                if (CurrentDocument.Equals(RootDocument))
-                {
-                    items.AddRange(_repository.GetChildren<IDocument>(CurrentDocument));
-                }
-                else {
-                    var ancestors = GetAncestors(CurrentDocument);
-                    items.AddRange(_repository.GetChildren<IDocument>(CurrentDocument));
-                    foreach (var ancestor in ancestors) {
-                        items.AddRange(_repository.GetChildren<IDocument>(ancestor));
-                    }
+                items.AddRange(CurrentDocument.Children.Select(child => _repository.Load<IDocument>(child.Id)));
+                var ancestors = GetAncestors(CurrentDocument);
+                foreach (var ancestor in ancestors) {
+                    items.AddRange(_repository.GetChildren<IDocument>(ancestor));
                 }
                 return CreateHierarchy(items, RootDocument, 0);
             }
