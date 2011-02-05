@@ -10,7 +10,7 @@ namespace Stormbreaker.Web.Routing {
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
-    public class DocumentRoute : RouteBase {
+    public class PageRoute : RouteBase {
 
         private readonly IPathResolver _pathResolver;
         private readonly IVirtualPathResolver _virtualPathResolver;
@@ -39,14 +39,14 @@ namespace Stormbreaker.Web.Routing {
         /* *******************************************************************
 	    * Constructors
 	    * *******************************************************************/
-        public DocumentRoute(IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver) : this(pathResolver, virtualPathResolver, null) { }
-        public DocumentRoute(IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver, Route innerRoute)
+        public PageRoute(IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver) : this(pathResolver, virtualPathResolver, null) { }
+        public PageRoute(IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver, Route innerRoute)
         {
             _pathResolver = pathResolver;
             _virtualPathResolver = virtualPathResolver;
             _routeHandler = _routeHandler ?? new MvcRouteHandler();
             _innerRoute = innerRoute ?? new Route("{controller}/{action}",
-                                                        new RouteValueDictionary(new { action = "Index" }),
+                                                        new RouteValueDictionary(new { action = "index" }),
                                                         new RouteValueDictionary(),
                                                         new RouteValueDictionary(),
                                                         _routeHandler);
@@ -78,10 +78,11 @@ namespace Stormbreaker.Web.Routing {
                 return null;
             }
 
-            routeData.ApplyCurrentDocument(pathData.Controller, pathData.Action, pathData.CurrentDocument);
+            routeData.ApplyCurrentPageModel(pathData.Controller, pathData.Action, pathData.CurrentPageModel);
 
             return routeData;
         }
+
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
 
             var vpd = _innerRoute.GetVirtualPath(requestContext, values);
@@ -91,8 +92,11 @@ namespace Stormbreaker.Web.Routing {
 
             vpd.Route = this;
 
-            var item = values[DocumentKey] as IDocument;
-
+            var item = values[DocumentKey] as IPageModel;
+            
+            if(item == null) {
+                return null;
+            }
 
             vpd.VirtualPath = _virtualPathResolver.ResolveVirtualPath(item, values);
 
