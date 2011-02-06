@@ -22,14 +22,14 @@ namespace Stormbreaker.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Common {
+    public class PageMetaData {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Common() {
+        internal PageMetaData() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Stormbreaker.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Stormbreaker.Resources.Common", typeof(Common).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Stormbreaker.Resources.PageMetaData", typeof(PageMetaData).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,6 +61,33 @@ namespace Stormbreaker.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Page name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My awesome page.
+        /// </summary>
+        public static string Name_Prompt {
+            get {
+                return ResourceManager.GetString("Name_Prompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the page is mandatory.
+        /// </summary>
+        public static string Name_Required {
+            get {
+                return ResourceManager.GetString("Name_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Page name in web address.
         /// </summary>
         public static string Slug {
@@ -70,47 +97,20 @@ namespace Stormbreaker.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must provide a name for the web address.
+        ///   Looks up a localized string similar to my-awesome-page.
+        /// </summary>
+        public static string Slug_Prompt {
+            get {
+                return ResourceManager.GetString("Slug_Prompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The slug of the page is mandatory.
         /// </summary>
         public static string Slug_Required {
             get {
                 return ResourceManager.GetString("Slug_Required", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Start publish (yyyy-MM-ddTHH:mm).
-        /// </summary>
-        public static string StartPublish {
-            get {
-                return ResourceManager.GetString("StartPublish", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Stop publish (yyyy-MM-ddTHH:mm).
-        /// </summary>
-        public static string StopPublish {
-            get {
-                return ResourceManager.GetString("StopPublish", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Path to this page.
-        /// </summary>
-        public static string Url {
-            get {
-                return ResourceManager.GetString("Url", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Visible in menus.
-        /// </summary>
-        public static string Visible {
-            get {
-                return ResourceManager.GetString("Visible", resourceCulture);
             }
         }
     }

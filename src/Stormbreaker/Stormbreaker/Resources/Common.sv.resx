@@ -117,11 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Name" xml:space="preserve">
-    <value>Sidans namn</value>
+  <data name="Slug" xml:space="preserve">
+    <value>Sidans namn i webbadress</value>
   </data>
-  <data name="Name_Required" xml:space="preserve">
-    <value>Sidans namn måste anges</value>
+  <data name="Slug_Required" xml:space="preserve">
+    <value>Du måste ange ett namn som visas i adressfältet</value>
   </data>
   <data name="StartPublish" xml:space="preserve">
     <value>Börja publicera</value>
@@ -131,12 +131,6 @@
   </data>
   <data name="Url" xml:space="preserve">
     <value>Sökväg till den här sidan</value>
-  </data>
-  <data name="UrlSegment" xml:space="preserve">
-    <value>Sidans namn i webbadress</value>
-  </data>
-  <data name="UrlSegment_Required" xml:space="preserve">
-    <value>Du måste ange ett namn som visas i adressfältet</value>
   </data>
   <data name="Visible" xml:space="preserve">
     <value>Visa sidan i menyer</value>

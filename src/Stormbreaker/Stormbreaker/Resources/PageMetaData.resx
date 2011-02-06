@@ -117,22 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Name" xml:space="preserve">
+    <value>Page name</value>
+  </data>
+  <data name="Name_Prompt" xml:space="preserve">
+    <value>My awesome page</value>
+  </data>
+  <data name="Name_Required" xml:space="preserve">
+    <value>The name of the page is mandatory</value>
+  </data>
   <data name="Slug" xml:space="preserve">
     <value>Page name in web address</value>
   </data>
+  <data name="Slug_Prompt" xml:space="preserve">
+    <value>my-awesome-page</value>
+  </data>
   <data name="Slug_Required" xml:space="preserve">
-    <value>You must provide a name for the web address</value>
-  </data>
-  <data name="StartPublish" xml:space="preserve">
-    <value>Start publish (yyyy-MM-ddTHH:mm)</value>
-  </data>
-  <data name="StopPublish" xml:space="preserve">
-    <value>Stop publish (yyyy-MM-ddTHH:mm)</value>
-  </data>
-  <data name="Url" xml:space="preserve">
-    <value>Path to this page</value>
-  </data>
-  <data name="Visible" xml:space="preserve">
-    <value>Visible in menus</value>
+    <value>The slug of the page is mandatory</value>
   </data>
 </root>
