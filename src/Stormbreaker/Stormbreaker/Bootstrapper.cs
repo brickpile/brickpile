@@ -7,12 +7,8 @@ namespace Stormbreaker
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
-    public class Bootstrapperer
-    {
-        /* *******************************************************************
-	    * Constructors
-	    * *******************************************************************/
-        public static void BootStrap(IContainer container) {
+    public class Bootstrapper {
+        public static void ConfigureStructureMap(IContainer container) {
             container.Configure(x => x.Scan(a =>
             {
                 a.AssembliesFromApplicationBaseDirectory();
