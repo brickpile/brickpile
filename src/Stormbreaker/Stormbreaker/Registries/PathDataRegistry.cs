@@ -9,7 +9,6 @@ namespace Stormbreaker.Registries {
     /// <remarks></remarks>
     /// <example></example>
     public class PathDataRegistry : Registry {
-        #region public PathDataRegistry()
         /// <summary>
         /// Initializes a new instance of the <see cref="PathDataRegistry"/> class.
         /// </summary>
@@ -17,6 +16,5 @@ namespace Stormbreaker.Registries {
         {
             For<IPathData>().Use<PathData>();
         }
-        #endregion
     }
 }
