@@ -22,40 +22,45 @@ namespace Stormbreaker.Web {
 	    * *******************************************************************/
         public IPathData ResolvePath(string virtualUrl)
         {
-            // Hidden dependency, not good
+
+            if(string.IsNullOrEmpty(virtualUrl)) {
+                return null;
+            }
+
             _repository = ObjectFactory.GetInstance<IRepository>();
 
-            _pathData.Action = DocumentRoute.DefaultAction;
+            _pathData.Action = PageRoute.DefaultAction;
+            _pathData.CurrentPageModel = null;
 
             var slugs = virtualUrl.Split(new[] { '/' });
-
-            IDocument document = null;
+            
+            IPageModel pageModel = null;
             for (var i = 0; i < slugs.Length; i++) {
 
-                if (document == null)
+                if (pageModel == null)
                 {
-                    document = _repository.LoadDocumentBySlug<IDocument>(slugs[i]);
+                    pageModel = _repository.GetPageBySlug<IPageModel>(slugs[i]);
                 }
                 else
                 {
-                    var reference = document.Children.Where(x => x.Slug == slugs[i]).FirstOrDefault();
-                    document = reference != null ? _repository.LoadDocumentBySlug<IDocument>(reference.Slug) : null;
+                    var reference = pageModel.Children.Where(x => x.Slug == slugs[i]).FirstOrDefault();
+                    pageModel = reference != null ? _repository.Load<IPageModel>(reference.Id) : null;
                 }
 
-                if (document != null)
+                if (pageModel != null)
                 {
-                    _pathData.CurrentDocument = document;
+                    _pathData.CurrentPageModel = pageModel;
                     continue;
                 }
                 _pathData.Action = slugs[i];
             }
 
-            if (_pathData.CurrentDocument == null)
+            if (_pathData.CurrentPageModel == null)
             {
                 return null;
             }
 
-            _pathData.Controller = _pathData.CurrentDocument.GetControllerName();
+            _pathData.Controller = _pathData.CurrentPageModel.GetControllerName();
             return _pathData;
         }
     }

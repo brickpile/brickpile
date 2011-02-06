@@ -3,6 +3,6 @@ using Stormbreaker.Models;
 
 namespace Stormbreaker.Web {
     public interface IVirtualPathResolver {
-        string ResolveVirtualPath(IDocument document, RouteValueDictionary routeValueDictionary);
+        string ResolveVirtualPath(IPageModel pageModel, RouteValueDictionary routeValueDictionary);
     }
 }

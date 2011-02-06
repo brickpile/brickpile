@@ -11,20 +11,24 @@ namespace Stormbreaker.Web {
         /* *******************************************************************
 	    *  Methods 
 	    * *******************************************************************/
-        public string ResolveVirtualPath(IDocument document, RouteValueDictionary routeValueDictionary) {
+        public string ResolveVirtualPath(IPageModel pageModel, RouteValueDictionary routeValueDictionary) {
+            if(pageModel == null) {
+                return null;
+            }
             var url = new StringBuilder(250);
-            url.Append(document.Slug);
+            url.Append(pageModel.MetaData.Slug);
             var repository = ObjectFactory.GetInstance<IRepository>();
-            var parent = document;
-            while(parent.Parent != null) {
-                parent = repository.Load<IDocument>(parent.Parent.Id);
-                url.Insert(0, string.Format("{0}/", parent.Slug));
+            var parent = pageModel;
+            while (parent.Id != "pages/1" && parent.Parent != null && parent.Parent.Id != "pages/1")
+            {
+                parent = repository.Load<IPageModel>(parent.Parent.Id);
+                url.Insert(0, string.Format("{0}/", parent.MetaData.Slug));
             }
 
-            if (routeValueDictionary.ContainsKey(DocumentRoute.ActionKey))
+            if (routeValueDictionary.ContainsKey(PageRoute.ActionKey))
             {
-                _action = routeValueDictionary[DocumentRoute.ActionKey] as string;
-                if (_action != null && !_action.Equals(DocumentRoute.DefaultAction))
+                _action = routeValueDictionary[PageRoute.ActionKey] as string;
+                if (_action != null && !_action.Equals(PageRoute.DefaultAction))
                 {
                     return string.Format("{0}/{1}/", url, _action);
                 }

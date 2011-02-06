@@ -7,6 +7,6 @@ namespace Stormbreaker.Web.Routing {
 	    * *******************************************************************/
         public string Action { get; set; }
         public string Controller { get; set; }
-        public IDocument CurrentDocument { get; set; }
+        public IPageModel CurrentPageModel { get; set; }
     }
 }

@@ -4,6 +4,6 @@ namespace Stormbreaker.Web {
     public interface IPathData {
         string Action { get; set; }
         string Controller { get; set; }
-        IDocument CurrentDocument { get; set; }
+        IPageModel CurrentPageModel { get; set; }
     }
 }
