@@ -109,6 +109,7 @@
     <Compile Include="Registries\PageRepositoryRegistry.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Registries\StructureInfoRegistry.cs" />
     <Compile Include="Registries\VirtualPathResolverRegistry.cs" />
     <Compile Include="Repositories\PageRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
@@ -133,12 +134,16 @@
       <DependentUpon>PageMetaData.sv.resx</DependentUpon>
     </Compile>
     <Compile Include="Web\Mvc\Html\MenuHelper.cs" />
+    <Compile Include="Web\Mvc\Html\SubMenuHelper.cs" />
     <Compile Include="Web\Mvc\PageModelBinder.cs" />
     <Compile Include="Web\Mvc\StructureMapDependencyResolver.cs" />
     <Compile Include="Web\PathResolver.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Web\UI\HierarchyNode.cs" />
+    <Compile Include="Web\UI\IHierarchyNode.cs" />
+    <Compile Include="Web\UI\IStructureInfo.cs" />
+    <Compile Include="Web\UI\StructureInfo.cs" />
     <Compile Include="Web\VirtualPathResolver.cs">
       <SubType>Code</SubType>
     </Compile>
