@@ -1,17 +1,26 @@
 using System.Web.Routing;
-using Stormbreaker.Models;
 using Stormbreaker.Web.Routing;
 
 namespace Stormbreaker.Extensions {
+    /// <summary>
+    /// Extension methods for RouteData objects
+    /// </summary>
+    /// <remarks></remarks>
+    /// <example></example>
     public static class RouteDataExtensions {
-        /* *******************************************************************
-	    *  Methods 
-	    * *******************************************************************/
-        public static RouteData ApplyCurrentDocument(this RouteData data, string controllerName, string actionName, IDocument document)
+        /// <summary>
+        /// Used for adding a page model to the RouteData object's DataTokens
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="controllerName"></param>
+        /// <param name="actionName"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static RouteData ApplyCurrentPageModel(this RouteData data, string controllerName, string actionName, dynamic model)
         {
-            data.Values[DocumentRoute.ControllerKey] = controllerName;
-            data.Values[DocumentRoute.ActionKey] = actionName;
-            data.DataTokens[DocumentRoute.DocumentKey] = document;
+            data.Values[PageRoute.ControllerKey] = controllerName;
+            data.Values[PageRoute.ActionKey] = actionName;
+            data.Values[PageRoute.DocumentKey] = model;
             return data;
         }
     }

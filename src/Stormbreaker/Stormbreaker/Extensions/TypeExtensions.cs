@@ -1,16 +1,18 @@
 using System;
-using System.Linq;
 
 namespace Stormbreaker.Extensions {
     /// <summary>
+    /// Extension methods for Type objects
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
     public static class TypeExtensions {
-        /* *******************************************************************
-	    *  Methods 
-	    * *******************************************************************/
-        internal static T GetAttribute<T>(this Type type) where T : Attribute
+        /// <summary>
+        /// Get the attribute of a specific type ( returns null if not exists
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static T GetAttribute<T>(this Type type) where T : Attribute
         {
             T attribute = null;
 
@@ -22,10 +24,6 @@ namespace Stormbreaker.Extensions {
             }
 
             return attribute;
-        }
-        public static bool ContainsAction(this Type type, string actionName)
-        {
-            return type.GetMethods().SingleOrDefault(x => x.Name.ToLowerInvariant() == actionName.ToLower()) != null;
         }
     }
 }
