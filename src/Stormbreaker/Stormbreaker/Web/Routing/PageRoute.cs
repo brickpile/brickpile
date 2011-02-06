@@ -56,7 +56,6 @@ namespace Stormbreaker.Web.Routing {
 	    * *******************************************************************/
         public override RouteData GetRouteData(HttpContextBase httpContextBase)
         {
-
             var routeData = new RouteData(this, _routeHandler);
 
             foreach (var defaultPair in _innerRoute.Defaults)

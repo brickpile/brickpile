@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Stormbreaker.Models;
 using Stormbreaker.Web.UI;
 
 namespace Stormbreaker.Web.Mvc.ViewModels {
@@ -12,12 +10,8 @@ namespace Stormbreaker.Web.Mvc.ViewModels {
         /// </summary>
         T CurrentModel { get; }
         /// <summary>
-        /// <see cref="DefaultViewModel{T}.RootPageModel"/>
-        /// </summary>
-        IPageModel RootPageModel { get; }
-        /// <summary>
         /// <see cref="DefaultViewModel{T}.StructureInfo"/>
         /// </summary>
-        IEnumerable<HierarchyNode<IPageModel>> StructureInfo { get; }
+        IStructureInfo StructureInfo { get; }
     }
 }
