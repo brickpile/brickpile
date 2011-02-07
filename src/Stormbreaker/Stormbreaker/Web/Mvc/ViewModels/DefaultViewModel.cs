@@ -5,18 +5,25 @@ using Stormbreaker.Web.UI;
 namespace Stormbreaker.Web.Mvc.ViewModels {
 
     public class DefaultViewModel<T> : IViewModel<T> where T : IPageModel {
-
+        /// <summary>
+        /// Get/Sets the CurrentModel of the DefaultViewModel
+        /// </summary>
+        /// <value></value>
         public virtual T CurrentModel { get; private set; }
         /// <summary>
         /// Get/Sets the StructureInfo of the DefaultViewModel
         /// </summary>
         /// <value></value>
         public virtual IStructureInfo StructureInfo { get; private set; }
-
-        public DefaultViewModel(T currentModel, IRepository repository)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultViewModel{T}" /> class.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="repository"></param>
+        public DefaultViewModel(T model, IRepository repository)
         {
-            CurrentModel = currentModel;
-            StructureInfo = new StructureInfo(repository, currentModel);
+            CurrentModel = model;
+            StructureInfo = new StructureInfo(repository, model);
         }
     }
 }
