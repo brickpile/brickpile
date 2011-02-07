@@ -2,19 +2,11 @@ using Stormbreaker.Models;
 
 namespace Stormbreaker.Repositories {
     /// <summary>
-    /// Represents a repository 
+    /// Represents a common repository 
     /// </summary>
     public interface IRepository {
         /// <summary>
-        /// <see cref="PageRepository.GetChildren{T}<>" />
-        /// </summary>
-        IPageModel[] GetChildren<T>(IPageModel entity);
-        /// <summary>
-        /// <see cref="PageRepository.GetPageBySlug{T}<>" />
-        /// </summary>
-        T GetPageBySlug<T>(string slug);
-        /// <summary>
-        /// <see cref="PageRepository.Load{T}<>" />
+        /// <see cref="PageRepository.Load{T}" />
         /// </summary>
         T Load<T>(string id);
         /// <summary>
