@@ -22,9 +22,9 @@ namespace Stormbreaker.Web.Routing {
         /* *******************************************************************
 	    * Properties
 	    * *******************************************************************/
-        public static string DocumentKey
+        public static string ModelKey
         {
-            get { return "document"; }
+            get { return "model"; }
         }
 
         public static string ActionKey
@@ -77,7 +77,7 @@ namespace Stormbreaker.Web.Routing {
                 return null;
             }
 
-            routeData.ApplyCurrentPageModel(pathData.Controller, pathData.Action, pathData.CurrentPageModel);
+            routeData.ApplyCurrentModel(pathData.Controller, pathData.Action, pathData.CurrentPageModel);
 
             return routeData;
         }
@@ -91,7 +91,7 @@ namespace Stormbreaker.Web.Routing {
 
             vpd.Route = this;
 
-            var item = values[DocumentKey] as IPageModel;
+            var item = values[ModelKey] as IPageModel;
             
             if(item == null) {
                 return null;

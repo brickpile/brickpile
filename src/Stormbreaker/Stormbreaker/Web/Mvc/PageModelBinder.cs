@@ -6,7 +6,7 @@ namespace Stormbreaker.Web.Mvc {
         protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
         {
             var routeData = controllerContext.RouteData;
-            if (!routeData.Values.ContainsKey("document"))
+            if (!routeData.Values.ContainsKey("model"))
             {
                 return null;
             }
