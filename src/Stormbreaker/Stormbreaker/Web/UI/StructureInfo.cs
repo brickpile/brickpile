@@ -12,7 +12,7 @@ namespace Stormbreaker.Web.UI {
     /// <example></example>
     public class StructureInfo : IStructureInfo {
 
-        private readonly PageRepository _repository;
+        private readonly IPageRepository _repository;
         private readonly IPageModel _currentPageModel;
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Stormbreaker.Web.UI {
         /// <param name="currentPageModel"></param>
         public StructureInfo(IRepository repository, IPageModel currentPageModel)
         {
-            _repository = (PageRepository)repository;
+            _repository = (IPageRepository) repository;
             _currentPageModel = currentPageModel;
         }
     }        

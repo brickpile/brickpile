@@ -111,6 +111,7 @@
     </Compile>
     <Compile Include="Registries\StructureInfoRegistry.cs" />
     <Compile Include="Registries\VirtualPathResolverRegistry.cs" />
+    <Compile Include="Repositories\IPageRepository.cs" />
     <Compile Include="Repositories\PageRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Resources\Common.Designer.cs">

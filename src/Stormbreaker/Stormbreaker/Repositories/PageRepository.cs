@@ -9,7 +9,7 @@ namespace Stormbreaker.Repositories {
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
-    public class PageRepository : IRepository {
+    public class PageRepository : IPageRepository {
         private readonly IDocumentSession _documentSession;
 
         /// <summary>

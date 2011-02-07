@@ -8,14 +8,14 @@ using StructureMap;
 namespace Stormbreaker.Web {
     public class PathResolver : IPathResolver {
         private readonly IPathData _pathData;
-        private PageRepository _repository;
+        private IPageRepository _repository;
         /* *******************************************************************
 	    *  Constructors
 	    * *******************************************************************/
         public PathResolver(IPathData pathData, IRepository repository)
         {
             _pathData = pathData;
-            _repository = (PageRepository)repository;
+            _repository = (IPageRepository) repository;
         }
         /* *******************************************************************
 	    *  Methods 
@@ -27,7 +27,7 @@ namespace Stormbreaker.Web {
                 return null;
             }
 
-            _repository = (PageRepository)ObjectFactory.GetInstance<IRepository>();
+            _repository = (IPageRepository) ObjectFactory.GetInstance<IRepository>();
 
             _pathData.Action = PageRoute.DefaultAction;
             _pathData.CurrentPageModel = null;
