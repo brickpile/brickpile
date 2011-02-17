@@ -64,9 +64,6 @@
     <Reference Include="Raven.Storage.Managed">
       <HintPath>..\..\..\lib\RavenDB-Unstable-Build-257\EmbeddedClient\Raven.Storage.Managed.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>C:\Users\marcus\Downloads\RestSharp-100.3\RestSharp.dll</HintPath>
-    </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.1.0\lib\StructureMap.dll</HintPath>
     </Reference>
