@@ -1,0 +1,33 @@
+﻿
+@model Dashboard.Web.Mvc.ViewModels.IDashboardViewModel
+@using Stormbreaker.Extensions;
+@{
+    Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm("update", "Pages", new { document = Model.CurrentDocument }, FormMethod.Post, new { name = "editForm" })) {
+    <div>
+        <fieldset>
+            <legend>Metadata</legend>
+            @Html.EditorFor(model => model.CurrentDocument.MetaData)
+        </fieldset>
+        <fieldset>
+            <legend>Content</legend>
+            @Html.EditorFor(model => model.CurrentDocument)
+        </fieldset>
+        <div class="editor-button">
+            <input type="submit" value="Save" />
+        </div>
+    </div>
+}
+
+@section GlobalNavigation {
+    @Html.Partial("_GlobalNavigation", Model)
+}
+
+@section Footer {
+    <p>@Html.ActionLink("New","add",new { document = Model.CurrentDocument }) @Html.ActionLink("Delete","delete",new { document = Model.CurrentDocument })</p>
+}
+

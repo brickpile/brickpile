@@ -1,0 +1,190 @@
+﻿    /*
+    Unionens Akassa - Main stylesheet
+    Created by Meridium AB   
+
+    TABLE OF CONTENTS
+    -----------------
+
+
+    FONT SIZE CONVERSIONS
+    ---------------------
+    10px: 83.3%
+    11px: 91.7%
+    12px: 100% 
+    13px: 108.3%
+    14px: 116.7%
+    15px: 125%
+    16px: 133.3%
+    17px: 141.7%
+    18px: 150%
+    20px: 166.7%
+    24px: 200%
+    38px: 316.7%
+
+    COLORS
+    ------
+    Anchors: #cb2d57
+    Border: #e7e7e7
+*/
+
+@media screen 
+{
+    /*------------------------------------------------------------------
+    ? Reset
+    -------------------------------------------------------------------*/
+    header,footer,nav,article,section,aside,hgroup{ display:block; }
+    body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+	    margin:0;
+	    padding:0;
+    }
+    table {
+	    border-collapse:collapse;
+	    border-spacing:0;
+    }
+    fieldset,img { border:0; }
+    address,caption,cite,code,dfn,th,var {
+	    font-style:normal;
+	    font-weight:normal;
+    }
+    ol,ul { list-style:none; }
+    caption,th { text-align:left; }
+    h1,h2,h3,h4,h5,h6 {
+	    font-size:100%;
+	    font-weight:normal;
+    }
+    q:before,q:after { content:''; }
+    abbr,acronym { border:0; }    
+    /*------------------------------------------------------------------
+    ? Global
+    -------------------------------------------------------------------*/
+    html,body {
+        height:100%;
+        width:100%;
+    }
+    body {
+        font:75%/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color:#666;
+        min-height:100%;
+    }
+    p {
+        /*margin:0 0 .8em;*/
+    }
+    /*------------------------------------------------------------------
+    ? Anchors
+    -------------------------------------------------------------------*/
+    a {
+        color:#969fa8;
+        text-decoration:none;
+    }
+    a:hover { }
+    /*------------------------------------------------------------------
+    ? Forms
+    -------------------------------------------------------------------*/
+    input,
+    textarea 
+    {
+        /*
+        background-image: -webkit-gradient(
+            linear,
+            left bottom,
+            left top,
+            color-stop(0, rgb(247,247,247)),
+            color-stop(0.5, rgb(254,254,254)),
+            color-stop(1, rgb(247,247,247))
+        );
+        background-image: -moz-linear-gradient(
+            center bottom,
+            rgb(247,247,247) 0%,
+            rgb(254,254,254) 50%,
+            rgb(247,247,247) 100%
+        );
+        */
+        -moz-border-radius:3px 3px 3px 3px;
+        border-radius:3px;
+        font:100%/1.5 Arial,Helvetica,sans-serif;
+        padding:.5em;
+        border:1px solid #ccc;
+        margin-bottom:1em;
+    }
+    
+    input:focus,
+    input:active
+    {
+	    -moz-box-shadow: 0 0 4px #A7D6FD;
+	    -webkit-box-shadow: 0 0 4px #A7D6FD;
+	    -moz-border-radius:3px 3px 3px 3px;
+	    border-color:#A7D6FD;
+	    
+    }
+    
+    input[type=text] { width:300px; }
+    input::-webkit-input-placeholder {
+        color:#a9a9a9;
+    }
+    input:-moz-placeholder {
+        color:#a9a9a9;
+    }
+
+    
+    label { font-weight:bold; }
+    input.input-validation-error {
+	    -moz-box-shadow: 0 0 4px #bf230f;
+	    -webkit-box-shadow: 0 0 4px #bf230f;
+	    -moz-border-radius:3px 3px 3px 3px;
+	    border-color:#bf230f;
+    }
+    
+    /*.field < .input-validation-error {
+        background-image: url(input-error.png);
+        background-repeat:no-repeat;
+        background-position:280px 2px;
+    }
+    */
+    /*------------------------------------------------------------------
+    ? Headings
+    -------------------------------------------------------------------*/
+    h1,h2,h3,h4 {
+        color:#000;
+        font-weight:bold;
+        line-height:normal;
+    }
+    h1 {
+        font-size:150%; 
+        margin:0;
+        padding:0;
+    }
+    h2 {
+        font-size:133.3%;
+        margin:1em 0 .2em;
+    }
+    h3 {
+        font-size:116.7%; 
+        margin:1em 0 .4em;
+    }
+    /*------------------------------------------------------------------
+    ? Tables
+    -------------------------------------------------------------------*/
+    table {
+        background:#f7f7f7;
+        border:1px solid #e7e7e7;
+        margin:1em 0;
+        width:100%;
+    }
+    td, th {
+        padding:.4em .6em;
+        border-bottom:1px solid #e7e7e7;
+    }
+    th {
+        border-bottom:2px solid #e7e7e7;
+        font-weight:bold;
+    }    
+*[draggable=true] {
+  -moz-user-select:none;
+  -khtml-user-drag: element;
+  cursor: move;
+}
+ 
+*:-khtml-drag {
+  background-color: rgba(238,238,238, 0.5);
+}    
+}

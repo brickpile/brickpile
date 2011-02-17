@@ -12,6 +12,11 @@ namespace Stormbreaker.Repositories {
     public class PageRepository : IPageRepository {
         private readonly IDocumentSession _documentSession;
 
+        //public T SingleOrDefault<T>(Func<T, bool> predicate) where T : IModel
+        //{
+        //    return _session.Query<T>().SingleOrDefault(predicate);
+        //}
+
         /// <summary>
         /// Gets the children of a page.
         /// </summary>

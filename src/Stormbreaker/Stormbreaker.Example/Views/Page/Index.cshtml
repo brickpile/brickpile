@@ -1,0 +1,7 @@
+﻿@model Stormbreaker.Web.Mvc.ViewModels.DefaultViewModel<Stormbreaker.Example.Models.Page>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Raw(Model.CurrentModel.MainBody)
+<br />
+@Html.DisplayFor(model => Model.CurrentModel.PageLink)

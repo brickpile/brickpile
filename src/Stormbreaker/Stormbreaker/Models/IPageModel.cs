@@ -4,11 +4,7 @@ namespace Stormbreaker.Models {
     /// <summary>
     /// Represents the page model
     /// </summary>
-    public interface IPageModel {
-        /// <summary>
-        /// <see cref="PageModel.Id"/>
-        /// </summary>
-        string Id { get; set; }
+    public interface IPageModel : IDocumentModel {
         /// <summary>
         /// <see cref="PageModel.MetaData"/>
         /// </summary>

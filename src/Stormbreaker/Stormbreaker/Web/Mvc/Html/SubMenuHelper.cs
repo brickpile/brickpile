@@ -48,7 +48,7 @@ namespace Stormbreaker.Web.Mvc.Html {
         {
             var item = structureInfo.HierarchicalStructure.Where(x => x.Expanded).SingleOrDefault();
 
-            if (item.ChildNodes.Count() == 0)
+            if (item == null || item.ChildNodes.Count() == 0)
                 return string.Empty;
 
             var sb = new StringBuilder();

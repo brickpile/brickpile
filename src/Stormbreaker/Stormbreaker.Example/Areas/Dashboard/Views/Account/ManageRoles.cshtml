@@ -1,0 +1,57 @@
+﻿
+@model string[]
+
+@{
+    Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Manage Roles";
+    
+}
+
+@section GlobalNavigation {
+    <ul id="dashboard-nav">
+        <li>@Html.ActionLink("Content","index","pages")</li>
+		<li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users" })</li>
+    </ul>
+}
+
+<h1>Manage Roles</h1>
+
+<table>
+	<thead>
+		<tr>
+			<th>Role</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(var role in Model) {
+			<tr>
+				<td>@role</td>
+				<td>
+					@using (Html.BeginForm("DeleteRole", "Account", new { roleName = @role }, FormMethod.Post)) {
+						<a href="#" onclick="if (confirm('Are you sure?')) { $(this).parents('form').submit(); } return false;">Delete</a>
+					}
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+@using (Html.BeginForm()) {
+	    <div>
+        <fieldset>
+            <legend>Add new role</legend>
+
+            <div class="editor-label">
+                Role
+            </div>
+            <div class="editor-field">
+                @Html.TextBox("roleName")
+				@Html.ValidationMessage("roleName")
+            </div>
+
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+        </fieldset>
+    </div>
+}

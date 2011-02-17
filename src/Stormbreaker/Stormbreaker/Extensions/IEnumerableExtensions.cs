@@ -16,9 +16,9 @@ namespace Stormbreaker.Extensions {
         /// <param name="allItems">Collection to create the hierarchy from</param>
         /// <param name="rootPage"></param>
         /// <param name="depth"></param>
-        /// <param name="currentModel"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        public static IEnumerable<HierarchyNode<TEntity>> CreateHierarchy<TEntity>(this IEnumerable<TEntity> allItems, TEntity rootPage, TEntity currentModel, int depth) where TEntity : IPageModel
+        public static IEnumerable<HierarchyNode<TEntity>> CreateHierarchy<TEntity>(this IEnumerable<TEntity> allItems, TEntity rootPage, TEntity model, int depth) where TEntity : IPageModel
         {
             IEnumerable<TEntity> childs = allItems.Where(x => x.Parent.Id.Equals(rootPage.Id));
 
@@ -30,7 +30,7 @@ namespace Stormbreaker.Extensions {
                     yield return new HierarchyNode<TEntity>
                     {
                         Entity = item,
-                        ChildNodes = CreateHierarchy(allItems, item, currentModel, depth),
+                        ChildNodes = CreateHierarchy(allItems, item, model, depth),
                         Depth = depth,
                         Expanded = item.Children.Count > 0
                     };

@@ -1,7 +1,7 @@
 using Stormbreaker.Models;
 
 namespace Stormbreaker.Repositories {
-    public interface IPageRepository : IRepository {
+    public interface IPageRepository : IRepository<IPageModel> {
         /// <summary>
         /// <see cref="PageRepository.GetChildren{T}<>" />
         /// </summary>

@@ -1,0 +1,24 @@
+﻿@model Stormbreaker.Web.Mvc.ViewModels.DefaultViewModel<Stormbreaker.Example.Models.Form>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm("upload", "Form", new { model = Model.CurrentModel }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        <div>
+            <label>Title</label>
+            <input type="text" name="title" id="title" />
+        </div>
+        <div>
+            <label>File</label>
+            <input type="file" name="file" id="file" />
+        </div>
+        <div class="editor-button">
+            <input type="submit" value="Ladda upp" />
+        </div>
+    </div>
+}

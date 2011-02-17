@@ -13,7 +13,7 @@ namespace Stormbreaker.Registries {
         /// </summary>
         public PageRepositoryRegistry()
         {
-            For<IRepository>().Use<PageRepository>();
+            For<IPageRepository>().Use<PageRepository>();
         }
     }
 }

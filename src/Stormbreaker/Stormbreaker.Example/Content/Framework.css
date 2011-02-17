@@ -1,0 +1,244 @@
+﻿/*
+    Transitio - Framework stylesheet
+    Created by Meridium AB   
+
+    TABLE OF CONTENTS
+    -----------------
+    1 Html
+    2 Body
+    3 Header
+    4 Navigation
+        4.1 Global
+        4.2 Local
+    5 Branding
+    6 Content
+        6.1 #article
+        6.2 #aside
+    7 Footer
+
+    FONT SIZE CONVERSIONS
+    ---------------------
+    10px: 71.4%
+    11px: 78.6%
+    12px: 85.7%
+    13px: 92.9%
+    14px: 100%
+    15px: 107.1%
+    16px: 114.3%
+    17px: 121.4%
+    18px: 128.6%
+    20px: 142.9%
+    24px: 171.4%
+    38px: 271.4%
+
+    COLORS
+    ------
+    Anchors: #0e4574
+    Border: #d6d6d6
+*/
+
+@media screen {
+    /*------------------------------------------------------------------
+    1 Html
+    -------------------------------------------------------------------*/ 
+    html { background:#fff; }
+    /*------------------------------------------------------------------
+    2 Body
+    -------------------------------------------------------------------*/    
+    body {
+        max-width:67.2em;
+        min-width:760px;
+        margin:0 auto;
+        padding:7.8em 0 2em 0;
+        position:relative;
+    }
+    /*------------------------------------------------------------------
+    3 Header
+    -------------------------------------------------------------------*/ 
+    a.logotype {
+        display:block;
+        position:absolute;
+        top:2em;
+    }
+    a.language {
+        /*background:url(/images/icons.png) no-repeat 100% -86px;*/
+        padding:0 23px 0 0;
+        position:absolute;
+        right:0;
+        top:2.4em;
+        font-size:85.7%;
+        color:#808080;
+    }
+    header { border-bottom:1px solid #d6d6d6; }
+
+    /*-----------------------------------------------------------------
+    4 Navigation
+    -------------------------------------------------------------------*/ 
+        /*--------------------------------------------------------------
+        4.1 Global
+        ---------------------------------------------------------------*/ 
+        #global-nav {
+            position:absolute;
+            top:4.55em;
+            left:17em;
+        }
+        #global-nav li {
+            float:left;
+            margin:0 3.8em 0 0;     
+        }
+        #global-nav li a {
+            text-transform:uppercase;
+            color:#404040;
+            font:85.7%/1 'Trebuchet MS', Arial, sans-serif;
+        }
+        #global-nav li a:hover {
+            color:#0e4574; 
+            text-decoration:none;
+        }
+        #global-nav li a.selected { color:#0e4574; }
+        /*--------------------------------------------------------------
+        4.2 Local
+        ---------------------------------------------------------------*/   
+        #local-nav {
+            border-top:1px solid #d6d6d6;
+            float:left;
+            margin:.9em 0 0;
+            width:20.5%;
+        }
+        #local-nav a {
+            font-weight:bold;
+            display:block;
+            border-bottom:1px solid #d6d6d6;
+            padding:.52em;
+        }
+        #local-nav a.selected,
+        #local-nav a.expanded { color:#404040; }
+        #local-nav ul {
+            float:none;
+            border-top:0;
+            margin:0;
+            width:auto;
+        }
+        #local-nav ul a {
+            padding-left:1.5em; 
+            font-size:92.9%;
+        }
+    /*-----------------------------------------------------------------
+    5 Branding
+    -------------------------------------------------------------------*/       
+    #branding {
+        background:#000;
+        color:#fff;
+        margin:2em 0 0;
+        min-height:285px;
+        position:relative;
+    }
+    #branding img { display:block; }
+    #branding div {
+        background-image:url(/images/sprite.png);
+        background-repeat:repeat-x;
+        font-family: 'Trebuchet MS', arial;
+        font-weight:bold;
+        padding:0 1.5em;
+        position:absolute;
+        min-height:198px;
+        right:-1.5em;
+        text-transform:uppercase;
+        top:40px;
+        width:26.2em;
+    }
+    #branding h1 {
+        color:#fff;
+        font-size:264.3%;
+        font-weight:bold;
+        line-height:1;
+        margin:.5em 0 .1em;
+    }
+    #branding div p {
+        font-size:128.6%;
+        line-height:1.2;
+    }
+    /*------------------------------------------------------------------
+    6 Content
+    -------------------------------------------------------------------*/       
+        #content {
+            overflow:hidden; 
+            margin:2em 0 0 0;
+        }
+        /*-------------------------------------------------------------
+        5.1 #article
+        --------------------------------------------------------------*/       
+        #article {
+            float:right;
+            width:74.5%;
+        }
+        #article #main {
+            float:left;
+            width:60.5%;
+        }
+        #article #main .image { margin:.8em 0 1.4em; }
+        #article #main ul,
+        #article #main ol {
+            margin:1em 0;
+            padding:0 0 0 3em;
+            list-style-type:disc;
+        }
+        #article #main ol { list-style-type:decimal; }
+        /*--------------------------------------------------------------
+        5.2 #aside
+        ---------------------------------------------------------------*/
+        #aside {   
+            float:right;
+            padding:.8em 0 0;
+            width:31.5%;
+        }
+        #aside h2 {
+            color:#404040;
+            font-size:114.3%;
+            margin:0 0 .8em;
+        }
+        #aside section {
+            background:#e2ebf2;
+            margin:0 0 1.4em;
+            padding:1em;
+        }
+        #aside section ul {
+            border-top:1px solid #b8cad9;
+            border-bottom:1px solid #fff;
+            margin:0 0 .3em;
+        }
+        #aside section ul li {
+            border-top:1px solid #fff;
+            border-bottom:1px solid #b8cad9;
+            padding:.5em 0;
+        }
+        #aside section ul li a {
+            font-size:92.9%;
+            font-weight:bold; 
+        }
+        #aside section.image {
+            padding-top:152px;
+            position:relative;
+            overflow:hidden;
+        }
+        #aside section.image img {
+            position:absolute;
+            top:0;
+            left:0;
+        }
+    /*-----------------------------------------------------------------
+    7 Footer
+    -------------------------------------------------------------------*/       
+    footer p {
+        font-size:85.7%;
+        padding:2em 0 0;
+        margin:2.8em 0;
+        text-align:center;
+        border-top:1px solid #d6d6d6;
+    }
+    footer p a {
+        font-style:italic; 
+        margin:0 0 0 .8em;
+    }
+    footer strong { padding:0 0 0 .8em; }
+}

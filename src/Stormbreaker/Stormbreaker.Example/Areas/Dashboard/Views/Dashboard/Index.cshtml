@@ -1,0 +1,16 @@
+﻿
+@*model Dashboard.Controllers.MetaData*@
+
+@{
+    Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
+}
+
+@section GlobalNavigation {
+    <ul id="dashboard-nav">
+        <li>@Html.ActionLink("Content","index","pages")</li>
+		<li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users" })</li>
+    </ul>
+}
+
+<h1>Dashboard</h1>
+

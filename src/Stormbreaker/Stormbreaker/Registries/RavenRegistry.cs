@@ -20,7 +20,7 @@ namespace Stormbreaker.Registries {
         {
             var documentStore = new EmbeddableDocumentStore
                                     {
-                                        DataDirectory = "~\\App_Data\\RavenDB",
+                                        ConnectionStringName = "RavenConStr",
                                         UseEmbeddedHttpServer = true
                                     };
             

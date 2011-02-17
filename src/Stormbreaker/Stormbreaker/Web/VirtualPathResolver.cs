@@ -17,7 +17,7 @@ namespace Stormbreaker.Web {
             }
             var url = new StringBuilder(250);
             url.Append(pageModel.MetaData.Slug);
-            var repository = ObjectFactory.GetInstance<IRepository>();
+            var repository = ObjectFactory.GetInstance<IPageRepository>();
             var parent = pageModel;
             while (parent.Id != "pages/1" && parent.Parent != null && parent.Parent.Id != "pages/1")
             {

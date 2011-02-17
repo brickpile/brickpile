@@ -1,0 +1,61 @@
+﻿
+@model Stormbreaker.Web.Mvc.ViewModels.IViewModel<Stormbreaker.Example.Models.ModelBase>
+@using System.Globalization;
+
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+<head>
+    <title>@Model.CurrentModel.Title</title>
+    <meta charset="utf-8">
+    <meta name="description" content="@Model.CurrentModel.Description" />
+    <link href="@Url.Content("~/content/global.css")" rel="stylesheet" type="text/css" media="all" />
+    <link href="@Url.Content("~/content/framework.css")" rel="stylesheet" type="text/css" media="all" />
+    <link href="@Url.Content("~/content/templates.css")" rel="stylesheet" type="text/css" media="all" />
+</head>
+    <body>
+        <header role="banner">
+            <a href="@Url.Action("index","home")" class="logotype">
+                <img src="@Url.Content("~/content/logotype2.png")" />
+            </a>
+            <a href="" class="language" lang="en">In English</a>
+        </header>
+        <nav role="navigation">
+            @Html.Partial("_GlobalNavigation", Model)        
+        </nav>
+        <div id="content">
+            <nav>
+                @Html.Partial("_LocalNavigation", Model)
+            </nav>
+            <article>
+                <div id="article">
+                    <div id="main">
+                        <h1>@Html.DisplayFor(page => page.CurrentModel.Heading)</h1>
+                        @RenderBody()
+                    </div>
+                    <aside>
+                        <div id="aside">
+                            <h2>Aside</h2>
+                        </div>
+                    </aside>
+                </div>
+            </article>
+        </div>
+        <footer>
+            Antal barn: @Model.CurrentModel.Children.Count
+            <br />
+            @if(Request.IsAuthenticated) {
+                <text>Welcome <b>@Context.User.Identity.Name</b>!
+                [ @Html.ActionLink("Log Off", "LogOff", "Account") ]</text>
+            }
+            else {
+                @:[ @Html.ActionLink("Log On", "logon", "account", new { area = "Dashboard" }, null) ]
+            }
+            <br />
+            @Html.DisplayTextFor(x => x.CurrentModel.Id)
+            <br />
+            @Html.DisplayFor(x => x.CurrentModel.GetType().Name)
+
+        </footer>
+    </body>
+</html>
+

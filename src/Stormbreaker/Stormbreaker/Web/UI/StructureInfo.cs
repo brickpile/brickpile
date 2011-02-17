@@ -13,7 +13,7 @@ namespace Stormbreaker.Web.UI {
     public class StructureInfo : IStructureInfo {
 
         private readonly IPageRepository _repository;
-        private readonly IPageModel _currentPageModel;
+        private readonly IPageModel _model;
 
         /// <summary>
         /// Gets the RootPage of the Hierarchical structure
@@ -29,7 +29,7 @@ namespace Stormbreaker.Web.UI {
         /// <value></value>
         public virtual IPageModel CurrentModel
         {
-            get { return _currentPageModel; }
+            get { return _model; }
         }
         /// <summary>
         /// Gets the HierarchicalStructure of the StructureInfo
@@ -39,17 +39,17 @@ namespace Stormbreaker.Web.UI {
         {
             get
             {
-                if (_currentPageModel == null)
+                if (_model == null)
                     return null;
 
                 var items = new List<IPageModel>();
-                items.AddRange(_currentPageModel.Children.Select(child => _repository.Load<IPageModel>(child.Id)));
-                var ancestors = GetAncestors(_currentPageModel);
+                items.AddRange(_model.Children.Select(child => _repository.Load<IPageModel>(child.Id)));
+                var ancestors = GetAncestors(_model);
                 foreach (var ancestor in ancestors)
                 {
                     items.AddRange(_repository.GetChildren<IPageModel>(ancestor));
                 }
-                return items.CreateHierarchy(RootModel, _currentPageModel, 0);
+                return items.CreateHierarchy(RootModel, _model, 0);
             }
         }
         /// <summary>
@@ -77,11 +77,11 @@ namespace Stormbreaker.Web.UI {
         /// Initializes a new instance of the <see cref="StructureInfo" /> class.
         /// </summary>
         /// <param name="repository"></param>
-        /// <param name="currentPageModel"></param>
-        public StructureInfo(IRepository repository, IPageModel currentPageModel)
+        /// <param name="model"></param>
+        public StructureInfo(IRepository<IPageModel> repository, IPageModel model)
         {
             _repository = (IPageRepository) repository;
-            _currentPageModel = currentPageModel;
+            _model = model;
         }
     }        
 }

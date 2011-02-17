@@ -1,0 +1,22 @@
+﻿
+@model Stormbreaker.Web.UI.StructureInfo
+           
+@using Dashboard.Web.Mvc.Html
+@using Stormbreaker.Models           
+
+<div class="overlay">
+    <div class="wrap-outer">
+        <div class="wrap">
+            <div class="new-page-dialog">
+                <h1>Choose page</h1>
+                @(new MvcHtmlString(Html.TreeView<Stormbreaker.Models.IPageModel>(Model.CurrentModel,
+                    Model,
+                    page => Html.ActionLink(page.MetaData.Name, "edit", "pages", new { model = page },null),
+                    page => Html.ActionLink(page.MetaData.Name, "edit", "pages", new { model = page }, new { @class = "selected" }))))
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

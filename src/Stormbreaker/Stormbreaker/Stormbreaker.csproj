@@ -31,7 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.1.1\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\RavenDB-Unstable-Build-257\EmbeddedClient\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -61,6 +64,9 @@
     <Reference Include="Raven.Storage.Managed">
       <HintPath>..\..\..\lib\RavenDB-Unstable-Build-257\EmbeddedClient\Raven.Storage.Managed.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>C:\Users\marcus\Downloads\RestSharp-100.3\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.1.0\lib\StructureMap.dll</HintPath>
     </Reference>
@@ -69,6 +75,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
@@ -78,11 +85,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Error.cs" />
     <Compile Include="Exceptions\StormbreakerException.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="HandleErrorWithElmahAttribute.cs" />
     <Compile Include="Indexes\Documents_ByParent.cs" />
     <Compile Include="Indexes\Document_BySlug.cs" />
     <Compile Include="Models\DenormalizedReference.cs" />
+    <Compile Include="Models\IDocumentModel.cs" />
+    <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\IImageModel.cs" />
     <Compile Include="Models\PageModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -101,6 +113,7 @@
     <Compile Include="Models\IPageMetaData.cs" />
     <Compile Include="Models\PageMetaData.cs" />
     <Compile Include="PageModelAttribute.cs" />
+    <Compile Include="Registries\ImageRepositoryRegistry.cs" />
     <Compile Include="Registries\PathDataRegistry.cs" />
     <Compile Include="Registries\PathResolverRegistry.cs" />
     <Compile Include="Registries\RavenRegistry.cs" />
@@ -111,6 +124,8 @@
     </Compile>
     <Compile Include="Registries\StructureInfoRegistry.cs" />
     <Compile Include="Registries\VirtualPathResolverRegistry.cs" />
+    <Compile Include="Repositories\IDocumentRepository.cs" />
+    <Compile Include="Repositories\DocumentRepository.cs" />
     <Compile Include="Repositories\IPageRepository.cs" />
     <Compile Include="Repositories\PageRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
@@ -134,6 +149,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PageMetaData.sv.resx</DependentUpon>
     </Compile>
+    <Compile Include="Web\Hosting\DropboxDirectory.cs" />
+    <Compile Include="Web\Hosting\DropboxFile.cs" />
+    <Compile Include="Web\Hosting\DropboxVirtualPathProvider.cs" />
     <Compile Include="Web\Mvc\Html\MenuHelper.cs" />
     <Compile Include="Web\Mvc\Html\SubMenuHelper.cs" />
     <Compile Include="Web\Mvc\PageModelBinder.cs" />
@@ -193,6 +211,12 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PageMetaData.sv.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Stormbreaker.RavenDBMembership\Stormbreaker.RavenDBMembership.csproj">
+      <Project>{B863F5CD-8578-43F3-B220-070EB1ED65F2}</Project>
+      <Name>Stormbreaker.RavenDBMembership</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,144 @@
+﻿/*
+    Transitio - Global stylesheet
+    Created by Meridium AB   
+
+    TABLE OF CONTENTS
+    -----------------
+    1 Reset
+    2 Global
+    3 Headings
+    4 Anchors
+    5 Tables
+    6 Classes
+
+    FONT SIZE CONVERSIONS
+    ---------------------
+    10px: 71.4%
+    11px: 78.6%
+    12px: 85.7%
+    13px: 92.9%
+    14px: 100%
+    15px: 107.1%
+    16px: 114.3%
+    17px: 121.4%
+    18px: 128.6%
+    20px: 142.9%
+    24px: 171.4%
+    26px: 185.7%
+    38px: 271.4%
+
+    COLORS
+    ------
+    Anchors: #0e4574
+    Border: #d6d6d6
+*/
+
+@media screen {
+    /*------------------------------------------------------------------
+    1 Reset
+    -------------------------------------------------------------------*/
+    body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+	    margin:0;
+	    padding:0;
+    }
+    table {
+	    border-collapse:collapse;
+	    border-spacing:0;
+    }
+    img { border:0; }
+    address,caption,cite,code,dfn,th,var {
+	    font-style:normal;
+	    font-weight:normal;
+    }
+    ol,ul { list-style:none; }
+    caption,th { text-align:left; }
+    h1,h2,h3,h4,h5,h6 {
+	    font-size:100%;
+	    font-weight:normal;
+    }
+    q:before,q:after { content:''; }
+    abbr,acronym { border:0; }
+    header, nav, article, section, aside, hgroup { display:block; }
+    /*------------------------------------------------------------------
+    2 Global
+    -------------------------------------------------------------------*/
+    body {
+        font:87.5%/1.4 Arial,Helvetica,sans-serif;
+        color:#333;
+    }
+    p { margin:0 0 1.1em; }
+    /*------------------------------------------------------------------
+    3 Headings
+    -------------------------------------------------------------------*/
+    h1,h2,h3,h4 {
+        font-weight:normal; 
+        line-height:1.2;
+    }
+    h1, h2, h3 {
+        color:#0e4574;
+        font-family:'Trebuchet MS', Arial, Sans-Serif;
+        font-size:185.7%;
+        text-transform:uppercase;
+    }
+    h1 { margin:0 0 .7em 0; }
+    h2 {
+        font-size:142.9%; 
+        margin:1.4em 0 .5em;
+    }
+    h3 {
+        font-size:107.1%; 
+        margin:1.4em 0 .5em;
+    }
+    /*------------------------------------------------------------------
+    4 Anchors
+    -------------------------------------------------------------------*/
+    a { 
+        color:#0e4574;
+        text-decoration:none;
+    }
+    a:hover { text-decoration:underline; }
+    a:active,
+    a:focus {  }
+    /*------------------------------------------------------------------
+    5 Tables
+    -------------------------------------------------------------------*/
+    table {
+        background:#e2ebf2;
+        width:100%;
+        margin:0 0 1em;
+        padding:.4em .6em;
+        border-collapse:separate;
+    }
+    th, td { padding:.4em; }
+    th { font-weight:bold; }
+    td { border-top:1px solid #b8cad9; }
+    /*------------------------------------------------------------------
+    6 Classes
+    -------------------------------------------------------------------*/
+    .intro { font-weight:bold; }
+    .linklist a.pdf {
+        /*background:url(/images/icons.png) no-repeat;*/
+        padding:.2em 0 .2em 23px;
+    }
+    .red { background-position:0 -350px; }
+    .yellow { background-position:0 -700px; }
+    .cyan { background-position:0 -1050px; }
+    .darkred { background-position:0 -1400px; }
+    .green { background-position:0 -1749px; }
+    .date {
+        font-size:92.9%;
+        font-weight:bold; 
+    }
+    .structural {
+        position:absolute;
+        left:-9999px;
+    }
+    .contact img {
+        float:left;
+        margin:0 1em 0 0;
+    }
+    .contact {
+        overflow:hidden; 
+        margin:1.4em 0 0;
+    }
+}

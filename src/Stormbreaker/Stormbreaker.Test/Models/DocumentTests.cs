@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using NUnit.Framework;
+using Stormbreaker.Models;
 using Stormbreaker.Test.Repositories;
 
 namespace Stormbreaker.Test.Models {
@@ -7,10 +9,10 @@ namespace Stormbreaker.Test.Models {
 
         [Test]
         public void AddChild_AddsChildToDocument() {
-            var document = new DummyDocument();
-            var childDocument = new DummyDocument
+            var document = new DummyPageModel();
+            var childDocument = new DummyPageModel
                                                     {
-                                                        Name = "Test"
+                                                        MetaData = { Name = "Test"}
                                                     };
             document.Children.Add(childDocument);
 
@@ -20,14 +22,16 @@ namespace Stormbreaker.Test.Models {
         [Test]
         public void AddParent_AddsAParentToDocument()
         {
-            var document = new DummyDocument();
-            var parentDocument = new DummyDocument
+            var document = new DummyPageModel();
+            var parentDocument = new DummyPageModel
             {
-                Name = "Test"
+                MetaData = { Name = "Test" }
             };
             document.Parent = parentDocument;
 
             Assert.NotNull(document.Parent);
         }
+
+
     }
 }

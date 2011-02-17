@@ -20,7 +20,7 @@ namespace Stormbreaker.Web.Mvc.ViewModels {
         /// </summary>
         /// <param name="model"></param>
         /// <param name="repository"></param>
-        public DefaultViewModel(T model, IRepository repository)
+        public DefaultViewModel(T model, IPageRepository repository)
         {
             CurrentModel = model;
             StructureInfo = new StructureInfo(repository, model);

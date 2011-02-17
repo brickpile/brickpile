@@ -12,10 +12,10 @@ namespace Stormbreaker.Web {
         /* *******************************************************************
 	    *  Constructors
 	    * *******************************************************************/
-        public PathResolver(IPathData pathData, IRepository repository)
+        public PathResolver(IPathData pathData, IPageRepository repository)
         {
             _pathData = pathData;
-            _repository = (IPageRepository) repository;
+            _repository = repository;
         }
         /* *******************************************************************
 	    *  Methods 
@@ -27,7 +27,7 @@ namespace Stormbreaker.Web {
                 return null;
             }
 
-            _repository = (IPageRepository) ObjectFactory.GetInstance<IRepository>();
+            _repository = ObjectFactory.GetInstance<IPageRepository>();
 
             _pathData.Action = PageRoute.DefaultAction;
             _pathData.CurrentPageModel = null;

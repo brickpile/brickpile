@@ -4,7 +4,7 @@ namespace Stormbreaker.Repositories {
     /// <summary>
     /// Represents a common repository 
     /// </summary>
-    public interface IRepository {
+    public interface IRepository<T> {
         /// <summary>
         /// <see cref="PageRepository.Load{T}" />
         /// </summary>
@@ -12,11 +12,11 @@ namespace Stormbreaker.Repositories {
         /// <summary>
         /// <see cref="PageRepository.Store" />
         /// </summary>
-        void Store(IPageModel entity);
+        void Store(T entity);
         /// <summary>
         /// <see cref="PageRepository.Delete" />
         /// </summary>
-        void Delete(IPageModel entity);
+        void Delete(T entity);
         /// <summary>
         /// <see cref="PageRepository.SaveChanges" />
         /// </summary>

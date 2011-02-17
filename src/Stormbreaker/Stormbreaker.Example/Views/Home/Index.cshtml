@@ -1,0 +1,7 @@
+﻿
+@model Stormbreaker.Web.Mvc.ViewModels.DefaultViewModel<Stormbreaker.Example.Models.Home>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.DisplayTextFor(x => x.CurrentModel.MetaData.Name)
