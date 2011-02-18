@@ -1,7 +1,9 @@
+using System;
 using System.Linq;
 using Raven.Client;
 using Stormbreaker.Extensions;
 using Stormbreaker.Models;
+using StructureMap.Query;
 
 namespace Stormbreaker.Repositories {
     /// <summary>
@@ -12,9 +14,9 @@ namespace Stormbreaker.Repositories {
     public class PageRepository : IPageRepository {
         private readonly IDocumentSession _documentSession;
 
-        //public T SingleOrDefault<T>(Func<T, bool> predicate) where T : IModel
+        //public T SingleOrDefault<T>(Func<T, bool> predicate) where T : IPageModel
         //{
-        //    return _session.Query<T>().SingleOrDefault(predicate);
+        //    return _documentSession.Query<T>().SingleOrDefault(predicate);
         //}
 
         /// <summary>
