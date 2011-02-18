@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using Raven.Client.Document;
 using Raven.Client.Indexes;
 using Raven.Database.Indexing;
 using Stormbreaker.Models;
@@ -11,6 +13,8 @@ namespace Stormbreaker.Indexes {
     /// <example></example>
     public class Document_BySlug : AbstractIndexCreationTask
     {
+
+
         /// <summary>
         /// Creates the index definition for getting a page model by slug
         /// </summary>
@@ -22,7 +26,8 @@ namespace Stormbreaker.Indexes {
                 Map = documents => from document in documents
                                    select new { document.MetaData.Slug }
             }
-            .ToIndexDefinition(DocumentStore.Conventions);
+            .ToIndexDefinition(Conventions);
         }
+
     }
 }

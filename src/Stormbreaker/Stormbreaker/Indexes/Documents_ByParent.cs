@@ -1,4 +1,5 @@
 using System.Linq;
+using Raven.Client.Document;
 using Raven.Client.Indexes;
 using Raven.Database.Indexing;
 using Stormbreaker.Models;
@@ -22,7 +23,7 @@ namespace Stormbreaker.Indexes {
                 Map = documents => from document in documents
                                    select new { document.Parent.Id }
             }
-            .ToIndexDefinition(DocumentStore.Conventions);
+            .ToIndexDefinition(Conventions);
         }
     }
 }
