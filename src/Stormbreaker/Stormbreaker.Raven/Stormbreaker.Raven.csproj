@@ -31,31 +31,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-257\EmbeddedClient\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Abstractions">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-257\EmbeddedClient\Raven.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Database">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-257\EmbeddedClient\Raven.Database.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Http">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-257\EmbeddedClient\Raven.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Triggers\DeleteTrigger.cs" />
     <Compile Include="Triggers\UpdateTrigger.cs" />
     <Compile Include="TriggerContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Abstractions">
+      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Database">
+      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Raven.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Http">
+      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Raven.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Stormbreaker\Stormbreaker.csproj">
