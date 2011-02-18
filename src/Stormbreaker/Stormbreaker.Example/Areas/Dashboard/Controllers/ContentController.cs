@@ -9,7 +9,7 @@ using Stormbreaker.Web.UI;
 
 namespace Dashboard.Controllers {
 
-    public class PagesController : Controller {
+    public class ContentController : Controller {
         private readonly PageRepository _repository;
         /// <summary>
         /// Default action
@@ -97,7 +97,7 @@ namespace Dashboard.Controllers {
         /// Initializes a new instance of the <b>PagesController</b> class.
         /// </summary>
         /// <param name="repository"></param>
-        public PagesController(PageRepository repository)
+        public ContentController(PageRepository repository)
         {
             _repository = repository;
         }

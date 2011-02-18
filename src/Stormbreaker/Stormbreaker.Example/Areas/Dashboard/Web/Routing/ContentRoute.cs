@@ -6,18 +6,14 @@ using Stormbreaker.Web;
 
 namespace Dashboard.Web.Routing {
 
-    public class PagesRoute : RouteBase, IRouteWithArea {
+    public class ContentRoute : RouteBase, IRouteWithArea {
 
         private readonly IPathResolver _pathResolver;
         private readonly IVirtualPathResolver _virtualPathResolver;
         private readonly IRouteHandler _routeHandler;
-
         private readonly Route _innerRoute;
         public const string ControllerKey = "controller";
 
-        /* *******************************************************************
-	    * Properties
-	    * *******************************************************************/
         public string Area
         {
             get { return "Dashboard"; }
@@ -36,37 +32,18 @@ namespace Dashboard.Web.Routing {
         {
             get { return "index"; }
         }
-        /* *******************************************************************
-	    * Constructors
-	    * *******************************************************************/
-        #region public PagesRoute(IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver, Route innerRoute)
-        /// <summary>
-        /// Initializes a new instance of the <b>DashboardRoute</b> class.
-        /// </summary>
-        /// <param name="pathResolver"></param>
-        /// <param name="virtualPathResolver"></param>
-        /// <param name="innerRoute"></param>
-        public PagesRoute(IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver, Route innerRoute)
+
+        public ContentRoute(IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver, Route innerRoute)
         {
             _pathResolver = pathResolver;
             _virtualPathResolver = virtualPathResolver;
             _routeHandler = _routeHandler ?? new MvcRouteHandler();
             _innerRoute = innerRoute ?? new Route("dashboard/{controller}/{action}",
-                                                        new RouteValueDictionary(new { controller = "pages", action = "index" }),
+                                                        new RouteValueDictionary(new { controller = "content", action = "index" }),
                                                         new RouteValueDictionary(),
                                                         new RouteValueDictionary( new { area ="Dashboard" } ),
                                                         new MvcRouteHandler());
         }
-        #endregion
-        /* *******************************************************************
-	    * Methods
-	    * *******************************************************************/
-        #region public override RouteData GetRouteData(System.Web.HttpContextBase httpContext)
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="httpContext"></param>
-        /// <returns></returns>
         public override RouteData GetRouteData(System.Web.HttpContextBase httpContext)
         {
             // get the virtual path of the request
@@ -79,7 +56,7 @@ namespace Dashboard.Web.Routing {
             }
 
             // try to resolve the current item
-            var pathData = _pathResolver.ResolvePath(virtualPath.Replace("dashboard/pages/", "").Trim(new[] { '/' }));
+            var pathData = _pathResolver.ResolvePath(virtualPath.Replace("dashboard/content/", "").Trim(new[] { '/' }));
 
             var routeData = new RouteData(this, _routeHandler);
 
@@ -93,18 +70,10 @@ namespace Dashboard.Web.Routing {
                 return null;
             }
 
-            routeData.ApplyCurrentModel("pages", pathData.Action, pathData.CurrentPageModel);
+            routeData.ApplyCurrentModel("content", pathData.Action, pathData.CurrentPageModel);
 
             return routeData;
         }
-        #endregion
-        #region public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="requestContext"></param>
-        /// <param name="values"></param>
-        /// <returns></returns>
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
             var vpd = _innerRoute.GetVirtualPath(requestContext, values);
 
@@ -118,21 +87,13 @@ namespace Dashboard.Web.Routing {
             if (item == null)
                 return null;
 
-            vpd.VirtualPath = string.Format("dashboard/pages/{0}", _virtualPathResolver.ResolveVirtualPath(item, values));
+            vpd.VirtualPath = string.Format("dashboard/content/{0}", _virtualPathResolver.ResolveVirtualPath(item, values));
 
             return vpd;
         }
-        #endregion
-        #region private bool IsDashboardRoute(string virtualPath)
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="virtualPath"></param>
-        /// <returns>True if dashboard is route, otherwise false.</returns>
         private static bool IsDashboardRoute(string virtualPath)
         {
-            return virtualPath.StartsWith("/dashboard/pages");
+            return virtualPath.StartsWith("/dashboard/content");
         }
-        #endregion
     }
 }

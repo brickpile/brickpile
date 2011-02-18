@@ -20,7 +20,7 @@ namespace Dashboard {
                                         });
 
 
-            var dashboardRoute = new PagesRoute(
+            var dashboardRoute = new ContentRoute(
                 ObjectFactory.GetInstance<PathResolver>(),
                 ObjectFactory.GetInstance<VirtualPathResolver>(),
                 null);

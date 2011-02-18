@@ -8,7 +8,7 @@
     $(document).ready(function () {
         $('.urlpicker').click(function () {
             $.ajax({
-                url: '/dashboard/pages/EditPageReference',
+                url: '/dashboard/content/EditPageReference',
                 success: function (data) {
                     $('.dialog').html(data);
                 }

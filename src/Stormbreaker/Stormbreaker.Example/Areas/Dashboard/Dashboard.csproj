@@ -37,7 +37,7 @@
     <Compile Include="Controllers\DashboardController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\PagesController.cs" />
+    <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="DashboardAreaRegistration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\EditUserModel.cs" />
@@ -50,7 +50,7 @@
     <Compile Include="Web\Mvc\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Web\Mvc\Html\TreeViewHelper.cs" />
     <Compile Include="Web\Mvc\ViewModels\IDashboardViewModel.cs" />
-    <Compile Include="Web\Routing\PagesRoute.cs" />
+    <Compile Include="Web\Routing\ContentRoute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Contacts.png" />
@@ -361,13 +361,13 @@
     <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Pages\Add.cshtml" />
+    <Content Include="Views\Content\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Pages\Edit.cshtml" />
+    <Content Include="Views\Content\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Pages\Index.cshtml" />
+    <Content Include="Views\Content\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Account\Foo.cshtml" />

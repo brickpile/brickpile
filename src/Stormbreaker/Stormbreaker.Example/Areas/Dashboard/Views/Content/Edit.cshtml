@@ -7,7 +7,7 @@
 
 @Html.ValidationSummary()
 
-@using (Html.BeginForm("update", "Pages", new { model = Model.CurrentModel }, FormMethod.Post, new { name = "editForm" }))
+@using (Html.BeginForm("update", "content", new { model = Model.CurrentModel }, FormMethod.Post, new { name = "editForm" }))
 {
     <div>
         <fieldset>

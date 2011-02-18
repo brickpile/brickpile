@@ -6,5 +6,5 @@
 
 @(new MvcHtmlString(Html.TreeView<IPageModel>(Model.CurrentModel,
     Model.StructureInfo,
-    page => Html.ActionLink(page.MetaData.Name, "edit", "pages", new { model = page },null),
-    page => Html.ActionLink(page.MetaData.Name, "edit", "pages", new { model = page }, new { @class = "selected" }))))
+    page => Html.ActionLink(page.MetaData.Name, "edit", "content", new { model = page },null),
+    page => Html.ActionLink(page.MetaData.Name, "edit", "content", new { model = page }, new { @class = "selected" }))))
