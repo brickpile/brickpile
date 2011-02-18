@@ -42,7 +42,6 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\EditUserModel.cs" />
     <Compile Include="Models\NewPageModel.cs" />
-    <Compile Include="Models\SysRootModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Mvc\Html\InputBuilder.cs">
       <SubType>Code</SubType>

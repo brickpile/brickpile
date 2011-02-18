@@ -1,9 +1,7 @@
-using System;
 using System.Linq;
 using Raven.Client;
 using Stormbreaker.Extensions;
 using Stormbreaker.Models;
-using StructureMap.Query;
 
 namespace Stormbreaker.Repositories {
     /// <summary>

@@ -81,7 +81,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Address.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\ContactForm.cs" />
     <Compile Include="Models\Form.cs" />

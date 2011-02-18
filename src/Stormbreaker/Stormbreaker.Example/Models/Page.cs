@@ -7,7 +7,6 @@ namespace Stormbreaker.Example.Models {
     public partial class Page : ModelBase {
         public virtual string MainBody { get; set; }
         public virtual string PageLink { get; set; }
-        public virtual Address Address { get; set; }
     }
     public partial class PageMetadata {
         [Display(Order = 60)]
@@ -17,8 +16,5 @@ namespace Stormbreaker.Example.Models {
         [DataType(DataType.Url, ErrorMessage = "fooo")]
         [Display(Name = "Länken")]        
         public virtual string PageLink { get; set; }
-
-        [DataType("Custom")]
-        public virtual Address Address { get; set; }
     }
 }
