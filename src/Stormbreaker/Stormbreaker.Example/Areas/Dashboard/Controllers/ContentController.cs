@@ -5,7 +5,6 @@ using Dashboard.Web.Mvc.ViewModels;
 using Stormbreaker.Exceptions;
 using Stormbreaker.Models;
 using Stormbreaker.Repositories;
-using Stormbreaker.Web.UI;
 
 namespace Dashboard.Controllers {
 
@@ -30,8 +29,8 @@ namespace Dashboard.Controllers {
         /// <summary>
         /// Responsible for saving all changes made to the current page
         /// </summary>
-        /// <param name="editPageModel"></param>
-        /// <param name="model"></param>
+        /// <param name="editPageModel">The edit page model.</param>
+        /// <param name="model">The model.</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
@@ -88,10 +87,6 @@ namespace Dashboard.Controllers {
             _repository.Delete(model);
             _repository.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public ActionResult EditPageReference(dynamic model) {
-            return View("EditPageReference", new StructureInfo(_repository, _repository.Load<dynamic>("pages/1") ));
         }
         /// <summary>
         /// Initializes a new instance of the <b>PagesController</b> class.

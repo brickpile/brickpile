@@ -1,3 +1,4 @@
+using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -11,7 +12,7 @@ namespace Stormbreaker.Web.Routing {
     /// <remarks></remarks>
     /// <example></example>
     public class PageRoute : RouteBase {
-
+        
         private readonly IPathResolver _pathResolver;
         private readonly IVirtualPathResolver _virtualPathResolver;
         private readonly IRouteHandler _routeHandler;
@@ -84,21 +85,32 @@ namespace Stormbreaker.Web.Routing {
 
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
 
-            var vpd = _innerRoute.GetVirtualPath(requestContext, values);
+            var model = values[ModelKey] as IPageModel;
 
-            if (vpd == null)
-                return null;
-
-            vpd.Route = this;
-
-            var item = values[ModelKey] as IPageModel;
-            
-            if(item == null) {
+            if (model == null)
+            {
                 return null;
             }
 
-            vpd.VirtualPath = _virtualPathResolver.ResolveVirtualPath(item, values);
+            var vpd = _innerRoute.GetVirtualPath(requestContext, values);
+            
+            if (vpd == null) {
+                return null;
+            }
 
+            vpd.Route = this;
+
+            vpd.VirtualPath = _virtualPathResolver.ResolveVirtualPath(model, values);
+
+            var queryParams = string.Empty;
+            // add query string parameters
+            foreach (var kvp in values) {
+                if (kvp.Key.Equals(ModelKey) || kvp.Key.Equals(ControllerKey) || kvp.Key.Equals(ActionKey)) {
+                    continue;
+                }
+                queryParams = queryParams.AddQueryParam(kvp.Key, kvp.Value.ToString());
+            }
+            vpd.VirtualPath += queryParams;
             return vpd;
         }
     }

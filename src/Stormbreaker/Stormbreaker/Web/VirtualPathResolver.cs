@@ -8,9 +8,12 @@ using StructureMap;
 namespace Stormbreaker.Web {
     public class VirtualPathResolver : IVirtualPathResolver {
         private string _action;
-        /* *******************************************************************
-	    *  Methods 
-	    * *******************************************************************/
+        /// <summary>
+        /// Resolves the virtual path.
+        /// </summary>
+        /// <param name="pageModel">The page model.</param>
+        /// <param name="routeValueDictionary">The route value dictionary.</param>
+        /// <returns></returns>
         public string ResolveVirtualPath(IPageModel pageModel, RouteValueDictionary routeValueDictionary) {
             if(pageModel == null) {
                 return null;

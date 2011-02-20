@@ -1,29 +1,28 @@
 using Stormbreaker.Models;
-using Stormbreaker.Repositories;
 using Stormbreaker.Web.UI;
 
 namespace Stormbreaker.Web.Mvc.ViewModels {
-
+    /// <summary>
+    /// The default view model
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class DefaultViewModel<T> : IViewModel<T> where T : IPageModel {
         /// <summary>
-        /// Get/Sets the CurrentModel of the DefaultViewModel
+        /// Gets the current model.
         /// </summary>
-        /// <value></value>
         public virtual T CurrentModel { get; private set; }
         /// <summary>
-        /// Get/Sets the StructureInfo of the DefaultViewModel
+        /// Gets the structure info.
         /// </summary>
-        /// <value></value>
         public virtual IStructureInfo StructureInfo { get; private set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultViewModel{T}" /> class.
+        /// Initializes a new instance of the <see cref="DefaultViewModel&lt;T&gt;"/> class.
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="repository"></param>
-        public DefaultViewModel(T model, IPageRepository repository)
-        {
+        /// <param name="model">The model.</param>
+        /// <param name="structureInfo">The structure info.</param>
+        public DefaultViewModel(T model, IStructureInfo structureInfo) {
             CurrentModel = model;
-            StructureInfo = new StructureInfo(repository, model);
+            StructureInfo = structureInfo;
         }
     }
 }
