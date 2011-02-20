@@ -372,16 +372,7 @@
     <Content Include="Views\Account\Foo.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\EditorTemplates\PageReference.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\EditorTemplates\Url.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\EditPageReference.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\EditorTemplates\Address.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Stormbreaker\Stormbreaker.csproj">
@@ -418,6 +409,12 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\Object.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\PageReference.cshtml" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -435,7 +432,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>52798</DevelopmentServerPort>
+          <DevelopmentServerPort>53634</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
