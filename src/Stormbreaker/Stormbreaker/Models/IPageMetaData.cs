@@ -1,3 +1,5 @@
+using System;
+
 namespace Stormbreaker.Models {
     /// <summary>
     /// Represents the page metadata

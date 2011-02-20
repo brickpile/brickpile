@@ -28,6 +28,5 @@ namespace Stormbreaker.Indexes {
             }
             .ToIndexDefinition(Conventions);
         }
-
     }
 }

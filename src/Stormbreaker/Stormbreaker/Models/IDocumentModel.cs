@@ -4,6 +4,6 @@ namespace Stormbreaker.Models {
     /// </summary>
     public interface IDocumentModel
     {
-        string Id { get; set; }        
+        string Id { get; set; }
     }
 }

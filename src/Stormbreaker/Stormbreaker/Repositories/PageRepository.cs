@@ -5,7 +5,7 @@ using Stormbreaker.Models;
 
 namespace Stormbreaker.Repositories {
     /// <summary>
-    /// Page repository implementation of <see cref="IRepository" /> that provides support for basic operations for objects implementing <see cref="IPageModel" /> interface.
+    /// Page repository implementation of <see cref="IPageRepository" /> that provides support for basic operations for objects implementing <see cref="IPageModel" /> interface.
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
@@ -24,7 +24,12 @@ namespace Stormbreaker.Repositories {
         /// <returns></returns>
         public IPageModel[] GetChildren<T>(IPageModel parent)
         {
+
             return _documentSession.Query<IPageModel>().Where(d => d.Parent.Id == parent.Id).ToArray();
+            //return _documentSession.Advanced.LuceneQuery<IPageModel>()
+            //    .Where("Parent.Id:" + parent.Id)
+            //    .WaitForNonStaleResults()
+            //    .WhereEquals("@metadata.Raven-Document-Revision-Status", "Current").ToArray();
         }
         /// <summary>
         /// Gets a page from RavenDB based on the slug.
@@ -33,15 +38,23 @@ namespace Stormbreaker.Repositories {
         /// <returns></returns>
         public T GetPageBySlug<T>(string slug)
         {
-            return _documentSession.Advanced.LuceneQuery<T>("Document/BySlug").Where("Slug:" + slug).FirstOrDefault();
+            return _documentSession.Advanced.LuceneQuery<T>("Document/BySlug")
+                .Where("Slug:" + slug)
+                .WaitForNonStaleResults()
+                //.WhereEquals("@metadata.Raven-Document-Revision-Status", "Current")
+                .FirstOrDefault();
         }
         /// <summary>
         /// Loads a specific page with a specific id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public T Load<T>(string id)
-        {
+        public T Load<T>(string id) {
+            //return _documentSession.Advanced.LuceneQuery<T>()
+                //.Where("Id:" + id)
+                //.WaitForNonStaleResults()
+                //.WhereEquals("@metadata.Raven-Document-Revision-Status", "Current")
+                //.SingleOrDefault();
             return _documentSession.Load<T>(id);
         }
         /// <summary>
