@@ -75,6 +75,15 @@ namespace Dashboard.Web.Routing {
             return routeData;
         }
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
+            if(!IsDashboardRoute(requestContext.HttpContext.Request.CurrentExecutionFilePath)) {
+                return null;
+            }
+
+            var item = values[ModelKey] as IPageModel;
+
+            if (item == null)
+                return null;
+
             var vpd = _innerRoute.GetVirtualPath(requestContext, values);
 
             if (vpd == null)
@@ -82,10 +91,7 @@ namespace Dashboard.Web.Routing {
 
             vpd.Route = this;
 
-            var item = values[ModelKey] as IPageModel;
 
-            if (item == null)
-                return null;
 
             vpd.VirtualPath = string.Format("dashboard/content/{0}", _virtualPathResolver.ResolveVirtualPath(item, values));
 
