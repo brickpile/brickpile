@@ -1,3 +1,9 @@
 ﻿
-@model object
-<p>Hej</p>
+@model Stormbreaker.Models.PageReference
+
+@{ 
+    var structureInfo = ViewData["StructureInfo"] as Stormbreaker.Web.UI.StructureInfo;
+    var defaultValue = Model != null ? Model.SelectedPageModel : "";
+}
+
+@Html.DropDownList("SelectedPageModel", new SelectList(structureInfo.HierarchicalStructure,"Entity.Id", "Entity.MetaData.Name", defaultValue))

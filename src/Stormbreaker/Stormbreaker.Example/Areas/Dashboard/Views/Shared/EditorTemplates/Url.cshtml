@@ -2,19 +2,4 @@
 @model System.String
 @using Dashboard.Web.Mvc.Html
 
-@Html.TextBoxFor(_ => Model, new { type = "url", @class = "urlpicker" }) <input type="button" value="..." class="urlpicker" />
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.urlpicker').click(function () {
-            $.ajax({
-                url: '/dashboard/content/EditPageReference',
-                success: function (data) {
-                    $('.dialog').html(data);
-                }
-            });            
-        });
-    });
-</script>
-
-<div class="dialog"></div>
+@Html.TextBoxFor(_ => Model, new { type = "url", @class = "urlpicker" })
