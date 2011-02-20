@@ -61,7 +61,7 @@ namespace Stormbreaker.Web.Mvc.Html {
         public static string Menu<T>(this HtmlHelper html, string id, T currentModel, IStructureInfo structureInfo, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent) where T : IPageModel
         {
             // only render the top level items
-            var items = structureInfo.HierarchicalStructure.Where(x => x.Depth == 1).OrderBy(x => x.Entity.MetaData.Name);
+            var items = structureInfo.HierarchicalStructure.Where(x => x.Depth == 1);
 
             var sb = new StringBuilder();
             if(string.IsNullOrEmpty(id)) {
