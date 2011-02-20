@@ -1,20 +1,18 @@
-using System;
 using System.ComponentModel.DataAnnotations;
+using Stormbreaker.Models;
 
 namespace Stormbreaker.Example.Models {
     [PageModel("My off the shelf item")]
-    [MetadataType(typeof(PageMetadata))]
-    public partial class Page : ModelBase {
-        public virtual string MainBody { get; set; }
-        public virtual string PageLink { get; set; }
-    }
-    public partial class PageMetadata {
+    public class Page : ModelBase {
+
         [Display(Order = 60)]
         [DataType(DataType.Html)]
         public virtual string MainBody { get; set; }
 
-        [DataType(DataType.Url, ErrorMessage = "fooo")]
-        [Display(Name = "Länken")]        
-        public virtual string PageLink { get; set; }
+        [Display(Name = "Hämta nyhetr från")]
+        public PageReference PageLink { get; set; }
+
+        [DataType(DataType.ImageUrl)]
+        public string ImageUrl { get; set; }
     }
 }

@@ -1,25 +1,20 @@
-﻿using System;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
+﻿using System.Web.Mvc;
 using Stormbreaker.Example.Models;
-using Stormbreaker.Models;
-using Stormbreaker.RavenDBMembership;
-using Stormbreaker.Repositories;
 using Stormbreaker.Web.Mvc.ViewModels;
+using Stormbreaker.Web.UI;
 
 namespace Stormbreaker.Example.Controllers
 {
     public class FormController : Controller
     {
-        private readonly IPageRepository _repository;
+        private readonly IStructureInfo _structureInfo;
 
-        public FormController(IPageRepository repository) {
-            _repository = repository;
+        public FormController(IStructureInfo structureInfo) {
+            _structureInfo = structureInfo;
         }
 
         public ActionResult Index(Form model) {
-            return View(new DefaultViewModel<Form>(model, _repository));
+            return View(new DefaultViewModel<Form>(model, _structureInfo));
         }
 
         //public ActionResult Contact(dynamic model, ContactForm form) {

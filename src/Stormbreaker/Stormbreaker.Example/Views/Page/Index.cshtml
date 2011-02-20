@@ -3,5 +3,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @Html.Raw(Model.CurrentModel.MainBody)
-<br />
-@Html.DisplayFor(model => Model.CurrentModel.PageLink)
+
+@Html.DisplayFor(x => x.CurrentModel.PageLink)
+
+
+@{
+    var grid = new WebGrid(source: Model.StructureInfo.HierarchicalStructure,
+                defaultSort: "Entity.MetaData.Name",
+                rowsPerPage: 2);
+}
+
+<div id="grid">
+    @grid.GetHtml(
+        tableStyle: "grid",
+        headerStyle: "head",
+        alternatingRowStyle: "alt",
+        columns: grid.Columns(
+                    grid.Column("Entity.MetaData.Name","Namn"),
+                    grid.Column("Entity.MetaData.Slug","Slug")
+        )
+    )
+</div>

@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
+using Stormbreaker.Example.Models;
 using Stormbreaker.Models;
 using Stormbreaker.Web;
 using Stormbreaker.Web.Mvc;
@@ -46,6 +47,8 @@ namespace Stormbreaker.Example
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            ModelBinders.Binders.Add(typeof(IPageModel), new PageModelBinder());
 
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new RazorViewEngine());
