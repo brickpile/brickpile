@@ -34,6 +34,8 @@
     <Compile Include="Error.cs" />
     <Compile Include="Exceptions\StormbreakerException.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Extensions\PagingExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="HandleErrorWithElmahAttribute.cs" />
     <Compile Include="Indexes\Documents_ByParent.cs" />
     <Compile Include="Indexes\Document_BySlug.cs" />
@@ -56,6 +58,7 @@
     </Compile>
     <Compile Include="Models\IPageMetaData.cs" />
     <Compile Include="Models\PageMetaData.cs" />
+    <Compile Include="Models\PageReference.cs" />
     <Compile Include="PageModelAttribute.cs" />
     <Compile Include="Registries\PathDataRegistry.cs" />
     <Compile Include="Registries\PathResolverRegistry.cs" />
@@ -99,7 +102,10 @@
     </Compile>
     <Compile Include="Web\UI\HierarchyNode.cs" />
     <Compile Include="Web\UI\IHierarchyNode.cs" />
+    <Compile Include="Web\UI\IPagedList.cs" />
     <Compile Include="Web\UI\IStructureInfo.cs" />
+    <Compile Include="Web\UI\PagedList.cs" />
+    <Compile Include="Web\UI\Pager.cs" />
     <Compile Include="Web\UI\StructureInfo.cs" />
     <Compile Include="Web\VirtualPathResolver.cs">
       <SubType>Code</SubType>
