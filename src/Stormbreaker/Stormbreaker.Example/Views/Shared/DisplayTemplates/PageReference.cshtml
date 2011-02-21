@@ -1,6 +1,0 @@
-﻿@model Stormbreaker.Models.PageReference
-@if (Model != null && Model.PageModel != null)
-{
-    @Html.ActionLink(Model.PageModel.MetaData.Name, "index", new { model = Model.PageModel })
-}
-
