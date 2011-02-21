@@ -4,9 +4,6 @@
 }
 @Html.Raw(Model.CurrentModel.MainBody)
 
-@Html.DisplayFor(x => x.CurrentModel.PageLink)
-
-
 @{
     var grid = new WebGrid(source: Model.StructureInfo.HierarchicalStructure,
                 defaultSort: "Entity.MetaData.Name",

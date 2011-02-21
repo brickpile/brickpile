@@ -48,7 +48,7 @@ namespace Stormbreaker.Example
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            ModelBinders.Binders.Add(typeof(IPageModel), new PageModelBinder());
+            ModelBinders.Binders.Add(typeof(Home), new PageModelBinder());
 
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new RazorViewEngine());

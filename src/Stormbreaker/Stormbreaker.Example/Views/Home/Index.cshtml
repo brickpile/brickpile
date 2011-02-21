@@ -1,4 +1,5 @@
 ﻿@model Stormbreaker.Example.ViewModels.HomeViewModel
+           
 @using Stormbreaker.Extensions;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,15 +8,18 @@
 @Html.DisplayTextFor(x => x.CurrentModel.MetaData.Name)
 
 <ul>
-@foreach (var item in Model.PagedList)
+@foreach (var page in Model.PagedList)
 {
 <li>
-    <h3>@Html.ActionLink(item.Heading,"index", new { model = item })</h3>            
-    <img src="@item.ImageUrl" />
-    @Html.DisplayFor(x => item.MainBody)
+    <h3>@Html.ActionLink(page.Heading, page)</h3>            
+    <img src="@page.ImageUrl" />
+    @Html.DisplayFor(x => page.MainBody)
 </li>
 }
 </ul>
 <div class="pager">
     @Html.Pager(Model.PagedList.PageSize, Model.PagedList.PageNumber, Model.PagedList.TotalItemCount, new { model = Model.CurrentModel })
 </div>
+
+<h2>Länk till nyhetsarkivet</h2>
+@Html.ActionLink("Nyhetsarkiv", Model.NewsContainer)

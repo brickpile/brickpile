@@ -1,7 +1,8 @@
 ﻿@model Stormbreaker.Web.Mvc.ViewModels.IViewModel<Stormbreaker.Models.IPageModel>
-@using Stormbreaker.Web.Mvc.Html;
+@using Stormbreaker.Web.Mvc.Html
+@using Stormbreaker.Extensions
 
 @(new MvcHtmlString(Html.SubMenu("local-nav",
     Model.StructureInfo,
-    page => Html.ActionLink(page.MetaData.Name, "index", new { model = page }),
+    page => Html.ActionLink(page),
     page => Html.ActionLink(page.MetaData.Name, "index", new { model = page }, new { @class = "selected" }))))
