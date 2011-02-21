@@ -11,7 +11,7 @@ namespace Stormbreaker.Web.UI {
         /// </summary>
         IPageModel RootModel { get; }
         /// <summary>
-        /// <see cref="StructureInfo.CurrentModel"/>
+        ///   <see cref="StructureInfo.CurrentModel"/>
         /// </summary>
         IPageModel CurrentModel { get; }
         /// <summary>

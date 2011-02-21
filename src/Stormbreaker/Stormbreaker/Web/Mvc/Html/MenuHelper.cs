@@ -58,8 +58,7 @@ namespace Stormbreaker.Web.Mvc.Html {
         /// <param name="itemContent">Default content for links</param>
         /// <param name="selectedItemContent">Content for selected links</param>
         /// <returns></returns>
-        public static string Menu<T>(this HtmlHelper html, string id, T currentModel, IStructureInfo structureInfo, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent) where T : IPageModel
-        {
+        public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
             // only render the top level items
             var items = structureInfo.HierarchicalStructure.Where(x => x.Depth == 1);
 
@@ -73,7 +72,7 @@ namespace Stormbreaker.Web.Mvc.Html {
 
             foreach (var item in items)
             {
-                RenderLi(sb, "<li>{0}</li>", (T)item.Entity, item.Entity.Equals(currentModel) ? selectedItemContent : itemContent);
+                RenderLi(sb, "<li>{0}</li>", item.Entity, item.Entity.Equals(currentModel) ? selectedItemContent : itemContent);
             }
 
             sb.AppendLine("</ul>");
@@ -82,10 +81,11 @@ namespace Stormbreaker.Web.Mvc.Html {
         /// <summary>
         /// Responsible for renderingen the li element with it's content
         /// </summary>
-        /// <param name="sb"></param>
-        /// <param name="item"></param>
-        /// <param name="itemContent"></param>
-        private static void RenderLi<T>(StringBuilder sb, string format, T item, Func<T, MvcHtmlString> itemContent) where T : IPageModel {
+        /// <param name="sb">The sb.</param>
+        /// <param name="format">The format.</param>
+        /// <param name="item">The item.</param>
+        /// <param name="itemContent">Content of the item.</param>
+        private static void RenderLi(StringBuilder sb, string format, IPageModel item, Func<IPageModel, MvcHtmlString> itemContent) {
             sb.AppendFormat(format, itemContent(item));
         }
     }
