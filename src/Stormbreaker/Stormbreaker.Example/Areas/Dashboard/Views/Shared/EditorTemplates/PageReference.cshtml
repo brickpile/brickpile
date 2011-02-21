@@ -2,8 +2,8 @@
 @model Stormbreaker.Models.PageReference
 
 @{ 
-    var structureInfo = ViewData["StructureInfo"] as Stormbreaker.Web.UI.StructureInfo;
-    var defaultValue = Model != null ? Model.SelectedPageModel : "";
+    var pageSelectionModel = ViewData["PageSelectionModel"] as IList<Stormbreaker.Models.IPageModel>;
+    var defaultValue = Model != null ? Model.Id : "";
 }
 
-@Html.DropDownList("SelectedPageModel", new SelectList(structureInfo.HierarchicalStructure,"Entity.Id", "Entity.MetaData.Name", defaultValue))
+@Html.DropDownList("Id", new SelectList(pageSelectionModel, "Id", "MetaData.Name", defaultValue))

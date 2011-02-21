@@ -16,7 +16,7 @@
         </fieldset>
         <fieldset>
             <legend>Content</legend>
-            @Html.EditorFor(model => model.CurrentModel, new { StructureInfo = Model.StructureInfo })
+            @Html.EditorFor(model => model.CurrentModel, new { StructureInfo = Model.StructureInfo, PageSelectionModel = Model.PageSelectionModel })
         </fieldset>
         <div class="editor-button">
             <input type="submit" value="Save" />
