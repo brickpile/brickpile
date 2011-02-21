@@ -44,6 +44,9 @@ namespace Stormbreaker.Repositories {
                 //.WhereEquals("@metadata.Raven-Document-Revision-Status", "Current")
                 .FirstOrDefault();
         }
+        public IPageModel[] GetAllPages() {
+            return _documentSession.Query<IPageModel>().ToArray();
+        }
         /// <summary>
         /// Loads a specific page with a specific id.
         /// </summary>
