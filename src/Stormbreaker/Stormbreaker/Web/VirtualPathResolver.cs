@@ -1,5 +1,6 @@
 using System.Text;
 using System.Web.Routing;
+using Stormbreaker.Configuration;
 using Stormbreaker.Models;
 using Stormbreaker.Repositories;
 using Stormbreaker.Web.Routing;
@@ -7,6 +8,7 @@ using StructureMap;
 
 namespace Stormbreaker.Web {
     public class VirtualPathResolver : IVirtualPathResolver {
+        private readonly IConfiguration _configuration;
         private string _action;
         /// <summary>
         /// Resolves the virtual path.
@@ -22,7 +24,7 @@ namespace Stormbreaker.Web {
             url.Append(pageModel.MetaData.Slug);
             var repository = ObjectFactory.GetInstance<IPageRepository>();
             var parent = pageModel;
-            while (parent.Id != "pages/1" && parent.Parent != null && parent.Parent.Id != "pages/1")
+            while (parent.Id != _configuration.HomePageId && parent.Parent != null && parent.Parent.Id != _configuration.HomePageId)
             {
                 parent = repository.Load<IPageModel>(parent.Parent.Id);
                 url.Insert(0, string.Format("{0}/", parent.MetaData.Slug));
@@ -37,6 +39,9 @@ namespace Stormbreaker.Web {
                 }
             }
             return string.Format("{0}/", url);
+        }
+        public VirtualPathResolver(IConfiguration configuration) {
+            _configuration = configuration;
         }
     }
 }

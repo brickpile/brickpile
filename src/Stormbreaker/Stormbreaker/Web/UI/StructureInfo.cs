@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Stormbreaker.Configuration;
 using Stormbreaker.Extensions;
 using Stormbreaker.Models;
 using Stormbreaker.Repositories;
@@ -14,11 +15,13 @@ namespace Stormbreaker.Web.UI {
     /// <example></example>
     public class StructureInfo : IStructureInfo {
         private readonly IPageRepository _repository;
+        private readonly IConfiguration _configuration;
+
         /// <summary>
         ///   <see cref="StructureInfo.RootModel"/>
         /// </summary>
         public virtual IPageModel RootModel {
-            get { return _repository.Load<IPageModel>("pages/1"); }
+            get { return _repository.Load<IPageModel>(_configuration.HomePageId); }
         }
         /// <summary>
         ///   <see cref="StructureInfo.CurrentModel"/>
@@ -69,8 +72,10 @@ namespace Stormbreaker.Web.UI {
         /// Initializes a new instance of the <see cref="StructureInfo"/> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
-        public StructureInfo(IPageRepository repository) {
+        /// <param name="configuration">The configuration.</param>
+        public StructureInfo(IPageRepository repository, IConfiguration configuration) {
             _repository = repository;
+            _configuration = configuration;
         }
     }        
 }

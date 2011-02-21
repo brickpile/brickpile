@@ -31,9 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="Exceptions\StormbreakerException.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Extensions\LinkExtensions.cs" />
     <Compile Include="Extensions\PagingExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="HandleErrorWithElmahAttribute.cs" />
@@ -60,6 +63,7 @@
     <Compile Include="Models\PageMetaData.cs" />
     <Compile Include="Models\PageReference.cs" />
     <Compile Include="PageModelAttribute.cs" />
+    <Compile Include="Registries\ConfigurationRegistry.cs" />
     <Compile Include="Registries\PathDataRegistry.cs" />
     <Compile Include="Registries\PathResolverRegistry.cs" />
     <Compile Include="Registries\RavenRegistry.cs" />
@@ -173,6 +177,7 @@
     <Reference Include="Lucene.Net">
       <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Lucene.Net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -215,6 +220,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
