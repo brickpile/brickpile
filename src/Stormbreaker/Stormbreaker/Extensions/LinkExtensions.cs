@@ -24,7 +24,7 @@ namespace Stormbreaker.Extensions {
         /// <param name="model">The model.</param>
         /// <returns></returns>
         public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, IPageModel model) {
-            return htmlHelper.ActionLink(linkText,"index", new {model});
+            return htmlHelper.ActionLink(linkText,"index", new { model });
         }
     }
 }

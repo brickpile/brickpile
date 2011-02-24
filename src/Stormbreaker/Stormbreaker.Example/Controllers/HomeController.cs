@@ -18,6 +18,7 @@ namespace Stormbreaker.Example.Controllers {
         const int DefaultPageSize = 2;
 
         public ActionResult Index(Home model, int? page) {
+
             if (model == null) {
                 model = _repository.Load<dynamic>(_configuration.HomePageId);
             }
@@ -28,6 +29,7 @@ namespace Stormbreaker.Example.Controllers {
             var news = _repository.GetChildren<IPageModel>(container).OfType<Page>();
 
             return View(new HomeViewModel(model, _structureInfo, news.ToPagedList(currentPageIndex, DefaultPageSize), container));
+
         }
 
         public HomeController(IPageRepository repository, IStructureInfo structureInfo, IConfiguration configuration) {

@@ -10,7 +10,7 @@ using Stormbreaker.Web.UI;
 
 namespace Dashboard.Controllers {
     public class ContentController : Controller {
-        private readonly IPageRepository _repository;
+        private readonly PageRepository _repository;
         private readonly IStructureInfo _structureInfo;
         private readonly IConfiguration _configuration;
         /// <summary>
@@ -20,7 +20,8 @@ namespace Dashboard.Controllers {
         /// Redirects to the Edit action with the home page loaded
         /// </returns>
         public ActionResult Index() {
-            return RedirectToAction("edit", new { model = _repository.Load<dynamic>(_configuration.HomePageId)}); 
+            return View();
+            //return RedirectToAction("edit", new { model = _repository.Load<dynamic>(_configuration.HomePageId)}); 
         }
         /// <summary>
         /// Responsible for providing the Edit view with data from the current page
@@ -71,7 +72,7 @@ namespace Dashboard.Controllers {
             if (ModelState.IsValid)
             {
                 // create a new page from the selected page model
-                var page = Activator.CreateInstance(Type.GetType(newPageModel.SelectedPageModel)) as PageModel;
+                var page = Activator.CreateInstance(Type.GetType(newPageModel.SelectedPageModel)) as dynamic;
                 // handle this gracefully in the future
                 if (page == null)
                 {
@@ -106,7 +107,7 @@ namespace Dashboard.Controllers {
         /// <param name="repository">The repository.</param>
         /// <param name="structureInfo">The structure info.</param>
         /// <param name="configuration">The configuration.</param>
-        public ContentController(IPageRepository repository, IStructureInfo structureInfo, IConfiguration configuration)
+        public ContentController(PageRepository repository, IStructureInfo structureInfo, IConfiguration configuration)
         {
             _repository = repository;
             _structureInfo = structureInfo;
