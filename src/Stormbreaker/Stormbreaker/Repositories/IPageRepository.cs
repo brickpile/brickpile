@@ -1,7 +1,9 @@
+using System;
 using Stormbreaker.Models;
 
 namespace Stormbreaker.Repositories {
     public interface IPageRepository : IRepository<IPageModel> {
+        T SingleOrDefault<T>(Func<T, bool> predicate) where T : IPageModel;
         /// <summary>
         /// Gets the children.
         /// </summary>

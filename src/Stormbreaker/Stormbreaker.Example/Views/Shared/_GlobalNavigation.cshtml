@@ -6,5 +6,5 @@
 @(new MvcHtmlString(Html.Menu("global-nav",
     Model.CurrentModel,
     Model.StructureInfo,
-    page => Html.ActionLink(page),
-    page => Html.ActionLink(page.MetaData.Name, "index", new { model = page }, new { @class = "selected" }))))
+    page => Html.ActionLink(page.MetaData.Name, "index", new { model = page }),
+    page => Html.DisplayFor(x => page.MetaData.Name, "_SelectedTemplate"))))

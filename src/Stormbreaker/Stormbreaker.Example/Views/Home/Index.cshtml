@@ -1,4 +1,4 @@
-﻿@model Stormbreaker.Example.ViewModels.HomeViewModel
+﻿@model Stormbreaker.Web.Mvc.ViewModels.DefaultViewModel<Stormbreaker.Example.Models.Home>
 @using Stormbreaker.Extensions;
 
 @{
@@ -7,6 +7,7 @@
 
 @Html.DisplayTextFor(x => x.CurrentModel.MetaData.Name)
 
+@*
 <ul>
 @foreach (var page in Model.PagedList)
 {
@@ -23,3 +24,4 @@
 
 <h2>Länk till nyhetsarkivet</h2>
 @Html.ActionLink("Nyhetsarkiv", Model.NewsContainer)
+*@

@@ -21,7 +21,7 @@ namespace Stormbreaker.Web.UI {
         ///   <see cref="StructureInfo.RootModel"/>
         /// </summary>
         public virtual IPageModel RootModel {
-            get { return _repository.Load<IPageModel>(_configuration.HomePageId); }
+            get { return _repository.SingleOrDefault<IPageModel>(x => x.Parent == null); }
         }
         /// <summary>
         ///   <see cref="StructureInfo.CurrentModel"/>

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Raven.Client;
 using Stormbreaker.Extensions;
@@ -12,10 +13,9 @@ namespace Stormbreaker.Repositories {
     public class PageRepository : IPageRepository {
         private readonly IDocumentSession _documentSession;
 
-        //public T SingleOrDefault<T>(Func<T, bool> predicate) where T : IPageModel
-        //{
-        //    return _documentSession.Query<T>().SingleOrDefault(predicate);
-        //}
+        public T SingleOrDefault<T>(Func<T, bool> predicate) where T : IPageModel {
+            return _documentSession.Query<T>().SingleOrDefault(predicate);
+        }
 
         /// <summary>
         /// Gets the children of a page.

@@ -20,8 +20,11 @@ namespace Dashboard.Controllers {
         /// Redirects to the Edit action with the home page loaded
         /// </returns>
         public ActionResult Index() {
+            var model = _repository.SingleOrDefault<IPageModel>(x => x.Parent == null);
+            if(model != null) {
+                return RedirectToAction("edit", new { model });   
+            }
             return View();
-            //return RedirectToAction("edit", new { model = _repository.Load<dynamic>(_configuration.HomePageId)}); 
         }
         /// <summary>
         /// Responsible for providing the Edit view with data from the current page
