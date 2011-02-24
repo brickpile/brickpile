@@ -57,10 +57,13 @@ namespace Dashboard.Controllers {
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public ActionResult Add(dynamic model)
-        {
-            return View("add", new DashboardViewModel(model, _structureInfo,_repository));
+        public ActionResult Add(dynamic model) {
+            if(model is IPageModel) {
+                return View("add", new DashboardViewModel(model, _structureInfo, _repository));    
+            }
+            return View("add", new DashboardViewModel(new NewPageModel(), _structureInfo, _repository));
         }
+
         /// <summary>
         /// Responsible for creating a new page based on the selected page model
         /// </summary>
@@ -79,8 +82,9 @@ namespace Dashboard.Controllers {
                     throw new StormbreakerException("The selected page model is not valid!");
                 }
                 // add the current page as a parent, the children of the current page is updated in the trigger
-                page.Parent = model;
-
+                if(model is IPageModel) {
+                    page.Parent = model;
+                }
                 UpdateModel(page, "NewPageModel");
                 _repository.Store(page);
                 _repository.SaveChanges();
@@ -99,7 +103,7 @@ namespace Dashboard.Controllers {
         {
             _repository.Delete(model);
             _repository.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("index");
         }
         /// <summary>
         /// Initializes a new instance of the <b>PagesController</b> class.
