@@ -1,6 +1,7 @@
 using Raven.Client;
 using Raven.Client.Client;
 using Raven.Client.Indexes;
+using Raven.Http;
 using Stormbreaker.Indexes;
 using Stormbreaker.Models;
 using StructureMap.Configuration.DSL;
@@ -16,8 +17,9 @@ namespace Stormbreaker.Registries {
         /// <summary>
         /// Initializes a new instance of the <see cref="RavenRegistry"/> class.
         /// </summary>
-        public RavenRegistry()
-        {
+        public RavenRegistry() {
+
+            NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8000);
             var documentStore = new EmbeddableDocumentStore
                                     {
                                         ConnectionStringName = "RavenConStr",
@@ -27,8 +29,8 @@ namespace Stormbreaker.Registries {
             documentStore.Initialize();
             documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null;
 
-            IndexCreation.CreateIndexes(typeof(Document_BySlug).Assembly, documentStore);
             IndexCreation.CreateIndexes(typeof(Documents_ByParent).Assembly, documentStore);
+            IndexCreation.CreateIndexes(typeof(Document_ByUrl).Assembly, documentStore);
 
             For<IDocumentStore>().Use(documentStore);
             For<IDocumentSession>()

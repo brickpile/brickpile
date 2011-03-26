@@ -1,27 +1,22 @@
 using System;
+using System.Collections.Generic;
 using Stormbreaker.Models;
 
 namespace Stormbreaker.Repositories {
     public interface IPageRepository : IRepository<IPageModel> {
-        T SingleOrDefault<T>(Func<T, bool> predicate) where T : IPageModel;
         /// <summary>
-        /// Gets the children.
+        /// Childrens the specified parent.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="parent">The parent.</param>
         /// <returns></returns>
-        IPageModel[] GetChildren<T>(IPageModel parent);
+        IEnumerable<T> Children<T>(T parent) where T : IPageModel;
         /// <summary>
-        /// Gets the page by slug.
+        /// Bies the URL.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="slug">The slug.</param>
+        /// <param name="url">The URL.</param>
         /// <returns></returns>
-        T GetPageBySlug<T>(string slug);
-        /// <summary>
-        /// Gets all pages.
-        /// </summary>
-        /// <returns></returns>
-        IPageModel[] GetAllPages();
+        T ByUrl<T>(string url) where T : IPageModel;
     }
 }

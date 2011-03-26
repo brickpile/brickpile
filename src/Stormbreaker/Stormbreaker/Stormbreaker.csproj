@@ -31,8 +31,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Configuration\Configuration.cs" />
-    <Compile Include="Configuration\IConfiguration.cs" />
+    <Compile Include="App_Start\Initializer.cs" />
+    <Compile Include="Dropbox\Helpers\IRequestHelper.cs" />
+    <Compile Include="Indexes\Document_ByUrl.cs" />
+    <Compile Include="Infrastructure\IPageService.cs" />
+    <Compile Include="Infrastructure\PageService.cs" />
+    <Compile Include="Registries\DropboxRepositoryRegistry.cs" />
+    <Compile Include="Registries\S3RepositoryRegistry.cs" />
+    <Compile Include="Repositories\DropboxRepository.cs" />
+    <Compile Include="Repositories\IDropboxRepository.cs" />
+    <Compile Include="Repositories\IS3Repository.cs" />
+    <Compile Include="Repositories\S3Repository.cs" />
+    <Compile Include="Dropbox\Authenticators\OAuthAuthenticator.cs" />
+    <Compile Include="Dropbox\Helpers\RequestHelper.cs" />
+    <Compile Include="Dropbox\Models\MetaData.cs" />
+    <Compile Include="Dropbox\Models\UserLogin.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="Exceptions\StormbreakerException.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
@@ -41,7 +54,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="HandleErrorWithElmahAttribute.cs" />
     <Compile Include="Indexes\Documents_ByParent.cs" />
-    <Compile Include="Indexes\Document_BySlug.cs" />
     <Compile Include="Models\DenormalizedReference.cs" />
     <Compile Include="Models\IDocumentModel.cs" />
     <Compile Include="Models\PageModel.cs">
@@ -63,17 +75,9 @@
     <Compile Include="Models\PageMetaData.cs" />
     <Compile Include="Models\PageReference.cs" />
     <Compile Include="PageModelAttribute.cs" />
-    <Compile Include="Registries\ConfigurationRegistry.cs" />
-    <Compile Include="Registries\PathDataRegistry.cs" />
-    <Compile Include="Registries\PathResolverRegistry.cs" />
     <Compile Include="Registries\RavenRegistry.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registries\PageRepositoryRegistry.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Registries\StructureInfoRegistry.cs" />
-    <Compile Include="Registries\VirtualPathResolverRegistry.cs" />
     <Compile Include="Repositories\IPageRepository.cs" />
     <Compile Include="Repositories\PageRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
@@ -97,13 +101,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PageMetaData.sv.resx</DependentUpon>
     </Compile>
+    <Compile Include="Web\Hosting\DropboxVirtualDirectory.cs" />
+    <Compile Include="Web\Hosting\DropboxVirtualFile.cs" />
+    <Compile Include="Web\Hosting\DropboxVirtualPathProvider.cs" />
+    <Compile Include="Web\ContainerDisposalModule.cs" />
+    <Compile Include="Web\MimeMapping.cs" />
     <Compile Include="Web\Mvc\Html\MenuHelper.cs" />
     <Compile Include="Web\Mvc\Html\SubMenuHelper.cs" />
-    <Compile Include="Web\Mvc\PageModelBinder.cs" />
     <Compile Include="Web\Mvc\StructureMapDependencyResolver.cs" />
-    <Compile Include="Web\PathResolver.cs">
+    <Compile Include="Web\Routing\PathResolver.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Web\StaticFileHandler.cs" />
     <Compile Include="Web\UI\HierarchyNode.cs" />
     <Compile Include="Web\UI\IHierarchyNode.cs" />
     <Compile Include="Web\UI\IPagedList.cs" />
@@ -111,16 +120,16 @@
     <Compile Include="Web\UI\PagedList.cs" />
     <Compile Include="Web\UI\Pager.cs" />
     <Compile Include="Web\UI\StructureInfo.cs" />
-    <Compile Include="Web\VirtualPathResolver.cs">
+    <Compile Include="Web\Routing\VirtualPathResolver.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Web\IPathData.cs">
+    <Compile Include="Web\Routing\IPathData.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Web\IPathResolver.cs">
+    <Compile Include="Web\Routing\IPathResolver.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Web\IVirtualPathResolver.cs">
+    <Compile Include="Web\Routing\IVirtualPathResolver.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Web\Mvc\ViewModels\DefaultViewModel.cs">
@@ -135,7 +144,7 @@
     <Compile Include="Web\Routing\PathData.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Web\Routing\RouteCollectionExtensions.cs">
+    <Compile Include="Extensions\RouteCollectionExtensions.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -158,63 +167,35 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="AsyncCtpLibrary">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\AsyncCtpLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="Elmah, Version=1.1.11517.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\elmah.1.1\lib\Elmah.dll</HintPath>
     </Reference>
-    <Reference Include="Esent.Interop">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Esent.Interop.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.NRefactory">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\ICSharpCode.NRefactory.dll</HintPath>
+    <Reference Include="LitS3">
+      <HintPath>..\..\..\lib\LitS3\LitS3.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Lucene.Net">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Lucene.Net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Raven.Abstractions">
+      <HintPath>..\..\..\lib\RavenDB-Build-288\EmbeddedClient\Raven.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Raven.Abstractions.dll</HintPath>
+    <Reference Include="Raven.Client.Embedded">
+      <HintPath>..\..\..\lib\RavenDB-Build-288\EmbeddedClient\Raven.Client.Embedded.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Client.Embedded, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Raven.Client.Embedded.dll</HintPath>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\..\..\lib\RavenDB-Build-288\EmbeddedClient\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Raven.Client.Lightweight.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Database, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Raven.Database.dll</HintPath>
+    <Reference Include="Raven.Database">
+      <HintPath>..\..\..\lib\RavenDB-Build-288\EmbeddedClient\Raven.Database.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Http">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Raven.Http.dll</HintPath>
+      <HintPath>..\..\..\lib\RavenDB-Build-288\EmbeddedClient\Raven.Http.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Munin">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Raven.Munin.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Storage.Esent">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Raven.Storage.Esent.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Storage.Managed">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Raven.Storage.Managed.dll</HintPath>
-    </Reference>
-    <Reference Include="Spatial.Net">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Spatial.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="SpellChecker.Net">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\SpellChecker.Net.dll</HintPath>
+    <Reference Include="RestSharp, Version=100.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\RestSharp\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=2.6.1.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
       <HintPath>..\packages\structuremap.2.6.1.0\lib\StructureMap.dll</HintPath>
@@ -223,8 +204,13 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.0.0.0\lib\WebActivator.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -235,6 +221,7 @@
       <Name>Stormbreaker.RavenDBMembership</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

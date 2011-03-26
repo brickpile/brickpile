@@ -16,5 +16,6 @@ namespace Stormbreaker.Example.Models {
 	    * *******************************************************************/
         [Display(Name = "Heading", ResourceType = typeof(Details), Order = 50)]
         public virtual string Heading { get; set; }
+
     }
 }

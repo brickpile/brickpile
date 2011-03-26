@@ -14,7 +14,7 @@ namespace Stormbreaker.Registries {
         /// </summary>
         public PathDataRegistry()
         {
-            For<IPathData>().Use<PathData>();
+            //For<IPathData>().Use<PathData>();
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using Dashboard.Models;
 using Dashboard.Web.Mvc.ViewModels;
-using Stormbreaker.Configuration;
 using Stormbreaker.Exceptions;
 using Stormbreaker.Models;
 using Stormbreaker.Repositories;
@@ -10,18 +9,16 @@ using Stormbreaker.Web.UI;
 
 namespace Dashboard.Controllers {
     public class ContentController : Controller {
-        private readonly PageRepository _repository;
+        private readonly IPageRepository _repository;
         private readonly IStructureInfo _structureInfo;
-        private readonly IConfiguration _configuration;
         /// <summary>
         /// Default action
         /// </summary>
         /// <returns>
         /// Redirects to the Edit action with the home page loaded
         /// </returns>
-        public ActionResult Index() {
-            var model = _repository.SingleOrDefault<IPageModel>(x => x.Parent == null);
-            if(model != null) {
+        public ActionResult Index(dynamic model) {
+            if(model != null && model is IPageModel) {
                 return RedirectToAction("edit", new { model });   
             }
             return View();
@@ -33,27 +30,26 @@ namespace Dashboard.Controllers {
         /// <returns></returns>
         public ActionResult Edit(dynamic model)
         {
-            var viewModel = new DashboardViewModel(model, _structureInfo,_repository);
+            var viewModel = new DashboardViewModel(model, _structureInfo);
             return View(viewModel);
         }
         /// <summary>
         /// Responsible for saving all changes made to the current page
         /// </summary>
-        /// <param name="editPageModel">The edit page model.</param>
+        /// <param name="editorModel">The editor model.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        public virtual ActionResult Update([Bind(Prefix = "CurrentModel")] dynamic editPageModel, dynamic model)
-        {
-            if (ModelState.IsValid)
-            {
-                UpdateModel(model, "CurrentModel");
-                _repository.SaveChanges();
-
-                return RedirectToAction("edit", new { model });
+        public virtual ActionResult Update(dynamic editorModel, dynamic model) {
+            if (!TryUpdateModel(model, "CurrentModel")) {
+                return View("edit", new DashboardViewModel(model,_structureInfo));
             }
-            return View("edit", new DashboardViewModel(model, _structureInfo,_repository));
+
+            UpdateModel(model);
+            _repository.SaveChanges();
+
+            return RedirectToAction("edit", new { model });
         }
         /// <summary>
         /// Responsible for providing the add page view with data
@@ -62,26 +58,23 @@ namespace Dashboard.Controllers {
         /// <returns></returns>
         public ActionResult Add(dynamic model) {
             if(model is IPageModel) {
-                return View("add", new DashboardViewModel(model, _structureInfo, _repository));    
+                return View("add", new DashboardViewModel(model, _structureInfo));    
             }
-            return View("add", new DashboardViewModel(new NewPageModel(), _structureInfo, _repository));
+            return View("add", new DashboardViewModel(null, _structureInfo));
         }
-
         /// <summary>
         /// Responsible for creating a new page based on the selected page model
         /// </summary>
         /// <param name="newPageModel">The new page model.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public ActionResult Create([Bind(Prefix = "NewPageModel")] NewPageModel newPageModel, dynamic model)
-        {
-            if (ModelState.IsValid)
-            {
+        public ActionResult Create([Bind(Prefix = "NewPageModel")] NewPageModel newPageModel, dynamic model) {
+
+            if (ModelState.IsValid) {
                 // create a new page from the selected page model
-                var page = Activator.CreateInstance(Type.GetType(newPageModel.SelectedPageModel)) as dynamic;
-                // handle this gracefully in the future
-                if (page == null)
-                {
+                var page = Activator.CreateInstance(Type.GetType(newPageModel.SelectedPageModel)) as IPageModel;
+                // handle this gracefully in the future :)
+                if (page == null) {
                     throw new StormbreakerException("The selected page model is not valid!");
                 }
                 // add the current page as a parent, the children of the current page is updated in the trigger
@@ -95,14 +88,14 @@ namespace Dashboard.Controllers {
                 return RedirectToAction("edit", new { model = page });
             }
 
-            return View("add", new DashboardViewModel(newPageModel, _structureInfo,_repository));
+            return View("add", new DashboardViewModel(newPageModel, _structureInfo));
         }
         /// <summary>
         /// Deletes the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public ActionResult Delete(dynamic model)
+        public ActionResult Delete(IPageModel model)
         {
             _repository.Delete(model);
             _repository.SaveChanges();
@@ -113,12 +106,10 @@ namespace Dashboard.Controllers {
         /// </summary>
         /// <param name="repository">The repository.</param>
         /// <param name="structureInfo">The structure info.</param>
-        /// <param name="configuration">The configuration.</param>
-        public ContentController(PageRepository repository, IStructureInfo structureInfo, IConfiguration configuration)
+        public ContentController(IPageRepository repository, IStructureInfo structureInfo)
         {
             _repository = repository;
             _structureInfo = structureInfo;
-            _configuration = configuration;
         }
     }
 }

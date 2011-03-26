@@ -2,7 +2,6 @@ using System;
 using Newtonsoft.Json.Linq;
 using Raven.Database.Data;
 using Raven.Database.Plugins;
-using Raven.Database.Queries;
 using Raven.Http;
 
 namespace Stormbreaker.Raven.Triggers {
@@ -14,11 +13,12 @@ namespace Stormbreaker.Raven.Triggers {
                 return;
 
             var childrenQuery = new IndexQuery
-                                    {
-                                        Query = "Parent.Id:" + key
-                                    };
+            {
+                Query = "Id:" + key
+            };
 
-            var queryResult = Database.ExecuteDynamicQuery("Documents", childrenQuery);
+            var queryResult = Database.Query("Documents/ByParent", childrenQuery);
+
             if (queryResult.Results.Count > 0) {
                 foreach (var result in queryResult.Results) {
 
@@ -34,33 +34,7 @@ namespace Stormbreaker.Raven.Triggers {
                 }
             }
 
-            // Remove parent reference
-            RemoveParentReference(key,transactionInformation);
-
             base.OnDelete(key, transactionInformation);
-        }
-
-        private void RemoveParentReference(string key, TransactionInformation transactionInformation) {
-
-            var document = Database.Get(key, transactionInformation);
-
-            JToken parentReference;
-
-            if (document.DataAsJson.TryGetValue("Parent", out parentReference) &&
-                parentReference.Type != JTokenType.Null) {
-                var parent = Database.Get(parentReference.Value<string>("Id"), transactionInformation);
-
-                JToken children;
-                if (parent.DataAsJson.TryGetValue("Children", out children)) {
-                    foreach (var child in children["$values"]) {
-                        if (child.Value<string>("Id") == key) {
-                            ((JArray) children["$values"]).Remove(child);
-                            Database.Put(parent.Key, parent.Etag, parent.DataAsJson, parent.Metadata, transactionInformation);
-                        }
-                    }
-
-                }
-            }
         }
     }
 }

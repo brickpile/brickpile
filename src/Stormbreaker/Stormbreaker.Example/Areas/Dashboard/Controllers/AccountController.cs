@@ -86,7 +86,7 @@ namespace Dashboard.Controllers
 				if (createStatus == MembershipCreateStatus.Success)
 				{
 					FormsService.SignIn(model.UserName, false /* createPersistentCookie */);
-					return RedirectToAction("Index", "Home");
+					return RedirectToAction("index", "Dashboard",new { area = "Dashboard" });
 				}
 				else
 				{

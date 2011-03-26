@@ -28,3 +28,7 @@ obj/
 _ReSharper*/
 [Tt]est[Rr]esult*
 App_Data*/
+Storage*/
+Backup*/
+NuGet*/
+Stormbreaker.Example*/

@@ -31,6 +31,11 @@
                     @Html.LabelFor(model => model.NewPageModel.MetaData.Slug)
                     @Html.EditorFor(model => model.NewPageModel.MetaData.Slug)
                 </div>
+                <div>
+                    @Html.LabelFor(model => model.NewPageModel.MetaData.Url)
+                    @Html.EditorFor(model => model.NewPageModel.MetaData.Url)
+                </div>
+
             </div>
             <div class="editor-button">
                 <input type="submit" value="Create" />

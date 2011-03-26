@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-using Dashboard.Web.Mvc.ViewModels;
 using Stormbreaker.Models;
 using Stormbreaker.Web.UI;
 
@@ -21,7 +20,7 @@ namespace Dashboard.Web.Mvc.Html {
             sb.AppendLine("<ul>");
             RenderLi(sb, (T)structureInfo.RootModel, structureInfo.RootModel.Equals(currentItem) ? selectedItemContent : itemContent);
 
-            var items = structureInfo.HierarchicalStructure.Where(x => x.Depth == 1).OrderBy(x => x.Entity.Id);
+            var items = structureInfo.HierarchicalStructure.Where(x => x.Depth == 1);
 
             if(items.Count() < 1) {
                 sb.AppendLine("</ul></li>");
@@ -60,6 +59,7 @@ namespace Dashboard.Web.Mvc.Html {
 
             sb.AppendLine("</ul></li>");
         }
+
         private static void RenderLi<T>(StringBuilder sb, T item, Func<T, MvcHtmlString> itemContent) {
             sb.AppendFormat("<li>{0}", itemContent(item));
         }        

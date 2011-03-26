@@ -6,6 +6,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72CDE90C-23AE-45E2-B62D-185446CEE4C3}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\README = ..\..\README
+		NuGet\stormbreaker.nuspec = NuGet\stormbreaker.nuspec
+		NuGet\content\web.config.transform = NuGet\content\web.config.transform
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Areas", "Areas", "{07100C53-8172-4CA4-86DE-26B5B7DC1D4B}"
@@ -43,6 +45,7 @@ Global
 		{8AE6F10A-FE0E-4F50-A462-FFDFF887A899}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AE6F10A-FE0E-4F50-A462-FFDFF887A899}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8D54D921-A74D-4B26-97A3-E79B5ECF9F89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D54D921-A74D-4B26-97A3-E79B5ECF9F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D54D921-A74D-4B26-97A3-E79B5ECF9F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D54D921-A74D-4B26-97A3-E79B5ECF9F89}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B863F5CD-8578-43F3-B220-070EB1ED65F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

@@ -1,22 +1,40 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Diagnostics;
+using System.Web.Mvc;
+using LitS3;
+using Stormbreaker.Repositories;
 
 namespace Dashboard.Controllers
 {
     public class LibraryController : Controller
     {
+        private readonly IS3Repository _s3Repository;
+        private readonly IDropboxRepository _dropboxRepository;
+
         public ActionResult Index() {
 
-            //var client = new DropNet.DropNetClient("ksmxt4l46011hxt", "ccri19akqme30eh");
+            //var client = new DropboxClient("ksmxt4l46011hxt", "ccri19akqme30eh");
 
             //call the functions you want from the client
             //UserLogin userLogin = client.Login("marcus@meridium.se", "pkrMum");
 
             //rootDetails.Contents is a list of the files/folders in the root
-            //var rootDetails = userLogin;
 
-            return View();
+            //var file = client.GetFile("binero.txt");
+
+            //var vf = (DropboxVirtualFile) HostingEnvironment.VirtualPathProvider.GetFile("~/Dropbox/binero.txt");
+            
+            //var directories = vd.Directories;
+            
+            //var rootDetails = client.GetMetaData("/");
+
+            //return View(rootDetails.Contents);
+            return View(_s3Repository.FindAllObjects<ListEntry>("KloojedDump"));
         }
-        public LibraryController() {
+
+        public LibraryController(IDropboxRepository dropboxRepository, IS3Repository s3Repository) {
+            _dropboxRepository = dropboxRepository;
+            _s3Repository = s3Repository;
         }
     }
 }

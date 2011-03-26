@@ -12,8 +12,7 @@ namespace Stormbreaker.Extensions {
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static T GetAttribute<T>(this Type type) where T : Attribute
-        {
+        public static T GetAttribute<T>(this Type type) where T : Attribute {
             T attribute = null;
 
             var attributes = type.GetCustomAttributes(true);

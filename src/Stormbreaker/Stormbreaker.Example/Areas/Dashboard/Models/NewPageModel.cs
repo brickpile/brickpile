@@ -8,6 +8,7 @@ using Stormbreaker.Models;
 
 namespace Dashboard.Models {
     public class NewPageModel : IPageModel {
+
         [ScaffoldColumn(false)]
         public string Id { get; set; }
 
@@ -16,6 +17,9 @@ namespace Dashboard.Models {
 
         [ScaffoldColumn(false)]
         public string SelectedPageModel { get; set; }
+
+        [ScaffoldColumn(false)]
+        public virtual int? SortOrder { get; set; }
 
         [Display(Name = "Model",Order = 10)]
         public IEnumerable<SelectListItem> AvailableModels

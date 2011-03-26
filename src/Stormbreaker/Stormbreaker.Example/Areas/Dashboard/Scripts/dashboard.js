@@ -9,13 +9,13 @@
 
         var value = $(this).val();
         if (value == '') { $(this).addClass('input-validation-error'); }
-//        if ($.inArray(value, segments) != -1 || value == '') {
-//            $(this).addClass('input-validation-error');
-//        }
+        //        if ($.inArray(value, segments) != -1 || value == '') {
+        //            $(this).addClass('input-validation-error');
+        //        }
         // Remove diacritics
         $(this).val(accentsTidy(value));
         // Update the value
-        //$('#StructureInfo_CurrentItem_Url span').text(accentsTidy($(this).val()));
+        $('#StructureInfo_CurrentItem_Url span').text(accentsTidy($(this).val()));
     });
 });
 

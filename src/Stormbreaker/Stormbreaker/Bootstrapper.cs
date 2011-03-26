@@ -1,23 +1,41 @@
+using Stormbreaker.Infrastructure;
+using Stormbreaker.Models;
+using Stormbreaker.Repositories;
+using Stormbreaker.Web;
+using Stormbreaker.Web.Routing;
+using Stormbreaker.Web.UI;
 using StructureMap;
 
-namespace Stormbreaker
-{
+namespace Stormbreaker {
     /// <summary>
-    /// Bootstrapper for Structure map
+    /// Bootstrapper for StructureMap
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
     public class Bootstrapper {
         /// <summary>
-        /// Configures the structure map.
+        /// Configures StructureMap to look for registries.
         /// </summary>
-        /// <param name="container">The container.</param>
-        public static void ConfigureStructureMap(IContainer container) {
-            container.Configure(x => x.Scan(a =>
+        /// <returns></returns>
+        public static IContainer Initialize() {
+            ObjectFactory.Initialize(x =>
             {
-                a.AssembliesFromApplicationBaseDirectory();
-                a.LookForRegistries();
-            }));
+                x.Scan(scan =>
+                {
+                    scan.AssembliesFromApplicationBaseDirectory();
+                    scan.LookForRegistries();
+                });
+                x.For<IVirtualPathResolver>().Use<VirtualPathResolver>();
+                x.For<IStructureInfo>().Use<StructureInfo>();
+                x.For<IPathResolver>().Use<PathResolver>();
+                x.For<IPathData>().Use<PathData>();
+                x.For<IPageRepository>().Use<PageRepository>();
+
+                x.For<IRepository<IPageModel>>().Use<PageRepository>();
+                
+                x.For<IPageService>().Use<PageService>();
+            });
+            return ObjectFactory.Container;
         }
     }
 }

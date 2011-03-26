@@ -20,22 +20,19 @@ namespace Stormbreaker.Web.Routing {
         /// <summary>
         /// Gets the model key.
         /// </summary>
-        public static string ModelKey
-        {
+        public static string ModelKey {
             get { return "model"; }
         }
         /// <summary>
         /// Gets the action key.
         /// </summary>
-        public static string ActionKey
-        {
+        public static string ActionKey {
             get { return "action"; }
         }
         /// <summary>
         /// Gets the default action.
         /// </summary>
-        public static string DefaultAction
-        {
+        public static string DefaultAction {
             get { return "index"; }
         }
         /// <summary>
@@ -43,8 +40,11 @@ namespace Stormbreaker.Web.Routing {
         /// </summary>
         /// <param name="httpContextBase">The HTTP context base.</param>
         /// <returns></returns>
-        public override RouteData GetRouteData(HttpContextBase httpContextBase)
-        {
+        public override RouteData GetRouteData(HttpContextBase httpContextBase) {
+            // Abort if the current path starts with /dashboard
+            if (httpContextBase.Request.CurrentExecutionFilePath.StartsWith("/dashboard", StringComparison.InvariantCultureIgnoreCase))
+                return null;
+
             var routeData = new RouteData(this, _routeHandler);
 
             foreach (var defaultPair in _innerRoute.Defaults)
@@ -53,11 +53,8 @@ namespace Stormbreaker.Web.Routing {
                 routeData.DataTokens[tokenPair.Key] = tokenPair.Value;
 
             // get the virtual path of the request
-            var virtualPath = httpContextBase.Request.CurrentExecutionFilePath.Trim(new[] {'/'} );
-            if(string.IsNullOrEmpty(virtualPath)) {
-                return null;
-            }
-
+            var virtualPath = httpContextBase.Request.CurrentExecutionFilePath.TrimStart(new[] {'/'});
+            
             // try to resolve the current item
             var pathData = _pathResolver.ResolvePath(virtualPath);
 
@@ -79,14 +76,13 @@ namespace Stormbreaker.Web.Routing {
         /// An object that contains the generated URL and information about the route, or null if the route does not match <paramref name="values"/>.
         /// </returns>
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
-
             var model = values[ModelKey] as IPageModel;
 
             if (model == null)
             {
                 return null;
             }
-
+            
             var vpd = _innerRoute.GetVirtualPath(requestContext, values);
             
             if (vpd == null) {

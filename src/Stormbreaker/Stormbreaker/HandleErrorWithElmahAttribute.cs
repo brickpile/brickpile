@@ -7,14 +7,12 @@ namespace Stormbreaker {
     /// <summary>
     /// 
     /// </summary>
-    public class HandleErrorWithElmahAttribute : HandleErrorAttribute
-    {
+    public class HandleErrorWithElmahAttribute : HandleErrorAttribute {
         /// <summary>
         /// Called when [exception].
         /// </summary>
         /// <param name="context">The context.</param>
-        public override void OnException(ExceptionContext context)
-        {
+        public override void OnException(ExceptionContext context) {
             base.OnException(context);
 
             var e = context.Exception;
@@ -30,8 +28,7 @@ namespace Stormbreaker {
         /// </summary>
         /// <param name="e">The e.</param>
         /// <returns></returns>
-        private static bool RaiseErrorSignal(Exception e)
-        {
+        private static bool RaiseErrorSignal(Exception e) {
             var context = HttpContext.Current;
             if (context == null)
                 return false;
@@ -48,16 +45,13 @@ namespace Stormbreaker {
         /// <returns>
         ///   <c>true</c> if the specified context is filtered; otherwise, <c>false</c>.
         /// </returns>
-        private static bool IsFiltered(ExceptionContext context)
-        {
-            var config = context.HttpContext.GetSection("elmah/errorFilter")
-                                     as ErrorFilterConfiguration;
+        private static bool IsFiltered(ExceptionContext context) {
+            var config = context.HttpContext.GetSection("elmah/errorFilter") as ErrorFilterConfiguration;
 
             if (config == null)
                 return false;
 
-            var testContext = new ErrorFilterModule.AssertionHelperContext(
-                                                                context.Exception, HttpContext.Current);
+            var testContext = new ErrorFilterModule.AssertionHelperContext(context.Exception, HttpContext.Current);
 
             return config.Assertion.Test(testContext);
         }
@@ -65,8 +59,7 @@ namespace Stormbreaker {
         /// Logs the exception.
         /// </summary>
         /// <param name="e">The e.</param>
-        private static void LogException(Exception e)
-        {
+        private static void LogException(Exception e) {
             var context = HttpContext.Current;
             ErrorLog.GetDefault(context).Log(new Elmah.Error(e, context));
         }

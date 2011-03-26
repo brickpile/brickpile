@@ -19,8 +19,7 @@ namespace Stormbreaker.Web.Mvc.Html {
         /// <param name="structureInfo">Hierarchical structure info</param>
         /// <param name="itemContent">Default content for links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent)
-        {
+        public static string Menu(this HtmlHelper html, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent) {
             return Menu(html, null, structureInfo, itemContent);
         }
         /// <summary>
@@ -31,8 +30,7 @@ namespace Stormbreaker.Web.Mvc.Html {
         /// <param name="structureInfo">Hierarchical structure info</param>
         /// <param name="itemContent">Default content for links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, string id, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent)
-        {
+        public static string Menu(this HtmlHelper html, string id, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent) {
             return Menu(html, id, null, structureInfo, itemContent);
         }
         /// <summary>
@@ -44,8 +42,7 @@ namespace Stormbreaker.Web.Mvc.Html {
         /// <param name="structureInfo">Hierarchical structure info</param>
         /// <param name="itemContent">Default content for links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent)
-        {
+        public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent) {
             return Menu(html, id, currentModel, structureInfo, itemContent, itemContent);
         }
         /// <summary>

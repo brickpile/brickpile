@@ -50,13 +50,13 @@ namespace Stormbreaker.Test.Repositories
 
             documentSessionMock.Setup(x => x.Load<DummyPageModel>("testId")).Returns(innerDoc);
 
-            IPageModel pageModel = pageRepository.Load<DummyPageModel>("testId");
+            IPageModel pageModel = pageRepository.SingleOrDefault<DummyPageModel>(x => x.Id == "testId");
             Assert.AreEqual(innerDoc, pageModel);
         }
 
 
     }
-
+    
     class DummyPageModel : PageModel { }
 
     class DummyPageRepository : PageRepository

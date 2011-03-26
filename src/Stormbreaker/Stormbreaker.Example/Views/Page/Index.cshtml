@@ -1,23 +1,7 @@
-﻿@model Stormbreaker.Web.Mvc.ViewModels.DefaultViewModel<Stormbreaker.Example.Models.Page>
+@model Stormbreaker.Web.Mvc.ViewModels.DefaultViewModel<Stormbreaker.Example.Models.Page>
 @{
+    ViewBag.Title = "Title";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @Html.Raw(Model.CurrentModel.MainBody)
-
-@{
-    var grid = new WebGrid(source: Model.StructureInfo.HierarchicalStructure,
-                defaultSort: "Entity.MetaData.Name",
-                rowsPerPage: 2);
-}
-
-<div id="grid">
-    @grid.GetHtml(
-        tableStyle: "grid",
-        headerStyle: "head",
-        alternatingRowStyle: "alt",
-        columns: grid.Columns(
-                    grid.Column("Entity.MetaData.Name","Namn"),
-                    grid.Column("Entity.MetaData.Slug","Slug")
-        )
-    )
-</div>

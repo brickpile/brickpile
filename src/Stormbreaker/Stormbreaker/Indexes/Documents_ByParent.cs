@@ -16,8 +16,7 @@ namespace Stormbreaker.Indexes {
         /// Creates the index definition for getting a page model by parent id
         /// </summary>
         /// <returns></returns>
-        public override IndexDefinition CreateIndexDefinition()
-        {
+        public override IndexDefinition CreateIndexDefinition() {
             return new IndexDefinition<IPageModel>
             {
                 Map = documents => from document in documents

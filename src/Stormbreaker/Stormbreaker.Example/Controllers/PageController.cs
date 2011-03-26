@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Stormbreaker.Example.Models;
+using Stormbreaker.Repositories;
 using Stormbreaker.Web.Mvc.ViewModels;
 using Stormbreaker.Web.UI;
 

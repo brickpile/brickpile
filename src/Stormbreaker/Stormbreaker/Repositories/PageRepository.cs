@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Raven.Client;
 using Stormbreaker.Extensions;
@@ -12,40 +13,40 @@ namespace Stormbreaker.Repositories {
     /// <example></example>
     public class PageRepository : IPageRepository {
         private readonly IDocumentSession _documentSession;
-
-        public T SingleOrDefault<T>(Func<T, bool> predicate) where T : IPageModel {
+        /// <summary>
+        /// Singles the or default.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns></returns>
+        public T SingleOrDefault<T>(Func<T, bool> predicate) {
             return _documentSession.Query<T>().SingleOrDefault(predicate);
         }
-
         /// <summary>
-        /// Gets the children of a page.
+        /// Lists this instance.
         /// </summary>
-        /// <param name="parent"></param>
+        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public IPageModel[] GetChildren<T>(IPageModel parent)
-        {
-
-            return _documentSession.Query<IPageModel>().Where(d => d.Parent.Id == parent.Id).ToArray();
-            //return _documentSession.Advanced.LuceneQuery<IPageModel>()
-            //    .Where("Parent.Id:" + parent.Id)
-            //    .WaitForNonStaleResults()
-            //    .WhereEquals("@metadata.Raven-Document-Revision-Status", "Current").ToArray();
+        public IEnumerable<T> List<T>() {
+            return _documentSession.Query<T>();
         }
         /// <summary>
-        /// Gets a page from RavenDB based on the slug.
+        /// Childrens the specified parent.
         /// </summary>
-        /// <param name="slug"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parent">The parent.</param>
         /// <returns></returns>
-        public T GetPageBySlug<T>(string slug)
-        {
-            return _documentSession.Advanced.LuceneQuery<T>("Document/BySlug")
-                .Where("Slug:" + slug)
+        public IEnumerable<T> Children<T>(T parent) where T : IPageModel {
+            return _documentSession.Advanced.LuceneQuery<T>("Documents/ByParent")
+                .Where("Id:" + parent.Id)
+                .ToArray();
+        }
+
+        public T ByUrl<T>(string slug) where T : IPageModel {
+            return _documentSession.Advanced.LuceneQuery<T>("Document/ByUrl")
+                .Where("Url:" + slug)
                 .WaitForNonStaleResults()
-                //.WhereEquals("@metadata.Raven-Document-Revision-Status", "Current")
                 .FirstOrDefault();
-        }
-        public IPageModel[] GetAllPages() {
-            return _documentSession.Query<IPageModel>().ToArray();
         }
         /// <summary>
         /// Loads a specific page with a specific id.
@@ -53,11 +54,6 @@ namespace Stormbreaker.Repositories {
         /// <param name="id"></param>
         /// <returns></returns>
         public T Load<T>(string id) {
-            //return _documentSession.Advanced.LuceneQuery<T>()
-                //.Where("Id:" + id)
-                //.WaitForNonStaleResults()
-                //.WhereEquals("@metadata.Raven-Document-Revision-Status", "Current")
-                //.SingleOrDefault();
             return _documentSession.Load<T>(id);
         }
         /// <summary>
@@ -65,8 +61,7 @@ namespace Stormbreaker.Repositories {
         /// </summary>
         /// <remarks>Also responsible for generating the slug</remarks>
         /// <param name="entity"></param>
-        public void Store(IPageModel entity)
-        {
+        public void Store(IPageModel entity) {
             entity.MetaData.Slug = entity.GenerateSlug();
             _documentSession.Store(entity);
         }
@@ -74,23 +69,20 @@ namespace Stormbreaker.Repositories {
         /// Marks a specific page for deletion, the page will be deleted when <see cref="SaveChanges" /> is called. 
         /// </summary>
         /// <param name="entity"></param>
-        public void Delete(IPageModel entity)
-        {
+        public void Delete(IPageModel entity) {
             _documentSession.Delete(entity);
         }
         /// <summary>
         /// Saves all the changes the Raven server.
         /// </summary>
-        public void SaveChanges()
-        {
+        public void SaveChanges() {
             _documentSession.SaveChanges();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="PageRepository" /> class.
         /// </summary>
         /// <param name="documentSession"></param>
-        public PageRepository(IDocumentSession documentSession)
-        {
+        public PageRepository(IDocumentSession documentSession) {
             _documentSession = documentSession;
         }
     }

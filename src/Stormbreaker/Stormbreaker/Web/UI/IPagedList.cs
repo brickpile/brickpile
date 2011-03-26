@@ -10,8 +10,7 @@ namespace Stormbreaker.Web.UI
 	/// </remarks>
 	/// <typeparam name="T">The type of object the collection should contain.</typeparam>
 	/// <seealso cref="IList{T}"/>
-	public interface IPagedList<T> : IList<T>
-	{
+	public interface IPagedList<T> : IList<T> {
 		/// <summary>
 		/// Total number of subsets within the superset.
 		/// </summary>

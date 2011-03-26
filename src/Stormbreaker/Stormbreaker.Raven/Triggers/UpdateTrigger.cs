@@ -1,59 +1,68 @@
-using System.Linq;
+using System;
 using Newtonsoft.Json.Linq;
+using Raven.Database.Data;
 using Raven.Database.Plugins;
 using Raven.Http;
-using Stormbreaker.Models;
 
 namespace Stormbreaker.Raven.Triggers {
     public class UpdateTrigger : AbstractPutTrigger {
-        public override void AfterPut(string key, JObject document, JObject metadata, System.Guid etag, TransactionInformation transactionInformation)
-        {
+
+        public override void AfterPut(string key, JObject document, JObject metadata, System.Guid etag, TransactionInformation transactionInformation) {
+
             if (key.StartsWith("Raven/")) // we don't deal with system documents
                 return;
+
             if (TriggerContext.IsInTriggerContext)
                 return;
 
-            using (TriggerContext.Enter())
+            using (TriggerContext.Enter()) {
+                UpdateChildren(key,document,transactionInformation);
+            }
+
+            base.AfterPut(key, document, metadata, etag, transactionInformation);
+        }
+
+        public void UpdateChildren(string parentKey, JObject parentDocument, TransactionInformation transactionInformation) {
+
+            var childrenQuery = new IndexQuery
             {
+                Query = "Id:" + parentKey
+            };
 
-                JToken parentReference;
+            var queryResult = Database.Query("Documents/ByParent", childrenQuery);
 
-                if (document.TryGetValue("Parent", out parentReference) && parentReference.Type != JTokenType.Null)
-                {
+            if (queryResult.Results.Count > 0) {
 
-                    var parent = Database.Get(parentReference.Value<string>("Id"), transactionInformation);
+                JToken parentMetaData;
+                parentDocument.TryGetValue("MetaData", out parentMetaData);
 
-                    JToken children;
-                    if (parent.DataAsJson.TryGetValue("Children", out children)) {
+                var parentUrl = parentMetaData.Value<string>("Url");
+
+                foreach (var result in queryResult.Results) {
+
+                    var metadataJObject = result.Value<JObject>("@metadata");
+                    if (metadataJObject != null) {
 
                         JToken metaData;
-                        document.TryGetValue("MetaData", out metaData);
+                        result.TryGetValue("MetaData", out metaData);
 
-                        JToken slug = metaData.Value<string>("Slug");
-                        
-                        if (children["$values"].Count() > 0) {
-                            bool containsDocument = false;
-                            foreach (var child in children["$values"])
-                            {
-                                if (child.Value<string>("Id") == key)
-                                {
-                                    child["Slug"] = slug;
-                                    containsDocument = true;
-                                }
-                            }
-                            if(!containsDocument) {
-                                ((JArray)children["$values"]).Add(JObject.FromObject(new DenormalizedReference<IPageModel> { Id = key, Slug = (string) slug }));
-                            }
+                        var slug = metaData.Value<string>("Slug");
+
+                        if(string.IsNullOrEmpty(parentUrl)) {
+                            metaData["Url"] = new JValue(slug);
                         }
-                        else
-                        {
-                            ((JArray)children["$values"]).Add(JObject.FromObject(new DenormalizedReference<IPageModel> { Id = key, Slug = (string) slug }));
+                        else {
+                            metaData["Url"] = new JValue(string.Format("{0}/{1}", parentUrl, slug));    
                         }
+
+                        var childEtag = metadataJObject.Value<string>("@etag");
+                        var childId = metadataJObject.Value<string>("@id");
+
+                        Database.Put(childId, Guid.Parse(childEtag), result, metadataJObject, transactionInformation);
+                        UpdateChildren(childId,result,transactionInformation);
                     }
-                    Database.Put(parent.Key, parent.Etag, parent.DataAsJson, parent.Metadata, transactionInformation);
                 }
             }
-            base.AfterPut(key, document, metadata, etag, transactionInformation);
         }
     }
 }

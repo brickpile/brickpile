@@ -13,7 +13,7 @@ namespace Stormbreaker.Registries {
         /// </summary>
         public PathResolverRegistry()
         {
-            For<IPathResolver>().Use<PathResolver>();
+            //For<IPathResolver>().Use<PathResolver>();
         }
     }
 }

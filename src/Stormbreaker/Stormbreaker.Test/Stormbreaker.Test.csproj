@@ -66,6 +66,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ContentControllerTests.cs" />
+    <Compile Include="Controllers\DashboardControllerTests.cs" />
     <Compile Include="Extensions\MvcMockHelpers.cs" />
     <Compile Include="Models\DocumentTests.cs" />
     <Compile Include="Repositories\PageRepositoryTests.cs" />
@@ -89,7 +91,9 @@
       <Name>Stormbreaker</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Raven\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

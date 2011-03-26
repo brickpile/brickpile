@@ -14,7 +14,6 @@ namespace Stormbreaker.Models {
         [Display(
             Name = "Name",
             Order = 10,
-            Prompt = "Name_Prompt",
             ResourceType = typeof(Resources.PageMetaData))]
         [Required(
             ErrorMessageResourceName = "Name_Required",
@@ -27,11 +26,18 @@ namespace Stormbreaker.Models {
         [Display(
             Name = "Slug",
             Order = 20,
-            Prompt = "Slug_Prompt",
             ResourceType = typeof(Resources.PageMetaData))]
         [Required(
             ErrorMessageResourceName = "Slug_Required",
             ErrorMessageResourceType = typeof(Resources.PageMetaData))]
         public virtual string Slug { get; set; }
+        /// <summary>
+        /// Gets or sets the URL.
+        /// </summary>
+        /// <value>
+        /// The URL.
+        /// </value>
+        [Required]
+        public string Url { get; set; }
     }
 }

@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
 
 namespace Stormbreaker.Models {
     /// <summary>
@@ -28,18 +26,17 @@ namespace Stormbreaker.Models {
         [ScaffoldColumn(false)]
         public virtual DenormalizedReference<IPageModel> Parent { get; set; }
         /// <summary>
-        /// Get/Sets the Children of the page model
+        /// Gets or sets the sort order.
         /// </summary>
-        /// <value></value>
-        [ScaffoldColumn(false)]
-        public virtual IList<DenormalizedReference<IPageModel>> Children { get; private set; }
+        /// <value>
+        /// The sort order.
+        /// </value>
+        public int? SortOrder { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="PageModel"/> class.
         /// </summary>
-        protected PageModel()
-        {
+        protected PageModel() {
             MetaData = new PageMetaData();
-            Children = new List<DenormalizedReference<IPageModel>>();
         }
     }
 }

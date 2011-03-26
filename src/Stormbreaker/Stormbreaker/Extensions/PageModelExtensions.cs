@@ -15,8 +15,7 @@ namespace Stormbreaker.Extensions {
         /// </summary>
         /// <param name="pageModel"></param>
         /// <returns></returns>
-        public static string GetControllerName(this IPageModel pageModel)
-        {
+        public static string GetControllerName(this IPageModel pageModel) {
             return pageModel.GetType().Name.ToLower();
         }
         /// <summary>
@@ -24,8 +23,7 @@ namespace Stormbreaker.Extensions {
         /// </summary>
         /// <param name="pageModel"></param>
         /// <returns></returns>
-        public static string GenerateSlug(this IPageModel pageModel)
-        {
+        public static string GenerateSlug(this IPageModel pageModel) {
             return NormalizeSlug(pageModel.MetaData.Name);
         }
         /// <summary>

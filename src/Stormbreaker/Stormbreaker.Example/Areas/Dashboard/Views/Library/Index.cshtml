@@ -1,10 +1,20 @@
 ﻿
+@model IQueryable<LitS3.ListEntry>
+
 @{
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h1>Index</h1>
 
+
+<ul>
+    @foreach (var item in Model) {
+        <li>
+            @item.Name
+        </li>
+    }
+</ul>
 
 @section GlobalNavigation {
     <ul id="dashboard-nav">
@@ -13,3 +23,4 @@
         <li>@Html.ActionLink("Library", "index", "library")</li>
     </ul>
 }
+

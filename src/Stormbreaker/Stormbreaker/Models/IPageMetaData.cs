@@ -13,5 +13,12 @@ namespace Stormbreaker.Models {
         /// <see cref="PageModel.MetaData"/>
         /// </summary>
         string Slug { get; set; }
+        /// <summary>
+        /// Gets or sets the URL.
+        /// </summary>
+        /// <value>
+        /// The URL.
+        /// </value>
+        string Url { get; set; }
     }
 }

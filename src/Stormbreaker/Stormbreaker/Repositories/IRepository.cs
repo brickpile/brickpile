@@ -1,4 +1,6 @@
-using Stormbreaker.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Stormbreaker.Repositories {
     /// <summary>
@@ -6,9 +8,17 @@ namespace Stormbreaker.Repositories {
     /// </summary>
     public interface IRepository<T> {
         /// <summary>
-        /// <see cref="PageRepository.Load{T}" />
+        /// Singles the or default.
         /// </summary>
-        T Load<T>(string id);
+        /// <typeparam name="T"></typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns></returns>
+        T SingleOrDefault<T>(Func<T, bool> predicate);
+        /// <summary>
+        /// Lists this instance.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<T> List<T>();
         /// <summary>
         /// <see cref="PageRepository.Store" />
         /// </summary>

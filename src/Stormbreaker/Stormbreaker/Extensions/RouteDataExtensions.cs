@@ -16,8 +16,7 @@ namespace Stormbreaker.Extensions {
         /// <param name="actionName"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static RouteData ApplyCurrentModel(this RouteData data, string controllerName, string actionName, dynamic model)
-        {
+        public static RouteData ApplyCurrentModel(this RouteData data, string controllerName, string actionName, dynamic model) {
             data.Values[PageRoute.ControllerKey] = controllerName;
             data.Values[PageRoute.ActionKey] = actionName;
             data.Values[PageRoute.ModelKey] = model;
@@ -28,8 +27,7 @@ namespace Stormbreaker.Extensions {
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static T GetCurrentModel<T>(this RouteData data)
-        {
+        public static T GetCurrentModel<T>(this RouteData data) {
             return (T)data.Values[PageRoute.ModelKey];
         }
     }

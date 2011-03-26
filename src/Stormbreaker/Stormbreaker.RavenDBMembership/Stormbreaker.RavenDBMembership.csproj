@@ -39,11 +39,8 @@
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Raven.Client.Embedded">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Raven.Client.Embedded.dll</HintPath>
-    </Reference>
     <Reference Include="Raven.Client.Lightweight">
-      <HintPath>..\..\..\lib\RavenDB-Unstable-Build-283\EmbeddedClient\Raven.Client.Lightweight.dll</HintPath>
+      <HintPath>..\..\..\lib\RavenDB-Build-288\EmbeddedClient\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.1.0\lib\StructureMap.dll</HintPath>

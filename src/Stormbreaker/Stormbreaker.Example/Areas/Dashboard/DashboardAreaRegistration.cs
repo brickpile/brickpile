@@ -1,6 +1,8 @@
 using System.Web.Mvc;
+using Dashboard.Web;
 using Dashboard.Web.Routing;
 using Stormbreaker.Web;
+using Stormbreaker.Web.Routing;
 using StructureMap;
 
 namespace Dashboard {
@@ -21,9 +23,10 @@ namespace Dashboard {
 
 
             var dashboardRoute = new ContentRoute(
-                ObjectFactory.GetInstance<PathResolver>(),
-                ObjectFactory.GetInstance<VirtualPathResolver>(),
+                ObjectFactory.GetInstance<DashboardPathResolver>(),
+                ObjectFactory.GetInstance<DashboardVirtualPathResolver>(),
                 null);
+
             context.Routes.Add("Dashboard", dashboardRoute);
 
             context.MapRoute(

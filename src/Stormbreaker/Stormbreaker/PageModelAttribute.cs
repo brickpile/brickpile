@@ -28,8 +28,7 @@ namespace Stormbreaker {
         /// </summary>
         /// <param name="name">The name of the page model</param>
         /// <param name="description">The description of the page model</param>
-        public PageModelAttribute(string name, string description)
-        {
+        public PageModelAttribute(string name, string description) {
             Name = name;
             Description = description;
         }

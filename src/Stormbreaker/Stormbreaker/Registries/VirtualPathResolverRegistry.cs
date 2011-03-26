@@ -11,9 +11,8 @@ namespace Stormbreaker.Registries {
         /// <summary>
         /// Initializes a new instance of the <see cref="VirtualPathResolverRegistry"/> class.
         /// </summary>
-        public VirtualPathResolverRegistry()
-        {
-            For<IVirtualPathResolver>().Use<VirtualPathResolver>();
+        public VirtualPathResolverRegistry() {
+            //For<IVirtualPathResolver>().Use<VirtualPathResolver>();
         }
     }
 }
