@@ -8,7 +8,6 @@ namespace Dashboard.Controllers
 {
     public class LibraryController : Controller
     {
-        private readonly IS3Repository _s3Repository;
         private readonly IDropboxRepository _dropboxRepository;
 
         public ActionResult Index() {
@@ -29,12 +28,12 @@ namespace Dashboard.Controllers
             //var rootDetails = client.GetMetaData("/");
 
             //return View(rootDetails.Contents);
-            return View(_s3Repository.FindAllObjects<ListEntry>("KloojedDump"));
+            return View();
+
         }
 
-        public LibraryController(IDropboxRepository dropboxRepository, IS3Repository s3Repository) {
+        public LibraryController(IDropboxRepository dropboxRepository) {
             _dropboxRepository = dropboxRepository;
-            _s3Repository = s3Repository;
         }
     }
 }

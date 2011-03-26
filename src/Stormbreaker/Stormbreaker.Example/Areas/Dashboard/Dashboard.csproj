@@ -40,7 +40,6 @@
     <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="Controllers\DialogController.cs" />
     <Compile Include="Controllers\LibraryController.cs" />
-    <Compile Include="Controllers\S3Controller.cs" />
     <Compile Include="DashboardAreaRegistration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\EditUserModel.cs" />

@@ -1,7 +1,5 @@
-using Stormbreaker.Infrastructure;
 using Stormbreaker.Models;
 using Stormbreaker.Repositories;
-using Stormbreaker.Web;
 using Stormbreaker.Web.Routing;
 using Stormbreaker.Web.UI;
 using StructureMap;
@@ -30,10 +28,7 @@ namespace Stormbreaker {
                 x.For<IPathResolver>().Use<PathResolver>();
                 x.For<IPathData>().Use<PathData>();
                 x.For<IPageRepository>().Use<PageRepository>();
-
                 x.For<IRepository<IPageModel>>().Use<PageRepository>();
-                
-                x.For<IPageService>().Use<PageService>();
             });
             return ObjectFactory.Container;
         }

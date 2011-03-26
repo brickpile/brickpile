@@ -34,14 +34,9 @@
     <Compile Include="App_Start\Initializer.cs" />
     <Compile Include="Dropbox\Helpers\IRequestHelper.cs" />
     <Compile Include="Indexes\Document_ByUrl.cs" />
-    <Compile Include="Infrastructure\IPageService.cs" />
-    <Compile Include="Infrastructure\PageService.cs" />
     <Compile Include="Registries\DropboxRepositoryRegistry.cs" />
-    <Compile Include="Registries\S3RepositoryRegistry.cs" />
     <Compile Include="Repositories\DropboxRepository.cs" />
     <Compile Include="Repositories\IDropboxRepository.cs" />
-    <Compile Include="Repositories\IS3Repository.cs" />
-    <Compile Include="Repositories\S3Repository.cs" />
     <Compile Include="Dropbox\Authenticators\OAuthAuthenticator.cs" />
     <Compile Include="Dropbox\Helpers\RequestHelper.cs" />
     <Compile Include="Dropbox\Models\MetaData.cs" />

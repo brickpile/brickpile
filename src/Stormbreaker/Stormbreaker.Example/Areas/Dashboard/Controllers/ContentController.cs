@@ -28,8 +28,7 @@ namespace Dashboard.Controllers {
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public ActionResult Edit(dynamic model)
-        {
+        public ActionResult Edit(dynamic model) {
             var viewModel = new DashboardViewModel(model, _structureInfo);
             return View(viewModel);
         }
@@ -42,6 +41,7 @@ namespace Dashboard.Controllers {
         [HttpPost]
         [ValidateInput(false)]
         public virtual ActionResult Update(dynamic editorModel, dynamic model) {
+
             if (!TryUpdateModel(model, "CurrentModel")) {
                 return View("edit", new DashboardViewModel(model,_structureInfo));
             }
@@ -57,6 +57,7 @@ namespace Dashboard.Controllers {
         /// <param name="model">The model.</param>
         /// <returns></returns>
         public ActionResult Add(dynamic model) {
+
             if(model is IPageModel) {
                 return View("add", new DashboardViewModel(model, _structureInfo));    
             }
