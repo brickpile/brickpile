@@ -31,6 +31,8 @@ namespace Stormbreaker.Web.Routing {
             VirtualPathUtility.RemoveTrailingSlash(virtualUrl);
             // The normal beahaviour should be to load the page based on the url
             _pageModel = _repository.ByUrl<IPageModel>(virtualUrl);
+            if (_pageModel.Parent == null)
+                return null;
 
             // Try to load the page without the last segment of the url and set the last segment as action
             if (_pageModel == null) {

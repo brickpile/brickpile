@@ -1,7 +1,30 @@
 ﻿
+@model Dashboard.Models.DefaultPageModel
+
 @{
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@Html.ActionLink("Create your first page!", "add", new { area = "dashboard" })</h1>
+@Html.ValidationSummary()
+
+@using (Html.BeginForm("createdefault","content", null, FormMethod.Post, new { name = "editForm" }))
+{
+    <div class="editor">
+        <div>
+            @Html.LabelFor(model => model.AvailableModels)
+        </div>
+        <div>
+            @Html.DropDownListFor(m => m.SelectedPageModel, new SelectList(Model.AvailableModels, "Value", "Text"))
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div>
+            @Html.EditorFor(model => model.Name)
+        </div>
+    </div>
+    <div class="editor-button">
+        <input type="submit" value="Create" />
+    </div>            
+}
 

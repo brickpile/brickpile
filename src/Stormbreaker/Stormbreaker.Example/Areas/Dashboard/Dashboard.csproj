@@ -42,6 +42,7 @@
     <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="DashboardAreaRegistration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\DefaultPageModel.cs" />
     <Compile Include="Models\EditUserModel.cs" />
     <Compile Include="Models\NewPageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -56,6 +57,7 @@
     <Content Include="Content\content-background.png" />
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\jquery-1.5.1.js" />
+    <Content Include="Scripts\jquery.slugify.js" />
     <Content Include="Scripts\tiny_mce\langs\en.js" />
     <Content Include="Scripts\tiny_mce\license.txt" />
     <Content Include="Scripts\tiny_mce\plugins\advhr\css\advhr.css" />
@@ -401,6 +403,7 @@
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
@@ -408,6 +411,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Shared\EditorTemplates\Object.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Slug.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\EditorTemplates\PageReference.cshtml" />

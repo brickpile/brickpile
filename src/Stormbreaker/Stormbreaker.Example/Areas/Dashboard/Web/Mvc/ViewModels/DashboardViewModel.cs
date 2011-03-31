@@ -1,3 +1,4 @@
+using System.Web;
 using Dashboard.Models;
 using Stormbreaker.Models;
 using Stormbreaker.Web.UI;
@@ -26,7 +27,7 @@ namespace Dashboard.Web.Mvc.ViewModels {
         public DashboardViewModel(IPageModel model, IStructureInfo structureInfo) {
             CurrentModel = model;
             StructureInfo = structureInfo;
-            NewPageModel = new NewPageModel();
+            NewPageModel = new NewPageModel() {MetaData = { Url = VirtualPathUtility.AppendTrailingSlash(model.MetaData.Url) }};
         }
     }
 }

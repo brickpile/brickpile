@@ -41,12 +41,8 @@ namespace Dashboard.Models {
 
         [ScaffoldColumn(false)]
         public DenormalizedReference<IPageModel> Parent { get; set; }
-        [ScaffoldColumn(false)]
-        public IList<DenormalizedReference<IPageModel>> Children { get; set; }
-
         public NewPageModel() {
             MetaData = new PageMetaData();
-            Children = new List<DenormalizedReference<IPageModel>>();
         }
     }
 }

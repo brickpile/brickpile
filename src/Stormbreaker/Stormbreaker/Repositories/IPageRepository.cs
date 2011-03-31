@@ -18,5 +18,10 @@ namespace Stormbreaker.Repositories {
         /// <param name="url">The URL.</param>
         /// <returns></returns>
         T ByUrl<T>(string url) where T : IPageModel;
+        /// <summary>
+        /// Refreshes the specified model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        void Refresh(IPageModel model);
     }
 }

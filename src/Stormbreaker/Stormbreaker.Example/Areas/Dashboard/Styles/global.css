@@ -31,4 +31,14 @@
     body {
         font:75%/1.6 Arial, 'Helvetica Neue';
     }
+    /*------------------------------------------------------------------
+    2 Forms
+    -------------------------------------------------------------------*/    
+    label { font-weight:bold;text-shadow: 0 0 1px #fff; }
+    input.input-validation-error {
+	    -moz-box-shadow: 0 0 4px #bf230f;
+	    -webkit-box-shadow: 0 0 4px #bf230f;
+	    -moz-border-radius:3px 3px 3px 3px;
+	    border-color:#bf230f;
+    }
 }

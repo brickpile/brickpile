@@ -1,5 +1,6 @@
 using Raven.Client;
 using Raven.Client.Client;
+using Raven.Client.Document;
 using Raven.Client.Indexes;
 using Raven.Http;
 using Stormbreaker.Indexes;
@@ -19,12 +20,13 @@ namespace Stormbreaker.Registries {
         /// </summary>
         public RavenRegistry() {
 
-            NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8000);
-            var documentStore = new EmbeddableDocumentStore
-                                    {
-                                        ConnectionStringName = "RavenConStr",
-                                        UseEmbeddedHttpServer = true
-                                    };
+            //NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8000);
+            var documentStore = new DocumentStore() {Url = "http://localhost:8000"};
+            //var documentStore = new EmbeddableDocumentStore
+            //                        {
+            //                            ConnectionStringName = "RavenConStr",
+            //                            UseEmbeddedHttpServer = true
+            //                        };
             
             documentStore.Initialize();
             documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null;

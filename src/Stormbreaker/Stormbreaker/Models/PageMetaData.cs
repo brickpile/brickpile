@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Stormbreaker.Models {
     /// <summary>
@@ -30,6 +31,8 @@ namespace Stormbreaker.Models {
         [Required(
             ErrorMessageResourceName = "Slug_Required",
             ErrorMessageResourceType = typeof(Resources.PageMetaData))]
+        //[UIHint("Slug")]
+        //[HiddenInput(DisplayValue = true)]
         public virtual string Slug { get; set; }
         /// <summary>
         /// Gets or sets the URL.
@@ -37,7 +40,9 @@ namespace Stormbreaker.Models {
         /// <value>
         /// The URL.
         /// </value>
-        [Required]
+        //[UIHint("Url")]
+        //[HiddenInput(DisplayValue = false)]
+        [ScaffoldColumn(false)]
         public string Url { get; set; }
     }
 }

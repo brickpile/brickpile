@@ -1,4 +1,5 @@
-﻿@foreach (var prop in ViewData.ModelMetadata.Properties.Where(pm => pm.ShowForEdit && !ViewData.TemplateInfo.Visited(pm))) {
+﻿
+@foreach (var prop in ViewData.ModelMetadata.Properties.Where(pm => pm.ShowForEdit && !ViewData.TemplateInfo.Visited(pm))) {
     if (prop.HideSurroundingHtml) {
         <text>@Html.Editor(prop.PropertyName)</text>
     } else {

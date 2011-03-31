@@ -35,7 +35,7 @@ nav li a {
     padding:.6em 1.2em;
 }
 section {
-	background: #f7f8f9 url(content-background.png);
+	/*background: #f7f8f9 url(content-background.png);*/
 	border-top:solid 1px #fff;
     bottom:0;
     left:20.2em;

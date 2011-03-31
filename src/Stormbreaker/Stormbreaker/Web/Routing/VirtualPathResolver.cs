@@ -1,5 +1,5 @@
-using System.Web;
 using System.Web.Routing;
+using Stormbreaker.Exceptions;
 using Stormbreaker.Models;
 
 namespace Stormbreaker.Web.Routing {
@@ -12,15 +12,16 @@ namespace Stormbreaker.Web.Routing {
         /// <param name="routeValueDictionary">The route value dictionary.</param>
         /// <returns></returns>
         public virtual string ResolveVirtualPath(IPageModel pageModel, RouteValueDictionary routeValueDictionary) {
+
             if(pageModel == null) {
-                return null;
+                throw new StormbreakerException("A link cannot be created to a non existing page");
             }
 
-            var url = pageModel.MetaData.Url;
+            var url = pageModel.Parent == null ? string.Empty : pageModel.MetaData.Url;
 
             if (routeValueDictionary.ContainsKey(PageRoute.ActionKey)) {
                 _action = routeValueDictionary[PageRoute.ActionKey] as string;
-                if (_action != null && !_action.Equals(PageRoute.DefaultAction)) {
+                if (!string.IsNullOrEmpty(_action) && !_action.Equals(PageRoute.DefaultAction)) {
                     return string.Format("{0}/{1}", url, _action);
                 }
             }

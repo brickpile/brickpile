@@ -1,5 +1,4 @@
 using System.Linq;
-using Raven.Client.Document;
 using Raven.Client.Indexes;
 using Raven.Database.Indexing;
 using Stormbreaker.Models;

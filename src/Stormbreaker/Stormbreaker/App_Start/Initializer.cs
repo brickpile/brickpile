@@ -23,7 +23,8 @@ namespace Stormbreaker.App_Start {
             HostingEnvironment.RegisterVirtualPathProvider(dropboxVirtualPathProvider);
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(container));
-
+            
+            RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             RouteTable.Routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
             // Register the default page route

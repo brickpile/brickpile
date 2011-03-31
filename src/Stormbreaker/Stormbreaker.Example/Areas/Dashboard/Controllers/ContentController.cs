@@ -21,7 +21,7 @@ namespace Dashboard.Controllers {
             if(model != null && model is IPageModel) {
                 return RedirectToAction("edit", new { model });   
             }
-            return View();
+            return View(new DefaultPageModel());
         }
         /// <summary>
         /// Responsible for providing the Edit view with data from the current page
@@ -41,13 +41,12 @@ namespace Dashboard.Controllers {
         [HttpPost]
         [ValidateInput(false)]
         public virtual ActionResult Update(dynamic editorModel, dynamic model) {
-
             if (!TryUpdateModel(model, "CurrentModel")) {
-                return View("edit", new DashboardViewModel(model,_structureInfo));
+                return View("edit", new DashboardViewModel(model, _structureInfo));
             }
-
             UpdateModel(model);
             _repository.SaveChanges();
+            _repository.Refresh(model);
 
             return RedirectToAction("edit", new { model });
         }
@@ -71,6 +70,11 @@ namespace Dashboard.Controllers {
         /// <returns></returns>
         public ActionResult Create([Bind(Prefix = "NewPageModel")] NewPageModel newPageModel, dynamic model) {
 
+            var parent = model as IPageModel;
+            if(parent == null) {
+                throw new StormbreakerException("The injected model is not a PageModel");
+            }
+
             if (ModelState.IsValid) {
                 // create a new page from the selected page model
                 var page = Activator.CreateInstance(Type.GetType(newPageModel.SelectedPageModel)) as IPageModel;
@@ -78,13 +82,14 @@ namespace Dashboard.Controllers {
                 if (page == null) {
                     throw new StormbreakerException("The selected page model is not valid!");
                 }
-                // add the current page as a parent, the children of the current page is updated in the trigger
-                if(model is IPageModel) {
-                    page.Parent = model;
-                }
-                UpdateModel(page, "NewPageModel");
+
+                page.Parent = model;
+
+                UpdateModel(page, "NewPageModel" );
+
                 _repository.Store(page);
                 _repository.SaveChanges();
+                _repository.Refresh(page);
 
                 return RedirectToAction("edit", new { model = page });
             }
@@ -92,14 +97,38 @@ namespace Dashboard.Controllers {
             return View("add", new DashboardViewModel(newPageModel, _structureInfo));
         }
         /// <summary>
+        /// Creates the default.
+        /// </summary>
+        /// <param name="defaultPageModel">The default page model.</param>
+        /// <returns></returns>
+        public ActionResult CreateDefault(DefaultPageModel defaultPageModel) {
+            if(ModelState.IsValid) {
+                // create a new page from the selected page model
+                var page = Activator.CreateInstance(Type.GetType(defaultPageModel.SelectedPageModel)) as IPageModel;
+                // handle this gracefully in the future :)
+                if (page == null) {
+                    throw new StormbreakerException("The selected page model is not valid!");
+                }
+                page.MetaData.Name = defaultPageModel.Name;
+                _repository.Store(page);
+                _repository.SaveChanges();
+
+                return RedirectToAction("edit", new { model = page });
+            }
+            return View("index", defaultPageModel);
+        }
+        /// <summary>
         /// Deletes the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public ActionResult Delete(IPageModel model)
-        {
+        public ActionResult Delete(IPageModel model) {
             _repository.Delete(model);
             _repository.SaveChanges();
+            if (model.Parent != null) {
+                var parent = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(model.Parent.Id));
+                return RedirectToAction("edit", new { model = parent });
+            }
             return RedirectToAction("index");
         }
         /// <summary>
