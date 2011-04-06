@@ -7,20 +7,17 @@ using Stormbreaker.Extensions;
 using Stormbreaker.Models;
 
 namespace Dashboard.Models {
-    public class NewPageModel : IPageModel {
-
+    public class NewPageModel : PageModel {
         [ScaffoldColumn(false)]
         public string Id { get; set; }
-
         [ScaffoldColumn(false)]
-        public IPageMetaData MetaData { get; set; }
-
+        public override IPageMetaData MetaData {
+            get { return base.MetaData; }
+        }
         [ScaffoldColumn(false)]
         public string SelectedPageModel { get; set; }
-
         [ScaffoldColumn(false)]
-        public virtual int? SortOrder { get; set; }
-
+        public override int? SortOrder { get; set; }
         [Display(Name = "Model",Order = 10)]
         public IEnumerable<SelectListItem> AvailableModels
         {
@@ -38,11 +35,7 @@ namespace Dashboard.Models {
                 }
             }
         }
-
         [ScaffoldColumn(false)]
-        public DenormalizedReference<IPageModel> Parent { get; set; }
-        public NewPageModel() {
-            MetaData = new PageMetaData();
-        }
+        public override DenormalizedReference<IPageModel> Parent { get; set; }
     }
 }

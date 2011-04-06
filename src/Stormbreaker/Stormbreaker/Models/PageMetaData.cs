@@ -31,8 +31,7 @@ namespace Stormbreaker.Models {
         [Required(
             ErrorMessageResourceName = "Slug_Required",
             ErrorMessageResourceType = typeof(Resources.PageMetaData))]
-        //[UIHint("Slug")]
-        //[HiddenInput(DisplayValue = true)]
+        [HiddenInput(DisplayValue = true)]
         public virtual string Slug { get; set; }
         /// <summary>
         /// Gets or sets the URL.

@@ -5,45 +5,32 @@
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>Foo</title>
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/dashboard/content/global.css")" media="all" />
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/dashboard/content/dashboard.css")" media="all" />
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/dashboard/content/framework.css")" media="all" />
 </head>
-<body class="overlaid">
-    <div class="overlay">
-      <div class="wrap-outer">
-        <div class="wrap">
-            <div class="new-page-dialog">
-                <h1>Log on</h1>
-                @using (Html.BeginForm())
-                {
-                    <div class="editor">
-                        <div>
-                            @Html.LabelFor(m => m.UserName)
-                            @Html.TextBoxFor(m => m.UserName)
-                            @Html.ValidationMessageFor(m => m.UserName)
-                        </div>
-                        <div>
-                            @Html.LabelFor(m => m.Password)
-                            @Html.PasswordFor(m => m.Password)
-                            @Html.ValidationMessageFor(m => m.Password)
-                        </div>
-                        <div style="display:none;">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
-                    </div>
-                    <div class="editor-button">
-                        <input type="submit" value="Create" />
-                    </div>            
-                }
-            </div>
+<body>
+@using (Html.BeginForm())
+{
+    <div class="editor">
+        <div>
+            @Html.LabelFor(m => m.UserName)
+            @Html.TextBoxFor(m => m.UserName)
+            @Html.ValidationMessageFor(m => m.UserName)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password)
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+        <div>
+            @Html.CheckBoxFor(m => m.RememberMe)
+            @Html.LabelFor(m => m.RememberMe)
         </div>
     </div>
-</div>
+    <div class="editor-button">
+        <input type="submit" value="Login" />
+    </div>            
+}
 </body>
 </html>

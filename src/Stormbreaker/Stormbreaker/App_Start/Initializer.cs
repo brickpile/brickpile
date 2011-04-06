@@ -19,8 +19,8 @@ namespace Stormbreaker.App_Start {
             var container = Bootstrapper.Initialize();
 
             // Register the Dropbox virtual path provider
-            var dropboxVirtualPathProvider = new DropboxVirtualPathProvider(container.GetInstance<IDropboxRepository>());
-            HostingEnvironment.RegisterVirtualPathProvider(dropboxVirtualPathProvider);
+            //var dropboxVirtualPathProvider = new DropboxVirtualPathProvider(container.GetInstance<IDropboxRepository>());
+            //HostingEnvironment.RegisterVirtualPathProvider(dropboxVirtualPathProvider);
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(container));
             

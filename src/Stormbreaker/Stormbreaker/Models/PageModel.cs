@@ -31,7 +31,7 @@ namespace Stormbreaker.Models {
         /// <value>
         /// The sort order.
         /// </value>
-        public int? SortOrder { get; set; }
+        public virtual int? SortOrder { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="PageModel"/> class.
         /// </summary>

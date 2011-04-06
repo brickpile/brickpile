@@ -41,11 +41,14 @@ namespace Dashboard.Controllers {
         [HttpPost]
         [ValidateInput(false)]
         public virtual ActionResult Update(dynamic editorModel, dynamic model) {
+            
             if (!TryUpdateModel(model, "CurrentModel")) {
                 return View("edit", new DashboardViewModel(model, _structureInfo));
             }
+
             UpdateModel(model);
             _repository.SaveChanges();
+
             _repository.Refresh(model);
 
             return RedirectToAction("edit", new { model });

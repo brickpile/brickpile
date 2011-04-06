@@ -11,7 +11,7 @@ namespace Dashboard.Web {
         private IPageModel _pageModel;
 
         public IPathData ResolvePath(string virtualUrl) {
-
+            
             // Set the default action to index
             _pathData.Action = PageRoute.DefaultAction;
             // Get an up to date page repository
@@ -30,8 +30,7 @@ namespace Dashboard.Web {
 
             // The normal beahaviour should be to load the page based on the url
             _pageModel = _repository.ByUrl<IPageModel>(virtualUrl);
-
-            // Try to load the page without the last segment of the url and set the last segment as action
+            // Try to load the page without the last segment of the url and set the last segment as action))
             if (_pageModel == null) {
                 var index = virtualUrl.LastIndexOf("/");
                 // The url does not contain any action or the action is the url

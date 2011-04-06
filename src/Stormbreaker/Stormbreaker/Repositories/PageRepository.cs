@@ -20,7 +20,7 @@ namespace Stormbreaker.Repositories {
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
         public T SingleOrDefault<T>(Func<T, bool> predicate) {
-            return _documentSession.Query<T>().Customize(x => x.WaitForNonStaleResults()).SingleOrDefault(predicate);
+            return _documentSession.Query<T>().SingleOrDefault(predicate);
         }
         /// <summary>
         /// Lists this instance.

@@ -8,6 +8,33 @@ using Raven.Http;
 namespace Stormbreaker.Raven.Triggers {
     public class UpdateTrigger : AbstractPutTrigger {
 
+        public override void OnPut(string key, JObject document, JObject metadata, TransactionInformation transactionInformation) {
+            if (key.StartsWith("Raven/",true,CultureInfo.InvariantCulture)) // we don't deal with system documents
+                return;
+
+            if (TriggerContext.IsInTriggerContext)
+                return;
+
+            using (TriggerContext.Enter()) {
+                JToken meta;
+                document.TryGetValue("MetaData", out meta);
+                var slug = meta.Value<string>("Slug");
+                JToken parent;
+                if (document.TryGetValue("Parent", out parent) && parent.Type != JTokenType.Null) {
+                    var parentId = parent.Value<string>("Id");
+                    var parentDocument = Database.Get(parentId, transactionInformation);
+                    var parentUrl = parentDocument.DataAsJson.Value<JObject>("MetaData").Value<string>("Url");
+                    if (parentUrl != null) {
+                        meta["Url"] = new JValue(string.Format("{0}/{1}", parentUrl, slug));
+                        base.OnPut(key, document, metadata, transactionInformation);
+                        return;
+                    }
+                }
+                meta["Url"] = new JValue(slug);
+            }
+            base.OnPut(key, document, metadata, transactionInformation);
+        }
+
         public override void AfterPut(string key, JObject document, JObject metadata, System.Guid etag, TransactionInformation transactionInformation) {
 
             if (key.StartsWith("Raven/",true,CultureInfo.InvariantCulture)) // we don't deal with system documents
@@ -17,26 +44,6 @@ namespace Stormbreaker.Raven.Triggers {
                 return;
 
             using (TriggerContext.Enter()) {
-                // Update the documents url
-                JToken meta;
-                document.TryGetValue("MetaData", out meta);
-                var slug = meta.Value<string>("Slug");
-                JToken parent;
-                if(document.TryGetValue("Parent", out parent) && parent.Type != JTokenType.Null) {
-                    var parentId = parent.Value<string>("Id");
-                    var parentDocument = Database.Get(parentId, transactionInformation);
-                    var parentUrl = parentDocument.DataAsJson.Value<JObject>("MetaData").Value<string>("Url");
-                    if(parentUrl != null) {
-                        meta["Url"] = new JValue(string.Format("{0}/{1}", parentUrl, slug));
-                    }
-                    else {
-                        meta["Url"] = new JValue(slug);
-                    }
-                 }
-                else {
-                    meta["Url"] = new JValue(slug);
-                }
-                Database.Put(key, etag, document, metadata, transactionInformation);
                 UpdateChildren(key,document,transactionInformation);
             }
 

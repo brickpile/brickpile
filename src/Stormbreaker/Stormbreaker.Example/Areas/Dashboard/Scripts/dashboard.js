@@ -1,16 +1,15 @@
 ﻿$(document).ready(function () {
-
-    //$('.slug').slugify('#CurrentModel_MetaData_Name');
-    //$('.slug').slugify('#NewPageModel_MetaData_Name');
     
     var url = $("#NewPageModel_MetaData_Url").val();
-    $("#NewPageModel_MetaData_Slug").after('Your URL is ' + url + '<span class="slug"></span>');
+    $("#NewPageModel_MetaData_Slug").after('../' + url + '<span class="slug"></span>');
     $('.slug').slugify('#NewPageModel_MetaData_Name', {
         slugFunc: function (str, originalFunc) {
             $("#NewPageModel_MetaData_Url").val(url + originalFunc(str));
             return originalFunc(str);
         }
     });
+
+
 
 //    var url = $("#CurrentModel_MetaData_Url").val();
 //    //$("#CurrentModel_MetaData_Slug").after('Your URL is ' + url + '<span class="slug"></span>');

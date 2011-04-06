@@ -73,6 +73,7 @@ namespace Dashboard.Web.Routing {
             return routeData;
         }
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
+
             if (!IsDashboardRoute(requestContext.HttpContext.Request.CurrentExecutionFilePath)) {
                 return null;
             }

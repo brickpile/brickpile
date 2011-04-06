@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Stormbreaker.Example\App_Data\RavenDB\Plugins\</OutputPath>
+    <OutputPath>C:\Users\marcus\Downloads\RavenDB-Build-309\Server\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
