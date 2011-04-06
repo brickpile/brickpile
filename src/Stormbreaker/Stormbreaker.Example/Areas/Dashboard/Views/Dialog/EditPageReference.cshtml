@@ -1,0 +1,30 @@
+﻿
+@model IEnumerable<Stormbreaker.Models.IPageModel>
+
+<div class="overlay">
+    <div class="wrap-outer">
+        <div class="wrap">
+            <div class="new-page-dialog">
+                <h1>Select a page</h1>
+                    <ul id="pagetree">
+                        <li>
+                            <a href="#" data-val="@Model.SingleOrDefault(x => x.Parent == null).Id">@Model.SingleOrDefault(x => x.Parent == null).MetaData.Name</a>
+                            @OrgTree(Model, Model.SingleOrDefault(x => x.Parent == null).Id)
+                        </li>
+                    </ul>
+                    @helper OrgTree(IEnumerable<Stormbreaker.Models.IPageModel> nodes, string parentId) {
+                        if (nodes.Any(n => n.Parent != null && n.Parent.Id == parentId)) { 
+                        <ul>
+                            @foreach (var node in nodes.Where(n => n.Parent != null && n.Parent.Id == parentId)) {
+                                <li>
+                                    <a href="#" data-val="@node.Id">@node.MetaData.Name</a>
+                                    @OrgTree(nodes, node.Id)
+                                </li>
+                            }
+                        </ul>
+                        }
+                    }
+            </div>
+        </div>
+    </div>
+</div>

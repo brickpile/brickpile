@@ -1,0 +1,19 @@
+﻿
+@model IEnumerable<LitS3.ListEntry>
+
+<div class="overlay">
+    <div class="wrap-outer">
+        <div class="wrap">
+            <div class="new-page-dialog">
+                <h1>Amazon S3</h1>
+                    <ul>
+                    @foreach (LitS3.ListEntry file in this.Model) {
+                        <li>
+                            <a href="#" data-val="http://s3.amazonaws.com/KloojedDump/Images/@file.Name">@file.Name</a>
+                        </li>
+                    }
+                    </ul>
+            </div>
+        </div>
+    </div>
+</div>

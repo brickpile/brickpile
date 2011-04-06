@@ -1,0 +1,25 @@
+﻿
+@model System.String
+
+@Html.TextBoxFor(x => Model, new { @readonly = true }) <input type="button" value=".." id="@ViewData.TemplateInfo.HtmlFieldPrefix.Replace('.','_')_button" />
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#@ViewData.TemplateInfo.HtmlFieldPrefix.Replace('.','_')_button').click(function () {
+            $.ajax({
+                url: '/dashboard/dialog/listdropboxcontent',
+                success: function (data) {
+                    $('@ViewData.TemplateInfo.GetFullHtmlFieldId("Id")_Result').show();
+                    $('#@ViewData.TemplateInfo.GetFullHtmlFieldId("Id")_Result').html(data);
+                    $('#@ViewData.TemplateInfo.GetFullHtmlFieldId("Id")_Result li a').click(function () {
+                        $('#@ViewData.TemplateInfo.HtmlFieldPrefix.Replace('.','_')').val('/storage' + $(this).attr('data-val'));
+                        //$('#@ViewData.TemplateInfo.GetFullHtmlFieldId("Id")').val($(this).text());
+                        $('#@ViewData.TemplateInfo.GetFullHtmlFieldId("Id")_Result').hide();
+                        return false;
+                    });
+                }
+            });
+        });
+    });
+</script>
+<output id="@ViewData.TemplateInfo.GetFullHtmlFieldId("Id")_Result"></output>

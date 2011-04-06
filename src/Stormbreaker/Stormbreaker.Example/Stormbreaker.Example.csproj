@@ -165,9 +165,6 @@
     <Content Include="Views\Shared\DisplayTemplates\Url.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\Site.Master" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="log4net.config">
       <SubType>Designer</SubType>
     </Content>
