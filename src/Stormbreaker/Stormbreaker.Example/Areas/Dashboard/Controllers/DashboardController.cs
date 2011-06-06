@@ -2,12 +2,12 @@
 
 namespace Stormbreaker.Dashboard.Controllers {
     /// <summary>
-    /// 
+    /// Default controller for the Dashboard
     /// </summary>
     [Authorize]
     public class DashboardController : Controller {
         /// <summary>
-        /// Indexes this instance.
+        /// Default action
         /// </summary>
         /// <returns></returns>
         public ActionResult Index() {

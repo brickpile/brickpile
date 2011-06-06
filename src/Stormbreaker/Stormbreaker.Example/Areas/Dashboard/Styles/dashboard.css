@@ -298,3 +298,7 @@ figure menu a.browse:hover {
     background:url("/areas/dashboard/content/sprite.png") no-repeat scroll .7em 5px, -moz-linear-gradient(center top , #C0C9CF, #E6E7E9) repeat scroll 0 0 transparent;
     background:url("/areas/dashboard/content/sprite.png") no-repeat scroll .7em 5px, -webkit-gradient(linear, left top, left bottom, from(#C0C9CF), to(#E6E7E9));    
 }
+
+
+
+#manage-users { margin-top:0; }

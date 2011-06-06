@@ -48,8 +48,8 @@
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="DashboardAreaRegistration.cs" />
-    <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="Extensions\ResourceHelper.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\ResourceHelper.cs" />
     <Compile Include="InputBuilder.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\DefaultPageModel.cs" />
@@ -69,7 +69,8 @@
     <Compile Include="Web\Routing\ContentRoute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\content-background.png" />
+    <Content Include="Content\linen.jpg" />
+    <Content Include="Content\sprite.png" />
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\jquery-1.5.1.js" />
     <Content Include="Scripts\jquery.event.hover.js" />
@@ -376,9 +377,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Content\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Account\Foo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\EditorTemplates\Url.cshtml" />

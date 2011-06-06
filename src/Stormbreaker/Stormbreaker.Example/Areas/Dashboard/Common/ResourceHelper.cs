@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Resources;
 
-namespace Stormbreaker.Dashboard.Extensions {
+namespace Stormbreaker.Dashboard.Common {
     public static class ResourceHelper {
         public static string GetString(Type resourceType, string resourceName) {
             return new ResourceManager(resourceType.FullName, resourceType.Assembly)
