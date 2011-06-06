@@ -1,4 +1,4 @@
-﻿namespace Stormbreaker.Example.Models
+﻿namespace Stormbreaker.Dashboard.Models
 {
 	public class EditUserModel
 	{

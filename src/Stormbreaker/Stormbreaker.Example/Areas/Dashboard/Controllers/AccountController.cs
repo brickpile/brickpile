@@ -2,10 +2,29 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
-using Stormbreaker.Example.Models;
+using Raven.Client;
+using Stormbreaker.Dashboard.Models;
+using Stormbreaker.Models;
+using StructureMap;
 
-namespace Dashboard.Controllers
-{
+namespace Stormbreaker.Dashboard.Controllers {
+
+    public class SetupActionAttribute : ActionFilterAttribute {
+
+        public override void OnActionExecuting(ActionExecutingContext filterContext) {
+            base.OnActionExecuting(filterContext);
+            var session = ObjectFactory.GetInstance<IDocumentSession>();
+            var settings = session.Load<Settings>("Stormbreaker/Settings");
+            if(settings == null) {
+                settings = new Settings();
+                session.Store(settings);
+                session.SaveChanges();
+                //filterContext.RequestContext.HttpContext.Response.Redirect("/setup");            
+            }
+        }
+
+    }
+    
 	public class AccountController : Controller {
 
 		public IFormsAuthenticationService FormsService { get; set; }
@@ -22,37 +41,30 @@ namespace Dashboard.Controllers
 		// **************************************
 		// URL: /Account/LogOn
 		// **************************************
-
-		public ActionResult LogOn()
+        [SetupAction]
+		public ActionResult Index()
 		{
-			return View();
+			return View("LogOn");
 		}
 
 		[HttpPost]
-		public ActionResult LogOn(LogOnModel model, string returnUrl)
+		public ActionResult Index(LogOnModel model, string returnUrl)
 		{
-			if (ModelState.IsValid)
-			{
-				if (MembershipService.ValidateUser(model.UserName, model.Password))
+			if (ModelState.IsValid) {
+			    if (MembershipService.ValidateUser(model.UserName, model.Password))
 				{
 					FormsService.SignIn(model.UserName, model.RememberMe);
 					if (Url.IsLocalUrl(returnUrl))
 					{
 						return Redirect(returnUrl);
 					}
-					else
-					{
-						return RedirectToAction("Index", "Dashboard");
-					}
+				    return RedirectToAction("Index", "Dashboard");
 				}
-				else
-				{
-					ModelState.AddModelError("", "The user name or password provided is incorrect.");
-				}
+			    ModelState.AddModelError("", "The user name or password provided is incorrect.");
 			}
 
-			// If we got this far, something failed, redisplay form
-			return View(model);
+		    // If we got this far, something failed, redisplay form
+			return View("LogOn", model);
 		}
 
 		// **************************************

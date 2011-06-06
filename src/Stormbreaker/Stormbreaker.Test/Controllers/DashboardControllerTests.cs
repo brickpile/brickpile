@@ -1,5 +1,5 @@
-using Dashboard.Controllers;
 using NUnit.Framework;
+using Stormbreaker.Dashboard.Controllers;
 
 namespace Stormbreaker.Test.Controllers {
     public class DashboardControllerTests {

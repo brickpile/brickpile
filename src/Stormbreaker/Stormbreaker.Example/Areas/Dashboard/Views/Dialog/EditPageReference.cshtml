@@ -1,30 +1,31 @@
 ﻿
-@model IEnumerable<Stormbreaker.Models.IPageModel>
+@model Stormbreaker.Dashboard.Models.EditPageReferenceModel
 
-<div class="overlay">
-    <div class="wrap-outer">
-        <div class="wrap">
-            <div class="new-page-dialog">
-                <h1>Select a page</h1>
-                    <ul id="pagetree">
+<div class="dialog">
+    <div>
+        <h1>Select a page</h1>
+            <ul id="pagetree">
+                <li>
+                    <a href="#" data-val="@Model.PageModels.SingleOrDefault(x => x.Parent == null).Id">@Model.PageModels.SingleOrDefault(x => x.Parent == null).MetaData.Name</a>
+                    @OrgTree(Model.PageModels, Model.PageModels.SingleOrDefault(x => x.Parent == null).Id)
+                </li>
+            </ul>
+
+            @helper OrgTree(IEnumerable<Stormbreaker.Models.IPageModel> nodes, string parentId) {
+                if (nodes.Any(n => n.Parent != null && n.Parent.Id == parentId)) { 
+                <ul>
+                    @foreach (var node in nodes.Where(n => n.Parent != null && n.Parent.Id == parentId)) {
                         <li>
-                            <a href="#" data-val="@Model.SingleOrDefault(x => x.Parent == null).Id">@Model.SingleOrDefault(x => x.Parent == null).MetaData.Name</a>
-                            @OrgTree(Model, Model.SingleOrDefault(x => x.Parent == null).Id)
+                            <a href="#" data-val="@node.Id">@node.Metadata.Name</a>
+                            @OrgTree(nodes, node.Id)
                         </li>
-                    </ul>
-                    @helper OrgTree(IEnumerable<Stormbreaker.Models.IPageModel> nodes, string parentId) {
-                        if (nodes.Any(n => n.Parent != null && n.Parent.Id == parentId)) { 
-                        <ul>
-                            @foreach (var node in nodes.Where(n => n.Parent != null && n.Parent.Id == parentId)) {
-                                <li>
-                                    <a href="#" data-val="@node.Id">@node.MetaData.Name</a>
-                                    @OrgTree(nodes, node.Id)
-                                </li>
-                            }
-                        </ul>
-                        }
                     }
+                </ul>
+                }
+            }
+
+            <div class="editor-button">
+                @Html.ActionLink("No, cancel", @Model.BackAction ?? "index", null, new { @class = "button" })
             </div>
-        </div>
     </div>
 </div>

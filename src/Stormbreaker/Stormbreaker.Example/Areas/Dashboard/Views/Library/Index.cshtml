@@ -1,26 +1,33 @@
 ﻿
-@model IQueryable<LitS3.ListEntry>
-
 @{
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1 class="cloud">Assets</h1>
 
-
-<ul>
-    @foreach (var item in Model) {
-        <li>
-            @item.Name
-        </li>
+<table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (Amazon.S3.Model.S3Object entry in this.Model) {
+        <tr>
+            <td><a href="#" class="insert" data-val="http://s3.amazonaws.com/KloojedDump/@entry.Key">@entry.Key</a></td>
+            <td>@entry.Size </td>
+            <td><a href="javascript:pixlr.overlay.show({image:'http://s3.amazonaws.com/KloojedDump/@entry.Key', referrer:'Stormbreaker', title:'Example image 1', service:'editor', target:'http://81.225.54.48:81/dashboard/library/save', exit:'http://81.225.54.48:81/dashboard/library'});">Edit</td>
+        </tr>
     }
-</ul>
+    </tbody>
+</table>
 
 @section GlobalNavigation {
-    <ul id="dashboard-nav">
-        <li>@Html.ActionLink("Content","index","content")</li>
+    <ul class="">
+        <li>@Html.ActionLink("Content", "index", "content", null, new { @class = "content" })</li>
+        <li>@Html.ActionLink("Assets", "index", "library", null, new { @class = "library" })</li>
 		<li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users" })</li>
-        <li>@Html.ActionLink("Library", "index", "library")</li>
     </ul>
 }
-

@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
+using Stormbreaker.Models;
 
 namespace Stormbreaker.Example {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -8,6 +10,7 @@ namespace Stormbreaker.Example {
     public class MvcApplication : System.Web.HttpApplication {
 
         public static void RegisterGlobalFilters(GlobalFilterCollection filters) {
+            filters.Add(new HandleErrorWithElmahAttribute() );
             filters.Add(new HandleErrorAttribute());
         }
 
@@ -33,7 +36,6 @@ namespace Stormbreaker.Example {
             // Not default but kinda best practice
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new RazorViewEngine());
-            
         }
     }
 }

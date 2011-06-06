@@ -1,3 +1,23 @@
+/* Copyright (C) 2011 by Marcus Lindblom
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
 using System.ComponentModel.DataAnnotations;
 
 namespace Stormbreaker.Models {
@@ -6,25 +26,26 @@ namespace Stormbreaker.Models {
     /// </summary>
     /// <remarks>Use IPageModel to create your own base class</remarks>
     /// <example></example>
+    [MetadataType(typeof(PageModelMetadata))]
     public abstract class PageModel : IPageModel {
         /// <summary>
-        /// Get/Sets the Id of the page model
+        /// Gets or sets the id.
         /// </summary>
-        /// <value></value>
-        [ScaffoldColumn(false)]
+        /// <value>
+        /// The id.
+        /// </value>
         public string Id { get; set; }
         /// <summary>
-        /// Get/Sets the MetaData of the page model
+        /// Gets the meta data.
         /// </summary>
-        /// <value></value>
-        [ScaffoldColumn(false)]
-        public virtual IPageMetaData MetaData { get; private set; }
+        public virtual IPageMetadata Metadata { get; private set; }
         /// <summary>
-        /// Get/Sets the Parent of the page model
+        /// Gets or sets the parent.
         /// </summary>
-        /// <value></value>
-        [ScaffoldColumn(false)]
-        public virtual DenormalizedReference<IPageModel> Parent { get; set; }
+        /// <value>
+        /// The parent.
+        /// </value>
+        public virtual DocumentReference<IPageModel> Parent { get; set; }
         /// <summary>
         /// Gets or sets the sort order.
         /// </summary>
@@ -36,7 +57,7 @@ namespace Stormbreaker.Models {
         /// Initializes a new instance of the <see cref="PageModel"/> class.
         /// </summary>
         protected PageModel() {
-            MetaData = new PageMetaData();
+            Metadata = new PageMetadata();
         }
     }
 }

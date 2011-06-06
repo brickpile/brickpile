@@ -1,8 +1,26 @@
-using System;
+/* Copyright (C) 2011 by Marcus Lindblom
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
 using System.Collections.Generic;
 using System.Linq;
 using Raven.Client;
-using Stormbreaker.Extensions;
 using Stormbreaker.Models;
 
 namespace Stormbreaker.Repositories {
@@ -11,81 +29,37 @@ namespace Stormbreaker.Repositories {
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
-    public class PageRepository : IPageRepository {
+    public class PageRepository : Repository<IPageModel>, IPageRepository {
         private readonly IDocumentSession _documentSession;
         /// <summary>
-        /// Singles the or default.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="predicate">The predicate.</param>
-        /// <returns></returns>
-        public T SingleOrDefault<T>(Func<T, bool> predicate) {
-            return _documentSession.Query<T>().SingleOrDefault(predicate);
-        }
-        /// <summary>
-        /// Lists this instance.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public IEnumerable<T> List<T>() {
-            return _documentSession.Query<T>();
-        }
-        /// <summary>
-        /// Childrens the specified parent.
+        /// Get all children of a specific page
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="parent">The parent.</param>
         /// <returns></returns>
-        public IEnumerable<T> Children<T>(T parent) where T : IPageModel {
+        public IEnumerable<T> GetChildren<T>(T parent) where T : IPageModel {
             return _documentSession.Advanced.LuceneQuery<T>("Documents/ByParent")
                 .Where("Id:" + parent.Id)
-                .WaitForNonStaleResults()
+                .WaitForNonStaleResultsAsOfNow()
                 .ToArray();
         }
-
-        public T ByUrl<T>(string url) where T : IPageModel {
+        /// <summary>
+        /// Get a page by the url
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url">The URL.</param>
+        /// <returns></returns>
+        public T GetPageByUrl<T>(string url) where T : IPageModel {
             return _documentSession.Advanced.LuceneQuery<T>("Document/ByUrl")
                 .Where("Url:" + url)
-                .WaitForNonStaleResults()
+                .WaitForNonStaleResultsAsOfNow()
                 .FirstOrDefault();
-        }
-        /// <summary>
-        /// Loads a specific page with a specific id.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public T Load<T>(string id) {
-            return _documentSession.Load<T>(id);
-        }
-        /// <summary>
-        /// Saves a page to the Raven server.
-        /// </summary>
-        /// <remarks>Also responsible for generating the slug</remarks>
-        /// <param name="entity"></param>
-        public void Store(IPageModel entity) {
-            _documentSession.Store(entity);
-        }
-        /// <summary>
-        /// Marks a specific page for deletion, the page will be deleted when <see cref="SaveChanges" /> is called. 
-        /// </summary>
-        /// <param name="entity"></param>
-        public void Delete(IPageModel entity) {
-            _documentSession.Delete(entity);
-        }
-        /// <summary>
-        /// Saves all the changes the Raven server.
-        /// </summary>
-        public void SaveChanges() {
-            _documentSession.SaveChanges();
-        }
-        public void Refresh(IPageModel entity) {
-            _documentSession.Advanced.Refresh(entity);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="PageRepository" /> class.
         /// </summary>
         /// <param name="documentSession"></param>
-        public PageRepository(IDocumentSession documentSession) {
+        public PageRepository(IDocumentSession documentSession) : base(documentSession) {
             _documentSession = documentSession;
         }
     }

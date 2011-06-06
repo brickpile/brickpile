@@ -33,6 +33,10 @@
 .cirkuitSkin iframe {
 	display: block;
 	background: #FFF;
+	padding:7px;
+    border: 1px solid #989898;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 1px 0 #FFFFFF;	
 }
 
 .cirkuitSkin .mceToolbar {
@@ -71,17 +75,19 @@
 /* Layout */
 .cirkuitSkin table.mceLayout {
 	border: 0;
-	border-left: 1px solid #CCC;
-	border-right: 1px solid #CCC
 }
 
 .cirkuitSkin table.mceLayout tr.mceFirst td {
-	border-top: 1px solid #CCC
+	
+	padding-bottom:.5em;
 }
 
 .cirkuitSkin table.mceLayout tr.mceLast td {
-	border-bottom: 1px solid #CCC;
-	background: url('img/toolbarbg.png') center repeat-x;
+    border:0;
+    background:none;
+	/*border-bottom: 1px solid #CCC;
+
+	background: url('img/toolbarbg.png') center repeat-x;*/
 }
 
 .cirkuitSkin table.mceToolbar, .cirkuitSkin tr.mceFirst .mceToolbar tr td, .cirkuitSkin tr.mceLast .mceToolbar tr td {
@@ -93,10 +99,12 @@
 .cirkuitSkin td.mceToolbar {
 	padding-top: 1px;
 	vertical-align: top;
-	background-color: #DFDFDF;
+	/*background-color: #DFDFDF;*/
+	background-color:transparent
 }
 
 .cirkuitSkin .mceIframeContainer {
+    border:0;
 	border-top: 1px solid #CCC;
 	border-bottom: 1px solid #CCC;
 	/*height: 100%; 5/22/2010 - Joe Rozzi - taken out comparing to default theme ui.css */

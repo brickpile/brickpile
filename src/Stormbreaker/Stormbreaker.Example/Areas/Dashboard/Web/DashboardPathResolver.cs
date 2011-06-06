@@ -1,10 +1,10 @@
-﻿using Stormbreaker.Extensions;
+﻿using Stormbreaker.Common;
 using Stormbreaker.Models;
 using Stormbreaker.Repositories;
 using Stormbreaker.Web.Routing;
 using StructureMap;
 
-namespace Dashboard.Web {
+namespace Stormbreaker.Dashboard.Web {
     public class DashboardPathResolver : IPathResolver {
         private readonly IPathData _pathData;
         private IPageRepository _repository;
@@ -29,7 +29,7 @@ namespace Dashboard.Web {
             }
 
             // The normal beahaviour should be to load the page based on the url
-            _pageModel = _repository.ByUrl<IPageModel>(virtualUrl);
+            _pageModel = _repository.GetPageByUrl<IPageModel>(virtualUrl);
             // Try to load the page without the last segment of the url and set the last segment as action))
             if (_pageModel == null) {
                 var index = virtualUrl.LastIndexOf("/");
@@ -40,7 +40,7 @@ namespace Dashboard.Web {
                 }
                 else {
                     var path = virtualUrl.Substring(0, index).TrimStart(new[] { '/' });
-                    _pageModel = _repository.ByUrl<IPageModel>(path);
+                    _pageModel = _repository.GetPageByUrl<IPageModel>(path);
                     _pathData.Action = virtualUrl.Substring(index, virtualUrl.Length - index).Trim(new[] {'/'});
                 }
             }

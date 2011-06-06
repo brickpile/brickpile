@@ -1,17 +1,19 @@
 ﻿
 @model Stormbreaker.Models.PageReference
 
-@Html.TextBoxFor(x => Model.Name, new { @readonly = true }) <input type="button" value=".." id="@ViewData.TemplateInfo.HtmlFieldPrefix.Replace('.','_')" />
+@Html.TextBoxFor(x => Model.Name, new { @readonly = true, @class = "text-box" }) <input type="button" value=".." id="@ViewData.TemplateInfo.HtmlFieldPrefix.Replace('.','_')" />
 @Html.HiddenFor(x => Model.Id)
+
 
 <script type="text/javascript">
     $(document).ready(function () {
         $('#@ViewData.TemplateInfo.HtmlFieldPrefix.Replace('.','_')').click(function () {
+            $('@ViewData.TemplateInfo.GetFullHtmlFieldId("Id")_Result').hide();
             $.ajax({
                 url: '/dashboard/dialog/editpagereference',
                 success: function (data) {
-                    $('@ViewData.TemplateInfo.GetFullHtmlFieldId("Id")_Result').show();
                     $('#@ViewData.TemplateInfo.GetFullHtmlFieldId("Id")_Result').html(data);
+                    $('#@ViewData.TemplateInfo.GetFullHtmlFieldId("Id")_Result').show();
                     $('#@ViewData.TemplateInfo.GetFullHtmlFieldId("Id")_Result li a').click(function () {
                         $('#@ViewData.TemplateInfo.GetFullHtmlFieldId("Id")').val($(this).attr('data-val'));
                         $('#@ViewData.TemplateInfo.GetFullHtmlFieldId("Name")').val($(this).text());

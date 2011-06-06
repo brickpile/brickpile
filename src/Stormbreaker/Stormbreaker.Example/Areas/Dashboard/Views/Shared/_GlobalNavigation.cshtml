@@ -1,10 +1,10 @@
 ﻿
-@model Dashboard.Web.Mvc.ViewModels.IDashboardViewModel
+@model Stormbreaker.Dashboard.Web.Mvc.ViewModels.IDashboardViewModel
            
-@using Dashboard.Web.Mvc.Html
+@using Stormbreaker.Dashboard.Web.Mvc.Html
 @using Stormbreaker.Models
 
-@(new MvcHtmlString(Html.TreeView<IPageModel>(Model.CurrentModel,
+@(Html.Raw(Html.TreeView<IPageModel>(Model.CurrentModel,
     Model.StructureInfo,
-    page => Html.ActionLink(page.MetaData.Name, "edit", "content", new { model = page },null),
-    page => Html.ActionLink(page.MetaData.Name, "edit", "content", new { model = page }, new { @class = "selected" }))))
+        page => Html.EditActionLink(page.Metadata.Name, "edit", new { model = page }),
+            page => Html.EditActionLink(page.Metadata.Name, "edit", new { model = page }, "selected"))))

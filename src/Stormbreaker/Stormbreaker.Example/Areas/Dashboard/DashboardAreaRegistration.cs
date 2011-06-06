@@ -1,9 +1,10 @@
 using System.Web.Mvc;
-using Dashboard.Web;
-using Dashboard.Web.Routing;
+using Stormbreaker.Dashboard.Controllers;
+using Stormbreaker.Dashboard.Web;
+using Stormbreaker.Dashboard.Web.Routing;
 using StructureMap;
 
-namespace Dashboard {
+namespace Stormbreaker.Dashboard {
     public class DashboardAreaRegistration : AreaRegistration {
         /* *******************************************************************
 	    * Properties
@@ -18,7 +19,6 @@ namespace Dashboard {
                                         {
                                             AreaPartialViewLocationFormats = new[] { "~/Views/{1}/{0}.cshtml" }
                                         });
-
 
             var dashboardRoute = new ContentRoute(
                 ObjectFactory.GetInstance<DashboardPathResolver>(),

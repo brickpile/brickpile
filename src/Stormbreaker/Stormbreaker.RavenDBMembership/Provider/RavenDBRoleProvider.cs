@@ -7,8 +7,7 @@ using StructureMap;
 
 namespace Stormbreaker.RavenDBMembership.Provider
 {
-	public class RavenDBRoleProvider : RoleProvider
-	{
+	public class RavenDBRoleProvider : RoleProvider {
 		private const string ProviderName = "RavenDBRole";
 		private IDocumentStore documentStore;
 

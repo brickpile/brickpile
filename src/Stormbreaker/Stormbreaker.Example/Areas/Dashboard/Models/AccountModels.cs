@@ -7,7 +7,7 @@ using System.Transactions;
 using System.Web.Mvc;
 using System.Web.Security;
 
-namespace Stormbreaker.Example.Models
+namespace Stormbreaker.Dashboard.Models
 {
 
 	#region Models
@@ -34,7 +34,7 @@ namespace Stormbreaker.Example.Models
 	public class LogOnModel
 	{
 		[Required]
-		[Display(Name = "User name")]
+		[Display(Name = "Username")]
 		public string UserName { get; set; }
 
 		[Required]

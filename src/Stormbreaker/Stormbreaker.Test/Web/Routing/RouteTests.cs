@@ -2,14 +2,9 @@ using System.Web.Routing;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
-using Raven.Client.Client;
-using Raven.Client.Indexes;
-using Stormbreaker.Example;
 using Stormbreaker.Models;
-using Stormbreaker.Repositories;
 using Stormbreaker.Test.Extensions;
 using Stormbreaker.Test.Repositories;
-using Stormbreaker.Web;
 using Stormbreaker.Web.Routing;
 
 namespace Stormbreaker.Test.Web.Routing {
@@ -40,7 +35,7 @@ namespace Stormbreaker.Test.Web.Routing {
             Mock<IDocumentSession> documentSessionMock = new Mock<IDocumentSession>();
             DummyPageRepository pageRepository = new DummyPageRepository(documentSessionMock.Object);
 
-            IPageModel pageModel = new DummyPageModel { MetaData = { Slug = "slug"}};
+            IPageModel pageModel = new DummyPageModel { Metadata = { Slug = "slug"}};
 
             pageRepository.Store(pageModel);
             

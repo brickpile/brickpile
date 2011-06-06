@@ -1,10 +1,10 @@
 using System.Web.Mvc;
 using System.Web.Routing;
-using Stormbreaker.Extensions;
+using Stormbreaker.Common;
 using Stormbreaker.Models;
 using Stormbreaker.Web.Routing;
 
-namespace Dashboard.Web.Routing {
+namespace Stormbreaker.Dashboard.Web.Routing {
 
     public class ContentRoute : RouteBase, IRouteWithArea {
         private readonly IPathResolver _pathResolver;

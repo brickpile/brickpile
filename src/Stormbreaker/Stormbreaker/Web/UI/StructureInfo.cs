@@ -1,7 +1,27 @@
+/* Copyright (C) 2011 by Marcus Lindblom
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
-using Stormbreaker.Extensions;
+using Stormbreaker.Common;
 using Stormbreaker.Models;
 using Stormbreaker.Repositories;
 
@@ -30,25 +50,26 @@ namespace Stormbreaker.Web.UI {
         /// </summary>
         public virtual IPageModel CurrentModel {
             get {
-                if(_currentModel == null) {
-                    _currentModel = ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>() ?? RootModel;
-                }
-                return _currentModel;
+                return _currentModel ??
+                       (_currentModel =
+                        ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>() ??
+                        RootModel);
             }
         }
         private IPageModel _currentModel;
-
-
+        /// <summary>
+        ///   <see cref="StructureInfo.HierarchicalStructure"/>
+        /// </summary>
         public virtual IEnumerable<IHierarchyNode<IPageModel>> HierarchicalStructure {
             get {
                 if (CurrentModel == null)
                     return null;
                 if (_hierarchicalStructure == null) {
                     var items = new List<IPageModel>();
-                    items.AddRange(_repository.Children(CurrentModel));
+                    items.AddRange(_repository.GetChildren(CurrentModel));
                     var ancestors = GetAncestors(CurrentModel);
                     foreach (var ancestor in ancestors) {
-                        items.AddRange(_repository.Children(ancestor));
+                        items.AddRange(_repository.GetChildren(ancestor));
                     }
                     _hierarchicalStructure = items.CreateHierarchy(RootModel, 0);
                 }
@@ -62,7 +83,6 @@ namespace Stormbreaker.Web.UI {
         /// <param name="item">The item.</param>
         /// <returns></returns>
         private IEnumerable<IPageModel> GetAncestors(IPageModel item) {
-
             var parent = item.Parent != null ? _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(item.Parent.Id)) : null;
 
             if (parent != null) {
@@ -73,7 +93,6 @@ namespace Stormbreaker.Web.UI {
                     }
                 }
             }
-
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureInfo"/> class.

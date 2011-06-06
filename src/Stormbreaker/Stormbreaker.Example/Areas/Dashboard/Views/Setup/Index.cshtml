@@ -1,0 +1,24 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Index</title>
+</head>
+<body>
+    @Html.ValidationSummary()
+
+    @using (Html.BeginForm("save", "setup"))
+    {
+        <div>
+            @Html.EditorForModel()
+            <div class="editor-button">
+                <input type="submit" value="Save" style="float:none;margin:1em 0 0;" />
+            </div>
+        </div>
+    }
+</body>
+</html>

@@ -1,1 +1,6 @@
 http://stormbreaker.kloojed.com
+
+Domain -> Entities and domain logic
+Core -> Repositories, Context and everything related to core of the application.
+Services -> Services and components (sub-services)
+UI -> MVC 3

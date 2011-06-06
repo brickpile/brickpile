@@ -1,3 +1,23 @@
+/* Copyright (C) 2011 by Marcus Lindblom
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,8 +51,7 @@ namespace Stormbreaker.Web.Mvc.Html {
         /// <param name="structureInfo">The structural navigation info</param>
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
         /// <returns></returns>
-        public static string SubMenu(this HtmlHelper html, string id, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent)
-        {
+        public static string SubMenu(this HtmlHelper html, string id, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent) {
             return SubMenu(html, id,structureInfo, itemContent, itemContent);
         }
         /// <summary>
@@ -44,8 +63,7 @@ namespace Stormbreaker.Web.Mvc.Html {
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
         /// <param name="selectedItemContent">A lambda expression defining the content in each selected tree node</param>
         /// <returns></returns>
-        public static string SubMenu(this HtmlHelper html, string id, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent)
-        {
+        public static string SubMenu(this HtmlHelper html, string id, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
             var item = structureInfo.HierarchicalStructure.Where(x => x.Expanded).SingleOrDefault();
 
             if (item == null || item.ChildNodes.Count() == 0)
@@ -77,8 +95,7 @@ namespace Stormbreaker.Web.Mvc.Html {
         /// <param name="childrenProperty"></param>
         /// <param name="itemContent"></param>
         /// <param name="selectedItemContent"></param>
-        private static void AppendChildrenRecursive<T>(StringBuilder sb, IHierarchyNode<IPageModel> rootNode, IPageModel currentModel, Func<IHierarchyNode<IPageModel>, IEnumerable<IHierarchyNode<IPageModel>>> childrenProperty, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent)
-        {
+        private static void AppendChildrenRecursive<T>(StringBuilder sb, IHierarchyNode<IPageModel> rootNode, IPageModel currentModel, Func<IHierarchyNode<IPageModel>, IEnumerable<IHierarchyNode<IPageModel>>> childrenProperty, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent) {
             var children = childrenProperty(rootNode);
 
             if (children.Count() == 0)

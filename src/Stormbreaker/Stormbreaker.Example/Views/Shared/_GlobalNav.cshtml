@@ -1,9 +1,9 @@
 ﻿@model Stormbreaker.Web.Mvc.ViewModels.IViewModel<Stormbreaker.Models.IPageModel>
-@using Stormbreaker.Extensions;           
+@using Stormbreaker.Common
 @using Stormbreaker.Web.Mvc.Html
 
 @(new MvcHtmlString(Html.Menu("global-nav",
     Model.CurrentModel,
     Model.StructureInfo,
     page => Html.ActionLink(page),
-    page => Html.ActionLink(page.MetaData.Name, "index", new { model = page }, new { @class = "selected" }))))
+    page => Html.ActionLink(page.Metadata.Name, "index", new { model = page }, new { @class = "selected" }))))

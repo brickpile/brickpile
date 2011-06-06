@@ -1,9 +1,9 @@
 using System;
 using System.Web.Mvc;
-using Dashboard.Controllers;
-using Dashboard.Web.Mvc.ViewModels;
 using Moq;
 using NUnit.Framework;
+using Stormbreaker.Dashboard.Controllers;
+using Stormbreaker.Dashboard.Web.Mvc.ViewModels;
 using Stormbreaker.Models;
 using Stormbreaker.Repositories;
 using Stormbreaker.Test.Repositories;

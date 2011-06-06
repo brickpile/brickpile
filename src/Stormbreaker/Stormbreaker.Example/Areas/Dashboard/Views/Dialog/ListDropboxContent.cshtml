@@ -1,18 +1,17 @@
-﻿@model List<Stormbreaker.Dropbox.Models.MetaData>
+﻿
+@model List<Stormbreaker.Dropbox.Models.MetaData>
 
-<div class="overlay">
-    <div class="wrap-outer">
-        <div class="wrap">
-            <div class="new-page-dialog">
-                <h1>Dropbox</h1>
-                    <ul>
-                    @foreach (Stormbreaker.Dropbox.Models.MetaData file in this.Model) {
-                        <li>
-                            <a href="#" data-val="@file.Path">@file.Name</a>
-                        </li>
-                    }
-                    </ul>
-            </div>
+<div class="dialog">
+    <div>
+        <h1>Dropbox</h1>
+        <div>
+            <ul>
+                @foreach (Stormbreaker.Dropbox.Models.MetaData file in this.Model) {
+                    <li>
+                        <a href="#" data-val="@file.Path">@file.Name</a>
+                    </li>
+                }
+            </ul>
         </div>
     </div>
 </div>

@@ -2,30 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using Stormbreaker;
-using Stormbreaker.Extensions;
+using Stormbreaker.Common;
 
-namespace Dashboard.Models {
+namespace Stormbreaker.Dashboard.Models {
     public class DefaultPageModel {
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
         [Required]
+        [Display(Name = "Page name")]
         public string Name { get; set; }
-        /// <summary>
-        /// Gets or sets the selected page model.
-        /// </summary>
-        /// <value>
-        /// The selected page model.
-        /// </value>
         [ScaffoldColumn(false)]
         public string SelectedPageModel { get; set; }
-        /// <summary>
-        /// Gets the available models.
-        /// </summary>
+        [Display(Name = "Model", Order = 10)]
         public IEnumerable<SelectListItem> AvailableModels {
             get {
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {

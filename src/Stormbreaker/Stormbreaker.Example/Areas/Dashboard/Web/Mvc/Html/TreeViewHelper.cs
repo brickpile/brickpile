@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Stormbreaker.Models;
 using Stormbreaker.Web.UI;
 
-namespace Dashboard.Web.Mvc.Html {
+namespace Stormbreaker.Dashboard.Web.Mvc.Html {
     public static class TreeViewHelper {
         //* *******************************************************************
         //*  Methods 
@@ -61,7 +61,7 @@ namespace Dashboard.Web.Mvc.Html {
         }
 
         private static void RenderLi<T>(StringBuilder sb, T item, Func<T, MvcHtmlString> itemContent) {
-            sb.AppendFormat("<li>{0}", itemContent(item));
+            sb.AppendFormat("<li data-item-id=\"{0}\">{1}", ((IPageModel)item).Id, itemContent(item));
         }        
     }
 }

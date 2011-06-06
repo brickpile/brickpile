@@ -2,7 +2,7 @@ using System.Web.Routing;
 using Stormbreaker.Models;
 using Stormbreaker.Web.Routing;
 
-namespace Dashboard.Web {
+namespace Stormbreaker.Dashboard.Web {
     public class DashboardVirtualPathResolver : VirtualPathResolver {
         private string _action;
         public override string ResolveVirtualPath(IPageModel pageModel, RouteValueDictionary routeValueDictionary) {
@@ -10,7 +10,7 @@ namespace Dashboard.Web {
             if (pageModel == null) {
                 return null;
             }
-            var url = pageModel.MetaData.Url ?? string.Empty;
+            var url = pageModel.Metadata.Url ?? string.Empty;
 
             if (routeValueDictionary.ContainsKey(PageRoute.ActionKey)) {
                 _action = routeValueDictionary[PageRoute.ActionKey] as string;
