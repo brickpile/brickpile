@@ -33,3 +33,4 @@ Backup*/
 NuGet*/
 lib*/
 Web.config
+packages/RavenDB*/Server/Data*/
