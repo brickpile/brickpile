@@ -1,0 +1,163 @@
+/*
+    TABLE OF CONTENTS
+    -----------------
+    1 Reset
+    2 Global
+    3 Headings
+    4 Anchors
+    5 Tables
+    6 Classes
+
+    FONT SIZE CONVERSIONS
+    ---------------------
+    10px: 71.4%
+    11px: 78.6%
+    12px: 85.7%
+    13px: 92.9%
+    14px: 100%
+    15px: 107.1%
+    16px: 114.3%
+    17px: 121.4%
+    18px: 128.6%
+    20px: 142.9%
+    22px: 157.1%
+    24px: 171.4%
+    25px: 178.6%
+    26px: 185.7%
+    32px: 228.6%
+    38px: 271.4%
+
+    COLORS
+    ------
+    Anchors: #004e5e
+    Border: 
+*/
+
+
+@media screen {
+    /*--------------------------------------------------------------
+    1 Home
+    ----------------------------------------------------------------*/
+    body.home header h1 { padding:0;font-size:100%;	margin:0 ; }
+    body.home #content {
+        padding:0;
+        margin-top:0;
+        border:0;
+    }
+    body.home ul#teasers {
+        margin:2em 0 0;
+        overflow:hidden;
+    }
+    body.home ul#teasers li {
+	    float:left;
+	    width:23.8%;
+	    margin:0 1.6% 0 0;
+    }
+    body.home ul#teasers li.last {
+        margin:0;
+    }
+    body.home ul#teasers article {
+        position:relative;
+        padding:180px 0 0 0;
+        line-height:1.4;
+    }
+    body.home ul#teasers article h1 {
+        font-size:150%;
+        margin:.4em 0 .4em;
+        line-height:1.2;
+    }
+    body.home ul#teasers article a { color:#333; }
+    body.home ul#teasers article a:hover h1 { color:#000; }
+    body.home ul#teasers article img  {
+        position:absolute;
+        top:0;
+        left:0;
+    }
+    body.home footer { margin-top:1.6em; }
+    body.home ul#teasers p { padding-right:20px; }
+    /*--------------------------------------------------------------
+    2 Newslist
+    ----------------------------------------------------------------*/
+    body.newslist #content {
+        padding:1em 0 0 0;
+    }
+    body.newslist h1 {
+        font-size:178.6%;
+    }
+    body.newslist #content header span {
+        color:#666;
+        font-weight:bold; 
+    }
+    body.newslist h1 a { color:#333; }
+    body.newslist #content ul li {
+        border-bottom:1px solid #ccc;
+        padding:1.8em 0 1.8em 230px;
+        position:relative;
+        min-height:152px;
+    }
+    body.newslist #content ul li:last-child {
+        border:0;
+        padding-bottom:0;
+    }
+    body.newslist #content ul li img {
+        position:absolute;
+        left:0;
+        top:1.8em;
+    }
+    /*--------------------------------------------------------------
+    3 CaseList
+    ----------------------------------------------------------------*/
+    body.caselist #content { padding-top:2.5em; }
+    body.caselist #content > p {
+        font-size:235.7%;
+        font-family:'Titillium Medium'; 
+        color:#4c4c4c;
+        line-height:1.45; 
+        margin:0 0 .5em;
+    }
+    body.caselist #content > p span {
+        
+    }
+    body.caselist #content > p cufon {
+        padding:5px 0 2px;
+        background:#e6e6e6;
+        margin:0;
+        
+    }
+    body.caselist #content > p strong {
+        font-weight:normal; 
+        color:#000; 
+    }
+     body.caselist #content ul { padding:1.3em 0 0; }
+    body.caselist #content ul h2 {
+        font-size:235.7%;
+        margin:0 0 .3em;
+    }
+    body.caselist #content ul li {
+        min-height:272px;
+        padding:1.8em 0 1.8em 490px;
+        position:relative;
+        border-top:1px solid #ccc;
+    }
+    body.caselist #content ul img {
+        position:absolute;
+        top:1.8em;
+        left:0;
+    }
+    body.caselist #content ul a { font-weight:bold; }
+    body.caselist #content ul li:last-child {
+        padding-bottom:0;
+    }
+    /*--------------------------------------------------------------
+    3 News item
+    ----------------------------------------------------------------*/
+    body.news .back {
+        font-weight:bold;
+        display:inline-block;
+        margin-bottom:1.2em;
+    }
+    body.news span.date {
+        font-weight:bold;
+        color:#666;
+    }
+}
