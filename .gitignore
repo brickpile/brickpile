@@ -33,4 +33,5 @@ Backup*/
 NuGet*/
 lib*/
 Web.config
-packages/RavenDB*/server/Data*/
+src/Stormbreaker/packages/RavenDB*/server/Data*/
+src/Stormbreaker/packages/RavenDB*/server/Raven.Server.log*

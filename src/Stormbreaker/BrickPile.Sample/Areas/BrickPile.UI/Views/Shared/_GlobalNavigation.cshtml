@@ -1,0 +1,10 @@
+﻿
+@model BrickPile.UI.Web.ViewModels.IDashboardViewModel
+           
+@using BrickPile.UI.Web.Mvc.Html
+@using BrickPile.Domain.Models
+
+@(Html.Raw(Html.TreeView<IPageModel>(Model.CurrentModel,
+    Model.StructureInfo,
+        page => Html.EditActionLink(page.Metadata.Name, "edit", new { model = page }),
+            page => Html.EditActionLink(page.Metadata.Name, "edit", new { model = page }, "selected"))))
