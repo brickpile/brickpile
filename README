@@ -4,7 +4,7 @@ Installation
 ------------
 1. Create a fresh ASP.NET MVC 3 Web application
 2. Removed unused packages installed by the project template
-3. Install the NuGet package named BrickPile (in some cases the nuget adds multiple values of the form tag inside web.config)
+3. Run PM> Install-Package BrickPile inside the Package Manager Console in Visual studio (in some cases nuget adds multiple values of the form tag inside web.config)
 4. Navigate to the folder RavenDB.* in the packages directory
 5. Dowload and extract https://github.com/downloads/kloojed/BrickPile/Plugins.rar and put the plugins folder inside RavenDB.*/server
 6. Start Raven.Server.exe, ensure you run it on port 8080
