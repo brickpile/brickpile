@@ -1,0 +1,43 @@
+﻿
+@using System.Globalization;
+
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+<head>
+    <title>BrickPile - Dashboard</title>
+    <meta charset="utf-8">
+    <meta name="description" content="" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/brickpile.ui/styles/framework.css")" media="all" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/brickpile.ui/styles/global.css")" media="all" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/brickpile.ui/styles/dashboard.css")" media="all" />
+    <script type="text/javascript" src="@Url.Content("~/areas/brickpile.ui/scripts/jquery-1.5.1.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/areas/brickpile.ui/scripts/jquery.slugify.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/areas/brickpile.ui/scripts/tiny_mce/tiny_mce.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/areas/brickpile.ui/scripts/pixlr.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/areas/brickpile.ui/scripts/dashboard.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/areas/brickpile.ui/scripts/jquery.event.hover.js")"></script>
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+<body class="@ViewBag.Class">
+    <header role="banner">
+        <menu type="toolbar">
+            <li>@Html.ActionLink("Dashboard","index","dashboard")</li>
+        </menu>
+        <strong>@HttpContext.Current.User.Identity.Name @Html.ActionLink("Log Off", "logoff", "account")</strong>
+    </header>
+    <nav role="navigation">
+        <h1>Main navigation</h1>
+        @RenderSection( "GlobalNavigation", required:false )
+    </nav>
+    <div id="main">
+        <article>
+            @RenderBody()
+        </article>
+    </div>
+    <footer>
+        @RenderSection( "Footer", required:false )
+    </footer>
+</body>
+</html>

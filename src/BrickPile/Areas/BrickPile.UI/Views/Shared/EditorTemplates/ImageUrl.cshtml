@@ -1,0 +1,12 @@
+﻿@model System.String
+<figure>
+    <div>
+        <img src="@this.Model" style="width:175px;" id="@ViewData.TemplateInfo.HtmlFieldPrefix.Replace('.','_')_image" />
+    </div>
+    <figcaption>Image title ...</figcaption>
+    <menu>
+        <a href="#" class="edit">Edit</a>
+        <a href="#" class="browse">Browse</a>
+    </menu>
+</figure>
+@Html.HiddenFor(x => Model, new { @readonly = true, @class = "text-box" })

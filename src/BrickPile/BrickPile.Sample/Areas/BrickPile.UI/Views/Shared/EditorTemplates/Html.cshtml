@@ -1,0 +1,26 @@
+﻿
+@model string
+
+@Html.TextAreaFor(x => Model, 20, 60, new { @class = "tinymce" })           
+
+<script type="text/javascript">
+    tinyMCE.init({
+        mode: "textareas",
+        editor_selector: "tinymce",
+        theme: "advanced",
+        skin: "cirkuit",
+        plugins: "paste",
+        theme_advanced_toolbar_location: "top",
+        theme_advanced_toolbar_align: "left",
+        theme_advanced_buttons1: "media,formatselect,separator,bold,italic,separator,bullist,numlist,separator,link,unlink,image,separator,code,separator,undo,redo,fullscreen",
+        //theme_advanced_buttons1: "bold,italic,separator,blockquote,bullist,numlist,separator,link,unlink,indent,outdent,separator,code",
+        theme_advanced_buttons2: "",
+        theme_advanced_buttons3: "pastetext,pasteword,selectall",
+        paste_remove_styles: true,
+        theme_advanced_path: false,
+        theme_advanced_statusbar_location: "none",
+        extended_valid_elements: "pre[name|class|cols|rows]",
+        remove_linebreaks: false,
+        convert_urls: false,
+    });
+</script>
