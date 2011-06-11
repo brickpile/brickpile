@@ -1,6 +1,45 @@
 http://www.getbrickpile.com
 
-Domain -> Entities and domain logic
-Core -> Repositories, Context and everything related to core of the application.
-Services -> Services and components (sub-services)
-UI -> MVC 3
+Installation
+------------
+1. Create a fresh ASP.NET MVC 3 Web application
+2. Removed unused packages installed by the project template
+3. Install the NuGet package named BrickPile (in some cases the nuget adds multiple values of the form tag inside web.config)
+4. Navigate to the folder RavenDB.* in the packages directory
+5. Dowload and extract https://github.com/downloads/kloojed/BrickPile/Plugins.rar and put the plugins folder inside RavenDB.*/server
+6. Start Raven.Server.exe, ensure you run it on port 8080
+7. Hit f5 and navigate to /dashboard/account/manageusers and enter your credentials
+8. Create a new controller called HomeController with the following code
+
+public class HomeController : Controller {
+    private readonly IPageModel _model;
+    public ActionResult Index() {
+        return View(_model);
+    }
+    public HomeController(IPageModel model) {
+        _model = model;
+    }
+}
+
+9. Create a new model called Home
+
+[PageModel("Start page")]
+public class Home : PageModel {
+    public string Heading { get; set; }
+    [DataType(DataType.Html)]
+    public string MainBody { get; set; }
+}
+
+10. Create a new view for the HomeController
+
+@model YOURNAMESPACE.Models.Home
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Html.DisplayFor(model => model.Heading)</h1>
+@Html.Raw(Model.MainBody)
+
+11. Navigate to /dashboard and login using your credentials
+12. Click Content and create your default page
