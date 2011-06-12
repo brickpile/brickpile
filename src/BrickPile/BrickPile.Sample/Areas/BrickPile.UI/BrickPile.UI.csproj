@@ -36,9 +36,9 @@
     <Reference Include="AsyncCtpLibrary, Version=1.0.4107.18181, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB.1.0.0.371\lib\net40\AsyncCtpLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="AWSSDK, Version=1.3.4.1, Culture=neutral, PublicKeyToken=cd2d24cd2bace800, processorArchitecture=MSIL">
+    <Reference Include="AWSSDK, Version=1.3.6.0, Culture=neutral, PublicKeyToken=cd2d24cd2bace800, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\lib\AWSSDK\AWSSDK.dll</HintPath>
+      <HintPath>..\..\..\packages\AWSSDK.1.3.6.0\lib\AWSSDK.dll</HintPath>
     </Reference>
     <Reference Include="Elmah, Version=1.2.13605.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\elmah.corelibrary.1.2\lib\Elmah.dll</HintPath>
