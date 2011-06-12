@@ -432,7 +432,9 @@
     <Content Include="Styles\framework.css" />
     <Content Include="Styles\global.css" />
     <Content Include="Styles\reset.css" />
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />

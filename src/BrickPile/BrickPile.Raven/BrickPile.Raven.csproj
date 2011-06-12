@@ -31,29 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AsyncCtpLibrary">
-      <HintPath>..\packages\RavenDB.1.0.0.371\lib\net40\AsyncCtpLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="MissingBitsFromClientProfile">
-      <HintPath>..\packages\RavenDB.1.0.0.371\lib\net40\MissingBitsFromClientProfile.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Abstractions">
-      <HintPath>..\packages\RavenDB.1.0.0.371\lib\net40\Raven.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Client.Lightweight">
-      <HintPath>..\packages\RavenDB.1.0.0.371\lib\net40\Raven.Client.Lightweight.dll</HintPath>
-    </Reference>
     <Reference Include="Raven.Database">
       <HintPath>..\packages\RavenDB.1.0.0.371\server\Raven.Database.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Http">
       <HintPath>..\packages\RavenDB.1.0.0.371\server\Raven.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Json">
-      <HintPath>..\packages\RavenDB.1.0.0.371\lib\net40\Raven.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,9 +50,6 @@
     <Compile Include="TriggerContext.cs" />
     <Compile Include="Triggers\DeleteTrigger.cs" />
     <Compile Include="Triggers\UpdateTrigger.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
