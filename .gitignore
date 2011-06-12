@@ -32,6 +32,5 @@ Storage*/
 Backup*/
 NuGet*/
 lib*/
-Web.config
 src/BrickPile/packages/RavenDB*/server/Data*/
 src/BrickPile/packages/RavenDB*/server/Raven.Server.log*
