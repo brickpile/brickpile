@@ -1,6 +1,26 @@
-http://www.getbrickpile.com
+http://www.getbrickpile.com (no content yet)
 
-Installation
+#Some BrickPile features
+------------------------
+RavenDB (both embedded and server)
+Easy installation with NuGet
+No or very little configuration
+Rich UI built in HTML5 and CSS 3
+True SEO urls
+No required code on the page template (just your own clean markup)
+One unified UI for editing all content
+HtmlHelpers for creating main and subnavigation with templates for selected page etc
+TinyMCE editor for DataType.Html
+Custom editor template for creating links between pages
+Amazon S3 integration for files
+Custom editor template for selecting content images from Amazon S3
+RavenDB membership and roleprovider (thanks to Martijn Boland at http://blogs.taiga.nl/martijn/)
+
+#Screenshots of the UI
+----------------------
+http://www.flickr.com/photos/kloojed/sets/72157626718017942/with/5718559859/
+
+#Installation
 ------------
 1. Create a fresh ASP.NET MVC 3 Web application
 2. Removed unused packages installed by the project template
