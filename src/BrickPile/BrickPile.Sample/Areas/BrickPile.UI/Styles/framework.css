@@ -120,8 +120,8 @@ nav li a.selected {
 div#main {
 	/*background: #f7f8f9 url(/areas/dashboard/content/content-background.png);*/
 	/*background: url(/areas/dashboard/content/darkfade.jpg) no-repeat fixed center top rgb(36, 36, 36);*/
-	/*background: url(/areas/dashboard/content/linen.jpg) no-repeat fixed center top rgb(199, 204, 210);*/
-	background: url(http://my.cl.ly/images/new/body-bg.png) repeat 0 0;
+	background: url(/areas/dashboard/content/linen.jpg) no-repeat fixed center top rgb(199, 204, 210);
+	/*background: url(http://my.cl.ly/images/new/body-bg.png) repeat 0 0;*/
 	/*background: url(http://farm5.static.flickr.com/4092/5052218835_d508d4624e_b.jpg) repeat fixed center top #000;*/
 	/*background: url("/areas/dashboard/content/darkwood.jpg") no-repeat fixed center center #000000;*/
     bottom:0;

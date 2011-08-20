@@ -21,7 +21,7 @@ THE SOFTWARE. */
 using System.Web.Mvc;
 
 namespace BrickPile.UI.Web.Mvc.Html {
-    public static class ActionLinkExtensions {
+    public static class ActionLinkExtension {
         public static MvcHtmlString EditActionLink(this HtmlHelper htmlHelper, string linkText, string actionName, object routeValues) {
             return EditActionLink(htmlHelper, linkText, actionName, routeValues, string.Empty);
         }
@@ -31,7 +31,8 @@ namespace BrickPile.UI.Web.Mvc.Html {
             var url = urlHelper.Action("delete", routeValues);
 
             var delTagBuilder = new TagBuilder("span");
-            delTagBuilder.MergeAttribute("title","Delete page");
+            delTagBuilder.SetInnerText("Delete");
+            delTagBuilder.MergeAttribute("title", "Delete page");
             delTagBuilder.AddCssClass("delete");
 
             delTagBuilder.MergeAttribute("data-val", url);
@@ -39,7 +40,8 @@ namespace BrickPile.UI.Web.Mvc.Html {
             url = urlHelper.Action("add", routeValues);
 
             var addTagBuilder = new TagBuilder("span");
-            addTagBuilder.MergeAttribute("title","Add child page");
+            addTagBuilder.SetInnerText("Add");
+            addTagBuilder.MergeAttribute("title", "Add child page");
             addTagBuilder.AddCssClass("add");
 
             addTagBuilder.MergeAttribute("data-val", url);
@@ -63,7 +65,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
             
 
             urlHelper = new UrlHelper(htmlHelper.ViewContext.RequestContext);
-            url = urlHelper.Action(actionName, routeValues);
+            urlHelper.Action(actionName, routeValues);
             tagBuilder.MergeAttribute("href", url);
             if(!string.IsNullOrEmpty(@class)) {
                 tagBuilder.AddCssClass(@class);

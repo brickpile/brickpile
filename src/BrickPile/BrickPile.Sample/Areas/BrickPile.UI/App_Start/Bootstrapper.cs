@@ -46,14 +46,7 @@ namespace BrickPile.UI.App_Start {
         public static IContainer Initialize() {
             ObjectFactory.Initialize(x =>
             {
-                //x.Scan(scan =>
-                //{
-                //    scan.AssembliesFromApplicationBaseDirectory();
-                //    scan.LookForRegistries();
-                //});
-
-                //var documentStore = new DocumentStore { ConnectionStringName = "RavenDB" };
-                var documentStore = new DocumentStore {Url = "http://localhost:8080"};
+                var documentStore = new DocumentStore { ConnectionStringName = "RavenDB" };
                 
                 documentStore.Initialize();
                 documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null;
@@ -78,6 +71,7 @@ namespace BrickPile.UI.App_Start {
                 x.For<IPageService>().Use<PageService>();
                 x.For<ISettings>().Use<Settings>();
                 x.For<IPageModel>().UseSpecial(y => y.ConstructedBy( r => ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>()));
+
             });
             return ObjectFactory.Container;
         }

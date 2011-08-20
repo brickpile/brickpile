@@ -43,6 +43,8 @@ namespace BrickPile.UI.App_Start {
 
             GlobalFilters.Filters.Add(new HandleErrorWithElmahAttribute());
 
+            ControllerBuilder.Current.SetControllerFactory(typeof(BrickPileControllerFactory));
+
             // Register the default page route
             RouteTable.Routes.RegisterPageRoute(
                 container.GetInstance<IPathResolver>(),

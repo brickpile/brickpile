@@ -33,7 +33,9 @@ namespace BrickPile.UI.Controllers {
         public ActionResult OpenBucket() {
 
             var request = new ListObjectsRequest { BucketName = _settings.BucketName };
+            //var request = new GetObjectMetadataRequest {BucketName = _settings.BucketName};
             var response = _client.ListObjects(request);
+            
             var assets = new List<AssetModel>(response.S3Objects.Count);
             foreach (var s3Object in response.S3Objects) {
                 if(s3Object.Size == 0)
@@ -91,6 +93,7 @@ namespace BrickPile.UI.Controllers {
         public LibraryController(IDocumentSession session) {
             _settings = session.Load<Settings>("brickpile/settings");
             _client = new AmazonS3Client(_settings.AwsAccessKey, _settings.AwsSecretAccessKey);
+            
         }
     }
 }

@@ -69,16 +69,16 @@ namespace BrickPile.UI.Models
 
 	public class RegisterModel
 	{
-		[Required]
+		[Required(ErrorMessage = "Required!")]
 		[Display(Name = "User name")]
 		public string UserName { get; set; }
 
-		[Required]
+        [Required(ErrorMessage = "Required!")]
 		[DataType(DataType.EmailAddress)]
 		[Display(Name = "Email address")]
 		public string Email { get; set; }
 
-		[Required]
+        [Required(ErrorMessage = "Required!")]
 		[ValidatePasswordLength]
 		[DataType(DataType.Password)]
 		[Display(Name = "Password")]
@@ -86,7 +86,7 @@ namespace BrickPile.UI.Models
 
 		[DataType(DataType.Password)]
 		[Display(Name = "Confirm password")]
-		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+		[Compare("Password", ErrorMessage = "No match!")]
 		public string ConfirmPassword { get; set; }
 	}
 	#endregion

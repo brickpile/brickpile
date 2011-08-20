@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -39,9 +40,21 @@ namespace BrickPile.UI.Common {
         /// <param name="depth">The depth.</param>
         /// <returns></returns>
         public static IEnumerable<HierarchyNode<TEntity>> CreateHierarchy<TEntity>(this IEnumerable<TEntity> allItems, TEntity rootPage, int depth) where TEntity : IPageModel {
+
+            //if(depth == 0) {
+            //    yield return new HierarchyNode<TEntity>
+            //    {
+            //        Entity = rootPage,
+            //        ChildNodes = CreateHierarchy(allItems, rootPage, depth++),
+            //        Depth = depth,
+            //        Expanded = allItems.Where(x => x.Parent.Id.Equals(rootPage.Id)).Count() > 0
+            //    };
+            //    //depth++;
+            //}
+
             var childs = allItems.Where(x => x.Parent.Id.Equals(rootPage.Id));
+
             if (childs.Count() > 0) {
-                childs.OrderByDescending(x => x.SortOrder);
                 depth++;
                 foreach (var item in childs)
                     yield return new HierarchyNode<TEntity>
@@ -59,7 +72,7 @@ namespace BrickPile.UI.Common {
         /// <param name="pageModel"></param>
         /// <returns></returns>
         public static string GetControllerName(this IPageModel pageModel) {
-            return pageModel.GetType().Name.ToLower();
+            return pageModel != null ? pageModel.GetType().Name.ToLower() : string.Empty;
         }
         /// <summary>
         /// Registers the page route.

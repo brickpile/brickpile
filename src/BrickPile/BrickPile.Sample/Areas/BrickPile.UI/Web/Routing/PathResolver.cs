@@ -39,30 +39,34 @@ namespace BrickPile.UI.Web.Routing {
             _pathData.Action = PageRoute.DefaultAction;
             // Get an up to date page repository
             _repository = ObjectFactory.GetInstance<IPageRepository>();
+
             
-            // Load and return the start page if the path is empty
             if(string.IsNullOrEmpty(virtualUrl)) {
                 _pageModel = _repository.SingleOrDefault<IPageModel>(x => x.Parent == null);
-                if(_pageModel == null) {
-                    throw new HttpException(404, "The resource cannot be found.");
-                }
                 _pathData.CurrentPageModel = _pageModel;
                 _pathData.Controller = _pageModel.GetControllerName();
-                return _pathData;
             }
+            else {
+                virtualUrl = VirtualPathUtility.RemoveTrailingSlash(virtualUrl);
+                // The normal beahaviour should be to load the page based on the url
+                _pageModel = _repository.GetPageByUrl<IPageModel>(virtualUrl);
 
-            VirtualPathUtility.RemoveTrailingSlash(virtualUrl);
-            // The normal beahaviour should be to load the page based on the url
-            _pageModel = _repository.GetPageByUrl<IPageModel>(virtualUrl);
+                // Try to load the page without the last segment of the url and set the last segment as action
+                if (_pageModel == null && virtualUrl.LastIndexOf("/") > 0) {
+                    var index = virtualUrl.LastIndexOf("/");
+                    var path = virtualUrl.Substring(0, index).TrimStart(new[] { '/' });
+                    _pageModel = _repository.GetPageByUrl<IPageModel>(path);
+                    _pathData.Action = virtualUrl.Substring(index, virtualUrl.Length - index).Trim(new[] { '/' });
+                }
+                
+                if(_pageModel == null) {
+                    _pageModel = _repository.SingleOrDefault<IPageModel>(x => x.Parent == null);
+                    _pathData.CurrentPageModel = _pageModel;
+                    _pathData.Action = virtualUrl;
+                    _pathData.Controller = _pageModel.GetControllerName();
+                }
+            }
             
-            // Try to load the page without the last segment of the url and set the last segment as action
-            if (_pageModel == null && virtualUrl.LastIndexOf("/") > 0) {
-                var index = virtualUrl.LastIndexOf("/");
-                var path = virtualUrl.Substring(0, index).TrimStart(new[] { '/' });
-                _pageModel = _repository.GetPageByUrl<IPageModel>(path);
-                _pathData.Action = virtualUrl.Substring(index, virtualUrl.Length - index).Trim(new[] {'/'});
-            }
-
             if(_pageModel == null) {
                 return null;
             }

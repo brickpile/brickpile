@@ -1,10 +1,31 @@
-﻿
+﻿@*model BrickPile.UI.Web.ViewModels.IDashboardViewModel*@
 @model BrickPile.UI.Models.DefaultPageModel
-
+@using BrickPile.UI.Web.Mvc.Html
+@using BrickPile.UI.Common
 @{
     Layout = "~/Areas/BrickPile.UI/Views/Shared/_Layout.cshtml";
 
 }
+@*
+<h2>@Model.CurrentModel.Metadata.Name</h2>
+
+
+@if (Model.StructureInfo.ParentModel != null) {
+    <span>Upp en nivå: @Html.ActionLink(Model.StructureInfo.ParentModel)</span>
+} else {
+    <ul>
+        <li>@Html.ActionLink(Model.StructureInfo.RootModel)</li>
+        @foreach (var item in Model.StructureInfo.HierarchicalStructure) {
+            <li>@Html.ActionLink(item.Entity)</li>
+        }
+    </ul>
+}
+
+Html.Raw(Html.PageList(Model.StructureInfo, page => Html.EditActionLink(page.Metadata.Name, "index", new { model = page })))
+
+*@
+
+
 <h1>Create your first page</h1>
 <div class="overlay">
     <aside>

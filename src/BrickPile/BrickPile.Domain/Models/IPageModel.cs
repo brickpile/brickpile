@@ -34,12 +34,5 @@ namespace BrickPile.Domain.Models {
         /// The parent.
         /// </value>
         DocumentReference<IPageModel> Parent { get; set; }
-        /// <summary>
-        /// Gets or sets the sort order.
-        /// </summary>
-        /// <value>
-        /// The sort order.
-        /// </value>
-        int? SortOrder { get; set; }
     }
 }

@@ -30,6 +30,7 @@ using BrickPile.UI.Web.ViewModels;
 namespace BrickPile.UI.Controllers {
     [Authorize]
     public class ContentController : Controller {
+        private readonly dynamic _model;
         private readonly IRepository<IPageModel> _repository;
         private readonly IStructureInfo _structureInfo;
         /// <summary>
@@ -38,9 +39,13 @@ namespace BrickPile.UI.Controllers {
         /// <returns>
         /// Redirects to the Edit action with the home page loaded
         /// </returns>
-        public ActionResult Index(dynamic model) {
-            if(model != null && model is IPageModel) {
-                return RedirectToAction("edit", new { model });   
+        public ActionResult Index() {
+
+            //var viewModel = new DashboardViewModel(_model, _structureInfo);
+            //return View(viewModel);
+
+            if (_model != null && _model is IPageModel) {
+                return RedirectToAction("edit", new { model = _model });
             }
             return View(new DefaultPageModel());
         }
@@ -192,9 +197,11 @@ namespace BrickPile.UI.Controllers {
         /// <summary>
         /// Initializes a new instance of the <b>PagesController</b> class.
         /// </summary>
-        /// <param name="repository">The repository.</param>
+        /// <param name="model">The model.</param>
         /// <param name="structureInfo">The structure info.</param>
-        public ContentController(IRepository<IPageModel> repository, IStructureInfo structureInfo) {
+        /// <param name="repository">The repository.</param>
+        public ContentController(IPageModel model, IStructureInfo structureInfo, IRepository<IPageModel> repository) {
+            _model = model;
             _repository = repository;
             _structureInfo = structureInfo;
         }

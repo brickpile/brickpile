@@ -1,0 +1,196 @@
+﻿@font-face {font-family: 'FeltTipRoman';src: url('webfonts/eot/felttip-roman.eot?#iefix') format('embedded-opentype'),url('webfonts/woff/felttip-roman.woff') format('woff'),url('webfonts/ttf/felttip-roman.ttf') format('truetype'),url('webfonts/svg/felttip-roman.svg#FeltTipRoman') format('svg');}
+/*--------------------------------------------------------------
+1 Reset
+----------------------------------------------------------------*/
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+	margin:0;
+	padding:0;
+	border:0;
+	outline:0;
+	font-size:100%;
+	vertical-align:baseline;
+	background:transparent;
+}
+article,aside,details,figcaption,figure, footer,header,hgroup,menu,nav,section { display:block; }
+nav ul { list-style:none; }
+ul, li { list-style:none; }
+/*--------------------------------------------------------------
+2 Global
+----------------------------------------------------------------*/
+html { border-top:5px solid #192227; }
+body {
+    background-image: url(../images/gradient.png), url(../images/wood.jpg);
+    background-repeat:repeat-x, repeat;
+    background-position: left top, left top;
+	font:87.5%/1.5 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;	
+	font-weight: 300;
+	color:#333;
+	position:relative;
+ 	max-width:68.571em;
+	min-width:760px;
+	margin: 86px auto 0;	
+}
+    /*--------------------------------------------------------------
+    2.2 Headers
+    ----------------------------------------------------------------*/
+    h1 {
+        color:#28353d;
+        font-family:FeltTipRoman;
+        font-size:157.1%;
+        text-shadow:0 1px 0 rgba(255,255,255,0.7);
+        text-align:center;
+    }
+	/*--------------------------------------------------------------
+	2.3 Forms
+	----------------------------------------------------------------*/
+    form {
+        background: rgba(0,0,0,0.1);
+        box-shadow: 0 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(51, 51, 51, 0.1) inset;
+        border-radius:5px;
+        margin-top:22px;
+	    padding:10px;
+    }	
+	form>div {
+        background-image: url(../images/form-bg.png);
+        background-position:0 0;
+        background-repeat:repeat;
+        background-color:#fff;
+		border-radius:5px;
+		box-shadow: 0 2px 2px rgba(0,0,0,0.3), 1px 1px 0 rgba(255, 255, 255, 0.1) inset;
+	}
+	legend {
+		background:-moz-linear-gradient(top, #f1f2ef 0%, #e5e7e1 100%);
+		background:-webkit-linear-gradient(top, #f1f2ef 0%,#e5e7e1 100%);
+		border-radius:5px 5px 0 0;
+		box-shadow:0 1px 0 rgba(215,218,208,1),0 1px 0 rgba(255, 255, 255, .7) inset;
+		color:#6c6d6b;
+		font-weight:bold;
+		line-height:50px;
+		text-align:center;
+		text-shadow:0 1px 0 rgba(255,255,255,1);
+		margin-bottom:26px;
+		width:100%;
+	}
+	label {
+		font-weight:bold;
+		display:inline-block;
+		margin-top:.2em;
+	}
+	input,
+	textarea {
+		border:1px solid #b3c2cb;
+		box-shadow:0 1px 0 rgba(255,255,255,1), 1px 1px 1px rgba(0,0,0,0.08) inset;
+		background:-moz-linear-gradient(top, #fafafa 0%, #ffffff 100%);
+		background:-webkit-linear-gradient(top, #f1ffafafa2ef 0%,#ffffff 100%);
+		width:600px;
+		padding:.8em .6em .95em;
+		border-radius:4px;
+		font:100%/1.5 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight:300;
+		box-sizing:border-box;
+		-moz-box-sizing:border-box;
+		margin:.2em 0 0;
+	}
+	input:focus,
+	textarea:focus {
+		background:#f8f8f8;
+	}
+	::-webkit-input-placeholder { color:#bbb; }
+	input:-moz-placeholder,
+	textarea:-moz-placeholder { color:#bbb; }
+	input[type=submit] {
+	    background: url(../images/button.png) repeat 0 0;
+	    color:#6d6e6d;
+		/*background:#3199ea;
+		background:-moz-linear-gradient(top, #3199ea 0%, #187ac1 100%);
+		background:-webkit-linear-gradient(top, #3199ea 0%,#187ac1 100%);*/
+		/*filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#3199ea', endColorstr='#187ac1',GradientType=0 );*/
+		/*background:linear-gradient(top, #3199ea 0%,#187ac1 100%);*/
+		border:1px solid #afb0af;
+		box-shadow:0 1px 0 #cfd4cf;
+		width:auto;
+		font-weight:bold;
+		padding:1.01em 1.6em;
+		display:inline-block;
+		position:relative;
+		margin-top:1.1em;
+		text-shadow:1px 1px 0 rgba(255,255,255,1);
+	}
+	/*
+	input[type=submit]:hover {
+		background:#2a8fe7;
+		background:-moz-linear-gradient(top, #2a8fe7 0%, #146fb9 100%);
+		background:-webkit-linear-gradient(top, #2a8fe7 0%,#146fb9 100%);
+		background: linear-gradient(top, #2a8fe7 0%,#146fb9 100%);
+	}
+	input[type=submit]:active {
+		background:#146fb9;
+		background:-moz-linear-gradient(top, #146fb9 0%, #2a8fe7 100%);
+		background:-webkit-linear-gradient(top, #146fb9 0%,#2a8fe7 100%);
+		background:linear-gradient(top, #146fb9 0%,#2a8fe7 100%);
+		box-shadow:0 5px 10px rgba(0,0,0,0.2) inset;
+		text-shadow:1px 1px 0 rgba(0,0,0,0.4);
+		top:1px;
+	}*/
+	fieldset div {
+        background-image: url(../images/submit-bg.png);
+        background-position:0 0;
+        background-repeat:repeat;	    
+		background-color:#e5e8e1;
+		border-radius: 0 0 5px 5px;
+		box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1) inset;
+		margin-top:2em;
+		padding: 0 1em 1em;
+		text-align:center;
+	}
+	.editor-label {
+	    color:#3d4950;
+	    display:block;
+	    float:left;
+	    clear:left;
+	    background:none;
+	    box-shadow:none;
+	    width:130px;
+	    text-align:right;
+	}
+	.editor-field {
+	    background:#e0f3fe;
+        border-radius:5px;	    
+	    box-shadow:none;
+	    display:inline-block;
+	    margin-top:8px;
+	    padding:.65em 1em .75em;
+	}
+	.field-validation-error {
+	    background:url(../images/required.png) no-repeat left center;
+	    color:#7e868b;
+	    margin-left:13px;
+	    padding-left:25px;
+	}
+/*--------------------------------------------------------------
+3 Header
+----------------------------------------------------------------*/
+header {
+    background-color:#28353d;
+    padding:1.1em 1em .6em;
+    position:fixed;
+    left:0;
+    top:5px;
+    width:100%;
+}
+header div {
+ 	max-width:64.5em;
+	min-width:760px;
+	margin:0 auto;	    
+}
+/*--------------------------------------------------------------
+4 Footer
+----------------------------------------------------------------*/
+footer {
+    color:#28353d;
+    font-size:85.7%;
+    margin-top:27px;
+    text-align:center;
+    text-shadow:0 1px 0 rgba(255,255,255,0.8);
+}
+footer strong { font-weight:bold; }

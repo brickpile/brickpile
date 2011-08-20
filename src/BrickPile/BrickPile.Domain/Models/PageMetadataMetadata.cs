@@ -18,7 +18,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace BrickPile.Domain.Models {
     internal class PageMetadataMetadata {
@@ -26,15 +28,27 @@ namespace BrickPile.Domain.Models {
         /// Get/Sets the Name of the PageMetaData
         /// </summary>
         /// <value></value>
-        [Display(Name = "Name",Order = 10)]
+        [Display(Name = "Page name", Order = 10, Prompt = "My awesome page")]
         [Required(ErrorMessage = "Name_Required")]
         public virtual string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the start publish.
+        /// </summary>
+        /// <value>
+        /// The start publish.
+        /// </value>
+        [Display]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/ddThh:mm:ss}")]
+        public virtual DateTime? StartPublish { get; set; }
         /// <summary>
         /// Get/Sets the Slug of the PageMetaData
         /// </summary>
         /// <value></value>
-        [Display(Name = "Slug",Order = 20)]
-        [ScaffoldColumn(false)]
+        //[Display(Name = "Slug",Order = 20)]
+        //[ScaffoldColumn(false)]
+        [HiddenInput(DisplayValue = false)]
+        [UIHint("Slug")]
         public virtual string Slug { get; set; }
         /// <summary>
         /// Gets or sets the URL.
@@ -42,7 +56,15 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// The URL.
         /// </value>
+        [HiddenInput(DisplayValue = false)]
+        public virtual string Url { get; set; }
+        /// <summary>
+        /// Gets or sets the sort order.
+        /// </summary>
+        /// <value>
+        /// The sort order.
+        /// </value>
         [ScaffoldColumn(false)]
-        public string Url { get; set; }
+        public virtual int SortOrder { get; set; }
     }
 }

@@ -35,6 +35,10 @@ namespace BrickPile.UI {
         /// </summary>
         IPageModel CurrentModel { get; }
         /// <summary>
+        /// Gets the parent model.
+        /// </summary>
+        IPageModel ParentModel { get; }
+        /// <summary>
         /// <see cref="StructureInfo.HierarchicalStructure"/>
         /// </summary>
         IEnumerable<IHierarchyNode<IPageModel>> HierarchicalStructure { get; }

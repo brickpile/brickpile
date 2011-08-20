@@ -33,6 +33,9 @@ namespace BrickPile.UI {
     /// <example></example>
     public class StructureInfo : IStructureInfo {
         private readonly IPageRepository _repository;
+        private IPageModel _currentModel;
+        private IPageModel _rootModel;
+        private IPageModel _parentModel;
         /// <summary>
         ///   <see cref="StructureInfo.RootModel"/>
         /// </summary>
@@ -44,7 +47,7 @@ namespace BrickPile.UI {
                 return _rootModel;
             }
         }
-        private IPageModel _rootModel;
+        
         /// <summary>
         ///   <see cref="StructureInfo.CurrentModel"/>
         /// </summary>
@@ -56,7 +59,17 @@ namespace BrickPile.UI {
                         RootModel);
             }
         }
-        private IPageModel _currentModel;
+        /// <summary>
+        /// Gets the parent model.
+        /// </summary>
+        public virtual IPageModel ParentModel {
+            get {
+                if(_parentModel == null && CurrentModel != null && CurrentModel.Parent != null) {
+                    _parentModel = _repository.SingleOrDefault<IPageModel>(model => model.Id == CurrentModel.Parent.Id);
+                }
+                return _parentModel;
+            }
+        }
         /// <summary>
         ///   <see cref="StructureInfo.HierarchicalStructure"/>
         /// </summary>
@@ -71,6 +84,7 @@ namespace BrickPile.UI {
                     foreach (var ancestor in ancestors) {
                         items.AddRange(_repository.GetChildren(ancestor));
                     }
+                    
                     _hierarchicalStructure = items.CreateHierarchy(RootModel, 0);
                 }
                 return _hierarchicalStructure;
@@ -83,6 +97,7 @@ namespace BrickPile.UI {
         /// <param name="item">The item.</param>
         /// <returns></returns>
         private IEnumerable<IPageModel> GetAncestors(IPageModel item) {
+
             var parent = item.Parent != null ? _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(item.Parent.Id)) : null;
 
             if (parent != null) {

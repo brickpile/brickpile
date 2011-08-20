@@ -1,0 +1,65 @@
+﻿
+@using System.Globalization;
+@model BrickPile.UI.Models.RegisterModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+    <head>
+        <title>BrickPile - Setup</title>
+        <meta charset="utf-8">
+        <meta name="description" content="" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/brickpile.ui/styles/setup.css")" media="all" />
+    </head>
+    <body>
+        <header>
+            <div>
+                <img src="/areas/brickpile.ui/images/logo.png" alt="BrickPile" />
+            </div>
+        </header>
+        <h1>Welcome to BrickPile! I'll guess you're the administrator?</h1>
+        @using (Html.BeginForm()) {
+            <div>
+                <fieldset>
+                    <legend>Account Information</legend>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.UserName)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(m => m.UserName)
+                        
+                    </div>
+                    @Html.ValidationMessageFor(m => m.UserName)
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.Email)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(m => m.Email)
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Email)
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.Password)
+                    </div>
+                    <div class="editor-field">
+                        @Html.PasswordFor(m => m.Password)
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Password)
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.ConfirmPassword)
+                    </div>
+                    <div class="editor-field">
+                        @Html.PasswordFor(m => m.ConfirmPassword)
+                    </div>
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                    <div>
+                        <input type="submit" value="Register and login" />
+                    </div>
+                </fieldset>
+            </div>
+        }
+        <footer>
+            <p>This is <strong>Brickpile</strong>. An open source content management system designed to kick ass.</p>
+        </footer>
+    </body>
+</html>

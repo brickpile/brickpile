@@ -21,18 +21,23 @@ THE SOFTWARE. */
 using System;
 using System.Web;
 using System.Web.Mvc;
+using BrickPile.UI.Models;
 using Elmah;
+using Raven.Client;
+using StructureMap;
 
 namespace BrickPile.UI {
     /// <summary>
     /// 
     /// </summary>
     public class HandleErrorWithElmahAttribute : HandleErrorAttribute {
+        private readonly IDocumentSession _session;
         /// <summary>
         /// Called when [exception].
         /// </summary>
         /// <param name="context">The context.</param>
         public override void OnException(ExceptionContext context) {
+
             base.OnException(context);
 
             var e = context.Exception;
