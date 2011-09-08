@@ -1,0 +1,25 @@
+﻿@model BrickPile.UI.Models.DefaultPageModel
+@{
+    ViewBag.Title = "Start";
+    Layout = "~/Areas/BrickPile.UI/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create your first page</h1>
+<div class="overlay">
+    <aside>
+        <h1>Create the home page</h1>
+        @Html.ValidationSummary()
+        <section>
+            @using (Html.BeginForm("createdefault","content", null, FormMethod.Post, new { name = "editForm", style="border:0;" })) {
+                
+                @Html.LabelFor(model => model.AvailableModels)
+                @Html.DropDownListFor(m => m.SelectedPageModel, new SelectList(Model.AvailableModels, "Value", "Text"))
+                @Html.LabelFor(model => model.Name)
+                @Html.EditorFor(model => model.Name)
+                <menu>
+                    <input type="submit" value="Yes, go ahead" />
+                </menu>
+            }
+        </section>
+    </aside>
+</div>

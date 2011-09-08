@@ -3,12 +3,10 @@
     Layout = "~/Areas/BrickPile.UI/Views/Shared/_Layout.cshtml";
 }
 
-@section GlobalNavigation {
-    <ul class="">
+@section Navigation {
+    <ul>
+        <li>@Html.ActionLink("Dashboard", "index", "dashboard", null, new { @class = "dashboard selected" })</li>
         <li>@Html.ActionLink("Content", "index", "content", null, new { @class = "content" })</li>
-        <li>@Html.ActionLink("Preferences", "index", "settings", null, new { @class = "preferences" })</li>
-        <!--li>@Html.ActionLink("Library", "index", "library", null, new { @class = "library" })</li>
-		<li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users" })</li-->
     </ul>
 }
 

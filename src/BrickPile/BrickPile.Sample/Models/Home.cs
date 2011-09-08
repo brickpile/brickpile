@@ -1,12 +1,10 @@
-using System.ComponentModel.DataAnnotations;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
+using BrickPile.Sample.Controllers;
 
 namespace BrickPile.Sample.Models {
-    [PageModel("Start page")]
+    [PageModel(Name = "Start page", Controller = typeof(PageController))]
     public class Home : PageModel {
         public string Heading { get; set; }
-        [DataType(DataType.ImageUrl)]
-        public string File { get; set; }
     }
 }

@@ -35,11 +35,11 @@ namespace BrickPile.UI.Web.Mvc.Html {
             }
 
             var sb = new StringBuilder();
-            sb.AppendLine("<ul>");
+            sb.AppendLine("<table>");
             foreach (var child in node.ChildNodes) {
                 RenderLi(sb, "<li>{0}</li>", child.Entity, itemContent);    
             }
-            sb.AppendLine("</ul>");
+            sb.AppendLine("</table>");
             return sb.ToString();           
         }
         private static void RenderLi(StringBuilder sb, string format, IPageModel item, Func<IPageModel, MvcHtmlString> itemContent) {

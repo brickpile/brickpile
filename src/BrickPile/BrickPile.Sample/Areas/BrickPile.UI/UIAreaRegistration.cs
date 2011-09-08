@@ -51,6 +51,12 @@ namespace BrickPile.UI {
             context.Routes.Add("Dashboard", dashboardRoute);
 
             context.MapRoute(
+                "Dashboard_publish",
+                "dashboard/content/publish/{id}/{published}",
+                new { controller = "content", action = "publish", Area = "dashboard" }
+            );
+
+            context.MapRoute(
                 "Dashboard_default",
                 "dashboard/{controller}/{action}/{id}",
                 new { controller = "dashboard", action = "index", id = UrlParameter.Optional }

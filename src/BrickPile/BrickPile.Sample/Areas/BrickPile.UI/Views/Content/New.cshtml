@@ -1,0 +1,36 @@
+﻿
+@model BrickPile.UI.Web.ViewModels.NewPageViewModel
+
+@{
+    Layout = "~/Areas/BrickPile.UI/Views/Shared/_Layout.cshtml";
+}
+
+@section Navigation {
+    <ul>
+        <li>@Html.ActionLink("Dashboard", "index", "dashboard", null, new { @class = "dashboard" })</li>
+        <li>@Html.ActionLink("Content", "index", "content", null, new { @class = "content selected" })</li>
+    </ul>
+}
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm("save", "content", new { model = Model.CurrentModel }, FormMethod.Post, new { name = "editForm" }))
+{
+    <div>
+        <fieldset>
+            <legend>@Model.CurrentModel.Metadata.Name</legend>
+            <div id="metadata">
+                <div>
+                    @Html.EditorFor(model => model.NewPageModel.Metadata)
+                </div>
+            </div>
+
+            @Html.EditorFor(model => model.NewPageModel, new { StructureInfo = Model.StructureInfo })
+            @Html.HiddenFor(model => model.NewPageModel.GetType().AssemblyQualifiedName)            
+
+            <div>
+                <input type="submit" value="Save and publish" />
+            </div>
+        </fieldset>
+    </div>
+}

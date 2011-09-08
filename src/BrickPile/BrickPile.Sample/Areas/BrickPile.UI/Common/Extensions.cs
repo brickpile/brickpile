@@ -22,6 +22,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
@@ -72,7 +74,7 @@ namespace BrickPile.UI.Common {
         /// <param name="pageModel"></param>
         /// <returns></returns>
         public static string GetControllerName(this IPageModel pageModel) {
-            return pageModel != null ? pageModel.GetType().Name.ToLower() : string.Empty;
+            return pageModel != null ? pageModel.GetType().Name : string.Empty;
         }
         /// <summary>
         /// Registers the page route.
@@ -81,7 +83,7 @@ namespace BrickPile.UI.Common {
         /// <param name="pathResolver">The path resolver.</param>
         /// <param name="virtualPathResolver">The virtual path resolver.</param>
         /// <returns></returns>
-        internal static RouteCollection RegisterPageRoute(this RouteCollection routes, IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver) {
+        public static RouteCollection RegisterPageRoute(this RouteCollection routes, IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver) {
             var pageRoute = new PageRoute(pathResolver, virtualPathResolver);
             routes.Add("PageRoute", pageRoute);
             return routes;
@@ -176,5 +178,55 @@ namespace BrickPile.UI.Common {
 
             return attribute;
         }
+        /// <summary>
+        /// Radioes the button for select list.
+        /// </summary>
+        /// <typeparam name="TModel">The type of the model.</typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="htmlHelper">The HTML helper.</param>
+        /// <param name="expression">The expression.</param>
+        /// <param name="listOfValues">The list of values.</param>
+        /// <returns></returns>
+        public static MvcHtmlString RadioButtonForSelectList<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> listOfValues) {
+            var metaData = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
+            var sb = new StringBuilder();
+            if (listOfValues != null) {
+                foreach (SelectListItem item in listOfValues) {
+                    var id = string.Format(
+                        "{0}_{1}",
+                        metaData.PropertyName,
+                        item.Value
+                    );
+
+                    var radio = htmlHelper.RadioButtonFor(expression, item.Value, new { id }).ToHtmlString();
+                    sb.AppendFormat(
+                        "<label for=\"{0}\">{2} {1}</label>",
+                        id,
+                        HttpUtility.HtmlEncode(item.Text),
+                        radio
+                    );
+                }
+            }
+
+            return MvcHtmlString.Create(sb.ToString());
+        }
+        private const string DateFormat = "{0} {1} {2}";
+        public static string FormatDate(this DateTime? dateTime) {
+            var difference = DateTime.Now.Subtract((DateTime) dateTime);
+
+            if (difference.Days >= 1) {
+                if (difference.Days == 1) {
+                    return "yesterday";
+                }
+                return dateTime.Value.ToShortDateString();
+            }
+            if (difference.Hours == 0) {
+                if (difference.Minutes == 0) {
+                    return "just now";
+                }
+                return string.Format(DateFormat, difference.Minutes, difference.Minutes == 1 ? "minute" : "minutes", "ago");
+            }
+            return string.Format(DateFormat, difference.Hours, difference.Hours == 1 ? "hour" : "hours", "ago");
+        }    
     }
 }

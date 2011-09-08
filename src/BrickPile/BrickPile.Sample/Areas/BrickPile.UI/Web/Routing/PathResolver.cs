@@ -22,12 +22,14 @@ using System.Web;
 using BrickPile.Core.Repositories;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
+using BrickPile.UI.Web.Mvc;
 using StructureMap;
 
 namespace BrickPile.UI.Web.Routing {
     public class PathResolver : IPathResolver {
         private readonly IPathData _pathData;
         private IPageRepository _repository;
+        private readonly IControllerMapper _controllerMapper;
         private IPageModel _pageModel;
         /// <summary>
         /// Resolves the path.
@@ -35,11 +37,11 @@ namespace BrickPile.UI.Web.Routing {
         /// <param name="virtualUrl">The virtual URL.</param>
         /// <returns></returns>
         public IPathData ResolvePath(string virtualUrl) {
+
             // Set the default action to index
             _pathData.Action = PageRoute.DefaultAction;
             // Get an up to date page repository
             _repository = ObjectFactory.GetInstance<IPageRepository>();
-
             
             if(string.IsNullOrEmpty(virtualUrl)) {
                 _pageModel = _repository.SingleOrDefault<IPageModel>(x => x.Parent == null);
@@ -58,12 +60,20 @@ namespace BrickPile.UI.Web.Routing {
                     _pageModel = _repository.GetPageByUrl<IPageModel>(path);
                     _pathData.Action = virtualUrl.Substring(index, virtualUrl.Length - index).Trim(new[] { '/' });
                 }
-                
-                if(_pageModel == null) {
+
+                if (_pageModel == null) {
+                    // Load the start ang check if the controller has the requested action
                     _pageModel = _repository.SingleOrDefault<IPageModel>(x => x.Parent == null);
+
+                    var controllerName = _pageModel.GetControllerName();                    
+                    if(!_controllerMapper.ControllerHasAction(controllerName,virtualUrl)) {
+                        return null;
+                    }
+
                     _pathData.CurrentPageModel = _pageModel;
                     _pathData.Action = virtualUrl;
-                    _pathData.Controller = _pageModel.GetControllerName();
+                    _pathData.Controller = controllerName;
+
                 }
             }
             
@@ -80,9 +90,11 @@ namespace BrickPile.UI.Web.Routing {
         /// </summary>
         /// <param name="pathData">The path data.</param>
         /// <param name="repository">The repository.</param>
-        public PathResolver(IPathData pathData, IPageRepository repository) {
+        /// <param name="controllerMapper">The controller mapper.</param>
+        public PathResolver(IPathData pathData, IPageRepository repository, IControllerMapper controllerMapper) {
             _pathData = pathData;
             _repository = repository;
+            _controllerMapper = controllerMapper;
         }
     }
 }

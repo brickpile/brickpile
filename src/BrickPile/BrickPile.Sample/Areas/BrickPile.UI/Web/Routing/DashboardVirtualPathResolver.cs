@@ -22,9 +22,9 @@ using System.Web.Routing;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Web.Routing {
-    public class DashboardVirtualPathResolver : VirtualPathResolver {
+    public class DashboardVirtualPathResolver : IVirtualPathResolver {
         private string _action;
-        public override string ResolveVirtualPath(IPageModel pageModel, RouteValueDictionary routeValueDictionary) {
+        public virtual string ResolveVirtualPath(IPageModel pageModel, RouteValueDictionary routeValueDictionary) {
 
             if (pageModel == null) {
                 return null;

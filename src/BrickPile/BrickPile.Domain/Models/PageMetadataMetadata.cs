@@ -28,7 +28,7 @@ namespace BrickPile.Domain.Models {
         /// Get/Sets the Name of the PageMetaData
         /// </summary>
         /// <value></value>
-        [Display(Name = "Page name", Order = 10, Prompt = "My awesome page")]
+        [Display(Name = "Title", Order = 10, Prompt = "My awesome page")]
         [Required(ErrorMessage = "Name_Required")]
         public virtual string Name { get; set; }
         /// <summary>
@@ -37,10 +37,35 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// The start publish.
         /// </value>
-        [Display]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/ddThh:mm:ss}")]
-        public virtual DateTime? StartPublish { get; set; }
+        //[Display(Name = "Published")]
+        //[DataType(DataType.DateTime)]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/ddThh:mm:ss}")]
+        //public virtual DateTime? StartPublish { get; set; }
+        /// <summary>
+        /// Gets or sets the changed.
+        /// </summary>
+        /// <value>
+        /// The changed.
+        /// </value>
+        [ScaffoldColumn(false)]
+        public virtual DateTime? Changed { get; set; }
+        /// <summary>
+        /// Gets or sets the published by.
+        /// </summary>
+        /// <value>
+        /// The published by.
+        /// </value>
+        [ScaffoldColumn(false)]
+        public virtual string ChangedBy { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="PageMetadataMetadata"/> is status.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if status; otherwise, <c>false</c>.
+        /// </value>
+        /// 
+        [ScaffoldColumn(false)]
+        public virtual bool PublishedStatus { get; set; }
         /// <summary>
         /// Get/Sets the Slug of the PageMetaData
         /// </summary>
@@ -49,6 +74,7 @@ namespace BrickPile.Domain.Models {
         //[ScaffoldColumn(false)]
         [HiddenInput(DisplayValue = false)]
         [UIHint("Slug")]
+        [Display(Prompt = "my-awesome-page")]
         public virtual string Slug { get; set; }
         /// <summary>
         /// Gets or sets the URL.

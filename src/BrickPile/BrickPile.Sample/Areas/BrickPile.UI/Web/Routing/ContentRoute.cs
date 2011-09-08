@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Domain.Models;
@@ -57,6 +58,15 @@ namespace BrickPile.UI.Web.Routing {
             get { return "index"; }
         }
         /// <summary>
+        /// Gets the default controller.
+        /// </summary>
+        /// <value>
+        /// The default name of the controller.
+        /// </value>
+        public static string DefaultControllerName {    
+            get { return "Content"; }
+        }
+        /// <summary>
         /// When overridden in a derived class, returns route information about the request.
         /// </summary>
         /// <param name="httpContext">An object that encapsulates information about the HTTP request.</param>
@@ -64,6 +74,7 @@ namespace BrickPile.UI.Web.Routing {
         /// An object that contains the values from the route definition if the route matches the current request, or null if the route does not match the request.
         /// </returns>
         public override RouteData GetRouteData(System.Web.HttpContextBase httpContext) {
+
             // get the virtual path of the request
             var virtualPath = httpContext.Request.CurrentExecutionFilePath;
             
@@ -73,6 +84,7 @@ namespace BrickPile.UI.Web.Routing {
             }
 
             // try to resolve the current item
+            
             var pathData = _pathResolver.ResolvePath(virtualPath.Replace("/dashboard/content", "").TrimStart(new[] {'/'}));
 
             var routeData = new RouteData(this, _routeHandler);
@@ -87,7 +99,7 @@ namespace BrickPile.UI.Web.Routing {
                 return null;
             }
             
-            routeData.ApplyCurrentModel("content", pathData.Action, pathData.CurrentPageModel);
+            routeData.ApplyCurrentModel(pathData.Controller, pathData.Action, pathData.CurrentPageModel);
 
             return routeData;
         }

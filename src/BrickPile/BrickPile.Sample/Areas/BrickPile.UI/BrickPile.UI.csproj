@@ -163,12 +163,14 @@
     <Compile Include="UIAreaRegistration.cs" />
     <Compile Include="Web\ContainerDisposalModule.cs" />
     <Compile Include="Web\Mvc\BrickPileControllerFactory.cs" />
+    <Compile Include="Web\Mvc\ControllerMapper.cs" />
     <Compile Include="Web\Mvc\Html\ActionLinkExtensions.cs" />
     <Compile Include="Web\Mvc\Html\LabelExtensions.cs" />
     <Compile Include="Web\Mvc\Html\MenuHelper.cs" />
     <Compile Include="Web\Mvc\Html\PageList.cs" />
     <Compile Include="Web\Mvc\Html\SubMenuHelper.cs" />
     <Compile Include="Web\Mvc\Html\TreeViewHelper.cs" />
+    <Compile Include="Web\Mvc\IControllerMapper.cs" />
     <Compile Include="Web\Mvc\StructureMapDependencyResolver.cs" />
     <Compile Include="Web\Routing\ContentRoute.cs" />
     <Compile Include="Web\Routing\DashboardPathResolver.cs" />
@@ -187,6 +189,7 @@
     <Compile Include="Web\ViewModels\DefaultViewModel.cs" />
     <Compile Include="Web\ViewModels\IDashboardViewModel.cs" />
     <Compile Include="Web\ViewModels\IViewModel.cs" />
+    <Compile Include="Web\ViewModels\NewPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\actions-spliter.png" />
@@ -194,6 +197,7 @@
     <Content Include="Content\linen.jpg" />
     <Content Include="Content\sprite.png" />
     <Content Include="Images\bg.jpg" />
+    <Content Include="Images\dialog-top.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\jquery-1.5.1.js" />
@@ -203,6 +207,10 @@
     <Content Include="Scripts\jquery-ui-1.8.13.custom.min.js" />
     <Content Include="Scripts\jquery.event.hover.js" />
     <Content Include="Content\jquery.selectBox-arrow.gif" />
+    <Content Include="Scripts\jquery.jgrowl_minimized.js" />
+    <Content Include="Styles\content.css" />
+    <Content Include="Styles\edit.css" />
+    <Content Include="Styles\jquery.jgrowl.css" />
     <Content Include="Styles\jquery.selectBox.css" />
     <Content Include="Scripts\jquery.selectBox.min.js" />
     <Content Include="Scripts\jquery.slugify.js" />
@@ -510,6 +518,9 @@
     <None Include="Styles\webfonts\woff\felttip-roman.woff" />
     <None Include="Styles\webfonts\woff\museo-sans-500.woff" />
     <None Include="Styles\webfonts\woff\museo-sans-700.woff" />
+    <Content Include="Views\Content\Start.cshtml" />
+    <Content Include="Views\Content\Publish.cshtml" />
+    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\S3\" />

@@ -1,0 +1,239 @@
+﻿#content {
+    background: rgba(171, 137, 100, 0.3);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(51, 51, 51, 0.1) inset;
+    border-radius:5px;
+    margin-top:22px;
+	padding:10px;
+	border-spacing: 0 30px;
+}
+
+#content table {
+    border-collapse:collapse;
+    width:100%;
+}
+#content table caption {
+    background:-moz-linear-gradient(top, #f1f2ef 0%, #e5e7e1 100%);
+    background:-webkit-linear-gradient(top, #f1f2ef 0%,#e5e7e1 100%);
+    border-radius:5px 5px 0 0;
+    box-shadow:0 1px 0 rgba(215,218,208,1),0 1px 0 rgba(255, 255, 255, .7) inset;
+    color:#6c6d6b;
+    font-weight:bold;
+    line-height:50px;
+    text-align:center;
+    text-shadow:0 1px 0 rgba(255,255,255,1);
+    position:relative;
+}
+#content caption a {
+    position:absolute;
+    left:1.5em;
+}
+
+#content table tr {
+    /*background:-moz-linear-gradient(top, #ffffff 0%, #f2f4f0 100%);
+    background:-webkit-linear-gradient(top, #ffffff 0%,#f2f4f0 100%);
+    box-shadow:0 1px 1px rgba(0,0,0,0.2);
+    border-radius:5px;
+    display:block;
+    margin-bottom:1em;*/
+    color:#b4b6b0;
+    text-shadow:0 1px 0 rgba(255,255,255,1);
+}
+
+#content tr:first-child span {
+    font-size:71.4%;
+    font-weight:bold;
+    text-transform:uppercase;
+}
+#content table th:first-child span {
+    border-radius:0 0 0 5px;
+    
+}
+#content table th:last-child span {
+    border-radius:0 0 5px 0;
+}
+
+
+#content table th {
+    text-align:left;
+    /*padding:1em;*/
+    margin:0;
+}
+
+#content table td:first-child { width:10px; }
+#content table td:first-child span {
+    border-radius:5px 0 0 5px;
+    
+}
+#content table td:last-child span {
+    border-radius:0 5px 5px 0;
+}
+
+#content table td {
+  	font-size:85.7%;
+    /*padding:1em;*/
+}
+#content td span,
+#content th span {
+    background:-moz-linear-gradient(top, #ffffff 0%, #f2f4f0 100%);
+    background:-webkit-linear-gradient(top, #ffffff 0%,#f2f4f0 100%);    
+    border-left:solid 1px #e6e8e2;
+    border-right:solid 1px #fff;
+    display:block;
+    margin-bottom:1em;
+    padding:1em;
+    box-shadow:0 1px 1px rgba(0,0,0,0.2);
+}
+#content a {
+    /*font-size:116.7%;*/
+    color:#28353d;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+#content caption .add {
+    position:absolute;
+    right:20px;
+    left:auto;
+}
+#content input[type=checkbox] {
+    margin:0;
+    width:auto;
+}
+
+nav {
+    position:absolute;
+    right:0;
+    top:0;
+}
+
+nav li {
+    float:left;
+}
+
+nav a:link,
+nav a:visited {
+    color:#e9ece3;
+    display:block;
+    font-size:85.7%;
+    padding:1em;
+    padding-left:20px;
+    text-decoration:none;
+    text-shadow:0 1px 0 rgba(0,0,0,1);
+}
+
+
+nav a.dashboard {
+    background: url(/areas/brickpile.ui/images/sprite.png) no-repeat 0 -119px;
+}
+nav a.content {
+   background: url(/areas/brickpile.ui/images/sprite.png) no-repeat 0 13px;
+}
+nav a.content.selected {
+    background-position:0 -52px;
+}
+nav a.dashboard.selected {
+    background-position:0 -185px;
+}
+
+nav a:link.selected,
+nav a:visited.selected {
+    color:#dcf5c3;
+}
+
+/*------------------------------------------------------------------
+X Dialogs
+-------------------------------------------------------------------*/
+.overlay {
+    background: rgb(68,87,104);
+    background: -moz-linear-gradient(top, rgba(68,87,104,1) 0%, rgba(44,63,80,1) 20%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(68,87,104,1)), color-stop(20%,rgba(44,63,80,1)));
+    background: -webkit-linear-gradient(top, rgba(68,87,104,1) 0%,rgba(44,63,80,1) 20%);
+    background: -o-linear-gradient(top, rgba(68,87,104,1) 0%,rgba(44,63,80,1) 20%);
+    background: -ms-linear-gradient(top, rgba(68,87,104,1) 0%,rgba(44,63,80,1) 20%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#445768', endColorstr='#2c3f50',GradientType=0 );
+    background: linear-gradient(top, rgba(68,87,104,1) 0%,rgba(44,63,80,1) 20%);
+        
+    border:solid 1px #454545;
+    border-radius: 4px;
+        
+    box-shadow: 0 1px 0 #5A748B inset, 0 0 20px rgba(0,0,0,0.5);
+        
+    right:-135px;
+
+    padding-bottom: 6px;
+    position: absolute;
+    top: 200px;
+    width: 314px;               
+}
+.overlay h1 {
+    background:url(/areas/brickpile.ui/images/dialog-top.png) no-repeat center 0;
+    margin: -18px 0 0;
+    padding: 2em 0 0;        
+}
+    
+.overlay h1 {
+    color:#f3f3f3;
+    font-size:125%;
+    font-weight:bold;
+    height:35px;
+    text-align:center;
+    text-shadow:0 -1px 1px rgba(0,0,0,6);
+}
+.overlay form {
+    background-color:#fff;
+    border-radius: 4px;
+    box-shadow:0 1px 1px rgba(33,47,59,1);
+    margin:0 5px;
+    padding:5px 0 0;
+}
+.overlay label {
+    border-bottom:1px solid #dcf5ff;
+    color:#626977;
+    display:block;
+    margin-bottom:5px;
+    padding:5px 10px 10px;
+}
+.overlay label:last-child { border-bottom:0; }
+.overlay label:hover { cursor:pointer; }
+.overlay input[type=radio] {
+    display:none;
+    vertical-align:text-top;
+    width:auto;
+}
+.overlay .close,
+.overlay input[type=submit] {
+    /* For Mozilla/Gecko (Firefox etc) */
+    background: none, -moz-linear-gradient(top, #d2e0eb, #8c9aa8);
+    border:1px solid #15324c;
+    color:#23394e;
+    padding:5px 10px;
+    box-shadow:0 1px 1px #e8eff5 inset, 0 1px 0 #293b4b;        
+    position:absolute;
+    bottom:5px;
+    left:117px;
+    border-radius:3px;
+    font-weight:normal;
+    text-decoration:none;
+}
+.overlay input[type=submit] {
+    left:5px;
+    padding:6px 10px;
+}
+
+#growl {
+    background: -moz-linear-gradient(top, rgba(60,60,60,0.8), rgba(0,0,0,1));
+    box-shadow: 0 1px 0 rgba(137,137,137,1) inset;
+    border-radius:5px;
+    border:1px solid #000;
+    color:#989898;
+    font-size:11px;
+    padding:10px;
+    text-shadow:0 -1px 0 rgba(0,0,0,8);
+    width:250px;
+}
+#growl strong {
+    color:#f2f2f2;
+    font-size:12px;
+    font-weight:bold;
+    text-shadow:0 -1px 0 rgba(0,0,0,8);
+}

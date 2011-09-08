@@ -33,7 +33,7 @@
 .cirkuitSkin iframe {
 	display: block;
 	background: #FFF;
-	padding:7px;
+	/*padding:7px;*/
     border: 1px solid #989898;
     border-radius: 5px 5px 5px 5px;
     box-shadow: 0 1px 0 #FFFFFF;	

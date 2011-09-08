@@ -35,12 +35,26 @@ namespace BrickPile.Domain.Models {
         /// <value></value>
         public virtual string Name { get; set; }
         /// <summary>
-        /// Gets or sets the start publish.
+        /// Gets or sets the changed.
         /// </summary>
         /// <value>
-        /// The start publish.
+        /// The changed.
         /// </value>
-        public virtual DateTime? StartPublish { get; set; }
+        public virtual DateTime? Changed { get; set; }
+        /// <summary>
+        /// Gets or sets the published by.
+        /// </summary>
+        /// <value>
+        /// The published by.
+        /// </value>
+        public virtual string ChangedBy { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="IPageMetadata"/> is status.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if status; otherwise, <c>false</c>.
+        /// </value>
+        public virtual bool PublishedStatus { get; set; }
         /// <summary>
         /// Get/Sets the Slug of the PageMetaData
         /// </summary>

@@ -33,12 +33,26 @@ namespace BrickPile.Domain.Models {
         /// </value>
         string Name { get; set; }
         /// <summary>
-        /// Gets or sets the start publish.
+        /// Gets or sets the changed.
         /// </summary>
         /// <value>
-        /// The start publish.
+        /// The changed.
         /// </value>
-        DateTime? StartPublish { get; set; }
+        DateTime? Changed { get; set; }
+        /// <summary>
+        /// Gets or sets the published by.
+        /// </summary>
+        /// <value>
+        /// The published by.
+        /// </value>
+        string ChangedBy { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="IPageMetadata"/> is status.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if status; otherwise, <c>false</c>.
+        /// </value>
+        bool PublishedStatus { get; set; }
         /// <summary>
         /// Gets or sets the slug.
         /// </summary>

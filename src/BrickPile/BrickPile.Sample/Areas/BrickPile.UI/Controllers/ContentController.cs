@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Exception;
@@ -26,10 +27,12 @@ using BrickPile.Core.Repositories;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Models;
 using BrickPile.UI.Web.ViewModels;
+using Raven.Client.Document;
 
 namespace BrickPile.UI.Controllers {
     [Authorize]
     public class ContentController : Controller {
+        
         private readonly dynamic _model;
         private readonly IRepository<IPageModel> _repository;
         private readonly IStructureInfo _structureInfo;
@@ -40,22 +43,22 @@ namespace BrickPile.UI.Controllers {
         /// Redirects to the Edit action with the home page loaded
         /// </returns>
         public ActionResult Index() {
-
             //var viewModel = new DashboardViewModel(_model, _structureInfo);
             //return View(viewModel);
 
             if (_model != null && _model is IPageModel) {
-                return RedirectToAction("edit", new { model = _model });
+                var viewModel = new DashboardViewModel(_model, _structureInfo);
+                return View("Index", viewModel);
             }
-            return View(new DefaultPageModel());
+
+            return View("Start", new DefaultPageModel());
         }
         /// <summary>
         /// Responsible for providing the Edit view with data from the current page
         /// </summary>
-        /// <param name="model">The model.</param>
         /// <returns></returns>
-        public ActionResult Edit(dynamic model) {
-            var viewModel = new DashboardViewModel(model, _structureInfo);
+        public ActionResult Edit() {
+            var viewModel = new DashboardViewModel(_model, _structureInfo);
             return View(viewModel);
         }
         /// <summary>
@@ -67,17 +70,23 @@ namespace BrickPile.UI.Controllers {
         [HttpPost]
         [ValidateInput(false)]
         public virtual ActionResult Update(dynamic editorModel, dynamic model) {
-            
+
             if (!TryUpdateModel(model, "CurrentModel")) {
                 return View("edit", new DashboardViewModel(model, _structureInfo));
             }
-
+            
             UpdateModel(model);
-            _repository.SaveChanges();
 
+            model.Metadata.Changed = DateTime.Now;
+            model.Metadata.ChangedBy = HttpContext.User.Identity.Name;
+
+            _repository.SaveChanges();
             _repository.Refresh(model);
 
-            return RedirectToAction("edit", new { model });
+            var page = model as IPageModel;
+            var parent = _repository.SingleOrDefault<IPageModel>(m => m.Id == page.Parent.Id);
+
+            return RedirectToAction("index", new { model = parent });
         }
         /// <summary>
         /// Responsible for providing the add page view with data
@@ -89,8 +98,82 @@ namespace BrickPile.UI.Controllers {
                                    {
                                        CurrentModel = model,
                                        BackAction = "edit",
-                                       Url = VirtualPathUtility.AppendTrailingSlash(model.Metadata.Url)
+                                       Url = VirtualPathUtility.AppendTrailingSlash(_model.Metadata.Url)
                                    });
+        }
+        /// <summary>
+        /// News the specified new page model.
+        /// </summary>
+        /// <param name="newPageModel">The new page model.</param>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        public ActionResult New(CreateNewModel newPageModel, dynamic model) {
+            var parent = model as IPageModel;
+            if (parent == null) {
+                throw new BrickPileException("The injected model is not a PageModel");
+            }
+
+            if (ModelState.IsValid) {
+                // create a new page from the selected page model
+                var page = Activator.CreateInstance(Type.GetType(newPageModel.SelectedPageModel)) as IPageModel;
+                if (page == null) {
+                    throw new BrickPileException("The selected page model is not valid!");
+                }
+                page.Metadata.Url = VirtualPathUtility.AppendTrailingSlash(parent.Metadata.Url);
+                
+                ViewBag.Class = "content";
+                return View("new", new NewPageViewModel { NewPageModel = page, CurrentModel = parent, StructureInfo = _structureInfo });
+            }
+
+            return PartialView("add", newPageModel);
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public virtual ActionResult Save(dynamic newPageModel, dynamic model) {
+
+            var parent = model as IPageModel;
+            if (parent == null) {
+                throw new BrickPileException("The injected model is not a PageModel");
+            }
+
+            if (ModelState.IsValid) {
+                // create a new page from the new model
+                var page = Activator.CreateInstance(Type.GetType(Request.Form["AssemblyQualifiedName"])) as IPageModel;
+
+                if (page == null) {
+                    throw new BrickPileException("The selected page model is not valid!");
+                }
+
+                // Update all values
+                UpdateModel(page, "NewPageModel");
+                // Set the parent
+                page.Parent = model;
+                // Set changed date
+                page.Metadata.Changed = DateTime.Now;
+                page.Metadata.ChangedBy = HttpContext.User.Identity.Name;
+
+                // Add page to repository and save changes
+                _repository.Store(page);
+                _repository.SaveChanges();
+                
+                return RedirectToAction("index", new { model = parent });
+            }
+
+            return null;
+        }
+        /// <summary>
+        /// Publishes this instance.
+        /// </summary>
+        /// <returns></returns>
+        public virtual ActionResult Publish(string id, bool published) {
+            var model = _repository.SingleOrDefault<IPageModel>(m => m.Id == id.Replace("_","/"));
+            model.Metadata.PublishedStatus = published;
+            model.Metadata.Changed = DateTime.Now;
+            _repository.SaveChanges();
+
+            return Content(published != true
+                            ? "Hooray, you're page has been unpublished"
+                            : "Hooray, you're page has been published");
         }
         /// <summary>
         /// Responsible for creating a new page based on the selected page model
@@ -98,6 +181,7 @@ namespace BrickPile.UI.Controllers {
         /// <param name="newPageModel">The new page model.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
+        [Obsolete]
         public ActionResult Create(CreateNewModel newPageModel, dynamic model) {
             var parent = model as IPageModel;
             if(parent == null) {
@@ -165,17 +249,17 @@ namespace BrickPile.UI.Controllers {
         /// <param name="sourceId">The source id.</param>
         /// <param name="destinationId">The destination id.</param>
         /// <returns></returns>
-        public ActionResult Paste(string sourceId, string destinationId) {
+        //public ActionResult Paste(string sourceId, string destinationId) {
 
-            dynamic source = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(sourceId));
-            dynamic destination = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(destinationId));
+        //    dynamic source = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(sourceId));
+        //    dynamic destination = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(destinationId));
 
-            source.Parent = destination;
-            _repository.SaveChanges();
+        //    source.Parent = destination;
+        //    _repository.SaveChanges();
 
-            return RedirectToAction("Index");
+        //    return RedirectToAction("Index");
 
-        }
+        //}
         /// <summary>
         /// Deletes the specified confirm form model.
         /// </summary>

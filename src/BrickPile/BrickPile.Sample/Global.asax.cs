@@ -27,6 +27,7 @@ namespace BrickPile.Sample {
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
         }
     }
 }

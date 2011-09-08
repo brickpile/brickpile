@@ -34,23 +34,24 @@ namespace BrickPile.Domain {
         /// <value></value>
         public string Name { get; set; }
         /// <summary>
-        /// Get/Sets the Description of the PageModelAttribute
+        /// Gets or sets the controller.
         /// </summary>
-        /// <value></value>
-        public string Description { get; set; }
+        /// <value>
+        /// The controller.
+        /// </value>
+        public Type Controller { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="PageModelAttribute" /> class.
+        /// Initializes a new instance of the <see cref="PageModelAttribute"/> class.
+        /// </summary>
+        public PageModelAttribute() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PageModelAttribute"/> class.
         /// </summary>
         /// <param name="name">The name of the page model</param>
-        public PageModelAttribute(string name) : this(name, string.Empty) { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PageModelAttribute" /> class.
-        /// </summary>
-        /// <param name="name">The name of the page model</param>
-        /// <param name="description">The description of the page model</param>
-        public PageModelAttribute(string name, string description) {
+        /// <param name="controller">The controller.</param>
+        public PageModelAttribute(string name, Type controller) {
             Name = name;
-            Description = description;
+            Controller = controller;
         }
     }
 }

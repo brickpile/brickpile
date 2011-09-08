@@ -61,7 +61,12 @@ namespace BrickPile.UI.Web.Routing {
         /// <param name="httpContextBase">The HTTP context base.</param>
         /// <returns></returns>
         public override RouteData GetRouteData(HttpContextBase httpContextBase) {
+
             // Abort if the current path starts with /dashboard
+            //if(httpContextBase.Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/dashboard",StringComparison.InvariantCultureIgnoreCase)) {
+            //    return null;
+            //})
+
             if (httpContextBase.Request.CurrentExecutionFilePath.StartsWith("/dashboard", StringComparison.InvariantCultureIgnoreCase))
                 return null;
 
@@ -74,6 +79,7 @@ namespace BrickPile.UI.Web.Routing {
 
             // get the virtual path of the request
             var virtualPath = httpContextBase.Request.CurrentExecutionFilePath.TrimStart(new[] {'/'});
+            //var virtualPath = httpContextBase.Request.AppRelativeCurrentExecutionFilePath;
             
             // try to resolve the current item
             var pathData = _pathResolver.ResolvePath(virtualPath);

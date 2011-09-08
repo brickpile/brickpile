@@ -26,10 +26,13 @@ using BrickPile.Domain.Models;
 using BrickPile.Services;
 using BrickPile.UI.Common;
 using BrickPile.UI.Models;
+using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
+using Raven.Client.Listeners;
+using Raven.Json.Linq;
 using StructureMap;
 
 namespace BrickPile.UI.App_Start {
@@ -63,11 +66,14 @@ namespace BrickPile.UI.App_Start {
                     });
 
                 x.For<IVirtualPathResolver>().Use<VirtualPathResolver>();
-                x.For<IStructureInfo>().Use<StructureInfo>();
                 x.For<IPathResolver>().Use<PathResolver>();
                 x.For<IPathData>().Use<PathData>();
                 x.For<IPageRepository>().Use<PageRepository>();
                 x.For<IRepository<IPageModel>>().Use<PageRepository>();
+
+                x.For<IControllerMapper>().Use<ControllerMapper>();
+
+                x.For<IStructureInfo>().Use<StructureInfo>();
                 x.For<IPageService>().Use<PageService>();
                 x.For<ISettings>().Use<Settings>();
                 x.For<IPageModel>().UseSpecial(y => y.ConstructedBy( r => ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>()));

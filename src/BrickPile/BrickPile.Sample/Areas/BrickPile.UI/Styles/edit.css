@@ -1,0 +1,32 @@
+﻿#metadata {
+    background:#475860 url(../images/metadata-bg.png) repeat 0 0;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3) inset;
+    font-size:85.7%;
+    border-radius:0;
+    margin-top:0;
+    padding:1em;
+    text-align:left;
+}
+#metadata .editor-label {
+    float:none;
+    display:inline;
+    width:auto;
+}
+#metadata .editor-field {
+    padding:0;
+    background-color:transparent;
+}
+#metadata label {
+    color:#fff;
+    text-shadow:0 1px 0 rgba(0,0,0,0.5);
+}
+#metadata input {
+    border-color:#354148;
+	background:-moz-linear-gradient(top, #51656e 0%, #566a73 100%);
+	background:-webkit-linear-gradient(top, #51656e 0%,#566a73 100%);    
+    box-shadow:0 1px 0 #54646b, 1px 1px 1px rgba(0,0,0,0.5) inset;
+    color:#fff;
+    width:auto;
+    padding:.5em;
+    text-shadow:0 1px 0 rgba(0,0,0,0.5);
+}
