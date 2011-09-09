@@ -69,6 +69,8 @@ namespace BrickPile.UI.Models
 
 	public class RegisterModel
 	{
+
+
 		[Required(ErrorMessage = "Required!")]
 		[Display(Name = "User name")]
 		public string UserName { get; set; }
@@ -81,11 +83,11 @@ namespace BrickPile.UI.Models
         [Required(ErrorMessage = "Required!")]
 		[ValidatePasswordLength]
 		[DataType(DataType.Password)]
-		[Display(Name = "Password")]
+		[Display(Name = "Password...")]
 		public string Password { get; set; }
 
 		[DataType(DataType.Password)]
-		[Display(Name = "Confirm password")]
+		[Display(Name = "...and again")]
 		[Compare("Password", ErrorMessage = "No match!")]
 		public string ConfirmPassword { get; set; }
 	}
