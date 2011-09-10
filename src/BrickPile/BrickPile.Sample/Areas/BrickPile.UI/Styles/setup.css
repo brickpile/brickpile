@@ -1,4 +1,6 @@
-﻿@font-face {font-family: 'FeltTipRoman';src: url('webfonts/eot/felttip-roman.eot?#iefix') format('embedded-opentype'),url('webfonts/woff/felttip-roman.woff') format('woff'),url('webfonts/ttf/felttip-roman.ttf') format('truetype'),url('webfonts/svg/felttip-roman.svg#FeltTipRoman') format('svg');}
+﻿
+@font-face {font-family: 'FeltTipRoman';src: url('webfonts/eot/felttip-roman.eot?#iefix') format('embedded-opentype'),url('webfonts/woff/felttip-roman.woff') format('woff'),url('webfonts/ttf/felttip-roman.ttf') format('truetype'),url('webfonts/svg/felttip-roman.svg#FeltTipRoman') format('svg');}
+
 /*--------------------------------------------------------------
 1 Reset
 ----------------------------------------------------------------*/
@@ -115,6 +117,7 @@ img {
 		margin-top:1.1em;
 		text-shadow:1px 1px 0 rgba(255,255,255,1);
 	}
+	input[disabled=disabled] { opacity:0.3; }
 	#button {
         background-image: url(../images/setup/submit-bg.png);
         background-position:0 0;

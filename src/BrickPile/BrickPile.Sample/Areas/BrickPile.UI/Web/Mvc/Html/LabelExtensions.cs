@@ -42,7 +42,6 @@ namespace BrickPile.UI.Web.Mvc.Html {
                 template(null).ToHtmlString()
             );
             return MvcHtmlString.Create(tag.ToString());
-
         }
     }
 } 
