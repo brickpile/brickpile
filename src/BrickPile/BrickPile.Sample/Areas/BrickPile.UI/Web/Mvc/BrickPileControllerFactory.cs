@@ -36,8 +36,8 @@ namespace BrickPile.UI.Web.Mvc {
         ///   <c>true</c> if this instance has configuration; otherwise, <c>false</c>.
         /// </returns>
         private bool HasConfiguration() {
-            var settings = _session.Load<Settings>("brickpile/settings");
-            return settings != null;
+            var configuration = _session.Load<Configuration.Configuration>("brickpile/configuration");
+            return configuration != null;
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="BrickPileControllerFactory"/> class.

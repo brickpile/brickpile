@@ -137,6 +137,8 @@
     <Compile Include="App_Start\Initializer.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\ResourceHelper.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="Web\ViewModels\IDashboardViewModel.cs" />
     <Compile Include="Web\ViewModels\IViewModel.cs" />
     <Compile Include="Web\ViewModels\NewPageViewModel.cs" />
+    <Compile Include="Web\ViewModels\SetupViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\actions-spliter.png" />

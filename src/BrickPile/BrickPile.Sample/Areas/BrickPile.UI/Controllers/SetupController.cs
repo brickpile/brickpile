@@ -20,7 +20,9 @@ THE SOFTWARE. */
 
 using System.Web.Mvc;
 using System.Web.Security;
+using BrickPile.UI.Configuration;
 using BrickPile.UI.Models;
+using BrickPile.UI.Web.ViewModels;
 using Raven.Client;
 
 namespace BrickPile.UI.Controllers {
@@ -35,7 +37,7 @@ namespace BrickPile.UI.Controllers {
         public ActionResult Index() {
             // Add check for when a site is configured and you enter the path /dashboard/setup
             // Add an awesome view
-            ViewBag.PasswordLength = _membershipService.MinPasswordLength;
+            //ViewBag.PasswordLength = _membershipService.MinPasswordLength;
             return View();
         }
         /// <summary>
@@ -44,23 +46,27 @@ namespace BrickPile.UI.Controllers {
         /// <param name="model">The model.</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Index(RegisterModel model) {
+        public ActionResult Index(SetupViewModel model) {
             if (ModelState.IsValid) {
                 // Attempt to register the user
-                MembershipCreateStatus createStatus = _membershipService.CreateUser(model.UserName, model.Password, model.Email);
+                MembershipCreateStatus createStatus = _membershipService.CreateUser(model.SetupModel.UserName, model.SetupModel.Password, model.SetupModel.Email);
 
                 if (createStatus == MembershipCreateStatus.Success) {
-                    _formsService.SignIn(model.UserName, false /* createPersistentCookie */);
-                    ISettings settings = new Settings();
-                    _session.Store(settings);
+
+                    _formsService.SignIn(model.SetupModel.UserName, false /* createPersistentCookie */);
+                    // Create the site configuration
+                    IConfiguration configuration = new Configuration.Configuration();
+                    configuration.SiteName = model.Configuration.SiteName;
+                    _session.Store(configuration);
                     _session.SaveChanges();
+
                     return RedirectToAction("index", "Dashboard", new { area = "Dashboard" });
                 }
 
                 ModelState.AddModelError("", AccountValidation.ErrorCodeToString(createStatus));
             }
             // If we got this far, something failed, redisplay form
-            ViewBag.PasswordLength = _membershipService.MinPasswordLength;
+            //ViewBag.PasswordLength = _membershipService.MinPasswordLength;
             return View(model);
         }
         /// <summary>

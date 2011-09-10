@@ -21,10 +21,8 @@ THE SOFTWARE. */
 using System;
 using System.Web;
 using System.Web.Mvc;
-using BrickPile.UI.Models;
 using Elmah;
 using Raven.Client;
-using StructureMap;
 
 namespace BrickPile.UI {
     /// <summary>

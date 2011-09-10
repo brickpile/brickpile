@@ -25,6 +25,7 @@ using BrickPile.Core.Repositories;
 using BrickPile.Domain.Models;
 using BrickPile.Services;
 using BrickPile.UI.Common;
+using BrickPile.UI.Configuration;
 using BrickPile.UI.Models;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
@@ -65,6 +66,7 @@ namespace BrickPile.UI.App_Start {
                         return store.OpenSession();
                     });
 
+                x.For<IConfiguration>().Use<Configuration.Configuration>();
                 x.For<IVirtualPathResolver>().Use<VirtualPathResolver>();
                 x.For<IPathResolver>().Use<PathResolver>();
                 x.For<IPathData>().Use<PathData>();

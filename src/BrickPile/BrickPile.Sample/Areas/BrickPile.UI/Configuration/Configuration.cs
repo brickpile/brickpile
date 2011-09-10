@@ -18,21 +18,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-namespace BrickPile.Domain.Models {
-    /// <summary>
-    /// Represents the page model
-    /// </summary>
-    public interface IPageModel : IDocument {
+using System.ComponentModel.DataAnnotations;
+using BrickPile.Domain.Models;
+
+namespace BrickPile.UI.Configuration {
+    public class Configuration : IConfiguration, IDocument {
         /// <summary>
-        /// Gets the meta data.
-        /// </summary>
-        IPageMetadata Metadata { get; }
-        /// <summary>
-        /// Gets or sets the parent.
+        /// Gets or sets the id.
         /// </summary>
         /// <value>
-        /// The parent.
+        /// The id.
         /// </value>
-        DocumentReference<IPageModel> Parent { get; set; }
+        [ScaffoldColumn(false)]
+        public string Id { get; private set; }
+        /// <summary>
+        /// Gets or sets the name of the site.
+        /// </summary>
+        /// <value>
+        /// The name of the site.
+        /// </value>
+        [Required(ErrorMessage = "Required!")]
+        [Display(Name = "Your website's name")]
+        public string SiteName { get; set; }
+        public Configuration() {
+            Id = "brickpile/configuration";
+        }
     }
 }

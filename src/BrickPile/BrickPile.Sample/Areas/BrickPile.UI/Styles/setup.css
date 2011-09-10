@@ -18,7 +18,7 @@ ul, li { list-style:none; }
 2 Global
 ----------------------------------------------------------------*/
 html {
-    box-shadow: 0 0 1000px rgba(0,0,0,1) inset;    
+    /*box-shadow: 0 0 1000px rgba(0,0,0,1) inset;*/
     height:100%;
 }
 body {
@@ -28,8 +28,8 @@ body {
 	color:#333;
 	padding-top:86px;
 	position:relative;
- 	max-width:33.857em;
-	min-width:474px;
+ 	max-width:35.286em;
+	min-width:494px;
 	margin:0 auto;	
 }
 img {
@@ -63,9 +63,10 @@ img {
     }
     
 	form>div {
-	    background-color:#f8f9f6;
+	    background: url(../images/setup/plate.png) no-repeat 0 0;
+	    /*background-color:#f8f9f6;*/
 		border-radius:5px;
-		box-shadow: 0 0 40px #dcdfd8 inset, 0 1px 0 rgba(255, 255, 255, 1) inset;
+		/*box-shadow: 0 0 40px #dcdfd8 inset, 0 1px 0 rgba(255, 255, 255, 1) inset;*/
 		padding:100px 0 0;
 	}
 	fieldset {
@@ -78,6 +79,12 @@ img {
 		font-weight:bold;
 		display:block;
 		margin-bottom:2px;
+	}
+	label span {
+	    color:#a5abac;
+	    font-weight:normal;
+	    position:absolute;
+	    right:30px;
 	}
 	input[type=text],
 	input[type=password] {
@@ -98,6 +105,7 @@ img {
 	    background: url(../images/button.png) repeat 0 0;
 	    color:#6d6e6d;
 		border:1px solid #afb0af;
+		border-radius:4px;
 		box-shadow:0 1px 0 #cfd4cf;
 		width:auto;
 		font-weight:bold;
@@ -108,7 +116,7 @@ img {
 		text-shadow:1px 1px 0 rgba(255,255,255,1);
 	}
 	#button {
-        background-image: url(../images/submit-bg.png);
+        background-image: url(../images/setup/submit-bg.png);
         background-position:0 0;
         background-repeat:repeat;	    
 		background-color:#e5e8e1;
