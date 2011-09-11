@@ -26,9 +26,7 @@
                     @Html.EditorFor(model => model.CurrentModel.Metadata)
                 </div>
             </div>
-
             @Html.EditorFor(model => model.CurrentModel, new { StructureInfo = Model.StructureInfo })
-
             <div>
                 <input type="submit" value="Save and publish" />
             </div>

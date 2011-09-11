@@ -66,7 +66,11 @@ namespace BrickPile.UI.App_Start {
                         return store.OpenSession();
                     });
 
-                x.For<IConfiguration>().Use<Configuration.Configuration>();
+                x.For<IConfiguration>().Use(y => {
+                                                var session = y.GetInstance<IDocumentSession>();
+                                                return session.Load<IConfiguration>("brickpile/configuration");
+                                            });
+
                 x.For<IVirtualPathResolver>().Use<VirtualPathResolver>();
                 x.For<IPathResolver>().Use<PathResolver>();
                 x.For<IPathData>().Use<PathData>();

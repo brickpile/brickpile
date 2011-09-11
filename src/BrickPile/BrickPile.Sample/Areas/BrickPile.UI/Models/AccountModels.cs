@@ -88,7 +88,7 @@ namespace BrickPile.UI.Models
 
 		[DataType(DataType.Password)]
 		[Display(Name = "...and again")]
-		[Compare("Password", ErrorMessage = "The passwords does not match!")]
+		[Compare("Password", ErrorMessage = "The passwords do not match!")]
 		public string ConfirmPassword { get; set; }
 	}
 	#endregion

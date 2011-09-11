@@ -1,12 +1,10 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
-using BrickPile.UI.Models;
-using Raven.Client;
+using BrickPile.UI.Configuration;
 using StructureMap;
 
 namespace BrickPile.UI.Web.Mvc {
     public class BrickPileControllerFactory : DefaultControllerFactory {
-        private readonly IDocumentSession _session;
         /// <summary>
         /// Creates the specified controller by using the specified request context.
         /// </summary>
@@ -19,7 +17,6 @@ namespace BrickPile.UI.Web.Mvc {
         ///   
         /// <exception cref="T:System.ArgumentException">The <paramref name="controllerName"/> parameter is null or empty.</exception>
         public override IController CreateController(RequestContext requestContext, string controllerName) {
-
             if (!HasConfiguration()) {
                 requestContext.RouteData.DataTokens["area"] = "dashboard";
                 requestContext.RouteData.Values["action"] = "index";
@@ -36,14 +33,8 @@ namespace BrickPile.UI.Web.Mvc {
         ///   <c>true</c> if this instance has configuration; otherwise, <c>false</c>.
         /// </returns>
         private bool HasConfiguration() {
-            var configuration = _session.Load<Configuration.Configuration>("brickpile/configuration");
+            var configuration = ObjectFactory.GetInstance<IConfiguration>();
             return configuration != null;
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BrickPileControllerFactory"/> class.
-        /// </summary>
-        public BrickPileControllerFactory() {
-            _session = ObjectFactory.GetInstance<IDocumentSession>();
         }
     }
 }

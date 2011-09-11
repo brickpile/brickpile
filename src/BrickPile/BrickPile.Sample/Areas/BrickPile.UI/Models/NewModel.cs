@@ -30,7 +30,7 @@ namespace BrickPile.UI.Models {
     /// <summary>
     /// 
     /// </summary>
-    public class CreateNewModel {
+    public class NewModel {
         /// <summary>
         /// Gets or sets the name.
         /// </summary>

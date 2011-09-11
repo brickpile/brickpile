@@ -140,25 +140,24 @@ input[disabled=disabled] { opacity:0.5; }
 	width:48%;
 }
 .field-validation-error {
-	background: url(../images/setup/alert.png) no-repeat 10px center, -moz-linear-gradient(top, #ffda77 0%, #f5c753 100%);
-	border-radius:20px;
-	box-shadow:0 2px 0 #c48900, 0 3px 3px rgba(0,0,0,0.3);
-	display:inline-block;
-	display:inline;
+    background: url(../images/setup/alert.png) no-repeat 10px center, -moz-linear-gradient(top, rgba(60,60,60,0.8), rgba(0,0,0,1));
+    box-shadow: 0 1px 0 rgba(137,137,137,1) inset, 0 0 10px rgba(0,0,0,0.5);
+    border-radius:5px;
+    border:1px solid #000;
+    color:#989898;
+    text-shadow:0 -1px 0 rgba(0,0,0,8);
 	padding:.5em 1em .4em 2.5em;
 	position:absolute;
-	right:0;
-	top:68px;
+	right:15px;
+	top:82px;
 }
 .field-validation-error span {
 	background: transparent url(../images/setup/password-error.png) no-repeat 0 top;
-	color:#a76900;
 	display:block;
 	font-size:85.7%;
-    margin-top: -23px;
-    padding-top: 23px;
+    margin-top: -16px;
+    padding-top: 16px;
     position:static;
-	text-shadow:0 1px 0 rgba(255,255,255,0.5);
 }
 .password div:first-child .field-validation-error {
 	left:-13px;

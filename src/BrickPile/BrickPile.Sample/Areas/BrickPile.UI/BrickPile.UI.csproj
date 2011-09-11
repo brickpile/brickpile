@@ -154,8 +154,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AssetModel.cs" />
     <Compile Include="Models\ConfirmFormModel.cs" />
-    <Compile Include="Models\CreateNewModel.cs" />
-    <Compile Include="Models\DefaultPageModel.cs" />
+    <Compile Include="Models\NewModel.cs" />
     <Compile Include="Models\EditPageReferenceModel.cs" />
     <Compile Include="Models\EditUserModel.cs" />
     <Compile Include="Models\ISettings.cs" />

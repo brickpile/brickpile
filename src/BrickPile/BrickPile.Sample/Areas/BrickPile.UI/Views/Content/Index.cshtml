@@ -36,7 +36,7 @@
             @if (Model.StructureInfo.ParentModel == null) {
                 <tr>
                     <td><span>&nbsp;</span></td>
-                    <td><span>@Html.ActionLink(Model.StructureInfo.RootModel)</span></td>
+                    <td><span>@Model.StructureInfo.RootModel.Metadata.Name</span></td>
                     <td><span>/@Model.StructureInfo.RootModel.Metadata.Slug</span></td>
                     <td><span>@Html.CheckBox(Model.StructureInfo.RootModel.Id.Replace("/", "_"), Model.StructureInfo.RootModel.Metadata.PublishedStatus, new { @class = "publish" })</span></td>
                     <td><span>@(Model.StructureInfo.RootModel.Metadata.Changed.HasValue ? @Model.StructureInfo.RootModel.Metadata.Changed.FormatDate() + " by " + Model.StructureInfo.RootModel.Metadata.ChangedBy : "")</span></td>

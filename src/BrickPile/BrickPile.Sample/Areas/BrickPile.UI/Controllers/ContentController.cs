@@ -19,7 +19,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Exception;
@@ -27,7 +26,6 @@ using BrickPile.Core.Repositories;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Models;
 using BrickPile.UI.Web.ViewModels;
-using Raven.Client.Document;
 
 namespace BrickPile.UI.Controllers {
     [Authorize]
@@ -51,7 +49,7 @@ namespace BrickPile.UI.Controllers {
                 return View("Index", viewModel);
             }
 
-            return View("Start", new DefaultPageModel());
+            return View("Start", new NewModel());
         }
         /// <summary>
         /// Responsible for providing the Edit view with data from the current page
@@ -84,9 +82,12 @@ namespace BrickPile.UI.Controllers {
             _repository.Refresh(model);
 
             var page = model as IPageModel;
-            var parent = _repository.SingleOrDefault<IPageModel>(m => m.Id == page.Parent.Id);
 
-            return RedirectToAction("index", new { model = parent });
+            if(page.Parent != null) {
+                model = _repository.SingleOrDefault<IPageModel>(m => m.Id == page.Parent.Id);
+            }
+
+            return RedirectToAction("index", new { model });
         }
         /// <summary>
         /// Responsible for providing the add page view with data
@@ -94,7 +95,7 @@ namespace BrickPile.UI.Controllers {
         /// <param name="model">The model.</param>
         /// <returns></returns>
         public ActionResult Add(dynamic model) {
-            return PartialView(new CreateNewModel
+            return PartialView(new NewModel
                                    {
                                        CurrentModel = model,
                                        BackAction = "edit",
@@ -104,39 +105,30 @@ namespace BrickPile.UI.Controllers {
         /// <summary>
         /// News the specified new page model.
         /// </summary>
-        /// <param name="newPageModel">The new page model.</param>
+        /// <param name="newModel">The new model.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public ActionResult New(CreateNewModel newPageModel, dynamic model) {
-            var parent = model as IPageModel;
-            if (parent == null) {
-                throw new BrickPileException("The injected model is not a PageModel");
-            }
-
+        public ActionResult New(NewModel newModel, dynamic model) {
             if (ModelState.IsValid) {
+                var parent = model as IPageModel;
                 // create a new page from the selected page model
-                var page = Activator.CreateInstance(Type.GetType(newPageModel.SelectedPageModel)) as IPageModel;
+                var page = Activator.CreateInstance(Type.GetType(newModel.SelectedPageModel)) as IPageModel;
                 if (page == null) {
                     throw new BrickPileException("The selected page model is not valid!");
                 }
-                page.Metadata.Url = VirtualPathUtility.AppendTrailingSlash(parent.Metadata.Url);
+                page.Metadata.Url = parent != null ? VirtualPathUtility.AppendTrailingSlash(parent.Metadata.Url) : String.Empty;
                 
                 ViewBag.Class = "content";
                 return View("new", new NewPageViewModel { NewPageModel = page, CurrentModel = parent, StructureInfo = _structureInfo });
             }
 
-            return PartialView("add", newPageModel);
+            return PartialView("add", newModel);
         }
         [HttpPost]
         [ValidateInput(false)]
         public virtual ActionResult Save(dynamic newPageModel, dynamic model) {
-
-            var parent = model as IPageModel;
-            if (parent == null) {
-                throw new BrickPileException("The injected model is not a PageModel");
-            }
-
             if (ModelState.IsValid) {
+                var parent = model as IPageModel;
                 // create a new page from the new model
                 var page = Activator.CreateInstance(Type.GetType(Request.Form["AssemblyQualifiedName"])) as IPageModel;
 
@@ -146,8 +138,10 @@ namespace BrickPile.UI.Controllers {
 
                 // Update all values
                 UpdateModel(page, "NewPageModel");
-                // Set the parent
-                page.Parent = model;
+                // Set the parent if it's not the start page
+                if(parent != null) {
+                    page.Parent = model;
+                }
                 // Set changed date
                 page.Metadata.Changed = DateTime.Now;
                 page.Metadata.ChangedBy = HttpContext.User.Identity.Name;
@@ -176,61 +170,6 @@ namespace BrickPile.UI.Controllers {
                             : "Hooray, you're page has been published");
         }
         /// <summary>
-        /// Responsible for creating a new page based on the selected page model
-        /// </summary>
-        /// <param name="newPageModel">The new page model.</param>
-        /// <param name="model">The model.</param>
-        /// <returns></returns>
-        [Obsolete]
-        public ActionResult Create(CreateNewModel newPageModel, dynamic model) {
-            var parent = model as IPageModel;
-            if(parent == null) {
-                throw new BrickPileException("The injected model is not a PageModel");
-            }
-
-            if (ModelState.IsValid) {
-                // create a new page from the selected page model
-                var page = Activator.CreateInstance(Type.GetType(newPageModel.SelectedPageModel)) as IPageModel;
-                // handle this gracefully in the future :)
-                if (page == null) {
-                    throw new BrickPileException("The selected page model is not valid!");
-                }
-
-                page.Parent = model;
-                page.Metadata.Name = newPageModel.Name;
-                page.Metadata.Slug = newPageModel.Slug;
-                page.Metadata.Url = newPageModel.Url;
-
-                _repository.Store(page);
-                _repository.SaveChanges();
-                _repository.Refresh(page);
-
-                return RedirectToAction("edit", new { model = page });
-            }
-            return PartialView("add", newPageModel);
-        }
-        /// <summary>
-        /// Creates the default.
-        /// </summary>
-        /// <param name="defaultPageModel">The default page model.</param>
-        /// <returns></returns>
-        public ActionResult CreateDefault(DefaultPageModel defaultPageModel) {
-            if(ModelState.IsValid) {
-                // create a new page from the selected page model
-                var page = Activator.CreateInstance(Type.GetType(defaultPageModel.SelectedPageModel)) as IPageModel;
-                // handle this gracefully in the future :)
-                if (page == null) {
-                    throw new BrickPileException("The selected page model is not valid!");
-                }
-                page.Metadata.Name = defaultPageModel.Name;
-                _repository.Store(page);
-                _repository.SaveChanges();
-
-                return RedirectToAction("edit", new { model = page });
-            }
-            return View("index", defaultPageModel);
-        }
-        /// <summary>
         /// Deletes the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
@@ -243,23 +182,6 @@ namespace BrickPile.UI.Controllers {
                                            CurrentModel = model                                           
                                        } );
         }
-        /// <summary>
-        /// Pastes the specified source id.
-        /// </summary>
-        /// <param name="sourceId">The source id.</param>
-        /// <param name="destinationId">The destination id.</param>
-        /// <returns></returns>
-        //public ActionResult Paste(string sourceId, string destinationId) {
-
-        //    dynamic source = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(sourceId));
-        //    dynamic destination = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(destinationId));
-
-        //    source.Parent = destination;
-        //    _repository.SaveChanges();
-
-        //    return RedirectToAction("Index");
-
-        //}
         /// <summary>
         /// Deletes the specified confirm form model.
         /// </summary>
