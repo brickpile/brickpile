@@ -2,7 +2,7 @@
 @font-face {font-family: 'FeltTipRoman';src: url('webfonts/eot/felttip-roman.eot?#iefix') format('embedded-opentype'),url('webfonts/woff/felttip-roman.woff') format('woff'),url('webfonts/ttf/felttip-roman.ttf') format('truetype'),url('webfonts/svg/felttip-roman.svg#FeltTipRoman') format('svg');}
 
 /*--------------------------------------------------------------
-1 Reset
+Reset
 ----------------------------------------------------------------*/
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
 	margin:0;
@@ -17,14 +17,11 @@ article,aside,details,figcaption,figure, footer,header,hgroup,menu,nav,section {
 nav ul { list-style:none; }
 ul, li { list-style:none; }
 /*--------------------------------------------------------------
-2 Global
+Global
 ----------------------------------------------------------------*/
-html {
-    /*box-shadow: 0 0 1000px rgba(0,0,0,1) inset;*/
-    height:100%;
-}
 body {
-    background-image: url(../images/setup/bg.png);
+    background-image: url(../images/gradient.png), url(../images/wood.jpg);
+    background-repeat:repeat-x, repeat;
 	font:87.5%/1.5 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;	
 	font-weight: 300;
 	color:#333;
@@ -41,110 +38,129 @@ img {
     top:190px;
     z-index:100;
 }
-    /*--------------------------------------------------------------
-    2.2 Headers
-    ----------------------------------------------------------------*/
-    h1 {
-        background: url(../images/setup/arrow.png) no-repeat 17em 16px;
-        color:#fff;
-        font-family:FeltTipRoman;
-        font-size:157.1%;
-        padding-bottom:23px;
-        text-shadow:0 1px 0 rgba(0,0,0,0.7);
-        text-align:center;
-    }
-	/*--------------------------------------------------------------
-	2.3 Forms
-	----------------------------------------------------------------*/
-    form {
-        background: rgba(0,0,0,0.2);
-        box-shadow: 0 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(51, 51, 51, 0.1) inset;
-        border-radius:5px;
-        margin-top:12px;
-	    padding:10px;
-    }
-    
-	form>div {
-	    background: url(../images/setup/plate.png) no-repeat 0 0;
-	    /*background-color:#f8f9f6;*/
-		border-radius:5px;
-		/*box-shadow: 0 0 40px #dcdfd8 inset, 0 1px 0 rgba(255, 255, 255, 1) inset;*/
-		padding:100px 0 0;
-	}
-	fieldset {
-	    background:transparent url(../images/setup/line.png) repeat-x 0 0;
-	    margin:0 20px;
-	    padding: 18px 0 0;
-	}
-	label {
-        color:#28353d;
-		font-weight:bold;
-		display:block;
-		margin-bottom:2px;
-	}
-	label span {
-	    color:#a5abac;
-	    font-weight:normal;
-	    position:absolute;
-	    right:30px;
-	}
-	input[type=text],
-	input[type=password] {
-		border:1px solid #b3c2cb;
-		box-shadow:0 1px 0 rgba(255,255,255,1), 1px 1px 1px rgba(0,0,0,0.08) inset;
-		background:-moz-linear-gradient(top, #fafafa 0%, #ffffff 100%);
-		background:-webkit-linear-gradient(top, #f1ffafafa2ef 0%,#ffffff 100%);
-		width:100%;
-		padding:.8em .6em .95em;
-		border-radius:4px;
-		font:100%/1.5 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-		font-weight:300;
-		box-sizing:border-box;
-		-moz-box-sizing:border-box;
-		margin:.2em 0 9px;
-	}
-	input[type=submit] {
-	    background: url(../images/button.png) repeat 0 0;
-	    color:#6d6e6d;
-		border:1px solid #afb0af;
-		border-radius:4px;
-		box-shadow:0 1px 0 #cfd4cf;
-		width:auto;
-		font-weight:bold;
-		padding:1.01em 1.6em;
-		display:inline-block;
-		position:relative;
-		margin-top:1.1em;
-		text-shadow:1px 1px 0 rgba(255,255,255,1);
-	}
-	input[disabled=disabled] { opacity:0.3; }
-	#button {
-        background-image: url(../images/setup/submit-bg.png);
-        background-position:0 0;
-        background-repeat:repeat;	    
-		background-color:#e5e8e1;
-		border-radius: 0 0 5px 5px;
-		box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1) inset;
-		margin-top:2em;
-		padding: 0 1em 1em;
-		text-align:center;
-	}
-	.password {
-	    background:none;
-	    box-shadow:none;
-	    margin:0;
-	    padding:0;
-	    overflow:hidden;
-	    text-align:left;
-	}
-	.password div:first-child {
-	    float:left;
-	    width:48%;
-	}
-	.password div:last-child {
-	    float:right;
-	    width:48%;
-	}		    		
 /*--------------------------------------------------------------
-3 Header
+Headers
 ----------------------------------------------------------------*/
+h1 {
+    background: url(../images/setup/arrow.png) no-repeat 17.5em 16px;
+    color:#fff;
+    font-family:FeltTipRoman;
+    font-size:157.1%;
+    padding-bottom:23px;
+    text-shadow:0 1px 0 rgba(0,0,0,0.7);
+    text-align:center;
+}
+/*--------------------------------------------------------------
+Forms
+----------------------------------------------------------------*/
+form {
+    background: rgba(106, 60, 35,0.1);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(51, 51, 51, 0.1) inset;
+    border-radius:5px;
+    margin-top:12px;
+	padding:10px;
+}
+form>div {
+	background: url(../images/setup/plate.png) no-repeat 0 0;
+	border-radius:5px;
+	padding:100px 0 0;
+}
+fieldset {
+	background:transparent url(../images/setup/line.png) repeat-x 0 0;
+	margin:0 20px;
+	padding: 18px 0 0;
+}
+label {
+    color:#28353d;
+	font-weight:bold;
+	display:block;
+	margin-bottom:2px;
+}
+label span {
+	color:#a5abac;
+	font-weight:normal;
+	position:absolute;
+	right:30px;
+}
+input[type=text],
+input[type=password] {
+	border:1px solid #b3c2cb;
+	box-shadow:0 1px 0 rgba(255,255,255,1), 1px 1px 1px rgba(0,0,0,0.08) inset;
+	background:-moz-linear-gradient(top, #fafafa 0%, #ffffff 100%);
+	background:-webkit-linear-gradient(top, #f1ffafafa2ef 0%,#ffffff 100%);
+	width:100%;
+	padding:.8em .6em .95em;
+	border-radius:4px;
+	font:100%/1.5 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight:300;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	margin:.2em 0 9px;
+}
+input[type=submit] {
+	background: url(../images/button.png) repeat 0 0;
+	color:#6d6e6d;
+	border:1px solid #afb0af;
+	border-radius:4px;
+	box-shadow:0 1px 0 #cfd4cf;
+	width:auto;
+	font-weight:bold;
+	padding:1.01em 1.6em;
+	display:inline-block;
+	position:relative;
+	margin-top:1.1em;
+	text-shadow:1px 1px 0 rgba(255,255,255,1);
+}
+input[disabled=disabled] { opacity:0.5; }
+#button {
+    background-image: url(../images/setup/submit-bg.png);
+    background-position:0 0;
+    background-repeat:repeat;	    
+	background-color:#e5e8e1;
+	border-radius: 0 0 5px 5px;
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1) inset;
+	margin-top:2em;
+	padding: 0 1em 1em;
+	text-align:center;
+}
+.password {
+	background:none;
+	box-shadow:none;
+	margin:0;
+	padding:0;
+	text-align:left;
+	position:relative;
+}
+.password div:first-child {
+	float:left;
+	width:48%;
+}
+.password div:last-child {
+	float:right;
+	width:48%;
+}
+.field-validation-error {
+	background: url(../images/setup/alert.png) no-repeat 10px center, -moz-linear-gradient(top, #ffda77 0%, #f5c753 100%);
+	border-radius:20px;
+	box-shadow:0 2px 0 #c48900, 0 3px 3px rgba(0,0,0,0.3);
+	display:inline-block;
+	display:inline;
+	padding:.5em 1em .4em 2.5em;
+	position:absolute;
+	right:0;
+	top:68px;
+}
+.field-validation-error span {
+	background: transparent url(../images/setup/password-error.png) no-repeat 0 top;
+	color:#a76900;
+	display:block;
+	font-size:85.7%;
+    margin-top: -23px;
+    padding-top: 23px;
+    position:static;
+	text-shadow:0 1px 0 rgba(255,255,255,0.5);
+}
+.password div:first-child .field-validation-error {
+	left:-13px;
+	right:auto;
+}

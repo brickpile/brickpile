@@ -37,7 +37,6 @@ namespace BrickPile.UI.Controllers {
         public ActionResult Index() {
             // Add check for when a site is configured and you enter the path /dashboard/setup
             // Add an awesome view
-            //ViewBag.PasswordLength = _membershipService.MinPasswordLength;
             return View();
         }
         /// <summary>
@@ -66,7 +65,6 @@ namespace BrickPile.UI.Controllers {
                 ModelState.AddModelError("", AccountValidation.ErrorCodeToString(createStatus));
             }
             // If we got this far, something failed, redisplay form
-            //ViewBag.PasswordLength = _membershipService.MinPasswordLength;
             return View(model);
         }
         /// <summary>

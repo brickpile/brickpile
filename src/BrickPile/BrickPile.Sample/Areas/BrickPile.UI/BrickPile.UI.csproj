@@ -173,6 +173,7 @@
     <Compile Include="Web\Mvc\Html\PageList.cs" />
     <Compile Include="Web\Mvc\Html\SubMenuHelper.cs" />
     <Compile Include="Web\Mvc\Html\TreeViewHelper.cs" />
+    <Compile Include="Web\Mvc\Html\ValidationExtensions.cs" />
     <Compile Include="Web\Mvc\IControllerMapper.cs" />
     <Compile Include="Web\Mvc\StructureMapDependencyResolver.cs" />
     <Compile Include="Web\Routing\ContentRoute.cs" />
@@ -204,8 +205,19 @@
     <Content Include="Images\dialog-top.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Content\jquery.selectBox-arrow.gif" />
+    <Content Include="Images\Setup\alert.png" />
+    <Content Include="Images\Setup\arrow.png" />
+    <Content Include="Images\Setup\bg.png" />
+    <Content Include="Images\Setup\line.png" />
     <Content Include="Images\Setup\logo.png" />
+    <Content Include="Images\Setup\password-error.png" />
+    <Content Include="Images\Setup\plate.png" />
+    <Content Include="Images\Setup\submit-bg.png" />
     <Content Include="packages.config" />
+    <Content Include="Scripts\jquery-1.6.3-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.3.js" />
+    <Content Include="Scripts\jquery-1.6.3.min.js" />
+    <Content Include="Scripts\setup.js" />
     <Content Include="Scripts\tinymce.3.4.5\langs\en.js" />
     <Content Include="Scripts\tinymce.3.4.5\license.txt" />
     <Content Include="Scripts\tinymce.3.4.5\plugins\advhr\css\advhr.css" />

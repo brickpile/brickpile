@@ -6,6 +6,7 @@
 @{
     Layout = null;
 }
+
 <!DOCTYPE html>
 <html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
     <head>
@@ -27,24 +28,25 @@
                     @Html.LabelFor(m => m.Configuration.SiteName)
                     @Html.TextBoxFor(m => m.Configuration.SiteName, new { required = "required" })
                     @Html.ValidationMessageFor(m => m.Configuration.SiteName)   
-                    @Html.LabelFor(m => m.SetupModel.UserName, @<span>No fancy characters mmkay?</span>, "Username")
+                    @Html.LabelFor(m => m.SetupModel.UserName,@<span>No fancy characters mmkay?</span>)
                     @Html.TextBoxFor(m => m.SetupModel.UserName, new { required = "required" })
                     @Html.ValidationMessageFor(m => m.SetupModel.UserName)
                     @Html.LabelFor(m => m.SetupModel.Email)
                     @Html.TextBoxFor(m => m.SetupModel.Email, new { required = "required" })
                     @Html.ValidationMessageFor(m => m.SetupModel.Email)
+                    
                     <div class="password">
                         <div>
                             @Html.LabelFor(m => m.SetupModel.Password)
                             @Html.PasswordFor(m => m.SetupModel.Password, new { required = "required" })
-                            @Html.ValidationMessageFor(m => m.SetupModel.Password)
+                            @Html.ValidationMessageLabelFor(m => m.SetupModel.Password)
                         </div>
                         <div>
                             @Html.LabelFor(m => m.SetupModel.ConfirmPassword)
                             @Html.PasswordFor(m => m.SetupModel.ConfirmPassword)
+                            @Html.ValidationMessageLabelFor(m => m.SetupModel.ConfirmPassword)
                         </div>
                     </div>
-                    @Html.ValidationMessageFor(m => m.SetupModel.ConfirmPassword)
                 </fieldset>
                 <div id="button">
                     <input type="submit" value="Let's do this" />

@@ -72,7 +72,7 @@ namespace BrickPile.UI.Models
 
 
 		[Required(ErrorMessage = "Required!")]
-		[Display(Name = "User name")]
+		[Display(Name = "Username")]
 		public string UserName { get; set; }
 
         [Required(ErrorMessage = "Required!")]
@@ -81,14 +81,14 @@ namespace BrickPile.UI.Models
 		public string Email { get; set; }
 
         [Required(ErrorMessage = "Required!")]
-		[ValidatePasswordLength]
+		[ValidatePasswordLength(ErrorMessage = "To short bitch!")]
 		[DataType(DataType.Password)]
 		[Display(Name = "Password...")]
 		public string Password { get; set; }
 
 		[DataType(DataType.Password)]
 		[Display(Name = "...and again")]
-		[Compare("Password", ErrorMessage = "No match!")]
+		[Compare("Password", ErrorMessage = "The passwords does not match!")]
 		public string ConfirmPassword { get; set; }
 	}
 	#endregion
