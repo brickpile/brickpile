@@ -17,9 +17,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
-
+using System;
 using System.Web;
 using BrickPile.Core.Repositories;
+using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
 using BrickPile.UI.Web.Mvc;
@@ -30,7 +31,9 @@ namespace BrickPile.UI.Web.Routing {
         private readonly IPathData _pathData;
         private IPageRepository _repository;
         private readonly IControllerMapper _controllerMapper;
+        private readonly IContainer _container;
         private IPageModel _pageModel;
+        private string _controllerName;
         /// <summary>
         /// Resolves the path.
         /// </summary>
@@ -41,48 +44,44 @@ namespace BrickPile.UI.Web.Routing {
             // Set the default action to index
             _pathData.Action = PageRoute.DefaultAction;
             // Get an up to date page repository
-            _repository = ObjectFactory.GetInstance<IPageRepository>();
-            
-            if(string.IsNullOrEmpty(virtualUrl)) {
+            _repository = _container.GetInstance<IPageRepository>();
+
+            // The requested url is for the start page with no action
+            if (string.IsNullOrEmpty(virtualUrl) || string.Equals(virtualUrl, "/")) {
                 _pageModel = _repository.SingleOrDefault<IPageModel>(x => x.Parent == null);
-                _pathData.CurrentPageModel = _pageModel;
-                _pathData.Controller = _pageModel.GetControllerName();
-            }
-            else {
+            } else {
+                // Remove the trailing slash
                 virtualUrl = VirtualPathUtility.RemoveTrailingSlash(virtualUrl);
                 // The normal beahaviour should be to load the page based on the url
                 _pageModel = _repository.GetPageByUrl<IPageModel>(virtualUrl);
-
-                // Try to load the page without the last segment of the url and set the last segment as action
+                // Try to load the page without the last segment of the url and set the last segment as action))
                 if (_pageModel == null && virtualUrl.LastIndexOf("/") > 0) {
                     var index = virtualUrl.LastIndexOf("/");
-                    var path = virtualUrl.Substring(0, index).TrimStart(new[] { '/' });
-                    _pageModel = _repository.GetPageByUrl<IPageModel>(path);
-                    _pathData.Action = virtualUrl.Substring(index, virtualUrl.Length - index).Trim(new[] { '/' });
+                    var action = virtualUrl.Substring(index, virtualUrl.Length - index).Trim(new[] { '/' });
+                    virtualUrl = virtualUrl.Substring(0, index).TrimStart(new[] { '/' });
+                    _pageModel = _repository.GetPageByUrl<IPageModel>(virtualUrl);
+                    _pathData.Action = action;
                 }
-
+                // If the page model still is empty, let's try to resolve if the start page has an action named (virtualUrl)
                 if (_pageModel == null) {
-                    // Load the start ang check if the controller has the requested action
                     _pageModel = _repository.SingleOrDefault<IPageModel>(x => x.Parent == null);
-
-                    var controllerName = _pageModel.GetControllerName();                    
-                    if(!_controllerMapper.ControllerHasAction(controllerName,virtualUrl)) {
+                    var pageModelAttribute = _pageModel.GetType().GetAttribute<PageModelAttribute>();
+                    _controllerName = _controllerMapper.GetControllerName(pageModelAttribute.Controller);
+                    var action = virtualUrl.TrimStart(new[] { '/' });
+                    if (!_controllerMapper.ControllerHasAction(_controllerName, action)) {
                         return null;
                     }
-
-                    _pathData.CurrentPageModel = _pageModel;
-                    _pathData.Action = virtualUrl;
-                    _pathData.Controller = controllerName;
-
+                    _pathData.Action = action;
                 }
             }
-            
-            if(_pageModel == null) {
+
+            if (_pageModel == null) {
                 return null;
             }
 
+            var controllerType = _pageModel.GetType().GetAttribute<PageModelAttribute>().Controller;
+            _pathData.Controller = _controllerMapper.GetControllerName(controllerType);
             _pathData.CurrentPageModel = _pageModel;
-            _pathData.Controller = _pathData.CurrentPageModel.GetControllerName();
             return _pathData;
         }
         /// <summary>
@@ -91,10 +90,12 @@ namespace BrickPile.UI.Web.Routing {
         /// <param name="pathData">The path data.</param>
         /// <param name="repository">The repository.</param>
         /// <param name="controllerMapper">The controller mapper.</param>
-        public PathResolver(IPathData pathData, IPageRepository repository, IControllerMapper controllerMapper) {
+        /// <param name="container">The container.</param>
+        public PathResolver(IPathData pathData, IPageRepository repository, IControllerMapper controllerMapper, IContainer container) {
             _pathData = pathData;
             _repository = repository;
             _controllerMapper = controllerMapper;
+            _container = container;
         }
     }
 }

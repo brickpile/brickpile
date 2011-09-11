@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using BrickPile.Core.Infrastructure.Common;
 using BrickPile.Domain.Models;
 using BrickPile.UI;
 using BrickPile.UI.Web.ViewModels;
+using Raven.Client;
 
 namespace BrickPile.Sample.Controllers
 {
@@ -13,17 +12,19 @@ namespace BrickPile.Sample.Controllers
     {
         private readonly IPageModel _model;
         private readonly IStructureInfo _structureInfo;
-
+        private readonly IDocumentSession _session;
         public ActionResult Index()
         {
             return View(new DefaultViewModel<IPageModel>(_model,_structureInfo));
         }
         public ActionResult Foo() {
-            throw new NotImplementedException("This action is not available");
+            var children = _session.Query<IPageModel>().GetChildren(_model);
+            return Json(children,JsonRequestBehavior.AllowGet);
         }
-        public HomeController(IPageModel model, IStructureInfo structureInfo) {
+        public HomeController(IPageModel model, IStructureInfo structureInfo, IDocumentSession session) {
             _model = model;
             _structureInfo = structureInfo;
+            _session = session;
         }
     }
 }

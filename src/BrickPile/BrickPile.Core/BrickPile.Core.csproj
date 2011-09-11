@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Error.cs" />
     <Compile Include="Exception\BrickPileException.cs" />
+    <Compile Include="Infrastructure\Common\QueryableExtensions.cs" />
     <Compile Include="Infrastructure\Indexes\Documents_ByParent.cs" />
     <Compile Include="Infrastructure\Indexes\Document_ByUrl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

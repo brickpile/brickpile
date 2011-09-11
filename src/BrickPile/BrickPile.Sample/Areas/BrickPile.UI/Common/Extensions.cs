@@ -97,7 +97,7 @@ namespace BrickPile.UI.Common {
         /// <param name="model"></param>
         /// <returns></returns>
         public static RouteData ApplyCurrentModel(this RouteData data, string controllerName, string actionName, dynamic model) {
-            data.Values[PageRoute.ControllerKey] = controllerName;
+            data.Values[PageRoute.ControllerKey] = controllerName.Replace("Controller","");
             data.Values[PageRoute.ActionKey] = actionName;
             data.Values[PageRoute.ModelKey] = model;
             return data;

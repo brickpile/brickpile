@@ -64,6 +64,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Routing\PageRouteTests.cs" />
     <Compile Include="Web\Routing\DashboardPathResolverTests.cs" />
+    <Compile Include="Web\Routing\PathResolverTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

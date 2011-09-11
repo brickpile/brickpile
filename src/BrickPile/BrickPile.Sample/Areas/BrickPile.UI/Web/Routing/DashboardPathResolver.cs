@@ -19,9 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 using System.Web;
 using BrickPile.Core.Repositories;
-using BrickPile.Domain;
 using BrickPile.Domain.Models;
-using BrickPile.UI.Common;
 using BrickPile.UI.Controllers;
 using BrickPile.UI.Web.Mvc;
 using StructureMap;
