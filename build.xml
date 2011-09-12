@@ -14,6 +14,9 @@
   <items type="class" path="BrickPile.Sample/Areas" generateXml="false" target="runtime|testDebug" autover="true">
     <item name="BrickPile.UI" type="web" />
   </items>
+  <items path="src/BrickPile/packages/NUnit.2.5.10.11092/lib" type="reference" target="testDebug">
+    <item name="nunit.framework.dll"/>
+  </items>
   <items type="nunit" target="testDebug" autover="true" framework="4.0">
     <item name="BrickPile.Tests"/>
   </items>
