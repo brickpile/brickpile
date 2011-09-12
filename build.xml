@@ -20,6 +20,9 @@
   <items path="packages/Moq.4.0.10827/lib/NET40" type="reference" target="testDebug">
     <item name="Moq.dll"/>
   </items>
+  <items path="packages/structuremap.2.6.3/lib" type="reference" target="testDebug">
+    <item name="StructureMap.dll"/>
+  </items>
   <items type="nunit" target="testDebug" autover="true" framework="4.0">
     <item name="BrickPile.Tests"/>
   </items>
