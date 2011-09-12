@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Web.Mvc;
 using BrickPile.Core.Infrastructure.Common;
 using BrickPile.Domain.Models;
@@ -18,8 +18,13 @@ namespace BrickPile.Sample.Controllers
             return View(new DefaultViewModel<IPageModel>(_model,_structureInfo));
         }
         public ActionResult Foo() {
-            var children = _session.Query<IPageModel>().GetChildren(_model);
+
+            var children = _session.Query<IPageModel>()
+                .GetChildren(_model)
+                .Where(x => x.Metadata.PublishedStatus);
+
             return Json(children,JsonRequestBehavior.AllowGet);
+
         }
         public HomeController(IPageModel model, IStructureInfo structureInfo, IDocumentSession session) {
             _model = model;

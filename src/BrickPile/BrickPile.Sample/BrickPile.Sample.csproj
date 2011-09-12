@@ -115,6 +115,10 @@
       <Project>{827F415E-59D8-4F6A-B47A-1F345A790F5E}</Project>
       <Name>BrickPile.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BrickPile.Services\BrickPile.Services.csproj">
+      <Project>{EBED9A59-3E3D-4031-810D-80552B38A986}</Project>
+      <Name>BrickPile.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="Areas\BrickPile.UI\BrickPile.UI.csproj">
       <Project>{9CE32587-7C80-469C-A26F-AE51B6898F9A}</Project>
       <Name>BrickPile.UI</Name>
