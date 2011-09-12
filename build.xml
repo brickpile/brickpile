@@ -6,8 +6,13 @@
   <!--Main assemblies-->
   <items type="class" generateXml="false" target="runtime|testDebug" autover="true">
     <item name="BrickPile.Core" type="class" />
+    <item name="BrickPile.Domain" type="class" />
+    <item name="BrickPile.Raven" type="class" />
+    <item name="BrickPile.Sample" type="web" />
+    <item name="BrickPile.Tests" type="class" />
+    <item name="BrickPile.UI" type="web" />
   </items>
-  <!--items type="nunit" target="testDebug" autover="true" framework="4.0">
+  <items type="nunit" target="testDebug" autover="true" framework="4.0">
     <item name="BrickPile.Tests"/>
-  </items-->
+  </items>
 </project>
