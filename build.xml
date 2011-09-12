@@ -17,6 +17,9 @@
   <items path="packages/NUnit.2.5.10.11092/lib" type="reference" target="testDebug">
     <item name="nunit.framework.dll"/>
   </items>
+  <items path="packages/Moq.4.0.10827/lib/NET40" type="reference" target="testDebug">
+    <item name="Moq.dll"/>
+  </items>
   <items type="nunit" target="testDebug" autover="true" framework="4.0">
     <item name="BrickPile.Tests"/>
   </items>
