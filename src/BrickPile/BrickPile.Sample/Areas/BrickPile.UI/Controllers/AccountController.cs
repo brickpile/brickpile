@@ -42,8 +42,7 @@ namespace BrickPile.UI.Controllers {
 		// **************************************
 		// URL: /Account/LogOn
 		// **************************************
-		public ActionResult Index()
-		{
+		public ActionResult Index() {
 			return View("LogOn");
 		}
 

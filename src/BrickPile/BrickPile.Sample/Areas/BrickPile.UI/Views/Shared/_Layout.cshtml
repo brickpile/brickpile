@@ -4,10 +4,20 @@
 <!DOCTYPE html>
 <html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
 <head>
-    <title>BrickPile - Dashboard</title>
+    <title>BrickPile - @ViewBag.Title</title>
     <meta charset="utf-8">
     <meta name="description" content="" />
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/brickpile.ui/styles/setup.css")" media="all" />
+
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/brickpile.ui/styles/framework.css")" media="all" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/brickpile.ui/styles/views.css")" media="all" />
+
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/brickpile.ui/styles/start.css")" media="all" />
+
+    <script type="text/javascript" src="@Url.Content("~/areas/brickpile.ui/scripts/jquery-1.6.3.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/areas/brickpile.ui/scripts/jquery.selectbox.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/areas/brickpile.ui/scripts/start.js")"></script>
+
+
     <!--link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/brickpile.ui/styles/content.css")" media="all" />
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/brickpile.ui/styles/edit.css")" media="all" /-->
 

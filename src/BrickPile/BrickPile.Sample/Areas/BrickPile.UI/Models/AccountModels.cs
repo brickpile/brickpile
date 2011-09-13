@@ -57,7 +57,7 @@ namespace BrickPile.UI.Models
 		[Display(Name = "Username")]
 		public string UserName { get; set; }
 
-		[Required]
+        [Required(ErrorMessage = "well, password")]
 		[DataType(DataType.Password)]
 		[Display(Name = "Password")]
 		public string Password { get; set; }

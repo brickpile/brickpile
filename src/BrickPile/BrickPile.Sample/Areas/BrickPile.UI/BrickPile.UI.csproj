@@ -168,7 +168,9 @@
     <Content Include="Content\linen.jpg" />
     <Content Include="Content\sprite.png" />
     <Content Include="Images\bg.jpg" />
+    <Content Include="Images\button.png" />
     <Content Include="Images\dialog-top.png" />
+    <Content Include="Images\jquery.selectBox-arrow.gif" />
     <Content Include="Images\logo.png" />
     <Content Include="Content\jquery.selectBox-arrow.gif" />
     <Content Include="Images\Setup\alert.png" />
@@ -183,7 +185,10 @@
     <Content Include="Scripts\jquery-1.6.3-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.3.js" />
     <Content Include="Scripts\jquery-1.6.3.min.js" />
+    <Content Include="Scripts\jquery.selectbox.js" />
+    <Content Include="Scripts\jquery.selectBox.min.js" />
     <Content Include="Scripts\setup.js" />
+    <Content Include="Scripts\start.js" />
     <Content Include="Scripts\tinymce.3.4.5\langs\en.js" />
     <Content Include="Scripts\tinymce.3.4.5\license.txt" />
     <Content Include="Scripts\tinymce.3.4.5\plugins\advhr\css\advhr.css" />
@@ -437,7 +442,8 @@
     <Content Include="Scripts\tinymce.3.4.5\utils\form_utils.js" />
     <Content Include="Scripts\tinymce.3.4.5\utils\mctabs.js" />
     <Content Include="Scripts\tinymce.3.4.5\utils\validate.js" />
-    <Content Include="Styles\setup.css" />
+    <Content Include="Styles\Framework.css" />
+    <Content Include="Styles\Views.css" />
     <Content Include="Styles\webfonts\svg\museo-sans-500.svg" />
     <Content Include="Styles\webfonts\svg\museo-sans-700.svg" />
     <Content Include="Styles\webfonts\svg\style_159303.svg" />
@@ -509,7 +515,8 @@
     <Content Include="Views\Shared\EditorTemplates\ImageUrl.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MultilineText.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Number.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Object.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DropDown.cshtml" />
+    <None Include="Views\Shared\EditorTemplates\Object.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PageReference.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Password.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PhoneNumber.cshtml" />

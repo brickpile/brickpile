@@ -83,7 +83,7 @@ namespace BrickPile.UI.Models {
         /// <summary>
         /// Gets the available models.
         /// </summary>
-        [Display(Name = "Type", Order = 10)]
+        [Display(Name = "Select page model", Order = 10)]
         public IEnumerable<SelectListItem> AvailableModels {
             get {
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {

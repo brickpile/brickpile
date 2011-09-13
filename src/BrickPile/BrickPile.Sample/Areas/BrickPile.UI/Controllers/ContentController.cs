@@ -46,9 +46,11 @@ namespace BrickPile.UI.Controllers {
 
             if (_model != null && _model is IPageModel) {
                 var viewModel = new DashboardViewModel(_model, _structureInfo);
+                ViewBag.Class = "content";
                 return View("Index", viewModel);
             }
 
+            ViewBag.Class = "start";
             return View("Start", new NewModel());
         }
         /// <summary>

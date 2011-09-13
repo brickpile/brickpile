@@ -1,8 +1,7 @@
-﻿
-@font-face {font-family: 'FeltTipRoman';src: url('webfonts/eot/felttip-roman.eot?#iefix') format('embedded-opentype'),url('webfonts/woff/felttip-roman.woff') format('woff'),url('webfonts/ttf/felttip-roman.ttf') format('truetype'),url('webfonts/svg/felttip-roman.svg#FeltTipRoman') format('svg');}
+﻿@font-face {font-family: 'FeltTipRoman';src: url('webfonts/eot/felttip-roman.eot?#iefix') format('embedded-opentype'),url('webfonts/woff/felttip-roman.woff') format('woff'),url('webfonts/ttf/felttip-roman.ttf') format('truetype'),url('webfonts/svg/felttip-roman.svg#FeltTipRoman') format('svg');}
 
 /*--------------------------------------------------------------
-Reset
+1 Reset
 ----------------------------------------------------------------*/
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
 	margin:0;
@@ -17,7 +16,7 @@ article,aside,details,figcaption,figure, footer,header,hgroup,menu,nav,section {
 nav ul { list-style:none; }
 ul, li { list-style:none; }
 /*--------------------------------------------------------------
-Global
+2 Global
 ----------------------------------------------------------------*/
 body {
     background-image: url(../images/gradient.png), url(../images/wood.jpg);
@@ -26,20 +25,12 @@ body {
 	font-weight: 300;
 	color:#333;
 	padding-top:86px;
-	position:relative;
  	max-width:35.286em;
 	min-width:494px;
 	margin:0 auto;	
 }
-img {
-    position:absolute;
-    left:50%;
-    margin-left:-84px;
-    top:190px;
-    z-index:100;
-}
 /*--------------------------------------------------------------
-Headers
+3 Headers
 ----------------------------------------------------------------*/
 h1 {
     background: url(../images/setup/arrow.png) no-repeat 17.5em 16px;
@@ -50,6 +41,8 @@ h1 {
     text-shadow:0 1px 0 rgba(0,0,0,0.7);
     text-align:center;
 }
+
+
 /*--------------------------------------------------------------
 Forms
 ----------------------------------------------------------------*/
@@ -60,28 +53,33 @@ form {
     margin-top:12px;
 	padding:10px;
 }
+
 form>div {
 	background: url(../images/setup/plate.png) no-repeat 0 0;
 	border-radius:5px;
 	padding:100px 0 0;
 }
+
 fieldset {
 	background:transparent url(../images/setup/line.png) repeat-x 0 0;
 	margin:0 20px;
 	padding: 18px 0 0;
 }
+
 label {
     color:#28353d;
 	font-weight:bold;
 	display:block;
 	margin-bottom:2px;
+	position:relative;
 }
 label span {
 	color:#a5abac;
 	font-weight:normal;
 	position:absolute;
-	right:30px;
+	right:0;
 }
+
 input[type=text],
 input[type=password] {
 	border:1px solid #b3c2cb;
@@ -112,6 +110,7 @@ input[type=submit] {
 	text-shadow:1px 1px 0 rgba(255,255,255,1);
 }
 input[disabled=disabled] { opacity:0.5; }
+
 #button {
     background-image: url(../images/setup/submit-bg.png);
     background-position:0 0;
@@ -162,4 +161,155 @@ input[disabled=disabled] { opacity:0.5; }
 .password div:first-child .field-validation-error {
 	left:-13px;
 	right:auto;
+}
+
+/*--------------------------------------------------------------
+Dropdown control
+----------------------------------------------------------------*/
+
+.selectBox-dropdown {
+	width: 392px; /* width = (desired width) - padding-right */
+	padding-right: 40px;
+	position: relative;
+	border: solid 1px #d5d4d4;
+	line-height: 1.5;
+	text-decoration: none;
+	color: #28353d;
+	outline: none;
+	vertical-align: middle;
+	background: #F2F2F2 url(../images/button.png) repeat-x 0 0;
+	/*background: -moz-linear-gradient(top, #F8F8F8 1%, #E1E1E1 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #F8F8F8), color-stop(100%, #E1E1E1));
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F8F8F8', endColorstr='#E1E1E1', GradientType=0);*/
+	box-shadow: 0 1px 0 rgba(0, 0, 0,.1);
+	border-radius: 4px;
+	display: inline-block;
+	cursor: default;
+	text-shadow:0 1px 0 rgba(255,255,255,1);
+}
+
+.selectBox-dropdown:focus,
+.selectBox-dropdown:focus .selectBox-arrow {
+	border-color: #666;
+}
+
+.selectBox-dropdown.selectBox-menuShowing {
+	-moz-border-radius-bottomleft: 0;
+	-moz-border-radius-bottomright: 0;
+	-webkit-border-bottom-left-radius: 0;
+	-webkit-border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.selectBox-dropdown .selectBox-label {
+    color: #656e72;
+	width: 100%;
+	padding: 10px 16px 7px;
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.selectBox-dropdown .selectBox-arrow {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 23px;
+	height: 100%;
+	background: url(../images/jquery.selectBox-arrow.png) 0 center no-repeat;
+}
+
+
+/* Dropdown menu */
+.selectBox-dropdown-menu {
+	position: absolute;
+	z-index: 99999;
+	max-height: 200px;
+	border: solid 1px #BBB; /* should be the same border width as .selectBox-dropdown */
+	background: #FFF;
+	-moz-box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+	-webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+	overflow: auto;
+}
+
+
+/* Inline control */
+.selectBox-inline {
+	width: 250px;
+	outline: none;
+	border: solid 1px #BBB;
+	background: #FFF;
+	display: inline-block;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	overflow: auto;
+}
+
+.selectBox-inline:focus {
+	border-color: #666;
+}
+
+
+/* Options */
+.selectBox-options,
+.selectBox-options LI,
+.selectBox-options LI A {
+	list-style: none;
+	display: block;
+	cursor: default;
+	padding: 0;
+	margin: 0;
+}
+
+.selectBox-options LI A {
+	line-height: 1.5;
+	padding: 0 .5em;
+	white-space: nowrap;
+	overflow: hidden;
+	background: 6px center no-repeat;
+}
+
+.selectBox-options LI.selectBox-hover A {
+	background-color: #EEE;
+}
+
+.selectBox-options LI.selectBox-disabled A {
+	color: #888;
+	background-color: transparent;
+}
+
+.selectBox-options LI.selectBox-selected A {
+	background-color: #C8DEF4;
+}
+
+.selectBox-options .selectBox-optgroup {
+	color: #666;
+	background: #EEE;
+	font-weight: bold;
+	line-height: 1.5;
+	padding: 0 .3em;
+	white-space: nowrap;
+}
+
+
+/* Disabled state */
+.selectBox.selectBox-disabled {
+	color: #888 !important;
+}
+
+.selectBox-dropdown.selectBox-disabled .selectBox-arrow {
+	opacity: .5;
+	filter: alpha(opacity=50);
+	border-color: #666;
+}
+
+.selectBox-inline.selectBox-disabled {
+	color: #888 !important;
+}
+
+.selectBox-inline.selectBox-disabled .selectBox-options A {
+	background-color: transparent !important;
 }
