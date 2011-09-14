@@ -4,7 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72CDE90C-23AE-45E2-B62D-185446CEE4C3}"
 	ProjectSection(SolutionItems) = preProject
 		NuGet\brickpile-embedded.nuspec = NuGet\brickpile-embedded.nuspec
-		NuGet\brickpile.nuspec = NuGet\brickpile.nuspec
+		BrickPile.nuspec = BrickPile.nuspec
 		..\..\build.xml = ..\..\build.xml
 		NuGet\content\web.config.transform = NuGet\content\web.config.transform
 	EndProjectSection

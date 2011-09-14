@@ -22,12 +22,9 @@ namespace BrickPile.Sample.Controllers
         }
         public ActionResult Foo() {
 
-            //var children = _repository.GetChildren(_model);
-            
-            //children = _session.Query<IPageModel>().Where(x=> x.Parent.Id == _model.Id).Where(model => model.Metadata.PublishedStatus);
-
-            //return Json(children,JsonRequestBehavior.AllowGet);
-            throw new NotImplementedException();
+            var children = _repository.GetChildren(_model);
+            children = _session.Query<IPageModel>().Where(x=> x.Parent.Id == _model.Id).Where(model => model.Metadata.PublishedStatus);
+            return Json(children,JsonRequestBehavior.AllowGet);
 
         }
         public HomeController(IPageModel model, IStructureInfo structureInfo, IDocumentSession session, IPageRepository repository) {
