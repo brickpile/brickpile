@@ -25,5 +25,7 @@
     <file src="${project.buildDir}\Dlls\Release\BrickPile.Services.dll" target="lib" />
     <file src="${project.buildDir}\Dlls\Release\BrickPile.UI.dll" target="lib" />
     <file src="${project.buildDir}\Dlls\Release\BrickPile.Raven.dll" target="content\App_Data\Plugins" />
+    <file src="${action.workDir}\web.config.transform" target="content" />
+    <file src="${action.workDir}\BrickPile.Sample\Areas\BrickPile.UI" target="content\Areas\BrickPile.UI" />
   </files>
 </package>

@@ -56,7 +56,7 @@
           </fileset>
         </copy>
 
-        <copy todir="${l_rootFolder}/content/Areas">
+        <copy todir="${l_rootFolder}/content/Areas/BrickPile.UI">
           <fileset basedir="${action.workDir}/BrickPile.Sample/Areas/BrickPile.UI">
             <include name="Views/**/* " />
             <include name="Styles/**/* " />
