@@ -21,12 +21,12 @@ ul, li { list-style:none; }
 body {
     background-image: url(../images/gradient.png), url(../images/wood.jpg);
     background-repeat:repeat-x, repeat;
-	font:87.5%/1.5 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;	
+	font: 87.5%/1.5 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;	
 	font-weight: 300;
 	color:#333;
 	padding-top:86px;
  	max-width:35.286em;
-	min-width:494px;
+	min-width:500px;
 	margin:0 auto;	
 }
 /*--------------------------------------------------------------
@@ -50,7 +50,7 @@ form {
     box-shadow: 0 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(51, 51, 51, 0.1) inset;
     border-radius:5px;
     margin-top:12px;
-	padding:10px;
+	padding:13px;
 }
 
 form>div {
@@ -78,7 +78,11 @@ label span {
 	position:absolute;
 	right:0;
 }
-
+input,
+textarea {
+	font:100%/1.5 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight:300;    
+}
 input[type=text],
 input[type=password] {
 	border:1px solid #b3c2cb;
@@ -88,38 +92,54 @@ input[type=password] {
 	width:100%;
 	padding:.8em .6em .95em;
 	border-radius:4px;
-	font:100%/1.5 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-weight:300;
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
 	margin:.2em 0 9px;
 }
 input[type=submit] {
-	background: url(../images/button.png) repeat 0 0;
+	background:-moz-linear-gradient(top, #fff 0%, #e2e6da 100%);
+	background:-webkit-linear-gradient(top, #fff 0%,#e2e6da 100%);	
 	color:#6d6e6d;
-	border:1px solid #afb0af;
+	border:0;
 	border-radius:4px;
-	box-shadow:0 1px 0 #cfd4cf;
 	width:auto;
 	font-weight:bold;
 	padding:1.01em 1.6em;
 	display:inline-block;
 	position:relative;
-	margin-top:1.1em;
 	text-shadow:1px 1px 0 rgba(255,255,255,1);
 }
-input[disabled=disabled] { opacity:0.5; }
+input[type=submit]:hover {
+	background:-moz-linear-gradient(top, #fafafa 0%, #d8dbd0 100%);
+	background:-webkit-linear-gradient(top, #fafafa 0%,#d8dbd0 100%);	    
+    
+}
+input[type=submit]:active,
+input[type=submit]:focus {
+	background:-moz-linear-gradient(top, #e2e6da 0%, #fff 100%);
+	background:-webkit-linear-gradient(top, #e2e6da 0%,#fff 100%);	
+}
+span.disabled { opacity:0.3; }
 
 #button {
     background-image: url(../images/setup/submit-bg.png);
     background-position:0 0;
-    background-repeat:repeat;	    
+    background-repeat:no-repeat;
 	background-color:#e5e8e1;
 	border-radius: 0 0 5px 5px;
-	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1) inset;
+	
 	margin-top:2em;
 	padding: 0 1em 1em;
 	text-align:center;
+}
+#button span {
+    background:-moz-linear-gradient(top, #d3d2d1 0%, #afafaf 100%);
+    border-radius:5px;
+    box-shadow:0 1px 0 #cfd4cf;
+    display:inline-block;
+    margin-top:1.1em;
+    overflow:hidden;
+    padding:1px;
 }
 .password {
 	background:none;
