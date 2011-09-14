@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using BrickPile.Core.Infrastructure.Common;
 using BrickPile.Core.Repositories;
@@ -21,11 +22,12 @@ namespace BrickPile.Sample.Controllers
         }
         public ActionResult Foo() {
 
-            var children = _repository.GetChildren(_model);
+            //var children = _repository.GetChildren(_model);
             
-            children = _session.Query<IPageModel>().Where(x=> x.Parent.Id == _model.Id).Where(model => model.Metadata.PublishedStatus);
+            //children = _session.Query<IPageModel>().Where(x=> x.Parent.Id == _model.Id).Where(model => model.Metadata.PublishedStatus);
 
-            return Json(children,JsonRequestBehavior.AllowGet);
+            //return Json(children,JsonRequestBehavior.AllowGet);
+            throw new NotImplementedException();
 
         }
         public HomeController(IPageModel model, IStructureInfo structureInfo, IDocumentSession session, IPageRepository repository) {
