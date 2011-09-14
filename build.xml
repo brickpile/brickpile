@@ -51,13 +51,13 @@
         </copy>
         
         <copy todir="${l_rootFolder}/content">
-          <fileset basedir="${action.baseDir}">
+          <fileset basedir="${project.baseDir}">
             <include name="web.config.transform" />
           </fileset>
         </copy>
 
         <copy todir="${l_rootFolder}/content/Areas/BrickPile.UI">
-          <fileset basedir="${action.baseDir}/BrickPile.Sample/Areas/BrickPile.UI">
+          <fileset basedir="${project.baseDir}/BrickPile.Sample/Areas/BrickPile.UI">
             <include name="Views/**/*" />
             <include name="Styles/**/*" />
             <include name="Scripts/**/*" />
