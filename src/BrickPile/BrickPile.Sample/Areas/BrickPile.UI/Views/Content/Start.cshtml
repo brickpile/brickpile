@@ -17,10 +17,14 @@
     <div>
         <fieldset>
             @Html.LabelFor(model => model.AvailableModels)
-            @Html.DropDownListFor(m => m.SelectedPageModel, new SelectList(Model.AvailableModels, "Value", "Text"))
+            <span class="select">
+                @Html.DropDownListFor(m => m.SelectedPageModel, new SelectList(Model.AvailableModels, "Value", "Text"))
+            </span>
         </fieldset>
         <div id="button">
-            <input type="submit" value="Yes, go ahead" />
+            <span>
+                <input type="submit" value="Yes, go ahead" />
+            </span>
         </div>
     </div>
 }

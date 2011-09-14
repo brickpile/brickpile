@@ -55,6 +55,7 @@ form {
 
 form>div {
 	background: url(../images/setup/plate.png) no-repeat 0 0;
+	box-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
 	border-radius:5px;
 	padding:100px 0 0;
 }
@@ -85,12 +86,13 @@ textarea {
 }
 input[type=text],
 input[type=password] {
-	border:1px solid #b3c2cb;
-	box-shadow:0 1px 0 rgba(255,255,255,1), 1px 1px 1px rgba(0,0,0,0.08) inset;
+	border:1px solid #d3d4d1;
+	box-shadow:0 1px 0 rgba(255,255,255,1), 1px 1px 1px rgba(0,0,0,.1) inset;
 	background:-moz-linear-gradient(top, #fafafa 0%, #ffffff 100%);
 	background:-webkit-linear-gradient(top, #f1ffafafa2ef 0%,#ffffff 100%);
+	color:#545454;
 	width:100%;
-	padding:.8em .6em .95em;
+	padding:.9em .6em 1em;
 	border-radius:4px;
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
@@ -104,7 +106,7 @@ input[type=submit] {
 	border-radius:4px;
 	width:auto;
 	font-weight:bold;
-	padding:1.01em 1.6em;
+	padding:1.1em 1.6em;
 	display:inline-block;
 	position:relative;
 	text-shadow:1px 1px 0 rgba(255,255,255,1);
@@ -112,7 +114,6 @@ input[type=submit] {
 input[type=submit]:hover {
 	background:-moz-linear-gradient(top, #fafafa 0%, #d8dbd0 100%);
 	background:-webkit-linear-gradient(top, #fafafa 0%,#d8dbd0 100%);	    
-    
 }
 input[type=submit]:active,
 input[type=submit]:focus {
@@ -127,9 +128,8 @@ span.disabled { opacity:0.3; }
     background-repeat:no-repeat;
 	background-color:#e5e8e1;
 	border-radius: 0 0 5px 5px;
-	
-	margin-top:2em;
-	padding: 0 1em 1em;
+	margin-top:.75em;
+	padding: .2em 1em 1em;
 	text-align:center;
 }
 #button span {
@@ -185,31 +185,41 @@ span.disabled { opacity:0.3; }
 /*--------------------------------------------------------------
 Dropdown control
 ----------------------------------------------------------------*/
+span.select {
+    background:-moz-linear-gradient(top, #d3d2d1 0%, #afafaf 100%);
+    border-radius:5px;
+    box-shadow:0 1px 0 #dfe0dd;
+    display:inline-block;
+    overflow:hidden;
+    padding:1px;
+}
 
 .selectBox-dropdown {
 	width: 392px; /* width = (desired width) - padding-right */
 	padding-right: 40px;
 	position: relative;
-	border: solid 1px #d5d4d4;
 	line-height: 1.5;
 	text-decoration: none;
 	color: #28353d;
 	outline: none;
 	vertical-align: middle;
-	background: #F2F2F2 url(../images/button.png) repeat-x 0 0;
-	/*background: -moz-linear-gradient(top, #F8F8F8 1%, #E1E1E1 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #F8F8F8), color-stop(100%, #E1E1E1));
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F8F8F8', endColorstr='#E1E1E1', GradientType=0);*/
-	box-shadow: 0 1px 0 rgba(0, 0, 0,.1);
+	background:-moz-linear-gradient(top, #fff 0%, #e2e6da 100%);
+	background:-webkit-linear-gradient(top, #fff 0%,#e2e6da 100%);		
 	border-radius: 4px;
 	display: inline-block;
 	cursor: default;
 	text-shadow:0 1px 0 rgba(255,255,255,1);
 }
 
-.selectBox-dropdown:focus,
-.selectBox-dropdown:focus .selectBox-arrow {
-	border-color: #666;
+.selectBox-dropdown:hover {
+	background:-moz-linear-gradient(top, #e2e6da 0%, #fff 100%);
+	background:-webkit-linear-gradient(top, #e2e6da 0%,#fff 100%);	    
+}
+
+.selectBox-dropdown:active,
+.selectBox-dropdown:focus {
+    background:#fff;
+    box-shadow:1px 1px 1px rgba(0,0,0,.1) inset;
 }
 
 .selectBox-dropdown.selectBox-menuShowing {
@@ -289,6 +299,7 @@ Dropdown control
 	white-space: nowrap;
 	overflow: hidden;
 	background: 6px center no-repeat;
+	padding: 10px 13px;
 }
 
 .selectBox-options LI.selectBox-hover A {
@@ -301,7 +312,7 @@ Dropdown control
 }
 
 .selectBox-options LI.selectBox-selected A {
-	background-color: #C8DEF4;
+	background-color: #e2e6da;
 }
 
 .selectBox-options .selectBox-optgroup {
