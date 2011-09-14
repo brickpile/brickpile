@@ -42,7 +42,7 @@
     </copy>
     
     <copy todir="${tempDir}/content">
-      <fileset basedir="${project.buildDir}/Areas/BrickPile.UI">
+      <fileset basedir="${project.baseDir}/BrickPile.Sample/Areas/BrickPile.UI">
         <include name="Views/**/* " />
       </fileset>
     </copy>
