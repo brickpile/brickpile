@@ -19,7 +19,7 @@
       <dependency id="structuremap" version="2.6.2" />
     </dependencies>
   </metadata>
-  <files>
+  <!--files>
     <file src="${project.buildDir}\Dlls\Release\BrickPile.Core.dll" target="lib" />
     <file src="${project.buildDir}\Dlls\Release\BrickPile.Domain.dll" target="lib" />
     <file src="${project.buildDir}\Dlls\Release\BrickPile.Services.dll" target="lib" />
@@ -27,5 +27,5 @@
     <file src="${project.buildDir}\Dlls\Release\BrickPile.Raven.dll" target="content\App_Data\Plugins" />
     <file src="${action.workDir}\web.config.transform" target="content" />
     <file src="${action.workDir}\BrickPile.Sample\Areas\BrickPile.UI" target="content\Areas\BrickPile.UI" />
-  </files>
+  </files-->
 </package>
