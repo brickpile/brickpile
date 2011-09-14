@@ -15,10 +15,8 @@
     <dependencies>
       <dependency id="elmah" version="1.2.0.1" />
       <dependency id="elmah.corelibrary" version="1.2" />
-      <dependency id="jQuery" version="1.6.3" />
       <dependency id="RavenDB" version="1.0.0.465" />
       <dependency id="structuremap" version="2.6.3" />
-      <dependency id="TinyMCE" version="3.4.5" />
       <dependency id="WebActivator" version="1.4.2" />
     </dependencies>
   </metadata>
