@@ -13,10 +13,13 @@
     <description>BrickPile offers a flexible and easy to understand way of creating page templates and custom properties for the dashboard UI.</description>
 		<tags>CMS RavenDB MVC</tags>
     <dependencies>
-      <dependency id="ELMAH" version="1.2.0.1" />
-      <dependency id="RavenDB" version="1.0.0.371" />
-      <dependency id="WebActivator" version="1.4.1" />
-      <dependency id="structuremap" version="2.6.2" />
+      <dependency id="elmah" version="1.2.0.1" />
+      <dependency id="elmah.corelibrary" version="1.2" />
+      <dependency id="jQuery" version="1.6.3" />
+      <dependency id="RavenDB" version="1.0.0.465" />
+      <dependency id="structuremap" version="2.6.3" />
+      <dependency id="TinyMCE" version="3.4.5" />
+      <dependency id="WebActivator" version="1.4.2" />
     </dependencies>
   </metadata>
 </package>
