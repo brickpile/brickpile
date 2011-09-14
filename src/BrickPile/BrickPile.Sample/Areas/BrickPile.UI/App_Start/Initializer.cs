@@ -41,8 +41,6 @@ namespace BrickPile.UI.App_Start {
             RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             RouteTable.Routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
-            GlobalFilters.Filters.Add(new HandleErrorWithElmahAttribute());
-
             ControllerBuilder.Current.SetControllerFactory(typeof(BrickPileControllerFactory));
 
             // Register the default page route

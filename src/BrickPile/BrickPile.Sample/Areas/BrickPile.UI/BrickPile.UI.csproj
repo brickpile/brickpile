@@ -40,9 +40,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\AWSSDK.1.3.13.0\lib\AWSSDK.dll</HintPath>
     </Reference>
-    <Reference Include="Elmah, Version=1.2.13605.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\elmah.corelibrary.1.2\lib\Elmah.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.0.2.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -113,7 +110,6 @@
     <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
-    <Compile Include="HandleErrorWithElmahAttribute.cs" />
     <Compile Include="HierarchyNode.cs" />
     <Compile Include="IHierarchyNode.cs" />
     <Compile Include="InputBuilder.cs" />
