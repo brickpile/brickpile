@@ -60,7 +60,7 @@
           <fileset basedir="${project.baseDir}/BrickPile.Sample/Areas/BrickPile.UI">
             <include name="Views/**/*" />
             <include name="Styles/**/*" />
-            <include name="Scripts/**/*" />
+            <include name="Scripts/*" />
             <include name="Images/**/*" />
           </fileset>
         </copy>
