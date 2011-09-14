@@ -8,6 +8,7 @@
     <item name="BrickPile.Domain" type="class" />
     <item name="BrickPile.Raven" type="class" />
     <item name="BrickPile.Sample" type="web" />
+    <item name="BrickPile.Services" type="class" />
     <item name="BrickPile.Tests" type="class" />
   </items>
   <items type="class" path="BrickPile.Sample/Areas" generateXml="false" target="runtime|testDebug" autover="true">
