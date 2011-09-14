@@ -29,9 +29,12 @@
   <items type="nuget">
     <item name="BrickPile">
       <preNuget>
+        
         <property name="l_rootFolder" value="${action.workDir}/BrickPile"/>
+        
         <mkdir dir="${l_rootFolder}/lib"/>
-        <mkdir dir="${l_rootFolder}/content"/>
+        <mkdir dir="${l_rootFolder}/content/Areas/BrickPile.UI"/>
+        
         <copy todir="${l_rootFolder}/lib">
           <fileset basedir="${project.buildDir}/Dlls/Release">
             <include name="BrickPile.Core.dll"/>
@@ -40,11 +43,28 @@
             <include name="BrickPile.UI.dll"/>
           </fileset>
         </copy>
+        
         <copy todir="${l_rootFolder}/content/App_Data/Plugins">
           <fileset basedir="${project.buildDir}/Dlls/Release">
             <include name="BrickPile.Raven.dll" />
           </fileset>
         </copy>
+        
+        <copy todir="${l_rootFolder}/content">
+          <fileset basedir="${action.workDir}">
+            <include name="web.config.transform" />
+          </fileset>
+        </copy>
+
+        <copy todir="${l_rootFolder}/content/Areas">
+          <fileset basedir="${action.workDir}/BrickPile.Sample/Areas/BrickPile.UI">
+            <include name="Views/**/* " />
+            <include name="Styles/**/* " />
+            <include name="Scripts/**/* " />
+            <include name="Images/**/* " />
+          </fileset>
+        </copy>
+        
       </preNuget>
     </item>
   </items>
