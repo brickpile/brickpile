@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BrickPile.Raven")]
+[assembly: AssemblyTitle("BrickPile.Raven.Plugins")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("BrickPile.Raven")]
+[assembly: AssemblyProduct("BrickPile.Raven.Plugins")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("87d415ef-2284-4126-a7ab-570152b450ee")]
+[assembly: Guid("2c17f67e-2b1f-4523-858f-a509cbe22440")]
 
 // Version information for an assembly consists of the following four values:
 //

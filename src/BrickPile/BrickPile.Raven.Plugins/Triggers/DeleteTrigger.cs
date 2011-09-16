@@ -23,7 +23,7 @@ using Newtonsoft.Json.Linq;
 using Raven.Abstractions.Data;
 using Raven.Database.Plugins;
 
-namespace BrickPile.Raven.Triggers {
+namespace BrickPile.Raven.Plugins.Triggers {
     /// <summary>
     /// 
     /// </summary>
