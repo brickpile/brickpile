@@ -59,6 +59,7 @@ namespace BrickPile.UI.Controllers {
         /// <returns></returns>
         public ActionResult Edit() {
             var viewModel = new DashboardViewModel(_model, _structureInfo);
+            ViewBag.Class = "edit";
             return View(viewModel);
         }
         /// <summary>
@@ -97,12 +98,7 @@ namespace BrickPile.UI.Controllers {
         /// <param name="model">The model.</param>
         /// <returns></returns>
         public ActionResult Add(dynamic model) {
-            return PartialView(new NewModel
-                                   {
-                                       CurrentModel = model,
-                                       BackAction = "edit",
-                                       Url = VirtualPathUtility.AppendTrailingSlash(_model.Metadata.Url)
-                                   });
+            return PartialView(new NewModel { CurrentModel = model });
         }
         /// <summary>
         /// News the specified new page model.

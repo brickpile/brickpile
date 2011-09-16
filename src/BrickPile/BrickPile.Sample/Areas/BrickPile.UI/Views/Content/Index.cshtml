@@ -22,9 +22,12 @@
 <h1>Welcome @HttpContext.Current.User.Identity.Name! Let's pile some bricks eh?</h1>
 
 @if (Model.CurrentModel != null) {
-    <div>
+    <div id="pages">
+        <span class="add">
+            <a href="@Url.Action("add", "content", new { model = Model.CurrentModel })">+</a>
+        </span>
         <table>
-            <caption>@if (Model.StructureInfo.ParentModel != null) { @Html.ActionLink(Model.StructureInfo.ParentModel) } @Model.CurrentModel.Metadata.Name <a href="@Url.Action("add", "content", new { model = Model.CurrentModel })" class="add">+</a></caption>
+            <caption>@if (Model.StructureInfo.ParentModel != null) { @Html.ActionLink(Model.StructureInfo.ParentModel) } @Model.CurrentModel.Metadata.Name</caption>
             <tr>
                 <th><span>&nbsp;</span></th>
                 <th><span>Page name</span></th>                
@@ -49,7 +52,7 @@
                         <td><span>/@item.Entity.Metadata.Slug</span></td>
                         <td><span>@Html.CheckBox(item.Entity.Id.Replace("/", "_"), item.Entity.Metadata.PublishedStatus, new { @class = "publish" })</span></td>
                         <td><span>@(item.Entity.Metadata.Changed.HasValue ? item.Entity.Metadata.Changed.FormatDate() + " by " + Model.StructureInfo.RootModel.Metadata.ChangedBy : "")</span></td>
-                        <td><span>@Html.ActionLink("Edit", "edit", new { model = item.Entity }) @Html.ActionLink("Delete", "delete", new { model = item.Entity })</span></td>
+                        <td><span>@Html.ActionLink("Edit", "edit", new { model = item.Entity }) @Html.ActionLink("Delete", "delete", new { model = item.Entity }) </span></td>
                     </tr>
                                                                                                          }
             }

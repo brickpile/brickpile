@@ -205,11 +205,13 @@
     <Content Include="Images\Setup\plate.png" />
     <Content Include="Images\Setup\submit-bg.png" />
     <Content Include="packages.config" />
+    <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\jquery-1.6.3-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.3.js" />
     <Content Include="Scripts\jquery-1.6.3.min.js" />
     <Content Include="Scripts\jquery.selectbox.js" />
     <Content Include="Scripts\jquery.selectBox.min.js" />
+    <Content Include="Scripts\jquery.slugify.js" />
     <Content Include="Scripts\setup.js" />
     <Content Include="Scripts\start.js" />
     <Content Include="Scripts\tinymce.3.4.5\langs\en.js" />
@@ -465,6 +467,7 @@
     <Content Include="Scripts\tinymce.3.4.5\utils\form_utils.js" />
     <Content Include="Scripts\tinymce.3.4.5\utils\mctabs.js" />
     <Content Include="Scripts\tinymce.3.4.5\utils\validate.js" />
+    <Content Include="Styles\Dashboard.css" />
     <Content Include="Styles\Framework.css" />
     <Content Include="Styles\Views.css" />
     <Content Include="Styles\webfonts\svg\museo-sans-500.svg" />

@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+
     // Hide error labels when clicked
     $('.field-validation-error').live('click', function () {
         $(this).fadeOut('normal', function () {
@@ -19,4 +20,5 @@
         });
         trigger ? $register.attr('disabled', true).closest('span').addClass('disabled') : $register.removeAttr('disabled').closest('span').removeClass('disabled');
     });
+
 });

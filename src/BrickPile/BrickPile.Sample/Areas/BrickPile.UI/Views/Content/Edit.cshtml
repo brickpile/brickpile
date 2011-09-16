@@ -21,15 +21,16 @@
 {
     <div>
         <fieldset>
-            <legend>@Model.CurrentModel.Metadata.Name</legend>
             <div id="metadata">
                 <div>
                     @Html.EditorFor(model => model.CurrentModel.Metadata)
                 </div>
             </div>
             @Html.EditorFor(model => model.CurrentModel, new { StructureInfo = Model.StructureInfo })
-            <div>
-                <input type="submit" value="Save and publish" />
+            <div id="button">
+                <span>
+                    <input type="submit" value="Save and publish" />
+                </span>
             </div>
         </fieldset>
     </div>

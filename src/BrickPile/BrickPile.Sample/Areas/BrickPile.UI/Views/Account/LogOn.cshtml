@@ -13,6 +13,7 @@
         <title>BrickPile - Login and pile some bricks eh?</title>
         <meta charset="utf-8">
         <meta name="description" content="" />
+
         <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/brickpile.ui/styles/framework.css")" media="all" />
         <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/brickpile.ui/styles/views.css")" media="all" />
 
@@ -21,7 +22,7 @@
     </head>
     <body class="logon">
         <header>
-            <h1><img src="@Url.Content("~/areas/brickpile.ui/images/setup/logo.png")" alt="BrickPile" /></h1>
+            <h1><img src="@Url.Content("~/areas/brickpile.ui/images/setup/logo.png")" alt="BrickPile" id="logo" /></h1>
         </header>
         @Html.ValidationSummary()
         @using (Html.BeginForm()) {

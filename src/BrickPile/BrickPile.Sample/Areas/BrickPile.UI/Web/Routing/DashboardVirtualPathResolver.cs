@@ -31,13 +31,13 @@ namespace BrickPile.UI.Web.Routing {
             }
             var url = pageModel.Metadata.Url ?? string.Empty;
 
-            if (routeValueDictionary.ContainsKey(PageRoute.ActionKey)) {
-                _action = routeValueDictionary[PageRoute.ActionKey] as string;
-                if (_action != null && !_action.Equals(PageRoute.DefaultAction)) {
+            if (routeValueDictionary.ContainsKey(ContentRoute.ActionKey)) {
+                _action = routeValueDictionary[ContentRoute.ActionKey] as string;
+                if (_action != null && !_action.Equals(ContentRoute.DefaultAction)) {
                     return string.Format("{0}/{1}", url, _action);
                 }
             }
-            return string.Format("{0}", url);
+            return string.Format("{0}",  url);
         }        
     }
 }

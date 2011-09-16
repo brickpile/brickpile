@@ -5,10 +5,9 @@ body.logon {
     max-width:27.143em;
     min-width:380px;
 }
-body.logon img {
+body.logon header { background-color:transparent; }
+body.logon #logo {
     top:175px;
-}
-body.logon form {
 }
 body.logon form>div {
     background:none #f8f9f6;
@@ -43,10 +42,15 @@ body.logon #button a {
     left:0;
     top:35px;
 }
+
 /*--------------------------------------------------------------
 2 Setup
 ----------------------------------------------------------------*/
-img {
+body.setup {
+ 	max-width:35.286em;
+	min-width:500px;    
+}
+#logo {
     position:absolute;
     left:50%;
     margin-left:-84px;
@@ -68,24 +72,71 @@ body.start #button {
     margin-top:1.4em;
 }
 /*--------------------------------------------------------------
-4 Content
+4 Dashboard
 ----------------------------------------------------------------*/
+body.dashboard h1 { background:none; }
+/*--------------------------------------------------------------
+5 Content
+----------------------------------------------------------------*/
+body.content img {
+    margin:0;
+    position:static;
+}
 body.content h1 { background:none; }
 body.content {
     max-width:67.857em;
     min-width:760px;
 }
-body.content div {
+body.content div#pages {
     background: rgba(171, 137, 100, 0.3);
     box-shadow: 0 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(51, 51, 51, 0.1) inset;
     border-radius:5px;
     border-spacing: 0 30px;
     margin-top:12px;
 	padding:10px;
+	position:relative;
 }
 body.content table {
     border-collapse:collapse;
     width:100%;
+}
+body.content span.add {
+    background:-moz-linear-gradient(top, #d3d2d1 0%, #afafaf 100%);
+    border-radius:5px;
+    box-shadow:0 1px 0 #cfd4cf;
+    display:inline-block;
+    right:20px;
+    margin-top:1.1em;
+    overflow:hidden;
+    padding:1px;
+    position:absolute;
+    top:4px;
+    z-index:100;    
+}
+body.content span.add a:link,
+body.content span.add a:visited {
+	background:-moz-linear-gradient(top, #fff 0%, #e2e6da 100%);
+	background:-webkit-linear-gradient(top, #fff 0%,#e2e6da 100%);	
+	color:#6d6e6d;
+	border:0;
+	border-radius:4px;
+	font-weight:bold;
+	font-size:150%;
+	padding:0 10px;
+	display:inline-block;
+	position:relative;
+	text-decoration:none;
+	text-shadow:1px 1px 0 rgba(255,255,255,1);    
+	width:auto;
+}
+body.content span.add a:hover {
+	background:-moz-linear-gradient(top, #fafafa 0%, #d8dbd0 100%);
+	background:-webkit-linear-gradient(top, #fafafa 0%,#d8dbd0 100%);	    
+}
+body.content span.add a:active,
+body.content span.add a:focus {
+	background:-moz-linear-gradient(top, #e2e6da 0%, #fff 100%);
+	background:-webkit-linear-gradient(top, #e2e6da 0%,#fff 100%);	
 }
 body.content table caption {
     background:-moz-linear-gradient(top, #f1f2ef 0%, #e5e7e1 100%);
@@ -100,12 +151,6 @@ body.content table caption {
     position:relative;
 }
 body.content table tr {
-    /*background:-moz-linear-gradient(top, #ffffff 0%, #f2f4f0 100%);
-    background:-webkit-linear-gradient(top, #ffffff 0%,#f2f4f0 100%);
-    box-shadow:0 1px 1px rgba(0,0,0,0.2);
-    border-radius:5px;
-    display:block;
-    margin-bottom:1em;*/
     color:#b4b6b0;
     text-shadow:0 1px 0 rgba(255,255,255,1);
 }
@@ -116,19 +161,14 @@ body.content tr:first-child span {
 }
 body.content table th:first-child span {
     border-radius:0 0 0 5px;
-    
 }
 body.content table th:last-child span {
     border-radius:0 0 5px 0;
 }
-
-
 body.content table th {
     text-align:left;
-    /*padding:1em;*/
     margin:0;
 }
-
 body.content table td:first-child { width:10px; }
 body.content table td:first-child span {
     border-radius:5px 0 0 5px;
@@ -139,7 +179,6 @@ body.content table td:last-child span {
 }
 body.content table td {
   	font-size:85.7%;
-    /*padding:1em;*/
 }
 body.content td span,
 body.content th span {
@@ -156,4 +195,87 @@ body.content td input[type=checkbox] {
     margin:0;
     width:auto;
 }
-
+#models {
+    background: rgb(68,87,104);
+    background: -moz-linear-gradient(top, rgba(40,53,61,1) 0%, rgba(34,44,51,1) 20%);
+    border:solid 1px #28353d;
+    border-radius: 4px;
+    box-shadow: 0 1px 0 #4b5a63 inset, 0 0 20px rgba(0,0,0,0.5);
+    right:0;
+    padding-bottom: 6px;
+    position: absolute;
+    top: 220px;
+    width: 224px;
+    z-index:200;
+}
+#models h1 {
+    background:url(/areas/brickpile.ui/images/dialog-top.png) no-repeat 86% 0;
+    margin: -8px 0 0;
+    padding: 16px 0 0;        
+}
+    
+#models h1 {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color:#dcf5c3;
+    font-size:100%;
+    font-weight:bold;
+    height:29px;
+    text-align:center;
+    text-shadow:0 1px 0 rgba(0,0,0,1);
+}
+#models h1 span {
+    background: url(/areas/brickpile.ui/images/sprite.png) no-repeat 0 -63px transparent;
+    padding-left:20px;
+}
+#models form {
+    background-color:#fff;
+    border-radius: 4px;
+    box-shadow:0 1px 1px rgba(33,47,59,1);
+    margin:0 6px;
+    padding:5px 11px 0;
+}
+#models label {
+    background: url(/areas/brickpile.ui/images/sprite.png) no-repeat right -255px;
+    border-bottom:1px solid #dcf5ff;
+    color:#28353d;
+    display:block;
+    font-size:85.7%;
+    margin-bottom:5px;
+    padding:3px 0 7px;
+}
+#models label:last-child { border-bottom:0; }
+#models label:hover { cursor:pointer; }
+#models input[type=radio] {
+    display:none;
+    vertical-align:text-top;
+    width:auto;
+}
+#models input[type=submit] {
+    /* For Mozilla/Gecko (Firefox etc) */
+    background: none, -moz-linear-gradient(top, #d2e0eb, #8c9aa8);
+    border:1px solid #15324c;
+    color:#23394e;
+    padding:5px 10px;
+    box-shadow:0 1px 1px #e8eff5 inset, 0 1px 0 #293b4b;        
+    position:absolute;
+    bottom:5px;
+    left:117px;
+    border-radius:3px;
+    font-weight:normal;
+    text-decoration:none;
+}
+#models input[type=submit] {
+    left:5px;
+    padding:6px 10px;
+}
+/*--------------------------------------------------------------
+6 Edit
+----------------------------------------------------------------*/
+body.edit form>div {
+    background:none #f8f9f6;
+    box-shadow:0 1px 0 #fff inset,0 0 50px #c9ccc6 inset;
+    padding:0;
+}
+body.edit fieldset {
+    background:none;
+}

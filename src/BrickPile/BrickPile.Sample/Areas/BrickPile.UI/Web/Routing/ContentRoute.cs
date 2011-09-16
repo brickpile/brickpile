@@ -120,6 +120,8 @@ namespace BrickPile.UI.Web.Routing {
 
             vpd.Route = this;
 
+            
+
             vpd.VirtualPath = string.Format("dashboard/content/{0}", _virtualPathResolver.ResolveVirtualPath(item, values));
 
             return vpd;

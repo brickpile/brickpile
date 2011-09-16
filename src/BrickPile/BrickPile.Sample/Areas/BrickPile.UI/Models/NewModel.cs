@@ -32,39 +32,6 @@ namespace BrickPile.UI.Models {
     /// </summary>
     public class NewModel {
         /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        //[Required]
-        [Display(Prompt = "My awesome page")]
-        public string Name { get; set; }
-        /// <summary>
-        /// Gets or sets the slug.
-        /// </summary>
-        /// <value>
-        /// The slug.
-        /// </value>
-        //[Required]
-        [Display(Prompt = "my-awesome-page")]
-        public string Slug { get; set; }
-        /// <summary>
-        /// Gets or sets the URL.
-        /// </summary>
-        /// <value>
-        /// The URL.
-        /// </value>
-        //[Required]
-        public string Url { get; set; }
-        /// <summary>
-        /// Gets or sets the back action.
-        /// </summary>
-        /// <value>
-        /// The back action.
-        /// </value>
-        public string BackAction { get; set; }
-        /// <summary>
         /// Gets or sets the current model.
         /// </summary>
         /// <value>

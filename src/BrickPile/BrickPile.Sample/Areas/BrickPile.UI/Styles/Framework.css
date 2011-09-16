@@ -25,23 +25,23 @@ body {
 	font-weight: 300;
 	color:#333;
 	padding-top:86px;
- 	max-width:35.286em;
-	min-width:500px;
+    max-width:67.857em;
+    min-width:760px;
 	margin:0 auto;	
+	position:relative;
 }
 /*--------------------------------------------------------------
 3 Headers
 ----------------------------------------------------------------*/
 h1 {
     background: url(../images/setup/arrow.png) no-repeat 17.5em 16px;
-    color:#fff;
+    color:#28353d;
     font-family:FeltTipRoman;
     font-size:157.1%;
     padding-bottom:23px;
-    text-shadow:0 1px 0 rgba(0,0,0,0.7);
+    text-shadow:0 1px 0 rgba(255,255,255,0.7);
     text-align:center;
 }
-
 /*--------------------------------------------------------------
 Forms
 ----------------------------------------------------------------*/
