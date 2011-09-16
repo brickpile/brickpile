@@ -46,7 +46,7 @@
         
         <copy todir="${l_rootFolder}/content/App_Data/Plugins">
           <fileset basedir="${project.buildDir}/Dlls/Release">
-            <include name="BrickPile.Raven.dll" />
+            <include name="BrickPile.Raven.Plugins.dll" />
           </fileset>
         </copy>
         

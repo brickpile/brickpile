@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>BrickPile-Embedded</id>
+		<version>${project.fileVersion}</version>
+    <title>BrickPile Embedded</title>
+    <summary>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 3</summary>
+		<authors>Marcus Lindblom</authors>
+		<owners>Marcus Lindblom</owners>
+    <licenseUrl>https://github.com/kloojed/BrickPile/blob/master/README</licenseUrl>
+    <projectUrl>http://www.getbrickpile.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>BrickPile offers a flexible and easy to understand way of creating page templates and custom properties for the dashboard UI.</description>
+		<tags>CMS RavenDB MVC</tags>
+    <dependencies>
+      <dependency id="RavenDB-Embedded" version="1.0.0.465" />
+      <dependency id="structuremap" version="2.6.3" />
+      <dependency id="WebActivator" version="1.4.2" />
+    </dependencies>
+  </metadata>
+</package>
