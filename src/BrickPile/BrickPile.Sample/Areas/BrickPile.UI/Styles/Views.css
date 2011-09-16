@@ -1,10 +1,48 @@
 ﻿/*--------------------------------------------------------------
 1 Logon
 ----------------------------------------------------------------*/
-body.logon h1,
-body.logon fieldset { background:none; }
-
-
+body.logon {
+    max-width:27.143em;
+    min-width:380px;
+}
+body.logon img {
+    top:175px;
+}
+body.logon form {
+}
+body.logon form>div {
+    background:none #f8f9f6;
+    box-shadow:0 1px 0 #fff inset,0 0 50px #c9ccc6 inset;
+    padding-top:106px;
+}
+body.logon h1 { background:none; }
+body.logon fieldset {
+    background-position:0 bottom;   
+    margin:0 29px;
+    padding-bottom:14px;
+}
+body.logon input[type=text],
+body.logon input[type=password] {
+    color:#a7a6a6;
+    font-size:128.6%;
+    font-weight:normal;
+    padding:.6em .6em .65em;
+}
+body.logon #button {
+    background:none;
+    margin:0 29px;
+    padding:4px 0 23px;
+}
+body.logon #button {
+    text-align:right;
+    position:relative;
+}
+body.logon #button a {
+    color:#2d8dd7;
+    position:absolute;
+    left:0;
+    top:35px;
+}
 /*--------------------------------------------------------------
 2 Setup
 ----------------------------------------------------------------*/
@@ -12,7 +50,7 @@ img {
     position:absolute;
     left:50%;
     margin-left:-84px;
-    top:190px;
+    top:208px;
     z-index:100;
 }
 /*--------------------------------------------------------------

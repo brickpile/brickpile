@@ -151,7 +151,8 @@ namespace BrickPile.UI.Controllers {
                 // Add page to repository and save changes
                 _repository.Store(page);
                 _repository.SaveChanges();
-                
+                _repository.Refresh(model);
+
                 return RedirectToAction("index", new { model = parent });
             }
 

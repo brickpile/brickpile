@@ -27,13 +27,12 @@
         @using (Html.BeginForm()) {
             <div>
                 <fieldset>
-                    @Html.LabelFor(m => m.UserName)
                     @Html.TextBoxFor(m => m.UserName, new { @class="text-box", placeholder="Your username...", required="required" })
                     @Html.ValidationMessageLabelFor(m => m.Password)
-                    @Html.LabelFor(m => m.Password)
                     @Html.PasswordFor(m => m.Password, new { @class = "text-box", placeholder = "... and your password?", required = "required" })
                 </fieldset>
                 <div id="button">
+                    <a href="#">What is brickpile?</a>
                     <span>
                         <input type="submit" value="Yes, go ahead" />
                     </span>
