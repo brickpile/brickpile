@@ -17,7 +17,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
-
+using System;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Infrastructure.Indexes;
@@ -30,10 +30,9 @@ using BrickPile.UI.Models;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
 using Raven.Client;
-using Raven.Client.Document;
+using Raven.Client.Embedded;
 using Raven.Client.Indexes;
-using Raven.Client.Listeners;
-using Raven.Json.Linq;
+using Raven.Database.Config;
 using StructureMap;
 
 namespace BrickPile.UI.App_Start {
@@ -48,12 +47,13 @@ namespace BrickPile.UI.App_Start {
         /// </summary>
         /// <returns></returns>
         public static IContainer Initialize() {
-            ObjectFactory.Initialize(x =>
-            {
-                var documentStore = new DocumentStore { ConnectionStringName = "RavenDB" };
-                
+            
+            ObjectFactory.Initialize(x => {
+
+                var documentStore = new EmbeddableDocumentStore { Url = "http://localhost:8080" };
+
                 documentStore.Initialize();
-                documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null;
+                documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? typeof(IPageModel).Name : null;
 
                 IndexCreation.CreateIndexes(typeof(Documents_ByParent).Assembly, documentStore);
 
