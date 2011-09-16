@@ -6,7 +6,7 @@
   <items type="class" generateXml="false" target="runtime|testDebug" autover="true">
     <item name="BrickPile.Core" type="class" />
     <item name="BrickPile.Domain" type="class" />
-    <item name="BrickPile.Raven" type="class" />
+    <item name="BrickPile.Raven.Plugins" type="class" />
     <item name="BrickPile.Sample" type="web" />
     <item name="BrickPile.Services" type="class" />
     <item name="BrickPile.Tests" type="class" />
