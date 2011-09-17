@@ -60,6 +60,7 @@ nav a:visited.selected {
 ----------------------------------------------------------------*/
 #growl {
     background: -moz-linear-gradient(top, rgba(60,60,60,0.8), rgba(0,0,0,1));
+    background: -webkit-linear-gradient(top, rgba(60,60,60,0.8) 0%,rgba(0,0,0,1) 100%);
     box-shadow: 0 1px 0 rgba(137,137,137,1) inset;
     border-radius:5px;
     border:1px solid #000;
@@ -67,8 +68,8 @@ nav a:visited.selected {
     font-size:11px;
     padding:10px;
     position:fixed;
-    top:63px;
-    right:20px;
+    bottom:20px;
+    left:20px;
     text-shadow:0 -1px 0 rgba(0,0,0,8);
     width:250px;
 }

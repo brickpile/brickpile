@@ -53,7 +53,7 @@ namespace BrickPile.UI.App_Start {
                 var documentStore = new EmbeddableDocumentStore { Url = "http://localhost:8080" };
 
                 documentStore.Initialize();
-                documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? typeof(IPageModel).Name : null;
+                documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "pages" : null;
 
                 IndexCreation.CreateIndexes(typeof(Documents_ByParent).Assembly, documentStore);
 
@@ -68,7 +68,9 @@ namespace BrickPile.UI.App_Start {
 
                 x.For<IConfiguration>().Use(y => {
                                                 var session = y.GetInstance<IDocumentSession>();
-                                                return session.Load<IConfiguration>("brickpile/configuration");
+                                                using (session.Advanced.DocumentStore.AggressivelyCacheFor(TimeSpan.FromMinutes(5))) {
+                                                    return session.Load<IConfiguration>("brickpile/configuration");    
+                                                }
                                             });
 
                 x.For<IVirtualPathResolver>().Use<VirtualPathResolver>();

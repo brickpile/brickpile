@@ -18,7 +18,6 @@
 {
     <div>
         <fieldset>
-            <legend>Ehm...</legend>
             <div id="metadata">
                 <div>
                     @Html.EditorFor(model => model.NewPageModel.Metadata)
@@ -28,8 +27,10 @@
             @Html.EditorFor(model => model.NewPageModel, new { StructureInfo = Model.StructureInfo })
             @Html.HiddenFor(model => model.NewPageModel.GetType().AssemblyQualifiedName)            
 
-            <div>
-                <input type="submit" value="Save and publish" />
+            <div id="button">
+                <span>
+                    <input type="submit" value="Save and publish" />
+                </span>
             </div>
         </fieldset>
     </div>

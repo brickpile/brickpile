@@ -115,7 +115,7 @@ namespace BrickPile.UI.Controllers {
                 }
                 page.Metadata.Url = parent != null ? VirtualPathUtility.AppendTrailingSlash(parent.Metadata.Url) : String.Empty;
                 
-                ViewBag.Class = "content";
+                ViewBag.Class = "new";
                 return View("new", new NewPageViewModel { NewPageModel = page, CurrentModel = parent, StructureInfo = _structureInfo });
             }
 
@@ -146,7 +146,7 @@ namespace BrickPile.UI.Controllers {
                 // Add page to repository and save changes
                 _repository.Store(page);
                 _repository.SaveChanges();
-                _repository.Refresh(model);
+                //_repository.Refresh(model);
 
                 return RedirectToAction("index", new { model = parent });
             }
@@ -193,7 +193,7 @@ namespace BrickPile.UI.Controllers {
 
             if (model.Parent != null) {
                 var parent = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(model.Parent.Id));
-                return RedirectToAction("edit", new { model = parent });
+                return RedirectToAction("index", new { model = parent });
             }
             return RedirectToAction("index");            
         }

@@ -62,11 +62,6 @@ namespace BrickPile.UI.Web.Routing {
         /// <returns></returns>
         public override RouteData GetRouteData(HttpContextBase httpContextBase) {
 
-            // Abort if the current path starts with /dashboard
-            //if(httpContextBase.Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/dashboard",StringComparison.InvariantCultureIgnoreCase)) {
-            //    return null;
-            //})
-
             if (httpContextBase.Request.CurrentExecutionFilePath.StartsWith("/dashboard", StringComparison.InvariantCultureIgnoreCase))
                 return null;
 

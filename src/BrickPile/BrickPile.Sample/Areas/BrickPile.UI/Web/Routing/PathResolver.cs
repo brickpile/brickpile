@@ -17,13 +17,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
-using System;
+
 using System.Web;
 using BrickPile.Core.Repositories;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
 using BrickPile.UI.Web.Mvc;
+using NLog;
 using StructureMap;
 
 namespace BrickPile.UI.Web.Routing {
@@ -34,6 +35,7 @@ namespace BrickPile.UI.Web.Routing {
         private readonly IContainer _container;
         private IPageModel _pageModel;
         private string _controllerName;
+        private Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Resolves the path.
         /// </summary>
@@ -69,6 +71,7 @@ namespace BrickPile.UI.Web.Routing {
                     _controllerName = _controllerMapper.GetControllerName(pageModelAttribute.Controller);
                     var action = virtualUrl.TrimStart(new[] { '/' });
                     if (!_controllerMapper.ControllerHasAction(_controllerName, action)) {
+                        logger.Warn(_controllerName + " does not have an called" + action);
                         return null;
                     }
                     _pathData.Action = action;
