@@ -19,6 +19,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Exception;
@@ -41,9 +43,6 @@ namespace BrickPile.UI.Controllers {
         /// Redirects to the Edit action with the home page loaded
         /// </returns>
         public ActionResult Index() {
-            //var viewModel = new DashboardViewModel(_model, _structureInfo);
-            //return View(viewModel);
-
             if (_model != null && _model is IPageModel) {
                 var viewModel = new DashboardViewModel(_model, _structureInfo);
                 ViewBag.Class = "content";
@@ -198,6 +197,21 @@ namespace BrickPile.UI.Controllers {
                 return RedirectToAction("edit", new { model = parent });
             }
             return RedirectToAction("index");            
+        }
+        /// <summary>
+        /// Sorts the specified items.
+        /// </summary>
+        /// <param name="items">The items.</param>
+        public void Sort(List<string> items) {
+            // replace all underscore with slash
+            var ids = items.Select(key => key.Replace("_", "/")).ToArray();
+            // load all documents
+            var documents = _repository.Load<IPageModel>(ids.ToArray());
+            var order = 1;
+            foreach (var model in documents) {
+                model.Metadata.SortOrder = order++;
+            }
+            _repository.SaveChanges();
         }
         /// <summary>
         /// Initializes a new instance of the <b>PagesController</b> class.

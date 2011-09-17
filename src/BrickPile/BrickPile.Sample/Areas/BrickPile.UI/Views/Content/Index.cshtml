@@ -23,87 +23,90 @@
 
 @if (Model.CurrentModel != null) {
     <div id="pages">
-        <span class="add">
+        @if (Model.StructureInfo.ParentModel != null) {
+            <span class="button back">
+                 @Html.ActionLink(Model.StructureInfo.ParentModel)
+            </span>
+        }
+        <span class="button add">
             <a href="@Url.Action("add", "content", new { model = Model.CurrentModel })">+</a>
         </span>
         <table>
-            <caption>@if (Model.StructureInfo.ParentModel != null) { @Html.ActionLink(Model.StructureInfo.ParentModel) } @Model.CurrentModel.Metadata.Name</caption>
-            <tr>
-                <th><span>&nbsp;</span></th>
-                <th><span>Page name</span></th>                
-                <th><span>Slug</span></th>
-                <th><span>Status</span></th>
-                <th><span>Changed</span></th>
-                <th><span>&nbsp;</span></th>
-            </tr>
-            @if (Model.StructureInfo.ParentModel == null) {
+            <caption>@Model.CurrentModel.Metadata.Name</caption>
+            <thead>
                 <tr>
-                    <td><span>&nbsp;</span></td>
-                    <td><span>@Model.StructureInfo.RootModel.Metadata.Name</span></td>
-                    <td><span>/@Model.StructureInfo.RootModel.Metadata.Slug</span></td>
-                    <td><span>@Html.CheckBox(Model.StructureInfo.RootModel.Id.Replace("/", "_"), Model.StructureInfo.RootModel.Metadata.PublishedStatus, new { @class = "publish" })</span></td>
-                    <td><span>@(Model.StructureInfo.RootModel.Metadata.Changed.HasValue ? @Model.StructureInfo.RootModel.Metadata.Changed.FormatDate() + " by " + Model.StructureInfo.RootModel.Metadata.ChangedBy : "")</span></td>
-                    <td><span>@Html.ActionLink("Edit", "edit", new { model = Model.StructureInfo.RootModel }) @Html.ActionLink("Delete", "delete", new { model = Model.StructureInfo.RootModel })</span></td>
+                    <th><span>&nbsp;</span></th>
+                    <th><span>Page name</span></th>                
+                    <th><span>Slug</span></th>
+                    <th><span>Status</span></th>
+                    <th><span>Changed</span></th>
+                    <th><span>&nbsp;</span></th>
                 </tr>
-                                                                                                         foreach (var item in Model.StructureInfo.HierarchicalStructure) {
-                    <tr>
-                        <td><span><img src="/areas/brickpile.ui/images/sort.png" alt="Sort" /></span></td>
-                        <td><span>@Html.ActionLink(item.Entity) @item.Entity.Metadata.SortOrder</span></td>
-                        <td><span>/@item.Entity.Metadata.Slug</span></td>
-                        <td><span>@Html.CheckBox(item.Entity.Id.Replace("/", "_"), item.Entity.Metadata.PublishedStatus, new { @class = "publish" })</span></td>
-                        <td><span>@(item.Entity.Metadata.Changed.HasValue ? item.Entity.Metadata.Changed.FormatDate() + " by " + Model.StructureInfo.RootModel.Metadata.ChangedBy : "")</span></td>
-                        <td><span>@Html.ActionLink("Edit", "edit", new { model = item.Entity }) @Html.ActionLink("Delete", "delete", new { model = item.Entity }) </span></td>
+            </thead>
+            <tbody>
+                @if(Model.StructureInfo.ParentModel == null) {
+                    <tr class="ui-state-disabled">
+                        <td><span>&nbsp;</span></td>
+                        <td class="name"><span>@Model.StructureInfo.RootModel.Metadata.Name</span></td>
+                        <td><span>/@Model.StructureInfo.RootModel.Metadata.Slug</span></td>
+                        <td><span>@Html.CheckBox(Model.StructureInfo.RootModel.Id.Replace("/", "_"), Model.StructureInfo.RootModel.Metadata.PublishedStatus, new { @class = "publish" })</span></td>
+                        <td><span>@(Model.StructureInfo.RootModel.Metadata.Changed.HasValue ? @Model.StructureInfo.RootModel.Metadata.Changed.FormatDate() + " by " + Model.StructureInfo.RootModel.Metadata.ChangedBy : "")</span></td>
+                        <td class="actions">
+                            <span>
+                                <span>
+                                    <a href="@Url.Action("edit", new { model = Model.StructureInfo.RootModel })"><img src="/areas/brickpile.ui/images/edit.png" alt="Edit page" /></a>
+                                    <a href="@Url.Action("edit", new { model = Model.StructureInfo.RootModel })"><img src="/areas/brickpile.ui/images/preview.png" alt="Preview page" /></a>
+                                    <a href="@Url.Action("delete", new { model = Model.StructureInfo.RootModel })"><img src="/areas/brickpile.ui/images/delete.png" alt="Delete page" /></a>
+                                </span>
+                            </span>
+                        </td>
                     </tr>
-                                                                                                         }
-            }
-            @{
-            var currentNode = Model.StructureInfo.HierarchicalStructure.SingleOrDefault(x => x.Entity.Id == Model.StructureInfo.CurrentModel.Id);
-            if (currentNode != null && currentNode.ChildNodes != null) {
-                foreach (var item in currentNode.ChildNodes) {
-                        <tr>
-                            <td><span><img src="/areas/brickpile.ui/images/sort.png" alt="Sort" /></span></td>
-                            <td><span>@Html.ActionLink(item.Entity) @item.Entity.Metadata.SortOrder</span></td>
+                    foreach (var item in Model.StructureInfo.HierarchicalStructure) {
+                        <tr id="@item.Entity.Id.Replace('/','_')">
+                            <td class="sort"><span><img src="/areas/brickpile.ui/images/sort.png" alt="Sort" /></span></td>
+                            <td class="name"><span>@item.Entity.Metadata.Name</span></td>
                             <td><span>/@item.Entity.Metadata.Slug</span></td>
                             <td><span>@Html.CheckBox(item.Entity.Id.Replace("/", "_"), item.Entity.Metadata.PublishedStatus, new { @class = "publish" })</span></td>
-                            <td><span>@(item.Entity.Metadata.Changed.HasValue ? item.Entity.Metadata.Changed.FormatDate() + " by " + Model.StructureInfo.RootModel.Metadata.ChangedBy : " ")</span></td>
-                            <td><span>@Html.ActionLink("Edit", "edit", new { model = item.Entity }) @Html.ActionLink("Delete", "delete", new { model = item.Entity })</span></td>
+                            <td><span>@(item.Entity.Metadata.Changed.HasValue ? item.Entity.Metadata.Changed.FormatDate() + " by " + Model.StructureInfo.RootModel.Metadata.ChangedBy : "")</span></td>
+                            <td class="actions">
+                                <span>
+                                    <span>
+                                        <a href="@Url.Action("edit", new { model = item.Entity})"><img src="/areas/brickpile.ui/images/edit.png" alt="Edit page" /></a>
+                                        <a href="@Url.Action("edit", new { model = item.Entity})"><img src="/areas/brickpile.ui/images/preview.png" alt="Preview page" /></a>
+                                        <a href="@Url.Action("delete", new { model = item.Entity})"><img src="/areas/brickpile.ui/images/delete.png" alt="Delete page" /></a>
+                                    </span>
+                                    <a href="@Url.Action("index", new { model = item.Entity})" class="button"><img src="/areas/brickpile.ui/images/next-level.png" alt="Edit children" /></a>
+                                </span>
+                            </td>
                         </tr>
+                    }
                 }
-            }
-            }
+            
+                @{
+                    var currentNode = Model.StructureInfo.HierarchicalStructure.SingleOrDefault(x => x.Entity.Id == Model.StructureInfo.CurrentModel.Id);
+                    if (currentNode != null && currentNode.ChildNodes != null) {
+                        foreach (var item in currentNode.ChildNodes) {
+                            <tr id="@item.Entity.Id.Replace('/','_')">
+                                <td class="sort"><span><img src="/areas/brickpile.ui/images/sort.png" alt="Sort" /></span></td>
+                                <td class="name"><span>@item.Entity.Metadata.Name</span></td>
+                                <td><span>/@item.Entity.Metadata.Slug</span></td>
+                                <td><span>@Html.CheckBox(item.Entity.Id.Replace("/", "_"), item.Entity.Metadata.PublishedStatus, new { @class = "publish" })</span></td>
+                                <td><span>@(item.Entity.Metadata.Changed.HasValue ? item.Entity.Metadata.Changed.FormatDate() + " by " + Model.StructureInfo.RootModel.Metadata.ChangedBy : " ")</span></td>
+                                <td class="actions">
+                                    <span>
+                                        <span>
+                                            <a href="@Url.Action("edit", new { model = item.Entity})"><img src="/areas/brickpile.ui/images/edit.png" alt="Edit page" /></a>
+                                            <a href="@Url.Action("edit", new { model = item.Entity})"><img src="/areas/brickpile.ui/images/preview.png" alt="Preview page" /></a>
+                                            <a href="@Url.Action("delete", new { model = item.Entity})"><img src="/areas/brickpile.ui/images/delete.png" alt="Delete page" /></a>
+                                        </span>
+                                        <a href="@Url.Action("index", new { model = item.Entity})" class="button"><img src="/areas/brickpile.ui/images/next-level.png" alt="Edit children" /></a>
+                                    </span>
+                                </td>                            
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
         </table>
     </div>
-
-} else {
-    <a href="@Url.Action("add", "content", new { model = Model.CurrentModel })" class="add">+</a>
 }
-@*
-<h2>@Model.CurrentModel.Metadata.Name</h2>
-
-
-
-
-Html.Raw(Html.PageList(Model.StructureInfo, page => Html.EditActionLink(page.Metadata.Name, "index", new { model = page })))
-
-<h1>Create your first page</h1>
-<div class="overlay">
-    <aside>
-        <h1>Create the home page</h1>
-        @Html.ValidationSummary()
-        <section>
-            @using (Html.BeginForm("createdefault","content", null, FormMethod.Post, new { name = "editForm", style="border:0;" }))
-            {
-
-                @Html.LabelFor(model => model.AvailableModels)
-                @Html.DropDownListFor(m => m.SelectedPageModel, new SelectList(Model.AvailableModels, "Value", "Text"))
-                @Html.LabelFor(model => model.Name)
-                @Html.EditorFor(model => model.Name)
-                <menu>
-                    <input type="submit" value="Yes, go ahead" />
-                </menu>            
-            }
-        </section>
-    </aside>
-</div>
-
-*@

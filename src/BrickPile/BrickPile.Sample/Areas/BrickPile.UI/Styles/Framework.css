@@ -120,6 +120,7 @@ input[type=submit]:focus {
 	background:-moz-linear-gradient(top, #e2e6da 0%, #fff 100%);
 	background:-webkit-linear-gradient(top, #e2e6da 0%,#fff 100%);	
 }
+
 span.disabled { opacity:0.3; }
 
 #button {
@@ -134,6 +135,7 @@ span.disabled { opacity:0.3; }
 }
 #button span {
     background:-moz-linear-gradient(top, #d3d2d1 0%, #afafaf 100%);
+    background:-webkit-linear-gradient(top, #d3d2d1 0%,#afafaf 100%);	
     border-radius:5px;
     box-shadow:0 1px 0 #cfd4cf;
     display:inline-block;

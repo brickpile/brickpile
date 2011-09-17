@@ -47,10 +47,25 @@ Dashboard.prototype = {
 };
 
 $(document).ready(function () {
+
     Dashboard = new Dashboard();
     $('.add a').live('click', function () { Dashboard.add($(this)); return false; });
     $('.publish').live('click', function () { Dashboard.publish($(this)); });
 
+    $("#pages table tbody").sortable({
+        handle: 'td.sort',
+        items: "tr:not(.ui-state-disabled)",
+        helper: fixHelper,
+        update: function (event, ui) {
+            $.ajax({
+                type: 'POST',
+                url: '/dashboard/content/sort',
+                data: { items : $(this).sortable('toArray') },
+                traditional: true,
+                success: function (data) { }
+            });
+        }
+    });
 
     // Handle the slug and url
     var url = $("#NewPageModel_Metadata_Url").val();
@@ -68,6 +83,14 @@ $(document).ready(function () {
     }
 
 });
+
+// Return a helper with preserved width of cells
+var fixHelper = function (e, ui) {
+    ui.children().each(function () {
+        $(this).width($(this).width());
+    });
+    return ui;
+};
 
 accentsTidy = function (s) {
     var r = s.toLowerCase();
