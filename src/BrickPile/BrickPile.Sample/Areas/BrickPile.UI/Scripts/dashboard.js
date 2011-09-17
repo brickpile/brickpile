@@ -37,10 +37,19 @@ Dashboard.prototype = {
     publish: function ($input) {
         var self = this;
         $.ajax({
-            url: '/dashboard/content/publish/' + $input.attr('name') + '/' + $input.attr('checked'),
+            url: '/dashboard/content/publish',
+            type: 'POST',
             dataType: 'html',
+            data: { id: $input.attr('name'), published: $input.is(':checked') },
             success: function (data) {
-                //$.jGrowl(data);
+                var $growl = $('<aside />');
+                $('body').append($growl)
+                $growl.hide().html(data).fadeIn('fast');
+                $('html').mousemove(function () {
+                    $growl.delay(3000).fadeOut('fast', function () {
+                        $(this).remove();
+                    });
+                });
             }
         });
     }

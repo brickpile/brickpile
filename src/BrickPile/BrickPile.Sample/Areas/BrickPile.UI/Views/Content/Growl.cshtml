@@ -1,0 +1,10 @@
+﻿
+@{
+    var heading = Model ? "Publish succeeded" : "Unpublish succeeded";
+    var message = Model ? "The page was successfully published" : "The page was successfully unpublished";
+}
+
+<div id="growl">
+    <strong>@heading</strong>
+    <p>@message</p>
+</div>

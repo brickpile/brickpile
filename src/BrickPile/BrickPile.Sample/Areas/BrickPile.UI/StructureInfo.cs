@@ -19,11 +19,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BrickPile.Core.Repositories;
+using BrickPile.Core.Infrastructure.Common;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
+using Raven.Client;
 
 namespace BrickPile.UI {
     /// <summary>
@@ -32,7 +34,7 @@ namespace BrickPile.UI {
     /// <remarks></remarks>
     /// <example></example>
     public class StructureInfo : IStructureInfo {
-        private readonly IPageRepository _repository;
+        private readonly IDocumentSession _session;
         private IPageModel _currentModel;
         private IPageModel _rootModel;
         private IPageModel _parentModel;
@@ -42,7 +44,7 @@ namespace BrickPile.UI {
         public virtual IPageModel RootModel {
             get {
                 if(_rootModel == null) {
-                    _rootModel = _repository.SingleOrDefault<IPageModel>(x => x.Parent == null);
+                    _rootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null);
                 }
                 return _rootModel;
             }
@@ -65,7 +67,7 @@ namespace BrickPile.UI {
         public virtual IPageModel ParentModel {
             get {
                 if(_parentModel == null && CurrentModel != null && CurrentModel.Parent != null) {
-                    _parentModel = _repository.SingleOrDefault<IPageModel>(model => model.Id == CurrentModel.Parent.Id);
+                    _parentModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Id == CurrentModel.Parent.Id);
                 }
                 return _parentModel;
             }
@@ -79,10 +81,10 @@ namespace BrickPile.UI {
                     return null;
                 if (_hierarchicalStructure == null) {
                     var items = new List<IPageModel>();
-                    items.AddRange(_repository.GetChildren(CurrentModel));
+                    items.AddRange(_session.Query<IPageModel>().GetChildren(CurrentModel).OrderBy(x => x.Metadata.SortOrder));
                     var ancestors = GetAncestors(CurrentModel);
                     foreach (var ancestor in ancestors) {
-                        items.AddRange(_repository.GetChildren(ancestor));
+                        items.AddRange(_session.Query<IPageModel>().GetChildren(ancestor).OrderBy(x => x.Metadata.SortOrder));
                     }
                     
                     _hierarchicalStructure = items.CreateHierarchy(RootModel, 0);
@@ -97,9 +99,7 @@ namespace BrickPile.UI {
         /// <param name="item">The item.</param>
         /// <returns></returns>
         private IEnumerable<IPageModel> GetAncestors(IPageModel item) {
-
-            var parent = item.Parent != null ? _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(item.Parent.Id)) : null;
-
+            var parent = item.Parent != null ? _session.Query<IPageModel>().SingleOrDefault(model => model.Id.Equals(item.Parent.Id)): null;
             if (parent != null) {
                 yield return parent;
                 if (parent.Parent != null) {
@@ -112,9 +112,9 @@ namespace BrickPile.UI {
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureInfo"/> class.
         /// </summary>
-        /// <param name="repository">The repository.</param>
-        public StructureInfo(IPageRepository repository) {
-            _repository = repository;
+        /// <param name="session">The session.</param>
+        public StructureInfo(IDocumentSession session) {
+            _session = session;
         }
     }        
 }

@@ -163,9 +163,8 @@ namespace BrickPile.UI.Controllers {
             model.Metadata.Changed = DateTime.Now;
             _repository.SaveChanges();
 
-            return Content(published != true
-                            ? "Hooray, you're page has been unpublished"
-                            : "Hooray, you're page has been published");
+            return PartialView("Growl", published);
+
         }
         /// <summary>
         /// Deletes the specified model.

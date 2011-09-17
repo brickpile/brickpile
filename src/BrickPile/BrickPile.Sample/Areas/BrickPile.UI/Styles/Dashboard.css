@@ -55,3 +55,26 @@ nav a:link.selected,
 nav a:visited.selected {
     color:#dcf5c3;
 }
+/*--------------------------------------------------------------
+4 Growl
+----------------------------------------------------------------*/
+#growl {
+    background: -moz-linear-gradient(top, rgba(60,60,60,0.8), rgba(0,0,0,1));
+    box-shadow: 0 1px 0 rgba(137,137,137,1) inset;
+    border-radius:5px;
+    border:1px solid #000;
+    color:#989898;
+    font-size:11px;
+    padding:10px;
+    position:fixed;
+    top:63px;
+    right:20px;
+    text-shadow:0 -1px 0 rgba(0,0,0,8);
+    width:250px;
+}
+#growl strong {
+    color:#f2f2f2;
+    font-size:12px;
+    font-weight:bold;
+    text-shadow:0 -1px 0 rgba(0,0,0,8);
+}
