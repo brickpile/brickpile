@@ -48,7 +48,8 @@ namespace BrickPile.UI.Controllers {
                 ViewBag.Class = "content";
                 return View("Index", viewModel);
             }
-
+            
+            // assume we ain't got any pages
             ViewBag.Class = "start";
             return View("Start", new NewModel());
         }
@@ -114,8 +115,8 @@ namespace BrickPile.UI.Controllers {
                     throw new BrickPileException("The selected page model is not valid!");
                 }
                 page.Metadata.Url = parent != null ? VirtualPathUtility.AppendTrailingSlash(parent.Metadata.Url) : String.Empty;
-                
-                ViewBag.Class = "new";
+
+                ViewBag.Class = "edit";
                 return View("new", new NewPageViewModel { NewPageModel = page, CurrentModel = parent, StructureInfo = _structureInfo });
             }
 
@@ -148,7 +149,7 @@ namespace BrickPile.UI.Controllers {
                 _repository.SaveChanges();
                 //_repository.Refresh(model);
 
-                return RedirectToAction("index", new { model = parent });
+                return RedirectToAction("index", new { model = parent ?? page });
             }
 
             return null;
@@ -159,7 +160,7 @@ namespace BrickPile.UI.Controllers {
         /// <returns></returns>
         public virtual ActionResult Publish(string id, bool published) {
             var model = _repository.SingleOrDefault<IPageModel>(m => m.Id == id.Replace("_","/"));
-            model.Metadata.PublishedStatus = published;
+            model.Metadata.IsPublished = published;
             model.Metadata.Changed = DateTime.Now;
             _repository.SaveChanges();
 

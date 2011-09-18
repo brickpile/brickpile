@@ -33,6 +33,43 @@ namespace BrickPile.Domain.Models {
         /// </value>
         string Name { get; set; }
         /// <summary>
+        /// Gets or sets the title.
+        /// </summary>
+        /// <value>
+        /// The title.
+        /// </value>
+        string Title { get; set; }
+        /// <summary>
+        /// Gets or sets the keywords.
+        /// </summary>
+        /// <value>
+        /// The keywords.
+        /// </value>
+        string Keywords { get; set; }
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>
+        /// The description.
+        /// </value>
+        string Description { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether [display in menu].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [display in menu]; otherwise, <c>false</c>.
+        /// </value>
+        bool DisplayInMenu { get; set; }
+        /// <summary>
+        /// Gets or sets the published.
+        /// </summary>
+        /// <value>
+        /// The published.
+        /// </value>
+        DateTime? Published { get; set; }
+
+
+        /// <summary>
         /// Gets or sets the changed.
         /// </summary>
         /// <value>
@@ -47,12 +84,12 @@ namespace BrickPile.Domain.Models {
         /// </value>
         string ChangedBy { get; set; }
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="IPageMetadata"/> is status.
+        /// Gets or sets a value indicating whether this instance is published.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if status; otherwise, <c>false</c>.
+        /// 	<c>true</c> if this instance is published; otherwise, <c>false</c>.
         /// </value>
-        bool PublishedStatus { get; set; }
+        bool IsPublished { get; set; }
         /// <summary>
         /// Gets or sets the slug.
         /// </summary>

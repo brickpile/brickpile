@@ -34,12 +34,12 @@ namespace BrickPile.Domain {
         /// <value></value>
         public string Name { get; set; }
         /// <summary>
-        /// Gets or sets the controller.
+        /// Gets or sets the type of the controller.
         /// </summary>
         /// <value>
-        /// The controller.
+        /// The type of the controller.
         /// </value>
-        public Type Controller { get; set; }
+        public Type ControllerType { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="PageModelAttribute"/> class.
         /// </summary>
@@ -48,10 +48,10 @@ namespace BrickPile.Domain {
         /// Initializes a new instance of the <see cref="PageModelAttribute"/> class.
         /// </summary>
         /// <param name="name">The name of the page model</param>
-        /// <param name="controller">The controller.</param>
-        public PageModelAttribute(string name, Type controller) {
+        /// <param name="controllerType">Type of the controller.</param>
+        public PageModelAttribute(string name, Type controllerType) {
             Name = name;
-            Controller = controller;
+            ControllerType = controllerType;
         }
     }
 }

@@ -129,7 +129,7 @@ namespace BrickPile.Tests.Web.Routing {
         }
     }
 
-    [PageModel(Name = "Dummy", Controller = typeof(DummyController))]
+    [PageModel(Name = "Dummy", ControllerType = typeof(DummyController))]
     public class DummyModel : PageModel {}
     public class DummyController : Controller {}
 }

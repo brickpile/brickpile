@@ -1,8 +1,3 @@
 ﻿
 @model String
-<div class="editor-label">
-    @Html.LabelForModel()
-</div>           
-<div class="editor-field">
-    @Html.TextBoxFor(_ => Model, new { @class = "slug" })
-</div>
+@Html.TextBoxFor(_ => Model, new { @class = "slug" })

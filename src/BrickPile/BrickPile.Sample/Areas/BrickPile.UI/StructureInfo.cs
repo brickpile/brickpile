@@ -17,9 +17,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Infrastructure.Common;
@@ -38,6 +39,7 @@ namespace BrickPile.UI {
         private IPageModel _currentModel;
         private IPageModel _rootModel;
         private IPageModel _parentModel;
+        private IEnumerable<IHierarchyNode<IPageModel>> _hierarchicalStructure;
         /// <summary>
         ///   <see cref="StructureInfo.RootModel"/>
         /// </summary>
@@ -49,7 +51,6 @@ namespace BrickPile.UI {
                 return _rootModel;
             }
         }
-        
         /// <summary>
         ///   <see cref="StructureInfo.CurrentModel"/>
         /// </summary>
@@ -92,7 +93,6 @@ namespace BrickPile.UI {
                 return _hierarchicalStructure;
             }
         }
-        private IEnumerable<IHierarchyNode<IPageModel>> _hierarchicalStructure;
         /// <summary>
         /// Gets the ancestors.
         /// </summary>

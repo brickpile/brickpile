@@ -61,7 +61,7 @@ body.setup {
 ----------------------------------------------------------------*/
 body.start {
  	max-width:35.286em;
-	min-width:500px;    
+	min-width:500px;	
 }
 body.start h1 { background-position:18.8em 16px; }
 body.start form>div { padding-top:10px; }
@@ -88,6 +88,45 @@ body.new form>div {
 }
 body.new fieldset {
     background:none;
+    margin:0;
+    padding-top:52px;
+}
+body.new span.button {
+    background:-moz-linear-gradient(top, #d3d2d1 0%, #afafaf 100%);
+    background:-webkit-linear-gradient(top, #d3d2d1 0%,#afafaf 100%);
+    border-radius:5px;
+    box-shadow:0 1px 0 #cfd4cf;
+    display:inline-block;
+    margin-top:1.1em;
+    overflow:hidden;
+    padding:1px;
+    position:absolute;
+    right:23px;
+    margin-top:35px;
+    z-index:100;    
+}
+body.new span.button button {
+	background:-moz-linear-gradient(top, #fff 0%, #e2e6da 100%);
+	background:-webkit-linear-gradient(top, #fff 0%,#e2e6da 100%);	
+	color:#6d6e6d;
+	border:0;
+	border-radius:4px;
+	font-weight:bold;
+	padding:5px 12px;
+	display:inline-block;
+	position:relative;
+	text-decoration:none;
+	text-shadow:1px 1px 0 rgba(255,255,255,1);    
+	width:auto;
+}
+body.new span.button button:hover {
+	background:-moz-linear-gradient(top, #fafafa 0%, #d8dbd0 100%);
+	background:-webkit-linear-gradient(top, #fafafa 0%,#d8dbd0 100%);	    
+}
+body.new span.button button:active {
+	background:-moz-linear-gradient(top, #e2e6da 0%, #fff 100%);
+	background:-webkit-linear-gradient(top, #e2e6da 0%,#fff 100%);
+	box-shadow:0 1px 1px rgba(0,0,0,0.2) inset;
 }
 /*--------------------------------------------------------------
 6 Content
@@ -99,10 +138,6 @@ body.content img {
 
 body.content h1 { background:none; }
 
-body.content {
-    max-width:67.857em;
-    min-width:760px;
-}
 
 body.content div#pages {
     background: rgba(171, 137, 100, 0.3);
@@ -397,11 +432,160 @@ body.content td input[type=checkbox] {
 /*--------------------------------------------------------------
 6 Edit
 ----------------------------------------------------------------*/
+body.edit h1 { background:none; }
+body.edit span.button {
+    background:-moz-linear-gradient(top, #d3d2d1 0%, #afafaf 100%);
+    background:-webkit-linear-gradient(top, #d3d2d1 0%,#afafaf 100%);
+    border-radius:5px;
+    box-shadow:0 1px 0 #cfd4cf;
+    display:inline-block;
+    margin-top:1.1em;
+    overflow:hidden;
+    padding:1px;
+    position:absolute;
+    right:23px;
+    margin-top:35px;
+    z-index:100;    
+}
+body.edit span.button button,
+body.edit span.button a:link,
+body.edit span.button a:visited {
+	background:-moz-linear-gradient(top, #fff 0%, #e2e6da 100%);
+	background:-webkit-linear-gradient(top, #fff 0%,#e2e6da 100%);	
+	color:#6d6e6d;
+	border:0;
+	border-radius:4px;
+	font-weight:bold;
+	padding:5px 12px;
+	display:inline-block;
+	position:relative;
+	text-decoration:none;
+	text-shadow:1px 1px 0 rgba(255,255,255,1);    
+	width:auto;
+}
+body.edit span.button button:hover,
+body.edit span.button a:hover {
+	background:-moz-linear-gradient(top, #fafafa 0%, #d8dbd0 100%);
+	background:-webkit-linear-gradient(top, #fafafa 0%,#d8dbd0 100%);	    
+}
+body.edit span.button button:active,
+body.edit span.button a:focus,
+body.edit span.button a:active {
+	background:-moz-linear-gradient(top, #e2e6da 0%, #fff 100%);
+	background:-webkit-linear-gradient(top, #e2e6da 0%,#fff 100%);
+	box-shadow:0 1px 1px rgba(0,0,0,0.2) inset;
+}
+body.edit span.back  {
+    font-size:85.7%;
+    left:20px;
+    right:auto;
+}
 body.edit form>div {
     background:none #f8f9f6;
-    box-shadow:0 1px 0 #fff inset,0 0 50px #c9ccc6 inset;
+    box-shadow:0 1px 0 #fff inset,0 0 50px #c9ccc6 inset, 0 1px 1px rgba(0, 0, 0, 0.1);
     padding:0;
 }
 body.edit fieldset {
     background:none;
+    margin:0;
+    padding-top:52px;
+    text-align:center;
 }
+#metadata {
+    background:#475860 url(../images/metadata-bg.png) repeat 0 0;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3) inset;
+    font-size:85.7%;
+    border-radius:0;
+    margin-top:0;
+    overflow:hidden;
+    padding:10px;
+    text-align:left;
+}
+#metadata>div {
+    float:left;
+    margin-right:4px;
+}
+#metadata #slug label {
+    width:66px;
+}
+#metadata #visible {
+    margin:6px 0 12px;
+}
+#metadata #visible label,
+#metadata #ispublished label {
+    margin:0;
+    width:96px;
+}
+#metadata label {
+    color:#fff;
+    display:inline-block;
+    margin:6px 2px 0 0;
+    text-shadow:0 1px 0 rgba(0,0,0,0.5);
+    text-align:right;
+    vertical-align:top;
+    width:78px;
+}
+#metadata input[type=text],
+#metadata textarea {
+    border:1px solid #354148;
+    border-radius:4px;
+	background:-moz-linear-gradient(top, #51656e 0%, #566a73 100%);
+	background:-webkit-linear-gradient(top, #51656e 0%,#566a73 100%);    
+    box-shadow:0 1px 0 #54646b, 1px 1px 1px rgba(0,0,0,0.2) inset;
+    color:#fff;
+    margin:0 0 4px 0;
+    padding:.5em;
+    text-shadow:0 1px 0 rgba(0,0,0,0.5);
+    width:14.917em;
+}
+#metadata textarea {
+    height:4em;
+}
+body.edit #button {
+    box-shadow:0 2px 3px rgba(0,0,0,0.1) inset;
+    margin-top:0;
+    padding-top:4px;
+    background:none;
+}
+
+body.edit .editor-label {
+	color:#3d4950;
+	display:block;
+	float:left;
+	clear:left;
+	background:none;
+	box-shadow:none;
+	width:130px;
+	text-align:right;
+	position:absolute;
+}
+body.edit .editor-field {
+	background:#e0f3fe;
+    border-radius:5px;	    
+	box-shadow:none;
+	display:inline-block;
+	margin-top:8px;
+	padding:.65em 1em .75em;
+}
+
+body.edit label {
+	font-weight:bold;
+	display:inline-block;
+	margin-top:2.2em;
+}
+body.edit input[type=text],
+body.edit textarea {
+	border:1px solid #b3c2cb;
+	box-shadow:0 1px 0 rgba(255,255,255,1), 1px 1px 1px rgba(0,0,0,0.08) inset;
+	background:-moz-linear-gradient(top, #fafafa 0%, #ffffff 100%);
+	background:-webkit-linear-gradient(top, #fafafa 0%,#ffffff 100%);
+	width:600px;
+	margin:.2em 0 0;
+}
+body.edit input:focus,
+body.edit textarea:focus {
+	background:#f8f8f8;
+}
+::-webkit-input-placeholder { color:#bbb; }
+input:-moz-placeholder,
+textarea:-moz-placeholder { color:#bbb; }

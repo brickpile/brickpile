@@ -1,6 +1,6 @@
 ﻿
 @model BrickPile.UI.Web.ViewModels.IDashboardViewModel
-
+@using BrickPile.UI.Common
 @{
     
     Layout = "~/Areas/BrickPile.UI/Views/Shared/_Layout.cshtml";
@@ -13,25 +13,73 @@
     </ul>
 }
 
-<h1>Editing <em style="text-transform:none;">../@Model.CurrentModel.Metadata.Url</em></h1>
+<h1>Welcome @HttpContext.Current.User.Identity.Name! Let's pile some bricks eh?</h1>
+
+@if (Model.StructureInfo.ParentModel != null) {
+    <span class="button back">
+            @Html.ActionLink(Model.StructureInfo.ParentModel)
+    </span>
+} else {
+    <span class="button back">
+            @Html.ActionLink(Model.StructureInfo.RootModel)
+    </span>
+}
+
+<span class="button advanced">
+    <button type="button">Advanced</button>
+</span>
 
 @Html.ValidationSummary()
 
-@using (Html.BeginForm("update", "content", new { model = Model.CurrentModel }, FormMethod.Post, new { name = "editForm" }))
-{
+@using (Html.BeginForm("update", "content", new { model = Model.CurrentModel }, FormMethod.Post, new { name = "editForm" })) {
     <div>
         <fieldset>
             <div id="metadata">
                 <div>
-                    @Html.EditorFor(model => model.CurrentModel.Metadata)
+                    <div>
+                        @Html.LabelFor(model => model.CurrentModel.Metadata.Title)
+                        @Html.EditorFor(model => model.CurrentModel.Metadata.Title)
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.CurrentModel.Metadata.Keywords)
+                        @Html.TextBoxFor(model => model.CurrentModel.Metadata.Keywords)
+                    </div>
+                </div>
+                <div>
+                    @Html.LabelFor(model => model.CurrentModel.Metadata.Description)
+                    @Html.TextAreaFor(model => model.CurrentModel.Metadata.Description)                
+                </div>
+                <div id="slug">
+                    <div>
+                        @Html.LabelFor(model => model.CurrentModel.Metadata.Slug)
+                        @Html.EditorFor(model => model.CurrentModel.Metadata.Slug, "Slug")
+                        @Html.HiddenFor(model => model.CurrentModel.Metadata.Url, new { @class = "url" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.CurrentModel.Metadata.Published)
+                        @Html.TextBoxFor(model => model.CurrentModel.Metadata.Published)
+                    </div>
+                </div>
+                <div>
+                    <div id="visible">
+                        @Html.LabelFor(model => model.CurrentModel.Metadata.DisplayInMenu,"Visible in menu")
+                        @Html.CheckBoxFor(model => model.CurrentModel.Metadata.DisplayInMenu)
+                    </div>
+                    <div id="ispublished">
+                        @Html.LabelFor(model => model.CurrentModel.Metadata.IsPublished,"Active")
+                        @Html.CheckBoxFor(model => model.CurrentModel.Metadata.IsPublished)
+                    </div>
                 </div>
             </div>
-            @Html.EditorFor(model => model.CurrentModel, new { StructureInfo = Model.StructureInfo })
-            <div id="button">
-                <span>
-                    <input type="submit" value="Save and publish" />
-                </span>
-            </div>
         </fieldset>
+        <fieldset style="background-color:#fff;padding-top:31px;padding-bottom:27px;">
+            @Html.EditorFor(model => model.CurrentModel.Metadata.Name, "PageName")
+            @Html.EditorFor(model => model.CurrentModel, new { StructureInfo = Model.StructureInfo })
+        </fieldset>
+        <div id="button">
+            <span>
+                <input type="submit" value="Save and publish" />
+            </span>
+        </div>
     </div>
 }

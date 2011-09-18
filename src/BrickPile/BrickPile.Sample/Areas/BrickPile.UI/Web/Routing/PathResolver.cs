@@ -68,7 +68,7 @@ namespace BrickPile.UI.Web.Routing {
                 if (_pageModel == null) {
                     _pageModel = _repository.SingleOrDefault<IPageModel>(x => x.Parent == null);
                     var pageModelAttribute = _pageModel.GetType().GetAttribute<PageModelAttribute>();
-                    _controllerName = _controllerMapper.GetControllerName(pageModelAttribute.Controller);
+                    _controllerName = _controllerMapper.GetControllerName(pageModelAttribute.ControllerType);
                     var action = virtualUrl.TrimStart(new[] { '/' });
                     if (!_controllerMapper.ControllerHasAction(_controllerName, action)) {
                         logger.Warn(_controllerName + " does not have an called" + action);
@@ -82,7 +82,7 @@ namespace BrickPile.UI.Web.Routing {
                 return null;
             }
 
-            var controllerType = _pageModel.GetType().GetAttribute<PageModelAttribute>().Controller;
+            var controllerType = _pageModel.GetType().GetAttribute<PageModelAttribute>().ControllerType;
             _pathData.Controller = _controllerMapper.GetControllerName(controllerType);
             _pathData.CurrentPageModel = _pageModel;
             return _pathData;

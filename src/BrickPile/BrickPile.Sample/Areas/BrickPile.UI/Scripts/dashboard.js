@@ -69,23 +69,28 @@ $(document).ready(function () {
             $.ajax({
                 type: 'POST',
                 url: '/dashboard/content/sort',
-                data: { items : $(this).sortable('toArray') },
+                data: { items: $(this).sortable('toArray') },
                 traditional: true,
                 success: function (data) { }
             });
         }
     });
 
+    $('#metadata').hide();
+    $('.advanced button').click(function () {
+        $('#metadata').toggle();
+    });
+
     // Handle the slug and url
-    var url = $("#NewPageModel_Metadata_Url").val();
+    var url = $("input.url").val();
     if (url != null) {
         var to = url.lastIndexOf('/');
         url = url.substring(0, to + 1);
 
-        $('.slug').slugify('#NewPageModel_Metadata_Name', {
+        $('.slug').slugify('input.title', {
             slugFunc: function (str, originalFunc) {
-                $("#NewPageModel_Metadata_Url").val(url + accentsTidy(str));
-                $("#NewPageModel_Metadata_Slug").val(accentsTidy(str));
+                $("input.url").val(url + accentsTidy(str));
+                $("input.slug").val(accentsTidy(str));
                 return accentsTidy(str);
             }
         });

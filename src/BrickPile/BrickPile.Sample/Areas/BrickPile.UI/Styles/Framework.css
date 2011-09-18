@@ -25,7 +25,7 @@ body {
 	font-weight: 300;
 	color:#333;
 	padding-top:86px;
-    max-width:67.857em;
+    max-width:69.5em;
     min-width:760px;
 	margin:0 auto;	
 	position:relative;
@@ -52,20 +52,17 @@ form {
     margin-top:12px;
 	padding:13px;
 }
-
 form>div {
 	background: url(../images/setup/plate.png) no-repeat 0 0;
 	box-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
 	border-radius:5px;
 	padding:115px 0 0;
 }
-
 fieldset {
 	background:transparent url(../images/setup/line.png) repeat-x 0 0;
 	margin:0 20px;
 	padding: 18px 0 0;
 }
-
 label {
     color:#28353d;
 	font-weight:bold;
@@ -314,7 +311,7 @@ span.select {
 }
 
 .selectBox-options LI.selectBox-selected A {
-	background-color: #e2e6da;
+	background-color: #e0f3fe;
 }
 
 .selectBox-options .selectBox-optgroup {

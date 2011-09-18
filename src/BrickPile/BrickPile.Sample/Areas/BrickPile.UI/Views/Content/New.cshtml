@@ -12,26 +12,62 @@
     </ul>
 }
 
+<span class="button advanced">
+    <button type="button">Advanced</button>
+</span>
+
 @Html.ValidationSummary()
 
-@using (Html.BeginForm("save", "content", new { model = Model.CurrentModel }, FormMethod.Post, new { name = "editForm" }))
-{
+@using (Html.BeginForm("save", "content", new { model = Model.CurrentModel }, FormMethod.Post, new { name = "editForm" })) {
     <div>
         <fieldset>
             <div id="metadata">
                 <div>
-                    @Html.EditorFor(model => model.NewPageModel.Metadata)
+                    <div>
+                        @Html.LabelFor(model => model.NewPageModel.Metadata.Title)
+                        @Html.EditorFor(model => model.NewPageModel.Metadata.Title)
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.NewPageModel.Metadata.Keywords)
+                        @Html.TextBoxFor(model => model.NewPageModel.Metadata.Keywords)
+                    </div>
+                </div>
+                <div>
+                    @Html.LabelFor(model => model.NewPageModel.Metadata.Description)
+                    @Html.TextAreaFor(model => model.NewPageModel.Metadata.Description)                
+                </div>
+                <div id="slug">
+                    <div>
+                        @Html.LabelFor(model => model.NewPageModel.Metadata.Slug)
+                        @Html.EditorFor(model => model.NewPageModel.Metadata.Slug, "Slug")
+                        @Html.HiddenFor(model => model.NewPageModel.Metadata.Url, new { @class = "url" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.NewPageModel.Metadata.Published)
+                        @Html.TextBoxFor(model => model.NewPageModel.Metadata.Published)
+                    </div>
+                </div>
+                <div>
+                    <div id="visible">
+                        @Html.LabelFor(model => model.NewPageModel.Metadata.DisplayInMenu)
+                        @Html.CheckBoxFor(model => model.NewPageModel.Metadata.DisplayInMenu)
+                    </div>
+                    <div id="ispublished">
+                        @Html.LabelFor(model => model.NewPageModel.Metadata.IsPublished)
+                        @Html.CheckBoxFor(model => model.NewPageModel.Metadata.IsPublished)
+                    </div>
                 </div>
             </div>
-
-            @Html.EditorFor(model => model.NewPageModel, new { StructureInfo = Model.StructureInfo })
-            @Html.HiddenFor(model => model.NewPageModel.GetType().AssemblyQualifiedName)            
-
-            <div id="button">
-                <span>
-                    <input type="submit" value="Save and publish" />
-                </span>
-            </div>
         </fieldset>
+        <fieldset style="background-color:#fff;padding-top:31px;padding-bottom:27px;">
+            @Html.EditorFor(model => model.NewPageModel.Metadata.Name, "PageName")
+            @Html.EditorFor(model => model.NewPageModel, new { StructureInfo = Model.StructureInfo })
+            @Html.HiddenFor(model => model.NewPageModel.GetType().AssemblyQualifiedName) 
+        </fieldset>
+        <div id="button">
+            <span>
+                <input type="submit" value="Save and publish" />
+            </span>
+        </div>
     </div>
 }

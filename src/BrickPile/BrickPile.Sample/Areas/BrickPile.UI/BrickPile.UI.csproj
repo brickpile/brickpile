@@ -192,10 +192,12 @@
     <Content Include="Content\sprite.png" />
     <Content Include="Images\bg.jpg" />
     <Content Include="Images\button.png" />
+    <Content Include="Images\delete.png" />
     <Content Include="Images\dialog-top.png" />
-    <Content Include="Images\jquery.selectBox-arrow.gif" />
+    <Content Include="Images\edit.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Content\jquery.selectBox-arrow.gif" />
+    <Content Include="Images\preview.png" />
     <Content Include="Images\Setup\alert.png" />
     <Content Include="Images\Setup\arrow.png" />
     <Content Include="Images\Setup\bg.png" />
@@ -432,6 +434,21 @@
     <Content Include="Scripts\tinymce.3.4.5\themes\advanced\langs\en_dlg.js" />
     <Content Include="Scripts\tinymce.3.4.5\themes\advanced\link.htm" />
     <Content Include="Scripts\tinymce.3.4.5\themes\advanced\shortcuts.htm" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\content.css" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\dialog.css" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\img\butt2.png" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\img\button-bg.png" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\img\buttons.png" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\img\down_arrow.gif" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\img\fade-butt.png" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\img\icons.png" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\img\items.gif" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\img\menu-arrow.png" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\img\menu-check.png" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\img\progress.gif" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\img\tabs.gif" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\img\toolbarbg.png" />
+    <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\cirkuit\ui.css" />
     <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\default\content.css" />
     <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\default\dialog.css" />
     <Content Include="Scripts\tinymce.3.4.5\themes\advanced\skins\default\img\buttons.png" />
@@ -496,8 +513,8 @@
     <Content Include="Views\Content\Start.cshtml" />
     <Content Include="Views\Content\Publish.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Views\Shared\EditorTemplates\PageName.cshtml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\BrickPile.Core\BrickPile.Core.csproj">
       <Project>{6D6BC9A5-DA23-402F-AFED-6B72BF8EAD58}</Project>
