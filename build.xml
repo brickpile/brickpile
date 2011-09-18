@@ -2,7 +2,13 @@
 <project xmlns="http://nant.sf.net/release/meridium/nant.xsd"
 		name="BrickPile" version="0.2.0.0" fileVersion="0.2.0.*" releaseConfiguration="Release" debugConfiguration="Debug"
 		copyrightText="(c) Marcus Lindblom"  copyrightHref="http://www.getbrickpile.com" feedbackEmail="marcus@kloojed.com"
-		publishHtmlDocumentation="false" ideVersion="10.0" sourceFolder="src\BrickPile" solutionFile="BrickPile.sln" nrOfPublishedBuildsToKeep="5">  
+		publishHtmlDocumentation="false" ideVersion="10.0" sourceFolder="src\BrickPile" solutionFile="BrickPile.sln" nrOfPublishedBuildsToKeep="5">
+  <publishers>
+    <twitter>
+      <username>getbrickpile</username>
+      <password>brickpile!</password>
+    </twitter>
+  </publishers>
   <items type="class" generateXml="false" target="runtime|testDebug" autover="true">
     <item name="BrickPile.Core" type="class" />
     <item name="BrickPile.Domain" type="class" />

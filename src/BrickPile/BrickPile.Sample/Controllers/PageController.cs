@@ -16,6 +16,8 @@ namespace BrickPile.Sample.Controllers
         private readonly IDocumentSession _session;
         public ActionResult Index() {
 
+            var children = _session.Query<IPageModel>().WherePageIsPublished();
+
             return View(new DefaultViewModel<Page>(_model as Page,_structureInfo));
         }
         

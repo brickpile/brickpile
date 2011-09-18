@@ -1,12 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
-using BrickPile.Core.Infrastructure.Common;
-using BrickPile.Core.Repositories;
+﻿using System.Web.Mvc;
 using BrickPile.Domain.Models;
 using BrickPile.UI;
 using BrickPile.UI.Web.ViewModels;
-using Raven.Client;
 
 namespace BrickPile.Sample.Controllers
 {
