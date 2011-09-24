@@ -488,6 +488,7 @@
     <Content Include="Scripts\tinymce.3.4.5\utils\validate.js" />
     <Content Include="Styles\Dashboard.css" />
     <Content Include="Styles\Framework.css" />
+    <Content Include="Styles\PartialViews.css" />
     <Content Include="Styles\Views.css" />
     <Content Include="Styles\webfonts\svg\museo-sans-500.svg" />
     <Content Include="Styles\webfonts\svg\museo-sans-700.svg" />
@@ -545,7 +546,7 @@
     <Content Include="Views\Dialog\EditPageReference.cshtml" />
     <Content Include="Views\Library\Index.cshtml" />
     <Content Include="Views\Library\Save.cshtml" />
-    <Content Include="Views\Library\_bucket.cshtml" />
+    <None Include="Views\Library\_bucket.cshtml.bak" />
     <Content Include="Views\Settings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -562,6 +563,7 @@
     <Content Include="Views\Shared\EditorTemplates\Number.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDown.cshtml" />
     <Content Include="Views\Content\Growl.cshtml" />
+    <Content Include="Views\Library\_FileBrowser.cshtml" />
     <None Include="Views\Shared\EditorTemplates\Object.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PageReference.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Password.cshtml" />

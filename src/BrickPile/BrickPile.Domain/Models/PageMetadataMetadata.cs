@@ -99,6 +99,14 @@ namespace BrickPile.Domain.Models {
         [ScaffoldColumn(false)]
         public virtual bool IsPublished { get; set; }
         /// <summary>
+        /// Gets or sets a value indicating whether this instance is deleted.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this instance is deleted; otherwise, <c>false</c>.
+        /// </value>
+        [ScaffoldColumn(false)]
+        public virtual bool IsDeleted { get; set; }
+        /// <summary>
         /// Get/Sets the Slug of the PageMetaData
         /// </summary>
         /// <value></value>

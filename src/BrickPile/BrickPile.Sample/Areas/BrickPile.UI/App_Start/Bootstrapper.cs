@@ -68,9 +68,7 @@ namespace BrickPile.UI.App_Start {
 
                 x.For<IConfiguration>().Use(y => {
                                                 var session = y.GetInstance<IDocumentSession>();
-                                                using (session.Advanced.DocumentStore.AggressivelyCacheFor(TimeSpan.FromMinutes(5))) {
-                                                    return session.Load<IConfiguration>("brickpile/configuration");    
-                                                }
+                                                return session.Load<IConfiguration>("brickpile/configuration");    
                                             });
 
                 x.For<IVirtualPathResolver>().Use<VirtualPathResolver>();

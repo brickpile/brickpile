@@ -227,6 +227,6 @@ namespace BrickPile.UI.Common {
                 return string.Format(DateFormat, difference.Minutes, difference.Minutes == 1 ? "minute" : "minutes", "ago");
             }
             return string.Format(DateFormat, difference.Hours, difference.Hours == 1 ? "hour" : "hours", "ago");
-        }    
+        }
     }
 }

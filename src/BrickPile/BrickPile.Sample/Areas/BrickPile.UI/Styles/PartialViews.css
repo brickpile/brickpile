@@ -1,0 +1,26 @@
+﻿#assets {
+    position:fixed;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    background:rgba(0,0,0,0.5);
+    z-index:500;
+}
+#assets aside {
+    border-radius: 5px 5px 0 0;
+    background-color:#fff;
+    position:absolute;
+    left:25%;
+    top:50%;
+    width:790px;
+}
+#assets aside h1 {
+    border-radius: 5px 5px 0 0;
+    color:#6b6f64;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: -moz-linear-gradient(top, #f1f2ef, #e5e7e1);
+    background: -webkit-linear-gradient(top, #f1f2ef 0%,#e5e7e1 100%);
+    font-size:100%;
+    text-shadow:0 1px 0 rgba(255,255,255,1);
+}

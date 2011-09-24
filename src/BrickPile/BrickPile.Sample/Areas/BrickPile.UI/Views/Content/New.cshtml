@@ -39,7 +39,7 @@
                 <div id="slug">
                     <div>
                         @Html.LabelFor(model => model.NewPageModel.Metadata.Slug)
-                        @Html.EditorFor(model => model.NewPageModel.Metadata.Slug, "Slug")
+                        @Html.EditorFor(model => model.NewPageModel.Metadata.Slug, "Slug", new { StructureInfo = Model.StructureInfo })
                         @Html.HiddenFor(model => model.NewPageModel.Metadata.Url, new { @class = "url" })
                     </div>
                     <div>

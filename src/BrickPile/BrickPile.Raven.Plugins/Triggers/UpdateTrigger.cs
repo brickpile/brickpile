@@ -36,7 +36,7 @@ namespace BrickPile.Raven.Plugins.Triggers {
         /// <param name="document">The document.</param>
         /// <param name="metadata">The metadata.</param>
         /// <param name="transactionInformation">The transaction information.</param>
-        public override void OnPut(string key, global::Raven.Json.Linq.RavenJObject document, global::Raven.Json.Linq.RavenJObject metadata, TransactionInformation transactionInformation) {
+        public override void OnPut(string key, RavenJObject document, RavenJObject metadata, TransactionInformation transactionInformation) {
 
             if (key.StartsWith("Raven/",true,CultureInfo.InvariantCulture)) // we don't deal with system documents
                 return;

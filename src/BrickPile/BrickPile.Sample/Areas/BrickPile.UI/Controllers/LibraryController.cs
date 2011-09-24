@@ -32,6 +32,8 @@ namespace BrickPile.UI.Controllers {
         private readonly Settings _settings;
         public ActionResult OpenBucket() {
 
+            return PartialView("_FileBrowser");
+
             var request = new ListObjectsRequest { BucketName = _settings.BucketName };
             //var request = new GetObjectMetadataRequest {BucketName = _settings.BucketName};
             var response = _client.ListObjects(request);
@@ -90,10 +92,10 @@ namespace BrickPile.UI.Controllers {
             return View(model.S3Objects);
         }
 
-        public LibraryController(IDocumentSession session) {
-            _settings = session.Load<Settings>("brickpile/settings");
-            _client = new AmazonS3Client(_settings.AwsAccessKey, _settings.AwsSecretAccessKey);
+        //public LibraryController(IDocumentSession session) {
+        //    _settings = session.Load<Settings>("brickpile/settings");
+        //    _client = new AmazonS3Client(_settings.AwsAccessKey, _settings.AwsSecretAccessKey);
             
-        }
+        //}
     }
 }

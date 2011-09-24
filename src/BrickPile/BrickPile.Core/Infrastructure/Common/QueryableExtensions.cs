@@ -18,7 +18,7 @@ namespace BrickPile.Core.Infrastructure.Common {
         /// <param name="queryable">The queryable.</param>
         /// <returns></returns>
         public static IQueryable<IPageModel> WherePageIsPublished(this IQueryable<IPageModel> queryable) {
-            return queryable.Where(model => model.Metadata.IsPublished);
+            return queryable.Where(model => model.Metadata.IsPublished == true);
         }
     }
 }

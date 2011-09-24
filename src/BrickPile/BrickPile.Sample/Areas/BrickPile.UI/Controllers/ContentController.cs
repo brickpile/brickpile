@@ -170,15 +170,19 @@ namespace BrickPile.UI.Controllers {
         /// <summary>
         /// Deletes the specified model.
         /// </summary>
-        /// <param name="model">The model.</param>
         /// <returns></returns>
         [HttpGet]
         public ActionResult Delete(IPageModel model) {
+
+            //model.Metadata.IsDeleted = true;
+            //var parent = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(model.Parent.Id));
+            //return RedirectToAction("index", new { model = parent });
+
             return PartialView("Confirm", new ConfirmFormModel()
                                        {
                                            BackAction = "edit",
-                                           CurrentModel = model                                           
-                                       } );
+                                           CurrentModel = model
+                                       });
         }
         /// <summary>
         /// Deletes the specified confirm form model.

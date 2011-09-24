@@ -5,18 +5,20 @@
     if (prop.HideSurroundingHtml) {
         <text>@Html.Editor(prop.PropertyName)</text>
     } else {
-        <div class="editor-label">
-            @if(prop.IsRequired) {
-                @Html.Label(prop.PropertyName)
-                @*var displayName = prop.DisplayName;
-                @Html.LabelFor(_ => prop.DisplayName, @<em>(mandatory)</em>, displayName)*@
-            } else {
-                @Html.Label(prop.PropertyName)
-            }
-        </div>
-        <div class="editor-field">
-            @Html.Editor(prop.PropertyName)
-            @Html.ValidationMessage(prop.PropertyName, "*")
+        <div>
+            <div class="editor-label">
+                @if(prop.IsRequired) {
+                    @Html.Label(prop.PropertyName)
+                    @*var displayName = prop.DisplayName;
+                    @Html.LabelFor(_ => prop.DisplayName, @<em>(mandatory)</em>, displayName)*@
+                } else {
+                    @Html.Label(prop.PropertyName)
+                }
+            </div>
+            <div class="editor-field">
+                @Html.Editor(prop.PropertyName)
+                @Html.ValidationMessage(prop.PropertyName, "*")
+            </div>
         </div>
     }
 }

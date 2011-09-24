@@ -13,5 +13,8 @@ namespace BrickPile.Sample.Models {
         [DataType(DataType.Html)]
         [Display(Name = "Content")]
         public string MainBody { get; set; }
+
+        [DataType(DataType.ImageUrl)]
+        public string Image { get; set; }
     }
 }
