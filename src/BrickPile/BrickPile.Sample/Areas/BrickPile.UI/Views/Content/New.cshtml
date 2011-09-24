@@ -40,7 +40,11 @@
                     <div>
                         @Html.LabelFor(model => model.NewPageModel.Metadata.Slug)
                         @Html.EditorFor(model => model.NewPageModel.Metadata.Slug, "Slug", new { StructureInfo = Model.StructureInfo })
-                        @Html.HiddenFor(model => model.NewPageModel.Metadata.Url, new { @class = "url" })
+                        @if (Model.StructureInfo.RootModel == null) {
+                            @Html.HiddenFor(model => model.NewPageModel.Metadata.Url)
+                        } else {
+                            @Html.HiddenFor(model => model.NewPageModel.Metadata.Url, new { @class = "url" })
+                        }
                     </div>
                     <div>
                         @Html.LabelFor(model => model.NewPageModel.Metadata.Published)

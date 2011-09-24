@@ -3,7 +3,7 @@
 @{
     var structureInfo = ViewData["StructureInfo"] as BrickPile.UI.IStructureInfo;
 }           
-@if (structureInfo.CurrentModel.Id == structureInfo.RootModel.Id) {
+@if (structureInfo.RootModel == null) {
     @Html.TextBoxFor(_ => Model, new { disabled = "disabled" })
 } else {
     @Html.TextBoxFor(_ => Model, new { @class = "slug" })
