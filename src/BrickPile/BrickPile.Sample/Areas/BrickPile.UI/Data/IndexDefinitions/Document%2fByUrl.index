@@ -1,0 +1,18 @@
+{
+  "Name": "Document/ByUrl",
+  "Map": "docs.pages\r\n\t.Select(document => new {Url = document.Metadata.Url})",
+  "Maps": [
+    "docs.pages\r\n\t.Select(document => new {Url = document.Metadata.Url})"
+  ],
+  "Reduce": null,
+  "TransformResults": null,
+  "IsMapReduce": false,
+  "IsCompiled": false,
+  "IsTemp": false,
+  "Stores": {},
+  "Indexes": {},
+  "SortOptions": {},
+  "Analyzers": {},
+  "Fields": [],
+  "Type": "Map"
+}

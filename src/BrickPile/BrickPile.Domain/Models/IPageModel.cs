@@ -17,8 +17,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
-using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace BrickPile.Domain.Models {
@@ -37,5 +35,19 @@ namespace BrickPile.Domain.Models {
         /// The parent.
         /// </value>
         DocumentReference<IPageModel> Parent { get; set; }
+        /// <summary>
+        /// Gets or sets the ancestors.
+        /// </summary>
+        /// <value>
+        /// The ancestors.
+        /// </value>
+        IPageModel[] Ancestors { get; set; }
+        /// <summary>
+        /// Gets or sets the children.
+        /// </summary>
+        /// <value>
+        /// The children.
+        /// </value>
+        IList<string> Children { get; }
     }
 }

@@ -17,12 +17,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace BrickPile.Domain.Models {
     /// <summary>
@@ -51,17 +47,25 @@ namespace BrickPile.Domain.Models {
         /// </value>
         public virtual DocumentReference<IPageModel> Parent { get; set; }
         /// <summary>
-        /// Gets or sets the sort order.
+        /// Gets or sets the ancestors.
         /// </summary>
         /// <value>
-        /// The sort order.
+        /// The ancestors.
         /// </value>
-        public virtual int? SortOrder { get; set; }
+        public virtual IPageModel[] Ancestors { get; set; }
+        /// <summary>
+        /// Gets or sets the children.
+        /// </summary>
+        /// <value>
+        /// The children.
+        /// </value>
+        public virtual IList<string> Children { get; private set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="PageModel"/> class.
         /// </summary>
         protected PageModel() {
             Metadata = new PageMetadata();
+            Children = new List<string>();
         }
     }
 }

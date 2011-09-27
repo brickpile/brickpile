@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 using System;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Infrastructure.Indexes;
@@ -32,7 +33,6 @@ using BrickPile.UI.Web.Routing;
 using Raven.Client;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
-using Raven.Database.Config;
 using StructureMap;
 
 namespace BrickPile.UI.App_Start {
@@ -49,15 +49,15 @@ namespace BrickPile.UI.App_Start {
         public static IContainer Initialize() {
             
             ObjectFactory.Initialize(x => {
-
-                var documentStore = new EmbeddableDocumentStore { Url = "http://localhost:8080" };
-
+                var documentStore = new EmbeddableDocumentStore { ConnectionStringName = "RavenDB" };
+                
                 documentStore.Initialize();
                 documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "pages" : null;
 
                 IndexCreation.CreateIndexes(typeof(Documents_ByParent).Assembly, documentStore);
 
                 x.For<IDocumentStore>().Use(documentStore);
+
                 x.For<IDocumentSession>()
                     .HybridHttpOrThreadLocalScoped()
                     .Use(y =>
@@ -66,10 +66,13 @@ namespace BrickPile.UI.App_Start {
                         return store.OpenSession();
                     });
 
-                x.For<IConfiguration>().Use(y => {
-                                                var session = y.GetInstance<IDocumentSession>();
-                                                return session.Load<IConfiguration>("brickpile/configuration");    
-                                            });
+                x.For<IConfiguration>()
+                    .HybridHttpOrThreadLocalScoped()
+                    .Use(y =>
+                    {
+                        var session = y.GetInstance<IDocumentSession>();
+                        return session.Load<IConfiguration>("brickpile/configuration");
+                    });
 
                 x.For<IVirtualPathResolver>().Use<VirtualPathResolver>();
                 x.For<IPathResolver>().Use<PathResolver>();
@@ -83,7 +86,6 @@ namespace BrickPile.UI.App_Start {
                 x.For<IPageService>().Use<PageService>();
                 x.For<ISettings>().Use<Settings>();
                 x.For<IPageModel>().UseSpecial(y => y.ConstructedBy( r => ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>()));
-
             });
             return ObjectFactory.Container;
         }

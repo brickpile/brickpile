@@ -43,13 +43,5 @@ namespace BrickPile.Domain.Models {
         /// </value>
         [ScaffoldColumn(false)]
         public virtual DocumentReference<IPageModel> Parent { get; set; }
-        /// <summary>
-        /// Gets or sets the sort order.
-        /// </summary>
-        /// <value>
-        /// The sort order.
-        /// </value>
-        [ScaffoldColumn(false)]
-        public virtual int? SortOrder { get; set; }
     }
 }

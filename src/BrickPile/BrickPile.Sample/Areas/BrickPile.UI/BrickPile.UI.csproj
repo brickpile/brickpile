@@ -33,20 +33,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AsyncCtpLibrary, Version=1.0.4107.18181, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="AsyncCtpLibrary">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.0.482\lib\net40\AsyncCtpLibrary.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK, Version=1.3.13.1, Culture=neutral, PublicKeyToken=cd2d24cd2bace800, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\AWSSDK.1.3.13.1\lib\AWSSDK.dll</HintPath>
     </Reference>
-    <Reference Include="Esent.Interop, Version=1.7.0.0, Culture=neutral, PublicKeyToken=8dd49bbdae3f61af, processorArchitecture=MSIL">
+    <Reference Include="Esent.Interop">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.0.482\lib\net40\Esent.Interop.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.NRefactory, Version=3.0.0.3800, Culture=neutral, PublicKeyToken=efe927acf176eea2, processorArchitecture=MSIL">
+    <Reference Include="ICSharpCode.NRefactory">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.0.482\lib\net40\ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
-    <Reference Include="Lucene.Net, Version=2.9.2.1, Culture=neutral, PublicKeyToken=02f879aa45933051, processorArchitecture=MSIL">
+    <Reference Include="Lucene.Net">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.0.482\lib\net40\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -59,31 +59,31 @@
     <Reference Include="NLog">
       <HintPath>..\..\..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+    <Reference Include="Raven.Abstractions">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.0.482\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Client.Embedded, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+    <Reference Include="Raven.Client.Embedded">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.0.482\lib\net40\Raven.Client.Embedded.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+    <Reference Include="Raven.Client.Lightweight">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.0.482\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Database, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+    <Reference Include="Raven.Database">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.0.482\lib\net40\Raven.Database.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Munin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=974fec519e29970d, processorArchitecture=MSIL">
+    <Reference Include="Raven.Munin">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.0.482\lib\net40\Raven.Munin.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Storage.Esent, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+    <Reference Include="Raven.Storage.Esent">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.0.482\lib\net40\Raven.Storage.Esent.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Storage.Managed, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+    <Reference Include="Raven.Storage.Managed">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.0.482\lib\net40\Raven.Storage.Managed.dll</HintPath>
     </Reference>
-    <Reference Include="Spatial.Net, Version=2.9.1.2, Culture=neutral, PublicKeyToken=02f879aa45933051, processorArchitecture=MSIL">
+    <Reference Include="Spatial.Net">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.0.482\lib\net40\Spatial.Net.dll</HintPath>
     </Reference>
-    <Reference Include="SpellChecker.Net, Version=2.9.2.1, Culture=neutral, PublicKeyToken=36573b2a49807bd1, processorArchitecture=MSIL">
+    <Reference Include="SpellChecker.Net">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.0.482\lib\net40\SpellChecker.Net.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=2.6.3.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">

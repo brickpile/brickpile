@@ -136,16 +136,18 @@ namespace BrickPile.UI.Controllers {
 
                 // Update all values
                 UpdateModel(page, "NewPageModel");
+                // Store the new page
+                _repository.Store(page);
                 // Set the parent if it's not the start page
                 if(parent != null) {
                     page.Parent = model;
+                    parent.Children.Add(page.Id);
                 }
                 // Set changed date
                 page.Metadata.Changed = DateTime.Now;
                 page.Metadata.ChangedBy = HttpContext.User.Identity.Name;
 
                 // Add page to repository and save changes
-                _repository.Store(page);
                 _repository.SaveChanges();
                 //_repository.Refresh(model);
 
