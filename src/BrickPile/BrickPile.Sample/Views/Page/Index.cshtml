@@ -1,7 +1,22 @@
-﻿@model BrickPile.UI.Web.ViewModels.IViewModel<BrickPile.Sample.Models.Page>
+﻿@model BrickPile.Sample.ViewModels.PageViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Html.DisplayFor(model => model.CurrentModel.Metadata)
-@Html.DisplayFor(model => model.CurrentModel)
+<article>
+    <div class="main">
+        <h1 class="structural">@Model.CurrentModel.Heading</h1>
+        <p class="introduction"><span>@Model.CurrentModel.MainIntro</span></p>
+        @Html.Raw(Model.CurrentModel.MainBody)                        
+    </div>
+    <aside>        
+        <figure>
+            <img src="http://placehold.it/422x509" />
+            @if (!String.IsNullOrEmpty(Model.CurrentModel.ImageCaption)) {
+            <figcaption>
+                @Html.Raw(Model.CurrentModel.ImageCaption)
+            </figcaption>
+            }
+        </figure>
+    </aside>
+</article>

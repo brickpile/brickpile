@@ -544,6 +544,7 @@
     <Content Include="Views\Dialog\EditPageReference.cshtml" />
     <Content Include="Views\Library\Index.cshtml" />
     <Content Include="Views\Library\Save.cshtml" />
+    <Content Include="Views\Content\Preview.cshtml" />
     <None Include="Views\Library\_bucket.cshtml.bak" />
     <Content Include="Views\Settings\Index.cshtml" />
   </ItemGroup>

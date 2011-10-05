@@ -1,0 +1,26 @@
+﻿@model BrickPile.Sample.ViewModels.CaseListViewModel
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="structural">@Model.CurrentModel.Heading</h1>
+@Html.Raw(Model.CurrentModel.MainBody)
+<ul>
+@foreach (var page in Model.CaseList) {
+    <li>
+        <article>
+            <h2>@page.Metadata.Name</h2>
+            <img src="http://placehold.it/464x271" />
+            @Html.Raw(page.MainBody)
+        </article>
+    </li>
+}
+</ul>
+
+@if (Model.CaseList.PageCount > 1) {
+    <div class="pager">
+        @Html.PagedListPager(Model.CaseList, page => Url.Action("index", new { model = Model.CurrentModel, page = page }),PagedListRenderOptions.PageNumbersOnly)
+    </div>
+}

@@ -1,0 +1,21 @@
+﻿@model BrickPile.Sample.ViewModels.NewsViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<article>
+    <div class="main">
+        <a href="/@Model.CurrentModel.Parent.Slug" class="back">Tillbaka till alla nyheter</a>
+        <header>
+            <span class="date">@Model.CurrentModel.Metadata.Published.Value.ToShortDateString()</span>
+            <h1>@Html.DisplayTextFor(page => page.CurrentModel.Heading)</h1>
+        </header>
+        @Html.Raw(Model.CurrentModel.MainBody)                               
+    </div>
+    <aside>
+        <figure>
+            <img src="http://placehold.it/422x509" />
+        </figure>
+    </aside>
+</article>

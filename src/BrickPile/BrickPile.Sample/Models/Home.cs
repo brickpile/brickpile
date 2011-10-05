@@ -5,14 +5,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BrickPile.Sample.Models {
     [PageModel(Name = "Start page", ControllerType = typeof(HomeController))]
-    public class Home : PageModel {
-        [Display(Name="Heading", Description="The heading...", GroupName="Group1")]
+    public class Home : BaseModel {
+        [Display(Name="Heading")]
         public string Heading { get; set; }
 
-        [Required]
-        public string Heading1 { get; set; }
-
-        [Display(Name = "Body", Description = "The body...", GroupName = "Group1")]
+        [Display(Name = "Body")]
         public string Body { get; set; }
     }
 }

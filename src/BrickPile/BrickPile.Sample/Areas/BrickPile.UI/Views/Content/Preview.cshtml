@@ -1,0 +1,95 @@
+﻿
+@model BrickPile.UI.Web.ViewModels.IDashboardViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Preview</title>
+    <style type"text/css" media="all">
+        /*--------------------------------------------------------------
+        1 Global
+        ----------------------------------------------------------------*/
+        html { border-top:5px solid #192227; }
+        /*--------------------------------------------------------------
+        2 Header
+        ----------------------------------------------------------------*/
+        header {
+            background-color:#28353d;
+            padding:1.1em 1em .6em;
+            position:fixed;
+            left:0;
+            top:5px;
+            width:100%;
+        }
+        header div {
+            background:transparent;
+            box-shadow:none;
+ 	        max-width:64.5em;
+	        min-width:760px;
+	        margin:0 auto;	    
+        }
+        /*--------------------------------------------------------------
+        3 Global navigation
+        ----------------------------------------------------------------*/
+        nav {
+            position:absolute;
+            right:0;
+            top:0;
+            z-index:100;
+        }
+        nav li { float:left; }
+        nav a:link,
+        nav a:visited {
+            color:#e9ece3;
+            display:block;
+            font-size:85.7%;
+            padding:1em;
+            padding-left:20px;
+            text-decoration:none;
+            text-shadow:0 1px 0 rgba(0,0,0,1);
+        }
+        nav a.dashboard {
+            background: url(/areas/brickpile.ui/images/sprite.png) no-repeat 0 -119px;
+        }
+        nav a.content {
+           background: url(/areas/brickpile.ui/images/sprite.png) no-repeat 0 13px;
+        }
+        nav a.content.selected {
+            background-position:0 -52px;
+        }
+        nav a.dashboard.selected {
+            background-position:0 -185px;
+        }
+        nav a:link.selected,
+        nav a:visited.selected {
+            color:#dcf5c3;
+        }        
+        iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: none; padding-top: 56px;
+            box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <img src="/areas/brickpile.ui/images/logo.png" alt="BrickPile" />
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="@Url.Action("index", new { model = this.Model.StructureInfo.ParentModel })">Content</a></li>
+            <li><a href="@Url.Action("edit", new { model = this.Model.CurrentModel })">Edit</a></li>
+        </ul>
+    </nav>
+    <iframe src="http://brickpile.local/@Model.CurrentModel.Metadata.Url" seamless="seamless"></iframe>
+</body>
+</html>

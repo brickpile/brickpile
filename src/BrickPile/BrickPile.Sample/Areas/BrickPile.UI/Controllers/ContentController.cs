@@ -175,15 +175,21 @@ namespace BrickPile.UI.Controllers {
         [HttpGet]
         public ActionResult Delete(IPageModel model) {
 
-            //model.Metadata.IsDeleted = true;
-            //var parent = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(model.Parent.Id));
-            //return RedirectToAction("index", new { model = parent });
+            _repository.Delete(model);
+            _repository.SaveChanges();
 
-            return PartialView("Confirm", new ConfirmFormModel()
-                                       {
-                                           BackAction = "edit",
-                                           CurrentModel = model
-                                       });
+            if (model.Parent != null) {
+                var parent = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(model.Parent.Id));
+                return RedirectToAction("index", new { model = parent });
+            }
+            return RedirectToAction("index");  
+
+
+            //return PartialView("Confirm", new ConfirmFormModel()
+            //                           {
+            //                               BackAction = "edit",
+            //                               CurrentModel = model
+            //                           });
         }
         /// <summary>
         /// Deletes the specified confirm form model.
@@ -202,6 +208,9 @@ namespace BrickPile.UI.Controllers {
                 return RedirectToAction("index", new { model = parent });
             }
             return RedirectToAction("index");            
+        }
+        public ActionResult Preview() {
+            return View(new DashboardViewModel(_model,_structureInfo));
         }
         /// <summary>
         /// Sorts the specified items.

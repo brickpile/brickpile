@@ -1,0 +1,8 @@
+﻿.introduction span cufon {
+    background:none;
+    margin:0; 
+}
+body.caselist #content > p span cufon {
+    background:none; 
+    margin:0; 
+}

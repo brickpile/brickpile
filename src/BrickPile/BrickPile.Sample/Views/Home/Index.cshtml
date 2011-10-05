@@ -1,8 +1,47 @@
-﻿@model BrickPile.UI.Web.ViewModels.IViewModel<BrickPile.Domain.Models.IPageModel>
+﻿@model BrickPile.Sample.ViewModels.HomeViewModel
 @{
-    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>Home</h1>
 
-@Html.DisplayFor(model => model.CurrentModel.Metadata)
+<div id="push">
+	<a href="@Url.Action("index", new { model = Model.CurrentModel })"><img src="http://placehold.it/938x367" alt="" /></a>
+</div>
+
+<ul id="teasers">
+	<li>
+		<article>
+			<a href="">
+				<h1>Burro söker interaktionsdesigner</h1>
+				<p>Just nu letar vi efter en duktig och driven interaktionsdesigner.</p>
+				<img src="http://placehold.it/224x172">
+			</a>
+		</article>
+	</li>
+	<li>
+		<article>
+			<a href="">
+				<h1>Följ oss på Facebook</h1>
+				<p>Gilla Burro på Facebook för allt det senaste från oss.</p>
+				<img src="http://placehold.it/224x172">
+			</a>
+		</article>
+	</li>
+    <li>
+		<article>
+			<a href="">
+				<h1>Korpen+Burro=Sant!</h1>
+				<p>Motionsidrottsförbundet Korpen ger Burro fortsatt förtroende.</p>
+				<img src="http://placehold.it/224x172">
+			</a>
+		</article>
+	</li>
+	<li class="last">
+		<article>
+			<a href="">
+				<h1>Dubbel nominering i Svenska Designpriset</h1>
+				<p>Svenska designpriset har släppt sina nomineringar och Burro är dubbelt nominerade!</p>
+				<img src="http://placehold.it/224x172">
+			</a>
+		</article>
+	</li>
+</ul>

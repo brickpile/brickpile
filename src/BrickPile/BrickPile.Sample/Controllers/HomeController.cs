@@ -1,34 +1,28 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using BrickPile.Core.Infrastructure.Common;
+﻿using System.Web.Mvc;
 using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
+using BrickPile.Sample.ViewModels;
 using BrickPile.UI;
-using BrickPile.UI.Common;
-using BrickPile.UI.Web.ViewModels;
-using Raven.Client;
 
 namespace BrickPile.Sample.Controllers {
     public class HomeController : Controller {
-        private readonly IPageModel _model;
+        private readonly Home _model;
         private readonly IStructureInfo _structureInfo;
-        private readonly IDocumentSession _session;
-
+        /// <summary>
+        /// Indexes this instance.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index() {
-
-            _structureInfo.Hierarchy = _session
-                .LoadFrom<IPageModel>(x => x.Id == _model.Id)
-                //.Where(x => x.Metadata.IsPublished == true)
-                .OrderBy(x => x.Metadata.SortOrder)
-                .AsHierarchy();
-
-            return View(new DefaultViewModel<IPageModel>(_model,_structureInfo));
+            return View(new HomeViewModel(_model,_structureInfo){Class = "home"});
         }
-
-        public HomeController(IPageModel model, IStructureInfo structureInfo, IDocumentSession session) {
-            _model = model;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HomeController"/> class.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="structureInfo">The structure info.</param>
+        public HomeController(IPageModel model, IStructureInfo structureInfo) {
+            _model = model as Home;
             _structureInfo = structureInfo;
-            _session = session;
         }
     }
 }

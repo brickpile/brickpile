@@ -1,0 +1,27 @@
+﻿@model BrickPile.Sample.ViewModels.NewsListViewModel
+@using PagedList.Mvc
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ul>
+@foreach (var page in Model.NewsList) {
+    <li>
+        <article>
+            <header>
+                <span>@page.Metadata.Published.Value.ToShortDateString()</span>
+                <h1>@Html.ActionLink(page.Metadata.Name,"index", new { model = page })</h1>
+            <header>
+            <img src="http://placehold.it/204x152" />
+            <p>@Html.DisplayTextFor(x => page.MainIntro)</p>
+        </article>
+    </li>
+}
+</ul>
+
+@if (Model.NewsList.PageCount > 1) {
+    <div class="pager">
+        @Html.PagedListPager(Model.NewsList, page => Url.Action("index", new { model = Model.CurrentModel }), PagedListRenderOptions.PageNumbersOnly)
+    </div>
+}
+

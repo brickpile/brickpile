@@ -53,11 +53,11 @@
                 </div>
                 <div>
                     <div id="visible">
-                        @Html.LabelFor(model => model.NewPageModel.Metadata.DisplayInMenu)
+                        @Html.LabelFor(model => model.CurrentModel.Metadata.DisplayInMenu, "Visible in menu")
                         @Html.CheckBoxFor(model => model.NewPageModel.Metadata.DisplayInMenu)
                     </div>
                     <div id="ispublished">
-                        @Html.LabelFor(model => model.NewPageModel.Metadata.IsPublished)
+                        @Html.LabelFor(model => model.CurrentModel.Metadata.IsPublished,"Published")
                         @Html.CheckBoxFor(model => model.NewPageModel.Metadata.IsPublished)
                     </div>
                 </div>
