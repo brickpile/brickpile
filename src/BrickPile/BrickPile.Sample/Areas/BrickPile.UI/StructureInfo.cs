@@ -72,40 +72,23 @@ namespace BrickPile.UI {
             }
         }
         /// <summary>
-        ///   <see cref="StructureInfo.HierarchicalStructure"/>
+        /// Gets or sets the hierarchy.
         /// </summary>
-        public virtual IEnumerable<IHierarchyNode<IPageModel>> HierarchicalStructure {
+        /// <value>
+        /// The hierarchy.
+        /// </value>
+        public virtual IEnumerable<IHierarchyNode<IPageModel>> Hierarchy {
             get {
                 if (CurrentModel == null)
                     return null;
                 if (_hierarchicalStructure == null) {
-                    var items = new List<IPageModel>();
-                    items.AddRange(_session.Query<IPageModel>().GetChildren(CurrentModel).OrderBy(x => x.Metadata.SortOrder));
-                    var ancestors = GetAncestors(CurrentModel);
-                    foreach (var ancestor in ancestors) {
-                        items.AddRange(_session.Query<IPageModel>().GetChildren(ancestor).OrderBy(x => x.Metadata.SortOrder));
-                    }
-                    
-                    _hierarchicalStructure = items.CreateHierarchy(RootModel, 0);
+                    _hierarchicalStructure = _session.LoadFrom<IPageModel>(x => x.Id == CurrentModel.Id)
+                        .OrderBy(model => model.Metadata.SortOrder)
+                        .AsHierarchy();
                 }
                 return _hierarchicalStructure;
             }
-        }
-        /// <summary>
-        /// Gets the ancestors.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        /// <returns></returns>
-        private IEnumerable<IPageModel> GetAncestors(IPageModel item) {
-            var parent = item.Parent != null ? _session.Query<IPageModel>().SingleOrDefault(model => model.Id.Equals(item.Parent.Id)): null;
-            if (parent != null) {
-                yield return parent;
-                if (parent.Parent != null) {
-                    foreach (var ancestor in GetAncestors(parent)) {
-                        yield return ancestor;
-                    }
-                }
-            }
+            set { _hierarchicalStructure = value; }
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureInfo"/> class.

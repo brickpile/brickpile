@@ -1,10 +1,13 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.UI.Configuration;
+using Raven.Client;
 using StructureMap;
 
 namespace BrickPile.UI.Web.Mvc {
     public class BrickPileControllerFactory : DefaultControllerFactory {
+        private readonly IDocumentSession _session;
+        private static bool _hasConfiguration;
         /// <summary>
         /// Creates the specified controller by using the specified request context.
         /// </summary>
@@ -33,8 +36,17 @@ namespace BrickPile.UI.Web.Mvc {
         ///   <c>true</c> if this instance has configuration; otherwise, <c>false</c>.
         /// </returns>
         private bool HasConfiguration() {
-            var configuration = ObjectFactory.GetInstance<IConfiguration>();
-            return configuration != null;
+            if(!_hasConfiguration) {
+                var configuration = _session.Load<IConfiguration>("brickpile/configuration");
+                _hasConfiguration = configuration != null;
+            }
+            return _hasConfiguration;
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrickPileControllerFactory"/> class.
+        /// </summary>
+        public BrickPileControllerFactory() {
+            _session = ObjectFactory.GetInstance<IDocumentSession>();
         }
     }
 }

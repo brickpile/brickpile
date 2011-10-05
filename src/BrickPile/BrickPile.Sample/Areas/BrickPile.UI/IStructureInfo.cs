@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 using System.Collections.Generic;
+using System.Linq;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.UI {
@@ -38,8 +39,11 @@ namespace BrickPile.UI {
         /// </summary>
         IPageModel ParentModel { get; }
         /// <summary>
-        /// <see cref="StructureInfo.HierarchicalStructure"/>
+        /// Gets or sets the hierarchy.
         /// </summary>
-        IEnumerable<IHierarchyNode<IPageModel>> HierarchicalStructure { get; }
+        /// <value>
+        /// The hierarchy.
+        /// </value>
+        IEnumerable<IHierarchyNode<IPageModel>> Hierarchy { get; set; }
     }
 }

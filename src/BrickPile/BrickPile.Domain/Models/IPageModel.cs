@@ -41,13 +41,13 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// The ancestors.
         /// </value>
-        IPageModel[] Ancestors { get; set; }
+        IList<PageModel> Ancestors { get; }
         /// <summary>
         /// Gets or sets the children.
         /// </summary>
         /// <value>
         /// The children.
         /// </value>
-        IList<string> Children { get; }
+        List<string> Children { get; }
     }
 }

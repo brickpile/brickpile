@@ -19,7 +19,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -34,39 +33,42 @@ using BrickPile.UI.Web.Routing;
 namespace BrickPile.UI.Common {
     public static class Extensions {
         /// <summary>
-        /// Creates an hierarchical structure of <see cref="IPageModel"/> objects used in navigation scenarios.
+        /// Creates the hierarchy.
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="allItems">All items.</param>
-        /// <param name="rootPage">Collection to create the hierarchy from</param>
+        /// <param name="parentItem">The parent item.</param>
         /// <param name="depth">The depth.</param>
         /// <returns></returns>
-        public static IEnumerable<HierarchyNode<TEntity>> CreateHierarchy<TEntity>(this IEnumerable<TEntity> allItems, TEntity rootPage, int depth) where TEntity : IPageModel {
+        private static IEnumerable<HierarchyNode<TEntity>> CreateHierarchy<TEntity>(IEnumerable<TEntity> allItems, TEntity parentItem, int depth) where TEntity : class, IPageModel {
 
-            //if(depth == 0) {
-            //    yield return new HierarchyNode<TEntity>
-            //    {
-            //        Entity = rootPage,
-            //        ChildNodes = CreateHierarchy(allItems, rootPage, depth++),
-            //        Depth = depth,
-            //        Expanded = allItems.Where(x => x.Parent.Id.Equals(rootPage.Id)).Count() > 0
-            //    };
-            //    //depth++;
-            //}
+            if (parentItem == null)
+                parentItem = allItems.Where(i => i.Parent == null).SingleOrDefault();
 
-            var childs = allItems.Where(x => x.Parent.Id.Equals(rootPage.Id));
+            IEnumerable<TEntity> childs = allItems.Where(i => i.Parent != null && i.Parent.Id.Equals(parentItem.Id));
 
             if (childs.Count() > 0) {
                 depth++;
+
                 foreach (var item in childs)
-                    yield return new HierarchyNode<TEntity>
-                    {
-                        Entity = item,
-                        ChildNodes = CreateHierarchy(allItems, item, depth),
-                        Depth = depth,
-                        Expanded = allItems.Where(x => x.Parent.Id.Equals(item.Id)).Count() > 0
-                    };
+                    yield return
+                        new HierarchyNode<TEntity>()
+                            {
+                                Entity = item,
+                                ChildNodes = CreateHierarchy(allItems, item, depth),
+                                Depth = depth,
+                                Expanded = allItems.Where(x => x.Parent != null && x.Parent.Id.Equals(item.Id)).Count() > 0
+                            };
             }
+        }
+        /// <summary>
+        /// Ases the hierarchy.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity.</typeparam>
+        /// <param name="allItems">All items.</param>
+        /// <returns></returns>
+        public static IEnumerable<HierarchyNode<TEntity>> AsHierarchy<TEntity>(this IEnumerable<TEntity> allItems) where TEntity : class, IPageModel {
+            return CreateHierarchy(allItems, default(TEntity), 0);
         }
         /// <summary>
         /// Returns the controller name associated with this model

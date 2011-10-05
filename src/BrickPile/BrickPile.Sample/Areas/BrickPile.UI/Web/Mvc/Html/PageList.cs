@@ -26,9 +26,10 @@ using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Web.Mvc.Html {
     public static class PageListExtension {
+
         public static string PageList(this HtmlHelper helper, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent) {
 
-            var node = structureInfo.HierarchicalStructure.SingleOrDefault(x => x.Entity.Id == structureInfo.CurrentModel.Id);
+            var node = structureInfo.Hierarchy.SingleOrDefault(x => x.Entity.Id == structureInfo.CurrentModel.Id);
 
             if(node == null || node.ChildNodes == null || node.ChildNodes.Count() == 0) {
                 return string.Empty;
@@ -42,8 +43,10 @@ namespace BrickPile.UI.Web.Mvc.Html {
             sb.AppendLine("</table>");
             return sb.ToString();           
         }
+
         private static void RenderLi(StringBuilder sb, string format, IPageModel item, Func<IPageModel, MvcHtmlString> itemContent) {
             sb.AppendFormat(format, itemContent(item));
         }
+
     }
 }

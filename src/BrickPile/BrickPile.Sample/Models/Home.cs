@@ -9,6 +9,7 @@ namespace BrickPile.Sample.Models {
         [Display(Name="Heading", Description="The heading...", GroupName="Group1")]
         public string Heading { get; set; }
 
+        [Required]
         public string Heading1 { get; set; }
 
         [Display(Name = "Body", Description = "The body...", GroupName = "Group1")]

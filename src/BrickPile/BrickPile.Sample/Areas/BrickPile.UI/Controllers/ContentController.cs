@@ -110,7 +110,7 @@ namespace BrickPile.UI.Controllers {
             if (ModelState.IsValid) {
                 var parent = model as IPageModel;
                 // create a new page from the selected page model
-                var page = Activator.CreateInstance(Type.GetType(newModel.SelectedPageModel)) as IPageModel;
+                var page = Activator.CreateInstance(Type.GetType(newModel.SelectedPageModel)) as dynamic;
                 if (page == null) {
                     throw new BrickPileException("The selected page model is not valid!");
                 }
@@ -125,15 +125,14 @@ namespace BrickPile.UI.Controllers {
         [HttpPost]
         [ValidateInput(false)]
         public virtual ActionResult Save(dynamic newPageModel, dynamic model) {
+
             if (ModelState.IsValid) {
                 var parent = model as IPageModel;
                 // create a new page from the new model
-                var page = Activator.CreateInstance(Type.GetType(Request.Form["AssemblyQualifiedName"])) as IPageModel;
-
+                var page = Activator.CreateInstance(Type.GetType(Request.Form["AssemblyQualifiedName"])) as dynamic;
                 if (page == null) {
                     throw new BrickPileException("The selected page model is not valid!");
                 }
-
                 // Update all values
                 UpdateModel(page, "NewPageModel");
                 // Store the new page

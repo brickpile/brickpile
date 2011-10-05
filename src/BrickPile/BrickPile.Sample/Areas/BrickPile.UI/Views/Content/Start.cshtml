@@ -5,14 +5,15 @@
     Layout = "~/Areas/BrickPile.UI/Views/Shared/_Layout.cshtml";
 }
 
-@section Navigation {
+@*section Navigation {
     <ul>
         <li>@Html.ActionLink("Dashboard", "index", "dashboard", null, new { @class = "dashboard" })</li>
         <li>@Html.ActionLink("Content", "index", "content", null, new { @class = "content selected" })</li>
     </ul>
-}
+}*@
 
 <h1>It's time to create your first page</h1>
+
 @using (Html.BeginForm("new", "content")) {
     <div>
         <fieldset>

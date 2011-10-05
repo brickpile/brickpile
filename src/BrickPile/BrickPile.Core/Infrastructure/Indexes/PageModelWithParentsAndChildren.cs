@@ -8,7 +8,7 @@ namespace BrickPile.Core.Infrastructure.Indexes {
         public PageModelWithParentsAndChildren() {
 
             Map = pages => from page in pages
-                           select new { page.Id, page.Metadata.Name };
+                           select new { page.Id, page.Children, page.Metadata.Name, page.Metadata.IsPublished };
 
             TransformResults = (database, pages) => from page in pages
                                                     let ancestors = Recurse(page, c => database.Load<IPageModel>(c.Parent.Id))
@@ -16,7 +16,6 @@ namespace BrickPile.Core.Infrastructure.Indexes {
                                                     {
                                                         page.Id,
                                                         page.Metadata.Name,
-                                                        //page.Parent.Id,
                                                         Ancestors =
                                                         (
                                                            from ancestor in ancestors
@@ -25,8 +24,9 @@ namespace BrickPile.Core.Infrastructure.Indexes {
                                                                ancestor.Id,
                                                                ancestor.Metadata.Name,
                                                                ancestor.Children
-                                                           })
+                                                           }),
+                                                        page.Children
                                                     };
         }
-        }
+    }
 }

@@ -11,7 +11,10 @@
 </head>
 
 <body>
+    <h2>Top menu</h2>
     @Html.Raw(Html.Menu(Model.StructureInfo,page => Html.ActionLink(page)))
+    <h2>Sub menu</h2>
+    @Html.Raw(Html.SubMenu(Model.StructureInfo,page => Html.ActionLink(page)))
     @RenderBody()
 </body>
 </html>

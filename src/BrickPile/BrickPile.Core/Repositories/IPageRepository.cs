@@ -24,12 +24,6 @@ using BrickPile.Domain.Models;
 namespace BrickPile.Core.Repositories {
     public interface IPageRepository : IRepository<IPageModel> {
         /// <summary>
-        /// Childrens the specified parent.
-        /// </summary>
-        /// <param name="parent">The parent.</param>
-        /// <returns></returns>
-        IEnumerable<IPageModel> GetChildren(IPageModel parent);
-        /// <summary>
         /// Bies the URL.
         /// </summary>
         /// <typeparam name="T"></typeparam>

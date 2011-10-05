@@ -75,12 +75,12 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="selectedItemContent">Content for selected links</param>
         /// <returns></returns>
         public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
-            if(structureInfo.HierarchicalStructure == null) {
+            if (structureInfo.Hierarchy == null) {
                 return String.Empty;
             }
 
             // only render the top level items
-            var items = structureInfo.HierarchicalStructure.Where(x => x.Depth == 1);
+            var items = structureInfo.Hierarchy.Where(x => x.Depth == 1);
 
             var sb = new StringBuilder();
             if(string.IsNullOrEmpty(id)) {

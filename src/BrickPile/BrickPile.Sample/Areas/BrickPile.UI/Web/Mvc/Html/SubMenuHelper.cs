@@ -63,7 +63,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="selectedItemContent">A lambda expression defining the content in each selected tree node</param>
         /// <returns></returns>
         public static string SubMenu(this HtmlHelper html, string id, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
-            var item = structureInfo.HierarchicalStructure.Where(x => x.Expanded).SingleOrDefault();
+            var item = structureInfo.Hierarchy.Where(x => x.Expanded).SingleOrDefault();
 
             if (item == null || item.ChildNodes.Count() == 0)
                 return string.Empty;

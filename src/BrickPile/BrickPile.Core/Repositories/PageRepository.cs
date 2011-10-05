@@ -32,33 +32,15 @@ namespace BrickPile.Core.Repositories {
     public class PageRepository : Repository<IPageModel>, IPageRepository {
         private readonly IDocumentSession _documentSession;
         /// <summary>
-        /// Get all children of a specific page
-        /// </summary>
-        /// <param name="parent">The parent.</param>
-        /// <returns></returns>
-        public IEnumerable<IPageModel> GetChildren(IPageModel parent) {
-            //return _documentSession.Query<IPageModel>("Documents/ByParent")
-            //    .Where(x => x.Id == parent.Id)
-            //    .OrderBy(x => x.Metadata.SortOrder);
-            return _documentSession.Advanced.LuceneQuery<IPageModel>("Documents/ByParent")
-                .Where("Id:" + parent.Id)
-                .WaitForNonStaleResultsAsOfNow()
-                .OrderBy(x => x.Metadata.SortOrder)
-                .ToArray();
-        }
-        /// <summary>
         /// Get a page by the url
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="url">The URL.</param>
         /// <returns></returns>
         public T GetPageByUrl<T>(string url) where T : IPageModel {
-            //return _documentSession.Query<T>("Document/ByUrl")
-            //    .Where(x => x.Metadata.Url == url)
-            //    .FirstOrDefault();
-            return _documentSession.Advanced.LuceneQuery<T>("Document/ByUrl")
-                .Where("Url:" + url)
-                .WaitForNonStaleResultsAsOfNow()
+            return _documentSession.Query<T>("Document/ByUrl")
+                .Customize(x => x.WaitForNonStaleResultsAsOfNow())
+                .Where(x => x.Metadata.Url == url)
                 .FirstOrDefault();
         }
         /// <summary>

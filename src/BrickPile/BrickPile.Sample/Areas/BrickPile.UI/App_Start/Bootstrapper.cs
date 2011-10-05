@@ -31,6 +31,7 @@ using BrickPile.UI.Models;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
 using Raven.Client;
+using Raven.Client.Document;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 using StructureMap;
@@ -49,8 +50,9 @@ namespace BrickPile.UI.App_Start {
         public static IContainer Initialize() {
             
             ObjectFactory.Initialize(x => {
-                var documentStore = new EmbeddableDocumentStore { ConnectionStringName = "RavenDB" };
-                
+
+                var documentStore = new DocumentStore { ConnectionStringName = "RavenDB" };
+
                 documentStore.Initialize();
                 documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "pages" : null;
 
@@ -64,14 +66,6 @@ namespace BrickPile.UI.App_Start {
                     {
                         var store = y.GetInstance<IDocumentStore>();
                         return store.OpenSession();
-                    });
-
-                x.For<IConfiguration>()
-                    .HybridHttpOrThreadLocalScoped()
-                    .Use(y =>
-                    {
-                        var session = y.GetInstance<IDocumentSession>();
-                        return session.Load<IConfiguration>("brickpile/configuration");
                     });
 
                 x.For<IVirtualPathResolver>().Use<VirtualPathResolver>();

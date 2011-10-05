@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exception\BrickPileException.cs" />
+    <Compile Include="Infrastructure\Common\DocumentSessionExtensions.cs" />
     <Compile Include="Infrastructure\Common\QueryableExtensions.cs" />
     <Compile Include="Infrastructure\Indexes\Documents_ByParent.cs" />
     <Compile Include="Infrastructure\Indexes\Document_ByUrl.cs" />

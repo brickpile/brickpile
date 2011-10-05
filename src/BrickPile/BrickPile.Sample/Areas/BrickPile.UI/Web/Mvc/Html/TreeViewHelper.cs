@@ -32,14 +32,14 @@ namespace BrickPile.UI.Web.Mvc.Html {
         //* *******************************************************************/
         public static string TreeView<T>(this HtmlHelper html, T currentItem, IStructureInfo structureInfo, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent) where T : IPageModel {
 
-            if (structureInfo.HierarchicalStructure == null)
+            if (structureInfo.Hierarchy == null)
                 return string.Empty;
 
             var sb = new StringBuilder();
             sb.AppendLine("<ul>");
             RenderLi(sb, (T)structureInfo.RootModel, structureInfo.RootModel.Equals(currentItem) ? selectedItemContent : itemContent);
 
-            var items = structureInfo.HierarchicalStructure.Where(x => x.Depth == 1);
+            var items = structureInfo.Hierarchy.Where(x => x.Depth == 1);
 
             if(items.Count() < 1) {
                 sb.AppendLine("</ul></li>");
