@@ -53,6 +53,27 @@ Dashboard.prototype = {
             }
         });
     },
+    remove: function ($anchor) {
+        var self = this;
+        var $row = $anchor.closest('tr');
+        $.ajax({
+            url: '/dashboard/content/delete',
+            type: 'POST',
+            dataType: 'html',
+            data: { id: $row.attr('id') },
+            success: function (data) {
+                $row.fadeTo('fast', 0.33);
+                var $growl = $('<aside />');
+                $('body').append($growl)
+                $growl.hide().html(data).fadeIn('fast');
+                $('html').mousemove(function () {
+                    $growl.delay(3000).fadeOut('fast', function () {
+                        $(this).remove();
+                    });
+                });
+            }
+        });
+    },
     browse: function ($anchor) {
         var self = this;
         $.ajax({
@@ -60,32 +81,32 @@ Dashboard.prototype = {
             dataType: 'html',
             success: function (data) {
                 $('body').append(data);
-//                var $dialog = $('div.overlay aside');
-//                $dialog.click(function (event) {
-//                    event.stopPropagation();
-//                });
-//                var $overlay = $('div.overlay');
-//                 $('body').click(function () {
-//                    $overlay.fadeOut('fast', function () {
-//                        $overlay.remove();
-//                    });
-//                });
-//                $dialog.find('a.close').click(function () {
-//                    $overlay.fadeOut('fast', function () {
-//                        $overlay.remove();
-//                    });
-//                    return false;
-//                });
-//                $('div.overlay aside tr').click(function (event) {
-//                    $('div.overlay aside tr').removeClass('selected');
-//                    $(this).toggleClass('selected');
-//                });
-//                $('div.overlay aside td .insert').click(function () {
-//                    $anchor.parent().parent().parent().find('input:hidden').val($(this).attr('data-val'));
-//                    $('div.overlay').remove();
-//                    $anchor.parent().parent().find('img').attr('src', $(this).attr('data-val'));
-//                    return false;
-//                });
+                //                var $dialog = $('div.overlay aside');
+                //                $dialog.click(function (event) {
+                //                    event.stopPropagation();
+                //                });
+                //                var $overlay = $('div.overlay');
+                //                 $('body').click(function () {
+                //                    $overlay.fadeOut('fast', function () {
+                //                        $overlay.remove();
+                //                    });
+                //                });
+                //                $dialog.find('a.close').click(function () {
+                //                    $overlay.fadeOut('fast', function () {
+                //                        $overlay.remove();
+                //                    });
+                //                    return false;
+                //                });
+                //                $('div.overlay aside tr').click(function (event) {
+                //                    $('div.overlay aside tr').removeClass('selected');
+                //                    $(this).toggleClass('selected');
+                //                });
+                //                $('div.overlay aside td .insert').click(function () {
+                //                    $anchor.parent().parent().parent().find('input:hidden').val($(this).attr('data-val'));
+                //                    $('div.overlay').remove();
+                //                    $anchor.parent().parent().find('img').attr('src', $(this).attr('data-val'));
+                //                    return false;
+                //                });
             }
         });
     }
@@ -96,6 +117,7 @@ $(document).ready(function () {
     Dashboard = new Dashboard();
     $('.add a').live('click', function () { Dashboard.add($(this)); return false; });
     $('.publish').live('click', function () { Dashboard.publish($(this)); });
+    $('.delete').live('click', function () { Dashboard.remove($(this)); return false; });
     $('.browse').live('click', function () { Dashboard.browse($(this)); });
 
     $("#pages table tbody").sortable({

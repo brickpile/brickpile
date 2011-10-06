@@ -160,29 +160,39 @@ namespace BrickPile.UI.Controllers {
         /// </summary>
         /// <returns></returns>
         public virtual ActionResult Publish(string id, bool published) {
+
             var model = _repository.SingleOrDefault<IPageModel>(m => m.Id == id.Replace("_","/"));
             model.Metadata.IsPublished = published;
             model.Metadata.Changed = DateTime.Now;
             _repository.SaveChanges();
 
-            return PartialView("Growl", published);
+            ViewBag.Heading = published ? "Publish succeeded" : "Unpublish succeeded";
+            ViewBag.Message = published ? "The page was successfully published" : "The page was successfully unpublished";
+
+            return PartialView("Growl", ViewBag);
 
         }
         /// <summary>
         /// Deletes the specified model.
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public ActionResult Delete(IPageModel model) {
+        [HttpPost]
+        public ActionResult Delete(string id) {
 
-            _repository.Delete(model);
+            var model = _repository.SingleOrDefault<IPageModel>(m => m.Id == id.Replace("_", "/"));
+            model.Metadata.IsDeleted = true;
             _repository.SaveChanges();
 
-            if (model.Parent != null) {
-                var parent = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(model.Parent.Id));
-                return RedirectToAction("index", new { model = parent });
-            }
-            return RedirectToAction("index");  
+            ViewBag.Heading = "Delete succeeded";
+            ViewBag.Message = "The page was successfully deleted";
+
+            return PartialView("Growl", ViewBag);
+
+            //if (model.Parent != null) {
+            //    var parent = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(model.Parent.Id));
+            //    return RedirectToAction("index", new { model = parent });
+            //}
+            //return RedirectToAction("index");  
 
 
             //return PartialView("Confirm", new ConfirmFormModel()
@@ -197,18 +207,18 @@ namespace BrickPile.UI.Controllers {
         /// <param name="confirmFormModel">The confirm form model.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        [HttpPost]
-        public ActionResult Delete(ConfirmFormModel confirmFormModel, IPageModel model) {
+        //[HttpPost]
+        //public ActionResult Delete(ConfirmFormModel confirmFormModel, IPageModel model) {
 
-            _repository.Delete(model);
-            _repository.SaveChanges();
+        //    _repository.Delete(model);
+        //    _repository.SaveChanges();
 
-            if (model.Parent != null) {
-                var parent = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(model.Parent.Id));
-                return RedirectToAction("index", new { model = parent });
-            }
-            return RedirectToAction("index");            
-        }
+        //    if (model.Parent != null) {
+        //        var parent = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(model.Parent.Id));
+        //        return RedirectToAction("index", new { model = parent });
+        //    }
+        //    return RedirectToAction("index");            
+        //}
         public ActionResult Preview() {
             return View(new DashboardViewModel(_model,_structureInfo));
         }
