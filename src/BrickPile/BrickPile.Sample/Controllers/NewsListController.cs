@@ -21,7 +21,7 @@ namespace BrickPile.Sample.Controllers {
         public ActionResult Index(int? page) {
             var news = _session.Query<IPageModel>()
                 .Where(model => model.Parent.Id == _model.Id)
-                .OfType<News>();  // query all case pages below the news list
+                .OfType<News>();  // query all news pages below the news list
 
             var pageIndex = page ?? 1; // if no page was specified in the querystring, default to page 1
             var onePageOfNews = news.ToPagedList(pageIndex, 10); // will only contain 10 news per page

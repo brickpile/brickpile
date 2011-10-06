@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using BrickPile.Domain.Models;
 using Raven.Client;
 
 namespace BrickPile.Core.Repositories {
@@ -35,7 +34,9 @@ namespace BrickPile.Core.Repositories {
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
         public T SingleOrDefault<T>(Expression<Func<T, bool>> predicate) {
-            return _documentSession.Query<T>().SingleOrDefault(predicate);
+            return _documentSession.Query<T>()
+                .Customize(x => x.WaitForNonStaleResultsAsOfNow())
+                .SingleOrDefault(predicate);
         }
         /// <summary>
         /// Loads the specified ids.
@@ -52,7 +53,8 @@ namespace BrickPile.Core.Repositories {
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public IEnumerable<T> List<T>() {
-            return _documentSession.Query<T>();
+            return _documentSession.Query<T>()
+                .Customize(x => x.WaitForNonStaleResultsAsOfNow());
         }
         /// <summary>
         /// Stores the specified entity.

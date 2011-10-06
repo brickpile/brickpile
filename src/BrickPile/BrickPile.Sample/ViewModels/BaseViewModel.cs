@@ -31,7 +31,7 @@ namespace BrickPile.Sample.ViewModels {
         protected BaseViewModel(TModel model, IStructureInfo structureInfo) : base(model, structureInfo) {
             var page = model as BaseModel;
             if (page != null) {
-                Title = "Burro" + " - " + page.Title;
+                Title = "Burro" + " - " + page.Metadata.Title;
             }
         }
     }

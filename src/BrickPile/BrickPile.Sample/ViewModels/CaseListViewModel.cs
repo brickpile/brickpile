@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using BrickPile.Sample.Models;
+﻿using BrickPile.Sample.Models;
 using BrickPile.UI;
 
 namespace BrickPile.Sample.ViewModels {

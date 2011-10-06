@@ -22,6 +22,7 @@ using System;
 using Newtonsoft.Json.Linq;
 using Raven.Abstractions.Data;
 using Raven.Database.Plugins;
+using Raven.Json.Linq;
 
 namespace BrickPile.Raven.Plugins.Triggers {
     /// <summary>
@@ -47,7 +48,7 @@ namespace BrickPile.Raven.Plugins.Triggers {
             if (queryResult.Results.Count > 0) {
                 foreach (var result in queryResult.Results) {
 
-                    var metadataJObject = result.Value<JObject>("@metadata");
+                    var metadataJObject = result.Value<RavenJObject>("@metadata");
 
                     if (metadataJObject != null)
                     {

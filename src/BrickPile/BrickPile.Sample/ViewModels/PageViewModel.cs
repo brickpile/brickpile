@@ -8,6 +8,6 @@ namespace BrickPile.Sample.ViewModels {
         /// </summary>
         /// <param name="model">The model.</param>
         /// <param name="structureInfo">The structure info.</param>
-        public PageViewModel(Page model, IStructureInfo structureInfo) : base(model, structureInfo) {}
+        public PageViewModel(Page model, IStructureInfo structureInfo) : base(model, structureInfo) { }
     }
 }

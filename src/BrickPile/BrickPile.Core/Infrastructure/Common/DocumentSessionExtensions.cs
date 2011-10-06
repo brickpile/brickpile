@@ -33,7 +33,7 @@ namespace BrickPile.Core.Infrastructure.Common {
                 }
             }
 
-            return session.Query<T>().Where(x => x.Id.In(ids));
+            return session.Query<T>().Customize(x => x.WaitForNonStaleResultsAsOfNow()).Where(x => x.Id.In(ids));
         }
 
     }

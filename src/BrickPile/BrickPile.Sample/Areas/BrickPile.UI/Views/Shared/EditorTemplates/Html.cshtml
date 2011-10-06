@@ -1,12 +1,15 @@
 ﻿
 @model string
+@{
+    var HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace('.', '_');
+}
 
-@Html.TextAreaFor(x => Model, 20, 60, new { @class = "tinymce" })           
+@Html.TextAreaFor(x => Model, 20, 60, new { @class = @HtmlFieldPrefix })           
 
 <script type="text/javascript">
     tinyMCE.init({
         mode: "textareas",
-        editor_selector: "tinymce",
+        editor_selector: "@HtmlFieldPrefix",
         theme: "advanced",
         skin: "cirkuit",
         plugins: "paste",
