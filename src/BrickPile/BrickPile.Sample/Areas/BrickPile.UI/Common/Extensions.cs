@@ -45,6 +45,9 @@ namespace BrickPile.UI.Common {
             if (parentItem == null)
                 parentItem = allItems.Where(i => i.Parent == null).SingleOrDefault();
 
+            if(parentItem == null) {
+                yield break;
+            }
             IEnumerable<TEntity> childs = allItems.Where(i => i.Parent != null && i.Parent.Id.Equals(parentItem.Id));
 
             if (childs.Count() > 0) {

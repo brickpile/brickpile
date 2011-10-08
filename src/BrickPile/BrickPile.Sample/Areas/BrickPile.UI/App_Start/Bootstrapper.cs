@@ -28,7 +28,6 @@ using BrickPile.UI.Models;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
 using Raven.Client;
-using Raven.Client.Document;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 using StructureMap;
@@ -48,7 +47,7 @@ namespace BrickPile.UI.App_Start {
             
             ObjectFactory.Initialize(x => {
 
-                var documentStore = new DocumentStore { ConnectionStringName = "RavenDB" };
+                var documentStore = new EmbeddableDocumentStore { ConnectionStringName = "RavenDB" };
 
                 documentStore.Initialize();
                 documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "pages" : null;

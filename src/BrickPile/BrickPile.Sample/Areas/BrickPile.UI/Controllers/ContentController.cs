@@ -24,10 +24,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Exception;
+using BrickPile.Core.Infrastructure.Common;
 using BrickPile.Core.Repositories;
 using BrickPile.Domain.Models;
+using BrickPile.UI.Common;
 using BrickPile.UI.Models;
 using BrickPile.UI.Web.ViewModels;
+using Raven.Client;
 
 namespace BrickPile.UI.Controllers {
     [Authorize]
@@ -35,6 +38,7 @@ namespace BrickPile.UI.Controllers {
         
         private readonly dynamic _model;
         private readonly IRepository<IPageModel> _repository;
+        private readonly IDocumentSession _session;
         private readonly IStructureInfo _structureInfo;
         /// <summary>
         /// Default action
@@ -44,15 +48,27 @@ namespace BrickPile.UI.Controllers {
         /// </returns>
         public ActionResult Index() {
             if (_model != null && _model is IPageModel) {
+                _structureInfo.Hierarchy = _session.LoadFrom<IPageModel>(x => x.Id == _model.Id).AsHierarchy();
                 var viewModel = new DashboardViewModel(_model, _structureInfo);
                 ViewBag.Class = "content";
                 return View("Index", viewModel);
+
             }
-            
             // assume we ain't got any pages
             ViewBag.Class = "start";
             return View("Start", new NewModel());
         }
+        /// <summary>
+        /// Views the deleted.
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ShowDeleted() {
+            _structureInfo.Hierarchy = _session.LoadFrom<IPageModel>(x => x.Id == _model.Id).AsHierarchy();
+            var viewModel = new DashboardViewModel(_model, _structureInfo);
+            ViewBag.Class = "content";
+            return View("Index", viewModel);
+        }
+
         /// <summary>
         /// Responsible for providing the Edit view with data from the current page
         /// </summary>
@@ -187,38 +203,19 @@ namespace BrickPile.UI.Controllers {
             ViewBag.Message = "The page was successfully deleted";
 
             return PartialView("Growl", ViewBag);
-
-            //if (model.Parent != null) {
-            //    var parent = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(model.Parent.Id));
-            //    return RedirectToAction("index", new { model = parent });
-            //}
-            //return RedirectToAction("index");  
-
-
-            //return PartialView("Confirm", new ConfirmFormModel()
-            //                           {
-            //                               BackAction = "edit",
-            //                               CurrentModel = model
-            //                           });
         }
-        /// <summary>
-        /// Deletes the specified confirm form model.
-        /// </summary>
-        /// <param name="confirmFormModel">The confirm form model.</param>
-        /// <param name="model">The model.</param>
-        /// <returns></returns>
-        //[HttpPost]
-        //public ActionResult Delete(ConfirmFormModel confirmFormModel, IPageModel model) {
+        [HttpPost]
+        public ActionResult UnDelete(string id) {
+            var model = _repository.SingleOrDefault<IPageModel>(m => m.Id == id.Replace("_", "/"));
+            model.Metadata.IsDeleted = false;
+            _repository.SaveChanges();
 
-        //    _repository.Delete(model);
-        //    _repository.SaveChanges();
+            ViewBag.Heading = "Undelete succeeded";
+            ViewBag.Message = "The page was successfully undeleted";
 
-        //    if (model.Parent != null) {
-        //        var parent = _repository.SingleOrDefault<IPageModel>(x => x.Id.Equals(model.Parent.Id));
-        //        return RedirectToAction("index", new { model = parent });
-        //    }
-        //    return RedirectToAction("index");            
-        //}
+            return PartialView("Growl", ViewBag);            
+        }
+
         public ActionResult Preview() {
             return View(new DashboardViewModel(_model,_structureInfo));
         }
@@ -243,9 +240,11 @@ namespace BrickPile.UI.Controllers {
         /// <param name="model">The model.</param>
         /// <param name="structureInfo">The structure info.</param>
         /// <param name="repository">The repository.</param>
-        public ContentController(IPageModel model, IStructureInfo structureInfo, IRepository<IPageModel> repository) {
+        /// <param name="session">The session.</param>
+        public ContentController(IPageModel model, IStructureInfo structureInfo, IRepository<IPageModel> repository, IDocumentSession session) {
             _model = model;
             _repository = repository;
+            _session = session;
             _structureInfo = structureInfo;
         }
     }

@@ -83,6 +83,9 @@ namespace BrickPile.UI {
                     return null;
                 if (_hierarchicalStructure == null) {
                     _hierarchicalStructure = _session.LoadFrom<IPageModel>(x => x.Id == CurrentModel.Id)
+                        .WherePageIsPublished()
+                        .WherePageIsVisibleInMenu()
+                        .Where(x => !x.Metadata.IsDeleted)
                         .OrderBy(model => model.Metadata.SortOrder)
                         .AsHierarchy();
                 }

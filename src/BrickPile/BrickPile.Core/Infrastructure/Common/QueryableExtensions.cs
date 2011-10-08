@@ -10,7 +10,15 @@ namespace BrickPile.Core.Infrastructure.Common {
         /// <param name="queryable">The queryable.</param>
         /// <returns></returns>
         public static IQueryable<IPageModel> WherePageIsPublished(this IQueryable<IPageModel> queryable) {
-            return queryable.Where(model => model.Metadata.IsPublished == true);
+            return queryable.Where(model => model.Metadata.IsPublished);
+        }
+        /// <summary>
+        /// Wheres the visible in menu.
+        /// </summary>
+        /// <param name="queryable">The queryable.</param>
+        /// <returns></returns>
+        public static IQueryable<IPageModel> WherePageIsVisibleInMenu(this IQueryable<IPageModel> queryable) {
+            return queryable.Where(model => model.Metadata.DisplayInMenu);
         }
     }
 }

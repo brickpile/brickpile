@@ -1,4 +1,4 @@
-﻿var Dashboard = function (config) {
+﻿ var Dashboard = function (config) {
     this.init(config);
     return this;
 };
@@ -62,7 +62,29 @@ Dashboard.prototype = {
             dataType: 'html',
             data: { id: $row.attr('id') },
             success: function (data) {
-                $row.fadeTo('fast', 0.33);
+                $row.fadeTo('fast', 0);
+                $row.slideUp('fast');
+                var $growl = $('<aside />');
+                $('body').append($growl)
+                $growl.hide().html(data).fadeIn('fast');
+                $('html').mousemove(function () {
+                    $growl.delay(3000).fadeOut('fast', function () {
+                        $(this).remove();
+                    });
+                });
+            }
+        });
+    },
+    undelete: function ($anchor) {
+        var self = this;
+        var $row = $anchor.closest('tr');
+        $.ajax({
+            url: '/dashboard/content/undelete',
+            type: 'POST',
+            dataType: 'html',
+            data: { id: $row.attr('id') },
+            success: function (data) {
+                $row.fadeTo('fast', 1);
                 var $growl = $('<aside />');
                 $('body').append($growl)
                 $growl.hide().html(data).fadeIn('fast');
@@ -118,6 +140,7 @@ $(document).ready(function () {
     $('.add a').live('click', function () { Dashboard.add($(this)); return false; });
     $('.publish').live('click', function () { Dashboard.publish($(this)); });
     $('.delete').live('click', function () { Dashboard.remove($(this)); return false; });
+    $('.undelete').live('click', function () { Dashboard.undelete($(this)); return false; });
     $('.browse').live('click', function () { Dashboard.browse($(this)); });
 
     $("#pages table tbody").sortable({

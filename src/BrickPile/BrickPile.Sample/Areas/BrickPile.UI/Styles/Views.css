@@ -215,7 +215,11 @@ body.content span.add  {
     right:20px;
     top:4px;
 }
-
+body.content span.showdeleted  {
+    position:absolute;
+    right:64px;
+    top:4px;
+}
 body.content a.button {
     background:-moz-linear-gradient(top, #d3d2d1 0%, #afafaf 100%);
     background:-webkit-linear-gradient(top, #d3d2d1 0%,#afafaf 100%);

@@ -6,6 +6,7 @@ using BrickPile.UI.Controllers;
 using BrickPile.UI.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
+using Raven.Client;
 
 namespace BrickPile.Tests.Controllers {
     public class ContentControllerTests {
@@ -17,10 +18,11 @@ namespace BrickPile.Tests.Controllers {
             var model = new Mock<IPageModel>();
             var pageRepository = new Mock<IPageRepository>();
             var structureInfo = new Mock<IStructureInfo>();
+            var documentSession = new Mock<IDocumentSession>();
 
             pageRepository.Setup(x => x.SingleOrDefault<IPageModel>(page => page.Parent == null)).Returns(model.Object);
 
-            var controller = new ContentController(model.Object, structureInfo.Object, pageRepository.Object);
+            var controller = new ContentController(model.Object, structureInfo.Object, pageRepository.Object, documentSession.Object);
 
             // Act
             var result = controller.Index() as ViewResult;
