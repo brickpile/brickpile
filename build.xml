@@ -71,6 +71,22 @@
       </preNuget>
     </item>
     <item name="BrickPile-Sample">
-    </item>    
+      <preNuget>
+        
+        <property name="l_rootFolder" value="${action.workDir}/BrickPile"/>
+        
+        <mkdir dir="${l_rootFolder}/lib"/>
+        <mkdir dir="${l_rootFolder}/content"/>
+
+        <copy todir="${l_rootFolder}/content/">
+          <fileset basedir="${project.baseDir}/BrickPile.Sample">
+            <include name="Views/**/*" />
+            <include name="Scripts/**/*" />
+            <include name="Content/**/*" />
+          </fileset>
+        </copy>
+
+      </preNuget>
+    </item>
   </items>
 </project>
