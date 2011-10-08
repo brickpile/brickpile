@@ -48,7 +48,10 @@ namespace BrickPile.UI.Controllers {
         /// </returns>
         public ActionResult Index() {
             if (_model != null && _model is IPageModel) {
-                _structureInfo.Hierarchy = _session.LoadFrom<IPageModel>(x => x.Id == _model.Id).AsHierarchy();
+                _structureInfo.Hierarchy = _session.LoadFrom<IPageModel>(x => x.Id == _model.Id)
+                    .Where(x => !x.Metadata.IsDeleted)
+                    .OrderBy(x => x.Metadata.SortOrder)
+                    .AsHierarchy();
                 var viewModel = new DashboardViewModel(_model, _structureInfo);
                 ViewBag.Class = "content";
                 return View("Index", viewModel);
@@ -63,7 +66,9 @@ namespace BrickPile.UI.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult ShowDeleted() {
-            _structureInfo.Hierarchy = _session.LoadFrom<IPageModel>(x => x.Id == _model.Id).AsHierarchy();
+            _structureInfo.Hierarchy = _session.LoadFrom<IPageModel>(x => x.Id == _model.Id)
+                .OrderBy(x => x.Metadata.SortOrder)
+                .AsHierarchy();
             var viewModel = new DashboardViewModel(_model, _structureInfo);
             ViewBag.Class = "content";
             return View("Index", viewModel);

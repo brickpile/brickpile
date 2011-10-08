@@ -23,9 +23,16 @@
                  @Html.ActionLink(Model.StructureInfo.ParentModel)
             </span>
         }
-        <span class="button showdeleted">
-            <a href="@Url.Action("showdeleted", "content", new { model = Model.CurrentModel })">Show deleted pages</a>
-        </span>
+        @if (HttpContext.Current.Request.Path.Contains("showdeleted")) {
+            <span class="button showdeleted">
+                <a href="@Url.Action("index", "content", new { model = Model.CurrentModel })">Hide deleted pages</a>
+            </span>
+        } else {
+            <span class="button showdeleted">
+                <a href="@Url.Action("showdeleted", "content", new { model = Model.CurrentModel })">Show deleted pages</a>
+            </span>
+        }
+
         <span class="button add">
             <a href="@Url.Action("add", "content", new { model = Model.CurrentModel })">+</a>
         </span>
@@ -42,7 +49,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if(Model.StructureInfo.ParentModel == null) {
+                @if (Model.StructureInfo.ParentModel == null) {
                     <tr class="ui-state-disabled">
                         <td><span>&nbsp;</span></td>
                         <td class="name"><span>@Model.StructureInfo.RootModel.Metadata.Name</span></td>
@@ -59,8 +66,8 @@
                             </span>
                         </td>
                     </tr>
-                    foreach (var item in Model.StructureInfo.Hierarchy) {
-                        <tr id="@item.Entity.Id.Replace('/','_')" class="@(item.Entity.Metadata.IsDeleted ? "deleted" : "")">
+                                        foreach (var item in Model.StructureInfo.Hierarchy) {
+                        <tr id="@item.Entity.Id.Replace('/', '_')" class="@(item.Entity.Metadata.IsDeleted ? "deleted" : "")">
                             <td class="sort"><span><img src="/areas/brickpile.ui/images/sort.png" alt="Sort" /></span></td>
                             <td class="name"><span>@item.Entity.Metadata.Name</span></td>
                             <td><span>@item.Entity.Metadata.Slug</span></td>
@@ -69,9 +76,9 @@
                             <td class="actions">
                                 <span>
                                     <span>
-                                        <a href="@Url.Action("edit", new { model = item.Entity})"><img src="/areas/brickpile.ui/images/edit.png" alt="Edit page" /></a>
+                                        <a href="@Url.Action("edit", new { model = item.Entity })"><img src="/areas/brickpile.ui/images/edit.png" alt="Edit page" /></a>
                                         <a href="@Url.Action("preview", new { model = item.Entity })"><img src="/areas/brickpile.ui/images/preview.png" alt="Preview page" /></a>
-                                        @if(item.Entity.Metadata.IsDeleted) {
+                                        @if (item.Entity.Metadata.IsDeleted) {
                                             <a href="@Url.Action("undelete", new { model = item.Entity })" class="undelete"><img src="/areas/brickpile.ui/images/delete.png" alt="Undelete page" /></a>
                                         } else {
                                             <a href="@Url.Action("delete", new { model = item.Entity })" class="delete"><img src="/areas/brickpile.ui/images/delete.png" alt="Delete page" /></a>
@@ -81,7 +88,7 @@
                                 </span>
                             </td>
                         </tr>
-                    }
+                                        }
                 }
             
                 @{
@@ -99,7 +106,7 @@
                                         <span>
                                             <a href="@Url.Action("edit", new { model = item.Entity })"><img src="/areas/brickpile.ui/images/edit.png" alt="Edit page" /></a>
                                             <a href="@Url.Action("preview", new { model = item.Entity })"><img src="/areas/brickpile.ui/images/preview.png" alt="Preview page" /></a>
-                                            @if(item.Entity.Metadata.IsDeleted) {
+                                            @if (item.Entity.Metadata.IsDeleted) {
                                                 <a href="@Url.Action("undelete", new { model = item.Entity })" class="undelete"><img src="/areas/brickpile.ui/images/delete.png" alt="Undelete page" /></a>
                                             } else {
                                                 <a href="@Url.Action("delete", new { model = item.Entity })" class="delete"><img src="/areas/brickpile.ui/images/delete.png" alt="Delete page" /></a>
