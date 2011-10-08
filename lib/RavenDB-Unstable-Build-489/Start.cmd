@@ -1,0 +1,1 @@
+start .\Server\Raven.Server.exe --debug --browser
