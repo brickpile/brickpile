@@ -23,6 +23,9 @@
   <items path="packages/structuremap.2.6.3/lib" type="reference" target="testDebug">
     <item name="StructureMap.dll"/>
   </items>
+  <items path="../../lib/RavenDB-Unstable-Build-489/EmbeddedClient" type="reference" target="testDebug">
+    <item name="Raven.Client.Lightweight.dll"/>
+  </items>
   <items type="nunit" target="testDebug" autover="true" framework="4.0">
     <item name="BrickPile.Tests"/>
   </items>
