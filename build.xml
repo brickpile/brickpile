@@ -70,5 +70,7 @@
         
       </preNuget>
     </item>
+    <item name="BrickPile-Sample">
+    </item>    
   </items>
 </project>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>BrickPile-Sample</id>
+		<version>${project.fileVersion}</version>
+    <title>BrickPile sample template package</title>
+    <summary>Sample template package for BrickPile</summary>
+		<authors>Marcus Lindblom</authors>
+		<owners>Marcus Lindblom</owners>
+    <licenseUrl>https://github.com/kloojed/BrickPile/blob/master/README</licenseUrl>
+    <projectUrl>http://www.getbrickpile.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Sample template package for BrickPile using MVC3/Razor.</description>
+		<tags>BrickPile CMS RavenDB MVC</tags>
+    <dependencies>
+      <dependency id="BrickPile" version="0.2.0.36" />
+    </dependencies>
+  </metadata>
+</package>
