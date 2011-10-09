@@ -26,10 +26,8 @@ using BrickPile.UI.Models;
 namespace BrickPile.UI.Controllers {
     public class DialogController : Controller {
         private readonly IPageRepository _repository;
-        //private readonly IDropboxRepository _dropboxRepository;
-
-        public ActionResult EditPageReference() {
-            var m = new EditPageReferenceModel
+        public ActionResult EditModelReference() {
+            var m = new EditModelReferenceModel
                             {
                                 CurrentModel = null,
                                 BackAction = "Index",
@@ -39,13 +37,6 @@ namespace BrickPile.UI.Controllers {
                             };
             return PartialView(m);
         }
-
-        //public ActionResult ListDropboxContent() {
-        //    var metaData = _dropboxRepository.GetMetaData("/dump");
-
-        //    return View(metaData.Contents);
-        //}
-
         public DialogController(IPageRepository pageRepository) {
             _repository = pageRepository;
         }

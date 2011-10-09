@@ -451,6 +451,7 @@ body.edit span.button {
     z-index:100;    
 }
 body.edit span.button button,
+body.edit span.button input,
 body.edit span.button a:link,
 body.edit span.button a:visited {
 	background:-moz-linear-gradient(top, #fff 0%, #e2e6da 100%);
@@ -467,11 +468,13 @@ body.edit span.button a:visited {
 	width:auto;
 }
 body.edit span.button button:hover,
+body.edit span.button input:hover,
 body.edit span.button a:hover {
 	background:-moz-linear-gradient(top, #fafafa 0%, #d8dbd0 100%);
 	background:-webkit-linear-gradient(top, #fafafa 0%,#d8dbd0 100%);	    
 }
-body.edit span.button button:active,
+body.edit span.button button:focus,
+body.edit span.button input:focus,
 body.edit span.button a:focus,
 body.edit span.button a:active {
 	background:-moz-linear-gradient(top, #e2e6da 0%, #fff 100%);
@@ -479,9 +482,11 @@ body.edit span.button a:active {
 	box-shadow:0 1px 1px rgba(0,0,0,0.2) inset;
 }
 body.edit span.back  {
-    font-size:85.7%;
     left:20px;
     right:auto;
+}
+body.edit span.advanced button {
+    padding:4px 12px;
 }
 body.edit form>div {
     background:none #f8f9f6;
@@ -588,6 +593,19 @@ body.edit textarea {
 body.edit input:focus,
 body.edit textarea:focus {
 	background:#f8f8f8;
+}
+body.edit input[type=text].modelreference {
+    width:478px;
+}
+body.edit span.modelreference {
+    margin:0 0 0 10px;
+    overflow:visible;
+    position:relative;
+    right:auto;
+    top:0;
+}
+body.edit span.modelreference input {
+    padding:12px;
 }
 ::-webkit-input-placeholder { color:#bbb; }
 input:-moz-placeholder,

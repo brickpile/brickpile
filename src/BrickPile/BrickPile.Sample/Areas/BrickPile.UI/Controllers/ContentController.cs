@@ -47,13 +47,18 @@ namespace BrickPile.UI.Controllers {
         /// Redirects to the Edit action with the home page loaded
         /// </returns>
         public ActionResult Index() {
+
             if (_model != null && _model is IPageModel) {
+
                 _structureInfo.Hierarchy = _session.LoadFrom<IPageModel>(x => x.Id == _model.Id)
                     .Where(x => !x.Metadata.IsDeleted)
                     .OrderBy(x => x.Metadata.SortOrder)
                     .AsHierarchy();
+
                 var viewModel = new DashboardViewModel(_model, _structureInfo);
+
                 ViewBag.Class = "content";
+
                 return View("Index", viewModel);
 
             }
@@ -184,6 +189,7 @@ namespace BrickPile.UI.Controllers {
 
             var model = _repository.SingleOrDefault<IPageModel>(m => m.Id == id.Replace("_","/"));
             model.Metadata.IsPublished = published;
+            //model.Metadata.Published = published ? DateTime.Now : default(DateTime?);
             model.Metadata.Changed = DateTime.Now;
             _repository.SaveChanges();
 

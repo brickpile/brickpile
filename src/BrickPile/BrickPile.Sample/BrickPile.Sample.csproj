@@ -43,7 +43,8 @@
       <HintPath>..\packages\YUICompressor.NET.1.5.0.0\lib\NET35\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.0.2.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\Truffler Client 1.0.0.84\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
@@ -127,6 +128,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Case.cs" />
     <Compile Include="Models\CaseList.cs" />
+    <Compile Include="Models\DataTypeTest.cs" />
     <Compile Include="Models\Home.cs" />
     <Compile Include="Models\News.cs" />
     <Compile Include="Models\NewsList.cs" />

@@ -1,0 +1,5 @@
+﻿
+@model BrickPile.UI.Models.ModelReference
+
+@Html.TextBoxFor(x => Model.Name, new { @readonly = true, @class = "modelreference" }) <span class="button modelreference"><input type="button" value="Get page..." id="@ViewData.TemplateInfo.HtmlFieldPrefix.Replace('.','_')" /></span>
+@Html.HiddenFor(x => Model.Id)

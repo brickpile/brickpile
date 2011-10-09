@@ -30,7 +30,8 @@ namespace BrickPile.UI.Web.Mvc {
 
         public ControllerMapper() {
 
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.FullName.Contains("Truffler"));
+
             foreach (var assembly in assemblies) {
                 foreach (var type in assembly.GetTypes()) {
                     if (!type.IsClass) {

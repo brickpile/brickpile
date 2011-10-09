@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Models {
-    public class EditPageReferenceModel {
+    public class EditModelReferenceModel {
         /// <summary>
         /// Gets or sets the message.
         /// </summary>

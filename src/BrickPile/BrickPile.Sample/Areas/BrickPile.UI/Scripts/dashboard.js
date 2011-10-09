@@ -96,6 +96,53 @@ Dashboard.prototype = {
             }
         });
     },
+    selectPage: function ($input) {
+        var self = this;
+        var id = $input.attr('id');
+        $.ajax({
+            url: '/dashboard/dialog/editmodelreference',
+            dataType: 'html',
+            success: function (data) {
+                $('body').append(data);
+                var $dialog = $('.overlay');
+                //$('.overlay aside.dialog').stopPropagation();
+                //                $('html').click(function () {
+                //                    $dialog.fadeOut('fast', function () {
+                //                        $dialog.remove();
+                //                    });
+                //                });
+                $dialog.find('a.close').click(function () {
+                    $dialog.fadeOut('fast', function () {
+                        $dialog.remove();
+                    });
+                    return false;
+                });
+                $dialog.find('a.cancel').click(function () {
+                    $dialog.fadeOut('fast', function () {
+                        $dialog.remove();
+                    });
+                    return false;
+                });
+                $('#pagetree a').live('click', function (e) {
+                    $('#' + id + '_Id').val($(this).attr('data-val'));
+                    $('#pagetree a').removeClass('selected');
+                    $('.select').parent().removeClass('disabled');
+                    $(this).addClass('selected');
+                    return false;
+                });
+                $dialog.find('a.select').click(function () {
+                    $('#' + id + '_Name').val($('#pagetree a.selected').text());
+                    $dialog.fadeOut('fast', function () {
+                        $dialog.remove();
+                    });
+                    return false;
+                });
+
+            }
+        });
+        return false;
+
+    },
     browse: function ($anchor) {
         var self = this;
         $.ajax({
@@ -142,6 +189,7 @@ $(document).ready(function () {
     $('.delete').live('click', function () { Dashboard.remove($(this)); return false; });
     $('.undelete').live('click', function () { Dashboard.undelete($(this)); return false; });
     $('.browse').live('click', function () { Dashboard.browse($(this)); });
+    $('.modelreference input').live('click', function () { Dashboard.selectPage($(this)); });
 
     $("#pages table tbody").sortable({
         handle: 'td.sort',

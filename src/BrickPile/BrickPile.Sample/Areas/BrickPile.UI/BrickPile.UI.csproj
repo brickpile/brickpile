@@ -135,7 +135,7 @@
     <Compile Include="Models\EditPageReferenceModel.cs" />
     <Compile Include="Models\EditUserModel.cs" />
     <Compile Include="Models\ISettings.cs" />
-    <Compile Include="Models\PageReference.cs" />
+    <Compile Include="Models\ModelReference.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StructureInfo.cs" />
@@ -530,7 +530,7 @@
     <Content Include="Views\Content\Edit.cshtml" />
     <Content Include="Views\Content\Index.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
-    <Content Include="Views\Dialog\EditPageReference.cshtml" />
+    <Content Include="Views\Dialog\EditModelReference.cshtml" />
     <Content Include="Views\Library\Index.cshtml" />
     <Content Include="Views\Library\Save.cshtml" />
     <Content Include="Views\Content\Preview.cshtml" />
@@ -544,7 +544,6 @@
     <Content Include="Views\Shared\EditorTemplates\Decimal.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Duration.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\EmailAddress.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\ExpandableTemplate.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Html.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ImageUrl.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MultilineText.cshtml" />
@@ -553,7 +552,7 @@
     <Content Include="Views\Content\Growl.cshtml" />
     <Content Include="Views\Library\_FileBrowser.cshtml" />
     <None Include="Views\Shared\EditorTemplates\Object.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\PageReference.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ModelReference.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Password.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PhoneNumber.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Range.cshtml" />

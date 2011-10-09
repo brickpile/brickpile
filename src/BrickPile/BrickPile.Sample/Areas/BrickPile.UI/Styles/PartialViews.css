@@ -24,3 +24,68 @@
     font-size:100%;
     text-shadow:0 1px 0 rgba(255,255,255,1);
 }
+
+.overlay {
+    background:rgba(0,0,0,0.6);
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:9999;
+}
+.overlay aside.dialog {
+    margin:17em auto 0;
+    position:relative;
+    width:36.5em;
+}
+aside.dialog h1 {
+    background:-moz-linear-gradient(top, #f1f2ef 0%, #e5e7e1 100%);
+    background:-webkit-linear-gradient(top, #f1f2ef 0%,#e5e7e1 100%);
+    border-radius:5px 5px 0 0;
+    border-bottom:1px solid #d7dad0;
+    box-shadow:0 1px 0 rgba(215,218,208,1),0 1px 0 rgba(255, 255, 255, .7) inset;
+    color:#6c6d6b;
+    font-weight:bold;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size:100%;
+    padding:15px 0;
+    text-align:center;
+    text-shadow:0 1px 0 rgba(255,255,255,1);
+}
+aside.dialog #pagetree {
+    background-color:#fff;
+    text-align:left;
+}
+aside.dialog #pagetree a:link,
+aside.dialog #pagetree a:visited {
+    border-bottom:1px solid #d7dad0;
+    color:#28353d;
+    display:block;
+    font-weight:bold;
+    text-decoration:none;
+    padding:17px 13px 18px;
+}
+aside.dialog span.button {
+    margin:0;
+    position:static;
+}
+aside.dialog .editor-button {
+    background:-moz-linear-gradient(top, #e9ebe6 0%, #d6dad0 100%);
+    background:-webkit-linear-gradient(top, #e9ebe6 0%,#d6dad0 100%);    
+    border-radius: 0 0 5px 5px;
+    padding:1em;
+    text-align: right;    
+}
+aside.dialog .close {
+    position:absolute;
+    right:14px;
+    top:17px;
+}
+aside.dialog #pagetree a:link.selected,
+aside.dialog #pagetree a:visited.selected {
+    background-color:#eff9fe;
+    border-color:#e0f3fe;
+    border-top:1px solid #e0f3fe;
+    margin-top:-1px;
+}

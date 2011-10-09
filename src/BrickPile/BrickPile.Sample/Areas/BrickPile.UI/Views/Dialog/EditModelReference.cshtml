@@ -1,0 +1,34 @@
+﻿
+@model BrickPile.UI.Models.EditModelReferenceModel
+@using BrickPile.UI.Common
+
+<div class="overlay">
+    <aside class="dialog">
+        <a href="#" class="close"><img src="@Url.Content("/areas/brickpile.ui/images/dialog-close.png")" alt="close" /></a>
+        <h1>Select page...</h1>
+            <ul id="pagetree">
+                <li>
+                    <a href="@Model.PageModels.SingleOrDefault(x => x.Parent == null).Metadata.Url" data-val="@Model.PageModels.SingleOrDefault(x => x.Parent == null).Id">@Model.PageModels.SingleOrDefault(x => x.Parent == null).Metadata.Name</a>
+                    @OrgTree(Model.PageModels, Model.PageModels.SingleOrDefault(x => x.Parent == null).Id)
+                </li>
+            </ul>
+
+            @helper OrgTree(IEnumerable<BrickPile.Domain.Models.IPageModel> nodes, string parentId) {
+                if (nodes.Any(n => n.Parent != null && n.Parent.Id == parentId)) { 
+                <ul>
+                    @foreach (var node in nodes.Where(n => n.Parent != null && n.Parent.Id == parentId)) {
+                        <li>
+                            <a href="@node.Metadata.Url" data-val="@node.Id">@node.Metadata.Name</a>
+                            @OrgTree(nodes, node.Id)
+                        </li>
+                    }
+                </ul>
+                }
+            }
+
+            <div class="editor-button">
+                <span class="button">@Html.ActionLink("No, cancel", @Model.BackAction ?? "index", null, new { @class = "cancel" })</span>
+                <span class="button disabled">@Html.ActionLink("Select", @Model.BackAction ?? "index", null, new { @class = "select" })</span>
+            </div>
+    </aside>
+</div>

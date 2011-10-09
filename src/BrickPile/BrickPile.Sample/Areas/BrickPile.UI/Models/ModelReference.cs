@@ -22,7 +22,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BrickPile.UI.Models {
     [DisplayColumn("Name")]
-    public class PageReference {
+    public class ModelReference {
         /// <summary>
         /// Gets or sets the id.
         /// </summary>

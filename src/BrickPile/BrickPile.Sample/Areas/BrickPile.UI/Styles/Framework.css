@@ -77,7 +77,8 @@ label span {
 	right:0;
 }
 input,
-textarea {
+textarea,
+button {
 	font:100%/1.5 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight:300;    
 }
@@ -95,6 +96,7 @@ input[type=password] {
 	-moz-box-sizing:border-box;
 	margin:.2em 0 9px;
 }
+
 input[type=submit] {
 	background:-moz-linear-gradient(top, #fff 0%, #e2e6da 100%);
 	background:-webkit-linear-gradient(top, #fff 0%,#e2e6da 100%);	
