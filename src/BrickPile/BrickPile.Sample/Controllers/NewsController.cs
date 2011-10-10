@@ -2,27 +2,31 @@
 using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
 using BrickPile.Sample.ViewModels;
-using BrickPile.UI;
+using Raven.Client;
 
 namespace BrickPile.Sample.Controllers {
-    public class NewsController : Controller {
-        private readonly News _model;
-        private readonly IStructureInfo _structureInfo;
+    public class NewsController : BaseController<News> {
         /// <summary>
         /// Indexes this instance.
         /// </summary>
         /// <returns></returns>
         public ActionResult Index() {
-            return View(new NewsViewModel(_model, _structureInfo) { Class = "news" });
+            var viewModel = new NewsViewModel
+                                {
+                                    CurrentModel = CurrentModel,
+                                    Hierarchy = Hierarchy,
+                                    Class = "news"
+                                };
+
+            return View(viewModel);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="NewsController"/> class.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <param name="structureInfo">The structure info.</param>
-        public NewsController(IPageModel model,IStructureInfo structureInfo) {
-            _model = model as News;
-            _structureInfo = structureInfo;
+        /// <param name="session">The session.</param>
+        public NewsController(IPageModel model, IDocumentSession session)
+            : base(model ,session) {
         }
     }
 }

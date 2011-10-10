@@ -17,6 +17,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
+using System.Collections.Generic;
+using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Web.ViewModels {
     /// <summary>
@@ -28,8 +30,11 @@ namespace BrickPile.UI.Web.ViewModels {
         /// </summary>
         T CurrentModel { get; }
         /// <summary>
-        /// <see cref="DefaultViewModel{T}.StructureInfo"/>
+        /// Gets or sets the hierarchy.
         /// </summary>
-        IStructureInfo StructureInfo { get; }
+        /// <value>
+        /// The hierarchy.
+        /// </value>
+        IEnumerable<IHierarchyNode<IPageModel>> Hierarchy { get; set; }
     }
 }

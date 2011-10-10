@@ -1,13 +1,3 @@
-using System.Web.Mvc;
-using BrickPile.Core.Repositories;
-using BrickPile.Domain.Models;
-using BrickPile.UI;
-using BrickPile.UI.Controllers;
-using BrickPile.UI.Web.ViewModels;
-using Moq;
-using NUnit.Framework;
-using Raven.Client;
-
 namespace BrickPile.Tests.Controllers {
     public class ContentControllerTests {
         //[Test]

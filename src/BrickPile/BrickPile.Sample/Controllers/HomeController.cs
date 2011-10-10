@@ -2,7 +2,6 @@
 using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
 using BrickPile.Sample.ViewModels;
-using BrickPile.UI;
 using Raven.Client;
 
 namespace BrickPile.Sample.Controllers {
@@ -12,14 +11,22 @@ namespace BrickPile.Sample.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult Index() {
-            return View(new HomeViewModel(CurrentModel,StructureInfo){Class = "home"});
+            var viewModel = new HomeViewModel
+                                {
+                                    CurrentModel = CurrentModel,
+                                    Class = "home",
+                                    Hierarchy = Hierarchy
+                                };
+
+            return View(viewModel);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
         /// </summary>
-        /// <param name="currentModel">The current model.</param>
-        /// <param name="documentSession">The document session.</param>
-        /// <param name="structureInfo">The structure info.</param>
-        public HomeController(IPageModel currentModel, IDocumentSession documentSession, IStructureInfo structureInfo) : base(currentModel, documentSession, structureInfo) { }
+        /// <param name="model">The model.</param>
+        /// <param name="session">The session.</param>
+        public HomeController(IPageModel model, IDocumentSession session)
+            : base(model, session) {
+        }
     }
 }

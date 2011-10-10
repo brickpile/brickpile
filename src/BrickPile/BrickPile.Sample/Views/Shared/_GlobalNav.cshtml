@@ -3,7 +3,7 @@
 
 @(new MvcHtmlString(Html.Menu("global-nav",
     Model.CurrentModel,
-    Model.StructureInfo,
+    Model.Hierarchy,
     page => Html.ActionLink(page.Metadata.Name, "index", new { model = page }),
     page => Html.ActionLink(page.Metadata.Name, "index", new { model = page }, new { @class = "selected" }))))
 

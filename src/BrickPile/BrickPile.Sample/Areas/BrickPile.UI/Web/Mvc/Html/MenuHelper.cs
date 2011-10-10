@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -35,22 +36,22 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// Responsible for creating a navigation based on an unordered list
         /// </summary>
         /// <param name="html">HtmlHelper</param>
-        /// <param name="structureInfo">Hierarchical structure info</param>
+        /// <param name="hierarchy">The hierarchy.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent) {
-            return Menu(html, null, structureInfo, itemContent);
+        public static string Menu(this HtmlHelper html, IEnumerable<IHierarchyNode<IPageModel>> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
+            return Menu(html, null, hierarchy, itemContent);
         }
         /// <summary>
         /// Responsible for creating a navigation based on an unordered list
         /// </summary>
         /// <param name="html">HtmlHelper</param>
         /// <param name="id">Id of the unordered list</param>
-        /// <param name="structureInfo">Hierarchical structure info</param>
+        /// <param name="hierarchy">The hierarchy.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, string id, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent) {
-            return Menu(html, id, null, structureInfo, itemContent);
+        public static string Menu(this HtmlHelper html, string id, IEnumerable<IHierarchyNode<IPageModel>> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
+            return Menu(html, id, null, hierarchy, itemContent);
         }
         /// <summary>
         /// Responsible for creating a navigation based on an unordered list
@@ -58,29 +59,29 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="html">HtmlHelper</param>
         /// <param name="id">Id of the unordered list</param>
         /// <param name="currentModel">The current page in the current request</param>
-        /// <param name="structureInfo">Hierarchical structure info</param>
+        /// <param name="hierarchy">The hierarchy.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent) {
-            return Menu(html, id, currentModel, structureInfo, itemContent, itemContent);
+        public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IEnumerable<IHierarchyNode<IPageModel>> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
+            return Menu(html, id, currentModel, hierarchy, itemContent, itemContent);
         }
         /// <summary>
         /// Responsible for creating a main navigation based on an unordered list
         /// </summary>
         /// <param name="html">HtmlHelper</param>
         /// <param name="id">The id of the unordered list</param>
-        /// <param name="currentModel"></param>
-        /// <param name="structureInfo"></param>
+        /// <param name="currentModel">The current model.</param>
+        /// <param name="hierarchy">The hierarchy.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <param name="selectedItemContent">Content for selected links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
-            if (structureInfo.Hierarchy == null) {
+        public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IEnumerable<IHierarchyNode<IPageModel>> hierarchy, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
+            if (hierarchy== null) {
                 return String.Empty;
             }
 
             // only render the top level items
-            var items = structureInfo.Hierarchy.Where(x => x.Depth == 1);
+            var items = hierarchy.Where(x => x.Depth == 1);
 
             var sb = new StringBuilder();
             if(string.IsNullOrEmpty(id)) {

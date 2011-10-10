@@ -17,7 +17,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
-
+using System.Collections.Generic;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Web.ViewModels {
@@ -29,19 +29,10 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <summary>
         /// Gets the current model.
         /// </summary>
-        public virtual T CurrentModel { get; private set; }
+        public virtual T CurrentModel { get; set; }
         /// <summary>
         /// Gets the structure info.
         /// </summary>
-        public virtual IStructureInfo StructureInfo { get; private set; }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultViewModel&lt;T&gt;"/> class.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        /// <param name="structureInfo">The structure info.</param>
-        public DefaultViewModel(T model, IStructureInfo structureInfo) {
-            CurrentModel = model;
-            StructureInfo = structureInfo;
-        }
+        public virtual IEnumerable<IHierarchyNode<IPageModel>> Hierarchy { get; set; }
     }
 }

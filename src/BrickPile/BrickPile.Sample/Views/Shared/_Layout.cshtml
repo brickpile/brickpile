@@ -36,7 +36,7 @@
 	<body class="@Model.Class">
 		<header> 
             @if (!IsSectionDefined("Logotype")) {
-                <a href="@Url.Action("index", new { model = Model.StructureInfo.RootModel })" title="Go to start page"><img src="http://placehold.it/186x66" alt="Acme"></a>
+                <a href="@Url.Action("index", "home")" title="Go to start page"><img src="http://placehold.it/186x66" alt="Acme"></a>
             }
             else {
                 @RenderSection("Logotype")

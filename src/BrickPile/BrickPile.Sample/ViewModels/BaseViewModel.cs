@@ -1,6 +1,4 @@
 using BrickPile.Domain.Models;
-using BrickPile.Sample.Models;
-using BrickPile.UI;
 using BrickPile.UI.Web.ViewModels;
 
 namespace BrickPile.Sample.ViewModels {
@@ -23,16 +21,5 @@ namespace BrickPile.Sample.ViewModels {
         /// The title.
         /// </value>
         public string Title { get; set; }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseViewModel&lt;TModel&gt;"/> class.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        /// <param name="structureInfo">The structure info.</param>
-        protected BaseViewModel(TModel model, IStructureInfo structureInfo) : base(model, structureInfo) {
-            var page = model as BaseModel;
-            if (page != null) {
-                Title = "Acme" + " - " + page.Metadata.Title;
-            }
-        }
     }
 }
