@@ -67,7 +67,8 @@
         <mkdir dir="${l_rootFolder}/content"/>
         <copy todir="${l_rootFolder}/lib">
           <fileset basedir="${project.buildDir}/Dlls/Release">
-            <include name="BrickPile.Sample.dll"/>
+            <include name="BrickPile.Sample.dll" />
+            <include name="BrickPile.Sample.pdb" />
           </fileset>
         </copy>
         <copy todir="${l_rootFolder}/content/">
@@ -75,6 +76,7 @@
             <include name="Content/**/*" />
             <include name="Scripts/**/*" />
             <include name="Views/**/*" />
+            <include name="**/*.cs"/>
           </fileset>
         </copy>
       </preNuget>
