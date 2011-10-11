@@ -76,7 +76,9 @@
             <include name="Content/**/*" />
             <include name="Scripts/**/*" />
             <include name="Views/**/*" />
-            <include name="**/*.cs"/>
+            <include name="Controllers/*.cs"/>
+            <include name="Models/*.cs"/>
+            <include name="ViewModels/*.cs"/>
           </fileset>
         </copy>
       </preNuget>
