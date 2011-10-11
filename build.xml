@@ -78,7 +78,12 @@
 
         <copy todir="${l_rootFolder}/src/">
           <fileset basedir="${project.baseDir}/BrickPile.Sample">
-            <include name="**/*.cs"/>
+            <include name="Properties/*.cs"/>
+            <include name="Controllers/*.cs"/>
+            <include name="Models/*.cs"/>
+            <include name="ViewModels/*.cs"/>
+            <include name="Global.asax"/>
+            <include name="Global.asax.cs"/>
           </fileset>
         </copy>        
         
