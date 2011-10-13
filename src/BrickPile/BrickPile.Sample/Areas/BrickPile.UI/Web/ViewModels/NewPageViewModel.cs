@@ -1,12 +1,14 @@
 ﻿using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Web.ViewModels {
-    public class NewPageViewModel : IDashboardViewModel {
+    public class NewPageViewModel {
         /// <summary>
-        /// Get/Sets the StructureInfo of the DashboardViewModel
+        /// Gets or sets the root model.
         /// </summary>
-        /// <value></value>
-        public virtual IStructureInfo StructureInfo { get; set; }
+        /// <value>
+        /// The root model.
+        /// </value>
+        public IPageModel RootModel { get; set; }
         /// <summary>
         /// Get/Sets the CurrentModel of the DashboardViewModel
         /// </summary>

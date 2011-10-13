@@ -82,6 +82,7 @@ namespace BrickPile.UI.Controllers {
 
 		public ActionResult Register()
 		{
+            ViewBag.Class = "register";
 			ViewBag.PasswordLength = MembershipService.MinPasswordLength;
 			return View();
 		}
@@ -106,6 +107,8 @@ namespace BrickPile.UI.Controllers {
 			}
 
 			// If we got this far, something failed, redisplay form
+
+		    ViewBag.Class = "register";
 			ViewBag.PasswordLength = MembershipService.MinPasswordLength;
 			return View(model);
 		}
@@ -151,8 +154,8 @@ namespace BrickPile.UI.Controllers {
 			return View();
 		}
 
-		public ActionResult ManageUsers()
-		{
+		public ActionResult ManageUsers() {
+		    ViewBag.Class = "users";
 			var users = MembershipService.GetAllUsers();
 			return View( users );
 		}

@@ -3,18 +3,18 @@
 1 Body
 ----------------------------------------------------------------*/
 body {
-	margin:2.357em auto 0;
-	max-width:67em;
+	margin:5em auto 0;
+	max-width:66.429em;
 	position:relative;
 }
 /*--------------------------------------------------------------
 2 Header
 ----------------------------------------------------------------*/
+header {
+    border-bottom:1px solid #272727;
+}
 body.home header {
 	margin-bottom:2.8em;
-}
-header img {
-	margin:0 0 0 -.4em;
 }
 /*--------------------------------------------------------------
 3 Navigation
@@ -24,22 +24,23 @@ header img {
 	------------------------------------------------------------*/
 	nav#global {
 		position:absolute;
-		top:2em;
+		top:1em;
 		right:0;
 	}
 	nav#global li {
 		float:left;
-		margin:0 0 0 4.714em;
+		margin:0 0 0 2.714em;
 	}
 	nav#global li a {
-		color:#333;
-		font-family:'Titillium Medium';
-		font-size:114.3%;
+		color:#fff;
+		font-family:'MuseoSans500';
+		font-size:100%;
 		letter-spacing:.1em;
 		text-transform:uppercase;
+		padding:0 .2em;
 	}
-	nav#global li a:hover { color:#000; }
-	nav#global li a.selected { color:#bd0d6c; }
+	nav#global li a:hover { color:#dedede; }
+	nav#global li a.selected { color:#000; background-color:#4d4d4d; }
 	/*----------------------------------------------------------
 	3.2 Local
 	------------------------------------------------------------*/
@@ -47,7 +48,6 @@ header img {
 4 Content
 ----------------------------------------------------------------*/
 #content  {
-    border-top:1px solid #ccc;
     overflow:hidden; 
     padding:2.8em 0 0;
     margin:2.7em 0 0;
@@ -81,7 +81,7 @@ header img {
 5 Footer
 ----------------------------------------------------------------*/
 footer {
-	border-top:1px solid #ccc;
+	border-top:1px solid #272727;
 	margin:3em 0 2em;
 	padding:1.5em 0 0;
 	text-align:center;

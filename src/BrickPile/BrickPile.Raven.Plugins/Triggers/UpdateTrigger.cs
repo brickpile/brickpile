@@ -45,7 +45,7 @@ namespace BrickPile.Raven.Plugins.Triggers {
                 return;
 
             using (TriggerContext.Enter()) {
-                RavenJObject meta = document["MetaData"] as RavenJObject; 
+                var meta = document["MetaData"] as RavenJObject; 
                 if(meta != null) {
                     var slug = meta.Value<string>("Slug");
                     RavenJToken parent;
@@ -113,7 +113,7 @@ namespace BrickPile.Raven.Plugins.Triggers {
                     var metadataJObject = result.Value<RavenJObject>("@metadata");
                     if (metadataJObject != null) {
 
-                        RavenJObject metaData = result["MetaData"] as RavenJObject; 
+                        var metaData = result["MetaData"] as RavenJObject; 
                         if(metaData != null) {
                             var slug = metaData.Value<string>("Slug");
 

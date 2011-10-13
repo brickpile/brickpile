@@ -33,7 +33,7 @@ namespace BrickPile.UI {
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
-    [Obsolete]
+    [Obsolete("Not used anymore", false)]
     public class StructureInfo : IStructureInfo {
         private readonly IDocumentSession _session;
         private IPageModel _currentModel;

@@ -75,6 +75,28 @@ Dashboard.prototype = {
             }
         });
     },
+    permanentRemove: function ($anchor) {
+        var self = this;
+        var $row = $anchor.closest('tr');
+        $.ajax({
+            url: '/dashboard/content/permanentdelete',
+            type: 'POST',
+            dataType: 'html',
+            data: { id: $row.attr('id') },
+            success: function (data) {
+                $row.fadeTo('fast', 0);
+                $row.slideUp('fast');
+                var $growl = $('<aside />');
+                $('body').append($growl)
+                $growl.hide().html(data).fadeIn('fast');
+                $('html').mousemove(function () {
+                    $growl.delay(3000).fadeOut('fast', function () {
+                        $(this).remove();
+                    });
+                });
+            }
+        });
+    },
     undelete: function ($anchor) {
         var self = this;
         var $row = $anchor.closest('tr');
@@ -187,9 +209,32 @@ $(document).ready(function () {
     $('.add a').live('click', function () { Dashboard.add($(this)); return false; });
     $('.publish').live('click', function () { Dashboard.publish($(this)); });
     $('.delete').live('click', function () { Dashboard.remove($(this)); return false; });
-    $('.undelete').live('click', function () { Dashboard.undelete($(this)); return false; });
+    $('.perma-delete').live('click', function () { Dashboard.permanentRemove($(this)); return false; });
+    //$('.undo').live('click', function () { Dashboard.undelete($(this)); return false; });
     $('.browse').live('click', function () { Dashboard.browse($(this)); });
     $('.modelreference input').live('click', function () { Dashboard.selectPage($(this)); });
+
+    // Hide error labels when clicked
+    $('.field-validation-error').live('click', function () {
+        $(this).fadeOut('normal', function () {
+            $(this).remove();
+        });
+    });
+
+    // Disable the submit button until all fields is filled
+    var $input = $('body.register form fieldset input'), $register = $('body.register input:submit');
+    $register.attr('disabled', true);
+    $register.closest('span').addClass('disabled');
+    $input.keyup(function () {
+        var trigger = false;
+        $input.each(function () {
+            if (!$(this).val()) {
+                trigger = true;
+            }
+        });
+        trigger ? $register.attr('disabled', true).closest('span').addClass('disabled') : $register.removeAttr('disabled').closest('span').removeClass('disabled');
+    });
+
 
     $("#pages table tbody").sortable({
         handle: 'td.sort',

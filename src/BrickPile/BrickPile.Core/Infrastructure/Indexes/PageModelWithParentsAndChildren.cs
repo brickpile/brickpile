@@ -3,7 +3,7 @@ using BrickPile.Domain.Models;
 using Raven.Client.Indexes;
 
 namespace BrickPile.Core.Infrastructure.Indexes {
-    public class PageModelWithParentsAndChildren : AbstractIndexCreationTask<IPageModel> {
+    public class PageModelWithParentsAndChildren : AbstractIndexCreationTask<Ancestor> {
 
         public PageModelWithParentsAndChildren() {
 
@@ -11,7 +11,7 @@ namespace BrickPile.Core.Infrastructure.Indexes {
                            select new { page.Id, page.Children, page.Metadata.Name, page.Metadata.IsPublished };
 
             TransformResults = (database, pages) => from page in pages
-                                                    let ancestors = Recurse(page, c => database.Load<IPageModel>(c.Parent.Id))
+                                                    let ancestors = Recurse(page, c => database.Load<Ancestor>(c.Parent.Id))
                                                     select new
                                                     {
                                                         page.Id,

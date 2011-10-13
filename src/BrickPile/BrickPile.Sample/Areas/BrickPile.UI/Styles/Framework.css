@@ -15,6 +15,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 article,aside,details,figcaption,figure, footer,header,hgroup,menu,nav,section { display:block; }
 nav ul { list-style:none; }
 ul, li { list-style:none; }
+strong { font-weight:bold; }
 /*--------------------------------------------------------------
 2 Global
 ----------------------------------------------------------------*/
@@ -169,6 +170,7 @@ span.disabled { opacity:0.3; }
 	position:absolute;
 	right:15px;
 	top:82px;
+	z-index:100;
 }
 .field-validation-error span {
 	background: transparent url(../images/setup/password-error.png) no-repeat 0 top;

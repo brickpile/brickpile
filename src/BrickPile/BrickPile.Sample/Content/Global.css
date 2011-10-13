@@ -40,18 +40,16 @@ table {
 /*--------------------------------------------------------------
 2 Basic stuff
 ----------------------------------------------------------------*/
-@font-face {
-  font-family: 'Titillium Medium';
-  src: url(/content/fonts/TitilliumText22L004-webfont.eot?) format('eot'), url(/content/fonts/TitilliumText22L004-webfont.woff) format('woff'), url(/content/fonts/TitilliumText22L004-webfont.ttf) format('truetype');
-}
+@font-face {font-family: 'MuseoSans500';src: url('webfonts/eot/museo-sans-500.eot?#iefix') format('embedded-opentype'),url('webfonts/woff/museo-sans-500.woff') format('woff'),url('webfonts/ttf/museo-sans-500.ttf') format('truetype'),url('webfonts/svg/museo-sans-500.svg#MuseoSans-500') format('svg');}
+@font-face {font-family: 'MuseoSans700';src: url('webfonts/eot/museo-sans-700.eot?#iefix') format('embedded-opentype'),url('webfonts/woff/museo-sans-700.woff') format('woff'),url('webfonts/ttf/museo-sans-700.ttf') format('truetype'),url('webfonts/svg/museo-sans-700.svg#MuseoSans-700') format('svg');}
 
 html {
-	background:#fff;
-
+    background: #1e1e1e url(/content/bg.png) repeat 0 0;
 }
 body {
+    
 	font:87.5%/1.6 Arial, 'Helvetica Neue', sans-serif;
-	color:#333;
+	color:#808080;
 }
 strong { font-weight:bold; }
 p { margin:0 0 1.2em; }
@@ -69,17 +67,17 @@ p { margin:0 0 1.2em; }
 3 Links
 ----------------------------------------------------------------*/
 a {
-	color:#bd0d6c;
+	color:#fff;
 	text-decoration:none;
 }
 a:hover {
-	color:#000;
+	color:#dedede;
 }
 /*--------------------------------------------------------------
 4 Headings
 ----------------------------------------------------------------*/
 h1,h2,h3,h4 {
-    font-family:'Titillium Medium', Arial; 
+    font-family:'MuseoSans500', Arial; 
     line-height:1.1;
 }
 h1 {
@@ -91,15 +89,16 @@ h1 {
 4 Classes
 ----------------------------------------------------------------*/
 .introduction {
+    color:#000;
     font-size:178.6%;
-    font-family:'Titillium Medium'; 
+    font-family:'MuseoSans500'; 
     line-height:1.48;
     margin:-.15em 0 .9em;
 }
 .introduction span { }
 .introduction span cufon {
         padding:5px 0 3px;
-        background:#e6e6e6;
+        background:#4d4d4d;
         margin:0 0 5px;
 }
 .intro { font-weight:bold; }

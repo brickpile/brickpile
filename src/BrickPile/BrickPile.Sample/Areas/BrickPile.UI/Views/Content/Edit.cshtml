@@ -1,5 +1,5 @@
 ﻿
-@model BrickPile.UI.Web.ViewModels.IDashboardViewModel
+@model BrickPile.UI.Web.ViewModels.EditViewModel
 @using BrickPile.UI.Common
 @{
     ViewBag.Title = "Let's edit some bricks eh?";
@@ -10,18 +10,19 @@
     <ul>
         <li>@Html.ActionLink("Dashboard", "index", "dashboard", null, new { @class = "dashboard" })</li>
         <li>@Html.ActionLink("Content", "index", "content", null, new { @class = "content selected" })</li>
+        <li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users" })</li>
     </ul>
 }
 
 <h1>Welcome @HttpContext.Current.User.Identity.Name! Let's pile some bricks eh?</h1>
 
-@if (Model.StructureInfo.ParentModel != null) {
+@if (Model.ParentModel != null) {
     <span class="button back">
-            @Html.ActionLink(Model.StructureInfo.ParentModel)
+            @Html.ActionLink(Model.ParentModel)
     </span>
 } else {
     <span class="button back">
-            @Html.ActionLink(Model.StructureInfo.RootModel)
+            @Html.ActionLink(Model.RootModel)
     </span>
 }
 
@@ -33,7 +34,7 @@
 
 @using (Html.BeginForm("update", "content", new { model = Model.CurrentModel }, FormMethod.Post, new { name = "editForm" })) {
     <div>
-        <fieldset>
+        <fieldset class="metadata">
             <div id="metadata">
                 <div>
                     <div>
@@ -52,8 +53,8 @@
                 <div id="slug">
                     <div>
                         @Html.LabelFor(model => model.CurrentModel.Metadata.Slug)
-                        @Html.EditorFor(model => model.CurrentModel.Metadata.Slug, "Slug", new { StructureInfo = Model.StructureInfo })
-                        @if (Model.StructureInfo.RootModel == null) {
+                        @Html.EditorFor(model => model.CurrentModel.Metadata.Slug, "Slug", new { RootModel = Model.RootModel })
+                        @if (Model.RootModel == null) {
                             @Html.HiddenFor(model => model.CurrentModel.Metadata.Url)
                         } else {
                             @Html.HiddenFor(model => model.CurrentModel.Metadata.Url, new { @class = "url" })
@@ -78,7 +79,7 @@
         </fieldset>
         <fieldset style="background-color:#fff;padding-top:31px;padding-bottom:27px;">
             @Html.EditorFor(model => model.CurrentModel.Metadata.Name, "PageName")
-            @Html.EditorFor(model => model.CurrentModel, new { StructureInfo = Model.StructureInfo })
+            @Html.EditorFor(model => model.CurrentModel)
         </fieldset>
         <div id="button">
             <span>

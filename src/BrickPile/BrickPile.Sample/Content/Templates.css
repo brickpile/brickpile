@@ -50,11 +50,11 @@
     }
     body.home ul#teasers li {
 	    float:left;
-	    width:23.8%;
-	    margin:0 1.6% 0 0;
+	    width:34.5%;
     }
     body.home ul#teasers li.last {
         margin:0;
+        width:31%;
     }
     body.home ul#teasers article {
         position:relative;
@@ -66,15 +66,15 @@
         margin:.4em 0 .4em;
         line-height:1.2;
     }
-    body.home ul#teasers article a { color:#333; }
-    body.home ul#teasers article a:hover h1 { color:#000; }
+    body.home ul#teasers article a { color:#fff; }
+    body.home ul#teasers article a:hover { color:#dedede; }
     body.home ul#teasers article img  {
         position:absolute;
         top:0;
         left:0;
     }
     body.home footer { margin-top:1.6em; }
-    body.home ul#teasers p { padding-right:20px; }
+    body.home ul#teasers p { padding-right:20px; color:#808080; }
     /*--------------------------------------------------------------
     2 Newslist
     ----------------------------------------------------------------*/
@@ -88,7 +88,6 @@
         color:#666;
         font-weight:bold; 
     }
-    body.newslist h1 a { color:#333; }
     body.newslist #content ul li {
         border-bottom:1px solid #ccc;
         padding:1.8em 0 1.8em 230px;
@@ -110,8 +109,8 @@
     body.caselist #content { padding-top:2.5em; }
     body.caselist #content > p {
         font-size:235.7%;
-        font-family:'Titillium Medium'; 
-        color:#4c4c4c;
+        font-family:'MuseoSans500'; 
+        color:#000;
         line-height:1.45; 
         margin:0 0 .5em;
     }
@@ -120,7 +119,7 @@
     }
     body.caselist #content > p cufon {
         padding:5px 0 2px;
-        background:#e6e6e6;
+        background:#4d4d4d;
         margin:0;
         
     }
@@ -130,6 +129,7 @@
     }
      body.caselist #content ul { padding:1.3em 0 0; }
     body.caselist #content ul h2 {
+        color:#fff;
         font-size:235.7%;
         margin:0 0 .3em;
     }

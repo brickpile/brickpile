@@ -74,14 +74,6 @@ namespace BrickPile.UI.Common {
             return CreateHierarchy(allItems, default(TEntity), 0);
         }
         /// <summary>
-        /// Returns the controller name associated with this model
-        /// </summary>
-        /// <param name="pageModel"></param>
-        /// <returns></returns>
-        public static string GetControllerName(this IPageModel pageModel) {
-            return pageModel != null ? pageModel.GetType().Name : string.Empty;
-        }
-        /// <summary>
         /// Registers the page route.
         /// </summary>
         /// <param name="routes">The routes.</param>

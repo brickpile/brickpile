@@ -14,9 +14,9 @@ namespace BrickPile.Core.Infrastructure.Common {
         /// <param name="session">The session.</param>
         /// <param name="predicate">The predicate eg. the Id of a document</param>
         /// <returns></returns>
-        public static IQueryable<T> LoadFrom<T>(this IDocumentSession session, Func<IPageModel, bool> predicate) where T : IPageModel {
+        public static IQueryable<T> LoadFrom<T>(this IDocumentSession session, Func<Ancestor, bool> predicate) where T : IPageModel {
 
-            var page = session.Query<PageModel>("PageModelWithParentsAndChildren")
+            var page = session.Query<Ancestor>("PageModelWithParentsAndChildren")
                 .Include(x => x.Ancestors)
                 .Include(x => x.Children)
                 .Where(predicate)

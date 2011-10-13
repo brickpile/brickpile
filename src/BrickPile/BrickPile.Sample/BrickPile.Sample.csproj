@@ -162,6 +162,9 @@
     <Content Include="Content\Legacy\ie8.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Templates.css" />
+    <Content Include="Content\webfonts\svg\museo-sans-500.svg" />
+    <Content Include="Content\webfonts\svg\museo-sans-700.svg" />
+    <Content Include="Content\webfonts\svg\style_159303.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\global.js" />
     <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
@@ -218,6 +221,15 @@
     <None Include="Content\Fonts\TitilliumText22L004-webfont.eot" />
     <None Include="Content\Fonts\TitilliumText22L004-webfont.ttf" />
     <None Include="Content\Fonts\TitilliumText22L004-webfont.woff" />
+    <None Include="Content\webfonts\eot\felttip-roman.eot" />
+    <None Include="Content\webfonts\eot\museo-sans-500.eot" />
+    <None Include="Content\webfonts\eot\museo-sans-700.eot" />
+    <None Include="Content\webfonts\ttf\felttip-roman.ttf" />
+    <None Include="Content\webfonts\ttf\museo-sans-500.ttf" />
+    <None Include="Content\webfonts\ttf\museo-sans-700.ttf" />
+    <None Include="Content\webfonts\woff\felttip-roman.woff" />
+    <None Include="Content\webfonts\woff\museo-sans-500.woff" />
+    <None Include="Content\webfonts\woff\museo-sans-700.woff" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -69,8 +69,8 @@
         <mkdir dir="${l_rootFolder}/lib"/>
         <mkdir dir="${l_rootFolder}/content"/>
         
-        <copy todir="${l_rootFolder}/lib">
-          <fileset basedir="${project.buildDir}/Dlls/Release">
+        <copy todir="${l_rootFolder}/lib/net40">
+          <fileset basedir="${project.buildDir}/Dlls/Debug">
             <include name="BrickPile.Sample.dll" />
             <include name="BrickPile.Sample.pdb" />
           </fileset>
@@ -82,8 +82,6 @@
             <include name="Controllers/*.cs"/>
             <include name="Models/*.cs"/>
             <include name="ViewModels/*.cs"/>
-            <include name="Global.asax"/>
-            <include name="Global.asax.cs"/>
           </fileset>
         </copy>        
         

@@ -4,7 +4,7 @@
 }
 
 <div id="push">
-	<a href="@Url.Action("index", new { model = Model.CurrentModel })"><img src="http://placehold.it/938x367" alt="" /></a>
+	<a href="@Url.Action("index", new { model = Model.CurrentModel })"><img src="@Url.Content("/content/header.png")" alt="" /></a>
 </div>
 
 <ul id="teasers">
@@ -13,7 +13,7 @@
 			<a href="">
 				<h1>Far far away, behind the word mountains</h1>
 				<p>Duden flows by their place and supplies it with the necessary regelialia</p>
-				<img src="http://placehold.it/224x172" alt="">
+				<img src="@Url.Content("/content/teaser-1.png")" alt="">
 			</a>
 		</article>
 	</li>
@@ -22,25 +22,16 @@
 			<a href="">
 				<h1>Far far away, behind the word mountains</h1>
 				<p>Duden flows by their place and supplies it with the necessary regelialia</p>
-				<img src="http://placehold.it/224x172" alt="">
+				<img src="@Url.Content("/content/teaser-2.png")" alt="">
 			</a>
 		</article>
 	</li>
-    <li>
+    <li class="last">
 		<article>
 			<a href="">
 				<h1>Far far away, behind the word mountains</h1>
 				<p>Duden flows by their place and supplies it with the necessary regelialia</p>
-				<img src="http://placehold.it/224x172" alt="">
-			</a>
-		</article>
-	</li>
-	<li class="last">
-		<article>
-			<a href="">
-				<h1>Far far away, behind the word mountains</h1>
-				<p>Duden flows by their place and supplies it with the necessary regelialia</p>
-				<img src="http://placehold.it/224x172" alt="">
+				<img src="@Url.Content("/content/teaser-3.png")" alt="">
 			</a>
 		</article>
 	</li>

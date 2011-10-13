@@ -7,37 +7,34 @@
 
 @section Navigation {
     <ul id="dashboard-nav">
-        <li>@Html.ActionLink("Content","index","content")</li>
-		<li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users" })</li>
+        <li>@Html.ActionLink("Dashboard", "index", "dashboard", null, new { @class = "dashboard" })</li>
+        <li>@Html.ActionLink("Content", "index", "content", null, new { @class = "content" })</li>
+		<li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users selected" })</li>
     </ul>
 }
 
-<h1>Manage Users</h1>
-
-<table id="manage-users">
-	<thead>
-		<tr>
-			<th>Id</th>
-			<th>Username</th>
-			<th>Email</th>
-			<th>Last login date</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach(MembershipUser user in Model) {
-			<tr>
-				<td>@user.ProviderUserKey</td>
-				<td>@user.UserName</td>
-				<td>@user.Email</td>
-				<td>@user.LastLoginDate</td>
-				<td>@Html.ActionLink("Edit", "EditUser", new { username = user.UserName })</td>
-			</tr>
-		}
-	</tbody>
-</table>
-<p>
-	@Html.ActionLink("Add user", "register")
-	@Html.ActionLink("Manage roles", "manageroles")
-</p>
-
+<h1>Manage BrickPile Users</h1>
+<div id="users">
+    <span class="button adduser">
+        <a href="@Url.Action("register", "account")"><img src="@Url.Content("~/areas/brickpile.ui/images/add.png")" alt="Add user" /></a>
+    </span>
+    <table id="manage-users">
+        <caption>Users</caption>
+	    <thead>
+		    <tr>
+			    <th><span>Username</span></th>
+			    <th><span>Email</span></th>
+			    <th><span>Last login date</span></th>
+		    </tr>
+	    </thead>
+	    <tbody>
+		    @foreach(MembershipUser user in Model) {
+			    <tr>
+				    <td class="name"><span>@user.UserName</span></td>
+				    <td><span>@user.Email</span></td>
+				    <td><span>@user.LastLoginDate</span></td>
+			    </tr>
+		    }
+	    </tbody>
+    </table>
+</div>

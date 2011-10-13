@@ -2,8 +2,8 @@
            
 @using BrickPile.UI.Web.Mvc.Html
 @using BrickPile.UI.Common
-@using System.Globalization;
-@using SquishIt.Framework;
+@using System.Globalization
+@using SquishIt.Framework
 
 <!DOCTYPE html>
 <html lang="@CultureInfo.CurrentCulture.TwoLetterISOLanguageName">
@@ -36,7 +36,7 @@
 	<body class="@Model.Class">
 		<header> 
             @if (!IsSectionDefined("Logotype")) {
-                <a href="@Url.Action("index", "home")" title="Go to start page"><img src="http://placehold.it/186x66" alt="Acme"></a>
+                <a href="@Url.Action("index", "home")" title="Go to start page"><img src="@Url.Content("/content/logo.png")" alt="Dark Corporate Template"></a>
             }
             else {
                 @RenderSection("Logotype")

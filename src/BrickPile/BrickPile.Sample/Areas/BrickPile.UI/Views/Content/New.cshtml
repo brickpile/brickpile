@@ -39,8 +39,8 @@
                 <div id="slug">
                     <div>
                         @Html.LabelFor(model => model.NewPageModel.Metadata.Slug)
-                        @Html.EditorFor(model => model.NewPageModel.Metadata.Slug, "Slug", new { StructureInfo = Model.StructureInfo })
-                        @if (Model.StructureInfo.RootModel == null) {
+                        @Html.EditorFor(model => model.NewPageModel.Metadata.Slug, "Slug", new { RootModel = Model.RootModel })
+                        @if (Model.RootModel == null) {
                             @Html.HiddenFor(model => model.NewPageModel.Metadata.Url)
                         } else {
                             @Html.HiddenFor(model => model.NewPageModel.Metadata.Url, new { @class = "url" })
@@ -53,11 +53,11 @@
                 </div>
                 <div>
                     <div id="visible">
-                        @Html.LabelFor(model => model.CurrentModel.Metadata.DisplayInMenu, "Visible in menu")
+                        @Html.LabelFor(model => model.NewPageModel.Metadata.DisplayInMenu, "Visible in menu")
                         @Html.CheckBox("NewPageModel.Metadata.DisplayInMenu", true)
                     </div>
                     <div id="ispublished">
-                        @Html.LabelFor(model => model.CurrentModel.Metadata.IsPublished,"Published")
+                        @Html.LabelFor(model => model.NewPageModel.Metadata.IsPublished, "Published")
                         @Html.CheckBoxFor(model => model.NewPageModel.Metadata.IsPublished)
                     </div>
                 </div>
@@ -65,7 +65,7 @@
         </fieldset>
         <fieldset style="background-color:#fff;padding-top:31px;padding-bottom:27px;">
             @Html.EditorFor(model => model.NewPageModel.Metadata.Name, "PageName")
-            @Html.EditorFor(model => model.NewPageModel, new { StructureInfo = Model.StructureInfo })
+            @Html.EditorFor(model => model.NewPageModel)
             @Html.HiddenFor(model => model.NewPageModel.GetType().AssemblyQualifiedName) 
         </fieldset>
         <div id="button">

@@ -48,6 +48,12 @@ nav a.content {
 nav a.content.selected {
     background-position:0 -52px;
 }
+nav a.users {
+   background: url(/areas/brickpile.ui/images/sprite.png) no-repeat 0 -359px;
+}
+nav a.users.selected {
+    background-position:0 -307px;
+}
 nav a.dashboard.selected {
     background-position:0 -185px;
 }

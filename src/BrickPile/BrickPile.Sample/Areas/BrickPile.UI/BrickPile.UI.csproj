@@ -178,7 +178,9 @@
     <Compile Include="Web\Security\RavenDBRoleProvider.cs" />
     <Compile Include="Web\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Web\ViewModels\DefaultViewModel.cs" />
+    <Compile Include="Web\ViewModels\EditViewModel.cs" />
     <Compile Include="Web\ViewModels\IDashboardViewModel.cs" />
+    <Compile Include="Web\ViewModels\IndexViewModel.cs" />
     <Compile Include="Web\ViewModels\IViewModel.cs" />
     <Compile Include="Web\ViewModels\NewPageViewModel.cs" />
     <Compile Include="Web\ViewModels\SetupViewModel.cs" />
@@ -188,6 +190,7 @@
     <Content Include="Content\body-bg.png" />
     <Content Include="Content\linen.jpg" />
     <Content Include="Content\sprite.png" />
+    <Content Include="Images\add.png" />
     <Content Include="Images\bg.jpg" />
     <Content Include="Images\button.png" />
     <Content Include="Images\delete.png" />

@@ -1,9 +1,9 @@
 ﻿
 @model String
 @{
-    var structureInfo = ViewData["StructureInfo"] as BrickPile.UI.IStructureInfo;
+    var rootModel = ViewData["RootModel"] as BrickPile.Domain.Models.IPageModel;
 }           
-@if (structureInfo.RootModel == null) {
+@if (rootModel == null) {
     @Html.TextBoxFor(_ => Model, new { disabled = "disabled" })
 } else {
     @Html.TextBoxFor(_ => Model, new { @class = "slug" })

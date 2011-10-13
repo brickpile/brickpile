@@ -11,6 +11,7 @@ namespace BrickPile.Sample.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult Index() {
+
             var viewModel = new HomeViewModel
                                 {
                                     CurrentModel = CurrentModel,

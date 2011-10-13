@@ -1,5 +1,6 @@
 ﻿
 @model BrickPile.UI.Models.RegisterModel
+@using BrickPile.UI.Web.Mvc.Html
 
 @{
     Layout = "~/Areas/BrickPile.UI/Views/Shared/_Layout.cshtml";
@@ -8,60 +9,40 @@
 
 @section Navigation {
     <ul id="dashboard-nav">
-        <li>@Html.ActionLink("Content","index","content")</li>
-		<li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users" })</li>
+        <li>@Html.ActionLink("Dashboard", "index", "dashboard", null, new { @class = "dashboard" })</li>
+        <li>@Html.ActionLink("Content", "index", "content", null, new { @class = "content" })</li>        
+		<li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users selected" })</li>
     </ul>
 }
 
 <h1>Create a New Account</h1>
-<p>
-    Use the form below to create a new account. 
-</p>
-<p>
-    Passwords are required to be a minimum of @ViewBag.PasswordLength characters in length.
-</p>
-
 @using (Html.BeginForm()) {
-    @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
     <div>
         <fieldset>
-            <legend>Account Information</legend>
-
-            <div class="editor-label">
-                @Html.LabelFor(m => m.UserName)
+            @Html.LabelFor(m => m.UserName, @<span>No fancy characters mmkay?</span>)
+            @Html.TextBoxFor(m => m.UserName, new { required = "required" })
+            @Html.ValidationMessageFor(m => m.UserName)
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { required = "required" })
+            @Html.ValidationMessageFor(m => m.Email)
+                    
+            <div class="password">
+                <div>
+                    @Html.LabelFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password, new { required = "required" })
+                    @Html.ValidationMessageLabelFor(m => m.Password)
+                </div>
+                <div>
+                    @Html.LabelFor(m => m.ConfirmPassword)
+                    @Html.PasswordFor(m => m.ConfirmPassword)
+                    @Html.ValidationMessageLabelFor(m => m.ConfirmPassword)
+                </div>
             </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </div>
-
-            <div class="editor-label">
-                @Html.LabelFor(m => m.Email)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(m => m.Email)
-                @Html.ValidationMessageFor(m => m.Email)
-            </div>
-
-            <div class="editor-label">
-                @Html.LabelFor(m => m.Password)
-            </div>
-            <div class="editor-field">
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </div>
-
-            <div class="editor-label">
-                @Html.LabelFor(m => m.ConfirmPassword)
-            </div>
-            <div class="editor-field">
-                @Html.PasswordFor(m => m.ConfirmPassword)
-                @Html.ValidationMessageFor(m => m.ConfirmPassword)
-            </div>
-
-            <p>
-                <input type="submit" value="Register" />
-            </p>
         </fieldset>
+        <div id="button">
+            <span>
+                <input type="submit" value="Create user" />
+            </span>
+        </div>
     </div>
 }
