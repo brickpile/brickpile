@@ -94,7 +94,7 @@
           <do>
             <attrib file="${filename}" normal="true"/>
             <regularExpressionWriter file="${filename}">
-              <pattern>namespace BrickPile.Sample</pattern>
+              <pattern><![CDATA[namespace BrickPile.Sample]]></pattern>
               <replacement>namespace $$rootnamespace$$</replacement>
             </regularExpressionWriter>
             <move file="${filename}" tofile="${filename}.pp" />              
