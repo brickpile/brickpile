@@ -13,8 +13,8 @@ namespace BrickPile.Sample.Controllers {
         public ActionResult Index() {
             var viewModel = new DefaultViewModel<Case>
                                 {
-                                    CurrentModel = CurrentModel,
-                                    Hierarchy = Hierarchy
+                                    CurrentModel = this.CurrentModel,
+                                    Hierarchy = this.Hierarchy
                                 };
 
             return View(viewModel);

@@ -14,9 +14,9 @@ namespace BrickPile.Sample.Controllers {
 
             var viewModel = new HomeViewModel
                                 {
-                                    CurrentModel = CurrentModel,
+                                    CurrentModel = this.CurrentModel,
+                                    Hierarchy = this.Hierarchy,
                                     Class = "home",
-                                    Hierarchy = Hierarchy
                                 };
 
             return View(viewModel);

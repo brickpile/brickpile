@@ -84,7 +84,7 @@ namespace BrickPile.UI {
                 if (CurrentModel == null)
                     return null;
                 if (_hierarchicalStructure == null) {
-                    _hierarchicalStructure = _session.LoadFrom<IPageModel>(x => x.Id == CurrentModel.Id)
+                    _hierarchicalStructure = _session.HierarchyFrom<IPageModel>(x => x.Id == CurrentModel.Id)
                         .WherePageIsPublished()
                         .WherePageIsVisibleInMenu()
                         .Where(x => !x.Metadata.IsDeleted)

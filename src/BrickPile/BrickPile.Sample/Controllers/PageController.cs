@@ -13,9 +13,9 @@ namespace BrickPile.Sample.Controllers {
         public ActionResult Index() {
             var viewModel = new PageViewModel
                                 {
-                                    Class = "page",
-                                    CurrentModel = CurrentModel,
-                                    Hierarchy = Hierarchy
+                                    CurrentModel = this.CurrentModel,
+                                    Hierarchy = this.Hierarchy,
+                                    Class = "page"
                                 };
 
             return View(viewModel);

@@ -22,8 +22,8 @@ namespace BrickPile.Sample.Controllers {
 
             var viewModel = new CaseListViewModel
                                 {
-                                    CurrentModel = CurrentModel,
-                                    Hierarchy = Hierarchy,
+                                    CurrentModel = this.CurrentModel,
+                                    Hierarchy = this.Hierarchy,
                                     CaseList = onePageOfCases,
                                     Class = "caselist"
                                 };

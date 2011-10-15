@@ -24,6 +24,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using BrickPile.Domain.Models;
+using BrickPile.UI.Common;
 
 namespace BrickPile.UI.Web.Mvc.Html {
     /// <summary>
@@ -39,7 +40,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="hierarchy">The hierarchy.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, IEnumerable<IHierarchyNode<IPageModel>> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
+        public static string Menu(this HtmlHelper html, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
             return Menu(html, null, hierarchy, itemContent);
         }
         /// <summary>
@@ -50,7 +51,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="hierarchy">The hierarchy.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, string id, IEnumerable<IHierarchyNode<IPageModel>> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
+        public static string Menu(this HtmlHelper html, string id, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
             return Menu(html, id, null, hierarchy, itemContent);
         }
         /// <summary>
@@ -62,7 +63,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="hierarchy">The hierarchy.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IEnumerable<IHierarchyNode<IPageModel>> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
+        public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
             return Menu(html, id, currentModel, hierarchy, itemContent, itemContent);
         }
         /// <summary>
@@ -75,13 +76,15 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="itemContent">Default content for links</param>
         /// <param name="selectedItemContent">Content for selected links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IEnumerable<IHierarchyNode<IPageModel>> hierarchy, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
+        public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
             if (hierarchy== null) {
                 return String.Empty;
             }
 
+            var hierarchyNodes = hierarchy.AsHierarchy();
             // only render the top level items
-            var items = hierarchy.Where(x => x.Depth == 1);
+
+            var items = hierarchyNodes.Where(x => x.Depth == 1);
 
             var sb = new StringBuilder();
             if(string.IsNullOrEmpty(id)) {

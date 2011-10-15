@@ -24,9 +24,9 @@ namespace BrickPile.Sample.Controllers {
 
             var viewModel = new NewsListViewModel
                                 {
-                                    CurrentModel = CurrentModel,
+                                    CurrentModel = this.CurrentModel,
+                                    Hierarchy = this.Hierarchy,
                                     NewsList = onePageOfNews,
-                                    Hierarchy = Hierarchy,
                                     Class = "newslist"
                                 };
 

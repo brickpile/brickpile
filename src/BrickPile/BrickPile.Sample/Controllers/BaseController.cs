@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using BrickPile.Core.Infrastructure.Common;
 using BrickPile.Domain.Models;
-using BrickPile.UI;
-using BrickPile.UI.Common;
 using Raven.Client;
 
 namespace BrickPile.Sample.Controllers {
@@ -19,12 +18,12 @@ namespace BrickPile.Sample.Controllers {
         /// <summary>
         /// Gets the hierarchy
         /// </summary>
-        public virtual IEnumerable<IHierarchyNode<IPageModel>> Hierarchy {
+        public virtual IEnumerable<IPageModel> Hierarchy {
             get {
-                return DocumentSession.LoadFrom<IPageModel>(x => x.Id == CurrentModel.Id)
-                    .WherePageIsPublished()
-                    .WherePageIsVisibleInMenu()
-                    .AsHierarchy();
+                return DocumentSession.HierarchyFrom<IPageModel>(x => x.Id == CurrentModel.Id)
+                    .Where(x => x.Metadata.IsPublished)
+                    .Where(x => x.Metadata.DisplayInMenu)
+                    .OrderByDescending(x => x.Metadata.SortOrder);
             }
         }
         /// <summary>

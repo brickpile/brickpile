@@ -39,7 +39,7 @@ namespace BrickPile.Core.Repositories {
         /// <returns></returns>
         public T GetPageByUrl<T>(string url) where T : IPageModel {
             return _documentSession.Query<T>("Document/ByUrl")
-                .Customize(x => x.WaitForNonStaleResultsAsOfNow())
+                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                 .Where(x => x.Metadata.Url == url)
                 .FirstOrDefault();
         }
