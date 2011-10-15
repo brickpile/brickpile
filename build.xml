@@ -92,8 +92,7 @@
             </items>
           </in>
           <do>
-            <echo message="${filename}" />
-            <attrib file="${filenname}" normal="true"/>
+            <attrib file="${filename}" normal="true"/>
             <regularExpressionWriter file="${filename}">
               <pattern>namespace BrickPile.Sample</pattern>
               <replacement>namespace $$rootnamespace$$</replacement>
