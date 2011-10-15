@@ -66,15 +66,15 @@
         <property name="l_rootFolder" value="${action.workDir}/BrickPile-Sample"/>
 
         <mkdir dir="${l_rootFolder}/src"/>
-        <mkdir dir="${l_rootFolder}/lib"/>
+        <!--mkdir dir="${l_rootFolder}/lib"/-->
         <mkdir dir="${l_rootFolder}/content"/>
-        
-        <copy todir="${l_rootFolder}/lib/net40">
+
+        <!--copy todir="${l_rootFolder}/lib/net40">
           <fileset basedir="${project.buildDir}/Dlls/Debug">
             <include name="BrickPile.Sample.dll" />
             <include name="BrickPile.Sample.pdb" />
           </fileset>
-        </copy>
+        </copy-->
 
         <copy todir="${l_rootFolder}/src/">
           <fileset basedir="${project.baseDir}/BrickPile.Sample">
@@ -93,6 +93,7 @@
           </in>
           <do>
             <echo message="${filename}" />
+            <attrib file="${filenname}" normal="true"/>
             <regularExpressionWriter file="${filename}">
               <pattern>namespace BrickPile.Sample</pattern>
               <replacement>namespace $$rootnamespace$$</replacement>
