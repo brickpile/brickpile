@@ -60,7 +60,7 @@
         </copy>
       </preNuget>
     </item>
-    <item name="BrickPile-Sample" args="-Symbols">
+    <item name="BrickPile-Sample">
       <preNuget>
         
         <property name="l_rootFolder" value="${action.workDir}/BrickPile-Sample"/>
@@ -83,7 +83,23 @@
             <include name="Models/*.cs"/>
             <include name="ViewModels/*.cs"/>
           </fileset>
-        </copy>        
+        </copy>
+
+        <foreach item="File" property="filename">
+          <in>
+            <items basedir="${l_rootFolder}/src/">
+              <include name="**/*" />
+            </items>
+          </in>
+          <do>
+            <echo message="${filename}" />
+            <regularExpressionWriter file="${filename}">
+              <pattern>namespace BrickPile.Sample</pattern>
+              <replacement>namespace $$rootnamespace$$</replacement>
+            </regularExpressionWriter>
+            <move file="${filename}" tofile="${filename}.pp" />              
+          </do>
+        </foreach>
         
         <copy todir="${l_rootFolder}/content/">
           <fileset basedir="${project.baseDir}/BrickPile.Sample">
