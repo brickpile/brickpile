@@ -130,6 +130,7 @@ namespace BrickPile.UI.Controllers {
             var model = _repository.SingleOrDefault<IPageModel>(m => m.Id == id.Replace("_", "/"));
             model.Metadata.IsDeleted = true;
             model.Metadata.Published = default(DateTime?);
+            model.Metadata.IsPublished = false;
             _repository.SaveChanges();
 
             ViewBag.Heading = "Delete succeeded";
@@ -303,7 +304,6 @@ namespace BrickPile.UI.Controllers {
         /// Initializes a new instance of the <b>PagesController</b> class.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <param name="structureInfo">The structure info.</param>
         /// <param name="repository">The repository.</param>
         /// <param name="session">The session.</param>
         public ContentController(IPageModel model, IRepository<IPageModel> repository, IDocumentSession session) {

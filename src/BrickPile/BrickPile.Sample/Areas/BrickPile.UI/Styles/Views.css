@@ -618,6 +618,19 @@ body.edit span.modelreference {
 body.edit span.modelreference input {
     padding:12px;
 }
+body.edit input[type=text].imageurl {
+    width:478px;
+}
+body.edit span.imageurl {
+    margin:0 0 0 10px;
+    overflow:visible;
+    position:relative;
+    right:auto;
+    top:0;
+}
+body.edit span.imageurl input {
+    padding:12px;
+}
 ::-webkit-input-placeholder { color:#bbb; }
 input:-moz-placeholder,
 textarea:-moz-placeholder { color:#bbb; }

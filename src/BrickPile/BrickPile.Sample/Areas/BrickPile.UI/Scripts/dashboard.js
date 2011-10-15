@@ -97,27 +97,6 @@ Dashboard.prototype = {
             }
         });
     },
-    undelete: function ($anchor) {
-        var self = this;
-        var $row = $anchor.closest('tr');
-        $.ajax({
-            url: '/dashboard/content/undelete',
-            type: 'POST',
-            dataType: 'html',
-            data: { id: $row.attr('id') },
-            success: function (data) {
-                $row.fadeTo('fast', 1);
-                var $growl = $('<aside />');
-                $('body').append($growl)
-                $growl.hide().html(data).fadeIn('fast');
-                $('html').mousemove(function () {
-                    $growl.delay(3000).fadeOut('fast', function () {
-                        $(this).remove();
-                    });
-                });
-            }
-        });
-    },
     selectPage: function ($input) {
         var self = this;
         var id = $input.attr('id');
@@ -127,12 +106,61 @@ Dashboard.prototype = {
             success: function (data) {
                 $('body').append(data);
                 var $dialog = $('.overlay');
-                //$('.overlay aside.dialog').stopPropagation();
-                //                $('html').click(function () {
-                //                    $dialog.fadeOut('fast', function () {
-                //                        $dialog.remove();
-                //                    });
-                //                });
+                $dialog.find('div#scroll').lionbars('dark', true, false, false);
+                $dialog.find('a.close').live('click', function () {
+                    $dialog.fadeOut('fast', function () {
+                        $dialog.remove();
+                    });
+                    return false;
+                });
+                $dialog.find('a.cancel').live('click', function () {
+                    $dialog.fadeOut('fast', function () {
+                        $dialog.remove();
+                    });
+                    return false;
+                });
+
+                $dialog.find('#pages a.link').live('click', function () {
+                    $('#' + id + '_Id').val($(this).attr('data-id'));
+                    $('#pages li').removeClass('selected');
+                    $('.select').parent().removeClass('disabled');
+                    $(this).parent('li').addClass('selected');
+                    return false;
+                });
+
+                $dialog.find('a.select').live('click', function () {
+                    $('#' + id + '_Name').val($('#pages li.selected a').text());
+                    $dialog.fadeOut('fast', function () {
+                        $dialog.remove();
+                    });
+
+                    return false;
+                });
+
+                $dialog.find('.navigator, .parent a').live('click', function () {
+                    $.ajax({
+                        url: '/dashboard/dialog/GetChildrenModel',
+                        type: 'GET',
+                        dataType: 'html',
+                        data: { id: $(this).attr('data-id') },
+                        success: function (data) {
+                            $('.additional-block').html(data);
+                            $('div#scroll').lionbars('dark', true, false, false);
+                        }
+                    });
+                    return false;
+                });
+            }
+        });
+    },
+    browse: function ($anchor) {
+        var self = this;
+        $.ajax({
+            url: '/dashboard/library/openbucket',
+            dataType: 'html',
+            success: function (data) {
+                $('body').append(data);
+                var $dialog = $('.overlay');
                 $dialog.find('a.close').click(function () {
                     $dialog.fadeOut('fast', function () {
                         $dialog.remove();
@@ -145,33 +173,14 @@ Dashboard.prototype = {
                     });
                     return false;
                 });
-                $('#pagetree a').live('click', function (e) {
-                    $('#' + id + '_Id').val($(this).attr('data-val'));
-                    $('#pagetree a').removeClass('selected');
-                    $('.select').parent().removeClass('disabled');
-                    $(this).addClass('selected');
-                    return false;
-                });
-                $dialog.find('a.select').click(function () {
-                    $('#' + id + '_Name').val($('#pagetree a.selected').text());
+                $dialog.find('td a').click(function () {
+                    $anchor.parent().parent().parent().find('input:text').val($(this).attr('data-val'));
                     $dialog.fadeOut('fast', function () {
                         $dialog.remove();
                     });
+                    //$anchor.parent().parent().find('img').attr('src', $(this).attr('data-val'));
                     return false;
                 });
-
-            }
-        });
-        return false;
-
-    },
-    browse: function ($anchor) {
-        var self = this;
-        $.ajax({
-            url: '/dashboard/library/openbucket',
-            dataType: 'html',
-            success: function (data) {
-                $('body').append(data);
                 //                var $dialog = $('div.overlay aside');
                 //                $dialog.click(function (event) {
                 //                    event.stopPropagation();
@@ -210,8 +219,7 @@ $(document).ready(function () {
     $('.publish').live('click', function () { Dashboard.publish($(this)); });
     $('.delete').live('click', function () { Dashboard.remove($(this)); return false; });
     $('.perma-delete').live('click', function () { Dashboard.permanentRemove($(this)); return false; });
-    //$('.undo').live('click', function () { Dashboard.undelete($(this)); return false; });
-    $('.browse').live('click', function () { Dashboard.browse($(this)); });
+    $('.imageurl input').live('click', function () { Dashboard.browse($(this)); });
     $('.modelreference input').live('click', function () { Dashboard.selectPage($(this)); });
 
     // Hide error labels when clicked

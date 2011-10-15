@@ -32,15 +32,14 @@ namespace BrickPile.UI.Controllers {
         private readonly Settings _settings;
         public ActionResult OpenBucket() {
 
-            return PartialView("_FileBrowser");
+            var request = new ListObjectsRequest { BucketName = "KloojedDump" };
 
-            var request = new ListObjectsRequest { BucketName = _settings.BucketName };
-            //var request = new GetObjectMetadataRequest {BucketName = _settings.BucketName};
             var response = _client.ListObjects(request);
-            
+
             var assets = new List<AssetModel>(response.S3Objects.Count);
+
             foreach (var s3Object in response.S3Objects) {
-                if(s3Object.Size == 0)
+                if (s3Object.Size == 0)
                     continue;
 
                 var path = string.Concat("http://s3.amazonaws.com/",
@@ -48,18 +47,22 @@ namespace BrickPile.UI.Controllers {
                                          s3Object.Key);
 
                 assets.Add(new AssetModel
-                               {
-                                   Name = s3Object.Key,
-                                   FileSize = s3Object.Size,
-                                   Path = path,
-                                   LastModified = s3Object.LastModified,
-                                   //Class = selectedAsset.Equals(path) ? "selected" : "unselected"
+                {
+                    Name = s3Object.Key,
+                    FileSize = s3Object.Size,
+                    Path = path,
+                    LastModified = s3Object.LastModified,
+                    //Class = selectedAsset.Equals(path) ? "selected" : "unselected"
 
-                               });                
+                });
             }
-            
-            return PartialView("_bucket", assets);
+            var viewModel = new FileBrowserModel
+                                {
+                                    Assets = assets,
+                                    BackAction = "Index",
+                                };
 
+            return PartialView("_FileBrowser", viewModel);
         }
 
         //public ActionResult Save() {
@@ -92,10 +95,10 @@ namespace BrickPile.UI.Controllers {
             return View(model.S3Objects);
         }
 
-        //public LibraryController(IDocumentSession session) {
-        //    _settings = session.Load<Settings>("brickpile/settings");
-        //    _client = new AmazonS3Client(_settings.AwsAccessKey, _settings.AwsSecretAccessKey);
-            
-        //}
+        public LibraryController(IDocumentSession session) {
+            _settings = session.Load<Settings>("brickpile/settings");
+            _client = new AmazonS3Client(_settings.AwsAccessKey, _settings.AwsSecretAccessKey);
+
+        }
     }
 }

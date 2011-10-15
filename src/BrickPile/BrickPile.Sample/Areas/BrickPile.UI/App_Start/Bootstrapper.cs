@@ -72,8 +72,6 @@ namespace BrickPile.UI.App_Start {
 
                 x.For<IControllerMapper>().Use<ControllerMapper>();
 
-                x.For<IStructureInfo>().Use<StructureInfo>();
-                x.For<IPageService>().Use<PageService>();
                 x.For<ISettings>().Use<Settings>();
                 x.For<IPageModel>().UseSpecial(y => y.ConstructedBy( r => ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>()));
             });

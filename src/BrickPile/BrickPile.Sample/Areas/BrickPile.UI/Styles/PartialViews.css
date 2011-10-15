@@ -53,15 +53,18 @@ aside.dialog h1 {
     text-align:center;
     text-shadow:0 1px 0 rgba(255,255,255,1);
 }
-aside.dialog #pagetree {
-    background-color:#fff;
+aside.dialog #container {
+    /*background-color:#fff;*/
     text-align:left;
 }
-aside.dialog #pagetree a:link,
-aside.dialog #pagetree a:visited {
+aside.dialog li {
     border-bottom:1px solid #d7dad0;
+    position:relative;
+}
+aside.dialog .menu a:link,
+aside.dialog .menu a:visited {
     color:#28353d;
-    display:block;
+    display:inline-block;
     font-weight:bold;
     text-decoration:none;
     padding:17px 13px 18px;
@@ -82,10 +85,87 @@ aside.dialog .close {
     right:14px;
     top:17px;
 }
-aside.dialog #pagetree a:link.selected,
-aside.dialog #pagetree a:visited.selected {
+aside.dialog .menu li.selected {
     background-color:#eff9fe;
     border-color:#e0f3fe;
     border-top:1px solid #e0f3fe;
     margin-top:-1px;
+}
+aside.dialog a.button {
+    background:-moz-linear-gradient(top, #d3d2d1 0%, #afafaf 100%);
+    background:-webkit-linear-gradient(top, #d3d2d1 0%,#afafaf 100%);
+    border-radius:20px;
+    box-shadow:0 1px 0 #cfd4cf;
+    display:inline-block;
+    margin-bottom:-7px;
+    padding:1px !important;
+}
+
+aside.dialog a.button img {
+	background:-moz-linear-gradient(top, #fff 0%, #e2e6da 100%);
+	background:-webkit-linear-gradient(top, #fff 0%,#e2e6da 100%);	
+	border-radius:20px;
+	padding:6px;
+	display:block;
+}
+aside.dialog a.button img:hover,
+aside.dialog table td:last-child span span img:hover  {
+	background:-moz-linear-gradient(top, #fafafa 0%, #d8dbd0 100%);
+	background:-webkit-linear-gradient(top, #fafafa 0%,#d8dbd0 100%);
+}
+aside.dialog a.button img:active,
+aside.dialog a.button img:focus {
+	background:-moz-linear-gradient(top, #e2e6da 0%, #fff 100%);
+	background:-webkit-linear-gradient(top, #e2e6da 0%,#fff 100%);
+	box-shadow:0 1px 1px rgba(0,0,0,0.2) inset;
+}
+aside.dialog a.navigator {
+    position:absolute;
+    right:20px;
+    top:15px;
+}
+aside.dialog span.parent {
+    position:absolute;
+    left:10px;
+    right:auto;
+    top:10px    
+}
+div#scroll {
+   	width: 511px;
+	height: 218px;
+	overflow: auto;
+	float: left;
+	display: inline-block;
+}
+aside.dialog a.link {
+    outline:none;
+}
+aside.dialog #scroll { background-color:#fff; }
+    
+/*--------------------------------------------------------------
+6 File browser
+----------------------------------------------------------------*/
+.overlay aside.filebrowser {
+    width:56.429em;
+}
+.filebrowser table { 
+    border-collapse:collapse;
+    width:100%;    
+}
+
+.filebrowser thead th {
+    font-size:71.4%;
+    font-weight:bold;
+    text-transform:uppercase;
+    background:-moz-linear-gradient(top, #ffffff 0%, #f2f4f0 100%);
+    background:-webkit-linear-gradient(top, #ffffff 0%,#f2f4f0 100%);    
+    border-left:solid 1px #e6e8e2;
+    border-right:solid 1px #fff;
+    margin-top:7px;
+    padding:19px 10px 17px;    
+}
+.filebrowser tbody {
+    background-color:#fff;
+    height:100px;
+    overflow:scroll;
 }

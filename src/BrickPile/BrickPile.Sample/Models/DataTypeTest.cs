@@ -15,5 +15,8 @@ namespace BrickPile.Sample.Models {
         /// </value>
         [Display(Name = "Link",Prompt = "Specify page name or browse...")]
         public ModelReference Link { get; set; }
+
+        [DataType(DataType.ImageUrl)]
+        public string Image { get; set; }
     }
 }

@@ -12,7 +12,7 @@
                 <span>@page.Metadata.Published.Value.ToShortDateString()</span>
                 <h1>@Html.ActionLink(page.Metadata.Name,"index", new { model = page })</h1>
             <header>
-            <img src="http://placehold.it/204x152" />
+            <img src="@Url.Content("~/content/teaser-1.png")" />
             <p>@Html.DisplayTextFor(x => page.MainIntro)</p>
         </article>
     </li>

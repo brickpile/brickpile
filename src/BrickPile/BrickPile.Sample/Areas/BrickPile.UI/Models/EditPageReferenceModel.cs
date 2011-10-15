@@ -38,6 +38,13 @@ namespace BrickPile.UI.Models {
         /// </value>
         public string BackAction { get; set; }
         /// <summary>
+        /// Gets or sets the root model.
+        /// </summary>
+        /// <value>
+        /// The root model.
+        /// </value>
+        public IPageModel RootModel { get; set; }
+        /// <summary>
         /// Gets or sets the current model.
         /// </summary>
         /// <value>
@@ -45,11 +52,18 @@ namespace BrickPile.UI.Models {
         /// </value>
         public IPageModel CurrentModel { get; set; }
         /// <summary>
+        /// Gets or sets the parent model.
+        /// </summary>
+        /// <value>
+        /// The parent model.
+        /// </value>
+        public IPageModel ParentModel { get; set; }
+        /// <summary>
         /// Gets or sets the page models.
         /// </summary>
         /// <value>
         /// The page models.
         /// </value>
-        public IEnumerable<IPageModel> PageModels { get; set; }
+        public IEnumerable<IPageModel> Children { get; set; }
     }
 }

@@ -125,6 +125,7 @@
     <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="App_Start\Initializer.cs" />
     <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\HtmlExtensions.cs" />
     <Compile Include="Common\ResourceHelper.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AssetModel.cs" />
     <Compile Include="Models\ConfirmFormModel.cs" />
+    <Compile Include="Models\FileBrowserModel.cs" />
     <Compile Include="Models\NewModel.cs" />
     <Compile Include="Models\EditPageReferenceModel.cs" />
     <Compile Include="Models\EditUserModel.cs" />
@@ -214,6 +216,7 @@
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.16.custom.js" />
     <Content Include="Scripts\jquery-ui-1.8.16.custom.min.js" />
+    <Content Include="Scripts\jQuery.lionbars.0.2.1.min.js" />
     <Content Include="Scripts\jquery.selectbox.js" />
     <Content Include="Scripts\jquery.selectBox.min.js" />
     <Content Include="Scripts\jquery.slugify.js" />
@@ -489,6 +492,7 @@
     <Content Include="Scripts\tinymce.3.4.5\utils\validate.js" />
     <Content Include="Styles\Dashboard.css" />
     <Content Include="Styles\Framework.css" />
+    <Content Include="Styles\lionbars.css" />
     <Content Include="Styles\PartialViews.css" />
     <Content Include="Styles\Views.css" />
     <Content Include="Styles\webfonts\svg\museo-sans-500.svg" />
@@ -513,7 +517,6 @@
     <None Include="Styles\webfonts\woff\museo-sans-500.woff" />
     <None Include="Styles\webfonts\woff\museo-sans-700.woff" />
     <Content Include="Views\Content\Start.cshtml" />
-    <Content Include="Views\Content\Publish.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\EditorTemplates\PageName.cshtml" />
   </ItemGroup>
@@ -547,7 +550,7 @@
     <Content Include="Views\Dialog\EditModelReference.cshtml" />
     <Content Include="Views\Library\Index.cshtml" />
     <Content Include="Views\Library\Save.cshtml" />
-    <Content Include="Views\Content\Preview.cshtml" />
+    <Content Include="Views\Dialog\_Menu.cshtml" />
     <None Include="Views\Library\_bucket.cshtml.bak" />
     <Content Include="Views\Settings\Index.cshtml" />
   </ItemGroup>

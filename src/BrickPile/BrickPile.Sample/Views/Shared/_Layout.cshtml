@@ -4,6 +4,7 @@
 @using BrickPile.UI.Common
 @using System.Globalization
 @using SquishIt.Framework
+@using BrickPile.UI.Common
 
 <!DOCTYPE html>
 <html lang="@CultureInfo.CurrentCulture.TwoLetterISOLanguageName">
@@ -32,6 +33,10 @@
             <link rel="stylesheet" href="@Url.Content("~/styles/legacy/ie8.css")" media="screen,projection" />
         <![endif]-->
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+
+        @RenderSection("scripts", false)
+        @RenderSection("styles",false)
+
 	</head>
 	<body class="@Model.Class">
 		<header> 
@@ -54,5 +59,9 @@
 			<p><strong>Email us:</strong> <a href="#">info@acme.com</a></p>
 			<p><strong>Follow us:</strong> <a href="#">Facebook</a> <a href="#">Twitter</a></p>
 		</footer>
+
+        @Html.RenderSection("scripts")
+        @Html.RenderSection("styles")
+
 	</body>
 </html>

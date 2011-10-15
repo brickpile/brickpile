@@ -21,7 +21,9 @@ namespace BrickPile.Core.Infrastructure.Common {
                 .Include(x => x.Children)
                 .Where(predicate)
                 .SingleOrDefault();
-
+            if(page == null) {
+                return session.Query<T>();
+            }
             var ids = new List<string> {page.Id};
             ids.AddRange(page.Children);
             foreach (var ancestor in page.Ancestors.Where(ancestor => ancestor.Children != null)) {
