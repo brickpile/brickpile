@@ -93,7 +93,7 @@
           </in>
           <do>
             <attrib file="${filename}" normal="true"/>
-            <regularExpressionWriter file="${filename}">
+            <regularExpressionWriter file="${filename}" verbose="true">
               <pattern><![CDATA[namespace BrickPile\.Sample]]></pattern>
               <replacement>namespace $$rootnamespace$$</replacement>
             </regularExpressionWriter>
