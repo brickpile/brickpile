@@ -85,7 +85,7 @@
           </fileset>
         </copy>
 
-        <foreach item="File" property="filename">
+        <!--foreach item="File" property="filename">
           <in>
             <items basedir="${l_rootFolder}/src/">
               <include name="**/*" />
@@ -99,7 +99,7 @@
             </regularExpressionWriter>
             <move file="${filename}" tofile="${filename}.pp" />              
           </do>
-        </foreach>
+        </foreach-->
         
         <copy todir="${l_rootFolder}/content/">
           <fileset basedir="${project.baseDir}/BrickPile.Sample">
