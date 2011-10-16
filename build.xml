@@ -84,22 +84,6 @@
             <include name="ViewModels/*.cs"/>
           </fileset>
         </copy-->
-
-        <!--foreach item="File" property="filename">
-          <in>
-            <items basedir="${l_rootFolder}/src/">
-              <include name="**/*" />
-            </items>
-          </in>
-          <do>
-            <attrib file="${filename}" normal="true"/>
-            <regularExpressionWriter file="${filename}" verbose="true">
-              <pattern><![CDATA[namespace BrickPile\.Sample]]></pattern>
-              <replacement>namespace $$rootnamespace$$</replacement>
-            </regularExpressionWriter>
-            <move file="${filename}" tofile="${filename}.pp" />              
-          </do>
-        </foreach-->
         
         <copy todir="${l_rootFolder}/content/">
           <fileset basedir="${project.baseDir}/BrickPile.Sample">
@@ -112,7 +96,23 @@
             <include name="Views/**/*" />
           </fileset>
         </copy>
-        
+
+        <foreach item="File" property="filename">
+          <in>
+            <items basedir="${l_rootFolder}/content/">
+              <include name="**/*.cs" />
+            </items>
+          </in>
+          <do>
+            <attrib file="${filename}" normal="true"/>
+            <regularExpressionWriter file="${filename}" verbose="true">
+              <pattern><![CDATA[namespace BrickPile\.Sample]]></pattern>
+              <replacement>namespace $$rootnamespace$$</replacement>
+            </regularExpressionWriter>
+            <move file="${filename}" tofile="${filename}.pp" />              
+          </do>
+        </foreach>
+
       </preNuget>
     </item>
   </items>
