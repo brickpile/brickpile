@@ -141,7 +141,7 @@ aside.dialog a.link {
     outline:none;
 }
 aside.dialog #scroll { background-color:#fff; }
-    
+aside.dialog .additional-block { height:270px; }
 /*--------------------------------------------------------------
 6 File browser
 ----------------------------------------------------------------*/

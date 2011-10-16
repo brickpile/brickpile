@@ -23,11 +23,6 @@ using BrickPile.Domain.Models;
 namespace BrickPile.UI.Web.ViewModels {
     public class DashboardViewModel : IDashboardViewModel {
         /// <summary>
-        /// Get/Sets the StructureInfo of the DashboardViewModel
-        /// </summary>
-        /// <value></value>
-        public virtual IStructureInfo StructureInfo { get; private set; }
-        /// <summary>
         /// Get/Sets the CurrentModel of the DashboardViewModel
         /// </summary>
         /// <value></value>
@@ -36,10 +31,8 @@ namespace BrickPile.UI.Web.ViewModels {
         /// Initializes a new instance of the <see cref="DashboardViewModel"/> class.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <param name="structureInfo">The structure info.</param>
-        public DashboardViewModel(IPageModel model, IStructureInfo structureInfo) {
+        public DashboardViewModel(IPageModel model) {
             CurrentModel = model;
-            StructureInfo = structureInfo;
         }
     }
 }

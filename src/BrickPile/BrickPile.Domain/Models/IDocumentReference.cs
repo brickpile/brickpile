@@ -29,6 +29,6 @@ namespace BrickPile.Domain.Models {
         /// Get/Sets the Slug of the DenormalizedReference
         /// </summary>
         /// <value></value>
-        //string Slug { get; set; }
+        string Slug { get; set; }
     }
 }

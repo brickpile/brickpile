@@ -24,6 +24,9 @@ using BrickPile.Domain.Models;
 
 namespace BrickPile.Core.Infrastructure.Indexes {
     class Document_ByUrl : AbstractIndexCreationTask<IPageModel> {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Document_ByUrl"/> class.
+        /// </summary>
         public Document_ByUrl() {
             Map = documents => from document in documents
                                select new

@@ -29,6 +29,9 @@ namespace BrickPile.Core.Infrastructure.Indexes {
     /// <remarks></remarks>
     /// <example></example>
     public class Documents_ByParent :  AbstractIndexCreationTask<IPageModel> {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Documents_ByParent"/> class.
+        /// </summary>
         public Documents_ByParent() {
             Map = documents => from document in documents
                                select new {document.Parent.Id};

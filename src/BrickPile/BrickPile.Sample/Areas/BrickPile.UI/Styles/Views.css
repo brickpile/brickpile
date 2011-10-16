@@ -567,7 +567,7 @@ body.edit #button {
     background:none;
 }
 
-body.edit .editor-label {
+body.edit fieldset .editor-label {
 	color:#3d4950;
 	display:block;
 	float:left;
@@ -578,7 +578,7 @@ body.edit .editor-label {
 	text-align:right;
 	position:absolute;
 }
-body.edit .editor-field {
+body.edit fieldset .editor-field {
 	background:#e0f3fe;
     border-radius:5px;	    
 	box-shadow:none;
@@ -586,7 +586,17 @@ body.edit .editor-field {
 	margin-top:8px;
 	padding:.65em 1em .75em;
 }
-
+body.edit fieldset .editor-field .editor-field { padding:2.2em 0 0; }
+body.edit fieldset .editor-field .editor-label {
+    margin-top:.95em;
+    width:auto;
+}
+body.edit fieldset .editor-field .editor-label label {
+    display:block;
+    margin:0;
+    position:static;
+    width:auto;
+}
 body.edit label {
 	font-weight:bold;
 	display:inline-block;

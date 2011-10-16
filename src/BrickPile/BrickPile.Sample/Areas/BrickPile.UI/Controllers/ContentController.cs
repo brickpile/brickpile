@@ -108,6 +108,7 @@ namespace BrickPile.UI.Controllers {
             UpdateModel(_model);
 
             _model.Metadata.Changed = DateTime.Now;
+            _model.Metadata.Published = _model.Metadata.IsPublished ? DateTime.Now : default(DateTime?);
             _model.Metadata.ChangedBy = HttpContext.User.Identity.Name;
 
             _repository.SaveChanges();

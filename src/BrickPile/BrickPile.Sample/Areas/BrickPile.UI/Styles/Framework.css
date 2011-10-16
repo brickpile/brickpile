@@ -83,6 +83,7 @@ button {
 	font:100%/1.5 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight:300;    
 }
+textarea { color: #545454; }
 input[type=text],
 input[type=password] {
 	border:1px solid #d3d4d1;

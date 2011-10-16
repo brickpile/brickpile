@@ -35,7 +35,7 @@ namespace BrickPile.Core.Repositories {
         /// <returns></returns>
         public T SingleOrDefault<T>(Expression<Func<T, bool>> predicate) {
             return _documentSession.Query<T>()
-                .Customize(x => x.WaitForNonStaleResultsAsOfNow())
+                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                 .SingleOrDefault(predicate);
         }
         /// <summary>
@@ -54,7 +54,7 @@ namespace BrickPile.Core.Repositories {
         /// <returns></returns>
         public IEnumerable<T> List<T>() {
             return _documentSession.Query<T>()
-                .Customize(x => x.WaitForNonStaleResultsAsOfNow());
+                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite());
         }
         /// <summary>
         /// Stores the specified entity.

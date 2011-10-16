@@ -98,7 +98,7 @@ namespace BrickPile.UI.Controllers {
 				if (createStatus == MembershipCreateStatus.Success)
 				{
 					FormsService.SignIn(model.UserName, false /* createPersistentCookie */);
-					return RedirectToAction("index", "Dashboard",new { area = "Dashboard" });
+					return RedirectToAction("index", "Content",new { area = "Dashboard" });
 				}
 				else
 				{

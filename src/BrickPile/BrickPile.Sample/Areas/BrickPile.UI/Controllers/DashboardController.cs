@@ -31,8 +31,7 @@ namespace BrickPile.UI.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult Index() {
-            ViewBag.Class = "dashboard";
-            return View();
+            return RedirectToAction("index", "content");
         }
     }
 }

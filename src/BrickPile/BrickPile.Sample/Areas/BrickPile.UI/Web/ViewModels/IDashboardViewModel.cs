@@ -23,6 +23,5 @@ using BrickPile.Domain.Models;
 namespace BrickPile.UI.Web.ViewModels {
     public interface IDashboardViewModel {
         IPageModel CurrentModel { get; }
-        IStructureInfo StructureInfo { get; }
     }
 }

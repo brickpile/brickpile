@@ -141,7 +141,6 @@
     <Compile Include="App_Start\Initializer.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\HtmlExtensions.cs" />
-    <Compile Include="Common\ResourceHelper.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -157,10 +156,9 @@
     <Compile Include="IStructureInfo.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AssetModel.cs" />
-    <Compile Include="Models\ConfirmFormModel.cs" />
     <Compile Include="Models\FileBrowserModel.cs" />
     <Compile Include="Models\NewModel.cs" />
-    <Compile Include="Models\EditPageReferenceModel.cs" />
+    <Compile Include="Models\EditModelReferenceModel.cs" />
     <Compile Include="Models\EditUserModel.cs" />
     <Compile Include="Models\ISettings.cs" />
     <Compile Include="Models\ModelReference.cs" />
@@ -203,8 +201,6 @@
     <Compile Include="Web\ViewModels\SetupViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\actions-spliter.png" />
-    <Content Include="Content\body-bg.png" />
     <Content Include="Content\linen.jpg" />
     <Content Include="Content\sprite.png" />
     <Content Include="Images\add.png" />
@@ -214,7 +210,6 @@
     <Content Include="Images\dialog-top.png" />
     <Content Include="Images\edit.png" />
     <Content Include="Images\logo.png" />
-    <Content Include="Content\jquery.selectBox-arrow.gif" />
     <Content Include="Images\preview.png" />
     <Content Include="Images\Setup\alert.png" />
     <Content Include="Images\Setup\arrow.png" />
@@ -518,9 +513,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Content\New.cshtml" />
-    <Content Include="Views\Shared\_GlobalNavigation.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Views\Setup\Index.cshtml" />
     <None Include="Styles\webfonts\eot\felttip-roman.eot" />
     <None Include="Styles\webfonts\eot\museo-sans-500.eot" />
@@ -558,7 +550,6 @@
     <Content Include="Views\Account\ManageUsers.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Content\Add.cshtml" />
-    <Content Include="Views\Content\Confirm.cshtml" />
     <Content Include="Views\Content\Edit.cshtml" />
     <Content Include="Views\Content\Index.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
@@ -592,9 +583,6 @@
     <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Url.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\_LocalNavigation.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

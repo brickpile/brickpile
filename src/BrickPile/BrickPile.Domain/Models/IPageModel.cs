@@ -35,19 +35,5 @@ namespace BrickPile.Domain.Models {
         /// The parent.
         /// </value>
         DocumentReference<IPageModel> Parent { get; set; }
-        /// <summary>
-        /// Gets or sets the ancestors.
-        /// </summary>
-        /// <value>
-        /// The ancestors.
-        /// </value>
-        //IList<Ancestor> Ancestors { get; }
-        /// <summary>
-        /// Gets or sets the children.
-        /// </summary>
-        /// <value>
-        /// The children.
-        /// </value>
-        //List<string> Children { get; }
     }
 }

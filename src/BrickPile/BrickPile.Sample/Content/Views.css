@@ -38,7 +38,7 @@
     /*--------------------------------------------------------------
     1 Home
     ----------------------------------------------------------------*/
-    body.home header h1 { padding:0;font-size:100%;	margin:0 ; }
+    body.home header h1 { padding:0;font-size:200%;	margin:0;font-family:'MuseoSans500';  }
     body.home #content {
         padding:0;
         margin-top:0;
@@ -50,7 +50,8 @@
     }
     body.home ul#teasers li {
 	    float:left;
-	    width:34.5%;
+        margin-right: 2em;
+        width: 31.4%;	    
     }
     body.home ul#teasers li.last {
         margin:0;
@@ -78,21 +79,23 @@
     /*--------------------------------------------------------------
     2 Newslist
     ----------------------------------------------------------------*/
+    body.newslist #content header { border:0;font-size:100%;margin:0;padding:0; }
     body.newslist #content {
         padding:1em 0 0 0;
     }
     body.newslist h1 {
-        font-size:178.6%;
+        font-size:200%;
     }
     body.newslist #content header span {
+        font-family:Arial,"Helvetica Neue",sans-serif;
         color:#666;
         font-weight:bold; 
     }
     body.newslist #content ul li {
-        border-bottom:1px solid #ccc;
+        border-bottom:1px solid #272727;
         padding:1.8em 0 1.8em 327px;
         position:relative;
-        min-height:152px;
+        min-height:174px;
     }
     body.newslist #content ul li:last-child {
         border:0;
@@ -110,7 +113,7 @@
     body.caselist #content > p {
         font-size:235.7%;
         font-family:'MuseoSans500'; 
-        color:#000;
+        color:#808080;
         line-height:1.45; 
         margin:0 0 .5em;
     }
@@ -137,7 +140,7 @@
         min-height:272px;
         padding:1.8em 0 1.8em 490px;
         position:relative;
-        border-top:1px solid #ccc;
+        border-top:1px solid #272727;
     }
     body.caselist #content ul img {
         position:absolute;
@@ -151,12 +154,14 @@
     /*--------------------------------------------------------------
     3 News item
     ----------------------------------------------------------------*/
+    body.news #content header { font-size:100%; padding:0;border:0; }
     body.news .back {
         font-weight:bold;
         display:inline-block;
         margin-bottom:1.2em;
     }
     body.news span.date {
+        font-family:Arial,"Helvetica Neue",sans-serif;
         font-weight:bold;
         color:#666;
     }

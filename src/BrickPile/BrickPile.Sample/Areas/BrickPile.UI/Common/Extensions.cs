@@ -160,6 +160,26 @@ namespace BrickPile.UI.Common {
             return htmlHelper.ActionLink(linkText, "index", new { model });
         }
         /// <summary>
+        /// Actions the specified URL helper.
+        /// </summary>
+        /// <param name="urlHelper">The URL helper.</param>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        public static string Action(this UrlHelper urlHelper, IPageModel model) {
+            return urlHelper.Action("index", new {model});
+        }
+        /// <summary>
+        /// Actions the specified URL helper.
+        /// </summary>
+        /// <param name="urlHelper">The URL helper.</param>
+        /// <param name="actionName">Name of the action.</param>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        public static string Action(this UrlHelper urlHelper,string actionName, IPageModel model) {
+            return urlHelper.Action(actionName, new { model });
+        }
+
+        /// <summary>
         /// Get the attribute of a specific type, returns null if not exists
         /// </summary>
         /// <param name="type"></param>

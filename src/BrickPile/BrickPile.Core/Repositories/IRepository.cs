@@ -21,7 +21,6 @@ THE SOFTWARE. */
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using BrickPile.Domain.Models;
 
 namespace BrickPile.Core.Repositories {
     /// <summary>
