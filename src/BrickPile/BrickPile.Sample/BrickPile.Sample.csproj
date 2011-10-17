@@ -141,7 +141,6 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Case.cs" />
     <Compile Include="Models\CaseList.cs" />
-    <Compile Include="Models\DataTypeTest.cs" />
     <Compile Include="Models\Home.cs" />
     <Compile Include="Models\News.cs" />
     <Compile Include="Models\NewsList.cs" />

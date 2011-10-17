@@ -18,7 +18,6 @@ namespace BrickPile.Sample.Models {
         /// The link.
         /// </value>
         [Display(Name = "Teaser link", Prompt = "Select page...")]
-        [Required]
         public virtual ModelReference Link { get; set; }
     }
 }
