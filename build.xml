@@ -87,6 +87,10 @@
               <pattern><![CDATA[namespace\sBrickPile\.Sample]]></pattern>
               <replacement>namespace $rootnamespace$</replacement>
             </regularExpressionWriter>
+            <regularExpressionWriter file="${filename}" verbose="true">
+              <pattern><![CDATA[using\sBrickPile.Sample]]></pattern>
+              <replacement>using $rootnamespace$</replacement>
+            </regularExpressionWriter>
             <move file="${filename}" tofile="${filename}.pp" />              
           </do>
         </foreach>
