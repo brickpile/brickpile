@@ -62,29 +62,8 @@
     </item>
     <item name="BrickPile-Sample">
       <preNuget>
-        
         <property name="l_rootFolder" value="${action.workDir}/BrickPile-Sample"/>
-
-        <!--mkdir dir="${l_rootFolder}/src"/-->
-        <!--mkdir dir="${l_rootFolder}/lib"/-->
         <mkdir dir="${l_rootFolder}/content"/>
-
-        <!--copy todir="${l_rootFolder}/lib/net40">
-          <fileset basedir="${project.buildDir}/Dlls/Debug">
-            <include name="BrickPile.Sample.dll" />
-            <include name="BrickPile.Sample.pdb" />
-          </fileset>
-        </copy-->
-
-        <!--copy todir="${l_rootFolder}/src/">
-          <fileset basedir="${project.baseDir}/BrickPile.Sample">
-            <include name="Properties/*.cs"/>
-            <include name="Controllers/*.cs"/>
-            <include name="Models/*.cs"/>
-            <include name="ViewModels/*.cs"/>
-          </fileset>
-        </copy-->
-        
         <copy todir="${l_rootFolder}/content/">
           <fileset basedir="${project.baseDir}/BrickPile.Sample">
             <include name="Properties/*.cs"/>
@@ -96,7 +75,6 @@
             <include name="Views/**/*" />
           </fileset>
         </copy>
-
         <foreach item="File" property="filename">
           <in>
             <items basedir="${l_rootFolder}/content/">
@@ -112,7 +90,6 @@
             <move file="${filename}" tofile="${filename}.pp" />              
           </do>
         </foreach>
-
       </preNuget>
     </item>
   </items>
