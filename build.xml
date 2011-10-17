@@ -106,7 +106,7 @@
           <do>
             <attrib file="${filename}" normal="true"/>
             <regularExpressionWriter file="${filename}" verbose="true">
-              <pattern><![CDATA[namespace BrickPile\.Sample]]></pattern>
+              <pattern><![CDATA[namespace\sBrickPile\.Sample]]></pattern>
               <replacement>namespace $$rootnamespace$$</replacement>
             </regularExpressionWriter>
             <move file="${filename}" tofile="${filename}.pp" />              
