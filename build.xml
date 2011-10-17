@@ -78,18 +78,14 @@
         <foreach item="File" property="filename">
           <in>
             <items basedir="${l_rootFolder}/content/">
-              <include name="**/*.cs" />
+              <include name="**/*" />
             </items>
           </in>
           <do>
             <attrib file="${filename}" normal="true"/>
             <regularExpressionWriter file="${filename}" verbose="true">
-              <pattern><![CDATA[namespace\sBrickPile\.Sample]]></pattern>
-              <replacement>namespace $rootnamespace$</replacement>
-            </regularExpressionWriter>
-            <regularExpressionWriter file="${filename}" verbose="true">
-              <pattern><![CDATA[using\sBrickPile.Sample]]></pattern>
-              <replacement>using $rootnamespace$</replacement>
+              <pattern><![CDATA[BrickPile\.Sample]]></pattern>
+              <replacement>$rootnamespace$</replacement>
             </regularExpressionWriter>
             <move file="${filename}" tofile="${filename}.pp" />              
           </do>
