@@ -296,6 +296,7 @@ body.content table td.name {
     color:#323e45;
     font-size:100%;
     font-weight:bold;
+    
 }
 body.content table td.name span {
     padding:0 10px;
@@ -492,7 +493,7 @@ body.edit span.back  {
     right:auto;
 }
 body.edit span.advanced button {
-    padding:4px 12px;
+    padding:5px 12px 4px;
 }
 body.edit form>div {
     background:none #f8f9f6;
@@ -716,6 +717,7 @@ body.users table td.name {
 body.users table td.name span {
     padding:0 10px;
     line-height:54px;
+    white-space: nowrap;
 }
 body.users td span,
 body.users th span {
