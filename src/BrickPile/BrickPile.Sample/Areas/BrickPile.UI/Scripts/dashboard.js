@@ -128,7 +128,7 @@ Dashboard.prototype = {
                     return false;
                 });
 
-                $dialog.find('a.select').live('click', function () {
+                $dialog.find('a.select').click(function () {
                     $('#' + id + '_Name').val($('#pages li.selected a').text());
                     $dialog.fadeOut('fast', function () {
                         $dialog.remove();
