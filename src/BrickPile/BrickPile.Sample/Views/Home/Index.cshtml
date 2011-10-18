@@ -31,30 +31,36 @@ THE SOFTWARE. *@
 
 <ul id="teasers">
 	<li>
-		<article>
-			<a href="@Url.Action(Model.TeaserOne)">
-				<h1>@Model.CurrentModel.TeaserOne.Heading</h1>
-				<p>@Model.TeaserOne.MainIntro</p>
-				<img src="@Url.Content("/content/teaser-1.png")" alt="">
-			</a>
-		</article>
+        @if (Model.TeaserOne != null) {
+		    <article>
+		        <a href="@Url.Action(Model.TeaserOne)">
+			        <h1>@Model.CurrentModel.TeaserOne.Heading</h1>
+			        <p>@Model.TeaserOne.MainIntro</p>
+			        <img src="@Url.Content("/content/teaser-1.png")" alt="">
+		        </a>
+		    </article>
+        }
 	</li>
 	<li>
-		<article>
-			<a href="@Url.Action(Model.TeaserOne)">
-				<h1>@Model.CurrentModel.TeaserTwo.Heading</h1>
-				<p>@Model.TeaserTwo.MainIntro</p>
-				<img src="@Url.Content("/content/teaser-2.png")" alt="">
-			</a>
-		</article>
+        @if (Model.TeaserTwo != null) {
+		    <article>
+			    <a href="@Url.Action(Model.TeaserOne)">
+				    <h1>@Model.CurrentModel.TeaserTwo.Heading</h1>
+				    <p>@Model.TeaserTwo.MainIntro</p>
+				    <img src="@Url.Content("/content/teaser-2.png")" alt="">
+			    </a>
+		    </article>
+        }
 	</li>
     <li class="last">
-		<article>
-			<a href="@Url.Action(Model.TeaserOne)">
-				<h1>@Model.CurrentModel.TeaserThree.Heading</h1>
-				<p>@Model.TeaserThree.MainIntro</p>
-				<img src="@Url.Content("/content/teaser-3.png")" alt="">
-			</a>
-		</article>
+        @if (Model.TeaserThree != null) {
+		    <article>
+			    <a href="@Url.Action(Model.TeaserOne)">
+				    <h1>@Model.CurrentModel.TeaserThree.Heading</h1>
+				    <p>@Model.TeaserThree.MainIntro</p>
+				    <img src="@Url.Content("/content/teaser-3.png")" alt="">
+			    </a>
+		    </article>
+        }
 	</li>
 </ul>

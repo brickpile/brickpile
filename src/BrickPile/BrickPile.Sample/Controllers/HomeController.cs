@@ -31,19 +31,22 @@ namespace BrickPile.Sample.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult Index() {
-            var links = new[] {CurrentModel.TeaserOne.Link.Id, CurrentModel.TeaserTwo.Link.Id,CurrentModel.TeaserThree.Link.Id};
-            var teasers = DocumentSession.Load<BaseEditorial>(links);
-            var viewModel = new HomeViewModel
-                                {
-                                    CurrentModel = this.CurrentModel,
-                                    Hierarchy = this.Hierarchy,
-                                    TeaserOne = teasers.Where(x => x.Id == CurrentModel.TeaserOne.Link.Id).SingleOrDefault(),
-                                    TeaserTwo = teasers.Where(x => x.Id == CurrentModel.TeaserTwo.Link.Id).SingleOrDefault(),
-                                    TeaserThree = teasers.Where(x => x.Id == CurrentModel.TeaserThree.Link.Id).SingleOrDefault(),
-                                    Class = "home",
-                                };
+            if(CurrentModel != null) {
+                var links = new[] {CurrentModel.TeaserOne.Link.Id, CurrentModel.TeaserTwo.Link.Id,CurrentModel.TeaserThree.Link.Id};
+                var teasers = DocumentSession.Load<BaseEditorial>(links);
+                var viewModel = new HomeViewModel
+                                    {
+                                        CurrentModel = this.CurrentModel,
+                                        Hierarchy = this.Hierarchy,
+                                        TeaserOne = teasers.Where(x => x.Id == CurrentModel.TeaserOne.Link.Id).SingleOrDefault(),
+                                        TeaserTwo = teasers.Where(x => x.Id == CurrentModel.TeaserTwo.Link.Id).SingleOrDefault(),
+                                        TeaserThree = teasers.Where(x => x.Id == CurrentModel.TeaserThree.Link.Id).SingleOrDefault(),
+                                        Class = "home",
+                                    };
 
-            return View(viewModel);
+                return View(viewModel);
+            }
+            return View();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
