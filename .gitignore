@@ -33,3 +33,5 @@ Backup*/
 NuGet*/
 src/BrickPile/packages/RavenDB*/server/Data*/
 src/BrickPile/packages/RavenDB*/server/Raven.Server.log*
+src/BrickPile/BrickPile.Sample/Areas/BrickPile.UI/Scripts/brickpile.js
+src/BrickPile/BrickPile.Sample/Areas/BrickPile.UI/Scripts/brickpile.js
