@@ -54,9 +54,9 @@
                     <tr class="ui-state-disabled">
                         <td><span>&nbsp;</span></td>
                         <td class="name"><span>@Model.RootModel.Metadata.Name</span></td>
-                        <td><span>/@Model.RootModel.Metadata.Slug</span></td>
-                        <td><span>@Html.CheckBox(Model.RootModel.Id.Replace("/", "_"), Model.RootModel.Metadata.IsPublished, new { @class = "publish" })</span></td>
-                        <td><span>@Html.Raw(Model.RootModel.Metadata.Changed.HasValue ? @Model.RootModel.Metadata.Changed.FormatDate() + " <strong>by</strong> " + Model.RootModel.Metadata.ChangedBy : "")</span></td>
+                        <td class="slug"><span>/@Model.RootModel.Metadata.Slug</span></td>
+                        <td class="publish"><span>@Html.CheckBox(Model.RootModel.Id.Replace("/", "_"), Model.RootModel.Metadata.IsPublished, new { @class = "publish" })</span></td>
+                        <td class="changed"><span>@Html.Raw(Model.RootModel.Metadata.Changed.HasValue ? @Model.RootModel.Metadata.Changed.FormatDate() + " <strong>by</strong> " + Model.RootModel.Metadata.ChangedBy : "")</span></td>
                         <td class="actions">
                             <span>
                                 <span>
@@ -77,9 +77,9 @@
                             <tr id="@item.Id.Replace('/', '_')" class="@(item.Metadata.IsDeleted ? "deleted" : "")">
                                 <td><span><img src="/areas/brickpile.ui/images/sort.png" alt="Sort" /></span></td>
                                 <td class="name"><span>@item.Metadata.Name</span></td>
-                                <td><span>@item.Metadata.Slug</span></td>
-                                <td><span>@Html.CheckBox(item.Id.Replace("/", "_"), item.Metadata.IsPublished, new { disabled = "disabled" })</span></td>
-                                <td><span>@Html.Raw(item.Metadata.Changed.HasValue ? item.Metadata.Changed.FormatDate() + " <strong>by</strong> " + item.Metadata.ChangedBy : "")</span></td>
+                                <td class="slug"><span>@item.Metadata.Slug</span></td>
+                                <td class="publish"><span>@Html.CheckBox(item.Id.Replace("/", "_"), item.Metadata.IsPublished, new { disabled = "disabled" })</span></td>
+                                <td class="changed"><span>@Html.Raw(item.Metadata.Changed.HasValue ? item.Metadata.Changed.FormatDate() + " <strong>by</strong> " + item.Metadata.ChangedBy : "")</span></td>
                                 <td class="actions">
                                     <span>
                                         <span>
@@ -94,9 +94,9 @@
                             <tr id="@item.Id.Replace('/', '_')"class="@(item.Metadata.IsDeleted ? "deleted" : "")">
                                 <td class="sort"><span><img src="/areas/brickpile.ui/images/sort.png" alt="Sort" /></span></td>
                                 <td class="name"><span>@item.Metadata.Name</span></td>
-                                <td><span>@item.Metadata.Slug</span></td>
-                                <td><span>@Html.CheckBox(item.Id.Replace("/", "_"), item.Metadata.IsPublished, new { @class = "publish" })</span></td>
-                                <td><span>@Html.Raw(item.Metadata.Changed.HasValue ? item.Metadata.Changed.FormatDate() + " <strong>by</strong> " + item.Metadata.ChangedBy : "")</span></td>
+                                <td class="slug"><span>@item.Metadata.Slug</span></td>
+                                <td class="publish"><span>@Html.CheckBox(item.Id.Replace("/", "_"), item.Metadata.IsPublished, new { @class = "publish" })</span></td>
+                                <td class="changed"><span>@Html.Raw(item.Metadata.Changed.HasValue ? item.Metadata.Changed.FormatDate() + " <strong>by</strong> " + item.Metadata.ChangedBy : "")</span></td>
                                 <td class="actions">
                                     <span>
                                         <span>

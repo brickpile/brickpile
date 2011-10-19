@@ -151,6 +151,7 @@ body.content div#pages {
 body.content table {
     border-collapse:collapse;
     width:100%;
+    white-space: nowrap;
 }
 
 body.content table caption {
@@ -272,6 +273,7 @@ body.content thead span {
 body.content table th span { margin-top:0; }
 body.content table th:first-child span {
     border-radius:0 0 0 5px;
+    padding: 8px 0;
 }
 body.content table th:last-child span {
     border-radius:0 0 5px 0;
@@ -280,27 +282,89 @@ body.content table th {
     text-align:left;
     margin:0;
 }
-body.content table td:first-child { width:10px; }
 body.content table td:first-child span {
     border-radius:5px 0 0 5px;
+    padding: 19px 0 17px 2px;
+    text-align: center;
+    width: 12px;    
 }
 body.content table td:last-child span {
     border-radius:0 5px 5px 0;
     padding:7px 10px 17px;
 }
 body.content table td {
-    color:#525c62;
+    /*color:#525c62;*/
+    color: #28353d;
   	font-size:85.7%;
+    overflow: hidden;
 }
 body.content table td.name {
     color:#323e45;
     font-size:100%;
     font-weight:bold;
-    
 }
 body.content table td.name span {
     padding:0 10px;
     line-height:54px;
+    position:relative;
+    overflow:hidden;    
+    width: 16.3em;    
+}
+body.content table td.name span:after {
+    content:"";
+    pointer-events:none;
+    position:absolute;
+    width:30px;
+    height:100%;
+    bottom:0;
+    right:0;    
+    background:-webkit-gradient(
+    linear,
+    0 0,
+    100% 0,
+    from(rgba(242,244,240,0)),
+    to(#F2F4F0)
+  );
+  background:-moz-linear-gradient(
+    0,
+    rgba(242,244,240,0),
+    #F2F4F0
+  );
+}
+body.content table td.slug span {
+    position:relative;
+    width:20.6em;
+}
+body.content table td.slug span:after {
+    content:"";
+    pointer-events:none;
+    position:absolute;
+    width:30px;
+    height:100%;
+    bottom:0;
+    right:0;    
+    background:-webkit-gradient(
+    linear,
+    0 0,
+    100% 0,
+    from(rgba(242,244,240,0)),
+    to(#F2F4F0)
+  );
+  background:-moz-linear-gradient(
+    0,
+    rgba(242,244,240,0),
+    #F2F4F0
+  );
+}
+body.content table td.publish span {
+    text-align: center;
+    width: 4.9em;
+}
+body.content table td.changed span {
+    width: 14.8em;
+}
+body.content table td.actions>span {
+    width: 9.8em;
 }
 body.content td span,
 body.content th span {
@@ -617,7 +681,7 @@ body.edit textarea:focus {
 	background:#f8f8f8;
 }
 body.edit input[type=text].modelreference {
-    width:478px;
+    width: 482px;
 }
 body.edit span.modelreference {
     margin:0 0 0 10px;
