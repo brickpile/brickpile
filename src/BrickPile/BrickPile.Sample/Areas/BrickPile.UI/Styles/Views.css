@@ -312,24 +312,12 @@ body.content table td.name span {
 }
 body.content table td.name span:after {
     content:"";
-    pointer-events:none;
     position:absolute;
-    width:30px;
+    width:210px;
     height:100%;
     bottom:0;
-    right:0;    
-    background:-webkit-gradient(
-    linear,
-    0 0,
-    100% 0,
-    from(rgba(242,244,240,0)),
-    to(#F2F4F0)
-  );
-  background:-moz-linear-gradient(
-    0,
-    rgba(242,244,240,0),
-    #F2F4F0
-  );
+    right:-1px;
+    background: url(../images/gradient-overflow.png) no-repeat right center;
 }
 body.content table td.slug span {
     position:relative;
@@ -337,24 +325,12 @@ body.content table td.slug span {
 }
 body.content table td.slug span:after {
     content:"";
-    pointer-events:none;
     position:absolute;
-    width:30px;
+    width:21px;
     height:100%;
     bottom:0;
-    right:0;    
-    background:-webkit-gradient(
-    linear,
-    0 0,
-    100% 0,
-    from(rgba(242,244,240,0)),
-    to(#F2F4F0)
-  );
-  background:-moz-linear-gradient(
-    0,
-    rgba(242,244,240,0),
-    #F2F4F0
-  );
+    right:-1px;    
+    background: url(../images/gradient-overflow.png) no-repeat right center;
 }
 body.content table td.publish span {
     text-align: center;
