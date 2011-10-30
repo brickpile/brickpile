@@ -247,6 +247,7 @@ namespace BrickPile.UI.Controllers {
             model.Metadata.IsPublished = published;
             model.Metadata.Published = published ? DateTime.Now : default(DateTime?);
             model.Metadata.Changed = DateTime.Now;
+            model.Metadata.ChangedBy = HttpContext.User.Identity.Name;
             _repository.SaveChanges();
 
             ViewBag.Heading = published ? "Publish succeeded" : "Unpublish succeeded";

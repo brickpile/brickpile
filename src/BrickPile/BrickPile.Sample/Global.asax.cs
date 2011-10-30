@@ -20,8 +20,6 @@ THE SOFTWARE. */
 
 using System.Web.Mvc;
 using System.Web.Routing;
-using BrickPile.Domain.Models;
-using BrickPile.Sample.Models;
 
 namespace BrickPile.Sample {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
