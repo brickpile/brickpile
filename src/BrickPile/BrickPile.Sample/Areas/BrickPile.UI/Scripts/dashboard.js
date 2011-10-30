@@ -248,6 +248,7 @@ $(document).ready(function () {
         handle: 'td.sort',
         items: "tr:not(.ui-state-disabled)",
         helper: fixHelper,
+        opacity: 0.7,
         update: function (event, ui) {
             $.ajax({
                 type: 'POST',

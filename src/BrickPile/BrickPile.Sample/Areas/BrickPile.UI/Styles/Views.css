@@ -139,13 +139,15 @@ body.content img {
 
 body.content h1 { background:none; }
 body.content div#pages {
-    background: rgba(171, 137, 100, 0.3);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(51, 51, 51, 0.1) inset;
+    background: rgba(109, 60, 35, 0.3);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.3);
     border-radius:5px;
+    border: 1px solid #845735;
     border-spacing: 0 30px;
     margin-top:12px;
 	padding:10px;
 	position:relative;
+    z-index: 10;
 }
 
 body.content table {
@@ -257,7 +259,7 @@ body.content a.button img:focus {
 }
 
 body.content table tr {
-    border-radius:0 0 5px 5px;
+    border-radius:5px;
     color:#b4b6b0;
     text-shadow:0 1px 0 rgba(255,255,255,1);
     box-shadow:0 2px 2px rgba(0,0,0,0.3);
@@ -690,9 +692,10 @@ textarea:-moz-placeholder { color:#bbb; }
 6 Manage users
 ----------------------------------------------------------------*/
 body.users div#users {
-    background: rgba(171, 137, 100, 0.3);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(51, 51, 51, 0.1) inset;
+    background: rgba(109, 60, 35, 0.3);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.3);
     border-radius:5px;
+    border: 1px solid #845735;
     border-spacing: 0 30px;
     margin-top:12px;
 	padding:10px;
