@@ -17,10 +17,25 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
+
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using BrickPile.Domain;
 using BrickPile.Sample.Controllers;
+using BrickPile.Sample.Web.Mvc;
 
 namespace BrickPile.Sample.Models {
     [PageModel(Name = "Article", ControllerType = typeof(PageController))]
-    public class Page : BaseEditorial { }
+    [ModelBinder(typeof(TagsModelBinder))]
+    public class Page : BaseEditorial {
+        /// <summary>
+        /// Gets or sets the tags.
+        /// </summary>
+        /// <value>
+        /// The tags.
+        /// </value>
+        [UIHint("Tags")]
+        public ICollection<string> Tags { get; set; }
+    }
 }
