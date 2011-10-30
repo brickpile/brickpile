@@ -68,6 +68,7 @@
           <fileset basedir="${project.baseDir}/BrickPile.Sample">
             <include name="Controllers/*.cs"/>
             <include name="Models/*.cs"/>
+            <include name="Web/Mvc/*.cs"/>
             <include name="ViewModels/*.cs"/>
             <include name="Content/**/*" />
             <include name="Scripts/**/*" />
