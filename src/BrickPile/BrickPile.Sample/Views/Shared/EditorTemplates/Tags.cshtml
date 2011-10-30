@@ -7,15 +7,16 @@
 @Html.Section(@<link rel="stylesheet" type="text/css" href="@Url.Content("~/content/jquery.tagsinput.css")" />, "styles")
 
 @{
-    var htmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace('.', '_');
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty);
     var tags = Model != null ? string.Join(",", Model) : "";
 }
 
 <script type="text/javascript">
     $(function () {
-        $('#@htmlFieldPrefix').tagsInput({
+        $('#@id').tagsInput({
                 width: 588
             });
     })
 </script>
-<input type="text" id="@htmlFieldPrefix" name="@ViewData.TemplateInfo.HtmlFieldPrefix" value="@tags" />
+
+<input type="text" id="@id" name="@ViewData.TemplateInfo.HtmlFieldPrefix" value="@tags" />
