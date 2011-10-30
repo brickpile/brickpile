@@ -30,24 +30,40 @@ namespace BrickPile.Core.Infrastructure.Indexes {
         public PageModelWithParentsAndChildren() {
 
             Map = pages => from page in pages
-                           select new { page.Id, page.Children, page.Metadata.Name, page.Metadata.IsPublished };
+                           select new {
+                               page.Id,
+                               page.Children,
+                               page.Metadata.DisplayInMenu,
+                               page.Metadata.IsDeleted,
+                               page.Metadata.IsPublished,
+                               page.Metadata.Name,
+                               page.Metadata.Published
+                           };
 
             TransformResults = (database, pages) => from page in pages
                                                     let ancestors = Recurse(page, c => database.Load<Ancestor>(c.Parent.Id))
                                                     select new
                                                     {
                                                         page.Id,
+                                                        page.Children,
+                                                        page.Metadata.DisplayInMenu,
+                                                        page.Metadata.IsDeleted,
+                                                        page.Metadata.IsPublished,
                                                         page.Metadata.Name,
+                                                        page.Metadata.Published,
                                                         Ancestors =
                                                         (
                                                            from ancestor in ancestors
                                                            select new
                                                            {
                                                                ancestor.Id,
+                                                               ancestor.Children,
+                                                               ancestor.Metadata.DisplayInMenu,
+                                                               ancestor.Metadata.IsDeleted,
+                                                               ancestor.Metadata.IsPublished,
                                                                ancestor.Metadata.Name,
-                                                               ancestor.Children
-                                                           }),
-                                                        page.Children
+                                                               ancestor.Metadata.Published
+                                                           })
                                                     };
         }
     }

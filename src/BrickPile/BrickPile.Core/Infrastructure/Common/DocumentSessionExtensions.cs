@@ -34,7 +34,7 @@ namespace BrickPile.Core.Infrastructure.Common {
         /// <param name="session">The session.</param>
         /// <param name="predicate">The predicate eg. the Id of a document</param>
         /// <returns></returns>
-        public static IRavenQueryable<T> HierarchyFrom<T>(this IDocumentSession session, Func<Ancestor, bool> predicate) where T : IPageModel {
+        public static IQueryable<T> HierarchyFrom<T>(this IDocumentSession session, Func<Ancestor, bool> predicate) where T : IPageModel {
 
             var page = session.Query<Ancestor>("PageModelWithParentsAndChildren")
                 .Include(x => x.Ancestors)
@@ -43,7 +43,7 @@ namespace BrickPile.Core.Infrastructure.Common {
                 .SingleOrDefault();
 
             if (page == null) {
-                return session.Query<T>();
+                return null;
             }
 
             var ids = new List<string> { page.Id };
@@ -58,10 +58,7 @@ namespace BrickPile.Core.Infrastructure.Common {
                 }
             }
 
-            return session.Query<T>()
-                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
-                .Where(x => x.Id.In(ids));
+            return session.Load<T>(ids).AsQueryable();
         }
-
     }
 }
