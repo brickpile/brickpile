@@ -80,7 +80,10 @@ namespace BrickPile.UI.Web.Routing {
             }
 
             var controllerType = _pageModel.GetType().GetAttribute<PageModelAttribute>().ControllerType;
-            _pathData.Controller = _controllerMapper.GetControllerName(controllerType);
+            if (controllerType != null)
+                _pathData.Controller = _controllerMapper.GetControllerName(controllerType);
+            else
+                _pathData.Controller = string.Format("{0}Controller", _pageModel.GetType().Name);
             _pathData.CurrentPageModel = _pageModel;
             return _pathData;
         }

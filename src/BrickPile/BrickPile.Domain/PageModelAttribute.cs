@@ -49,9 +49,20 @@ namespace BrickPile.Domain {
         /// </summary>
         /// <param name="name">The name of the page model</param>
         /// <param name="controllerType">Type of the controller.</param>
-        public PageModelAttribute(string name, Type controllerType) {
+        public PageModelAttribute(string name, Type controllerType)
+        {
             Name = name;
             ControllerType = controllerType;
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PageModelAttribute"/> class.
+        /// </summary>
+        /// <param name="name">The name of the page model</param>
+        /// <param name="controllerType">Type of the controller.</param>
+        public PageModelAttribute(string name)
+        {
+            Name = name;
+        }
+
     }
 }
