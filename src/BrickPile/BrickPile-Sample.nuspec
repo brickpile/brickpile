@@ -11,10 +11,10 @@
     <projectUrl>http://www.getbrickpile.com</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Sample template package for BrickPile using MVC3/Razor.</description>
-		<tags>BrickPile CMS RavenDB MVC</tags>
+		<tags>brickpile cms ravendb mvc nosql</tags>
     <dependencies>
       <dependency id="BrickPile" version="0.2.0.36" />
-      <dependency id="jQuery" version="1.6.4" />
+      <dependency id="jQuery" version="1.7.1" />
       <dependency id="PagedList.Mvc" version="3.9" />
       <dependency id="SquishIt" version="0.7.1" />
     </dependencies>
