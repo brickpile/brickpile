@@ -93,5 +93,8 @@
         </foreach>
       </preNuget>
     </item>
+    <items type="markdown">
+      <item name="BrickPile.Docs"/>
+    </items>
   </items>
 </project>
