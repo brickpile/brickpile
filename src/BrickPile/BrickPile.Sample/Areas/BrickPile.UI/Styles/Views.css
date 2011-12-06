@@ -497,7 +497,7 @@ body.edit span.button {
     position:absolute;
     right:23px;
     margin-top:35px;
-    z-index:100;    
+    z-index:10;    
 }
 body.edit span.button button,
 body.edit span.button input,

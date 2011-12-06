@@ -11,6 +11,7 @@ namespace BrickPile.Sample.Web.Mvc {
         protected override void BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, System.ComponentModel.PropertyDescriptor propertyDescriptor) {
             if (propertyDescriptor.PropertyType == typeof(ICollection<string>)) {
                 var form = controllerContext.HttpContext.Request.Form;
+                //var tagsAsString = form[bindingContext.ModelName + "." + propertyDescriptor.Name];
                 var tagsAsString = form["CurrentModel.Tags"];
                 var model = bindingContext.Model as Page;
                 model.Tags = string.IsNullOrEmpty(tagsAsString)

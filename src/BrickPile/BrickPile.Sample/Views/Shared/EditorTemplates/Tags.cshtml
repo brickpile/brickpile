@@ -1,22 +1,18 @@
 ﻿@model List<string>
+           
 @using BrickPile.UI.Common
-
-@* Add external javascript and style sheets used by the property *@
 
 @Html.Section(@<script src="@Url.Content("~/scripts/jquery.tagsinput.min.js")" type="text/javascript"></script>, "scripts")
 @Html.Section(@<link rel="stylesheet" type="text/css" href="@Url.Content("~/content/jquery.tagsinput.css")" />, "styles")
 
 @{
-    var id = ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty);
     var tags = Model != null ? string.Join(",", Model) : "";
 }
-
 <script type="text/javascript">
     $(function () {
-        $('#@id').tagsInput({
+        $('#@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)').tagsInput({
                 width: 588
             });
     })
 </script>
-
-<input type="text" id="@id" name="@ViewData.TemplateInfo.HtmlFieldPrefix" value="@tags" />
+<input type="text" id="@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)" name="@ViewData.TemplateInfo.HtmlFieldPrefix" value="@tags" />

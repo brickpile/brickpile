@@ -34,12 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxMin, Version=4.30.4295.16112, Culture=neutral, PublicKeyToken=21ef50ce11b5d80f, processorArchitecture=MSIL">
+    <Reference Include="AjaxMin, Version=4.37.4345.34101, Culture=neutral, PublicKeyToken=21ef50ce11b5d80f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AjaxMin.4.30.4295.16112\lib\AjaxMin.dll</HintPath>
+      <HintPath>..\packages\AjaxMin.4.37.4345.34101\lib\net20\AjaxMin.dll</HintPath>
     </Reference>
     <Reference Include="AsyncCtpLibrary, Version=1.0.4107.18181, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Embedded.1.0.499\lib\net40\AsyncCtpLibrary.dll</HintPath>
+      <HintPath>..\packages\RavenDB-Embedded.1.0.531\lib\net40\AsyncCtpLibrary.dll</HintPath>
     </Reference>
     <Reference Include="dotless.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -49,22 +49,22 @@
       <HintPath>..\packages\YUICompressor.NET.1.6.0.2\lib\net35\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
     <Reference Include="Esent.Interop, Version=1.7.0.0, Culture=neutral, PublicKeyToken=8dd49bbdae3f61af, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Embedded.1.0.499\lib\net40\Esent.Interop.dll</HintPath>
+      <HintPath>..\packages\RavenDB-Embedded.1.0.531\lib\net40\Esent.Interop.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.NRefactory, Version=3.0.0.3800, Culture=neutral, PublicKeyToken=efe927acf176eea2, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Embedded.1.0.499\lib\net40\ICSharpCode.NRefactory.dll</HintPath>
+      <HintPath>..\packages\RavenDB-Embedded.1.0.531\lib\net40\ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
     <Reference Include="Jurassic">
       <HintPath>..\packages\Jurassic.2.1.1\lib\Jurassic.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net, Version=2.9.4.1, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Embedded.1.0.499\lib\net40\Lucene.Net.dll</HintPath>
+      <HintPath>..\packages\RavenDB-Embedded.1.0.531\lib\net40\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net.Contrib.Spatial, Version=2.9.1.2, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Embedded.1.0.499\lib\net40\Lucene.Net.Contrib.Spatial.dll</HintPath>
+      <HintPath>..\packages\RavenDB-Embedded.1.0.531\lib\net40\Lucene.Net.Contrib.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net.Contrib.SpellChecker, Version=2.9.2.1, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Embedded.1.0.499\lib\net40\Lucene.Net.Contrib.SpellChecker.dll</HintPath>
+      <HintPath>..\packages\RavenDB-Embedded.1.0.531\lib\net40\Lucene.Net.Contrib.SpellChecker.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.0.2.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -76,33 +76,34 @@
     <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.10\lib\net40\PagedList.dll</HintPath>
     </Reference>
-    <Reference Include="PagedList.Mvc">
-      <HintPath>..\packages\PagedList.Mvc.3.9\lib\net40\PagedList.Mvc.dll</HintPath>
+    <Reference Include="PagedList.Mvc, Version=3.10.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PagedList.Mvc.3.10\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Embedded.1.0.499\lib\net40\Raven.Abstractions.dll</HintPath>
+      <HintPath>..\packages\RavenDB-Embedded.1.0.531\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Embedded, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Embedded.1.0.499\lib\net40\Raven.Client.Embedded.dll</HintPath>
+      <HintPath>..\packages\RavenDB-Embedded.1.0.531\lib\net40\Raven.Client.Embedded.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Embedded.1.0.499\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+      <HintPath>..\packages\RavenDB-Embedded.1.0.531\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Database, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Embedded.1.0.499\lib\net40\Raven.Database.dll</HintPath>
+      <HintPath>..\packages\RavenDB-Embedded.1.0.531\lib\net40\Raven.Database.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Munin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=974fec519e29970d, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Embedded.1.0.499\lib\net40\Raven.Munin.dll</HintPath>
+      <HintPath>..\packages\RavenDB-Embedded.1.0.531\lib\net40\Raven.Munin.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Storage.Esent, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Embedded.1.0.499\lib\net40\Raven.Storage.Esent.dll</HintPath>
+      <HintPath>..\packages\RavenDB-Embedded.1.0.531\lib\net40\Raven.Storage.Esent.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Storage.Managed, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Embedded.1.0.499\lib\net40\Raven.Storage.Managed.dll</HintPath>
+      <HintPath>..\packages\RavenDB-Embedded.1.0.531\lib\net40\Raven.Storage.Managed.dll</HintPath>
     </Reference>
-    <Reference Include="SquishIt.Framework, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SquishIt.Framework, Version=0.8.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SquishIt.0.8.0\lib\SquishIt.Framework.dll</HintPath>
+      <HintPath>..\packages\SquishIt.0.8.2\lib\SquishIt.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data.Entity" />
@@ -184,9 +185,9 @@
     <Content Include="Content\webfonts\svg\style_159303.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\global.js" />
-    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.6.4.js" />
-    <Content Include="Scripts\jquery-1.6.4.min.js" />
+    <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.7.1.js" />
+    <Content Include="Scripts\jquery-1.7.1.min.js" />
     <Content Include="Scripts\jquery.tagsinput.min.js" />
     <Content Include="Scripts\Lib\html5.js" />
     <Content Include="Scripts\PagedList\PagedList.Mvc.js" />
@@ -219,10 +220,6 @@
     <ProjectReference Include="..\BrickPile.Domain\BrickPile.Domain.csproj">
       <Project>{827F415E-59D8-4F6A-B47A-1F345A790F5E}</Project>
       <Name>BrickPile.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BrickPile.Services\BrickPile.Services.csproj">
-      <Project>{EBED9A59-3E3D-4031-810D-80552B38A986}</Project>
-      <Name>BrickPile.Services</Name>
     </ProjectReference>
     <ProjectReference Include="Areas\BrickPile.UI\BrickPile.UI.csproj">
       <Project>{9CE32587-7C80-469C-A26F-AE51B6898F9A}</Project>
