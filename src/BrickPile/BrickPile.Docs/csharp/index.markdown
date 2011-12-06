@@ -1,2 +1,2 @@
-#BrickPile documentation
-this is the official brickpile documentation
+#Foo
+* [Requirements and setup](setup.html)
