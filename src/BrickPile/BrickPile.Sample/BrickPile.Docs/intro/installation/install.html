@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>BrickPile Documentation</title>
+        <link rel="stylesheet" href="../../css/main.css" type="text/css" />
+        <!--[if IE]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div id="wrapper">
+            <header>
+                <h1><a href="http://getbrickpile.com/">BrickPile documentation</a></h1>
+            </header>
+			<nav>
+				<ul>
+	<li><a href="../../intro/">Introduction</a></li>
+</ul>
+
+			</nav>
+            <div class="container autopagerize_page_element" id="blog">
+                <section class="content">
+                    <h1>Installation</h1>
+
+<p>BrickPile is installed via <a href="http://nuget.org/List/Packages/BrickPile">NuGet</a>, just run PM> Install-Package BrickPile inside of the package manager console.</p>
+
+<h2>Configuration</h2>
+
+<p>As default BrickPile will use the RavenDB server on http://localhost:8080 but this can easily be configured to use an other port or RavenDB embedded with the following example.</p>
+
+<pre><code>&lt;connectionStrings&gt;
+    &lt;add name="RavenDB" connectionString="DataDir = ~\App_Data\Data" /&gt;
+&lt;/connectionStrings&gt;
+</code></pre>
+
+<p><strong>Note:</strong> To run BrickPile with RavenDB server you need to <a href="http://ravendb.net/download">download</a> it and execute <code>[RavenDBdir]\Server\Raven.Server.exe</code>. Then you need to copy the assembly in <code>[WebRoot]\App_Data\Plugins</code> and put in '[RavenDBdir]\Server\Plugins`. For more configuration options see <a href="http://ravendb.net/documentation">RavenDB documentation</a>.</p>
+
+<p>You also need to change the loginUrl on the forms tag in web.config to</p>
+
+<pre><code>&lt;authentication mode="Forms"&gt;
+  &lt;forms loginUrl="~/dashboard/account" timeout="2880" /&gt;
+&lt;/authentication&gt;
+</code></pre>
+
+<p><strong>Optional:</strong> I usually turn off ClientValidationEnabled and UnobtrusiveJavaScriptEnabled by setting the value to false.</p>
+
+<pre><code>&lt;appSettings&gt;
+    &lt;add key="ClientValidationEnabled" value="false" /&gt;
+    &lt;add key="UnobtrusiveJavaScriptEnabled" value="false" /&gt;
+&lt;/appSettings&gt;
+</code></pre>
+
+<h2>Setup</h2>
+
+<p>When the configuration is done just hit <code>F5</code> inside Visual Studio, this will hopefully bring up the setup screen.
+Fill the form with the correct information and hit "Let's do this" and your done.</p>
+        
+                </section>
+            </div>
+            <footer>
+			    <strong>BrickPile</strong>is an open source CMS designed to kick ass!
+			    <ul>
+          		    <li><a href="http://tumblr.com/">Tumblr</a> powered</li>
+          		    <li class="reset_all"><a href="http://www.twitter.com/getbrickpile">Twitter</a></li>
+			    </ul>
+		    </footer>
+        </div>
+    </body>
+</html>

@@ -87,11 +87,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".doclist" />
+    <None Include="getting-started\index.markdown" />
+    <None Include="getting-started\setup.markdown" />
     <None Include="index.markdown" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="intro\.doclist" />
-    <None Include="intro\index.markdown" />
-    <None Include="intro\installation\install.markdown" />
+    <None Include="getting-started\.doclist" />
+    <None Include="getting-started\configuration.markdown" />
+    <None Include="getting-started\install.markdown" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
