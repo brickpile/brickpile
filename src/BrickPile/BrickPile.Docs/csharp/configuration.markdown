@@ -1,3 +1,0 @@
-# Configuration
-
-{CODE Test region}

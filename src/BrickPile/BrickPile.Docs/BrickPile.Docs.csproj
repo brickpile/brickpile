@@ -86,18 +86,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="csharp\configuration.markdown" />
-    <None Include="csharp\index.markdown" />
+    <None Include=".doclist" />
     <None Include="index.markdown" />
-    <Compile Include="csharp\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="intro\.doclist" />
+    <None Include="intro\index.markdown" />
+    <None Include="intro\installation\install.markdown" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="css\" />
     <Folder Include="js\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\main.css" />
     <Content Include="markdowntemplate.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
