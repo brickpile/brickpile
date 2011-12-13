@@ -1,1 +1,1 @@
-﻿# Getting started with BrickPile CMS
+﻿#Getting started with BrickPile CMS

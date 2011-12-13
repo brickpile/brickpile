@@ -1,4 +1,4 @@
-﻿# Configuration
+﻿#Configuration
 As default BrickPile will use the RavenDB server on http://localhost:8080 but this can easily be configured to use an other port or RavenDB embedded with the following example.
 
     <connectionStrings>
