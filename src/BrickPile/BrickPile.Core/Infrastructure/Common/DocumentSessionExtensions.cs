@@ -21,6 +21,7 @@ THE SOFTWARE. */
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain.Models;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -36,7 +37,7 @@ namespace BrickPile.Core.Infrastructure.Common {
         /// <returns></returns>
         public static IQueryable<T> HierarchyFrom<T>(this IDocumentSession session, Func<Ancestor, bool> predicate) where T : IPageModel {
 
-            var page = session.Query<Ancestor>("PageModelWithParentsAndChildren")
+            var page = session.Query<Ancestor, PageModelWithParentsAndChildren>()
                 .Include(x => x.Ancestors)
                 .Include(x => x.Children)
                 .Where(predicate)

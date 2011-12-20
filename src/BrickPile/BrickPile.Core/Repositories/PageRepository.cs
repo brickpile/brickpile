@@ -20,6 +20,7 @@ THE SOFTWARE. */
 
 using System.Collections.Generic;
 using System.Linq;
+using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain.Models;
 using Raven.Client;
 
@@ -38,7 +39,11 @@ namespace BrickPile.Core.Repositories {
         /// <param name="url">The URL.</param>
         /// <returns></returns>
         public T GetPageByUrl<T>(string url) where T : IPageModel {
-            return _documentSession.Query<T>("Document/ByUrl")
+            //return _documentSession.Query<T,Document_ByUrl>()
+            //    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+            //    .Where(x => x.Metadata.Url == url)
+            //    .FirstOrDefault();
+            return _documentSession.Query<T>()
                 .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                 .Where(x => x.Metadata.Url == url)
                 .FirstOrDefault();
