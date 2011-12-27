@@ -18,9 +18,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BrickPile.Core;
 using BrickPile.Core.Infrastructure.Indexes;
+using BrickPile.Core.Infrastructure.Listeners;
 using BrickPile.Core.Repositories;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
@@ -30,6 +34,9 @@ using BrickPile.UI.Web.Routing;
 using Raven.Client;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
+using Raven.Client.Listeners;
+using Raven.Database.Config;
+using Raven.Json.Linq;
 using StructureMap;
 
 namespace BrickPile.UI.App_Start {
@@ -48,10 +55,13 @@ namespace BrickPile.UI.App_Start {
             ObjectFactory.Initialize(x => {
 
                 var documentStore = new EmbeddableDocumentStore { ConnectionStringName = "RavenDB" };
+                
+                documentStore.RegisterListener(new StoreListener());
+                documentStore.RegisterListener(new DeleteListener());
 
                 documentStore.Initialize();
                 documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "pages" : null;
-
+                
                 IndexCreation.CreateIndexes(typeof(Documents_ByParent).Assembly, documentStore);
 
                 x.For<IDocumentStore>().Use(documentStore);
