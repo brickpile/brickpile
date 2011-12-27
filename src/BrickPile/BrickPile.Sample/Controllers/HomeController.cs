@@ -23,6 +23,7 @@ using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
 using BrickPile.Sample.ViewModels;
 using Raven.Client;
+using Truffler;
 
 namespace BrickPile.Sample.Controllers {
     public class HomeController : BaseController<Home> {
@@ -31,6 +32,15 @@ namespace BrickPile.Sample.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult Index() {
+            var client = Client.CreateFromConfig();
+            var results = client.Search<IPageModel>() 
+                .Select(x => new 
+                {
+                    Title = x.Metadata.Name
+                })
+                .GetResult();
+
+
             if(CurrentModel != null) {
                 var links = new[] {CurrentModel.TeaserOne.Link.Id, CurrentModel.TeaserTwo.Link.Id,CurrentModel.TeaserThree.Link.Id};
                 var teasers = DocumentSession.Load<BaseEditorial>(links);

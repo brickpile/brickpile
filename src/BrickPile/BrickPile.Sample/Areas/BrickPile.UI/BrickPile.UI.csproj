@@ -589,7 +589,6 @@
     <None Include="Styles\webfonts\woff\museo-sans-700.woff" />
     <Content Include="Views\Content\Start.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PageName.cshtml" />
-    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\BrickPile.Core\BrickPile.Core.csproj">

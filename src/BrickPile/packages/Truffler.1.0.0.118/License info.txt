@@ -1,0 +1,5 @@
+We think license files and activation keys are a hassle. So we don't use such things. However, that does not mean that the Truffler client API is free. You are only allowed to use it with Truffler. 
+You are allowed to decompile it if you do it for reasons that cannot, in any way, interfere with our business. In other words, you can decompile it to figure out how to use it, but not to steal ideas or solutions to build competing products.
+
+- The Truffler Team
+- www.truffler.net
