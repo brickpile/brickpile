@@ -28,11 +28,11 @@ namespace BrickPile.Core.Infrastructure.Indexes {
         /// Initializes a new instance of the <see cref="Document_ByUrl"/> class.
         /// </summary>
         public Document_ByUrl() {
-            Map = documents => from document in documents
-                               select new
-                                          {
-                                              document.Metadata.Url
-                                          };
+             Map = documents => from document in documents 
+                                select new 
+                                           { 
+                                              Metadata_Url = document.Metadata.Url 
+                                           }; 
         }
     }
 }
