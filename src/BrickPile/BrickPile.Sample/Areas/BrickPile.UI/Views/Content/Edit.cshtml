@@ -51,15 +51,21 @@
                     @Html.TextAreaFor(model => model.CurrentModel.Metadata.Description)                
                 </div>
                 <div id="slug">
+                    @if (Model.ParentModel != null)
+                    {
                     <div>
                         @Html.LabelFor(model => model.CurrentModel.Metadata.Slug)
                         @Html.EditorFor(model => model.CurrentModel.Metadata.Slug, "Slug", new { RootModel = Model.RootModel })
-                        @if (Model.RootModel == null) {
+                        @if (Model.RootModel == null)
+                        {
                             @Html.HiddenFor(model => model.CurrentModel.Metadata.Url)
-                        } else {
+                        }
+                        else
+                        {
                             @Html.HiddenFor(model => model.CurrentModel.Metadata.Url, new { @class = "url" })
                         }
                     </div>
+                    }
                     <div>
                         @Html.LabelFor(model => model.CurrentModel.Metadata.Published)
                         @Html.TextBoxFor(model => model.CurrentModel.Metadata.Published)
