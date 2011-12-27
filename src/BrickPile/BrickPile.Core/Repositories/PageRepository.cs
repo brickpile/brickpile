@@ -18,7 +18,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System.Collections.Generic;
 using System.Linq;
 using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain.Models;
@@ -39,11 +38,7 @@ namespace BrickPile.Core.Repositories {
         /// <param name="url">The URL.</param>
         /// <returns></returns>
         public T GetPageByUrl<T>(string url) where T : IPageModel {
-            //return _documentSession.Query<T,Document_ByUrl>()
-            //    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
-            //    .Where(x => x.Metadata.Url == url)
-            //    .FirstOrDefault();
-            return _documentSession.Query<T>()
+            return _documentSession.Query<T, Document_ByUrl>()
                 .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                 .Where(x => x.Metadata.Url == url)
                 .FirstOrDefault();
