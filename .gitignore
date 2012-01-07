@@ -36,3 +36,4 @@ src/BrickPile/packages/RavenDB*/server/Raven.Server.log*
 src/BrickPile/BrickPile.Sample/Areas/BrickPile.UI/Scripts/brickpile.js
 src/BrickPile/BrickPile.Sample/Areas/BrickPile.UI/Scripts/brickpile.js
 src/BrickPile/BrickPile.6.0.ReSharper
+src/BrickPile/BrickPile.Tests/App.config
