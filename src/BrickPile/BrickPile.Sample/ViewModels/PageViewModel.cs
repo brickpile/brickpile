@@ -21,5 +21,8 @@ THE SOFTWARE. */
 using BrickPile.Sample.Models;
 
 namespace BrickPile.Sample.ViewModels {
+    /// <summary>
+    /// 
+    /// </summary>
     public class PageViewModel : BaseViewModel<Page> { }
 }

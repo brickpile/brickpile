@@ -25,6 +25,9 @@ using BrickPile.Sample.ViewModels;
 using Raven.Client;
 
 namespace BrickPile.Sample.Controllers {
+    /// <summary>
+    /// 
+    /// </summary>
     public class PageController : BaseController<Page> {
         /// <summary>
         /// Indexes this instance.
@@ -46,7 +49,7 @@ namespace BrickPile.Sample.Controllers {
         /// <param name="model">The model.</param>
         /// <param name="session">The session.</param>
         public PageController(IPageModel model, IDocumentSession session)
-            : base(model, session) {
+            : base(model, session) {            
         }
     }
 }

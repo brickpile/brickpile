@@ -18,20 +18,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System;
 using System.Web.Mvc;
 using System.Web.Routing;
-using BrickPile.Core;
-using BrickPile.Domain.Models;
-using BrickPile.UI.App_Start;
-using Truffler;
 
 namespace BrickPile.Sample {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
     public class MvcApplication : System.Web.HttpApplication {
-        private readonly IClient _client = Client.CreateFromConfig();
         public static void RegisterGlobalFilters(GlobalFilterCollection filters) {
             filters.Add(new HandleErrorAttribute());
         }
@@ -49,21 +43,10 @@ namespace BrickPile.Sample {
 
         protected void Application_Start() {
 
-            Core.Application.Instance.SavedPage += SavedPage;
-            Core.Application.Instance.DeletingPage += DeletingPage;
-
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-        }
-
-        private void SavedPage(object sender, PageModelEventArgs e) {
-            _client.Index(e.Model, x => x.Id = e.Model.Id);
-        }
-
-        private void DeletingPage(object sender, PageModelEventArgs e) {
-            _client.Delete<PageModel>(e.Model.Id);
         }
 
     }

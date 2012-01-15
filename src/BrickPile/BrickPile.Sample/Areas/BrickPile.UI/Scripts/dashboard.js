@@ -156,7 +156,7 @@ Dashboard.prototype = {
     browse: function ($anchor) {
         var self = this;
         $.ajax({
-            url: '/dashboard/library/openbucket',
+            url: '/dashboard/asset',
             dataType: 'html',
             success: function (data) {
                 $('body').append(data);
@@ -181,32 +181,32 @@ Dashboard.prototype = {
                     //$anchor.parent().parent().find('img').attr('src', $(this).attr('data-val'));
                     return false;
                 });
-                //                var $dialog = $('div.overlay aside');
-                //                $dialog.click(function (event) {
-                //                    event.stopPropagation();
-                //                });
-                //                var $overlay = $('div.overlay');
-                //                 $('body').click(function () {
-                //                    $overlay.fadeOut('fast', function () {
-                //                        $overlay.remove();
-                //                    });
-                //                });
-                //                $dialog.find('a.close').click(function () {
-                //                    $overlay.fadeOut('fast', function () {
-                //                        $overlay.remove();
-                //                    });
-                //                    return false;
-                //                });
-                //                $('div.overlay aside tr').click(function (event) {
-                //                    $('div.overlay aside tr').removeClass('selected');
-                //                    $(this).toggleClass('selected');
-                //                });
-                //                $('div.overlay aside td .insert').click(function () {
-                //                    $anchor.parent().parent().parent().find('input:hidden').val($(this).attr('data-val'));
-                //                    $('div.overlay').remove();
-                //                    $anchor.parent().parent().find('img').attr('src', $(this).attr('data-val'));
-                //                    return false;
-                //                });
+//                                var $dialog = $('div.overlay aside');
+//                                $dialog.click(function (event) {
+//                                    event.stopPropagation();
+//                                });
+//                                var $overlay = $('div.overlay');
+//                                 $('body').click(function () {
+//                                    $overlay.fadeOut('fast', function () {
+//                                        $overlay.remove();
+//                                    });
+//                                });
+//                                $dialog.find('a.close').click(function () {
+//                                    $overlay.fadeOut('fast', function () {
+//                                        $overlay.remove();
+//                                    });
+//                                    return false;
+//                                });
+//                                $('div.overlay aside tr').click(function (event) {
+//                                    $('div.overlay aside tr').removeClass('selected');
+//                                    $(this).toggleClass('selected');
+//                                });
+//                                $('div.overlay aside td .insert').click(function () {
+//                                    $anchor.parent().parent().parent().find('input:hidden').val($(this).attr('data-val'));
+//                                    $('div.overlay').remove();
+//                                    $anchor.parent().parent().find('img').attr('src', $(this).attr('data-val'));
+//                                    return false;
+//                                });
             }
         });
     }

@@ -18,25 +18,22 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 using BrickPile.Domain;
 using BrickPile.Sample.Controllers;
-using BrickPile.Sample.Web.Mvc;
+using BrickPile.UI.Models;
 
 namespace BrickPile.Sample.Models {
+    /// <summary>
+    /// 
+    /// </summary>
     [PageModel(Name = "Article", ControllerType = typeof(PageController))]
-    [ModelBinder(typeof(TagsModelBinder))]
     public class Page : BaseEditorial {
         /// <summary>
-        /// Gets or sets the tags.
+        /// Gets or sets the news container.
         /// </summary>
         /// <value>
-        /// The tags.
+        /// The news container.
         /// </value>
-        [UIHint("Tags")]
-        public ICollection<string> Tags { get; set; }
+        public ModelReference NewsContainer { get; set; }
     }
 }

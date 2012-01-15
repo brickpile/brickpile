@@ -1,5 +1,4 @@
-﻿
-@* Copyright (C) 2011 by Marcus Lindblom
+﻿@* Copyright (C) 2011 by Marcus Lindblom
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,19 +18,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
-@model BrickPile.Sample.ViewModels.IBaseViewModel<BrickPile.Sample.Models.BaseModel>
-           
-@using BrickPile.UI.Web.Mvc.Html
-@using BrickPile.UI.Common
+@model BrickPile.Sample.ViewModels.IBaseViewModel<BrickPile.Sample.Models.BaseEditorial>
 @using System.Globalization
 @using SquishIt.Framework
-@using BrickPile.UI.Common
 
 <!DOCTYPE html>
 <html lang="@CultureInfo.CurrentCulture.TwoLetterISOLanguageName">
 	<head>
 		<title>@Model.Title</title>
 		<meta charset="utf-8" />
+        @if (!string.IsNullOrEmpty(@Model.CurrentModel.Metadata.Description)) {
+            <meta name="description" content="@Model.CurrentModel.Metadata.Description"/>                                                                                 
+        }
         @Html.Raw(Bundle.Css()
             .Add(Url.Content("~/content/global.css"))
             .Add(Url.Content("~/content/framework.css"))
@@ -41,45 +39,65 @@ THE SOFTWARE. *@
             .Add(Url.Content("~/scripts/jquery-1.7.1.js"))
             .Add(Url.Content("~/scripts/global.js"))
             .Render("~/scripts/master.js"))
-        @if (IsSectionDefined("AdditionalScripts")) {
-            @RenderSection("AdditionalScripts")
-        }
-        <!--[if IE 7]>
-            <link rel="stylesheet" href="@Url.Content("~/styles/legacy/ie7.css")" media="screen,projection" />
-        <![endif]-->
-        <!--[if lte IE 8]>
-            <script src="@Url.Content("~/scripts/lib/html5.js")"></script>
-            <link rel="stylesheet" href="@Url.Content("~/styles/legacy/ie8.css")" media="screen,projection" />
-        <![endif]-->
-        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-
-        @RenderSection("scripts", false)
-        @RenderSection("styles",false)
+        
+        <!--link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /-->
 
 	</head>
-	<body class="@Model.Class">
-		<header> 
-            @if (!IsSectionDefined("Logotype")) {
-                <a href="@Url.Action("index", "home")" title="Go to start page">Dark Corporate Template</a>
-            }
-            else {
-                @RenderSection("Logotype")
-            }
+	<body class ="@Model.Class">
+        <header role="banner">
+            <nav>
+                @Html.Partial("_GlobalNav")
+		    </nav>
         </header>
-		<nav id="global">
-            @Html.Partial("_GlobalNav")
-		</nav>
-		<div id="content">
-            @RenderBody()
-		</div>
-		<footer>
-			<p><strong>Visit us:</strong> Fantasy street 31337, Fantasy land</p>
-			<p><strong>Call us:</strong> 127001</p>
-			<p><strong>Email us:</strong> <a href="#">info@acme.com</a></p>
-			<p><strong>Follow us:</strong> <a href="#">Facebook</a> <a href="#">Twitter</a></p>
-		</footer>
+        @if (IsSectionDefined("Heading")) {
+            
+            @RenderSection("Heading")
 
-        @Html.RenderSection("scripts")
-        @Html.RenderSection("styles")
+        } else {
+            
+            <h1><span>@Model.CurrentModel.Heading</span></h1>       
+            
+        }
+	    <div id="content" role="main">
+            <div>
+                @if (IsSectionDefined("Main")) {
+                    @RenderSection("Main")
+                } else {
+                    <article role="article">
+                        @RenderBody()
+                    </article>
+                    <aside id="additional" role="complementary">
+                        <nav>
+                            <h2>Sub menu</h2>
+                            @Html.Partial("_LocalNav")
+                        </nav>
+                    </aside>
+                }
+            </div>
+            @RenderSection("Portfolio", false)
+	    </div>
+	    <footer>
+            <div>
+                <section id="textual-content">
+                    <h2>Textual Content</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu ligula diam, et bibendum augue. Duis non quam tortor, sed tempus sapien.</p>                    <p>Praesent eu massa non urna tristique tristique vitae et mauris. Ut fermentum tempor ante at venenatis. Sed et iaculis mi. Mauris ornare auctor vestibulum.</p>                    <p>In hac habitasse platea dictumst. Quisque malesuada nulla quis lectus ultricies vel mattis.</p>
+                </section>
+                <section id="categories">
+                    <h2>Textual Content</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu ligula diam, et bibendum augue. Duis non quam tortor, sed tempus sapien.</p>                    <p>Praesent eu massa non urna tristique tristique vitae et mauris. Ut fermentum tempor ante at venenatis. Sed et iaculis mi. Mauris ornare auctor vestibulum.</p>                    <p>In hac habitasse platea dictumst. Quisque malesuada nulla quis lectus ultricies vel mattis.</p>
+                </section>
+                <div id="contact">
+                    <h2>Get in touch with us</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec turpis neque.</p>
+                    <form method="POST" action="/">
+                        <input type="text" placeholder="Your Name"/>
+                        <input type="text" placeholder="Your Email"/>
+                        <input type="text" placeholder="Your Subject"/>
+                        <textarea placeholder="Message"></textarea>
+                        <input type="image" src="/Content/submit.png" alt="Submit"/>
+                    </form>
+                </div>
+            </div>
+	    </footer>
 	</body>
 </html>

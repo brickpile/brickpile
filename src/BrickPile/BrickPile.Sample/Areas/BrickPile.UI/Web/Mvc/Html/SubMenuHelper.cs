@@ -24,6 +24,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using BrickPile.Domain.Models;
+using BrickPile.UI.Common;
 
 namespace BrickPile.UI.Web.Mvc.Html {
     /// <summary>
@@ -36,34 +37,42 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// Creates a hierarchical unordered navigation list
         /// </summary>
         /// <param name="html">HtmlHelper</param>
-        /// <param name="structureInfo">The structural navigation info</param>
+        /// <param name="hierarchy">The hierarchy.</param>
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
         /// <returns></returns>
-        public static string SubMenu(this HtmlHelper html, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent) {
-            return SubMenu(html, null, structureInfo, itemContent, itemContent);
+        public static string SubMenu(this HtmlHelper html, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
+            return SubMenu(html, null, null, hierarchy, itemContent, itemContent);
         }
         /// <summary>
         /// Creates a hierarchical unordered navigation list
         /// </summary>
         /// <param name="html">HtmlHelper</param>
         /// <param name="id">The id of the unordered list</param>
-        /// <param name="structureInfo">The structural navigation info</param>
+        /// <param name="currentModel">The current model.</param>
+        /// <param name="hierarchy">The hierarchy.</param>
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
         /// <returns></returns>
-        public static string SubMenu(this HtmlHelper html, string id, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent) {
-            return SubMenu(html, id,structureInfo, itemContent, itemContent);
+        public static string SubMenu(this HtmlHelper html, string id, IPageModel currentModel, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
+            return SubMenu(html, id, null, hierarchy, itemContent, itemContent);
         }
         /// <summary>
         /// Responsible for creating a navigation tree based on a hierarchical structure
         /// </summary>
         /// <param name="html">HtmlHelper</param>
         /// <param name="id">The id of the unordered list</param>
-        /// <param name="structureInfo">The structural navigation info</param>
+        /// <param name="currentModel">The current model.</param>
+        /// <param name="hierarchy">The hierarchy.</param>
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
         /// <param name="selectedItemContent">A lambda expression defining the content in each selected tree node</param>
         /// <returns></returns>
-        public static string SubMenu(this HtmlHelper html, string id, IStructureInfo structureInfo, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
-            var item = structureInfo.Hierarchy.Where(x => x.Expanded).SingleOrDefault();
+        public static string SubMenu(this HtmlHelper html, string id, IPageModel currentModel, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
+            if (hierarchy == null) {
+                return String.Empty;
+            }
+
+            var hierarchyNodes = hierarchy.AsHierarchy();
+
+            var item = hierarchyNodes.Where(x => x.Expanded).SingleOrDefault();
 
             if (item == null || item.ChildNodes.Count() == 0)
                 return string.Empty;
@@ -78,8 +87,8 @@ namespace BrickPile.UI.Web.Mvc.Html {
             }
 
             foreach (var childNode in item.ChildNodes) {
-                RenderLi(sb, childNode.Entity, childNode.Entity.Id.Equals(structureInfo.CurrentModel.Id) ? selectedItemContent : itemContent);
-                AppendChildrenRecursive(sb, childNode, structureInfo.CurrentModel, x => x.ChildNodes, itemContent, selectedItemContent);    
+                RenderLi(sb, childNode.Entity, childNode.Entity.Id.Equals(currentModel.Id) ? selectedItemContent : itemContent);
+                AppendChildrenRecursive(sb, childNode, currentModel, x => x.ChildNodes, itemContent, selectedItemContent);    
             }
 
             sb.AppendLine("</ul>");

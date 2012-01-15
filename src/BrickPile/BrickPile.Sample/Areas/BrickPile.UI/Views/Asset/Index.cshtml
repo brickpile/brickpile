@@ -1,0 +1,27 @@
+﻿
+@using System.Web.Helpers
+
+<div class="overlay">
+    <aside class="dialog filebrowser">
+        <a href="#" class="close"><img src="@Url.Content("/areas/brickpile.ui/images/dialog-close.png")" alt="close" /></a>
+        <h1>Asset manager</h1>
+        <table>
+             <thead>
+                 <tr>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Amazon.S3.Model.S3Object asset in this.Model) {
+                <tr>
+                    <td>
+                        @{
+                                                        
+                        }
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>            
+    </aside>
+</div>

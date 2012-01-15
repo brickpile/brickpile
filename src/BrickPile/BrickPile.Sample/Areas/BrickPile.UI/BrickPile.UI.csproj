@@ -14,6 +14,7 @@
     <AssemblyName>BrickPile.UI</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -152,6 +153,7 @@
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AssetController.cs" />
     <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DialogController.cs" />
@@ -175,6 +177,9 @@
     <Compile Include="StructureInfo.cs" />
     <Compile Include="UIAreaRegistration.cs" />
     <Compile Include="Web\ContainerDisposalModule.cs" />
+    <Compile Include="Web\Hosting\AmazonS3VirtualDirectory.cs" />
+    <Compile Include="Web\Hosting\AmazonS3VirtualFile.cs" />
+    <Compile Include="Web\Hosting\AmazonS3VirtualPathProvider.cs" />
     <Compile Include="Web\Mvc\BrickPileControllerFactory.cs" />
     <Compile Include="Web\Mvc\ControllerMapper.cs" />
     <Compile Include="Web\Mvc\Html\ActionLinkExtensions.cs" />
@@ -616,6 +621,7 @@
     <Content Include="Views\Library\Index.cshtml" />
     <Content Include="Views\Library\Save.cshtml" />
     <Content Include="Views\Dialog\_Menu.cshtml" />
+    <Content Include="Views\Asset\Index.cshtml" />
     <None Include="Views\Library\_bucket.cshtml.bak" />
     <Content Include="Views\Settings\Index.cshtml" />
   </ItemGroup>

@@ -20,49 +20,58 @@ THE SOFTWARE. */
 
 using System.Collections.Generic;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using Amazon.S3;
 using Amazon.S3.Model;
 using BrickPile.UI.Models;
+using BrickPile.UI.Web.Hosting;
 using Raven.Client;
 
 namespace BrickPile.UI.Controllers {
     public class LibraryController : Controller {
-        private readonly AmazonS3 _client;
-        private readonly Settings _settings;
+
         public ActionResult OpenBucket() {
 
-            var request = new ListObjectsRequest { BucketName = "KloojedDump" };
+            //var request = new ListObjectsRequest { BucketName = "KloojedDump" };
 
-            var response = _client.ListObjects(request);
+            //var response = _client.ListObjects(request);
 
-            var assets = new List<AssetModel>(response.S3Objects.Count);
+            //var assets = new List<AssetModel>(response.S3Objects.Count);
 
-            foreach (var s3Object in response.S3Objects) {
-                if (s3Object.Size == 0)
-                    continue;
+            var directory = HostingEnvironment.VirtualPathProvider.GetDirectory("~/s3/Images/");
+
+            foreach (S3Object file in directory.Files) {
+
+
+                //if (s3Object.Size == 0)
+                //    continue;
 
                 var path = string.Concat("http://s3.amazonaws.com/",
-                                         VirtualPathUtility.AppendTrailingSlash(s3Object.BucketName),
-                                         s3Object.Key);
+                                         VirtualPathUtility.AppendTrailingSlash(((AmazonS3VirtualPathProvider)HostingEnvironment.VirtualPathProvider).BucketName),
+                                         file.Key);
 
-                assets.Add(new AssetModel
-                {
-                    Name = s3Object.Key,
-                    FileSize = s3Object.Size,
-                    Path = path,
-                    LastModified = s3Object.LastModified,
-                    //Class = selectedAsset.Equals(path) ? "selected" : "unselected"
+                //assets.Add(new AssetModel
+                //{
+                //    Name = s3Object.Key,
+                //    FileSize = s3Object.Size,
+                //    Path = path,
+                //    LastModified = s3Object.LastModified,
+                //    //Class = selectedAsset.Equals(path) ? "selected" : "unselected"
 
-                });
+                //});
             }
-            var viewModel = new FileBrowserModel
-                                {
-                                    Assets = assets,
-                                    BackAction = "Index",
-                                };
+            //var viewModel = new FileBrowserModel
+            //                    {
+            //                        Assets = assets,
+            //                        BackAction = "Index",
+            //                    };
 
-            return PartialView("_FileBrowser", viewModel);
+            return new JsonResult()
+                       {
+                           Data = directory.Files,JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                       };
+            //return PartialView("_FileBrowser", viewModel);
         }
 
         //public ActionResult Save() {
@@ -87,18 +96,19 @@ namespace BrickPile.UI.Controllers {
         //}
 
         public ActionResult Index() {
-            ViewBag.Class = "dashboard";
+            //ViewBag.Class = "dashboard";
 
-            var request = new ListObjectsRequest { BucketName = _settings.BucketName };
-            var model = _client.ListObjects(request);
+            //var request = new ListObjectsRequest { BucketName = _settings.BucketName };
+            //var model = _client.ListObjects(request);
 
-            return View(model.S3Objects);
+            //return View(model.S3Objects);
+
+            return new EmptyResult();
         }
 
-        public LibraryController(IDocumentSession session) {
-            _settings = session.Load<Settings>("brickpile/settings");
-            _client = new AmazonS3Client(_settings.AwsAccessKey, _settings.AwsSecretAccessKey);
-
-        }
+        //public LibraryController(IDocumentSession session) {
+        //    _settings = session.Load<Settings>("brickpile/settings");
+        //    _client = new AmazonS3Client(_settings.AwsAccessKey, _settings.AwsSecretAccessKey);
+        //}
     }
 }

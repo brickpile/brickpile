@@ -26,6 +26,10 @@ using BrickPile.Domain.Models;
 using Raven.Client;
 
 namespace BrickPile.Sample.Controllers {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class BaseController<T> : Controller where T : IPageModel {
         /// <summary>
         /// Base controller with Current model and a default hierarchy for navigational purpose

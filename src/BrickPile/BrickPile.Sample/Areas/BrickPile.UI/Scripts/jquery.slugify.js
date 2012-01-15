@@ -9,14 +9,14 @@
         }, options);
 
 
-        var convertToSlug = function (val) {
+        var convertToSlug = function(val) {
             return settings.slugFunc(val,
-				(function (v) {
-				    if (!v) return '';
-				    return v.replace(/'/g, '').replace(/\s*&\s*/g, ' and ').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '').toLowerCase();
-				})
+                (function(v) {
+                    if (!v) return '';
+                    return v.replace( /'/g , '').replace( /\s*&\s*/g , ' and ').replace( /[^A-Za-z0-9]+/g , '-').replace( /^-|-$/g , '').toLowerCase();
+                })
 			);
-        }
+        };
 
         var setLock = function () {
             if ($target.val() != null && $target.val() != '') {
@@ -24,14 +24,13 @@
             } else {
                 $target.removeClass('slugify-locked');
             }
-        }
-
+        };
+        
         var updateSlug = function () {
             var slug = convertToSlug($(this).val());
             $target.filter(':not(.slugify-locked)').val(slug).text(slug);
-        }
-
-
+        };
+        
         $source.keyup(updateSlug).change(updateSlug);
 
         $target.change(function () {

@@ -14,6 +14,7 @@
     <AssemblyName>BrickPile.Sample</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +41,9 @@
     </Reference>
     <Reference Include="AsyncCtpLibrary, Version=1.0.4107.18181, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB-Embedded.1.0.573\lib\net40\AsyncCtpLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK, Version=1.3.19.0, Culture=neutral, PublicKeyToken=cd2d24cd2bace800, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.1.3.19.0\lib\AWSSDK.dll</HintPath>
     </Reference>
     <Reference Include="dotless.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -129,9 +133,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Truffler">
-      <HintPath>..\packages\Truffler.1.0.0.118\lib\net35\Truffler.dll</HintPath>
-    </Reference>
     <Reference Include="Yahoo.Yui.Compressor, Version=1.6.0.2, Culture=neutral, PublicKeyToken=f8b4b81ec75097e2, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\YUICompressor.NET.1.6.0.2\lib\net35\Yahoo.Yui.Compressor.dll</HintPath>
@@ -139,53 +140,58 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\CaseController.cs" />
-    <Compile Include="Controllers\CaseListController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\NewsController.cs" />
-    <Compile Include="Controllers\NewsListController.cs" />
     <Compile Include="Controllers\PageController.cs" />
+    <Compile Include="Controllers\PortfolioController.cs" />
+    <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\Weblog.cs" />
+    <Compile Include="Controllers\WeblogController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BaseEditorial.cs" />
     <Compile Include="Models\BaseModel.cs" />
-    <Compile Include="Models\Case.cs" />
-    <Compile Include="Models\CaseList.cs" />
     <Compile Include="Models\Home.cs" />
-    <Compile Include="Models\News.cs" />
-    <Compile Include="Models\NewsList.cs" />
     <Compile Include="Models\Page.cs" />
-    <Compile Include="Models\Teaser.cs" />
-    <Compile Include="Web\Mvc\TagsModelBinder.cs" />
+    <Compile Include="Models\Portfolio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\CaseListViewModel.cs" />
+    <Compile Include="ViewModels\ContactViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\IBaseViewModel.cs" />
-    <Compile Include="ViewModels\NewsListViewModel.cs" />
-    <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\PageViewModel.cs" />
+    <Compile Include="ViewModels\PortfolioViewModel.cs" />
+    <Compile Include="ViewModels\WeblogViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bg.png" />
-    <Content Include="Content\content-1.png" />
-    <Content Include="Content\customer-1.png" />
+    <Content Include="Content\call-to-action.png" />
+    <Content Include="Content\contact.png" />
+    <Content Include="Content\content-bg.png" />
+    <Content Include="Content\dark-pattern.png" />
+    <Content Include="Content\flap.png" />
     <Content Include="Content\Framework.css" />
     <Content Include="Content\Global.css" />
-    <Content Include="Content\header.png" />
+    <Content Include="Content\graphic-design.png" />
+    <Content Include="Content\header-bg.png" />
+    <Content Include="Content\home-header-bg.png" />
+    <Content Include="Content\icon-design.png" />
     <Content Include="Content\jquery.tagsinput.css" />
-    <Content Include="Content\Legacy\ie6.css" />
-    <Content Include="Content\Legacy\ie7.css" />
+    <Content Include="Content\logo-design.png" />
     <Content Include="Content\logo.png" />
+    <Content Include="Content\our-work.png" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="Content\teaser-1.png" />
-    <Content Include="Content\teaser-2.png" />
-    <Content Include="Content\teaser-3.png" />
+    <Content Include="Content\portfolio-1.png" />
+    <Content Include="Content\portfolio-2.png" />
+    <Content Include="Content\portfolio-3.png" />
+    <Content Include="Content\portfolio-4.png" />
+    <Content Include="Content\portfolio-bg.png" />
+    <Content Include="Content\submit.png" />
     <Content Include="Content\Views.css" />
-    <Content Include="Content\webfonts\svg\museo-sans-500.svg" />
-    <Content Include="Content\webfonts\svg\museo-sans-700.svg" />
-    <Content Include="Content\webfonts\svg\style_159303.svg" />
+    <Content Include="Content\webfonts\bebas\BEBAS___-webfont.svg" />
+    <Content Include="Content\weblog.png" />
+    <Content Include="Content\website-design.png" />
+    <Content Include="Content\Why.png" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\global.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
@@ -233,29 +239,17 @@
     <Content Include="Views\Page\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\Fonts\TitilliumText22L004-webfont.eot" />
-    <None Include="Content\Fonts\TitilliumText22L004-webfont.ttf" />
-    <None Include="Content\Fonts\TitilliumText22L004-webfont.woff" />
-    <None Include="Content\webfonts\eot\felttip-roman.eot" />
-    <None Include="Content\webfonts\eot\museo-sans-500.eot" />
-    <None Include="Content\webfonts\eot\museo-sans-700.eot" />
-    <None Include="Content\webfonts\ttf\felttip-roman.ttf" />
-    <None Include="Content\webfonts\ttf\museo-sans-500.ttf" />
-    <None Include="Content\webfonts\ttf\museo-sans-700.ttf" />
-    <None Include="Content\webfonts\woff\felttip-roman.woff" />
-    <None Include="Content\webfonts\woff\museo-sans-500.woff" />
-    <None Include="Content\webfonts\woff\museo-sans-700.woff" />
-    <None Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Content\webfonts\bebas\BEBAS___-webfont.eot" />
+    <None Include="Content\webfonts\bebas\BEBAS___-webfont.ttf" />
+    <None Include="Content\webfonts\bebas\BEBAS___-webfont.woff" />
     <Content Include="packages.config" />
     <Content Include="Views\Shared\_GlobalNav.cshtml" />
-    <Content Include="Views\CaseList\Index.cshtml" />
-    <Content Include="Views\Case\Index.cshtml" />
-    <Content Include="Views\News\Index.cshtml" />
-    <Content Include="Views\NewsList\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Tags.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Tags.cshtml" />
+    <Content Include="Views\Shared\_LocalNav.cshtml" />
+    <Content Include="Views\Portfolio\Index.cshtml" />
+    <Content Include="Views\Weblog\Index.cshtml" />
+    <Content Include="Views\Contact\Index.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

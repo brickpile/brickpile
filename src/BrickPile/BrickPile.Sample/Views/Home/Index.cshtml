@@ -1,5 +1,4 @@
-﻿
-@* Copyright (C) 2011 by Marcus Lindblom
+﻿@* Copyright (C) 2011 by Marcus Lindblom
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,47 +19,61 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
 @model BrickPile.Sample.ViewModels.HomeViewModel
-@using BrickPile.UI.Common
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="push">
-	<img src="@Url.Content("/content/header.png")" alt="" />
-</div>
+@section Heading {
 
-<ul id="teasers">
-	<li>
-        @if (Model.TeaserOne != null) {
-		    <article>
-		        <a href="@Url.Action(Model.TeaserOne)">
-			        <h1>@Model.CurrentModel.TeaserOne.Heading</h1>
-			        <p>@Model.TeaserOne.MainIntro</p>
-			        <img src="@Url.Content("/content/teaser-1.png")" alt="">
-		        </a>
-		    </article>
-        }
-	</li>
-	<li>
-        @if (Model.TeaserTwo != null) {
-		    <article>
-			    <a href="@Url.Action(Model.TeaserOne)">
-				    <h1>@Model.CurrentModel.TeaserTwo.Heading</h1>
-				    <p>@Model.TeaserTwo.MainIntro</p>
-				    <img src="@Url.Content("/content/teaser-2.png")" alt="">
-			    </a>
-		    </article>
-        }
-	</li>
-    <li class="last">
-        @if (Model.TeaserThree != null) {
-		    <article>
-			    <a href="@Url.Action(Model.TeaserOne)">
-				    <h1>@Model.CurrentModel.TeaserThree.Heading</h1>
-				    <p>@Model.TeaserThree.MainIntro</p>
-				    <img src="@Url.Content("/content/teaser-3.png")" alt="">
-			    </a>
-		    </article>
-        }
-	</li>
-</ul>
+    <div id="branding">
+        <div>
+            <div>
+                <h1><span>@Model.CurrentModel.Heading</span></h1>    
+                <p>@Model.CurrentModel.MainIntro</p>
+                <a href="@Url.Action("index", new { model = Model.QuotePage })" id="quote"><img src="/content/call-to-action.png" alt="Get a quote"/></a>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Main {
+
+    <section id="why">
+        @Html.Raw(Model.CurrentModel.MainBody)
+    </section>
+    <section id="our-work">
+        @Html.Raw(Model.CurrentModel.Portfolio)
+    </section>
+    <section id="weblog">
+        @Html.Raw(Model.CurrentModel.Weblog)
+    </section>
+    <section id="contact">
+        @Html.Raw(Model.CurrentModel.Contact)
+    </section>
+
+}
+
+@section Portfolio {
+    <section id="portfolio">
+        <div>
+            <header>
+                <h2>Portfolio</h2>
+            </header>
+            <ul>
+                <li>
+                    <img src="/content/portfolio-1.png" alt="" />
+                </li>
+                <li>
+                    <img src="/content/portfolio-2.png" alt="" />
+                </li>
+                <li>
+                    <img src="/content/portfolio-3.png" alt="" />
+                </li>
+                <li>
+                    <img src="/content/portfolio-4.png" alt="" />
+                </li>
+            </ul>
+        </div>
+    </section>
+}

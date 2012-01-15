@@ -21,6 +21,10 @@ THE SOFTWARE. */
 using BrickPile.UI.Web.ViewModels;
 
 namespace BrickPile.Sample.ViewModels {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TModel">The type of the model.</typeparam>
     public interface IBaseViewModel<out TModel> : IViewModel<TModel> {
         /// <summary>
         /// Gets or sets the class.

@@ -17,40 +17,31 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
-using System.Linq;
+
 using System.Web.Mvc;
 using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
 using BrickPile.Sample.ViewModels;
 using Raven.Client;
-using Truffler;
 
 namespace BrickPile.Sample.Controllers {
+    /// <summary>
+    /// 
+    /// </summary>
     public class HomeController : BaseController<Home> {
+        private readonly IDocumentSession _session;
         /// <summary>
         /// Indexes this instance.
         /// </summary>
         /// <returns></returns>
         public ActionResult Index() {
-            var client = Client.CreateFromConfig();
-            var results = client.Search<IPageModel>() 
-                .Select(x => new 
-                {
-                    Title = x.Metadata.Name
-                })
-                .GetResult();
-
-
             if(CurrentModel != null) {
-                var links = new[] {CurrentModel.TeaserOne.Link.Id, CurrentModel.TeaserTwo.Link.Id,CurrentModel.TeaserThree.Link.Id};
-                var teasers = DocumentSession.Load<BaseEditorial>(links);
+                var quotePage = _session.Load<BaseEditorial>(CurrentModel.QuoteLink.Id);
                 var viewModel = new HomeViewModel
                                     {
                                         CurrentModel = this.CurrentModel,
                                         Hierarchy = this.Hierarchy,
-                                        TeaserOne = teasers.Where(x => x.Id == CurrentModel.TeaserOne.Link.Id).SingleOrDefault(),
-                                        TeaserTwo = teasers.Where(x => x.Id == CurrentModel.TeaserTwo.Link.Id).SingleOrDefault(),
-                                        TeaserThree = teasers.Where(x => x.Id == CurrentModel.TeaserThree.Link.Id).SingleOrDefault(),
+                                        QuotePage = quotePage,
                                         Class = "home",
                                     };
 
@@ -65,6 +56,7 @@ namespace BrickPile.Sample.Controllers {
         /// <param name="session">The session.</param>
         public HomeController(IPageModel model, IDocumentSession session)
             : base(model, session) {
+            _session = session;
         }
     }
 }

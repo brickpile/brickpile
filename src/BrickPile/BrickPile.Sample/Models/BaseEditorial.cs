@@ -21,6 +21,9 @@ THE SOFTWARE. */
 using System.ComponentModel.DataAnnotations;
 
 namespace BrickPile.Sample.Models {
+    /// <summary>
+    /// 
+    /// </summary>
     public class BaseEditorial : BaseModel {
         /// <summary>
         /// Gets or sets the heading.
@@ -28,16 +31,9 @@ namespace BrickPile.Sample.Models {
         /// <value>
         /// The heading.
         /// </value>
+        [Required]
+        [Display(Order = 100)]
         public virtual string Heading { get; set; }
-        /// <summary>
-        /// Gets or sets the main intro.
-        /// </summary>
-        /// <value>
-        /// The main intro.
-        /// </value>
-        [DataType(DataType.MultilineText)]
-        [Display(Name = "Introduction")]
-        public virtual string MainIntro { get; set; }
         /// <summary>
         /// Gets or sets the main body.
         /// </summary>

@@ -33,136 +33,147 @@
     Border: 
 */
 
-
 @media screen {
     /*--------------------------------------------------------------
     1 Home
     ----------------------------------------------------------------*/
-    body.home header h1 { padding:0;font-size:200%;	margin:0;font-family:'MuseoSans500';  }
-    body.home #content {
-        padding:0;
-        margin-top:0;
-        border:0;
+            /*--------------------------------------------------------------
+            1.1 Branding
+            ----------------------------------------------------------------*/
+            body.home #branding {
+                background: #cd3f31 url(home-header-bg.png) no-repeat center 0;
+                height: 382px;
+            }
+            body.home #branding>div {
+                max-width: 73.846em;
+                margin: 0 auto;
+            }
+            body.home #branding div div {
+                width: 34.615em;
+            }
+            body.home #branding h1 {
+                background: none;
+                margin-bottom: 12px;
+                padding: 0;
+                text-shadow: 0 2px 2px #ac1a12;
+                top: 50px;
+            }
+            body.home #branding p {
+                color: #ffefd9;
+                font-family: Georgia, Arial, sans-serif;
+                font-size: 138.5%;
+                text-shadow: 0 2px 2px #ac1a12;
+                line-height: 1.3;
+                margin-bottom: 1.8em;
+            }
+            body.home h1 span {
+                padding-top: 90px;
+            }
+            
+    body.home #content h2 {
+        font-family: Georgia, Arial, sans-serif;
+        font-size: 1.538em;
+        margin-bottom: 2px;
     }
-    body.home ul#teasers {
-        margin:2em 0 0;
-        overflow:hidden;
+            
+    body.home #content div a:after {
+        color: #2f313d;
+	    content: "\2192";
+	    padding-left: 5px;
     }
-    body.home ul#teasers li {
-	    float:left;
-        margin-right: 2em;
-        width: 31.4%;	    
+    body.home #content #why,
+    body.home #content #our-work,
+    body.home #content #weblog,
+    body.home #content #contact {
+        float: left;
+        margin-right: 3.769em;
+        padding-top: 72px;
+        width: 15.615em;        
     }
-    body.home ul#teasers li.last {
-        margin:0;
-        width:31%;
+    body.home #content #why { background: transparent url(why.png) no-repeat 0 0; }
+    body.home #content #our-work { background: transparent url(our-work.png) no-repeat 0 0; }    
+    body.home #content #weblog { background: transparent url(weblog.png) no-repeat 0 0; }
+    body.home #content #contact {
+        background: transparent url(contact.png) no-repeat 0 0;
+        margin-right: 0;
+    }    
+    body.home #content .inner div p {
+        line-height: 1.5;
+        margin-bottom: 0;
     }
-    body.home ul#teasers article {
-        position:relative;
-        padding:180px 0 0 0;
-        line-height:1.4;
+    
+    body.home #portfolio header { padding-top: 0; }
+    
+    body.home #portfolio {
+        background: #a6a7a1 url(portfolio-bg.png) repeat-x 0 0;
+        border-top: solid 2px #fff;
     }
-    body.home ul#teasers article h1 {
-        font-size:150%;
-        margin:.4em 0 .4em;
-        line-height:1.2;
+    
+    body.home #portfolio div {
+        max-width: 73.846em;
+        margin: 0 auto -13px;
+        text-align: center;
+        top: -51px;
+        position: relative;
     }
-    body.home ul#teasers article a { color:#fff; }
-    body.home ul#teasers article a:hover { color:#dedede; }
-    body.home ul#teasers article img  {
-        position:absolute;
-        top:0;
-        left:0;
+    
+    body.home #portfolio h2 {
+        background: transparent url(flap.png) no-repeat center 0;
+        color: #fff;
+        font-family: 'BebasRegular';
+        height: 56px;
+        font-size: 15px;
+        padding-top: 25px;
+        text-shadow: 0 1px 0 #373833;
     }
-    body.home footer { margin-top:1.6em; }
-    body.home ul#teasers p { padding-right:20px; color:#808080; }
+    body.home #portfolio ul {
+        margin: 0;
+        padding: 0;
+    }
+    body.home #portfolio li {
+        display: inline;
+        margin-right: 16px;
+    }
+    
+        /*--------------------------------------------------------------
+        1.2 Additional
+        ----------------------------------------------------------------*/
+        body.home #complementary { background: url("content-bg.png") repeat scroll 0 0 #F9F5EE; }
+        body.home #complementary div {
+            
+            max-width: 73.846em;
+            margin: 0 auto;
+        }
+        body.home #complementary h2 {
+            
+        }
+    
     /*--------------------------------------------------------------
-    2 Newslist
+    2 Portfolio
     ----------------------------------------------------------------*/
-    body.newslist #content header { border:0;font-size:100%;margin:0;padding:0; }
-    body.newslist #content {
-        padding:1em 0 0 0;
+    body.portfolio #content div div:first-child {
+        border-bottom: solid 4px #bbb;  
     }
-    body.newslist h1 {
-        font-size:200%;
+    
+    body.portfolio #content section {
+        float: left;
+        width: 49%;
     }
-    body.newslist #content header span {
-        font-family:Arial,"Helvetica Neue",sans-serif;
-        color:#666;
-        font-weight:bold; 
+    body.portfolio #content section:last-child { float: right; }
+    body.portfolio #content h2 {
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        text-transform: capitalize;
+        margin-bottom: 7px;
     }
-    body.newslist #content ul li {
-        border-bottom:1px solid #272727;
-        padding:1.8em 0 1.8em 327px;
-        position:relative;
-        min-height:174px;
-    }
-    body.newslist #content ul li:last-child {
-        border:0;
-        padding-bottom:0;
-    }
-    body.newslist #content ul li img {
-        position:absolute;
-        left:0;
-        top:1.8em;
+    body.portfolio #content img {
+        margin-bottom: 9px;
     }
     /*--------------------------------------------------------------
     3 CaseList
     ----------------------------------------------------------------*/
-    body.caselist #content { padding-top:2.5em; }
-    body.caselist #content > p {
-        font-size:235.7%;
-        font-family:'MuseoSans500'; 
-        color:#808080;
-        line-height:1.45; 
-        margin:0 0 .5em;
-    }
-    body.caselist #content > p span {
-        
-    }
-    body.caselist #content > p cufon {
-        padding:5px 0 2px;
-        background:#4d4d4d;
-        margin:0;
-        
-    }
-    body.caselist #content > p strong {
-        font-weight:normal; 
-        color:#000; 
-    }
-     body.caselist #content ul { padding:1.3em 0 0; }
-    body.caselist #content ul h2 {
-        color:#fff;
-        font-size:235.7%;
-        margin:0 0 .3em;
-    }
-    body.caselist #content ul li {
-        min-height:272px;
-        padding:1.8em 0 1.8em 490px;
-        position:relative;
-        border-top:1px solid #272727;
-    }
-    body.caselist #content ul img {
-        position:absolute;
-        top:1.8em;
-        left:0;
-    }
-    body.caselist #content ul a { font-weight:bold; }
-    body.caselist #content ul li:last-child {
-        padding-bottom:0;
-    }
+
     /*--------------------------------------------------------------
     3 News item
     ----------------------------------------------------------------*/
-    body.news #content header { font-size:100%; padding:0;border:0; }
-    body.news .back {
-        font-weight:bold;
-        display:inline-block;
-        margin-bottom:1.2em;
-    }
-    body.news span.date {
-        font-family:Arial,"Helvetica Neue",sans-serif;
-        font-weight:bold;
-        color:#666;
-    }
 }

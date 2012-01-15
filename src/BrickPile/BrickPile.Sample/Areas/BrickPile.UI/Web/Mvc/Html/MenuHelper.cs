@@ -47,37 +47,39 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// Responsible for creating a navigation based on an unordered list
         /// </summary>
         /// <param name="html">HtmlHelper</param>
-        /// <param name="id">Id of the unordered list</param>
-        /// <param name="hierarchy">The hierarchy.</param>
-        /// <param name="itemContent">Default content for links</param>
-        /// <returns></returns>
-        public static string Menu(this HtmlHelper html, string id, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
-            return Menu(html, id, null, hierarchy, itemContent);
-        }
-        /// <summary>
-        /// Responsible for creating a navigation based on an unordered list
-        /// </summary>
-        /// <param name="html">HtmlHelper</param>
-        /// <param name="id">Id of the unordered list</param>
         /// <param name="currentModel">The current page in the current request</param>
         /// <param name="hierarchy">The hierarchy.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
-            return Menu(html, id, currentModel, hierarchy, itemContent, itemContent);
+        public static string Menu(this HtmlHelper html, IPageModel currentModel, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
+            return Menu(html, currentModel, hierarchy, itemContent, itemContent);
         }
         /// <summary>
         /// Responsible for creating a main navigation based on an unordered list
         /// </summary>
         /// <param name="html">HtmlHelper</param>
-        /// <param name="id">The id of the unordered list</param>
         /// <param name="currentModel">The current model.</param>
         /// <param name="hierarchy">The hierarchy.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <param name="selectedItemContent">Content for selected links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, string id, IPageModel currentModel, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
-            if (hierarchy== null) {
+        public static string Menu(this HtmlHelper html, IPageModel currentModel, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
+            return Menu(html, currentModel, hierarchy, itemContent, selectedItemContent, itemContent, false);
+        }
+        /// <summary>
+        /// Menus the specified HTML.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="currentModel">The current model.</param>
+        /// <param name="hierarchy">The hierarchy.</param>
+        /// <param name="itemContent">Content of the item.</param>
+        /// <param name="selectedItemContent">Content of the selected item.</param>
+        /// <param name="expandedItemContent">Content of the expanded item.</param>
+        /// <param name="includeHome">if set to <c>true</c> [include home].</param>
+        /// <returns></returns>
+        public static string Menu(this HtmlHelper html, IPageModel currentModel, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, bool includeHome) {
+
+            if (hierarchy == null) {
                 return String.Empty;
             }
 
@@ -87,20 +89,19 @@ namespace BrickPile.UI.Web.Mvc.Html {
             var items = hierarchyNodes.Where(x => x.Depth == 1);
 
             var sb = new StringBuilder();
-            if(string.IsNullOrEmpty(id)) {
-                sb.AppendLine("<ul>");
-            }
-            else {
-                sb.AppendFormat("<ul id=\"{0}\">", id);
+            sb.AppendLine("<ul>");
+
+            if(includeHome) {
+                var root = hierarchy.Where(x => x.Parent == null).SingleOrDefault();
+                RenderLi(sb, "<li>{0}</li>", root, root.Equals(currentModel) ? selectedItemContent : itemContent);
             }
 
-            foreach (var item in items)
-            {
-                RenderLi(sb, "<li>{0}</li>", item.Entity, item.Entity.Equals(currentModel) ? selectedItemContent : itemContent);
+            foreach (var item in items) {
+                RenderLi(sb, "<li>{0}</li>", item.Entity, item.Entity.Equals(currentModel) ? selectedItemContent : ( item.Expanded ? expandedItemContent : itemContent));
             }
 
             sb.AppendLine("</ul>");
-            return sb.ToString();
+            return sb.ToString();            
         }
         /// <summary>
         /// Responsible for renderingen the li element with it's content

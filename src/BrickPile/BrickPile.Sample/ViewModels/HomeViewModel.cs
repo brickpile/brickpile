@@ -21,6 +21,9 @@ THE SOFTWARE. */
 using BrickPile.Sample.Models;
 
 namespace BrickPile.Sample.ViewModels {
+    /// <summary>
+    /// 
+    /// </summary>
     public class HomeViewModel : BaseViewModel<Home> {
         /// <summary>
         /// Gets or sets the teaser one.
@@ -28,20 +31,6 @@ namespace BrickPile.Sample.ViewModels {
         /// <value>
         /// The teaser one.
         /// </value>
-        public BaseEditorial TeaserOne { get; set; }
-        /// <summary>
-        /// Gets or sets the teaser two.
-        /// </summary>
-        /// <value>
-        /// The teaser two.
-        /// </value>
-        public BaseEditorial TeaserTwo { get; set; }
-        /// <summary>
-        /// Gets or sets the teaser three.
-        /// </summary>
-        /// <value>
-        /// The teaser three.
-        /// </value>
-        public BaseEditorial TeaserThree { get; set; }
+        public BaseEditorial QuotePage { get; set; }
     }
 }

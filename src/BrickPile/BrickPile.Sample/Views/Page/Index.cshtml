@@ -1,5 +1,4 @@
-﻿
-@* Copyright (C) 2011 by Marcus Lindblom
+﻿@* Copyright (C) 2011 by Marcus Lindblom
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +19,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
 @model BrickPile.Sample.ViewModels.PageViewModel
-@using BrickPile.UI.Common
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<article>
-    <div class="main">
-        <h1 class="structural">@Model.CurrentModel</h1>
-        <p class="introduction"><span>@Model.CurrentModel.MainIntro</span></p>
-        @Html.Raw(Model.CurrentModel.MainBody)
-    </div>
-    <aside>        
-        <figure>
-            <img src="@Url.Content("~/content/content-1.png")" alt="" />
-        </figure>
-    </aside>
-</article>
+@Html.Raw(Model.CurrentModel.MainBody)
+
+<div id="fb-root"></div>
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=265895203421271";
+        fjs.parentNode.insertBefore(js, fjs);
+    } (document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="fb-comments" data-href="http://demo.getbrickpile.com/@Model.CurrentModel.Metadata.Url" data-num-posts="2" data-width="690"></div>
