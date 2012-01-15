@@ -80,6 +80,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -87,6 +88,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Resources\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="usage\SampleModel.cs" />
     <None Include=".doclist" />
     <None Include="getting-started\index.markdown" />
     <None Include="getting-started\setup.markdown" />
@@ -98,7 +105,7 @@
     <None Include="packages.config" />
     <None Include="usage\.doclist" />
     <None Include="usage\index.markdown" />
-    <None Include="usage\using-pagemodels.markdown" />
+    <None Include="usage\pagemodels.markdown" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\" />
@@ -106,6 +113,18 @@
   <ItemGroup>
     <Content Include="css\main.css" />
     <Content Include="markdowntemplate.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrickPile.Domain\BrickPile.Domain.csproj">
+      <Project>{827F415E-59D8-4F6A-B47A-1F345A790F5E}</Project>
+      <Name>BrickPile.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

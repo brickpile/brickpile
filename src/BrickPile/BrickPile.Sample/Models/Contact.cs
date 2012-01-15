@@ -4,8 +4,9 @@ using BrickPile.Sample.Controllers;
 
 
 namespace BrickPile.Sample.Models {
-    #region Localize page model name
+    /// <summary>
+    /// 
+    /// </summary>
     [PageModel(Name = "Contact", ControllerType = typeof(ContactController), ResourceType = typeof(Resource))]
     public class Contact : BaseEditorial { }
-    #endregion
 }
