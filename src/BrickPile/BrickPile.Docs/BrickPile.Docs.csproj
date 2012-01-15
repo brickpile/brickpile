@@ -96,6 +96,9 @@
     <None Include="getting-started\configuration.markdown" />
     <None Include="getting-started\install.markdown" />
     <None Include="packages.config" />
+    <None Include="usage\.doclist" />
+    <None Include="usage\index.markdown" />
+    <None Include="usage\using-pagemodels.markdown" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\" />
