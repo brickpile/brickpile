@@ -18,10 +18,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.UI.App_Start;
 using BrickPile.UI.Common;
+using BrickPile.UI.Web.Hosting;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
 
@@ -42,6 +44,8 @@ namespace BrickPile.UI.App_Start {
             RouteTable.Routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
             ControllerBuilder.Current.SetControllerFactory(typeof(BrickPileControllerFactory));
+
+            HostingEnvironment.RegisterVirtualPathProvider(new AmazonS3VirtualPathProvider());
 
             // Register the default page route
             RouteTable.Routes.RegisterPageRoute(
