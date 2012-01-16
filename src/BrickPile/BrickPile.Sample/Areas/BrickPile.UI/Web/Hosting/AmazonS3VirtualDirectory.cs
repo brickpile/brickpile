@@ -26,7 +26,6 @@ namespace BrickPile.UI.Web.Hosting {
                         return response.S3Objects.Except(objects).Where(o => o.Key.Last() == '/' && o.Key.IndexOf(@"/") == o.Key.LastIndexOf(@"/")).Select(n => n.Key);
                     }
 
-
                     var directories = new List<string>();
 
                     foreach (var split in response.S3Objects.Select(s3Object => s3Object.Key.Replace(folder, string.Empty).Split('/')).Where(splits => splits.Count() > 1 && !directories.Contains(splits.First()))) {

@@ -25,34 +25,14 @@ namespace BrickPile.UI.Web.Hosting {
             }
         }
 
-        //public string PhysicalPath {
-        //    get {
-        //        return ConfigurationManager.AppSettings["DropboxPhysicalPath"];
-        //    }
-        //}
-        //public string VirtualPath {
-        //    get { return ConfigurationManager.AppSettings["DropboxVirtualPath"]; }
-        //}
-
-        //public override bool FileExists(string virtualPath) {
-
-        //    throw new FileNotFoundException("Foo");
-
-        //    //if (IsPathVirtual(virtualPath)) {
-        //    //    var file = (DropboxVirtualFile)GetFile(virtualPath);
-        //    //    return file.Exists;
-        //    //}
-        //    return Previous.FileExists(virtualPath);
-
-        //}
-
         public override VirtualFile GetFile(string virtualPath) {
 
             if (virtualPath.StartsWith(VirtualPathRoot)) {
+                virtualPath = virtualPath.Replace(VirtualPathRoot, string.Empty);
 
                 var client = AWSClientFactory.CreateAmazonS3Client();
                 var request = new GetObjectRequest();
-                request.WithBucketName(BucketName).WithKey(virtualPath.Replace(VirtualPathRoot, string.Empty));
+                request.WithBucketName(BucketName).WithKey(virtualPath);
 
                 try {
                     _response = client.GetObject(request);
@@ -72,6 +52,7 @@ namespace BrickPile.UI.Web.Hosting {
 
         public override VirtualDirectory GetDirectory(string virtualDirectory) {
             if (virtualDirectory.StartsWith(VirtualPathRoot)) {
+                virtualDirectory = virtualDirectory.Replace(VirtualPathRoot, string.Empty);
                 return new AmazonS3VirtualDirectory(this, virtualDirectory);
             }
             return Previous.GetDirectory(virtualDirectory);

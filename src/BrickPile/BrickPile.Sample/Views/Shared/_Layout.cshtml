@@ -25,11 +25,11 @@ THE SOFTWARE. *@
 <!DOCTYPE html>
 <html lang="@CultureInfo.CurrentCulture.TwoLetterISOLanguageName">
 	<head>
-		<title>@Model.Title</title>
-		<meta charset="utf-8" />
+        <title>@Model.CurrentModel.Metadata.Title</title>
         @if (!string.IsNullOrEmpty(@Model.CurrentModel.Metadata.Description)) {
-            <meta name="description" content="@Model.CurrentModel.Metadata.Description"/>                                                                                 
+        <meta name="description" content="@Model.CurrentModel.Metadata.Description"/>                                                                                 
         }
+        <meta charset="utf-8" />
         @Html.Raw(Bundle.Css()
             .Add(Url.Content("~/content/global.css"))
             .Add(Url.Content("~/content/framework.css"))

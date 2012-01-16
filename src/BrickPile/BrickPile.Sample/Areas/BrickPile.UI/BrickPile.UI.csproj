@@ -34,9 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxMin, Version=4.40.4369.35534, Culture=neutral, PublicKeyToken=21ef50ce11b5d80f, processorArchitecture=MSIL">
+    <Reference Include="AjaxMin, Version=4.44.4396.18853, Culture=neutral, PublicKeyToken=21ef50ce11b5d80f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\AjaxMin.4.40.4369.35534\lib\net20\AjaxMin.dll</HintPath>
+      <HintPath>..\..\..\packages\AjaxMin.4.44.4396.18853\lib\net20\AjaxMin.dll</HintPath>
     </Reference>
     <Reference Include="AsyncCtpLibrary, Version=1.0.4107.18181, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.574-Unstable\lib\net40\AsyncCtpLibrary.dll</HintPath>
@@ -103,8 +103,7 @@
       <HintPath>..\..\..\packages\RavenDB-Embedded.1.0.574-Unstable\lib\net40\Raven.Storage.Managed.dll</HintPath>
     </Reference>
     <Reference Include="SquishIt.Framework, Version=0.8.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\SquishIt.0.8.2\lib\SquishIt.Framework.dll</HintPath>
+      <HintPath>..\..\..\packages\SquishIt.0.8.3\lib\SquishIt.Framework.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=2.6.3.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -287,14 +286,16 @@
     <Content Include="Images\Setup\plate.png" />
     <Content Include="Images\Setup\submit-bg.png" />
     <Content Include="packages.config" />
+    <Content Include="Scripts\backbone.js" />
+    <Content Include="Scripts\backbone.min.js" />
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.16.custom.js" />
     <Content Include="Scripts\jquery-ui-1.8.16.custom.min.js" />
-    <Content Include="Scripts\jquery-ui-1.8.16.js" />
-    <Content Include="Scripts\jquery-ui-1.8.16.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.17.js" />
+    <Content Include="Scripts\jquery-ui-1.8.17.min.js" />
     <Content Include="Scripts\jQuery.lionbars.0.2.1.min.js" />
     <Content Include="Scripts\jquery.selectbox.js" />
     <Content Include="Scripts\jquery.selectBox.min.js" />
@@ -569,6 +570,8 @@
     <Content Include="Scripts\tinymce.3.4.5\utils\form_utils.js" />
     <Content Include="Scripts\tinymce.3.4.5\utils\mctabs.js" />
     <Content Include="Scripts\tinymce.3.4.5\utils\validate.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
     <Content Include="Styles\Dashboard.css" />
     <Content Include="Styles\Framework.css" />
     <Content Include="Styles\lionbars.css" />

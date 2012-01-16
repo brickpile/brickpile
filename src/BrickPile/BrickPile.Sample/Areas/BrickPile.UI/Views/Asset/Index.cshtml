@@ -1,25 +1,28 @@
 ﻿
+@model System.Web.Hosting.VirtualDirectory
 @using System.Web.Helpers
+@using System.Web.Hosting
 
 <div class="overlay">
     <aside class="dialog filebrowser">
         <a href="#" class="close"><img src="@Url.Content("/areas/brickpile.ui/images/dialog-close.png")" alt="close" /></a>
         <h1>Asset manager</h1>
         <table>
-             <thead>
-                 <tr>
+            <thead>
+                <tr>
                     <th>Name</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (Amazon.S3.Model.S3Object asset in this.Model) {
-                <tr>
-                    <td>
-                        @{
-                                                        
-                        }
-                    </td>
-                </tr>
+                @foreach (string directory in this.Model.Directories) {
+                    <tr>
+                        <td>@Html.ActionLink(directory, "Index", new { path =  Model.VirtualPath + directory })</td>
+                    </tr>
+                }
+                @foreach (Amazon.S3.Model.S3Object asset in this.Model.Files) {
+                    <tr>
+                        <td>@asset.Key</td>
+                    </tr>
                 }
             </tbody>
         </table>            

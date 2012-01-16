@@ -104,6 +104,7 @@
     <None Include="getting-started\install.markdown" />
     <None Include="packages.config" />
     <None Include="usage\.doclist" />
+    <None Include="usage\basic-concept.markdown" />
     <None Include="usage\index.markdown" />
     <None Include="usage\pagemodels.markdown" />
   </ItemGroup>

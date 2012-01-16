@@ -10,7 +10,7 @@
     <licenseUrl>https://github.com/kloojed/BrickPile/blob/master/README</licenseUrl>
     <projectUrl>http://www.getbrickpile.com</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>BrickPile offers a flexible and easy to understand way of creating page templates and custom properties for the dashboard UI.</description>
+    <description>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 3</description>
 		<tags>brickpile cms ravendb mvc nosql</tags>
     <dependencies>
       <dependency id="RavenDB-Embedded" version="1.0.0.482" />
