@@ -21,7 +21,7 @@ namespace BrickPile.Sample.Controllers {
         public ActionResult Index() {
 
             //var directory = HostingEnvironment.VirtualPathProvider.GetDirectory("~/s3/Images/");
-
+            DocumentSession.Delete(CurrentModel);
             var model = new ContactViewModel
                             {
                                 CurrentModel = this.CurrentModel,

@@ -1,30 +1,49 @@
-﻿
-@model System.Web.Hosting.VirtualDirectory
-@using System.Web.Helpers
-@using System.Web.Hosting
+﻿@model System.Web.Hosting.VirtualDirectory
+@using BrickPile.UI.Common
+@using BrickPile.UI.Web.Hosting
+
 
 <div class="overlay">
     <aside class="dialog filebrowser">
-        <a href="#" class="close"><img src="@Url.Content("/areas/brickpile.ui/images/dialog-close.png")" alt="close" /></a>
-        <h1>Asset manager</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (string directory in this.Model.Directories) {
-                    <tr>
-                        <td>@Html.ActionLink(directory, "Index", new { path =  Model.VirtualPath + directory })</td>
-                    </tr>
-                }
-                @foreach (Amazon.S3.Model.S3Object asset in this.Model.Files) {
-                    <tr>
-                        <td>@asset.Key</td>
-                    </tr>
-                }
-            </tbody>
-        </table>            
+        <div class="additional-block">
+            <a href="#" class="close"><img src="@Url.Content("/areas/brickpile.ui/images/dialog-close.png")" alt="close" /></a>
+		    <h1>Select page...</h1>
+            <div id="scroll" style="width: 100%;">
+                <table>
+                     <thead>
+                         <tr>
+                            <th>Name</th>
+                            <th>Size</th>
+                            <th>Last modified</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                
+                        @foreach (AmazonS3VirtualDirectory directory in Model.Directories) {
+                            <tr>
+                                <td><a href="#" class="directory" data-virtualpath="/s3/@directory.VirtualPath">@directory.Name</a></td>
+                                <td>Filesize</td>
+                                <td>Last modified</td>
+                            </tr>
+                        }
+                
+                        @foreach (AmazonS3VirtualFile asset in Model.Files) {
+                            <tr>
+                                <td><a href="@asset.Url" class="insert" data-url="@asset.Url" data-virtualpath="@asset.VirtualPath">@asset.Name</a></td>
+                                <td>Filesize</td>
+                                <td>Last modified</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>     
+            </div>
+        </div>
+
+        <div class="editor-button">
+            <span class="button">@Html.ActionLink("No, cancel", "index", null, new { @class = "cancel" })</span>
+            <span class="button disabled">@Html.ActionLink("Select", "index", null, new { @class = "select" })</span>
+        </div>
+
     </aside>
 </div>

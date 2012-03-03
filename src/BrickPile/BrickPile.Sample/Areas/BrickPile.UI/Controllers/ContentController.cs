@@ -31,7 +31,7 @@ using BrickPile.UI.Web.ViewModels;
 using Raven.Client;
 
 namespace BrickPile.UI.Controllers {
-    [Authorize]
+   [Authorize]
     public class ContentController : Controller {
         private dynamic _model;
         private readonly IRepository<IPageModel> _repository;

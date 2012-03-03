@@ -468,7 +468,7 @@ namespace BrickPile.UI.Web.Security {
 			using (var session = this.DocumentStore.OpenSession())
 			{
 				var q = from u in session.Query<User>()
-						where u.Username == username && u.ApplicationName == this.ApplicationName
+						where u.Username == username// && u.ApplicationName == this.ApplicationName
 						select u;
 				var user = q.SingleOrDefault();
 				if (user != null && user.PasswordHash == PasswordUtil.HashPassword(password, user.PasswordSalt))

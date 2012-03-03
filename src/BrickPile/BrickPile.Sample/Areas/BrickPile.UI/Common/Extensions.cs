@@ -43,7 +43,7 @@ namespace BrickPile.UI.Common {
         private static IEnumerable<HierarchyNode<TEntity>> CreateHierarchy<TEntity>(IEnumerable<TEntity> allItems, TEntity parentItem, int depth) where TEntity : class, IPageModel {
 
             if (parentItem == null)
-                parentItem = allItems.Where(i => i.Parent == null).SingleOrDefault();
+                parentItem = allItems.SingleOrDefault(i => i.Parent == null);
 
             if(parentItem == null) {
                 yield break;
@@ -60,7 +60,7 @@ namespace BrickPile.UI.Common {
                                 Entity = item,
                                 ChildNodes = CreateHierarchy(allItems, item, depth),
                                 Depth = depth,
-                                Expanded = allItems.Where(x => x.Parent != null && x.Parent.Id.Equals(item.Id)).Count() > 0
+                                Expanded = allItems.Any(x => x.Parent != null && x.Parent.Id.Equals(item.Id))
                             };
             }
         }
@@ -85,6 +85,7 @@ namespace BrickPile.UI.Common {
             routes.Add("PageRoute", pageRoute);
             return routes;
         }
+
         /// <summary>
         /// Used for adding a page model to the RouteData object's DataTokens
         /// </summary>

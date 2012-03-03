@@ -30,6 +30,5 @@ namespace BrickPile.Sample.Models {
     public class Portfolio : BaseEditorial {
         [DataType(DataType.ImageUrl)]
         public string Image { get; set; }
-
     }
 }

@@ -51,8 +51,8 @@ namespace BrickPile.UI.Web.Routing {
             // The normal beahaviour should be to load the page based on the url
             _pageModel = _repository.GetPageByUrl<IPageModel>(virtualUrl);
             // Try to load the page without the last segment of the url and set the last segment as action))
-            if (_pageModel == null && virtualUrl.LastIndexOf("/") > 0) {
-                var index = virtualUrl.LastIndexOf("/");
+            if (_pageModel == null && virtualUrl.LastIndexOf("/", System.StringComparison.Ordinal) > 0) {
+                var index = virtualUrl.LastIndexOf("/", System.StringComparison.Ordinal);
                 var action = virtualUrl.Substring(index, virtualUrl.Length - index).Trim(new[] {'/'});
                 virtualUrl = virtualUrl.Substring(0, index).TrimStart(new[] { '/' });
                 _pageModel = _repository.GetPageByUrl<IPageModel>(virtualUrl);

@@ -30,7 +30,9 @@ THE SOFTWARE. *@
             <div>
                 <h1><span>@Model.CurrentModel.Heading</span></h1>    
                 <p>@Model.CurrentModel.MainIntro</p>
-                <a href="@Url.Action("index", new { model = Model.QuotePage })" id="quote"><img src="/content/call-to-action.png" alt="Get a quote"/></a>
+                @if(Model.QuotePage != null) {
+                    <a href="@Url.Action("index", new { model = Model.QuotePage })" id="quote"><img src="/content/call-to-action.png" alt="Get a quote"/></a>
+                }
             </div>
         </div>
     </div>

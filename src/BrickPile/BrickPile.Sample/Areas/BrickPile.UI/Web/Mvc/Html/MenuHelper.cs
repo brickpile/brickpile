@@ -21,8 +21,9 @@ THE SOFTWARE. */
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
 
@@ -34,84 +35,97 @@ namespace BrickPile.UI.Web.Mvc.Html {
     /// <example></example>
     public static class MenuHelper {
         /// <summary>
-        /// Responsible for creating a navigation based on an unordered list
+        /// Gets the current model.
         /// </summary>
-        /// <param name="html">HtmlHelper</param>
-        /// <param name="hierarchy">The hierarchy.</param>
-        /// <param name="itemContent">Default content for links</param>
-        /// <returns></returns>
-        public static string Menu(this HtmlHelper html, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
-            return Menu(html, null, hierarchy, itemContent);
+        private static IPageModel CurrentModel {
+            get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>(); }
         }
         /// <summary>
         /// Responsible for creating a navigation based on an unordered list
         /// </summary>
         /// <param name="html">HtmlHelper</param>
-        /// <param name="currentModel">The current page in the current request</param>
-        /// <param name="hierarchy">The hierarchy.</param>
+        /// <param name="pageModels">The page models.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, IPageModel currentModel, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
-            return Menu(html, currentModel, hierarchy, itemContent, itemContent);
+        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pageModels, Func<IPageModel, MvcHtmlString> itemContent) {
+            return Menu(html, pageModels, itemContent, itemContent);
         }
         /// <summary>
         /// Responsible for creating a main navigation based on an unordered list
         /// </summary>
         /// <param name="html">HtmlHelper</param>
-        /// <param name="currentModel">The current model.</param>
-        /// <param name="hierarchy">The hierarchy.</param>
+        /// <param name="pageModels">The page models.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <param name="selectedItemContent">Content for selected links</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, IPageModel currentModel, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
-            return Menu(html, currentModel, hierarchy, itemContent, selectedItemContent, itemContent, false);
+        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pageModels, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
+            return Menu(html, pageModels, itemContent, selectedItemContent, itemContent);
         }
         /// <summary>
         /// Menus the specified HTML.
         /// </summary>
         /// <param name="html">The HTML.</param>
-        /// <param name="currentModel">The current model.</param>
-        /// <param name="hierarchy">The hierarchy.</param>
+        /// <param name="pageModels">The page models.</param>
         /// <param name="itemContent">Content of the item.</param>
         /// <param name="selectedItemContent">Content of the selected item.</param>
         /// <param name="expandedItemContent">Content of the expanded item.</param>
-        /// <param name="includeHome">if set to <c>true</c> [include home].</param>
         /// <returns></returns>
-        public static string Menu(this HtmlHelper html, IPageModel currentModel, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, bool includeHome) {
+        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pageModels, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent) {
+            return Menu(html, pageModels, itemContent, selectedItemContent, expandedItemContent, null);
+        }
+        /// <summary>
+        /// Menus the specified HTML.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="pageModels">The page models.</param>
+        /// <param name="itemContent">Content of the item.</param>
+        /// <param name="selectedItemContent">Content of the selected item.</param>
+        /// <param name="expandedItemContent">Content of the expanded item.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes for the element. The attributes are retrieved through reflection by examining the properties of the object. The object is typically created by using object initializer syntax.</param>
+        /// <returns></returns>
+        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pageModels, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, object htmlAttributes) {
 
-            if (hierarchy == null) {
-                return String.Empty;
+            if (pageModels == null) {
+                return MvcHtmlString.Empty;
             }
 
-            var hierarchyNodes = hierarchy.AsHierarchy();
+            var hierarchyNodes = pageModels.AsHierarchy();
             // only render the top level items
 
             var items = hierarchyNodes.Where(x => x.Depth == 1);
+            
+            // create unordered list
+            var unorderedList = new TagBuilder("ul");
+            // merge html attributes
+            unorderedList.MergeAttributes(new RouteValueDictionary(htmlAttributes));
 
-            var sb = new StringBuilder();
-            sb.AppendLine("<ul>");
-
-            if(includeHome) {
-                var root = hierarchy.Where(x => x.Parent == null).SingleOrDefault();
-                RenderLi(sb, "<li>{0}</li>", root, root.Equals(currentModel) ? selectedItemContent : itemContent);
+            // add home item
+            var home = pageModels.SingleOrDefault(x => x.Parent == null);
+            if(home != null) {
+                var homeListItem = new TagBuilder("li")
+                {
+                    InnerHtml = home.Equals(CurrentModel) ? selectedItemContent(home).ToString() : itemContent(home).ToString()
+                };
+                unorderedList.InnerHtml += homeListItem.ToString();
             }
+            
+            
 
             foreach (var item in items) {
-                RenderLi(sb, "<li>{0}</li>", item.Entity, item.Entity.Equals(currentModel) ? selectedItemContent : ( item.Expanded ? expandedItemContent : itemContent));
-            }
 
-            sb.AppendLine("</ul>");
-            return sb.ToString();            
-        }
-        /// <summary>
-        /// Responsible for renderingen the li element with it's content
-        /// </summary>
-        /// <param name="sb">The sb.</param>
-        /// <param name="format">The format.</param>
-        /// <param name="item">The item.</param>
-        /// <param name="itemContent">Content of the item.</param>
-        private static void RenderLi(StringBuilder sb, string format, IPageModel item, Func<IPageModel, MvcHtmlString> itemContent) {
-            sb.AppendFormat(format, itemContent(item));
+                var listItem = new TagBuilder("li")
+                {
+                    InnerHtml = item.Entity.Equals(CurrentModel)
+                                    ? selectedItemContent(item.Entity).ToString()
+                                    : (item.Expanded
+                                           ? expandedItemContent(item.Entity).ToString()
+                                           : itemContent(item.Entity).ToString())
+                };
+
+
+                unorderedList.InnerHtml += listItem.ToString();
+            }
+            return MvcHtmlString.Create(unorderedList.ToString());
         }
     }
 }

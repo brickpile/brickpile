@@ -20,6 +20,12 @@ THE SOFTWARE. */
 
 namespace BrickPile.UI.Configuration {
     public interface IConfiguration {
+        /// <summary>
+        /// Gets or sets the name of the site.
+        /// </summary>
+        /// <value>
+        /// The name of the site.
+        /// </value>
         string SiteName { get; set; }
     }
 }

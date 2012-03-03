@@ -72,7 +72,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
 
             var hierarchyNodes = hierarchy.AsHierarchy();
 
-            var item = hierarchyNodes.Where(x => x.Expanded).SingleOrDefault();
+            var item = hierarchyNodes.SingleOrDefault(x => x.Expanded);
 
             if (item == null || item.ChildNodes.Count() == 0)
                 return string.Empty;

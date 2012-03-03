@@ -146,8 +146,30 @@ aside.dialog .additional-block { height:270px; }
 6 File browser
 ----------------------------------------------------------------*/
 .overlay aside.filebrowser {
+    
     width:56.429em;
 }
+.overlay aside.filebrowser ul {
+    background-color: #fff;
+    overflow: hidden;
+    padding: 1em;
+}
+
+.overlay aside.filebrowser li {
+    border: 0;
+    float: left;
+    width: 110px;
+    height: 110px;
+    text-align: center;
+    margin: 0 1em 1em 0;
+    position: relative;
+}
+
+.overlay aside.filebrowser li img {
+    position: absolute;
+    bottom: 0;
+}
+
 .filebrowser table { 
     border-collapse:collapse;
     width:100%;    

@@ -18,8 +18,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System;
 using System.Web.Mvc;
+using BrickPile.UI.Common;
 using BrickPile.UI.Web.Routing;
 using StructureMap;
 
@@ -43,6 +43,19 @@ namespace BrickPile.UI {
                                             AreaViewLocationFormats = new[] { "~/Areas/BrickPile.UI/Views/{1}/{0}.cshtml" }
                                         });
 
+            // Map the default UI route
+            //context.Routes.MapUIRoute("UI_Default",
+            //                          "{controller}/{action}/{id}",
+            //                          new
+            //                          {
+            //                              controller = "UI",
+            //                              action = "Index",
+            //                              id = UrlParameter.Optional,
+            //                              AreaName = "UI"
+            //                          },
+            //                          new {controller = new SubdomainRouteConstraint("ui.")},
+            //                          new[] {typeof (Controllers.UIController).Namespace});
+
             var dashboardRoute = new ContentRoute(
                 ObjectFactory.GetInstance<DashboardPathResolver>(),
                 ObjectFactory.GetInstance<DashboardVirtualPathResolver>(),
@@ -50,17 +63,23 @@ namespace BrickPile.UI {
 
             context.Routes.Add("Dashboard", dashboardRoute);
 
-            context.MapRoute(
-                "Dashboard_publish",
-                "dashboard/content/publish/{id}/{published}",
-                new { controller = "content", action = "publish", Area = "dashboard" }
-            );
+            //context.MapRoute(
+            //    "Dashboard_publish",
+            //    "dashboard/content/publish/{id}/{published}",
+            //    new { controller = "content", action = "publish", Area = "dashboard" }
+            //);
 
             context.MapRoute(
                 "Dashboard_default",
                 "dashboard/{controller}/{action}/{id}",
-                new { controller = "dashboard", action = "index", id = UrlParameter.Optional }
+                new { controller = "dashboard", action = "index", id = UrlParameter.Optional, AreaName = "Dashboard" }
             );
+
+            //context.MapRoute(
+            //    "UI_Default",
+            //    "ui/{controller}/{action}/{id}",
+            //    new { controller = "ui", action = "index", id = UrlParameter.Optional }
+            //);
         }
     }
 }

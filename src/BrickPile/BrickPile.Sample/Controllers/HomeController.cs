@@ -36,7 +36,7 @@ namespace BrickPile.Sample.Controllers {
         /// <returns></returns>
         public ActionResult Index() {
             if(CurrentModel != null) {
-                var quotePage = _session.Load<BaseEditorial>(CurrentModel.QuoteLink.Id);
+                var quotePage = CurrentModel.QuoteLink.Id != null ? _session.Load<BaseEditorial>(CurrentModel.QuoteLink.Id) : null;
                 var viewModel = new HomeViewModel
                                     {
                                         CurrentModel = this.CurrentModel,

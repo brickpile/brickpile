@@ -159,28 +159,55 @@ Dashboard.prototype = {
             url: '/dashboard/asset',
             dataType: 'html',
             success: function (data) {
+
                 $('body').append(data);
+
                 var $dialog = $('.overlay');
+                
                 $dialog.find('a.close').click(function () {
                     $dialog.fadeOut('fast', function () {
                         $dialog.remove();
                     });
                     return false;
                 });
+                
                 $dialog.find('a.cancel').click(function () {
                     $dialog.fadeOut('fast', function () {
                         $dialog.remove();
                     });
                     return false;
                 });
-                $dialog.find('td a').click(function () {
-                    $anchor.parent().parent().parent().find('input:text').val($(this).attr('data-val'));
+                
+                $dialog.find('td a.insert').click(function () {
+                    $anchor.parent().parent().parent().find('input:text').val($(this).attr('data-url'));
                     $dialog.fadeOut('fast', function () {
                         $dialog.remove();
                     });
-                    //$anchor.parent().parent().find('img').attr('src', $(this).attr('data-val'));
                     return false;
                 });
+                
+                $dialog.find('a.directory').live('click', function () {
+                    $.ajax({
+                        url: '/dashboard/asset/getdirectory',
+                        type: 'GET',
+                        dataType: 'html',
+                        data: { path: $(this).attr('data-virtualpath') },
+                        success: function (data) {
+                            $('.additional-block').html(data);
+                            $('div#scroll').lionbars('dark', true, false, false);
+                            $dialog.find('td a.insert').click(function () {
+                                $anchor.parent().parent().parent().find('input:text').val($(this).attr('data-url'));
+                                $dialog.fadeOut('fast', function () {
+                                    $dialog.remove();
+                                });
+                                return false;
+                            });                            
+                        }
+                    });
+                    return false;
+                });
+                
+
 //                                var $dialog = $('div.overlay aside');
 //                                $dialog.click(function (event) {
 //                                    event.stopPropagation();
@@ -247,8 +274,11 @@ $(document).ready(function () {
     $("#pages table tbody").sortable({
         handle: 'td.sort',
         items: "tr:not(.ui-state-disabled)",
-        helper: fixHelper,
+        //helper: fixHelper,
+        helper: 'clone',
+        //placeholder: "ui-state-highlight",
         opacity: 0.7,
+        forcePlaceholderSize: true,
         update: function (event, ui) {
             $.ajax({
                 type: 'POST',
@@ -258,6 +288,13 @@ $(document).ready(function () {
                 success: function (data) { }
             });
         }
+//        start: function (event, ui) {
+//            ui.placeholder.height(ui.item.height());
+//        }
+////      stop: function (event, ui) {
+//            console.log(ui);
+//            $(ui.item).css('opacity', '1');
+//        }
     });
 
     $('#metadata').hide();

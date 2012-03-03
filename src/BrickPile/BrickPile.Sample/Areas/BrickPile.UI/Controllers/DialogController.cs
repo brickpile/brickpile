@@ -73,7 +73,7 @@ namespace BrickPile.UI.Controllers {
                     .Where(x => x.Parent.Id == id)
             };
 
-            return PartialView("_Menu",viewModel);
+            return PartialView("_Menu",viewModel);  
             
         }
         /// <summary>

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Web.Hosting;
 using BrickPile.UI.Web.Hosting;
@@ -45,18 +47,33 @@ namespace BrickPile.Tests.Web.Hosting {
         private void Execute(CrossAppDomainDelegate testMethod) {
             this._hostingEnvironmentDomain.DoCallBack(testMethod);
         }
-
         [Test]
-        public void Can_Load_File_From_S3() {
+        public void Can_Load_File_From_S3_Root() {
             // Use the special "Execute" method to run code
             // in the special AppDomain.
             this.Execute(() =>
             {
-                var file = HostingEnvironment.VirtualPathProvider.GetFile("~/s3/Images/office.jpg");
+                var file = HostingEnvironment.VirtualPathProvider.GetFile("/s3/main_area_7.jpg");
+                var stream = file.Open();
+                Assert.NotNull(stream);
                 Assert.IsFalse(file.IsDirectory);
                 Assert.NotNull(file);
-            }
-                );
+                Console.WriteLine("Office.jpg virtual path" + file.VirtualPath);
+            });
+        }
+        [Test]
+        public void Can_Load_File_From_S3_SubFolder() {
+            // Use the special "Execute" method to run code
+            // in the special AppDomain.
+            this.Execute(() =>
+            {
+                var file = HostingEnvironment.VirtualPathProvider.GetFile("/s3/images/iMac.jpg");
+                var stream = file.Open();
+                Assert.NotNull(stream);
+                Assert.IsFalse(file.IsDirectory);
+                Assert.NotNull(file);
+                Console.WriteLine("Office.jpg virtual path" + file.VirtualPath);
+            });
         }
         [Test]
         public void Can_Load_Files_From_S3() {
@@ -64,12 +81,35 @@ namespace BrickPile.Tests.Web.Hosting {
             // in the special AppDomain.
             this.Execute(() =>
             {
-                var directory = HostingEnvironment.VirtualPathProvider.GetDirectory("~/s3/Images/");
+                var directory = HostingEnvironment.VirtualPathProvider.GetDirectory("/s3/images/");
                 Assert.NotNull(directory);
                 Assert.IsTrue(directory.IsDirectory);
                 Assert.NotNull(directory.Directories);
                 Assert.NotNull(directory.Files);
+                Console.WriteLine("Images directory:" + directory.Name);
+            });
+        }
+
+        [Test]
+        public void Can_Load_Root_Directory() {
+            // Use the special "Execute" method to run code
+            // in the special AppDomain.
+            this.Execute(() =>
+            {
+                var directory = HostingEnvironment.VirtualPathProvider.GetDirectory("/s3/");
+                Assert.NotNull(directory);
+                Assert.IsTrue(directory.IsDirectory);
+                Assert.NotNull(directory.Directories);
+                Assert.NotNull(directory.Files);
+                Assert.AreEqual(1, directory.Directories.Count());
+                Assert.AreEqual("/s3/",directory.VirtualPath);
             });
         }
     }
+    static class EnumerableExtensions {
+        public static int Count(this IEnumerable source) {
+            return Enumerable.Count(source.Cast<object>());
+        }
+    }
+
 }

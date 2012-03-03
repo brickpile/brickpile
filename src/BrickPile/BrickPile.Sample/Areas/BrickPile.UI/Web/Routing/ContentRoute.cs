@@ -18,7 +18,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Domain.Models;
@@ -27,6 +26,7 @@ using BrickPile.UI.Common;
 namespace BrickPile.UI.Web.Routing {
 
     public class ContentRoute : RouteBase, IRouteWithArea {
+
         private readonly IPathResolver _pathResolver;
         private readonly IVirtualPathResolver _virtualPathResolver;
         private readonly IRouteHandler _routeHandler;
