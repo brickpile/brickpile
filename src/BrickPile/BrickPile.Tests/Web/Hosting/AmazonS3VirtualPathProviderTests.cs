@@ -12,7 +12,7 @@ namespace BrickPile.Tests.Web.Hosting {
         // Instance property for the HostingEnvironment-enabled AppDomain.
         private AppDomain _hostingEnvironmentDomain = null;
 
-        [TestFixtureSetUp]
+        //[TestFixtureSetUp]
         public void Setup() {
             // Create the AppDomain that will support the VPP.
             this._hostingEnvironmentDomain =
@@ -36,7 +36,7 @@ namespace BrickPile.Tests.Web.Hosting {
 
         }
 
-        [TestFixtureTearDown]
+        //[TestFixtureTearDown]
         public void TestFixtureTearDown() {
             // When the fixture is done, tear down the special AppDomain.
             AppDomain.Unload(this._hostingEnvironmentDomain);
@@ -47,7 +47,7 @@ namespace BrickPile.Tests.Web.Hosting {
         private void Execute(CrossAppDomainDelegate testMethod) {
             this._hostingEnvironmentDomain.DoCallBack(testMethod);
         }
-        [Test]
+        //[Test]
         public void Can_Load_File_From_S3_Root() {
             // Use the special "Execute" method to run code
             // in the special AppDomain.
@@ -61,7 +61,7 @@ namespace BrickPile.Tests.Web.Hosting {
                 Console.WriteLine("Office.jpg virtual path" + file.VirtualPath);
             });
         }
-        [Test]
+        //[Test]
         public void Can_Load_File_From_S3_SubFolder() {
             // Use the special "Execute" method to run code
             // in the special AppDomain.
@@ -75,7 +75,7 @@ namespace BrickPile.Tests.Web.Hosting {
                 Console.WriteLine("Office.jpg virtual path" + file.VirtualPath);
             });
         }
-        [Test]
+        //[Test]
         public void Can_Load_Files_From_S3() {
             // Use the special "Execute" method to run code
             // in the special AppDomain.
@@ -90,7 +90,7 @@ namespace BrickPile.Tests.Web.Hosting {
             });
         }
 
-        [Test]
+        //[Test]
         public void Can_Load_Root_Directory() {
             // Use the special "Execute" method to run code
             // in the special AppDomain.
