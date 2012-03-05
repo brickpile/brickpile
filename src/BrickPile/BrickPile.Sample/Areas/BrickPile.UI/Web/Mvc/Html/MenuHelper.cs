@@ -93,6 +93,10 @@ namespace BrickPile.UI.Web.Mvc.Html {
             // only render the top level items
 
             var items = hierarchyNodes.Where(x => x.Depth == 1);
+
+            if(!items.Any()) {
+                return MvcHtmlString.Empty;
+            }
             
             // create unordered list
             var unorderedList = new TagBuilder("ul");
@@ -121,7 +125,6 @@ namespace BrickPile.UI.Web.Mvc.Html {
                                            ? expandedItemContent(item.Entity).ToString()
                                            : itemContent(item.Entity).ToString())
                 };
-
 
                 unorderedList.InnerHtml += listItem.ToString();
             }
