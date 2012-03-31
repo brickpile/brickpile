@@ -45,8 +45,6 @@ namespace BrickPile.UI.App_Start {
 
             ControllerBuilder.Current.SetControllerFactory(typeof(BrickPileControllerFactory));
 
-            HostingEnvironment.RegisterVirtualPathProvider(new AmazonS3VirtualPathProvider());
-
             // Register the default page route
             RouteTable.Routes.RegisterPageRoute(
                 container.GetInstance<IPathResolver>(),

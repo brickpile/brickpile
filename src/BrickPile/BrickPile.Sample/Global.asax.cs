@@ -18,8 +18,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
+using BrickPile.UI.Web.Hosting;
 
 namespace BrickPile.Sample {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -50,6 +52,9 @@ namespace BrickPile.Sample {
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            // Register the amazon s3 virtual path provider
+            //HostingEnvironment.RegisterVirtualPathProvider(new AmazonS3VirtualPathProvider());
         }
 
     }
