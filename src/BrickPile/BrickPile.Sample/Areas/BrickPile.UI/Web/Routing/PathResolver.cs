@@ -18,20 +18,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.Linq;
 using System.Web;
-using BrickPile.Core.Repositories;
+using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
 using BrickPile.UI.Web.Mvc;
+using Raven.Client;
 using StructureMap;
 
 namespace BrickPile.UI.Web.Routing {
     public class PathResolver : IPathResolver {
+        private IDocumentSession _session;
         private readonly IPathData _pathData;
-        private IPageRepository _repository;
         private readonly IControllerMapper _controllerMapper;
-        private readonly IContainer _container;
         private IPageModel _pageModel;
         private string _controllerName;
         /// <summary>
@@ -43,28 +44,34 @@ namespace BrickPile.UI.Web.Routing {
 
             // Set the default action to index
             _pathData.Action = PageRoute.DefaultAction;
-            // Get an up to date page repository
-            _repository = _container.GetInstance<IPageRepository>();
+            // Get an up to date document session from structuremap
+            _session = ObjectFactory.GetInstance<IDocumentSession>();
 
             // The requested url is for the start page with no action
             if (string.IsNullOrEmpty(virtualUrl) || string.Equals(virtualUrl, "/")) {
-                _pageModel = _repository.SingleOrDefault<IPageModel>(x => x.Parent == null);
+                _pageModel = _session.Query<IPageModel>()
+                    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                    .SingleOrDefault(x => x.Parent == null);
             } else {
                 // Remove the trailing slash
                 virtualUrl = VirtualPathUtility.RemoveTrailingSlash(virtualUrl);
                 // The normal beahaviour should be to load the page based on the url
-                _pageModel = _repository.GetPageByUrl<IPageModel>(virtualUrl);
+                _pageModel = _session.Query<IPageModel, Document_ByUrl>()
+                    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                    .FirstOrDefault(x => x.Metadata.Url == virtualUrl);
                 // Try to load the page without the last segment of the url and set the last segment as action))
                 if (_pageModel == null && virtualUrl.LastIndexOf("/") > 0) {
                     var index = virtualUrl.LastIndexOf("/");
                     var action = virtualUrl.Substring(index, virtualUrl.Length - index).Trim(new[] { '/' });
                     virtualUrl = virtualUrl.Substring(0, index).TrimStart(new[] { '/' });
-                    _pageModel = _repository.GetPageByUrl<IPageModel>(virtualUrl);
+                    _pageModel = _session.Query<IPageModel, Document_ByUrl>()
+                        .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                        .FirstOrDefault(x => x.Metadata.Url == virtualUrl);
                     _pathData.Action = action;
                 }
                 // If the page model still is empty, let's try to resolve if the start page has an action named (virtualUrl)
                 if (_pageModel == null) {
-                    _pageModel = _repository.SingleOrDefault<IPageModel>(x => x.Parent == null);
+                    _pageModel = _session.Query<IPageModel>().SingleOrDefault(x => x.Parent == null);
                     var pageModelAttribute = _pageModel.GetType().GetAttribute<PageModelAttribute>();
                     _controllerName = _controllerMapper.GetControllerName(pageModelAttribute.ControllerType);
                     var action = virtualUrl.TrimStart(new[] { '/' });
@@ -87,15 +94,13 @@ namespace BrickPile.UI.Web.Routing {
         /// <summary>
         /// Initializes a new instance of the <see cref="PathResolver"/> class.
         /// </summary>
+        /// <param name="session">The session.</param>
         /// <param name="pathData">The path data.</param>
-        /// <param name="repository">The repository.</param>
         /// <param name="controllerMapper">The controller mapper.</param>
-        /// <param name="container">The container.</param>
-        public PathResolver(IPathData pathData, IPageRepository repository, IControllerMapper controllerMapper, IContainer container) {
+        public PathResolver(IDocumentSession session, IPathData pathData, IControllerMapper controllerMapper) {
+            _session = session;
             _pathData = pathData;
-            _repository = repository;
             _controllerMapper = controllerMapper;
-            _container = container;
         }
     }
 }

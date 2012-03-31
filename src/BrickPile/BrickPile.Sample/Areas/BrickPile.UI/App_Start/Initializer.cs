@@ -18,12 +18,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.UI.App_Start;
 using BrickPile.UI.Common;
-using BrickPile.UI.Web.Hosting;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
 

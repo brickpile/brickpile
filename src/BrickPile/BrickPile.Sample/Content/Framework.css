@@ -7,6 +7,11 @@ html {
     background: #373833 url(dark-pattern.png) repeat 0 0;
 }
 
+.ravendb-profiler-results h1 {
+    font-family: monospace;
+    background: none;
+    color: #373833;
+}
 /*--------------------------------------------------------------
 2 Header
 ----------------------------------------------------------------*/

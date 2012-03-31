@@ -76,7 +76,7 @@ THE SOFTWARE. *@
             </div>
             @RenderSection("Portfolio", false)
 	    </div>
-	    <footer>
+        <footer>
             <div>
                 <section id="textual-content">
                     <h2>Textual Content</h2>
@@ -98,6 +98,7 @@ THE SOFTWARE. *@
                     </form>
                 </div>
             </div>
-	    </footer>
+        </footer>
+        @Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions()
 	</body>
 </html>

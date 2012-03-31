@@ -24,7 +24,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Exception;
-using BrickPile.Core.Repositories;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Models;
 using BrickPile.UI.Web.ViewModels;
@@ -34,7 +33,6 @@ namespace BrickPile.UI.Controllers {
    [Authorize]
     public class ContentController : Controller {
         private dynamic _model;
-        private readonly IRepository<IPageModel> _repository;
         private readonly IDocumentSession _session;
         /// <summary>
         /// Default action
@@ -48,9 +46,7 @@ namespace BrickPile.UI.Controllers {
                 var parentId = _model.Parent != null ? (string) _model.Parent.Id : null;
                 var viewModel = new IndexViewModel
                                     {
-                                        RootModel = _session.Query<IPageModel>()
-                                            .Where(model => model.Parent == null)
-                                            .SingleOrDefault(),
+                                        RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
                                         CurrentModel = _model,
                                         ParentModel = parentId != null ? _session.Load<IPageModel>(parentId) : null,
                                         Children = _session.Query<IPageModel>()
@@ -74,9 +70,7 @@ namespace BrickPile.UI.Controllers {
             var parentId = _model.Parent != null ? (string) _model.Parent.Id : null;
             var viewModel = new EditViewModel
                                 {
-                                    RootModel = _session.Query<IPageModel>()
-                                        .Where(model => model.Parent == null)
-                                        .SingleOrDefault(),
+                                    RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
                                     CurrentModel = _model,
                                     ParentModel = parentId != null ? _session.Load<IPageModel>(parentId) : null,
                                 };
@@ -96,9 +90,7 @@ namespace BrickPile.UI.Controllers {
                 var parentId = _model.Parent != null ? (string)_model.Parent.Id : null;
                 var viewModel = new EditViewModel
                 {
-                    RootModel = _session.Query<IPageModel>()
-                        .Where(model => model.Parent == null)
-                        .SingleOrDefault(),
+                    RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
                     CurrentModel = _model,
                     ParentModel = parentId != null ? _session.Load<IPageModel>(parentId) : null,
                 };
@@ -111,13 +103,13 @@ namespace BrickPile.UI.Controllers {
             _model.Metadata.Published = _model.Metadata.IsPublished ? DateTime.Now : default(DateTime?);
             _model.Metadata.ChangedBy = HttpContext.User.Identity.Name;
 
-            _repository.SaveChanges();
-            _repository.Refresh(_model);
+            _session.SaveChanges();
+            _session.Advanced.Refresh(_model);
 
             var page = _model as IPageModel;
 
             if (page.Parent != null) {
-                _model = _repository.SingleOrDefault<IPageModel>(m => m.Id == page.Parent.Id);
+                _model = _session.Load<IPageModel>(page.Parent.Id);
             }
 
             return RedirectToAction("index", new { model = _model });
@@ -128,11 +120,11 @@ namespace BrickPile.UI.Controllers {
         /// <returns></returns>
         [HttpPost]
         public ActionResult Delete(string id) {
-            var model = _repository.SingleOrDefault<IPageModel>(m => m.Id == id.Replace("_", "/"));
+            var model = _session.Load<IPageModel>(id.Replace("_", "/"));
             model.Metadata.IsDeleted = true;
             model.Metadata.Published = default(DateTime?);
             model.Metadata.IsPublished = false;
-            _repository.SaveChanges();
+            _session.SaveChanges();
 
             ViewBag.Heading = "Delete succeeded";
             ViewBag.Message = "The page was successfully deleted";
@@ -163,9 +155,7 @@ namespace BrickPile.UI.Controllers {
 
                 var viewModel = new NewPageViewModel
                                     {
-                                        RootModel = _session.Query<IPageModel>()
-                                        .Where(model => model.Parent == null)
-                                        .SingleOrDefault(),
+                                        RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
                                         CurrentModel = parent,
                                         NewPageModel = page,
                                     };
@@ -195,7 +185,7 @@ namespace BrickPile.UI.Controllers {
                 // Update all values
                 UpdateModel(page, "NewPageModel");
                 // Store the new page
-                _repository.Store(page);
+                _session.Store(page);
                 // Set the parent if it's not the start page
                 if (parent != null) {
                     page.Parent = _model;
@@ -206,7 +196,7 @@ namespace BrickPile.UI.Controllers {
                 page.Metadata.ChangedBy = HttpContext.User.Identity.Name;
 
                 // Add page to repository and save changes
-                _repository.SaveChanges();
+                _session.SaveChanges();
                 //_repository.Refresh(model);
 
                 return RedirectToAction("index", new { model = parent ?? page });
@@ -223,9 +213,7 @@ namespace BrickPile.UI.Controllers {
             var parentId = _model.Parent != null ? (string)_model.Parent.Id : null;
             var viewModel = new IndexViewModel
             {
-                RootModel = _session.Query<IPageModel>()
-                    .Where(model => model.Parent == null)
-                    .SingleOrDefault(),
+                RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
                 CurrentModel = _model,
                 ParentModel = parentId != null ? _session.Load<IPageModel>(parentId) : null,
                 Children = _session.Query<IPageModel>()
@@ -243,12 +231,12 @@ namespace BrickPile.UI.Controllers {
         /// <param name="published">if set to <c>true</c> [published].</param>
         /// <returns></returns>
         public virtual ActionResult Publish(string id, bool published) {
-            var model = _repository.SingleOrDefault<IPageModel>(m => m.Id == id.Replace("_","/"));
+            var model = _session.Load<IPageModel>(id.Replace("_","/"));
             model.Metadata.IsPublished = published;
             model.Metadata.Published = published ? DateTime.Now : default(DateTime?);
             model.Metadata.Changed = DateTime.Now;
             model.Metadata.ChangedBy = HttpContext.User.Identity.Name;
-            _repository.SaveChanges();
+            _session.SaveChanges();
 
             ViewBag.Heading = published ? "Publish succeeded" : "Unpublish succeeded";
             ViewBag.Message = published ? "The page was successfully published" : "The page was successfully unpublished";
@@ -262,9 +250,9 @@ namespace BrickPile.UI.Controllers {
         /// <returns></returns>
         [HttpPost]
         public ActionResult PermanentDelete(string id) {
-            var model = _repository.SingleOrDefault<IPageModel>(m => m.Id == id.Replace("_", "/"));
-            _repository.Delete(model);
-            _repository.SaveChanges();
+            var model = _session.Load<IPageModel>(id.Replace("_", "/"));
+            _session.Delete(model);
+            _session.SaveChanges();
 
             ViewBag.Heading = "Permanent delete succeeded";
             ViewBag.Message = "The page was successfully permanent deleted";
@@ -276,13 +264,14 @@ namespace BrickPile.UI.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult UnDelete() {
+
             _model.Metadata.IsDeleted = false;
-            _repository.SaveChanges();
+            _session.SaveChanges();
 
             var model = _model as IPageModel;
             IPageModel parent = null;
             if(model != null) {
-                parent = _repository.SingleOrDefault<IPageModel>(x => x.Id == model.Parent.Id);
+                parent = _session.Load<IPageModel>(model.Parent.Id);
             }
 
             return RedirectToAction("showdeleted", new { model = parent ?? _model });
@@ -295,22 +284,20 @@ namespace BrickPile.UI.Controllers {
             // replace all underscore with slash
             var ids = items.Select(key => key.Replace("_", "/")).ToArray();
             // load all documents
-            var documents = _repository.Load<IPageModel>(ids.ToArray());
+            var documents = _session.Load<IPageModel>(ids.ToArray());
             var order = 1;
             foreach (var model in documents) {
                 model.Metadata.SortOrder = order++;
             }
-            _repository.SaveChanges();
+            _session.SaveChanges();
         }
         /// <summary>
         /// Initializes a new instance of the <b>PagesController</b> class.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <param name="repository">The repository.</param>
         /// <param name="session">The session.</param>
-        public ContentController(IPageModel model, IRepository<IPageModel> repository, IDocumentSession session) {
+        public ContentController(IPageModel model, IDocumentSession session) {
             _model = model;
-            _repository = repository;
             _session = session;
         }
     }

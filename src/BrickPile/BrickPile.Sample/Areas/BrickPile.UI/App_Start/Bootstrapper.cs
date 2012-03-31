@@ -22,7 +22,6 @@ using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Core.Infrastructure.Listeners;
-using BrickPile.Core.Repositories;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
 using BrickPile.UI.Models;
@@ -55,7 +54,9 @@ namespace BrickPile.UI.App_Start {
 
                 documentStore.Initialize();
                 documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "pages" : null;
-                
+
+                Raven.Client.MvcIntegration.RavenProfiler.InitializeFor(documentStore);
+
                 IndexCreation.CreateIndexes(typeof(Documents_ByParent).Assembly, documentStore);
 
                 x.For<IDocumentStore>().Use(documentStore);
@@ -71,8 +72,6 @@ namespace BrickPile.UI.App_Start {
                 x.For<IVirtualPathResolver>().Use<VirtualPathResolver>();
                 x.For<IPathResolver>().Use<PathResolver>();
                 x.For<IPathData>().Use<PathData>();
-                x.For<IPageRepository>().Use<PageRepository>();
-                x.For<IRepository<IPageModel>>().Use<PageRepository>();
 
                 x.For<IControllerMapper>().Use<ControllerMapper>();
 

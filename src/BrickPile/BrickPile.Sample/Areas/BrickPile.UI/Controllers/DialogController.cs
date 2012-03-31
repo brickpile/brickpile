@@ -19,7 +19,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 using System.Linq;
 using System.Web.Mvc;
-using BrickPile.Core.Repositories;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Models;
 using Raven.Client;
@@ -33,9 +32,7 @@ namespace BrickPile.UI.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult EditModelReference() {
-            var currentModel = _session.Query<IPageModel>()
-                .Where(x => x.Parent == null)
-                .SingleOrDefault();
+            var currentModel = _session.Query<IPageModel>().SingleOrDefault(x => x.Parent == null);
             var viewModel = new EditModelReferenceModel
                                 {
                                     RootModel = currentModel,

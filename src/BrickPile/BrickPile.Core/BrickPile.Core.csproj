@@ -108,10 +108,6 @@
     <Compile Include="Infrastructure\Indexes\PageModelWithParentsAndChildren.cs" />
     <Compile Include="PageModelEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\IPageRepository.cs" />
-    <Compile Include="Repositories\IRepository.cs" />
-    <Compile Include="Repositories\PageRepository.cs" />
-    <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Infrastructure\Listeners\StoreListener.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +119,7 @@
       <Name>BrickPile.Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
