@@ -107,17 +107,15 @@ namespace BrickPile.UI.Web.Hosting {
         /// </summary>
         /// <returns>The display name of the virtual file.</returns>
         public override string Name {
-            get { return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(base.Name); }
+            get { return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Name); }
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="AmazonS3VirtualDirectory"/> class.
         /// </summary>
         /// <param name="provider">The virtual path provider.</param>
         /// <param name="virtualPath">The virtual path to the resource represented by this instance.</param>
-        public AmazonS3VirtualDirectory(AmazonS3VirtualPathProvider provider, string virtualPath)
-            : base(virtualPath) {
-            _client =
-                new AmazonS3Client(new AmazonS3Config {ServiceURL = "s3.amazonaws.com", CommunicationProtocol = Protocol.HTTP});
+        public AmazonS3VirtualDirectory(AmazonS3VirtualPathProvider provider, string virtualPath) : base(virtualPath) {
+            _client = new AmazonS3Client(new AmazonS3Config {ServiceURL = "s3.amazonaws.com", CommunicationProtocol = Protocol.HTTP});
             _provider = provider;
             _virtualPath = virtualPath;
         }

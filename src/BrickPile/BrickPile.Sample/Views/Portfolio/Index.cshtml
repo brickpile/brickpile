@@ -18,13 +18,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
+@using BrickPile.UI.Common
 @model BrickPile.Sample.ViewModels.PortfolioViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Main {
-    <img src="@Model.CurrentModel.Image" />
+
+    @Html.DisplayFor(_ => Model.CurrentModel.HeaderImage)
+
     <div>
         <section>
             <h2>Website design</h2>

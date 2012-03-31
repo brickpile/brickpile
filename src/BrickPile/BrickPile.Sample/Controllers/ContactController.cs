@@ -35,7 +35,7 @@ namespace BrickPile.Sample.Controllers {
         /// </summary>
         /// <param name="model">The model.</param>
         /// <param name="documentSession">The document session.</param>
-        public ContactController(IPageModel model, IDocumentSession documentSession)
+        public ContactController(Contact model, IDocumentSession documentSession)
             : base(model, documentSession) { }
 
     }

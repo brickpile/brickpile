@@ -50,7 +50,7 @@ namespace BrickPile.UI.Common {
             }
             IEnumerable<TEntity> childs = allItems.Where(i => i.Parent != null && i.Parent.Id.Equals(parentItem.Id));
 
-            if (childs.Count() > 0) {
+            if (childs.Any()) {
                 depth++;
 
                 foreach (var item in childs)

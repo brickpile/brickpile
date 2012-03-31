@@ -2,9 +2,19 @@
 <a href="#" class="close"><img src="@Url.Content("/areas/brickpile.ui/images/dialog-close.png")" alt="close" /></a>
 <h1>Select page...</h1>
 <div id="scroll" style="width: 100%;">
+    <!--div>
+        <ul>
+            @foreach (AmazonS3VirtualDirectory directory in Model.Directories) {
+                <li>
+                    <a href="#" class="directory" data-virtualpath="/s3/@directory.VirtualPath">@directory.Name</a>
+                </li>
+            }
+        </ul>        
+
+    </div-->    
     <table>
-            <thead>
-                <tr>
+        <thead>
+            <tr>
                 <th>Name</th>
                 <th>Size</th>
                 <th>Last modified</th>
@@ -12,13 +22,6 @@
         </thead>
         <tbody>
                 
-            @foreach (AmazonS3VirtualDirectory directory in Model.Directories) {
-                <tr>
-                    <td><a href="#" class="directory" data-virtualpath="/s3/@directory.VirtualPath">@directory.Name</a></td>
-                    <td>Filesize</td>
-                    <td>Last modified</td>
-                </tr>
-            }
                 
             @foreach (AmazonS3VirtualFile asset in Model.Files) {
                 <tr>

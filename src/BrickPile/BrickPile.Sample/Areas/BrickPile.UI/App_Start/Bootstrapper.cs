@@ -18,11 +18,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BrickPile.Core;
 using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Core.Infrastructure.Listeners;
 using BrickPile.Core.Repositories;
@@ -34,9 +31,6 @@ using BrickPile.UI.Web.Routing;
 using Raven.Client;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
-using Raven.Client.Listeners;
-using Raven.Database.Config;
-using Raven.Json.Linq;
 using StructureMap;
 
 namespace BrickPile.UI.App_Start {

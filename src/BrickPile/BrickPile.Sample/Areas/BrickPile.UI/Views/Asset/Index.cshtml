@@ -2,41 +2,22 @@
 @using BrickPile.UI.Common
 @using BrickPile.UI.Web.Hosting
 
-
 <div class="overlay">
     <aside class="dialog filebrowser">
         <div class="additional-block">
             <a href="#" class="close"><img src="@Url.Content("/areas/brickpile.ui/images/dialog-close.png")" alt="close" /></a>
-		    <h1>Select page...</h1>
-            <div id="scroll" style="width: 100%;">
-                <table>
-                     <thead>
-                         <tr>
-                            <th>Name</th>
-                            <th>Size</th>
-                            <th>Last modified</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                
-                        @foreach (AmazonS3VirtualDirectory directory in Model.Directories) {
-                            <tr>
-                                <td><a href="#" class="directory" data-virtualpath="/s3/@directory.VirtualPath">@directory.Name</a></td>
-                                <td>Filesize</td>
-                                <td>Last modified</td>
-                            </tr>
-                        }
-                
-                        @foreach (AmazonS3VirtualFile asset in Model.Files) {
-                            <tr>
-                                <td><a href="@asset.Url" class="insert" data-url="@asset.Url" data-virtualpath="@asset.VirtualPath">@asset.Name</a></td>
-                                <td>Filesize</td>
-                                <td>Last modified</td>
-                            </tr>
-                        }
+            <h1>Select an image...</h1>
 
-                    </tbody>
-                </table>     
+            <div id="scroll">
+                <ul>
+                    @foreach (AmazonS3VirtualFile asset in Model.Files) {
+                        <li>
+                            <a href="#" class="insert" data-url="@asset.Url" data-virtualpath="@asset.VirtualPath">
+                                <img src="@Url.Image(asset.VirtualPath).Resize(110,110)" alt="@asset.Name" />
+                            </a>
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
 

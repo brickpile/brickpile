@@ -163,77 +163,104 @@ Dashboard.prototype = {
                 $('body').append(data);
 
                 var $dialog = $('.overlay');
-                
+
                 $dialog.find('a.close').click(function () {
                     $dialog.fadeOut('fast', function () {
                         $dialog.remove();
                     });
                     return false;
                 });
-                
+
                 $dialog.find('a.cancel').click(function () {
                     $dialog.fadeOut('fast', function () {
                         $dialog.remove();
                     });
                     return false;
                 });
-                
-                $dialog.find('td a.insert').click(function () {
-                    $anchor.parent().parent().parent().find('input:text').val($(this).attr('data-url'));
+
+                $dialog.find('li a.insert').click(function () {
+
+                    var self = this;
+                    $dialog.find('a.insert').removeClass('selected');
+                    $dialog.find('.select').parent().removeClass('disabled');
+                    $(self).addClass('selected');
+
+                    return false;
+                });
+
+                $dialog.find('a.select').click(function () {
+
+                    var $selectedItem = $('a.selected',$dialog);
+                    $anchor.parent().parent().parent().find('input:hidden.virtualUrl').val($selectedItem.attr('data-virtualpath'));
+                    $anchor.parent().parent().parent().find('input:hidden.url').val($selectedItem.attr('data-url'));
                     $dialog.fadeOut('fast', function () {
                         $dialog.remove();
-                    });
-                    return false;
-                });
-                
-                $dialog.find('a.directory').live('click', function () {
-                    $.ajax({
-                        url: '/dashboard/asset/getdirectory',
-                        type: 'GET',
-                        dataType: 'html',
-                        data: { path: $(this).attr('data-virtualpath') },
-                        success: function (data) {
-                            $('.additional-block').html(data);
-                            $('div#scroll').lionbars('dark', true, false, false);
-                            $dialog.find('td a.insert').click(function () {
-                                $anchor.parent().parent().parent().find('input:text').val($(this).attr('data-url'));
-                                $dialog.fadeOut('fast', function () {
-                                    $dialog.remove();
-                                });
-                                return false;
-                            });                            
-                        }
-                    });
-                    return false;
-                });
-                
+                        $.ajax({
+                            url: '/dashboard/asset/getthumbnailurl',
+                            type: 'GET',
+                            dataType: 'text',
+                            data: { path: $selectedItem.attr('data-virtualpath') },
+                            beforeSend: function (jqXHR, settings) {
+                                $anchor.parent().parent().parent().find('img').attr('src', '');
+                            },
+                            success: function (data) {
+                                $anchor.parent().parent().parent().find('img').attr('src', data);
+                            }
+                        });
 
-//                                var $dialog = $('div.overlay aside');
-//                                $dialog.click(function (event) {
-//                                    event.stopPropagation();
+                    });
+
+                    return false;
+                });
+
+//                $dialog.find('a.directory').live('click', function () {
+//                    $.ajax({
+//                        url: '/dashboard/asset/getdirectory',
+//                        type: 'GET',
+//                        dataType: 'html',
+//                        data: { path: $(this).attr('data-virtualpath') },
+//                        success: function (data) {
+//                            $('.additional-block').html(data);
+//                            $('div#scroll').lionbars('dark', true, false, false);
+//                            $dialog.find('li a.insert').click(function () {
+//                                $anchor.parent().parent().parent().find('input:text').val($(this).attr('data-url'));
+//                                $dialog.fadeOut('fast', function () {
+//                                    $dialog.remove();
 //                                });
-//                                var $overlay = $('div.overlay');
-//                                 $('body').click(function () {
-//                                    $overlay.fadeOut('fast', function () {
-//                                        $overlay.remove();
-//                                    });
-//                                });
-//                                $dialog.find('a.close').click(function () {
-//                                    $overlay.fadeOut('fast', function () {
-//                                        $overlay.remove();
-//                                    });
-//                                    return false;
-//                                });
-//                                $('div.overlay aside tr').click(function (event) {
-//                                    $('div.overlay aside tr').removeClass('selected');
-//                                    $(this).toggleClass('selected');
-//                                });
-//                                $('div.overlay aside td .insert').click(function () {
-//                                    $anchor.parent().parent().parent().find('input:hidden').val($(this).attr('data-val'));
-//                                    $('div.overlay').remove();
-//                                    $anchor.parent().parent().find('img').attr('src', $(this).attr('data-val'));
-//                                    return false;
-//                                });
+//                                return false;
+//                            });
+//                        }
+//                    });
+//                    return false;
+//                });
+
+
+                //                                var $dialog = $('div.overlay aside');
+                //                                $dialog.click(function (event) {
+                //                                    event.stopPropagation();
+                //                                });
+                //                                var $overlay = $('div.overlay');
+                //                                 $('body').click(function () {
+                //                                    $overlay.fadeOut('fast', function () {
+                //                                        $overlay.remove();
+                //                                    });
+                //                                });
+                //                                $dialog.find('a.close').click(function () {
+                //                                    $overlay.fadeOut('fast', function () {
+                //                                        $overlay.remove();
+                //                                    });
+                //                                    return false;
+                //                                });
+                //                                $('div.overlay aside tr').click(function (event) {
+                //                                    $('div.overlay aside tr').removeClass('selected');
+                //                                    $(this).toggleClass('selected');
+                //                                });
+                //                                $('div.overlay aside td .insert').click(function () {
+                //                                    $anchor.parent().parent().parent().find('input:hidden').val($(this).attr('data-val'));
+                //                                    $('div.overlay').remove();
+                //                                    $anchor.parent().parent().find('img').attr('src', $(this).attr('data-val'));
+                //                                    return false;
+                //                                });
             }
         });
     }

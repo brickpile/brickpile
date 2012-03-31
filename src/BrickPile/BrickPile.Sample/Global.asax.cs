@@ -33,6 +33,9 @@ namespace BrickPile.Sample {
         public static void RegisterRoutes(RouteCollection routes) {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // this would be nice if we could register at startup with the settings from web.config
+            routes.IgnoreRoute("s3/{*pathInfo}");
+
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters

@@ -21,6 +21,7 @@ THE SOFTWARE. */
 using System.ComponentModel.DataAnnotations;
 using BrickPile.Domain;
 using BrickPile.Sample.Controllers;
+using BrickPile.UI.Models;
 
 namespace BrickPile.Sample.Models {
     /// <summary>
@@ -28,7 +29,7 @@ namespace BrickPile.Sample.Models {
     /// </summary>
     [PageModel(Name = "Portfolio", ControllerType = typeof(PortfolioController))]
     public class Portfolio : BaseEditorial {
-        [DataType(DataType.ImageUrl)]
-        public string Image { get; set; }
+        [Display(Name = "My picture")]
+        public Image HeaderImage { get; set; }
     }
 }

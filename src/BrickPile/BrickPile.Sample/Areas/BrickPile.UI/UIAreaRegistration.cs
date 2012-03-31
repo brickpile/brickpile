@@ -35,12 +35,12 @@ namespace BrickPile.UI {
         /// </summary>
         /// <param name="context">Encapsulates the information that is required in order to register the area.</param>
         public override void RegisterArea(AreaRegistrationContext context) {
-
             ViewEngines.Engines.Add(new RazorViewEngine
                                         {
                                             AreaPartialViewLocationFormats = new[] { "~/Areas/BrickPile.UI/Views/{1}/{0}.cshtml", "~/Areas/BrickPile.UI/Views/Shared/{0}.cshtml" },
                                             AreaMasterLocationFormats = new[] { "~/Areas/BrickPile.UI/Views/{1}/{0}.cshtml" },
                                             AreaViewLocationFormats = new[] { "~/Areas/BrickPile.UI/Views/{1}/{0}.cshtml" }
+                                            
                                         });
 
             // Map the default UI route

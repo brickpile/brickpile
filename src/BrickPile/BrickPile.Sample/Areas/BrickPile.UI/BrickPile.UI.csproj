@@ -180,6 +180,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AssetModel.cs" />
     <Compile Include="Models\FileBrowserModel.cs" />
+    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\NewModel.cs" />
     <Compile Include="Models\EditModelReferenceModel.cs" />
     <Compile Include="Models\EditUserModel.cs" />
@@ -659,12 +660,12 @@
     <Content Include="Views\Shared\EditorTemplates\Duration.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\EmailAddress.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Html.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\ImageUrl.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MultilineText.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Number.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDown.cshtml" />
     <Content Include="Views\Content\Growl.cshtml" />
     <Content Include="Views\Library\_FileBrowser.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Image.cshtml" />
     <None Include="Views\Shared\EditorTemplates\Object.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ModelReference.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Password.cshtml" />
@@ -675,7 +676,9 @@
     <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Url.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Shared\DisplayTemplates\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

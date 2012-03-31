@@ -84,51 +84,45 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="htmlAttributes">An object that contains the HTML attributes for the element. The attributes are retrieved through reflection by examining the properties of the object. The object is typically created by using object initializer syntax.</param>
         /// <returns></returns>
         public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pageModels, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, object htmlAttributes) {
-
             if (pageModels == null) {
                 return MvcHtmlString.Empty;
             }
 
-            var hierarchyNodes = pageModels.AsHierarchy();
-            // only render the top level items
+            var nodes = pageModels.AsHierarchy();
 
-            var items = hierarchyNodes.Where(x => x.Depth == 1);
+            // only render the top level items
+            var items = nodes.Where(x => x.Depth == 1);
 
             if(!items.Any()) {
                 return MvcHtmlString.Empty;
             }
             
             // create unordered list
-            var unorderedList = new TagBuilder("ul");
+            var ul = new TagBuilder("ul");
             // merge html attributes
-            unorderedList.MergeAttributes(new RouteValueDictionary(htmlAttributes));
+            ul.MergeAttributes(new RouteValueDictionary(htmlAttributes));
 
             // add home item
             var home = pageModels.SingleOrDefault(x => x.Parent == null);
             if(home != null) {
-                var homeListItem = new TagBuilder("li")
-                {
-                    InnerHtml = home.Equals(CurrentModel) ? selectedItemContent(home).ToString() : itemContent(home).ToString()
-                };
-                unorderedList.InnerHtml += homeListItem.ToString();
+                RenderLi(ul, home, home.Equals(CurrentModel) ? selectedItemContent : itemContent);
             }
-            
-            
 
             foreach (var item in items) {
-
-                var listItem = new TagBuilder("li")
-                {
-                    InnerHtml = item.Entity.Equals(CurrentModel)
-                                    ? selectedItemContent(item.Entity).ToString()
-                                    : (item.Expanded
-                                           ? expandedItemContent(item.Entity).ToString()
-                                           : itemContent(item.Entity).ToString())
-                };
-
-                unorderedList.InnerHtml += listItem.ToString();
+                RenderLi(ul, item.Entity, item.Entity.Equals(CurrentModel) ? selectedItemContent : (item.Expanded ? expandedItemContent : itemContent));
             }
-            return MvcHtmlString.Create(unorderedList.ToString());
+
+            return MvcHtmlString.Create(ul.ToString());
         }
+        /// <summary>
+        /// Responsible for renderingen the li element with it's content
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tagBuilder">The tag builder.</param>
+        /// <param name="item">The item.</param>
+        /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
+        private static void RenderLi<T>(TagBuilder tagBuilder, T item, Func<T, MvcHtmlString> itemContent) {
+            tagBuilder.InnerHtml += new TagBuilder("li") {InnerHtml = itemContent(item).ToHtmlString()}.ToString(TagRenderMode.Normal);
+        }  
     }
 }

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Hosting;
 using BrickPile.UI.Web.Hosting;
 
@@ -14,55 +17,114 @@ namespace BrickPile.UI.Web {
         public bool IsReusable {
             get { return true; }
         }
-
-        //public string PublicLink {
-        //    get { return ConfigurationManager.AppSettings["DropboxPublicLink"]; }
-        //}
-
-        //public int BypassFileSize {
-        //    get { return int.Parse(ConfigurationManager.AppSettings["BypassFileSize"] ?? "0"); }
-        //}
-
         /// <summary>
         /// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
         /// </summary>
         /// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests.</param>
         public void ProcessRequest(HttpContext context) {
 
-            var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(context.Request.FilePath) as AmazonS3VirtualFile;
+            // get the correct provider
+            var provider = HostingEnvironment.VirtualPathProvider as AmazonS3VirtualPathProvider;
 
-            //if (virtualFile == null) {
-            //    throw new HttpException(404, "File not found");
-            //}
-            ////if (virtualFile.Size > 1024 * BypassFileSize) {
-            ////    context.Response.Redirect(string.Format(PublicLink, virtualFile.MetaData.Path.Remove(0, 8)), true);
-            ////}
+            // abort if the provider is null
+            if (provider == null) {
+                throw new Exception("Provider does not exist");
+            }
+            
+            // get the requested file name
+            var localFileName = VirtualPathUtility.GetFileName(context.Request.FilePath);
 
-            //var lastWriteTime = File.GetLastWriteTime( Path.Combine(virtualFile.ThumbnailDirectory,virtualFile.VirtualPath) );
-            //var lastModified = new DateTime(lastWriteTime.Year, lastWriteTime.Month, lastWriteTime.Day,
-            //                                lastWriteTime.Hour, lastWriteTime.Minute, lastWriteTime.Second, 0);
+            if (localFileName == null) return;
 
-            //DateTime now = DateTime.Now;
-            //if (lastModified > now) {
-            //    lastModified = new DateTime(now.Ticks - (now.Ticks % 0x989680L));
-            //}
-
-            //var etag = GenerateETag(lastModified, now);
-
-            //SetCacheParamters(context, MimeMapping.GetMimeMapping(virtualFile.VirtualPath),
-            //                  virtualFile.LocalPath, lastModified, etag);
-
-            //using (Stream stream = virtualFile.Open()) {
-            //    stream.CopyTo(context.Response.OutputStream);
-            //}
-
-            //return File.OpenRead(context.Request.FilePath);
-            context.Response.ContentType = "image/jpg";
-
-            using (Stream stream = File.OpenRead(@"D:\Projects\Git\Stormbreaker\src\BrickPile\BrickPile.Sample\" + context.Request.FilePath.TrimStart(new[] { '/' }))) {
-                stream.CopyTo(context.Response.OutputStream);
+            // parse width and height of the image
+            var regex = new Regex(@"(?<width>\d+)(?:[_]{1})(?<height>\d+)(?=[.])");
+            if (!regex.IsMatch(context.Request.FilePath)) {
+                throw new Exception("The filename is not well formed, should be name_width_height.extension");
             }
 
+            var match = regex.Match(context.Request.FilePath);
+
+            var width = match.Groups["width"].Value;
+            var height = match.Groups["height"].Value;
+
+            regex = new Regex(@"_[\d]+[\d]+(?=[.]?)");
+            if(!regex.IsMatch(localFileName)) return;
+
+            var matches = regex.Matches(localFileName);
+
+            // parse the incoming file path
+            var virtualPath = provider.VirtualPathRoot + localFileName.Replace(matches[0].Value, null).Replace(matches[1].Value, null);
+
+            // get the file from amazon s3 in format /s3/File.jpg
+            var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(virtualPath) as AmazonS3VirtualFile;
+
+            // abort and send not found if file does not exist
+            if (virtualFile == null) {
+                throw new HttpException(404, "File not found");
+            }
+
+            // combine the directory path
+            string directory = Path.Combine(provider.LocalPath, virtualFile.Etag.Replace("\"", ""));
+
+            // get the local path for the resized image
+            var localPath = Path.Combine(directory, localFileName);
+
+            if (!File.Exists(localPath)) {
+
+                // get the path for the temporary file
+                var tmpFile = Path.Combine(directory,
+                                           Path.ChangeExtension(
+                                               context.Request.FilePath.Replace(provider.VirtualPathRoot, null),
+                                               "tmp"));
+
+                // exit with the correct http exception if file is not found
+                if (!File.Exists(tmpFile)) {
+                    throw new HttpException(404, "File not found");
+                }
+
+                // delete the temp file and log any exception
+                try {
+                    File.Delete(tmpFile);
+                } catch (IOException ex) {
+                    Debug.WriteLine(ex.Message);
+                }
+
+                // download and convert the requested image to the specified size
+                // TODO: cache the original image so we can us it the next time another size is requested
+
+                if (!File.Exists(Path.Combine(directory, virtualPath.Replace(provider.VirtualPathRoot,null)))) {
+                    using (var ms = new MemoryStream()) {
+                        virtualFile.Open().CopyTo(ms);
+                        File.WriteAllBytes(
+                            Path.Combine(directory, virtualPath.Replace(provider.VirtualPathRoot, null)),
+                            ms.ToArray());
+                    }
+                }
+
+                // resize the image
+                var image = new WebImage(Path.Combine(directory, virtualPath.Replace(provider.VirtualPathRoot, null)))
+                    .Resize(int.Parse(width) + 1, int.Parse(height) + 1,true,true)
+                    .Crop(1, 1);
+                image.Save(localPath);
+            }
+
+            var lastWriteTime = File.GetLastWriteTime(localPath);
+            var lastModified = new DateTime(lastWriteTime.Year, lastWriteTime.Month, lastWriteTime.Day,
+                                            lastWriteTime.Hour, lastWriteTime.Minute, lastWriteTime.Second, 0);
+
+            DateTime now = DateTime.Now;
+            if (lastModified > now) {
+                lastModified = new DateTime(now.Ticks - (now.Ticks%0x989680L));
+            }
+
+            var etag = GenerateETag(lastModified, now);
+
+            SetCacheParamters(context, MimeMapping.GetMimeMapping(localPath),
+                              localPath, lastModified, etag);
+
+            using (Stream stream = File.OpenRead(localPath)) {
+                stream.CopyTo(context.Response.OutputStream);
+            }
         }
         /// <summary>
         /// Sets the cache paramters.
@@ -75,7 +137,7 @@ namespace BrickPile.UI.Web {
         private void SetCacheParamters(HttpContext context, string mimeType, string localPath, DateTime lastModified, string etag) {
             context.Response.ContentType = mimeType;
             context.Response.AddFileDependency(localPath);
-            context.Response.Cache.SetExpires(DateTime.Now.AddDays(3.0));
+            context.Response.Cache.SetExpires(DateTime.Now.AddDays(10));
             context.Response.Cache.SetLastModified(lastModified);
             context.Response.Cache.SetETag(etag);
             context.Response.Cache.SetCacheability(HttpCacheability.Public);
@@ -95,5 +157,19 @@ namespace BrickPile.UI.Web {
             }
             return ("\"" + str + "\"");
         }
+        public static byte[] StreamToByteArray(Stream stream) {
+            if (stream is MemoryStream) {
+                return ((MemoryStream)stream).ToArray();
+            }
+            // Jon Skeet's accepted answer 
+            return ReadFully(stream);
+        }
+        public static byte[] ReadFully(Stream input) {
+            using (MemoryStream ms = new MemoryStream()) {
+                input.CopyTo(ms);
+                return ms.ToArray();
+            }
+        }
+        
     }
 }
