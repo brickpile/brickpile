@@ -23,7 +23,11 @@ namespace BrickPile.Domain.Models {
     /// <summary>
     /// Represents the page model
     /// </summary>
-    public interface IPageModel : IDocument {
+    public interface IPageModel {
+        /// <summary>
+        /// Gets the id.
+        /// </summary>
+        string Id { get; }
         /// <summary>
         /// Gets the meta data.
         /// </summary>

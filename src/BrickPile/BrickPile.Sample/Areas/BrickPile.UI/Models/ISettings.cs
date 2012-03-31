@@ -21,7 +21,11 @@ THE SOFTWARE. */
 using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Models {
-    public interface ISettings : IDocument {
+    public interface ISettings {
+        /// <summary>
+        /// Gets the id.
+        /// </summary>
+        string Id { get; }
         /// <summary>
         /// Gets or sets the API key.
         /// </summary>

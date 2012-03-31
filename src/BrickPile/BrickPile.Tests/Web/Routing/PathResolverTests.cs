@@ -1,129 +1,167 @@
-//using BrickPile.Core.Repositories;
-//using BrickPile.Domain.Models;
-//using BrickPile.UI.Web.Mvc;
-//using BrickPile.UI.Web.Routing;
-//using Moq;
-//using NUnit.Framework;
-//using StructureMap;
+using System.Web.Mvc;
+using System.Web.Routing;
+using BrickPile.Core.Infrastructure.Indexes;
+using BrickPile.Domain;
+using BrickPile.Domain.Models;
+using BrickPile.UI.Web.Mvc;
+using BrickPile.UI.Web.Routing;
+using Moq;
+using NUnit.Framework;
+using Raven.Client;
+using Raven.Client.Embedded;
+using Raven.Client.Indexes;
 
-//namespace BrickPile.Tests.Web.Routing {
-//    public class PathResolverTests {
-//        [TestCase("")]
-//        [TestCase("/")]
-//        public void Home_Page_With_Default_Action(string path) {
-//            // Arrange
-//            var pathData = new PathData();
-//            var pageModel = new DummyModel();
+namespace BrickPile.Tests.Web.Routing {
+    public class PathResolverTests {
+        private IDocumentStore _store;
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
+        [SetUp]
+        public void Setup() {
+            _store = new EmbeddableDocumentStore { RunInMemory = true };
+            _store.Initialize();
+            _store.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "pages" : null;
+            IndexCreation.CreateIndexes(typeof(Document_ByUrl).Assembly, _store);
+        }
+        /// <summary>
+        /// Tears down.
+        /// </summary>
+        [TearDown]
+        public void TearDown() {
+            _store.Dispose();
+        }
+        /// <summary>
+        /// Home_s the page_ with_ default_ action.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        [TestCase("")]
+        [TestCase("/")]
+        public void Home_Page_With_Default_Action(string path) {
 
-//            var repository = new Mock<IPageRepository>();
-//            var mapper = new Mock<IControllerMapper>();
-//            var container = new Mock<IContainer>();
+            // Arrange
+            var pathData = new PathData();
+            var mapper = new Mock<IControllerMapper>();
 
-//            container.Setup(x => x.GetInstance<IPageRepository>()).Returns(repository.Object);
-//            repository.Setup(x => x.SingleOrDefault<IPageModel>(model => model.Parent == null)).Returns(pageModel);
-//            mapper.Setup(x => x.GetControllerName(typeof (DummyController))).Returns("Dummy");
-//            var resolver = new PathResolver(pathData, repository.Object, mapper.Object,container.Object);
+            mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
 
-//            // Act
-//            var data = resolver.ResolvePath(path);
+            // Act
+            IPathData data;
+            using (var session = _store.OpenSession()) {
+                // create and store a new page model
+                var pageModel = new DummyModel { Parent = null };
+                session.Store(pageModel);
+                session.SaveChanges();
 
-//            // Assert
-//            Assert.NotNull(data);
-//            Assert.AreEqual("index", data.Action);
-//            Assert.AreEqual("Dummy", data.Controller);
-//        }
-//        /// <summary>
-//        /// This test is based on a request for the page with the url ~/page with the default action index
-//        /// </summary>
-//        /// <param name="virtualUrl">The virtual URL.</param>
-//        [TestCase("/page")]
-//        //[TestCase("/page/")]
-//        public void Page_With_Default_Action(string virtualUrl) {
+                // try to resovle the page via the path
+                var resolver = new PathResolver(session, pathData, mapper.Object);
+                data = resolver.ResolvePath(path);
 
-//            // Arrange
-//            var pathData = new PathData();
-//            var pageModel = new DummyModel();
+            }
 
-//            var repository = new Mock<IPageRepository>();
-//            var mapper = new Mock<IControllerMapper>();
-//            var container = new Mock<IContainer>();
+            // Assert
+            Assert.NotNull(data);
+            Assert.AreEqual("index", data.Action);
+            Assert.AreEqual("Dummy", data.Controller);
+        }
+        /// <summary>
+        /// This test is based on a request for the page with the url ~/page with the default action index
+        /// </summary>
+        /// <param name="virtualUrl">The virtual URL.</param>
+        [TestCase("/page")]
+        [TestCase("/page/")]
+        [TestCase("page")]
+        public void Page_With_Default_Action(string virtualUrl) {
 
-//            container.Setup(x => x.GetInstance<IPageRepository>()).Returns(repository.Object);
-//            repository.Setup(x => x.GetPageByUrl<IPageModel>(virtualUrl)).Returns(pageModel);
-//            mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
+            // Arrange
+            var pathData = new PathData();
+            var mapper = new Mock<IControllerMapper>();
+            mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
 
-//            var resolver = new PathResolver(pathData, repository.Object, mapper.Object, container.Object);
+            // Act
+            IPathData data;
+            using (var session = _store.OpenSession()) {
+                // create and store a new page model
+                var pageModel = new DummyModel { Metadata = { Url = "page" } };
+                session.Store(pageModel);
+                session.SaveChanges();
 
-//            // Act
-//            var data = resolver.ResolvePath(virtualUrl);
+                var resolver = new PathResolver(session, pathData, mapper.Object);
+                data = resolver.ResolvePath(virtualUrl);
+            }
 
-//            // Assert
-//            Assert.NotNull(data);
-//            Assert.AreEqual("index", data.Action);
-//            Assert.AreEqual("Dummy", data.Controller);
-//        }
+            // Assert
+            Assert.NotNull(data);
+            Assert.AreEqual("index", data.Action);
+            Assert.AreEqual("Dummy", data.Controller);
+        }
 
-//        /// <summary>
-//        /// This test is based on a request for the pate with url ~/page with the action myaction
-//        /// </summary>
-//        /// <param name="path">The path.</param>
-//        [TestCase("/page/myaction")]
-//        [TestCase("/page/myaction/")]
-//        public void Page_With_Custom_Action(string virtualUrl) {
+        /// <summary>
+        /// This test is based on a request for the pate with url ~/page with the action myaction
+        /// </summary>
+        /// <param name="virtualUrl">The virtual URL.</param>
+        [TestCase("/page/myaction")]
+        [TestCase("/page/myaction/")]
+        public void Page_With_Custom_Action(string virtualUrl) {
 
-//            // Arrange
-//            var pathData = new PathData();
-//            var pageModel = new DummyModel();
+            // Arrange
+            var pathData = new PathData();
+            var mapper = new Mock<IControllerMapper>();
+            mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
 
-//            var repository = new Mock<IPageRepository>();
-//            var mapper = new Mock<IControllerMapper>();
-//            var container = new Mock<IContainer>();
+            // Act
+            IPathData data;
+            using (var session = _store.OpenSession()) {
+                // create and store a new page model
+                var pageModel = new DummyModel { Metadata = { Url = "page" } };
+                session.Store(pageModel);
+                session.SaveChanges();
 
-//            container.Setup(x => x.GetInstance<IPageRepository>()).Returns(repository.Object);
-//            repository.Setup(r => r.GetPageByUrl<IPageModel>("page")).Returns(pageModel);
-//            mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
+                var resolver = new PathResolver(session, pathData, mapper.Object);
+                data = resolver.ResolvePath(virtualUrl);
+            }
 
-//            var resolver = new PathResolver(pathData, repository.Object, mapper.Object, container.Object);
+            // Assert
+            Assert.NotNull(data);
+            Assert.AreEqual("myaction", data.Action);
+            Assert.AreEqual("Dummy", data.Controller);
+        }
 
-//            // Act
-//            var data = resolver.ResolvePath(virtualUrl);
+        /// <summary>
+        /// Home_s the page_ with_ custom_ action.
+        /// </summary>
+        /// <param name="virtualUrl">The virtual URL.</param>
+        [TestCase("/myaction")]
+        [TestCase("/myaction/")]
+        public void Home_Page_With_Custom_Action(string virtualUrl) {
 
-//            // Assert
-//            Assert.NotNull(data);
-//            Assert.AreEqual("myaction", data.Action);
-//            Assert.AreEqual("Dummy", data.Controller);
-//        }
+            // Arrange
+            var pathData = new PathData();
+            var mapper = new Mock<IControllerMapper>();
+            mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
+            mapper.Setup(x => x.ControllerHasAction("Dummy", "myaction")).Returns(true);
 
-//        [TestCase("/myaction")]
-//        [TestCase("/myaction/")]
-//        public void Home_Page_With_Custom_Action(string virtualUrl) {
+            mapper.Setup(m => m.ControllerHasAction("Content", "myaction")).Returns(true);
 
-//            // Arrange
-//            var pathData = new PathData();
-//            var pageModel = new DummyModel();
+            // Act
+            IPathData data;
+            using (var session = _store.OpenSession()) {
+                // create and store a new page model
+                var pageModel = new DummyModel { Parent = null };
+                session.Store(pageModel);
+                session.SaveChanges();
 
-//            var repository = new Mock<IPageRepository>();
-//            var mapper = new Mock<IControllerMapper>();
-//            var container = new Mock<IContainer>();
+                var resolver = new PathResolver(session, pathData, mapper.Object);
+                data = resolver.ResolvePath(virtualUrl);
+            }
 
-//            container.Setup(x => x.GetInstance<IPageRepository>()).Returns(repository.Object);
-//            repository.Setup(x => x.SingleOrDefault<IPageModel>(model => model.Parent == null)).Returns(pageModel);
-//            mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
-//            mapper.Setup(x => x.ControllerHasAction("Dummy", "myaction")).Returns(true);
-
-//            mapper.Setup(m => m.ControllerHasAction("Content", "myaction")).Returns(true);
-
-//            var resolver = new PathResolver(pathData, repository.Object, mapper.Object, container.Object);
-
-//            // Act
-//            var data = resolver.ResolvePath(virtualUrl);
-
-//            // Assert
-//            Assert.NotNull(data);
-//            Assert.AreEqual("myaction", data.Action);
-//            Assert.AreEqual("Dummy", data.Controller);
-//        }
-
-        
-//    }
-//}
+            // Assert
+            Assert.NotNull(data);
+            Assert.AreEqual("myaction", data.Action);
+            Assert.AreEqual("Dummy", data.Controller);
+        }
+    }
+    [PageModel(Name = "Dummy", ControllerType = typeof(DummyController))]
+    public class DummyModel : PageModel { }
+    public class DummyController : Controller { }
+}

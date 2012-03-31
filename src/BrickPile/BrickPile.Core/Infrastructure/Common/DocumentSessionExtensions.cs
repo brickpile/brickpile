@@ -35,9 +35,9 @@ namespace BrickPile.Core.Infrastructure.Common {
         /// <param name="session">The session.</param>
         /// <param name="predicate">The predicate eg. the Id of a document</param>
         /// <returns></returns>
-        public static IQueryable<T> HierarchyFrom<T>(this IDocumentSession session, Func<Ancestor, bool> predicate) where T : IPageModel {
+        public static IQueryable<T> HierarchyFrom<T>(this IDocumentSession session, Func<PageModel, bool> predicate) where T : IPageModel {
 
-            var page = session.Query<Ancestor, PageModelWithParentsAndChildren>()
+            var page = session.Query<PageModel, PageModelWithParentsAndChildren>()
                 .Include(x => x.Ancestors)
                 .Include(x => x.Children)
                 .Where(predicate)

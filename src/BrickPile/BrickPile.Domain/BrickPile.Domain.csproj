@@ -41,10 +41,8 @@
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Ancestor.cs" />
     <Compile Include="Models\DocumentReference.cs" />
     <Compile Include="Models\IDocumentReference.cs" />
-    <Compile Include="Models\IDocument.cs" />
     <Compile Include="Models\IPageMetadata.cs" />
     <Compile Include="Models\IPageModel.cs" />
     <Compile Include="Models\PageMetadata.cs" />

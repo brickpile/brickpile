@@ -148,9 +148,6 @@ namespace BrickPile.UI.Controllers {
                 var parent = _model as IPageModel;
                 // create a new page from the selected page model
                 var page = Activator.CreateInstance(Type.GetType(newModel.SelectedPageModel)) as dynamic;
-                if (page == null) {
-                    throw new BrickPileException("The selected page model is not valid!");
-                }
                 page.Metadata.Url = parent != null ? VirtualPathUtility.AppendTrailingSlash(parent.Metadata.Url) : String.Empty;
 
                 var viewModel = new NewPageViewModel
@@ -179,9 +176,6 @@ namespace BrickPile.UI.Controllers {
                 var parent = _model as PageModel;
                 // create a new page from the new model
                 var page = Activator.CreateInstance(Type.GetType(Request.Form["AssemblyQualifiedName"])) as dynamic;
-                if (page == null) {
-                    throw new BrickPileException("The selected page model is not valid!");
-                }
                 // Update all values
                 UpdateModel(page, "NewPageModel");
                 // Store the new page
@@ -194,7 +188,7 @@ namespace BrickPile.UI.Controllers {
                 // Set changed date
                 page.Metadata.Changed = DateTime.Now;
                 page.Metadata.ChangedBy = HttpContext.User.Identity.Name;
-
+                page.Metadata.SortOrder = int.MaxValue;
                 // Add page to repository and save changes
                 _session.SaveChanges();
                 //_repository.Refresh(model);

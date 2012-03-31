@@ -22,7 +22,7 @@ using System.ComponentModel.DataAnnotations;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Configuration {
-    public class Configuration : IConfiguration, IDocument {
+    public class Configuration : IConfiguration {
         /// <summary>
         /// Gets or sets the id.
         /// </summary>

@@ -98,9 +98,9 @@ namespace BrickPile.UI.Web.Routing {
         /// <param name="pathData">The path data.</param>
         /// <param name="controllerMapper">The controller mapper.</param>
         public PathResolver(IDocumentSession session, IPathData pathData, IControllerMapper controllerMapper) {
-            _session = session;
             _pathData = pathData;
             _controllerMapper = controllerMapper;
+            _session = session;
         }
     }
 }

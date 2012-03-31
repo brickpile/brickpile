@@ -23,7 +23,7 @@ using Raven.Client.Indexes;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.Core.Infrastructure.Indexes {
-    class Document_ByUrl : AbstractIndexCreationTask<IPageModel> {
+    public class Document_ByUrl : AbstractIndexCreationTask<IPageModel> {
         /// <summary>
         /// Initializes a new instance of the <see cref="Document_ByUrl"/> class.
         /// </summary>

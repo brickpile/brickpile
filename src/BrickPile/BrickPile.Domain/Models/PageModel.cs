@@ -28,7 +28,7 @@ namespace BrickPile.Domain.Models {
     /// <remarks>Use IPageModel to create your own base class</remarks>
     /// <example></example>
     [MetadataType(typeof(PageModelMetadata))]
-    public abstract class PageModel : IPageModel {
+    public class PageModel : IPageModel {
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
@@ -48,12 +48,19 @@ namespace BrickPile.Domain.Models {
         /// </value>
         public virtual DocumentReference<IPageModel> Parent { get; set; }
         /// <summary>
+        /// Gets or sets the ancestors.
+        /// </summary>
+        /// <value>
+        /// The ancestors.
+        /// </value>
+        internal IList<PageModel> Ancestors { get; set; }
+        /// <summary>
         /// Gets or sets the children.
         /// </summary>
         /// <value>
         /// The children.
         /// </value>
-        internal List<string> Children { get; private set; }
+        public List<string> Children { get; private set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="PageModel"/> class.
         /// </summary>
