@@ -1,8 +1,0 @@
-#BrickPile is an open source content management system built on RavenDB and ASP.NET MVC 3.
-
-##For discussion, please use the mailing list:
-http://groups.google.com/group/brickpile
-
-##For documentation see the BrickPile wiki:
-http://wiki.github.com/kloojed/brickpile
-
