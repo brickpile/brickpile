@@ -23,11 +23,11 @@ using Raven.Client.Indexes;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.Core.Infrastructure.Indexes {
-    public class Document_ByUrl : AbstractIndexCreationTask<IPageModel> {
+    public class PageByUrl : AbstractIndexCreationTask<IPageModel> {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Document_ByUrl"/> class.
+        /// Initializes a new instance of the <see cref="PageByUrl"/> class.
         /// </summary>
-        public Document_ByUrl() {
+        public PageByUrl() {
              Map = documents => from document in documents 
                                 select new 
                                            { 
