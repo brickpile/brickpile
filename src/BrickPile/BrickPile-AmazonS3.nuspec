@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata>
 		<id>BrickPile-AmazonS3</id>
-		<version>${project.fileVersion}</version>
+		<version>${project.fileVersion}-alpha</version>
     <title>BrickPile Amazon S3 VPP</title>
     <summary>Amazon S3 virtual path provider for BrickPile CMS</summary>
 		<authors>Marcus Lindblom</authors>
