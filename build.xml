@@ -31,7 +31,7 @@
       <preNuget>
         <property name="l_rootFolder" value="${action.workDir}/BrickPile"/>
         <mkdir dir="${l_rootFolder}/lib"/>
-        <mkdir dir="${l_rootFolder}/content/Areas/BrickPile.UI"/>
+        <mkdir dir="${l_rootFolder}/content/Areas/UI"/>
         <copy todir="${l_rootFolder}/lib">
           <fileset basedir="${project.buildDir}/Dlls/Release">
             <include name="BrickPile.Core.dll"/>
@@ -49,8 +49,8 @@
             <include name="web.config.transform" />
           </fileset>
         </copy>
-        <copy todir="${l_rootFolder}/content/Areas/BrickPile.UI">
-          <fileset basedir="${project.baseDir}/BrickPile.Sample/Areas/BrickPile.UI">
+        <copy todir="${l_rootFolder}/content/Areas/UI">
+          <fileset basedir="${project.baseDir}/BrickPile.Sample/Areas/UI">
             <include name="Views/**/*" />
             <include name="Styles/**/*" />
             <include name="Scripts/**/*" />
