@@ -22,7 +22,6 @@ using System.Web.Mvc;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Models;
 using Raven.Client;
-using Raven.Client.Linq;
 
 namespace BrickPile.UI.Controllers {
     public class DialogController : Controller {
@@ -53,17 +52,13 @@ namespace BrickPile.UI.Controllers {
         public ActionResult GetChildrenModel(string id) {
             var currentModel = _session.Load<IPageModel>(id);
 
-            var rootModel = currentModel.Parent == null ? _session.Query<IPageModel>()
-                .Where(x => x.Parent == null)
-                .SingleOrDefault() : null;
+            var rootModel = currentModel.Parent == null ? _session.Query<IPageModel>().SingleOrDefault(x => x.Parent == null) : null;
             
             var viewModel = new EditModelReferenceModel
             {
                 RootModel = rootModel,
                 CurrentModel = currentModel,
-                ParentModel = currentModel.Parent != null ? _session.Query<IPageModel>()
-                    .Where(x => x.Id == currentModel.Parent.Id)
-                    .SingleOrDefault() : null,
+                ParentModel = currentModel.Parent != null ? _session.Query<IPageModel>().SingleOrDefault(x => x.Id == currentModel.Parent.Id) : null,
                 BackAction = "Index",
                 Message = "Foo",
                 Children = _session.Query<IPageModel>()

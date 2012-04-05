@@ -22,7 +22,6 @@ using System.Configuration;
 using System.Web.Mvc;
 using BrickPile.UI.Common;
 using BrickPile.UI.Web.Routing;
-using StructureMap;
 
 namespace BrickPile.UI {
     public class UIAreaRegistration : AreaRegistration {
