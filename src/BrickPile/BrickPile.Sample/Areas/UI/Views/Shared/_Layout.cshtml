@@ -1,0 +1,60 @@
+﻿
+@using System.Globalization
+@using BrickPile.UI.Common
+@using SquishIt.Framework
+
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+<head>
+    <title>BrickPile - @ViewBag.Title</title>
+    <meta charset="utf-8">
+    <meta name="description" content="" />
+
+    <script src="@Url.Content("~/areas/ui/scripts/tinymce/tiny_mce.js")" type="text/javascript"></script>
+
+    @Html.Raw(Bundle.Css()
+        .Add(Url.Content("~/areas/ui/styles/framework.css"))
+        .Add(Url.Content("~/areas/ui/styles/dashboard.css"))
+        .Add(Url.Content("~/areas/ui/styles/views.css"))
+        .Add(Url.Content("~/areas/ui/styles/partialviews.css"))
+        .Add(Url.Content("~/areas/ui/styles/lionbars.css"))
+        .Render("~/areas/ui/styles/brickpile_#.css"))
+
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+    
+    @Html.RenderSection("styles")
+
+</head>
+<body class="@ViewBag.Class">
+    <header>
+        <div>
+            <img src="@Url.Content("/areas/ui/images/logo.png")" alt="BrickPile" />
+        </div>
+    </header>
+    <nav>
+        @RenderSection("Navigation", required:false)
+    </nav>
+    @RenderBody()
+    <footer>
+        <p>This is <strong>Brickpile</strong>. An open source content management system designed to kick ass.</p>
+    </footer>
+    
+    @Html.Raw(Bundle.JavaScript()
+        .Add(Url.Content("~/areas/ui/scripts/jquery-1.7.1.js"))
+        .Add(Url.Content("~/areas/ui/scripts/jquery.selectbox.js"))
+        .Add(Url.Content("~/areas/ui/scripts/start.js"))
+        .Add(Url.Content("~/areas/ui/scripts/jquery.slugify.js"))
+        .Add(Url.Content("~/areas/ui/scripts/jquery-ui-1.8.17.js"))
+        .Add(Url.Content("~/areas/ui/scripts/jQuery.lionbars.0.2.1.min.js"))
+        .Add(Url.Content("~/areas/ui/scripts/dashboard.js"))
+        .Render("~/areas/ui/scripts/brickpile_#.js"))
+
+    @Html.RenderSection("scripts")
+
+    @RenderSection("styles", false)
+    @RenderSection("scripts", false)
+</body>
+</html>

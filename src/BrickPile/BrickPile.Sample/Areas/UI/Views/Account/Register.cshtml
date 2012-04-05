@@ -1,0 +1,48 @@
+﻿
+@model BrickPile.UI.Models.RegisterModel
+@using BrickPile.UI.Web.Mvc.Html
+
+@{
+    Layout = "~/Areas/UI/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Register";
+}
+
+@section Navigation {
+    <ul id="dashboard-nav">
+        <li>@Html.ActionLink("Dashboard", "index", "dashboard", null, new { @class = "dashboard" })</li>
+        <li>@Html.ActionLink("Pages", "index", "pages", null, new { @class = "content" })</li>        
+		<li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users selected" })</li>
+    </ul>
+}
+
+<h1>Create a New Account</h1>
+@using (Html.BeginForm()) {
+    <div>
+        <fieldset>
+            @Html.LabelFor(m => m.UserName, @<span>No fancy characters mmkay?</span>)
+            @Html.TextBoxFor(m => m.UserName, new { required = "required" })
+            @Html.ValidationMessageFor(m => m.UserName)
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { required = "required" })
+            @Html.ValidationMessageFor(m => m.Email)
+                    
+            <div class="password">
+                <div>
+                    @Html.LabelFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password, new { required = "required" })
+                    @Html.ValidationMessageLabelFor(m => m.Password)
+                </div>
+                <div>
+                    @Html.LabelFor(m => m.ConfirmPassword)
+                    @Html.PasswordFor(m => m.ConfirmPassword)
+                    @Html.ValidationMessageLabelFor(m => m.ConfirmPassword)
+                </div>
+            </div>
+        </fieldset>
+        <div id="button">
+            <span>
+                <input type="submit" value="Create user" />
+            </span>
+        </div>
+    </div>
+}
