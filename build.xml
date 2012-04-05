@@ -12,7 +12,7 @@
     <item name="BrickPile.Tests" type="class" />
   </items>
   <items type="class" path="BrickPile.Sample/Areas" generateXml="false" target="runtime|testDebug" autover="true">
-    <item name="BrickPile.UI" type="web" />
+    <item name="BrickPile.UI" projectFolderName="UI" type="web" />
   </items>
   <items path="packages/NUnit.2.6.0.12054/lib" type="reference" target="testDebug">
     <item name="nunit.framework.dll"/>
