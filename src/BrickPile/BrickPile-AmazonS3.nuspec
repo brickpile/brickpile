@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>BrickPile-AmazonS3</id>
+		<version>${project.fileVersion}</version>
+    <title>BrickPile Amazon S3 VPP</title>
+    <summary>Amazon S3 virtual path provider for BrickPile CMS</summary>
+		<authors>Marcus Lindblom</authors>
+		<owners>Marcus Lindblom</owners>
+    <licenseUrl>https://github.com/kloojed/BrickPile/blob/master/README</licenseUrl>
+    <projectUrl>http://www.getbrickpile.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Amazon S3 virtual path provider for BrickPile CMS</description>
+		<tags>brickpile cms ravendb mvc nosql amazon s3</tags>
+    <dependencies>
+      <dependency id="AWSSDK" version="1.4.6.3" />
+    </dependencies>
+  </metadata>
+</package>

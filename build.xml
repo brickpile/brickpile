@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://nant.sf.net/release/meridium/nant.xsd"
 		name="BrickPile" version="0.3.0.0" fileVersion="0.3.0.*" releaseConfiguration="Release" debugConfiguration="Debug"
-		copyrightText="(c) Marcus Lindblom"  copyrightHref="http://www.getbrickpile.com" feedbackEmail="marcus@kloojed.com"
+		copyrightText="(c) Marcus Lindblom"  copyrightHref="http://www.getbrickpile.com" feedbackEmail="marcus@getbrickpile.com"
 		publishHtmlDocumentation="true" ideVersion="10.0" sourceFolder="src\BrickPile" solutionFile="BrickPile.sln" nrOfPublishedBuildsToKeep="10">
   <items type="class" generateXml="false" target="runtime|testDebug" autover="true">
     <item name="BrickPile.Core" type="class" />
     <item name="BrickPile.Domain" type="class" />
+    <item name="BrickPile.FileSystem.AmazonS3" type="class" />
     <item name="BrickPile.Raven.Plugins" type="class" />
     <item name="BrickPile.Sample" type="web" />
     <item name="BrickPile.Tests" type="class" />
@@ -90,6 +91,17 @@
           </do>
         </foreach>
       </preNuget>
+    </item>
+    <item name="BrickPile-AmazonS3">
+      <preNuget>
+        <property name="l_rootFolder" value="${action.workDir}/BrickPile-AmazonS3"/>
+        <mkdir dir="${l_rootFolder}/lib"/>
+        <copy todir="${l_rootFolder}/lib">
+          <fileset basedir="${project.buildDir}/Dlls/Release">
+            <include name="BrickPile.FileSystem.AmazonS3.dll"/>
+          </fileset>
+        </copy>
+      </preNuget>        
     </item>
   </items>
   <items type="markdown">
