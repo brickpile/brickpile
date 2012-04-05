@@ -35,7 +35,7 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// The id.
         /// </value>
-        public string Id { get; set; }
+        public string Id { get; private set; }
         /// <summary>
         /// Gets the meta data.
         /// </summary>

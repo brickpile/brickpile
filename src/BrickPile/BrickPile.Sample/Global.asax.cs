@@ -21,7 +21,7 @@ THE SOFTWARE. */
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
-using BrickPile.UI.Web.Hosting;
+using BrickPile.FileSystem.AmazonS3.Hosting;
 
 namespace BrickPile.Sample {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -33,10 +33,11 @@ namespace BrickPile.Sample {
         }
 
         public static void RegisterRoutes(RouteCollection routes) {
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            // this would be nice if we could register at startup with the settings from web.config
-            routes.IgnoreRoute("s3/{*pathInfo}");
+            //// this would be nice if we could register at startup with the settings from web.config
+            //routes.IgnoreRoute("s3/{*pathInfo}");
 
             routes.MapRoute(
                 "Default", // Route name
@@ -54,7 +55,7 @@ namespace BrickPile.Sample {
             RegisterRoutes(RouteTable.Routes);
 
             // Register the amazon s3 virtual path provider
-            //HostingEnvironment.RegisterVirtualPathProvider(new AmazonS3VirtualPathProvider());
+            HostingEnvironment.RegisterVirtualPathProvider(new AmazonS3VirtualPathProvider());
         }
 
     }

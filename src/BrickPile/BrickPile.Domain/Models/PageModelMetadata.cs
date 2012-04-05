@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BrickPile.Domain.Models {
@@ -43,5 +44,13 @@ namespace BrickPile.Domain.Models {
         /// </value>
         [ScaffoldColumn(false)]
         public virtual DocumentReference<IPageModel> Parent { get; set; }
+        /// <summary>
+        /// Gets or sets the children.
+        /// </summary>
+        /// <value>
+        /// The children.
+        /// </value>
+        [ScaffoldColumn(false)]
+        public List<string> Children { get; private set; }
     }
 }

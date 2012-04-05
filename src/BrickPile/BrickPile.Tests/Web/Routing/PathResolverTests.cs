@@ -22,7 +22,7 @@ namespace BrickPile.Tests.Web.Routing {
             _store = new EmbeddableDocumentStore { RunInMemory = true };
             _store.Initialize();
             _store.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "pages" : null;
-            IndexCreation.CreateIndexes(typeof(Document_ByUrl).Assembly, _store);
+            IndexCreation.CreateIndexes(typeof(PageByUrl).Assembly, _store);
         }
         /// <summary>
         /// Tears down.
@@ -55,7 +55,7 @@ namespace BrickPile.Tests.Web.Routing {
 
                 // try to resovle the page via the path
                 var resolver = new PathResolver(session, pathData, mapper.Object);
-                data = resolver.ResolvePath(path);
+                data = resolver.ResolvePath(new RouteData(), path);
 
             }
 
@@ -87,7 +87,7 @@ namespace BrickPile.Tests.Web.Routing {
                 session.SaveChanges();
 
                 var resolver = new PathResolver(session, pathData, mapper.Object);
-                data = resolver.ResolvePath(virtualUrl);
+                data = resolver.ResolvePath(new RouteData(), virtualUrl);
             }
 
             // Assert
@@ -118,7 +118,7 @@ namespace BrickPile.Tests.Web.Routing {
                 session.SaveChanges();
 
                 var resolver = new PathResolver(session, pathData, mapper.Object);
-                data = resolver.ResolvePath(virtualUrl);
+                data = resolver.ResolvePath(new RouteData(), virtualUrl);
             }
 
             // Assert
@@ -152,7 +152,7 @@ namespace BrickPile.Tests.Web.Routing {
                 session.SaveChanges();
 
                 var resolver = new PathResolver(session, pathData, mapper.Object);
-                data = resolver.ResolvePath(virtualUrl);
+                data = resolver.ResolvePath(new RouteData(), virtualUrl);
             }
 
             // Assert

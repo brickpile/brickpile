@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Hosting;
-using System.Web.Mvc;
-using BrickPile.Domain.Models;
+﻿using System.Web.Mvc;
 using BrickPile.Sample.Models;
 using BrickPile.Sample.ViewModels;
 using Raven.Client;
@@ -19,9 +13,6 @@ namespace BrickPile.Sample.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult Index() {
-
-            //var directory = HostingEnvironment.VirtualPathProvider.GetDirectory("~/s3/Images/");
-            DocumentSession.Delete(CurrentModel);
             var model = new ContactViewModel
                             {
                                 CurrentModel = this.CurrentModel,

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web.Hosting;
-using BrickPile.UI.Web.Hosting;
+using BrickPile.FileSystem.AmazonS3.Hosting;
 using NUnit.Framework;
 
 namespace BrickPile.Tests.Web.Hosting {
