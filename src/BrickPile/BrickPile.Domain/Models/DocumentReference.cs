@@ -36,6 +36,13 @@ namespace BrickPile.Domain.Models {
         /// <value></value>
         public string Slug { get; set; }
         /// <summary>
+        /// Gets or sets the URL.
+        /// </summary>
+        /// <value>
+        /// The URL.
+        /// </value>
+        public string Url { get; set; }
+        /// <summary>
         /// Implicitly converts a page model to a DocumentReference
         /// </summary>
         /// <param name="document"></param>
@@ -44,7 +51,8 @@ namespace BrickPile.Domain.Models {
             return new DocumentReference<T>
                        {
                            Id = document.Id,
-                           Slug = document.Metadata.Slug
+                           Slug = document.Metadata.Slug,
+                           Url = document.Metadata.Url
                        };
         }
     }

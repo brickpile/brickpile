@@ -155,6 +155,7 @@
   <ItemGroup>
     <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="App_Start\Initializer.cs" />
+    <Compile Include="App_Start\StoreListener.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\HtmlExtensions.cs" />
     <Compile Include="Common\RouteCollectionExtensions.cs" />
@@ -163,7 +164,7 @@
     <Compile Include="Controllers\AccountController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\AssetController.cs">
+    <Compile Include="Controllers\AssetsController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\DialogController.cs">
@@ -228,6 +229,16 @@
     <Compile Include="Web\ViewModels\SetupViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\brickpile.css" />
+    <Content Include="Content\images\dark-wood.jpg" />
+    <Content Include="Content\images\dialog-top.png" />
+    <Content Include="Content\images\glyphicons.png" />
+    <Content Include="Content\images\glyphicons_halflings.png" />
+    <Content Include="Content\images\header.png" />
+    <Content Include="Content\images\metadata-bg.png" />
+    <Content Include="Content\images\spinner-blue-48.png" />
+    <Content Include="Content\images\sprite.png" />
+    <Content Include="Content\normalize.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -255,6 +266,9 @@
     <Content Include="Content\themes\base\jquery.ui.slider.css" />
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\webfonts\svg\museo-sans-500.svg" />
+    <Content Include="Content\webfonts\svg\museo-sans-700.svg" />
+    <Content Include="Content\webfonts\svg\style_159303.svg" />
     <Content Include="Images\add.png" />
     <Content Include="Images\button.png" />
     <Content Include="Images\dark-wood.jpg" />
@@ -262,7 +276,7 @@
     <Content Include="Images\deleted.png" />
     <Content Include="Images\dialog-top.png" />
     <Content Include="Images\edit.png" />
-    <Content Include="Images\logo.png" />
+    <Content Include="Content\images\logo.png" />
     <Content Include="Images\Setup\alert.png" />
     <Content Include="Images\Setup\arrow.png" />
     <Content Include="Images\Setup\bg.png" />
@@ -272,10 +286,14 @@
     <Content Include="Images\Setup\plate.png" />
     <Content Include="Images\Setup\submit-bg.png" />
     <Content Include="packages.config" />
-    <Content Include="Scripts\dashboard.js" />
-    <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.7.1.js" />
-    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\application.js" />
+    <Content Include="Scripts\backbone.js" />
+    <Content Include="Scripts\backbone.min.js" />
+    <Content Include="Scripts\brickpile.js" />
+    <Content Include="Scripts\collections\pagecollection.js" />
+    <Content Include="Scripts\jquery-1.7.2-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.7.2.js" />
+    <Content Include="Scripts\jquery-1.7.2.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.16.custom.js" />
     <Content Include="Scripts\jquery-ui-1.8.16.custom.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.18.js" />
@@ -284,8 +302,9 @@
     <Content Include="Scripts\jquery.selectbox.js" />
     <Content Include="Scripts\jquery.selectBox.min.js" />
     <Content Include="Scripts\jquery.slugify.js" />
-    <Content Include="Scripts\setup.js" />
-    <Content Include="Scripts\start.js" />
+    <Content Include="Scripts\jquery.timeago.js" />
+    <Content Include="Scripts\models\page.js" />
+    <Content Include="Scripts\models\pagelist.js" />
     <Content Include="Scripts\tinymce\langs\en.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advhr\css\advhr.css" />
@@ -554,6 +573,13 @@
     <Content Include="Scripts\tinymce\utils\form_utils.js" />
     <Content Include="Scripts\tinymce\utils\mctabs.js" />
     <Content Include="Scripts\tinymce\utils\validate.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Scripts\views\dashboardview.js" />
+    <Content Include="Scripts\views\editview.js" />
+    <Content Include="Scripts\views\pagelistitemview.js" />
+    <Content Include="Scripts\views\pagelistview.js" />
+    <Content Include="Scripts\views\uiview.js" />
     <Content Include="Styles\Dashboard.css" />
     <Content Include="Styles\Framework.css" />
     <Content Include="Styles\lionbars.css" />
@@ -562,16 +588,21 @@
     <Content Include="Styles\webfonts\svg\museo-sans-500.svg" />
     <Content Include="Styles\webfonts\svg\museo-sans-700.svg" />
     <Content Include="Styles\webfonts\svg\style_159303.svg" />
-    <Content Include="Views\Asset\Directory.cshtml" />
-    <Content Include="Views\Asset\Index.cshtml" />
-    <Content Include="Views\Dialog\EditModelReference.cshtml" />
-    <Content Include="Views\Dialog\_Menu.cshtml" />
     <Content Include="Views\Setup\Index.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Pages\New.cshtml" />
+    <None Include="Content\webfonts\eot\felttip-roman.eot" />
+    <None Include="Content\webfonts\eot\museo-sans-500.eot" />
+    <None Include="Content\webfonts\eot\museo-sans-700.eot" />
+    <None Include="Content\webfonts\ttf\felttip-roman.ttf" />
+    <None Include="Content\webfonts\ttf\museo-sans-500.ttf" />
+    <None Include="Content\webfonts\ttf\museo-sans-700.ttf" />
+    <None Include="Content\webfonts\woff\felttip-roman.woff" />
+    <None Include="Content\webfonts\woff\museo-sans-500.woff" />
+    <None Include="Content\webfonts\woff\museo-sans-700.woff" />
     <None Include="Styles\webfonts\eot\felttip-roman.eot" />
     <None Include="Styles\webfonts\eot\museo-sans-500.eot" />
     <None Include="Styles\webfonts\eot\museo-sans-700.eot" />
@@ -617,7 +648,6 @@
     <Content Include="Views\Shared\EditorTemplates\MultilineText.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Number.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDown.cshtml" />
-    <Content Include="Views\Pages\Growl.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Image.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Image.cshtml">
       <SubType>

@@ -6,15 +6,15 @@ using BrickPile.FileSystem.AmazonS3.Hosting;
 
 namespace BrickPile.FileSystem.AmazonS3.Model {
     public class Image {
-        readonly string _virtualPath;
+        readonly AmazonS3VirtualFile _virtualFile;
         int _width;
         int _height;
         /// <summary>
         /// Initializes a new instance of the <see cref="Image"/> class.
         /// </summary>
-        /// <param name="virtualPath">The virtual path.</param>
-        public Image(string virtualPath) {
-            this._virtualPath = virtualPath;
+        /// <param name="s3VirtualFile">The s3 virtual file.</param>
+        public Image(AmazonS3VirtualFile s3VirtualFile) {
+            this._virtualFile = s3VirtualFile;
         }
         /// <summary>
         /// Resizes the specified width.
@@ -36,11 +36,12 @@ namespace BrickPile.FileSystem.AmazonS3.Model {
         public override string ToString() {
 
             // check if it does exist
-            var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(this._virtualPath) as AmazonS3VirtualFile;
+            //var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(this._virtualPath) as AmazonS3VirtualFile;
 
-            if (virtualFile == null) {
-                throw new HttpException(404, "File not found");
-            }
+            //if (_virtualFile == null || string.IsNullOrEmpty(_virtualFile.Etag)) {
+            //    return string.Empty;
+            //    //throw new HttpException(404, "File not found");
+            //}
 
             var provider = HostingEnvironment.VirtualPathProvider as AmazonS3VirtualPathProvider;
 
@@ -50,26 +51,27 @@ namespace BrickPile.FileSystem.AmazonS3.Model {
 
             // no resizing
             if (this._width <= 0 && this._height <= 0) {
-                return virtualFile.Url;
+                return _virtualFile.Url;
             }
 
             // local path to source
-            var directory = Path.Combine(provider.LocalPath, virtualFile.Etag.Replace("\"", ""));
+            
+            var directory = Path.Combine(provider.LocalPath, _virtualFile.VirtualPath.Replace(provider.VirtualPathRoot,null).Replace(VirtualPathUtility.GetFileName(_virtualFile.VirtualPath),null), _virtualFile.Etag.Replace("\"", ""));
 
             // create local directory for the file
             if (!Directory.Exists(directory)) {
                 Directory.CreateDirectory(directory);
             }
 
-            string tmpFile = Path.Combine(directory, Path.ChangeExtension(virtualFile.VirtualPath.Replace(provider.VirtualPathRoot, null), null) + "_" + this._width + "_" + this._height + ".tmp");
-            string localPath = Path.Combine(directory, Path.ChangeExtension(virtualFile.VirtualPath.Replace(provider.VirtualPathRoot, null), null) + "_" + this._width + "_" + this._height + Path.GetExtension(virtualFile.VirtualPath));
+            string tmpFile = Path.Combine(directory, Path.ChangeExtension(VirtualPathUtility.GetFileName(_virtualFile.VirtualPath), null) + "_" + this._width + "_" + this._height + ".tmp");
+            string localPath = Path.Combine(directory, Path.ChangeExtension(VirtualPathUtility.GetFileName(_virtualFile.VirtualPath), null) + "_" + this._width + "_" + this._height + Path.GetExtension(_virtualFile.VirtualPath));
 
             if (!File.Exists(localPath) && !File.Exists(tmpFile)) {
                 var fs = File.Create(tmpFile);
                 fs.Close();
             }
 
-            return string.Format("{0}_{1}_{2}{3}", Path.ChangeExtension(this._virtualPath, null), this._width, this._height, Path.GetExtension(this._virtualPath));
+            return string.Format("{0}_{1}_{2}{3}", Path.ChangeExtension(this._virtualFile.VirtualPath, null), this._width, this._height, Path.GetExtension(this._virtualFile.VirtualPath));
         }
     }
 }

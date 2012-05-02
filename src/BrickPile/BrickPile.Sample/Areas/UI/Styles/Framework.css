@@ -20,13 +20,13 @@ strong { font-weight:bold; }
 2 Global
 ----------------------------------------------------------------*/
 body {
-    /*background-image: url(../images/gradient.png), url(../images/wood.jpg);
-    background-repeat:repeat-x, repeat; */
     background: url(../images/dark-wood.jpg);
 	font: 87.5%/1.5 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;	
 	font-weight: 300;
 	color:#333;
 	padding-top:103px;
+}
+div#main {
     max-width:69.5em;
     min-width:760px;
 	margin:0 auto;	

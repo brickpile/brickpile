@@ -28,7 +28,7 @@
 
 //            container.Setup(x => x.GetInstance<IPageRepository>()).Returns(repository.Object);
 //            repository.Setup(x => x.SingleOrDefault<IPageModel>(model => model.Parent == null)).Returns(pageModel);
-//            var resolver = new DashboardPathResolver(pathData,repository.Object,mapper.Object, container.Object);
+//            var resolver = new DashboardPathResolver(pathData, repository.Object, mapper.Object, container.Object);
 
 //            // Act
 //            var data = resolver.ResolvePath(path);
@@ -36,7 +36,7 @@
 //            // Assert
 //            Assert.NotNull(data);
 //            Assert.AreEqual("index", data.Action);
-//            Assert.AreEqual("Content",data.Controller);
+//            Assert.AreEqual("Content", data.Controller);
 //        }
 //        /// <summary>
 //        /// This test is based on a request for the page with the url ~/page with the default action index
@@ -66,7 +66,7 @@
 //            // Assert
 //            Assert.NotNull(data);
 //            Assert.AreEqual("index", data.Action);
-//            Assert.AreEqual("Content", data.Controller);            
+//            Assert.AreEqual("Content", data.Controller);
 //        }
 
 //        /// <summary>
@@ -76,7 +76,7 @@
 //        [TestCase("/page/myaction")]
 //        [TestCase("/page/myaction/")]
 //        public void Page_With_Custom_Action(string virtualUrl) {
-            
+
 //            // Arrange
 //            var pathData = new PathData();
 //            var pageModel = new DummyModel();
@@ -87,7 +87,7 @@
 
 //            container.Setup(x => x.GetInstance<IPageRepository>()).Returns(repository.Object);
 //            repository.Setup(r => r.GetPageByUrl<IPageModel>("page")).Returns(pageModel);
-//            mapper.Setup(m => m.GetControllerName(typeof (DummyController))).Returns("DummyModel");
+//            mapper.Setup(m => m.GetControllerName(typeof(DummyController))).Returns("DummyModel");
 
 //            var resolver = new DashboardPathResolver(pathData, repository.Object, mapper.Object, container.Object);
 
@@ -130,6 +130,6 @@
 //    }
 
 //    [PageModel(Name = "Dummy", ControllerType = typeof(DummyController))]
-//    public class DummyModel : PageModel {}
-//    public class DummyController : Controller {}
+//    public class DummyModel : PageModel { }
+//    public class DummyController : Controller { }
 //}

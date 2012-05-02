@@ -4,7 +4,9 @@
 body.logon {
     max-width:27.143em;
     min-width:380px;
+    margin: 0 auto;
 }
+
 body.logon header { background-color:transparent; }
 body.logon #logo {
     top:175px;
@@ -130,15 +132,15 @@ body.new span.button button:active {
 	box-shadow:0 1px 1px rgba(0,0,0,0.2) inset;
 }
 /*--------------------------------------------------------------
-6 Content
+6 Pages
 ----------------------------------------------------------------*/
-body.content img {
+body.pages img {
     margin:0;
     position:static;
 }
 
-body.content h1 { background:none; }
-body.content div#pages {
+body.pages h1 { background:none; }
+body.pages div#pages {
     background: rgba(109, 60, 35, 0.3);
     box-shadow: 0 1px 0 rgba(255,255,255,0.3);
     border-radius:5px;
@@ -150,13 +152,13 @@ body.content div#pages {
     z-index: 10;
 }
 
-body.content table {
+body.pages table {
     border-collapse:collapse;
     width:100%;
     white-space: nowrap;
 }
 
-body.content table caption {
+body.pages table caption {
     background:-moz-linear-gradient(top, #f1f2ef 0%, #e5e7e1 100%);
     background:-webkit-linear-gradient(top, #f1f2ef 0%,#e5e7e1 100%);
     border-radius:5px 5px 0 0;
@@ -171,7 +173,7 @@ body.content table caption {
     position:relative;
 }
 
-body.content span.button {
+body.pages span.button {
     background:-moz-linear-gradient(top, #d3d2d1 0%, #afafaf 100%);
     background:-webkit-linear-gradient(top, #d3d2d1 0%,#afafaf 100%);
     border-radius:5px;
@@ -183,8 +185,8 @@ body.content span.button {
     z-index:100;    
 }
 
-body.content span.button a:link,
-body.content span.button a:visited {
+body.pages span.button a:link,
+body.pages span.button a:visited {
 	background:-moz-linear-gradient(top, #fff 0%, #e2e6da 100%);
 	background:-webkit-linear-gradient(top, #fff 0%,#e2e6da 100%);	
 	color:#6d6e6d;
@@ -198,38 +200,38 @@ body.content span.button a:visited {
 	text-shadow:1px 1px 0 rgba(255,255,255,1);    
 	width:auto;
 }
-body.content span.button a:hover {
+body.pages span.button a:hover {
 	background:-moz-linear-gradient(top, #fafafa 0%, #d8dbd0 100%);
 	background:-webkit-linear-gradient(top, #fafafa 0%,#d8dbd0 100%);	    
 }
-body.content span.button a:active,
-body.content span.button a:focus,
-body.content span.button a.selected {
+body.pages span.button a:active,
+body.pages span.button a:focus,
+body.pages span.button a.selected {
 	background:-moz-linear-gradient(top, #e2e6da 0%, #fff 100%);
 	background:-webkit-linear-gradient(top, #e2e6da 0%,#fff 100%);
 	box-shadow:0 1px 1px rgba(0,0,0,0.2) inset;
 }
 
-body.content span.back  {
+body.pages span.back  {
     left:20px;
     position:absolute;
     top:4px;
 }
-body.content span.back a:link,
-body.content span.back a:visited {
+body.pages span.back a:link,
+body.pages span.back a:visited {
     padding:5px 12px;
 }
-body.content span.add  {
+body.pages span.add  {
     position:absolute;
     right:20px;
     top:4px;
 }
-body.content span.showdeleted  {
+body.pages span.showdeleted  {
     position:absolute;
     right:64px;
     top:4px;
 }
-body.content a.button {
+body.pages a.button {
     background:-moz-linear-gradient(top, #d3d2d1 0%, #afafaf 100%);
     background:-webkit-linear-gradient(top, #d3d2d1 0%,#afafaf 100%);
     border-radius:20px;
@@ -239,83 +241,83 @@ body.content a.button {
     padding:1px;
 }
 
-body.content a.button img {
+body.pages a.button img {
 	background:-moz-linear-gradient(top, #fff 0%, #e2e6da 100%);
 	background:-webkit-linear-gradient(top, #fff 0%,#e2e6da 100%);	
 	border-radius:20px;
 	padding:6px;
 	display:block;
 }
-body.content a.button img:hover,
-body.content table td:last-child span span img:hover  {
+body.pages a.button img:hover,
+body.pages table td:last-child span span img:hover  {
 	background:-moz-linear-gradient(top, #fafafa 0%, #d8dbd0 100%);
 	background:-webkit-linear-gradient(top, #fafafa 0%,#d8dbd0 100%);
 }
-body.content a.button img:active,
-body.content a.button img:focus {
+body.pages a.button img:active,
+body.pages a.button img:focus {
 	background:-moz-linear-gradient(top, #e2e6da 0%, #fff 100%);
 	background:-webkit-linear-gradient(top, #e2e6da 0%,#fff 100%);
 	box-shadow:0 1px 1px rgba(0,0,0,0.2) inset;
 }
 
-body.content table tr {
+body.pages table tr {
     border-radius:5px;
     color:#b4b6b0;
     text-shadow:0 1px 0 rgba(255,255,255,1);
     box-shadow:0 2px 2px rgba(0,0,0,0.3);
 }
-body.content table td.sort {
+body.pages table td.sort {
     cursor:move;
 }
-body.content table tr.ui-state-highlight {
+body.pages table tr.ui-state-highlight {
     box-shadow: none;
 }
-body.content thead span {
+body.pages thead span {
     font-size:71.4%;
     font-weight:bold;
     text-transform:uppercase;
 }
-body.content table th span { margin-top:0; }
-body.content table th:first-child span {
+body.pages table th span { margin-top:0; }
+body.pages table th:first-child span {
     border-radius:0 0 0 5px;
     padding: 8px 0;
 }
-body.content table th:last-child span {
+body.pages table th:last-child span {
     border-radius:0 0 5px 0;
 }
-body.content table th {
+body.pages table th {
     text-align:left;
     margin:0;
 }
-body.content table td:first-child span {
+body.pages table td:first-child span {
     border-radius:5px 0 0 5px;
     padding: 19px 0 17px 2px;
     text-align: center;
     width: 12px;    
 }
-body.content table td:last-child span {
+body.pages table td:last-child span {
     border-radius:0 5px 5px 0;
     padding:7px 10px 17px;
 }
-body.content table td {
+body.pages table td {
     /*color:#525c62;*/
     color: #28353d;
   	font-size:85.7%;
     overflow: hidden;
 }
-body.content table td.name {
+body.pages table td.name {
     color:#323e45;
     font-size:100%;
     font-weight:bold;
 }
-body.content table td.name span {
+body.pages table td.name span {
     padding:0 10px;
     line-height:54px;
     position:relative;
     overflow:hidden;    
     width: 16.3em;    
 }
-body.content table td.name span:after {
+body.pages table td.name span:after {
     content:"";
     position:absolute;
     width:210px;
@@ -324,11 +326,11 @@ body.content table td.name span:after {
     right:-1px;
     background: url(../images/gradient-overflow.png) no-repeat right center;
 }
-body.content table td.slug span {
+body.pages table td.slug span {
     position:relative;
     width:20.6em;
 }
-body.content table td.slug span:after {
+body.pages table td.slug span:after {
     content:"";
     position:absolute;
     width:21px;
@@ -337,18 +339,18 @@ body.content table td.slug span:after {
     right:-1px;    
     background: url(../images/gradient-overflow.png) no-repeat right center;
 }
-body.content table td.publish span {
+body.pages table td.publish span {
     text-align: center;
     width: 4.9em;
 }
-body.content table td.changed span {
+body.pages table td.changed span {
     width: 14.8em;
 }
-body.content table td.actions>span {
+body.pages table td.actions>span {
     width: 9.8em;
 }
-body.content td span,
-body.content th span {
+body.pages td span,
+body.pages th span {
     background:-moz-linear-gradient(top, #ffffff 0%, #f2f4f0 100%);
     background:-webkit-linear-gradient(top, #ffffff 0%,#f2f4f0 100%);    
     border-left:solid 1px #e6e8e2;
@@ -358,11 +360,11 @@ body.content th span {
     padding:19px 10px 17px;
 }
 
-body.content th span {
+body.pages th span {
     padding:8px 10px 8px;
 }
 
-body.content table td:last-child span span {
+body.pages table td:last-child span span {
     background:-moz-linear-gradient(top, #d3d2d1 0%, #afafaf 100%);
     background:-webkit-linear-gradient(top, #d3d2d1 0%,#afafaf 100%);	
     border-radius:20px;
@@ -373,7 +375,7 @@ body.content table td:last-child span span {
     margin:7px 9px -7px 7px;
 }
 
-body.content td span span a {
+body.pages td span span a {
 	background:-moz-linear-gradient(top, #fff 0%, #e2e6da 100%);
 	background:-webkit-linear-gradient(top, #fff 0%,#e2e6da 100%);	
     border-left: 1px solid #E6E8E2;
@@ -382,30 +384,30 @@ body.content td span span a {
 	float:left;
 	height:23px;
 }
-body.content table td:last-child span span img {
+body.pages table td:last-child span span img {
     padding:0 5px;
 }
-body.content table td:last-child span :first-child img {
+body.pages table td:last-child span :first-child img {
     border-radius:20px 0 0 20px;
 }
-body.content table td:last-child span span :last-child img {
+body.pages table td:last-child span span :last-child img {
     border-radius:0 20px 20px 0;
 }
-body.content td span span a:first-child {
+body.pages td span span a:first-child {
     border-left:0;
     border-radius: 20px 0 0 20px;
 }
-body.content td span span a:last-child,
-body.content td span span a:last-child img {
+body.pages td span span a:last-child,
+body.pages td span span a:last-child img {
     border-right:0;
     border-radius: 0 20px 20px 0;
 }
-body.content td span span img { padding-top:1px; }
-body.content td.actions {
+body.pages td span span img { padding-top:1px; }
+body.pages td.actions {
     width:133px;
 }
-body.content td.actions a { outline:0; }
-body.content td input[type=checkbox] {
+body.pages td.actions a { outline:0; }
+body.pages td input[type=checkbox] {
     margin:0;
     width:auto;
 }
@@ -419,12 +421,12 @@ body.content td input[type=checkbox] {
     right:4px;
     padding-bottom: 6px;
     position: absolute;
-    top: 220px;
+    top: 139px;
     width: 224px;
     z-index:200;
 }
 #models h1 {
-    background:url(/areas/brickpile.ui/images/dialog-top.png) no-repeat 87% 0;
+    background:url(/areas/ui/images/dialog-top.png) no-repeat 87% 0;
     margin: -8px 0 0;
     padding: 16px 0 0;        
 }
@@ -439,7 +441,7 @@ body.content td input[type=checkbox] {
     text-shadow:0 1px 0 rgba(0,0,0,1);
 }
 #models h1 span {
-    background: url(/areas/brickpile.ui/images/sprite.png) no-repeat 0 -63px transparent;
+    background: url(/areas/ui/images/sprite.png) no-repeat 0 -63px transparent;
     padding-left:20px;
 }
 #models form {
@@ -450,7 +452,7 @@ body.content td input[type=checkbox] {
     padding:5px 11px 0;
 }
 #models label {
-    background: url(/areas/brickpile.ui/images/sprite.png) no-repeat right -255px;
+    background: url(/areas/ui/images/sprite.png) no-repeat right -255px;
     border-bottom:1px solid #dcf5ff;
     color:#28353d;
     display:block;
@@ -484,6 +486,10 @@ body.content td input[type=checkbox] {
     left:5px;
     padding:6px 10px;
 }
+
+.ui-sortable-placeholder { height:61px; }
+
+/*
    .ui-sortable-placeholder {
       position: absolute;
       margin: 3px 0 0 -2px;
@@ -506,6 +512,7 @@ body.content td input[type=checkbox] {
       left: -3px;
       content: url("data:image/png;charset=utf-8;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAOCAYAAAGOZtYDAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MjczRjJGQkQ2RDNEMTFFMEI2MDRDNzFDNjY2QjI1REUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MjczRjJGQkU2RDNEMTFFMEI2MDRDNzFDNjY2QjI1REUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDoyNzNGMkZCQjZEM0QxMUUwQjYwNEM3MUM2NjZCMjVERSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDoyNzNGMkZCQzZEM0QxMUUwQjYwNEM3MUM2NjZCMjVERSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Po6Xaz0AAAHZSURBVHjaYmAAAubYzwzMQJqRkV+1AiCAQALsDLzZb/4DBBAjSEi3+fu/aze+PWSAAnEgZgIIILAmEAbpZGBUCNbRa/39HyjAywSSuvPoM8P///8/g9hcQMwH5DAABBBYN6NGhrLHiv//mWM+vALZA9IP0sLI8OM159XznxikpBlFRfO//gCK/YfoUIrUBKr6z6hTFAnkioKMAgggsFuBmA3qjH9gZ4DMY0/88l+j7ed/Jved1iCHgsxm+ffvPwPr338MsmaOR5gMG9RAWrlZ4z9/kZD4B9b27iMrAwuIAXLmhy+/Gb59ZP3zdwmXNBNYDCj47dWnC3+X8GsD+Z9A2kGqBaCu+MSgGPETIMAYocHDwmQ1Q4RROfo5mPf3x+7/b04X/dvldQvI+wN0JthCmGIuoOfkWe1mXdPXYmNgYmNjeAe0+96N7x/+vzzk9W+37zmgml8sUA2MDP9+MYMd+Pk3kPsbbIKSEpvARym3Yx9kvjD8/fMf4gsYQCiGgN+//zB8/sjw6//N2dZ/T5WcQVUMhJ++/Wb494cFaBHTr//3V9f8O5q6GSj1gYGhBO5mdlB8ArEQNG7/AvFncCgwMHwFuRcYXv9gihmhiQUWYf+hGv7BohcUuACbWblftXWMnwAAAABJRU5ErkJggg==");
   }
+*/
 /*--------------------------------------------------------------
 6 Edit
 ----------------------------------------------------------------*/

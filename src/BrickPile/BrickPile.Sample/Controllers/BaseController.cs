@@ -51,6 +51,7 @@ namespace BrickPile.Sample.Controllers {
                 return _hierarchy
                        ?? (_hierarchy = DocumentSession.HierarchyFrom<IPageModel>(x => x.Id == CurrentModel.Id)
                                             .Where(x => x.Metadata.IsPublished)
+                                            .Where(x => !x.Metadata.IsDeleted)
                                             .Where(x => x.Metadata.DisplayInMenu)
                                             .OrderBy(x => x.Metadata.SortOrder));
             }

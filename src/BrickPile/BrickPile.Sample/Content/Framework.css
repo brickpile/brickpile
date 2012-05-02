@@ -52,7 +52,17 @@ header {
 		text-transform:uppercase;
 	}
 	header nav li a:hover { color:#dedede; }
-	header nav li a.selected,
+	header nav li span.selected {
+		color:#c0c0c0;
+	    display: block;
+		font-size:92.3%;
+	    font-weight: bold;
+	    font-family: Arial, sans-serif;
+	    padding: 1px 14px;
+		text-transform:uppercase;
+	    
+	}
+	header nav li span.selected,
 	header nav li a.expanded {
 	    background-color:#20211b;
 	    border-radius: 11px;

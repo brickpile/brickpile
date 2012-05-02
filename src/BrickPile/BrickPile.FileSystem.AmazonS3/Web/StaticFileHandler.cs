@@ -37,7 +37,7 @@ namespace BrickPile.FileSystem.AmazonS3.Web {
             if (localFileName == null) return;
 
             // parse width and height of the image
-            var regex = new Regex(@"(?<width>\d+)(?:[_]{1})(?<height>\d+)(?=[.])");
+            var regex = new Regex(@"[_]{1}(?<width>\d+)(?:[_]{1})(?<height>\d+)(?=[.])");
             if (!regex.IsMatch(context.Request.FilePath)) {
                 throw new Exception("The filename is not well formed, should be name_width_height.extension");
             }
@@ -47,13 +47,12 @@ namespace BrickPile.FileSystem.AmazonS3.Web {
             var width = match.Groups["width"].Value;
             var height = match.Groups["height"].Value;
 
-            regex = new Regex(@"_[\d]+[\d]+(?=[.]?)");
+            //regex = new Regex(@"_[\d]+[\d]+(?=[.]?)");
             if(!regex.IsMatch(localFileName)) return;
 
-            var matches = regex.Matches(localFileName);
-
             // parse the incoming file path
-            var virtualPath = provider.VirtualPathRoot + localFileName.Replace(matches[0].Value, null).Replace(matches[1].Value, null);
+            //var virtualPath = provider.VirtualPathRoot + Regex.Replace(localFileName, @"[_]{1}(?<width>\d+)(?:[_]{1})(?<height>\d+)(?=[.])", string.Empty);
+            var virtualPath = Regex.Replace(context.Request.FilePath, @"[_]{1}(?<width>\d+)(?:[_]{1})(?<height>\d+)(?=[.])", string.Empty);
 
             // get the file from amazon s3 in format /s3/File.jpg
             var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(virtualPath) as AmazonS3VirtualFile;
@@ -64,7 +63,8 @@ namespace BrickPile.FileSystem.AmazonS3.Web {
             }
 
             // combine the directory path
-            string directory = Path.Combine(provider.LocalPath, virtualFile.Etag.Replace("\"", ""));
+            //string directory = Path.Combine(provider.LocalPath, virtualFile.Etag.Replace("\"", ""));
+            var directory = Path.Combine(provider.LocalPath, virtualFile.VirtualPath.Replace(provider.VirtualPathRoot, null).Replace(VirtualPathUtility.GetFileName(virtualFile.VirtualPath), null), virtualFile.Etag.Replace("\"", ""));
 
             // get the local path for the resized image
             var localPath = Path.Combine(directory, localFileName);
@@ -72,15 +72,30 @@ namespace BrickPile.FileSystem.AmazonS3.Web {
             if (!File.Exists(localPath)) {
 
                 // get the path for the temporary file
-                var tmpFile = Path.Combine(directory,
-                                           Path.ChangeExtension(
-                                               context.Request.FilePath.Replace(provider.VirtualPathRoot, null),
-                                               "tmp"));
+                var tmpFile = Path.Combine(directory,Path.ChangeExtension(localFileName,"tmp"));
 
                 // exit with the correct http exception if file is not found
                 if (!File.Exists(tmpFile)) {
                     throw new HttpException(404, "File not found");
                 }
+
+                // download and convert the requested image to the specified size
+                // TODO: cache the original image so we can us it the next time another size is requested
+
+                if (!File.Exists(Path.Combine(directory, VirtualPathUtility.GetFileName(virtualFile.VirtualPath)))) {
+                    using (var ms = new MemoryStream()) {
+                        virtualFile.Open().CopyTo(ms);
+                        File.WriteAllBytes(
+                            Path.Combine(directory, VirtualPathUtility.GetFileName(virtualFile.VirtualPath)),
+                            ms.ToArray());
+                    }
+                }
+
+                // resize the image
+                var image = new WebImage(Path.Combine(directory, VirtualPathUtility.GetFileName(virtualFile.VirtualPath)))
+                    .Resize(int.Parse(width) + 1, int.Parse(height) + 1,true,true)
+                    .Crop(1, 1);
+                image.Save(localPath);
 
                 // delete the temp file and log any exception
                 try {
@@ -88,24 +103,6 @@ namespace BrickPile.FileSystem.AmazonS3.Web {
                 } catch (IOException ex) {
                     Debug.WriteLine(ex.Message);
                 }
-
-                // download and convert the requested image to the specified size
-                // TODO: cache the original image so we can us it the next time another size is requested
-
-                if (!File.Exists(Path.Combine(directory, virtualPath.Replace(provider.VirtualPathRoot,null)))) {
-                    using (var ms = new MemoryStream()) {
-                        virtualFile.Open().CopyTo(ms);
-                        File.WriteAllBytes(
-                            Path.Combine(directory, virtualPath.Replace(provider.VirtualPathRoot, null)),
-                            ms.ToArray());
-                    }
-                }
-
-                // resize the image
-                var image = new WebImage(Path.Combine(directory, virtualPath.Replace(provider.VirtualPathRoot, null)))
-                    .Resize(int.Parse(width) + 1, int.Parse(height) + 1,true,true)
-                    .Crop(1, 1);
-                image.Save(localPath);
             }
 
             var lastWriteTime = File.GetLastWriteTime(localPath);
@@ -114,7 +111,7 @@ namespace BrickPile.FileSystem.AmazonS3.Web {
 
             DateTime now = DateTime.Now;
             if (lastModified > now) {
-                lastModified = new DateTime(now.Ticks - (now.Ticks%0x989680L));
+                lastModified = new DateTime(now.Ticks - (now.Ticks % 0x989680L));
             }
 
             var etag = GenerateETag(lastModified, now);
@@ -136,11 +133,11 @@ namespace BrickPile.FileSystem.AmazonS3.Web {
         /// <param name="etag">The etag.</param>
         private void SetCacheParamters(HttpContext context, string mimeType, string localPath, DateTime lastModified, string etag) {
             context.Response.ContentType = mimeType;
-            context.Response.AddFileDependency(localPath);
-            context.Response.Cache.SetExpires(DateTime.Now.AddDays(10));
-            context.Response.Cache.SetLastModified(lastModified);
-            context.Response.Cache.SetETag(etag);
-            context.Response.Cache.SetCacheability(HttpCacheability.Public);
+            //context.Response.AddFileDependency(localPath);
+            //context.Response.Cache.SetExpires(DateTime.Now.AddDays(10));
+            //context.Response.Cache.SetLastModified(lastModified);
+            //context.Response.Cache.SetETag(etag);
+            //context.Response.Cache.SetCacheability(HttpCacheability.Public);
         }
         /// <summary>
         /// Generates the E tag.

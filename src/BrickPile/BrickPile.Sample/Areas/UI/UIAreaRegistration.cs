@@ -42,18 +42,16 @@ namespace BrickPile.UI {
         /// <param name="context">Encapsulates the information that is required in order to register the area.</param>
         public override void RegisterArea(AreaRegistrationContext context) {
 
-            // this would be nice if we could register at startup with the settings from web.config
-            context.Routes.IgnoreRoute("s3/{*pathInfo}");
-
             //ViewEngines.Engines.Add(new RazorViewEngine
             //{
             //    AreaPartialViewLocationFormats = new[] { "~/Areas/UI/Views/{1}/{0}.cshtml", "~/Areas/UI/Views/Shared/{0}.cshtml", "~/Areas/UI/Views/Shared/DisplayTemplates/{0}.cshtml" },
             //    AreaMasterLocationFormats = new[] { "~/Areas/UI/Views/{1}/{0}.cshtml" },
             //    AreaViewLocationFormats = new[] { "~/Areas/UI/Views/{1}/{0}.cshtml" }
 
-            //});
+            //});            
 
-            context.Routes.MapUIRoute("UI_Default",
+            // Map the back office route for handling pages
+            context.Routes.MapUIRoute("Pages_Default",
                                       "{controller}/{action}/{id}",
                                       new
                                       {
@@ -66,51 +64,12 @@ namespace BrickPile.UI {
                                       new[] { typeof(Controllers.UIController).Namespace });
 
             context.MapRoute(
-                "UI_Legacy",
+                "UI_Default",
                 "{controller}/{action}/{id}",
-                new { controller = "UI", action = "Index", id = UrlParameter.Optional },
+                new { controller = "UI", action = "Index", id = UrlParameter.Optional, area = "UI" },
                 new { subdomain = new SubdomainRouteConstraint(this.SubDomain) }
             );
 
-
-
-            // Map the default UI route
-            //context.Routes.MapUIRoute("UI_Default",
-            //                          "{controller}/{action}/{id}",
-            //                          new
-            //                          {
-            //                              controller = "UI",
-            //                              action = "Index",
-            //                              id = UrlParameter.Optional,
-            //                              AreaName = "UI"
-            //                          },
-            //                          new {controller = new SubdomainRouteConstraint("ui.")},
-            //                          new[] {typeof (Controllers.UIController).Namespace});
-
-            //var dashboardRoute = new ContentRoute(
-            //    ObjectFactory.GetInstance<DashboardPathResolver>(),
-            //    ObjectFactory.GetInstance<DashboardVirtualPathResolver>(),
-            //    null);
-
-            //context.Routes.Add("Dashboard", dashboardRoute);
-
-            //context.MapRoute(
-            //    "Dashboard_publish",
-            //    "dashboard/content/publish/{id}/{published}",
-            //    new { controller = "content", action = "publish", Area = "dashboard" }
-            //);
-
-            //context.MapRoute(
-            //    "Dashboard_default",
-            //    "dashboard/{controller}/{action}/{id}",
-            //    new { controller = "dashboard", action = "index", id = UrlParameter.Optional, AreaName = "UI" }
-            //);
-
-            //context.MapRoute(
-            //    "UI_Default",
-            //    "ui/{controller}/{action}/{id}",
-            //    new { controller = "ui", action = "index", id = UrlParameter.Optional }
-            //);
         }
     }
 }

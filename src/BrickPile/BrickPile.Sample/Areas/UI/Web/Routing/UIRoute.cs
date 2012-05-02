@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -11,6 +12,11 @@ namespace BrickPile.UI.Web.Routing {
     /// 
     /// </summary>
     public class UIRoute : Route, IRouteWithArea {
+        private readonly string _url;
+        private readonly RouteValueDictionary _defaults;
+        private readonly RouteValueDictionary _constraints;
+        private readonly RouteValueDictionary _dataTokens;
+        private readonly IRouteHandler _routeHandler;
         public const string ControllerKey = "controller";
         /// <summary>
         /// Gets the path resolver.
@@ -51,28 +57,37 @@ namespace BrickPile.UI.Web.Routing {
         /// The default name of the controller.
         /// </value>
         public static string DefaultControllerName {
-            get { return "Pages"; }
+            get { return "pages"; }
         }
         /// <summary>
         /// Gets the name of the area to associate the route with.
         /// </summary>
         /// <returns>The name of the area to associate the route with.</returns>
         public string Area {
-            get { return "UI"; }
+            get { return "ui"; }
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="UIRoute"/> class.
         /// </summary>
         /// <param name="url">The URL.</param>
         /// <param name="routeHandler">The route handler.</param>
-        public UIRoute(string url, IRouteHandler routeHandler) : base(url, routeHandler) { }
+        public UIRoute(string url, IRouteHandler routeHandler) : base(url, routeHandler) {
+            _url = url;
+            _routeHandler = routeHandler;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UIRoute"/> class.
         /// </summary>
         /// <param name="url">The URL.</param>
         /// <param name="defaults">The defaults.</param>
         /// <param name="routeHandler">The route handler.</param>
-        public UIRoute(string url, RouteValueDictionary defaults, IRouteHandler routeHandler) : base(url, defaults, routeHandler) { }
+        public UIRoute(string url, RouteValueDictionary defaults, IRouteHandler routeHandler) : base(url, defaults, routeHandler) {
+            _url = url;
+            _defaults = defaults;
+            _routeHandler = routeHandler;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UIRoute"/> class.
         /// </summary>
@@ -80,7 +95,13 @@ namespace BrickPile.UI.Web.Routing {
         /// <param name="defaults">The defaults.</param>
         /// <param name="constraints">The constraints.</param>
         /// <param name="routeHandler">The route handler.</param>
-        public UIRoute(string url, RouteValueDictionary defaults, RouteValueDictionary constraints, IRouteHandler routeHandler) : base(url, defaults, constraints, routeHandler) { }
+        public UIRoute(string url, RouteValueDictionary defaults, RouteValueDictionary constraints, IRouteHandler routeHandler) : base(url, defaults, constraints, routeHandler) {
+            _url = url;
+            _defaults = defaults;
+            _constraints = constraints;
+            _routeHandler = routeHandler;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UIRoute"/> class.
         /// </summary>
@@ -89,7 +110,14 @@ namespace BrickPile.UI.Web.Routing {
         /// <param name="constraints">A regular expression that specifies valid values for a URL parameter.</param>
         /// <param name="dataTokens">Custom values that are passed to the route handler, but which are not used to determine whether the route matches a specific URL pattern. These values are passed to the route handler, where they can be used for processing the request.</param>
         /// <param name="routeHandler">The object that processes requests for the route.</param>
-        public UIRoute(string url, RouteValueDictionary defaults, RouteValueDictionary constraints, RouteValueDictionary dataTokens, IRouteHandler routeHandler) : base(url, defaults, constraints, dataTokens, routeHandler) { }
+        public UIRoute(string url, RouteValueDictionary defaults, RouteValueDictionary constraints, RouteValueDictionary dataTokens, IRouteHandler routeHandler) : base(url, defaults, constraints, dataTokens, routeHandler) {
+            _url = url;
+            _defaults = defaults;
+            _constraints = constraints;
+            _dataTokens = dataTokens;
+            _routeHandler = routeHandler;
+        }
+
         /// <summary>
         /// Returns information about the requested route.
         /// </summary>
@@ -104,11 +132,22 @@ namespace BrickPile.UI.Web.Routing {
 
             // exit with the base functionality
             if (!virtualPath.StartsWith("/pages", StringComparison.OrdinalIgnoreCase)) {
-                return base.GetRouteData(httpContext);
+                return null;
+                //return base.GetRouteData(httpContext);
             }
 
-            var routeData = base.GetRouteData(httpContext);
+            //var routeData = base.GetRouteData(httpContext);
 
+            var routeData = new RouteData(this, _routeHandler);
+            
+            foreach (var defaultPair in this._defaults)
+                routeData.Values[defaultPair.Key] = defaultPair.Value;
+            //foreach (var tokenPair in this._dataTokens)
+            //    routeData.DataTokens[tokenPair.Key] = tokenPair.Value;
+
+            // Add area value
+            //routeData.Values.Add("area", "ui");
+            
             // try to resolve the current item
             var pathData = this.PathResolver.ResolvePath(routeData, virtualPath.Replace("/pages", string.Empty));
 
@@ -116,6 +155,7 @@ namespace BrickPile.UI.Web.Routing {
 
             // Abort and proceed to other routes in the route table
             if (pathData == null) {
+                return null;
                 return base.GetRouteData(httpContext);
             }
 
@@ -136,20 +176,28 @@ namespace BrickPile.UI.Web.Routing {
             var model = values[ModelKey] as IPageModel;
 
             if (model == null) {
-                //return base.GetVirtualPath(requestContext, values);
-                return null;
+                VirtualPathData path = base.GetVirtualPath(requestContext, values);
+
+                if (path != null && path.VirtualPath != "")
+                    path.VirtualPath = path.VirtualPath + "/";
+                return path;                
             }
 
             var vpd = new VirtualPathData(this, this.VirtualPathResolver.ResolveVirtualPath(model, values));
 
-            //var vpd = base.GetVirtualPath(requestContext, values);
-
-            //if (vpd == null)
-            //    return null;
-
             vpd.Route = this;
 
             vpd.VirtualPath = string.Format("pages/{0}", VirtualPathResolver.ResolveVirtualPath(model, values));
+
+            var queryParams = String.Empty;
+            // add query string parameters
+            foreach (var kvp in values) {
+                if (kvp.Key.Equals(ModelKey) || kvp.Key.Equals(ControllerKey) || kvp.Key.Equals(ActionKey)) {
+                    continue;
+                }
+                queryParams = queryParams.AddQueryParam(kvp.Key, kvp.Value.ToString());
+            }
+            vpd.VirtualPath += queryParams;
 
             return vpd;
         }

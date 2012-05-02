@@ -29,37 +29,47 @@ using BrickPile.UI.Web.ViewModels;
 using Raven.Client;
 
 namespace BrickPile.UI.Controllers {
+
    [Authorize]
     public class PagesController : Controller {
+
         private dynamic _model;
         private readonly IDocumentSession _session;
+
         /// <summary>
         /// Default action
         /// </summary>
         /// <returns>
         /// Returns a list of children to the current page
         /// </returns>
-        public ActionResult Index() {
-            if(_model != null) {
-                var id = (string)_model.Id;
-                var parentId = _model.Parent != null ? (string) _model.Parent.Id : null;
-                var viewModel = new IndexViewModel
-                                    {
-                                        RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
-                                        CurrentModel = _model,
-                                        ParentModel = parentId != null ? _session.Load<IPageModel>(parentId) : null,
-                                        Children = _session.Query<IPageModel>()
-                                            .Where(model => model.Parent.Id == id)
-                                            .Where(model => !model.Metadata.IsDeleted)
-                                            .OrderBy(model => model.Metadata.SortOrder)
-                                            .ToList()
-                                    };
-                ViewBag.Class = "content";
-                return View("Index", viewModel);
+        public ActionResult Index(bool? deleted = false) {
+
+            if(_model == null) {
+                ViewBag.Class = "start";
+                return PartialView("Start", new NewModel());                
             }
 
-            ViewBag.Class = "start";
-            return View("Start", new NewModel());
+            var id = (string)_model.Id;
+            var parentId = _model.Parent != null ? (string) _model.Parent.Id : null;
+            var viewModel = new IndexViewModel
+                                {
+                                    RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
+                                    CurrentModel = _model,
+                                    ParentModel = parentId != null ? _session.Load<IPageModel>(parentId) : null,
+                                    Children = _session.Query<IPageModel>()
+                                        .Where(model => model.Parent.Id == id)
+                                        .Where(model => model.Metadata.IsDeleted == deleted)
+                                        .OrderBy(model => model.Metadata.SortOrder)
+                                        .ToList()
+                                };
+
+            
+            if(Request.IsAjaxRequest()) {
+                return PartialView("Index", viewModel);
+            }
+            //ViewBag.Class = "pages";
+            return View("Index", viewModel);
+
         }
         /// <summary>
         /// Responsible for providing the Edit view with data from the current page
@@ -73,17 +83,21 @@ namespace BrickPile.UI.Controllers {
                                     CurrentModel = _model,
                                     ParentModel = parentId != null ? _session.Load<IPageModel>(parentId) : null,
                                 };
+
+            if (Request.IsAjaxRequest()) {
+                return PartialView("Edit", viewModel);
+            }
+
             ViewBag.Class = "edit";
             return View(viewModel);
         }
         /// <summary>
         /// Updates the specified editor model.
         /// </summary>
-        /// <param name="editorModel">The editor model.</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        public virtual ActionResult Update(dynamic editorModel) {
+        public virtual ActionResult Update() {
 
             if (!TryUpdateModel(_model, "CurrentModel")) {
                 var parentId = _model.Parent != null ? (string)_model.Parent.Id : null;
@@ -103,7 +117,7 @@ namespace BrickPile.UI.Controllers {
             _model.Metadata.ChangedBy = HttpContext.User.Identity.Name;
 
             _session.SaveChanges();
-            _session.Advanced.Refresh(_model);
+            //_session.Advanced.Refresh(_model);
 
             var page = _model as IPageModel;
 
@@ -118,24 +132,28 @@ namespace BrickPile.UI.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Delete(string id) {
+        public void Delete(string id) {
+
             var model = _session.Load<IPageModel>(id.Replace("_", "/"));
+
             model.Metadata.IsDeleted = true;
             model.Metadata.Published = default(DateTime?);
             model.Metadata.IsPublished = false;
             _session.SaveChanges();
 
-            ViewBag.Heading = "Delete succeeded";
-            ViewBag.Message = "The page was successfully deleted";
-
-            return PartialView("Growl", ViewBag);
         }
         /// <summary>
         /// Responsible for providing the add page view with data
         /// </summary>
         /// <returns></returns>
         public ActionResult Add() {
-            return PartialView(new NewModel { CurrentModel = _model });
+
+            if (Request.IsAjaxRequest()) {
+                return PartialView(new NewModel { CurrentModel = _model });
+            }
+            return new EmptyResult();
+
+
         }
         /// <summary>
         /// News the specified new page model.
@@ -143,7 +161,9 @@ namespace BrickPile.UI.Controllers {
         /// <param name="newModel">The new model.</param>
         /// <returns></returns>
         public ActionResult New(NewModel newModel) {
+
             if (ModelState.IsValid) {
+
                 var parent = _model as IPageModel;
                 // create a new page from the selected page model
                 var page = Activator.CreateInstance(Type.GetType(newModel.SelectedPageModel)) as dynamic;
@@ -152,12 +172,14 @@ namespace BrickPile.UI.Controllers {
                 var viewModel = new NewPageViewModel
                                     {
                                         RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
-                                        CurrentModel = parent,
+                                        ParentModel = parent,
                                         NewPageModel = page,
                                     };
 
                 ViewBag.Class = "edit";
                 return View("new", viewModel);
+                //return PartialView("new", viewModel);
+
             }
 
             return PartialView("add", newModel);
@@ -165,11 +187,10 @@ namespace BrickPile.UI.Controllers {
         /// <summary>
         /// Saves the specified new page model.
         /// </summary>
-        /// <param name="newPageModel">The new page model.</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        public virtual ActionResult Save(dynamic newPageModel) {
+        public virtual ActionResult Save() {
 
             if (ModelState.IsValid) {
                 var parent = _model as PageModel;
@@ -188,6 +209,7 @@ namespace BrickPile.UI.Controllers {
                 page.Metadata.Changed = DateTime.Now;
                 page.Metadata.ChangedBy = HttpContext.User.Identity.Name;
                 page.Metadata.SortOrder = int.MaxValue;
+
                 // Add page to repository and save changes
                 _session.SaveChanges();
                 //_repository.Refresh(model);
@@ -196,26 +218,6 @@ namespace BrickPile.UI.Controllers {
             }
 
             return null;
-        }
-        /// <summary>
-        /// Views the deleted.
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult ShowDeleted() {
-            var id = (string)_model.Id;
-            var parentId = _model.Parent != null ? (string)_model.Parent.Id : null;
-            var viewModel = new IndexViewModel
-            {
-                RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
-                CurrentModel = _model,
-                ParentModel = parentId != null ? _session.Load<IPageModel>(parentId) : null,
-                Children = _session.Query<IPageModel>()
-                    .Where(model => model.Parent.Id == id)
-                    .OrderBy(model => model.Metadata.SortOrder)
-                    .ToList()
-            };
-            ViewBag.Class = "content";
-            return View("Index", viewModel);
         }
         /// <summary>
         /// Publishes this instance.
@@ -231,43 +233,7 @@ namespace BrickPile.UI.Controllers {
             model.Metadata.ChangedBy = HttpContext.User.Identity.Name;
             _session.SaveChanges();
 
-            ViewBag.Heading = published ? "Publish succeeded" : "Unpublish succeeded";
-            ViewBag.Message = published ? "The page was successfully published" : "The page was successfully unpublished";
-
-            return PartialView("Growl", ViewBag);
-        }
-        /// <summary>
-        /// Permanents the delete.
-        /// </summary>
-        /// <param name="id">The id.</param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult PermanentDelete(string id) {
-            var model = _session.Load<IPageModel>(id.Replace("_", "/"));
-            _session.Delete(model);
-            _session.SaveChanges();
-
-            ViewBag.Heading = "Permanent delete succeeded";
-            ViewBag.Message = "The page was successfully permanent deleted";
-
-            return PartialView("Growl", ViewBag);
-        }
-        /// <summary>
-        /// Uns the delete.
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult UnDelete() {
-
-            _model.Metadata.IsDeleted = false;
-            _session.SaveChanges();
-
-            var model = _model as IPageModel;
-            IPageModel parent = null;
-            if(model != null) {
-                parent = _session.Load<IPageModel>(model.Parent.Id);
-            }
-
-            return RedirectToAction("showdeleted", new { model = parent ?? _model });
+            return new EmptyResult();
         }
         /// <summary>
         /// Sorts the specified items.

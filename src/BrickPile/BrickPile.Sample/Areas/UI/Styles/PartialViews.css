@@ -131,18 +131,29 @@ aside.dialog span.parent {
     top:10px    
 }
 div#scroll {
-   	width: 511px;
+   	/*width: 511px;*/
 	height: 218px;
 	overflow: auto;
 	float: left;
 	display: inline-block;
 }
-.filebrowser #scroll { width: 100%;}
+.filebrowser #scroll ul {  }
+.filebrowser #scroll { width: 599px; }
 aside.dialog a.link {
     outline:none;
 }
-aside.dialog #scroll { background-color:#fff; }
+aside.dialog #scroll { background-color: #fff; }
 aside.dialog .additional-block { height:270px; }
+.filebrowser #folder-list li {
+    border-bottom: 0;
+}
+.filebrowser #folder-list li a {
+    font-size: 85.7%;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    padding: .5em;  
+}
 /*--------------------------------------------------------------
 6 File browser
 ----------------------------------------------------------------*/
@@ -155,7 +166,7 @@ aside.dialog .additional-block { height:270px; }
 .overlay aside.filebrowser #scroll {
     height: 336px;
 }
-.overlay aside.filebrowser ul {
+.overlay aside.filebrowser #scroll ul {
     background-color: #fff;
     overflow: hidden;
     padding: 1em;
@@ -166,10 +177,10 @@ aside.dialog .additional-block { height:270px; }
     box-shadow: 0 0 2px #4F98E8;
 }
 
-.overlay aside.filebrowser li {
+.overlay aside.filebrowser #scroll li {
     margin: 0 1em 1em 0;
 }
-.overlay aside.filebrowser li  {
+.overlay aside.filebrowser #scroll li  {
     /* basic styling */
     width: 118px;
     height: 118px;

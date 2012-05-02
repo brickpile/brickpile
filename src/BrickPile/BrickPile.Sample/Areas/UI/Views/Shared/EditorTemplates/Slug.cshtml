@@ -1,9 +1,9 @@
 ﻿
 @model String
 @{
-    var rootModel = ViewData["RootModel"] as BrickPile.Domain.Models.IPageModel;
+    var parentModel = ViewData["ParentModel"] as BrickPile.Domain.Models.IPageModel;
 }           
-@if (rootModel == null) {
+@if (parentModel == null) {
     @Html.TextBoxFor(_ => Model, new { disabled = "disabled" })
 } else {
     @Html.TextBoxFor(_ => Model, new { @class = "slug" })

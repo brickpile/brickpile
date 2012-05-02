@@ -35,10 +35,12 @@ namespace BrickPile.UI {
     /// <example></example>
     [Obsolete("Not used anymore", false)]
     public class StructureInfo : IStructureInfo {
+
         private readonly IDocumentSession _session;
         private IPageModel _currentModel;
         private IPageModel _rootModel;
         private IPageModel _parentModel;
+
         private IEnumerable<IHierarchyNode<IPageModel>> _hierarchicalStructure;
         /// <summary>
         ///   <see cref="StructureInfo.RootModel"/>

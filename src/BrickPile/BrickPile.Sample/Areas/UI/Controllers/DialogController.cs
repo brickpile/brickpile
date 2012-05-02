@@ -58,7 +58,7 @@ namespace BrickPile.UI.Controllers {
             {
                 RootModel = rootModel,
                 CurrentModel = currentModel,
-                ParentModel = currentModel.Parent != null ? _session.Query<IPageModel>().SingleOrDefault(x => x.Id == currentModel.Parent.Id) : null,
+                ParentModel = currentModel.Parent != null ? _session.Load<IPageModel>(currentModel.Parent.Id) : null,
                 BackAction = "Index",
                 Message = "Foo",
                 Children = _session.Query<IPageModel>()

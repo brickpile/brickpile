@@ -104,6 +104,7 @@
     <Compile Include="Infrastructure\Indexes\Documents_ByParent.cs" />
     <Compile Include="Infrastructure\Indexes\PageByUrl.cs" />
     <Compile Include="Infrastructure\Indexes\PageModelWithParentsAndChildren.cs" />
+    <Compile Include="Infrastructure\Listeners\StoreListener.cs" />
     <Compile Include="PageModelEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

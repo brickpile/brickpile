@@ -14,7 +14,7 @@ Dashboard.prototype = {
             url: $anchor.attr('href'),
             dataType: 'html',
             success: function (data) {
-                $('body').append(data);
+                $('div#main').append(data);
                 var $dialog = $('#models');
                 $('html').click(function () {
                     $dialog.fadeOut('fast', function () {
@@ -156,7 +156,7 @@ Dashboard.prototype = {
     browse: function ($anchor) {
         var self = this;
         $.ajax({
-            url: '/asset',
+            url: '/assets',
             dataType: 'html',
             success: function (data) {
 
@@ -164,14 +164,14 @@ Dashboard.prototype = {
 
                 var $dialog = $('.overlay');
                 $dialog.find('div#scroll').lionbars('dark', true, false, false);
-                $dialog.find('a.close').click(function () {
+                $dialog.find('a.close').live('click',function () {
                     $dialog.fadeOut('fast', function () {
                         $dialog.remove();
                     });
                     return false;
                 });
 
-                $dialog.find('a.cancel').click(function () {
+                $dialog.find('a.cancel').live('click',function () {
                     $dialog.fadeOut('fast', function () {
                         $dialog.remove();
                     });
@@ -188,7 +188,7 @@ Dashboard.prototype = {
                     return false;
                 });
 
-                $dialog.find('a.select').click(function () {
+                $dialog.find('a.select').live('click',function () {
 
                     var $selectedItem = $('a.selected',$dialog);
                     $anchor.parent().parent().parent().find('input:hidden.virtualUrl').val($selectedItem.attr('data-virtualpath'));
@@ -196,7 +196,7 @@ Dashboard.prototype = {
                     $dialog.fadeOut('fast', function () {
                         $dialog.remove();
                         $.ajax({
-                            url: '/asset/getthumbnailurl',
+                            url: '/assets/getthumbnailurl',
                             type: 'GET',
                             dataType: 'text',
                             data: { path: $selectedItem.attr('data-virtualpath') },
@@ -213,26 +213,27 @@ Dashboard.prototype = {
                     return false;
                 });
 
-//                $dialog.find('a.directory').live('click', function () {
-//                    $.ajax({
-//                        url: '/dashboard/asset/getdirectory',
-//                        type: 'GET',
-//                        dataType: 'html',
-//                        data: { path: $(this).attr('data-virtualpath') },
-//                        success: function (data) {
-//                            $('.additional-block').html(data);
-//                            $('div#scroll').lionbars('dark', true, false, false);
-//                            $dialog.find('li a.insert').click(function () {
-//                                $anchor.parent().parent().parent().find('input:text').val($(this).attr('data-url'));
-//                                $dialog.fadeOut('fast', function () {
-//                                    $dialog.remove();
-//                                });
-//                                return false;
-//                            });
-//                        }
-//                    });
-//                    return false;
-//                });
+                $dialog.find('a.directory').live('click', function () {
+                    $.ajax({
+                        url: '/assets/getdirectory',
+                        type: 'GET',
+                        dataType: 'html',
+                        data: { path: $(this).attr('data-virtualpath') },
+                        success: function (data) {
+                            $('.additional-block').html(data);
+                            $('div#scroll').lionbars('dark', true, false, false);
+                            $dialog.find('li a.insert').click(function () {
+                                var self = this;
+                                $dialog.find('a.insert').removeClass('selected');
+                                $dialog.find('.select').parent().removeClass('disabled');
+                                $(self).addClass('selected');
+
+                                return false;
+                            });                            
+                        }
+                    });
+                    return false;
+                });
 
 
                 //                                var $dialog = $('div.overlay aside');
@@ -298,14 +299,14 @@ $(document).ready(function () {
     });
 
 
-    $("#pages table tbody").sortable({
+    $("table.sortable tbody").sortable({
         handle: 'td.sort',
         items: "tr:not(.ui-state-disabled)",
         //helper: fixHelper,
         helper: 'clone',
         //placeholder: "ui-state-highlight",
         opacity: 0.7,
-        forcePlaceholderSize: true,
+        //forcePlaceholderSize: true,
         update: function (event, ui) {
             $.ajax({
                 type: 'POST',
@@ -317,8 +318,8 @@ $(document).ready(function () {
         }
 //        start: function (event, ui) {
 //            ui.placeholder.height(ui.item.height());
-//        }
-////      stop: function (event, ui) {
+//        },
+//      stop: function (event, ui) {
 //            console.log(ui);
 //            $(ui.item).css('opacity', '1');
 //        }

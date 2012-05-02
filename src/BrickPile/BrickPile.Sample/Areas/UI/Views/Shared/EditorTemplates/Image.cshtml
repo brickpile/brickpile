@@ -1,4 +1,6 @@
-﻿@using BrickPile.FileSystem.AmazonS3.Common
+﻿@using System.Web.Hosting
+@using BrickPile.FileSystem.AmazonS3.Common
+@using BrickPile.FileSystem.AmazonS3.Hosting
 @model BrickPile.UI.Models.Image
 
 <style type="text/css">
@@ -41,7 +43,8 @@
     @if(Model == null || string.IsNullOrEmpty(Model.VirtualUrl)) {
         <img src="http://placehold.it/60x45" alt=""/>
     } else {
-        <img src="@Url.Image(Model.VirtualUrl).Resize(60,45)" alt="" />
+        var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(Model.VirtualUrl) as AmazonS3VirtualFile;
+        <img src="@Url.Image(virtualFile).Resize(60,45)" alt="" />
     }
 </span>
 

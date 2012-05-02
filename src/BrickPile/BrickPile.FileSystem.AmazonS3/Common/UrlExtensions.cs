@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using BrickPile.FileSystem.AmazonS3.Hosting;
 using BrickPile.FileSystem.AmazonS3.Model;
 
 namespace BrickPile.FileSystem.AmazonS3.Common {
@@ -15,8 +16,8 @@ namespace BrickPile.FileSystem.AmazonS3.Common {
         /// <param name="helper">The helper.</param>
         /// <param name="virtualPath">The virtual path.</param>
         /// <returns></returns>
-        public static Image Image(this UrlHelper helper, string virtualPath) {
-            return new Image(virtualPath);
+        public static Image Image(this UrlHelper helper, AmazonS3VirtualFile s3VirtualFile) {
+            return new Image(s3VirtualFile);
         }
     }
 }

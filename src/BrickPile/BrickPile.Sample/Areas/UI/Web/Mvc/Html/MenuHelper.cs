@@ -88,23 +88,30 @@ namespace BrickPile.UI.Web.Mvc.Html {
                 return MvcHtmlString.Empty;
             }
 
-            var nodes = pageModels.AsHierarchy();
-
-            // only render the top level items
-            var items = nodes.Where(x => x.Depth == 1);
-
-            if(!items.Any()) {
-                return MvcHtmlString.Empty;
-            }
-            
             // create unordered list
             var ul = new TagBuilder("ul");
             // merge html attributes
             ul.MergeAttributes(new RouteValueDictionary(htmlAttributes));
 
+            var nodes = pageModels.AsHierarchy();
+
+            // only render the top level items
+            var items = nodes.Where(x => x.Depth == 1);
+
+            IPageModel home;
+            if(!items.Any()) {
+                // render home if it's published
+                home = pageModels.SingleOrDefault(model => model.Parent == null);
+                if (home != null) {
+                    RenderLi(ul, home, home.Equals(CurrentModel) ? selectedItemContent : itemContent);
+                    return MvcHtmlString.Create(ul.ToString());
+                }
+                return MvcHtmlString.Empty;
+            }
+
             // add home item
-            var home = pageModels.SingleOrDefault(x => x.Parent == null);
-            if(home != null) {
+            home = pageModels.SingleOrDefault(model => model.Parent == null);
+            if (home != null) {
                 RenderLi(ul, home, home.Equals(CurrentModel) ? selectedItemContent : itemContent);
             }
 

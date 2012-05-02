@@ -28,6 +28,7 @@ using BrickPile.UI.Common;
 using BrickPile.UI.Controllers;
 using BrickPile.UI.Web.Mvc;
 using Raven.Client;
+using StructureMap;
 
 namespace BrickPile.UI.Web.Routing {
     /// <summary>
@@ -37,6 +38,7 @@ namespace BrickPile.UI.Web.Routing {
 
         private readonly IPathData _pathData;
         private readonly IControllerMapper _controllerMapper;
+        private readonly IContainer _container;
         private IDocumentSession _session;
         private IPageModel _pageModel;
         private string _controllerName;
@@ -51,7 +53,7 @@ namespace BrickPile.UI.Web.Routing {
             // Set the default action to index
             _pathData.Action = UIRoute.DefaultAction;
             // Get an up to date document session from structuremap
-            _session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
+            _session = _container.GetInstance<IDocumentSession>();
 
             // The requested url is for the start page with no action
             if (string.IsNullOrEmpty(virtualUrl) || string.Equals(virtualUrl, "/")) {
@@ -104,12 +106,14 @@ namespace BrickPile.UI.Web.Routing {
         /// <summary>
         /// Initializes a new instance of the <see cref="PathResolver"/> class.
         /// </summary>
+        /// <param name="session">The session.</param>
         /// <param name="pathData">The path data.</param>
         /// <param name="controllerMapper">The controller mapper.</param>
-        /// <param name="session">The session.</param>
-        public PathResolver(IDocumentSession session, IPathData pathData, IControllerMapper controllerMapper) {
+        /// <param name="container">The container.</param>
+        public PathResolver(IDocumentSession session, IPathData pathData, IControllerMapper controllerMapper, IContainer container) {
             _pathData = pathData;
             _controllerMapper = controllerMapper;
+            _container = container;
             _session = session;
         }
     }

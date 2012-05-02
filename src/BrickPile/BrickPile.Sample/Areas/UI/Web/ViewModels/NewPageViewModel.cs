@@ -13,13 +13,13 @@ namespace BrickPile.UI.Web.ViewModels {
         /// Get/Sets the CurrentModel of the DashboardViewModel
         /// </summary>
         /// <value></value>
-        public virtual IPageModel CurrentModel { get; set; }
+        public IPageModel ParentModel { get; set; }
         /// <summary>
         /// Gets or sets the new page model.
         /// </summary>
         /// <value>
         /// The new page model.
         /// </value>
-        public virtual IPageModel NewPageModel { get; set; }
+        public IPageModel NewPageModel { get; set; }
     }
 }

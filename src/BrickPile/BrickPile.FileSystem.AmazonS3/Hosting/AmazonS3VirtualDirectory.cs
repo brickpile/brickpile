@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Hosting;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -46,30 +48,59 @@ namespace BrickPile.FileSystem.AmazonS3.Hosting {
         /// Gets a list of all the subdirectories contained in this directory.
         /// </summary>
         /// <returns>An object implementing the <see cref="T:System.Collections.IEnumerable"/> interface containing <see cref="T:System.Web.Hosting.VirtualDirectory"/> objects.</returns>
+        //public override IEnumerable Directories {
+        //    get {
+        //        using (var response = this._client.ListObjects(this.Request)) {
+
+        //            if (this.AWSVirtualPath == string.Empty || this.AWSVirtualPath == "/") {
+
+        //                // get the objects at the TOP LEVEL, i.e. not inside any folders
+        //                var objects = response.S3Objects.Where(o => !o.Key.Contains(@"/"));
+
+        //                // get the folders at the TOP LEVEL only
+        //                return from vd in response.S3Objects.Except(objects)
+        //                       where
+        //                           vd.Key.Last() == '/' &&
+        //                           vd.Key.IndexOf(@"/", StringComparison.Ordinal) ==
+        //                           vd.Key.LastIndexOf(@"/", StringComparison.Ordinal)
+        //                       select new AmazonS3VirtualDirectory(this._provider, vd.Key);
+        //            }
+
+        //            var directories = new List<AmazonS3VirtualDirectory>();
+
+        //            foreach (var split in response.S3Objects.Select(s3Object => s3Object.Key.Replace(this.AWSVirtualPath, string.Empty).Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries)).Where(splits => splits.Count() > 1 && !directories.Any(x => x.Name == splits.First()))) {
+        //                directories.Add(new AmazonS3VirtualDirectory(_provider, split.First()));
+        //            }
+
+        //            return directories;
+        //        }
+        //    }
+        //}
         public override IEnumerable Directories {
             get {
-                using (var response = this._client.ListObjects(this.Request)) {
-                    if (this.AWSVirtualPath == string.Empty || this.AWSVirtualPath == "/") {
-                        // get the objects at the TOP LEVEL, i.e. not inside any folders
-                        var objects = response.S3Objects.Where(o => !o.Key.Contains(@"/"));
+                return this.GetFolder(this.VirtualPath.Replace(this._provider.VirtualPathRoot, string.Empty)).Select(amazonFolder => new AmazonS3VirtualDirectory(this._provider, this._provider.VirtualPathRoot + amazonFolder));
+            }
+        }
+        public IEnumerable<string> GetFolder(string folder) {
+            var request = new ListObjectsRequest().WithBucketName(this._provider.BucketName).WithPrefix(folder);
+            using (var response = this._client.ListObjects(request)) {
 
-                        // get the folders at the TOP LEVEL only
-                        return from vd in response.S3Objects.Except(objects)
-                               where
-                                   vd.Key.Last() == '/' &&
-                                   vd.Key.IndexOf(@"/", StringComparison.Ordinal) ==
-                                   vd.Key.LastIndexOf(@"/", StringComparison.Ordinal)
-                               select new AmazonS3VirtualDirectory(this._provider, vd.Key);
-                    }
+                if (folder == string.Empty || folder == "/") {
+                    // get the objects at the TOP LEVEL, i.e. not inside any folders
+                    var objects = response.S3Objects.Where(o => !o.Key.Contains(@"/"));
 
-                    var directories = new List<AmazonS3VirtualDirectory>();
+                    // get the folders at the TOP LEVEL only
+                    return response.S3Objects.Except(objects).Where(o => o.Key.Last() == '/' && o.Key.IndexOf(@"/") == o.Key.LastIndexOf(@"/")).Select(n => n.Key);
+                }
 
-                    foreach (var split in response.S3Objects.Select(s3Object => s3Object.Key.Replace(this.AWSVirtualPath, string.Empty).Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries)).Where(splits => splits.Count() > 1 && !directories.Any(x => x.Name == splits.First()))) {
-                        directories.Add( new AmazonS3VirtualDirectory( _provider, split.First()) );
-                    }
 
-                    return directories;
-                }                
+                var directories = new List<string>();
+
+                foreach (var split in response.S3Objects.Select(s3Object => s3Object.Key.Replace(folder, string.Empty).Split('/')).Where(splits => splits.Count() > 1 && !directories.Contains(folder + splits.First()))) {
+                    directories.Add(folder + split.First());
+                }
+
+                return directories;
             }
         }
         /// <summary>
@@ -103,11 +134,20 @@ namespace BrickPile.FileSystem.AmazonS3.Hosting {
             }
         }
         /// <summary>
+        /// Gets the parent.
+        /// </summary>
+        public AmazonS3VirtualDirectory Parent {
+            get {
+                var directory = VirtualPathUtility.GetDirectory(base.VirtualPath);
+                return (_provider.GetDirectory(directory) as AmazonS3VirtualDirectory);
+            }
+        }
+        /// <summary>
         /// Gets the display name of the virtual resource.
         /// </summary>
         /// <returns>The display name of the virtual file.</returns>
         public override string Name {
-            get { return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Name); }
+            get { return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(base.Name); }
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="AmazonS3VirtualDirectory"/> class.

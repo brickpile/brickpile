@@ -21,7 +21,9 @@ THE SOFTWARE. */
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
+using BrickPile.Domain.Models;
 using BrickPile.FileSystem.AmazonS3.Hosting;
+using BrickPile.Sample.Models;
 
 namespace BrickPile.Sample {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -36,9 +38,6 @@ namespace BrickPile.Sample {
 
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            //// this would be nice if we could register at startup with the settings from web.config
-            //routes.IgnoreRoute("s3/{*pathInfo}");
-
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
@@ -49,6 +48,9 @@ namespace BrickPile.Sample {
 
         protected void Application_Start() {
 
+            // When we use a static file handler for the system thumbnails we need to ignore this path
+            RouteTable.Routes.IgnoreRoute("s3/{*pathInfo}");
+
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
@@ -57,6 +59,5 @@ namespace BrickPile.Sample {
             // Register the amazon s3 virtual path provider
             HostingEnvironment.RegisterVirtualPathProvider(new AmazonS3VirtualPathProvider());
         }
-
     }
 }

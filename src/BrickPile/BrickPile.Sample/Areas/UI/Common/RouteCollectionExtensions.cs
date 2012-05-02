@@ -115,7 +115,7 @@ namespace BrickPile.UI.Common {
                 throw new ArgumentNullException("url");
             }
 
-            Route route = new UIRoute(url, new MvcRouteHandler())
+            Route route = new UIRoute(url,new RouteValueDictionary(defaults), new RouteValueDictionary(constraints), null ,new MvcRouteHandler())
             {
                 Defaults = new RouteValueDictionary(defaults),
                 Constraints = new RouteValueDictionary(constraints)

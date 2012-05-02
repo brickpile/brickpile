@@ -1,34 +1,20 @@
-﻿
-@model BrickPile.UI.Web.ViewModels.EditViewModel
-@using BrickPile.UI.Common
-@{
-    ViewBag.Title = "Let's edit some bricks eh?";
-}
+﻿@model BrickPile.UI.Web.ViewModels.EditViewModel
 
 @section Navigation {
     <ul>
         <li>@Html.ActionLink("Dashboard", "index", "dashboard", null, new { @class = "dashboard" })</li>
-        <li>@Html.ActionLink("Pages", "index", "pages", null, new { @class = "content selected" })</li>
+        <li>@Html.ActionLink("Pages", "index", "pages", null, new { @class = "content" })</li>
         <li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users" })</li>
     </ul>
 }
 
-<h1>Welcome @HttpContext.Current.User.Identity.Name! Let's pile some bricks eh?</h1>
-
 @if (Model.ParentModel != null) {
-    <span class="button back">
-            @Html.ActionLink(Model.ParentModel)
-    </span>
-} else {
-    <span class="button back">
-            @Html.ActionLink(Model.RootModel)
-    </span>
+    <a href="@Url.Action("index", "pages", new { model = Model.ParentModel })" class="btn back">
+        <span class="text">@Model.ParentModel.Metadata.Name</span>
+        <span class="left"></span>
+    </a>
 }
-
-<span class="button advanced">
-    <button type="button">Advanced</button>
-</span>
-
+           
 @Html.ValidationSummary()
 
 @using (Html.BeginForm("update", "pages", new { model = Model.CurrentModel }, FormMethod.Post, new { name = "editForm" })) {
@@ -52,12 +38,12 @@
                 <div id="slug">
                     <div>
                         @Html.LabelFor(model => model.CurrentModel.Metadata.Slug)
-                        @Html.EditorFor(model => model.CurrentModel.Metadata.Slug, "Slug", new { RootModel = Model.RootModel })
-                        @if (Model.RootModel == null) {
+                        @Html.EditorFor(model => model.CurrentModel.Metadata.Slug, "Slug", new { Model.ParentModel })
+@*                        @if (Model.RootModel == null) {
                             @Html.HiddenFor(model => model.CurrentModel.Metadata.Url)
                         } else {
                             @Html.HiddenFor(model => model.CurrentModel.Metadata.Url, new { @class = "url" })
-                        }
+                        }*@
                     </div>
                     <div>
                         @Html.LabelFor(model => model.CurrentModel.Metadata.Published)

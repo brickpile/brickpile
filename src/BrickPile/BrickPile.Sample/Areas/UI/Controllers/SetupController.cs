@@ -59,7 +59,7 @@ namespace BrickPile.UI.Controllers {
                     _session.Store(configuration);
                     _session.SaveChanges();
 
-                    return RedirectToAction("index", "UI", new { area = "UI" });
+                    return RedirectToAction("index", "UI", new { area = "ui" });
                 }
 
                 ModelState.AddModelError("", AccountValidation.ErrorCodeToString(createStatus));

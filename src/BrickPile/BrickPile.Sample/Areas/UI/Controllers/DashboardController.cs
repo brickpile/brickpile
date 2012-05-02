@@ -24,13 +24,16 @@ namespace BrickPile.UI.Controllers {
     /// <summary>
     /// Default controller for the Dashboard
     /// </summary>
-    [Authorize]
+    //[Authorize]
     public class DashboardController : Controller {
         /// <summary>
         /// Default action
         /// </summary>
         /// <returns></returns>
         public ActionResult Index() {
+            if(this.Request.IsAjaxRequest()) {
+                return PartialView();
+            }
             return View();
         }
     }

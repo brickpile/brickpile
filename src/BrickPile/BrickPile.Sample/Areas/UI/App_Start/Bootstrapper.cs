@@ -48,8 +48,10 @@ namespace BrickPile.UI.App_Start {
 
                 var documentStore = new EmbeddableDocumentStore { ConnectionStringName = "RavenDB" };
 
+                documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null;
+                documentStore.RegisterListener(new StoreListener());
+
                 documentStore.Initialize();
-                documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "pages" : null;
 
                 Raven.Client.MvcIntegration.RavenProfiler.InitializeFor(documentStore);
 

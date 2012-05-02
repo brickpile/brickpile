@@ -29,7 +29,9 @@ namespace BrickPile.Sample.Models {
     /// </summary>
     [PageModel(Name = "Portfolio", ControllerType = typeof(PortfolioController))]
     public class Portfolio : BaseEditorial {
-        [Display(Name = "My picture")]
-        public Image HeaderImage { get; set; }
+
+        //[Display(Name = "My picture")]
+        //public Image HeaderImage { get; set; }
+
     }
 }
