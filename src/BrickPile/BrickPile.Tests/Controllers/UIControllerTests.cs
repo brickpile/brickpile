@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace BrickPile.Tests.Controllers {
     class UIControllerTests {
-        [Test]
+        //[Test]
         public void Default_Action_Returns_Index_View() {
             // Arrange
             const string expectedViewName = "Index";

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -133,30 +132,19 @@ namespace BrickPile.UI.Web.Routing {
             // exit with the base functionality
             if (!virtualPath.StartsWith("/pages", StringComparison.OrdinalIgnoreCase)) {
                 return null;
-                //return base.GetRouteData(httpContext);
             }
-
-            //var routeData = base.GetRouteData(httpContext);
 
             var routeData = new RouteData(this, _routeHandler);
             
             foreach (var defaultPair in this._defaults)
                 routeData.Values[defaultPair.Key] = defaultPair.Value;
-            //foreach (var tokenPair in this._dataTokens)
-            //    routeData.DataTokens[tokenPair.Key] = tokenPair.Value;
-
-            // Add area value
-            //routeData.Values.Add("area", "ui");
             
             // try to resolve the current item
             var pathData = this.PathResolver.ResolvePath(routeData, virtualPath.Replace("/pages", string.Empty));
 
-            //var routeData = new RouteData(this, this.RouteHandler);
-
             // Abort and proceed to other routes in the route table
             if (pathData == null) {
                 return null;
-                return base.GetRouteData(httpContext);
             }
 
             routeData.ApplyCurrentModel(DefaultControllerName, pathData.Action, pathData.CurrentPageModel);
