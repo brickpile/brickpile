@@ -155,7 +155,6 @@
   <ItemGroup>
     <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="App_Start\Initializer.cs" />
-    <Compile Include="App_Start\StoreListener.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\HtmlExtensions.cs" />
     <Compile Include="Common\RouteCollectionExtensions.cs" />

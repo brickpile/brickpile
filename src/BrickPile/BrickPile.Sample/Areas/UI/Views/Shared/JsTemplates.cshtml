@@ -1,0 +1,39 @@
+﻿        <script type="text/template" id="tpl-page-list-item">
+            <% _.each(function(page) { %>
+                <tr>
+                    <td class="name"><span><%=Metadata.Name %></span></td>
+                    <td class="slug"><span>/<%=Metadata.Slug %></span></td>
+                    <td class="publish"><span><input type="checkbox" <%= new Boolean(Metadata.IsPublished) == true ? ' checked="checked"' : '' %> /></span></td>
+                    <td class="changed"><span><abbr class="timeago" title="<%= Metadata.Changed %>"><%= Metadata.Changed %></abbr></span></td>
+                    <td><span><a href="/pages/<%=Metadata.Url %>/edit" data-bypass>Edit</a></span></td>
+                </tr>                   
+            <% }); %>
+        </script>
+
+        <script type="text/template" id="tpl-page-list">
+            <table>
+                <caption>BrickPile</caption>
+                <thead>
+                    <tr>
+                        <th><span>&nbsp;</span></th>
+                        <th><span>Page name</span></th>                
+                        <th><span>Slug</span></th>
+                        <th><span>Published</span></th>
+                        <th><span>Changed</span></th>
+                        <th><span>&nbsp;</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% _(Children).each(function(page) { %>
+                        <tr>
+                            <td><span><img src="/areas/ui/images/sort.png" alt="Sort" /></span></td>
+                            <td class="name"><span><%= page.Metadata.Name %></span></td>
+                            <td class="slug"><span><%= page.Metadata.Slug %></span></td>
+                            <td class="publish"><span><input type="checkbox" <%= new Boolean(page.Metadata.IsPublished) == true ? ' checked="checked"' : '' %> /></span></td>
+                            <td class="changed"><span><abbr class="timeago" title="<%= page.Metadata.Changed %>"><%= page.Metadata.Changed %></abbr></span></td>
+                            <td class="actions"><span><a href="/pages/<%=page.Metadata.Url %>/edit" data-bypass>Edit</a></span></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </script>  

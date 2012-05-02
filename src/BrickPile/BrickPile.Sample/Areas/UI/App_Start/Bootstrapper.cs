@@ -21,6 +21,7 @@ THE SOFTWARE. */
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Infrastructure.Indexes;
+using BrickPile.Core.Infrastructure.Listeners;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
 using BrickPile.UI.Models;
