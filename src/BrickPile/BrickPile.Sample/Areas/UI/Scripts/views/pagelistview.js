@@ -25,7 +25,9 @@ PageListView = Backbone.View.extend({
     events: {
         "click #main .new": "newPage",
         "click tr input[type=checkbox]": "publishPage",
-        "click tr a.delete": "deletePage"
+        "click tr a.delete": "deletePage",
+        "click tr a.perma-delete": "permanentDelete",
+        "click tr a.restore": "restorePage"
     },
 
     //tagName: 'table',
@@ -45,14 +47,14 @@ PageListView = Backbone.View.extend({
             url: '/pages/' + this.url,
             beforeSend: function () {
 
-                //$('#main').empty();
-                //$('body').append('<div class="spinner s48 blue" style="height:48px;width:48px;position:absolute;left:50%;top:50%;" />');
+                $('#main').empty().hide();
+                $('body').append('<div class="spinner s48 blue" style="height:48px;width:48px;position:absolute;left:50%;top:50%;" />');
 
             },
             success: function (data) {
 
-                //$('.spinner').remove();
-                $('#main').html(data);
+                $('.spinner').remove();
+                $('#main').show().html(data);
 
                 $('#main').find('abbr.timeago').timeago();
 
@@ -79,25 +81,8 @@ PageListView = Backbone.View.extend({
                     }
                 });
 
-
                 // Handle the slug and url
-
                 $('.slug').slugify('input.title');
-
-//                var url = $("input.url").val();
-//                if (url != null) {
-//                    var to = url.lastIndexOf('/');
-//                    url = url.substring(0, to + 1);
-
-//                    $('.slug').slugify('input.title', {
-//                        slugFunc: function (str, originalFunc) {
-//                            //$("input.url").val(url + accentsTidy(str));
-//                            //$("input.slug").val(accentsTidy(str));
-//                            return accentsTidy(str);
-//                        }
-//                    });
-//                }
-
             }
         });
 
@@ -155,31 +140,51 @@ PageListView = Backbone.View.extend({
 
     },
     deletePage: function (event) {
-
-        // Show confirm dialog and then delete the page
-        //return confirm("Do you really want to delete this page?");
-
-        var $row = $(event.currentTarget).closest('tr');
         
+        var $row = $(event.currentTarget).closest('tr');
         $.ajax({
             url: '/pages/delete/',
             type: 'POST',
             dataType: 'html',
-            data: { id: $row.attr('id') },
+            data: { id: $row.attr('id'), permanent: false },
             success: function (data) {
                 $row.fadeTo('fast', 0.6);
                 $row.slideUp('fast');
-//                var $growl = $('<aside />');
-//                $('body').append($growl)
-//                $growl.hide().html(data).fadeIn('fast');
-//                $('html').mousemove(function () {
-//                    $growl.delay(3000).fadeOut('fast', function () {
-//                        $(this).remove();
-//                    });
-//                });
             }
         });
 
+        return false;
+
+    },
+    permanentDelete: function (event) {
+        var $row = $(event.currentTarget).closest('tr');
+        $.ajax({
+            url: '/pages/delete/',
+            type: 'POST',
+            dataType: 'html',
+            data: { id: $row.attr('id'), permanent: true },
+            success: function (data) {
+                $row.fadeTo('fast', 0);
+                $row.slideUp('fast');
+            }
+        });
+
+        return false;
+    },
+    restorePage: function (event) {
+        var $row = $(event.currentTarget).closest('tr');
+        $.ajax({
+            url: '/pages/restore/',
+            type: 'POST',
+            dataType: 'html',
+            data: { id: $row.attr('id') },
+            success: function (data) {
+                $row.fadeTo('fast', 0);
+                $row.slideUp('fast');
+            }
+        });
+
+        return false;        
     }
 });
 

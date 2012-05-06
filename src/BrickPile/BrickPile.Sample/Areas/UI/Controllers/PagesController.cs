@@ -130,17 +130,38 @@ namespace BrickPile.UI.Controllers {
         /// <summary>
         /// Deletes the specified model.
         /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="permanent">if set to <c>true</c> [permanent].</param>
         /// <returns></returns>
         [HttpPost]
-        public void Delete(string id) {
-
+        public ActionResult Delete(string id, bool permanent) {
+            
             var model = _session.Load<IPageModel>(id.Replace("_", "/"));
 
-            model.Metadata.IsDeleted = true;
-            model.Metadata.Published = default(DateTime?);
-            model.Metadata.IsPublished = false;
+            if(permanent) {
+                _session.Delete(model);
+                if(model.Parent != null) {
+                    var parent = _session.Load<IPageModel>(model.Parent.Id);
+                    parent.Children.Remove(model.Id);
+                }
+            } else {
+                model.Metadata.IsDeleted = true;
+            }
             _session.SaveChanges();
 
+            return new EmptyResult();
+
+        }
+        /// <summary>
+        /// Restores the specified id.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <returns></returns>
+        public ActionResult Restore(string id) {
+            var model = _session.Load<IPageModel>(id.Replace("_", "/"));
+            model.Metadata.IsDeleted = false;
+            _session.SaveChanges();
+            return new EmptyResult();
         }
         /// <summary>
         /// Responsible for providing the add page view with data

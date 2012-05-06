@@ -82,8 +82,8 @@ THE SOFTWARE. *@
                                 <a href="@Url.Action("edit", new { model = Model.RootModel })" class="btn" title="Edit">
                                     <i class="icon-pencil"></i>
                                 </a>
-                                <a href="@Url.Action("delete", new { model = Model.RootModel })" class="btn delete" title="Delete">
-                                    <i class="icon-trash"></i>
+                                <a href="@Url.Action("delete", new { model = Model.RootModel })" class="btn delete" title="Remove">
+                                    <i class="icon-remove"></i>
                                 </a>
                             </span>
                         </span>
@@ -105,15 +105,20 @@ THE SOFTWARE. *@
                             <td class="changed"><span><abbr class="timeago" title="@item.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(item.Metadata.Changed.FormatDate() + "</abbr> <strong>by</strong> " + item.Metadata.ChangedBy)</span></td>
                             <td class="actions">
                                 <span>
-                                    <span>
-                                        <a href="@Url.Action("undelete", new { model = item })" class="undo"><img src="/areas/ui/images/undo.png" alt="Undo" /></a>
-                                        <a href="@Url.Action("permanentdelete", new { model = item })" class="perma-delete"><img src="/areas/ui/images/perm-delete.png" alt="Delete permanently" /></a>
+                                    <span class="btn-group">
+                                        <a href="@Url.Action("restore", new { model = item })" class="btn restore" title="Restore">
+                                            <i class="icon-restore"></i>
+                                        </a>
+                                        <a href="@Url.Action("delete", new { model = item, permanent = "true" })" class="btn perma-delete" title="Delete page permanently">
+                                            <i class="icon-trash"></i>
+                                        </a>
                                     </span>
                                 </span>
                             </td>
                         </tr>
                     
-                    } else {                        
+                    } else {
+                                                
                         <tr id="@item.Id.Replace('/', '_')">
                             <td class="sort"><span><i class="icon-list" title="Sort (Drag up or down)"></i></span></td>
                             <td class="name"><span>@item.Metadata.Name</span></td>
@@ -126,8 +131,8 @@ THE SOFTWARE. *@
                                         <a href="@Url.Action("edit", new { model = item })" class="btn" title="Edit">
                                             <i class="icon-pencil"></i>
                                         </a>
-                                        <a href="@Url.Action("delete", new { model = item })" class="btn delete" title="Delete">
-                                            <i class="icon-trash"></i>
+                                        <a href="@Url.Action("delete", new { model = item })" class="btn delete" title="Remove">
+                                            <i class="icon-remove"></i>
                                         </a>
                                     </span>
                                     <a href="@Url.Action("index", new { model = item })" class="btn level-down" title="Edit children of (@item.Metadata.Name)">
@@ -136,6 +141,7 @@ THE SOFTWARE. *@
                                 </span>
                             </td>                            
                         </tr>
+                
                     }
                 }
             }
