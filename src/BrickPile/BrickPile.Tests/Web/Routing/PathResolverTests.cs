@@ -22,7 +22,7 @@ namespace BrickPile.Tests.Web.Routing {
         public void Setup() {
             _store = new EmbeddableDocumentStore { RunInMemory = true };
             _store.Initialize();
-            _store.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "pages" : null;
+            _store.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null;
             IndexCreation.CreateIndexes(typeof(PageByUrl).Assembly, _store);
         }
         /// <summary>

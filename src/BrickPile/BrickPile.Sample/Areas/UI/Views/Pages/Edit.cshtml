@@ -39,11 +39,6 @@
                     <div>
                         @Html.LabelFor(model => model.CurrentModel.Metadata.Slug)
                         @Html.EditorFor(model => model.CurrentModel.Metadata.Slug, "Slug", new { Model.ParentModel })
-@*                        @if (Model.RootModel == null) {
-                            @Html.HiddenFor(model => model.CurrentModel.Metadata.Url)
-                        } else {
-                            @Html.HiddenFor(model => model.CurrentModel.Metadata.Url, new { @class = "url" })
-                        }*@
                     </div>
                     <div>
                         @Html.LabelFor(model => model.CurrentModel.Metadata.Published)

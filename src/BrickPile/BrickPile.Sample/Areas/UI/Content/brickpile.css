@@ -218,12 +218,28 @@ th#actions { width: 142px; }
  * Show deleted pages
  */
  
- .deleted-pages-link {
+#deleted-pages {
+    bottom: -35px;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+}
+ 
+ #deleted-pages a:link,
+ #deleted-pages a:visited {
+    background: rgba(109, 60, 35, 0.3);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.3);
+    border-radius: 5px;
+    border: 1px solid #845735;
     color:#fff;
     font-size: 85.7%;
     font-weight: bold;
     text-decoration: none;
+    padding: 4px 7px 3px;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+ }
+ #deleted-pages a:hover {
+    background: rgba(109, 60, 35, 0.5);
  }
 
 /*
@@ -257,6 +273,11 @@ th#actions { width: 142px; }
     background-position: center center;
 }
 
+
+/*
+ * Spinners
+ */
+ 
 @-webkit-keyframes spinner-spin { 0% { -webkit-transform:rotate(0deg) } 50% { -webkit-transform:rotate(180deg) } 100% { -webkit-transform:rotate(360deg) }}
 
 @-moz-keyframes spinner-spin { 0% { -moz-transform:rotate(0deg) } 50% { -moz-transform:rotate(180deg) } 100% { -moz-transform:rotate(360deg) }}
@@ -419,7 +440,7 @@ fieldset.metadata {
 footer {
     color: #fff;
     font-size: 85.7%;
-    margin-top: 2.2em;
+    margin-top: 4.2em;
     text-align: center;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
 }

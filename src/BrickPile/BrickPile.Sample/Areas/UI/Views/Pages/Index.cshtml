@@ -79,10 +79,10 @@ THE SOFTWARE. *@
                     <td class="actions">
                         <span>
                             <span class="btn-group">
-                                <a href="@Url.Action("edit", new { model = Model.RootModel })" class="btn" title="Edit">
+                                <a href="@Url.Action("edit", new { model = Model.RootModel })" class="btn" title="Edit page">
                                     <i class="icon-pencil"></i>
                                 </a>
-                                <a href="@Url.Action("delete", new { model = Model.RootModel })" class="btn delete" title="Remove">
+                                <a href="@Url.Action("delete", new { model = Model.RootModel })" class="btn delete" title="Remove page">
                                     <i class="icon-remove"></i>
                                 </a>
                             </span>
@@ -106,7 +106,7 @@ THE SOFTWARE. *@
                             <td class="actions">
                                 <span>
                                     <span class="btn-group">
-                                        <a href="@Url.Action("restore", new { model = item })" class="btn restore" title="Restore">
+                                        <a href="@Url.Action("restore", new { model = item })" class="btn restore" title="Restore page to previous state">
                                             <i class="icon-restore"></i>
                                         </a>
                                         <a href="@Url.Action("delete", new { model = item, permanent = "true" })" class="btn perma-delete" title="Delete page permanently">
@@ -128,14 +128,14 @@ THE SOFTWARE. *@
                             <td class="actions">
                                 <span>
                                     <span class="btn-group">
-                                        <a href="@Url.Action("edit", new { model = item })" class="btn" title="Edit">
+                                        <a href="@Url.Action("edit", new { model = item })" class="btn" title="Edit page">
                                             <i class="icon-pencil"></i>
                                         </a>
-                                        <a href="@Url.Action("delete", new { model = item })" class="btn delete" title="Remove">
+                                        <a href="@Url.Action("delete", new { model = item })" class="btn delete" title="Remove page">
                                             <i class="icon-remove"></i>
                                         </a>
                                     </span>
-                                    <a href="@Url.Action("index", new { model = item })" class="btn level-down" title="Edit children of (@item.Metadata.Name)">
+                                    <a href="@Url.Action("index", new { model = item })" class="btn level-down" title="View child pages of (@item.Metadata.Name)">
                                         <i class="icon-chevron-right"></i>
                                     </a>      
                                 </span>
@@ -148,10 +148,9 @@ THE SOFTWARE. *@
         </tbody>
     </table>
 }
-
-<div style="text-align: center;">
+<div id="deleted-pages">
     @if (Request.QueryString["deleted"] == null) {
-        <a href="@Url.Action("index", new { model = Model.CurrentModel, deleted = "true" })" class="deleted-pages-link">Show Deleted Pages</a>
+        <a href="@Url.Action("index", new { model = Model.CurrentModel, deleted = "true" })">Show deleted pages</a>
     }
 </div>
 

@@ -5,7 +5,7 @@ namespace BrickPile.UI.Controllers {
     public class UIController : Controller {
         public ActionResult Index() {
             if(Request.IsAjaxRequest()) {
-                return PartialView();
+                return PartialView("Index");
             }
             return View("Index");
         }

@@ -24,7 +24,7 @@ namespace BrickPile.UI.Controllers {
     /// <summary>
     /// Default controller for the Dashboard
     /// </summary>
-    //[Authorize]
+    [Authorize]
     public class DashboardController : Controller {
         /// <summary>
         /// Default action

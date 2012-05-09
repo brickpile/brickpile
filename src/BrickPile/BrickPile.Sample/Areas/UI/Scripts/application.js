@@ -35,14 +35,6 @@ THE SOFTWARE. */
                     ['', 'ui', this.ui],
                     ['dashboard/', 'dashboard', this.dashboard],
                     [/^pages\/((?!(.*?)\w*new).*)$/, 'pages', this.pages]
-                    //[/^pages\/((?!(.*?)\.*new).*)$/, 'pages', this.pages]
-            //[/^((?!(.*?)submit).*)$/, 'pages', this.pages]                    
-            //[/^pages\/(.*?)$/, 'pages', this.pages]
-
-            //[/(.*?)\/edit/, 'edit', this.edit],
-            //['pages/*url', 'pages', this.pages]
-            //[/^(.*?)\/[^edit]/, 'edit', this.pages]
-            //[/^(.*?)\/edit/, 'edit', this.edit],
                 ];
 
             $(routes).each(function (index, route) {
@@ -51,7 +43,7 @@ THE SOFTWARE. */
 
         },
         ui: function () {
-
+            console.log('ui');
             var route = this;
             var ui = new UiView();
 
@@ -71,42 +63,7 @@ THE SOFTWARE. */
             pageListView.url = url;
             pageListView.render();
 
-            //var pageList = new PageListView({ url: url });
-
-            // Fix for hashes in pushState and hash fragment
-            //            if (url && !route._alreadyTriggered) {
-            //                // Reset to home, pushState support automatically converts hashes
-            //                Backbone.history.navigate("", false);
-
-            //                // Trigger the default browser behavior
-            //                location.hash = url;
-
-            //                // Set an internal flag to stop recursive looping
-            //                route._alreadyTriggered = true;
-            //            }
-
-            //            this.pageList = new PageCollection();
-            //            this.pageListView = new PageListView({ model: this.pageList });
-            //            this.pageList.fetch();
-            //            $('#main').html(this.pageListView.render().el);
-
         }
-        //        edit: function (url) {
-
-        //            this.editView = new EditView({ url: url });
-
-        //            // Fix for hashes in pushState and hash fragment
-        //            if (url && !route._alreadyTriggered) {
-        //                // Reset to home, pushState support automatically converts hashes
-        //                Backbone.history.navigate("", false);
-
-        //                // Trigger the default browser behavior
-        //                location.hash = url;
-
-        //                // Set an internal flag to stop recursive looping
-        //                route._alreadyTriggered = true;
-        //            }
-        //        }
     });
 
     // Shorthand the application namespace
@@ -120,43 +77,7 @@ THE SOFTWARE. */
     Backbone.history.start({ pushState: true });
 
     // Ensure that we have a valid slug
-    //$('.slug').slugify('input.title');
-
-    // Handle the slug and url
-
     $('.slug').slugify('input.title');
-
-//    var url = $("input.url").val();
-//    if (url != null) {
-//        var to = url.lastIndexOf('/');
-//        url = url.substring(0, to + 1);
-
-//        $('.slug').slugify('input.title', {
-//            slugFunc: function (str, originalFunc) {
-//                $("input.url").val(url + accentsTidy(str));
-//                //$("input.slug").val(accentsTidy(str));
-//                return accentsTidy(str);
-//            }
-//        });
-//    }
-
-    accentsTidy = function (s) {
-        var r = s.toLowerCase();
-        r = r.replace(new RegExp("\\s", 'g'), "-");
-        r = r.replace(new RegExp("[àáâãäå]", 'g'), "a");
-        r = r.replace(new RegExp("æ", 'g'), "ae");
-        r = r.replace(new RegExp("ç", 'g'), "c");
-        r = r.replace(new RegExp("[èéêë]", 'g'), "e");
-        r = r.replace(new RegExp("[ìíîï]", 'g'), "i");
-        r = r.replace(new RegExp("ñ", 'g'), "n");
-        r = r.replace(new RegExp("[òóôõö]", 'g'), "o");
-        r = r.replace(new RegExp("œ", 'g'), "oe");
-        r = r.replace(new RegExp("[ùúûü]", 'g'), "u");
-        r = r.replace(new RegExp("[ýÿ]", 'g'), "y");
-        r = r.replace(new RegExp("\\W", 'g'), "-");
-        r = r.replace(new RegExp("-+", 'g'), "-");
-        return r;
-    };
 
     // All navigation that is relative should be passed through the navigate
     // method, to be processed by the router.  If the link has a data-bypass

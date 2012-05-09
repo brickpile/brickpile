@@ -12,11 +12,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="@Url.Content("~/areas/ui/scripts/tinymce/tiny_mce.js")" type="text/javascript"></script>
         @Html.Raw(Bundle.Css()
-                    //.Add(Url.Content("~/areas/ui/styles/framework.css"))
-                    //.Add(Url.Content("~/areas/ui/styles/dashboard.css"))
-                    //.Add(Url.Content("~/areas/ui/styles/views.css"))
-                    //.Add(Url.Content("~/areas/ui/styles/partialviews.css"))
-                    //.Add(Url.Content("~/areas/ui/styles/lionbars.css"))
                     .Add(Url.Content("~/areas/ui/content/normalize.css"))
                     .Add(Url.Content("~/areas/ui/content/brickpile.css"))
                     .Render("~/areas/ui/styles/brickpile.min_#.css"))
@@ -35,7 +30,7 @@
         <div>
             <header role="banner">
                 <div>
-                    <a href="@Url.Action("index","ui")">
+                    <a href="@Url.Action("index","ui") ">
                         <img src="@Url.Content("/areas/ui/content/images/logo.png")" width="83" height="19" alt="BrickPile CMS" />    
                     </a>
                     <nav role="navigation">
@@ -50,7 +45,6 @@
             <footer role="contentinfo">
                 <p>This is <strong>Brickpile</strong>. An open source content management system designed to kick ass.</p>
             </footer>
-            <ul id="mylist"></ul>
         </div>
         
 
