@@ -41,8 +41,11 @@ THE SOFTWARE. */
                 router.route.apply(router, route);
             });
 
+
+
         },
         ui: function () {
+
             console.log('ui');
             var route = this;
             var ui = new UiView();
@@ -72,6 +75,24 @@ THE SOFTWARE. */
     // Define your master router on the application namespace and trigger all
     // navigation from this instance.
     app.router = new Router();
+
+    // Set selected class on the main navigation
+    app.router.bind('all ', function (route, section) {
+        var $el;
+        route = route.replace('route:', '');
+
+        $el = $('nav a.' + route);
+
+        // If current route is highlighted, we're done.
+        if ($el.hasClass('selected')) {
+            return;
+        } else {
+            // Unhighlight active tab.
+            $('nav a.selected').removeClass('selected');
+            // Highlight active page tab.
+            $el.addClass('selected');
+        }
+    });
 
     // Trigger the initial route and enable HTML5 History API support
     Backbone.history.start({ pushState: true });

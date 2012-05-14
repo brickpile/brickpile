@@ -3,7 +3,7 @@
 @section Navigation {
     <ul>
         <li>@Html.ActionLink("Dashboard", "index", "dashboard", null, new { @class = "dashboard" })</li>
-        <li>@Html.ActionLink("Pages", "index", "pages", null, new { @class = "content" })</li>
+        <li>@Html.ActionLink("Pages", "index", "pages", null, new { @class = "pages" })</li>
         <li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users" })</li>
     </ul>
 }
@@ -42,7 +42,7 @@
                     </div>
                     <div>
                         @Html.LabelFor(model => model.CurrentModel.Metadata.Published)
-                        @Html.TextBoxFor(model => model.CurrentModel.Metadata.Published)
+                        @Html.EditorFor(model => model.CurrentModel.Metadata.Published)
                     </div>
                 </div>
                 <div>

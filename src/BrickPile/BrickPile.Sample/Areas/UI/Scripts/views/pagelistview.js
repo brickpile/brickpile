@@ -83,6 +83,7 @@ PageListView = Backbone.View.extend({
 
                 // Handle the slug and url
                 $('.slug').slugify('input.title');
+                
             }
         });
 

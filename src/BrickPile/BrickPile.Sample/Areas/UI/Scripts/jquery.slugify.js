@@ -50,4 +50,4 @@
         return this;
     };
 
-})(jQuery);             
+})(jQuery);

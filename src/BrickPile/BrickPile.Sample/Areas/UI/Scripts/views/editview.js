@@ -34,7 +34,7 @@ EditView = Backbone.View.extend({
             url: '/' + this.options.url + '/edit',
             success: function (data) {
                 $('#main').html(data);
-
+                
                 $('#CurrentModel_Metadata_Published').datepicker();
             }
         });
