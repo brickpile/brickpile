@@ -33,10 +33,6 @@ THE SOFTWARE. *@
     </ul>
 }
 
-<style type="text/css" media="all">
-
-</style>
-
 @if (Model.CurrentModel != null) {
     
     if (Request.QueryString["deleted"] != null) {
@@ -55,7 +51,7 @@ THE SOFTWARE. *@
     <a href="@Url.Action("add", "pages", new { model = Model.CurrentModel })" class="btn new" title="Create a New Page">
         <i class="icon-plus"></i>
     </a>
-    <table class="sortable">
+    <table id="tbl-pages" class="sortable">
         <caption>@Model.CurrentModel.Metadata.Name</caption>
         <thead>
             <tr>

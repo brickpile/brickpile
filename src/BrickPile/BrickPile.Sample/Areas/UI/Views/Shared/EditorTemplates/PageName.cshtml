@@ -1,8 +1,10 @@
 ﻿
 @model String
-<div class="editor-label">
-    @Html.LabelForModel()
-</div>
-<div class="editor-field">
-    @Html.TextBoxFor(_ => Model, new { @class = "title", required = "required", autofocus = "autofocus" })
+<div>
+    <div class="editor-label">
+        @Html.LabelForModel()
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(_ => Model, new { @class = "title", required = "required" })
+    </div>
 </div>

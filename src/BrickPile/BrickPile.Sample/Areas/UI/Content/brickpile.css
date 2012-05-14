@@ -68,9 +68,11 @@ header {
     background: url(images/header.png) repeat-x 0 0;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
     min-height: 66px;
+    opacity: 0.98;
     position:fixed;
     top:0;
     width:100%;
+    z-index: 100;
 }
 header div {
     margin:0 auto;
@@ -135,7 +137,116 @@ nav a:visited.selected { color:#dcf5c3; }
    Table editing controls
    ========================================================================== */
 
-#main table { table-layout: fixed; }
+/*
+ * Default table layout
+ */
+
+#tbl-pages { table-layout: fixed; }
+
+#tbl-pages caption {
+    background:-moz-linear-gradient(top, #f1f2ef 0%, #e5e7e1 100%);
+    background:-webkit-linear-gradient(top, #f1f2ef 0%,#e5e7e1 100%);
+    border-radius:5px 5px 0 0;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    box-shadow:0 1px 0 rgba(215,218,208,1),0 1px 0 rgba(255, 255, 255, .7) inset;
+    color:#6c6d6b;
+    font-weight:bold;
+    line-height:51px;
+    text-shadow:0 1px 0 rgba(255,255,255,1);
+    margin: 0 3px;
+}
+#tbl-pages thead span {
+    font-size:71.4%;
+    font-weight:bold;
+    text-transform:uppercase;
+    
+}
+#tbl-pages th:first-child span {
+    border-radius:0 0 0 5px;
+    padding: 8px 0;
+}
+#tbl-pages th:first-child span,
+#tbl-pages td:first-child span {
+    margin-left: 3px;
+}
+#tbl-pages th:last-child span {
+    border-radius:0 0 5px 0;
+}
+#tbl-pages thead th { 
+    text-align:left;
+    margin:0;
+    padding: 0;
+    overflow: hidden;
+}
+#tbl-pages thead th span {
+    background:-moz-linear-gradient(top, #ffffff 0%, #f2f4f0 100%);
+    background:-webkit-linear-gradient(top, #ffffff 0%,#f2f4f0 100%);    
+    border-left:solid 1px #e6e8e2;
+    border-right:solid 1px #fff;
+    box-shadow:0 2px 2px rgba(0,0,0,0.3);    
+    display:block;
+    margin-bottom: 7px;
+    padding:8px 10px 8px;
+}
+#tbl-pages tr {
+    border-radius:5px;
+    color:#b4b6b0;
+    text-shadow:0 1px 0 rgba(255,255,255,1);
+}
+#tbl-pages td {
+    color: #28353D;
+    font-size: 85.7%;
+    padding: 0;
+    overflow: hidden;
+    text-align: left;
+}
+#tbl-pages td > span {
+    background-image: linear-gradient(bottom, rgb(242,244,240) 10%, rgb(255,255,255) 55%);
+    background-image: -o-linear-gradient(bottom, rgb(242,244,240) 10%, rgb(255,255,255) 55%);
+    background-image: -moz-linear-gradient(bottom, rgb(242,244,240) 10%, rgb(255,255,255) 55%);
+    background-image: -webkit-linear-gradient(bottom, rgb(242,244,240) 10%, rgb(255,255,255) 55%);
+    background-image: -ms-linear-gradient(bottom, rgb(242,244,240) 10%, rgb(255,255,255) 55%);
+    background-image: -webkit-gradient(
+	    linear,
+	    left bottom,
+	    left top,
+	    color-stop(0.1, rgb(242,244,240)),
+	    color-stop(0.55, rgb(255,255,255))
+    );    
+    border-left: 1px solid #E6E8E2;
+    border-right: 1px solid #FFFFFF;
+    box-shadow:0 2px 2px rgba(0,0,0,0.3);
+    display: block;
+    margin-bottom: 7px;
+    min-height: 2em;
+    padding: 19px 10px 8px;
+}
+#tbl-pages td:first-child > span {
+    border-radius: 5px 0 0 5px;
+    padding: 19px 0 8px 2px;
+    text-align: center;
+    margin-left: 3px;
+}
+
+#tbl-pages td.name span { font-weight: bold; }
+#tbl-pages td:last-child > span {
+    border-radius: 0 5px 5px 0;
+    height: 29px;
+    padding-top: 14px;    
+}
+#tbl-pages th:last-child > span,
+#tbl-pages td:last-child > span {
+    margin-right: 3px;
+    text-align: right;
+}
+
+tbody tr.home td:last-child span {
+    padding-right: 19px;
+}
+
+#tbl-pages tbody tr.deleted { opacity: 0.6; }
+
 
 /*
  * Back button
@@ -277,7 +388,7 @@ th#actions { width: 142px; }
 /*
  * Spinners
  */
- 
+ /*
 @-webkit-keyframes spinner-spin { 0% { -webkit-transform:rotate(0deg) } 50% { -webkit-transform:rotate(180deg) } 100% { -webkit-transform:rotate(360deg) }}
 
 @-moz-keyframes spinner-spin { 0% { -moz-transform:rotate(0deg) } 50% { -moz-transform:rotate(180deg) } 100% { -moz-transform:rotate(360deg) }}
@@ -285,7 +396,7 @@ th#actions { width: 142px; }
 @-o-keyframes spinner-spin { 0% { -o-transform:rotate(0deg) } 50% { -o-transform:rotate(180deg) } 100% { -o-transform:rotate(360deg) } }
 
 @keyframes spinner-spin { 0% { transform:rotate(0deg) } 50% { transform:rotate(180deg) } 100% { transform:rotate(360deg) }}
-
+*/
 /* =============================================================================
    New page dialog
    ========================================================================== */
@@ -368,14 +479,21 @@ th#actions { width: 142px; }
 /* =============================================================================
    Edit view
    ========================================================================== */
-   
-#main form { margin: 0 3px; }   
+/*
+ * Even out the margin
+ */
+ 
+#main form { margin: 0 3px; }
+
+
+
 fieldset.metadata {
     background: -moz-linear-gradient(center top , #F1F2EF 0%, #E5E7E1 100%);
     background: -webkit-linear-gradient(top, #F1F2EF 0%,#E5E7E1 100%);
     border-radius: 5px 5px 0 0;
     box-shadow: 0 1px 0 #D7DAD0, 0 1px 0 rgba(255, 255, 255, 0.7) inset;
 }
+
 #main fieldset {
     border: 0;
     margin:0;
@@ -432,6 +550,84 @@ fieldset.metadata {
 #metadata textarea {
     height:4em;
 }
+
+fieldset .editor-label {
+	color:#3d4950;
+	display:block;
+	float:left;
+	clear:left;
+	background:none;
+	box-shadow:none;
+	width:130px;
+	text-align:right;
+	position:absolute;
+}
+fieldset .editor-field {
+	background:#e0f3fe;
+    border-radius:5px;	    
+	box-shadow:none;
+	display:inline-block;
+	margin-top:8px;
+	padding:.65em 1em .75em;
+}
+fieldset .editor-field .editor-field { padding:2.2em 0 0; }
+fieldset .editor-field .editor-label {
+    margin-top:.95em;
+    width:auto;
+}
+fieldset .editor-field .editor-label label {
+    display:block;
+    margin:0;
+    position:static;
+    width:auto;
+}
+fieldset label {
+	font-weight:bold;
+	display:inline-block;
+	margin-top:2.2em;
+}
+
+
+fieldset input[type=text],
+fieldset textarea {
+    border:1px solid #b3c2cb;
+    border-radius:4px;
+    margin:.2em 0 0;
+    padding:.9em .6em 1em;
+    width:600px;
+}
+
+/*
+fieldset input[type=text],
+fieldset textarea {
+	border:1px solid #b3c2cb;
+	box-shadow:0 1px 0 rgba(255,255,255,1), 1px 1px 1px rgba(0,0,0,0.08) inset;
+	background:-moz-linear-gradient(top, #fafafa 0%, #ffffff 100%);
+	background:-webkit-linear-gradient(top, #fafafa 0%,#ffffff 100%);
+	width:600px;
+	margin:.2em 0 0;
+}
+
+input[type=text],
+input[type=password] {
+	border:1px solid #d3d4d1;
+	box-shadow:0 1px 0 rgba(255,255,255,1), 1px 1px 1px rgba(0,0,0,.1) inset;
+	background:-moz-linear-gradient(top, #fafafa 0%, #ffffff 100%);
+	background:-webkit-linear-gradient(top, #f1ffafafa2ef 0%,#ffffff 100%);
+	color:#545454;
+	width:100%;
+	padding:.9em .6em 1em;
+	border-radius:4px;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	margin:.2em 0 9px;
+}
+
+fieldset input:focus,
+fieldset textarea:focus {
+	background:#f8f8f8;
+}
+*/
 
 /* =============================================================================
    Footer

@@ -1208,6 +1208,38 @@ textarea {
     vertical-align: top; /* 2 */
 }
 
+input,
+textarea {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+     -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+      -ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+       -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+          transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+
+input:focus,
+textarea:focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+  outline: thin dotted \9;
+  /* IE6-9 */
+
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+
+:-moz-placeholder {
+  color: #bbb;
+}
+
+::-webkit-input-placeholder {
+  color: #bbb;
+}
 
 /* =============================================================================
    Tables
@@ -1223,112 +1255,3 @@ table {
     width:100%;
     white-space: nowrap;    
 }
-
-/*
- * Default table layout
- */
- 
-table caption {
-    background:-moz-linear-gradient(top, #f1f2ef 0%, #e5e7e1 100%);
-    background:-webkit-linear-gradient(top, #f1f2ef 0%,#e5e7e1 100%);
-    border-radius:5px 5px 0 0;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    box-shadow:0 1px 0 rgba(215,218,208,1),0 1px 0 rgba(255, 255, 255, .7) inset;
-    color:#6c6d6b;
-    font-weight:bold;
-    line-height:51px;
-    text-shadow:0 1px 0 rgba(255,255,255,1);
-    margin: 0 3px;
-}
-table thead span {
-    font-size:71.4%;
-    font-weight:bold;
-    text-transform:uppercase;
-    
-}
-table th:first-child span {
-    border-radius:0 0 0 5px;
-    padding: 8px 0;
-}
-table th:first-child span,
-table td:first-child span {
-    margin-left: 3px;
-}
-table th:last-child span {
-    border-radius:0 0 5px 0;
-}
-table thead th { 
-    text-align:left;
-    margin:0;
-    padding: 0;
-    overflow: hidden;
-}
-table thead th span {
-    background:-moz-linear-gradient(top, #ffffff 0%, #f2f4f0 100%);
-    background:-webkit-linear-gradient(top, #ffffff 0%,#f2f4f0 100%);    
-    border-left:solid 1px #e6e8e2;
-    border-right:solid 1px #fff;
-    box-shadow:0 2px 2px rgba(0,0,0,0.3);    
-    display:block;
-    margin-bottom: 7px;
-    padding:8px 10px 8px;
-}
-table tr {
-    border-radius:5px;
-    color:#b4b6b0;
-    text-shadow:0 1px 0 rgba(255,255,255,1);
-}
-table td {
-    color: #28353D;
-    font-size: 85.7%;
-    padding: 0;
-    overflow: hidden;
-    text-align: left;
-}
-table td > span {
-    background-image: linear-gradient(bottom, rgb(242,244,240) 10%, rgb(255,255,255) 55%);
-    background-image: -o-linear-gradient(bottom, rgb(242,244,240) 10%, rgb(255,255,255) 55%);
-    background-image: -moz-linear-gradient(bottom, rgb(242,244,240) 10%, rgb(255,255,255) 55%);
-    background-image: -webkit-linear-gradient(bottom, rgb(242,244,240) 10%, rgb(255,255,255) 55%);
-    background-image: -ms-linear-gradient(bottom, rgb(242,244,240) 10%, rgb(255,255,255) 55%);
-    background-image: -webkit-gradient(
-	    linear,
-	    left bottom,
-	    left top,
-	    color-stop(0.1, rgb(242,244,240)),
-	    color-stop(0.55, rgb(255,255,255))
-    );    
-    border-left: 1px solid #E6E8E2;
-    border-right: 1px solid #FFFFFF;
-    box-shadow:0 2px 2px rgba(0,0,0,0.3);
-    display: block;
-    margin-bottom: 7px;
-    min-height: 2em;
-    padding: 19px 10px 8px;
-}
-/*table input.publish { float: left;}*/
-table td:first-child > span {
-    border-radius: 5px 0 0 5px;
-    padding: 19px 0 8px 2px;
-    text-align: center;
-    margin-left: 3px;
-}
-
-table td.name span { font-weight: bold; }
-table td:last-child > span {
-    border-radius: 0 5px 5px 0;
-    height: 29px;
-    padding-top: 14px;    
-}
-table th:last-child > span,
-table td:last-child > span {
-    margin-right: 3px;
-    text-align: right;
-}
-
-tbody tr.home td:last-child span {
-    padding-right: 19px;
-}
-
-tbody tr.deleted { opacity: 0.6; }
