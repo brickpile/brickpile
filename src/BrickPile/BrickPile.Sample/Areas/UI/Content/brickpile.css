@@ -84,12 +84,23 @@ header div {
     position: relative;
 }
 
-header img {
+header #logo {
     position: absolute;
     top: 25px;
     left: 1em;
 }
 
+header span {
+    background: url(images/sprite.png) no-repeat 0 -436px;
+    font-size:85.7%;
+    color:#e9ece3;
+    padding-left: 20px;
+    position: absolute;
+    right: 20px;
+    top: 24px;
+}
+
+header span a { color:#e9ece3; }
 
 /* =============================================================================
    Navigation

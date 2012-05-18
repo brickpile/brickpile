@@ -41,8 +41,6 @@ THE SOFTWARE. */
                 router.route.apply(router, route);
             });
 
-
-
         },
         ui: function () {
 

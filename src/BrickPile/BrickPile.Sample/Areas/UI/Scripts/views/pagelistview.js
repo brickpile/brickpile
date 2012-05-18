@@ -22,6 +22,10 @@ PageListView = Backbone.View.extend({
 
     el: $("body"),
 
+    isCtrl: false,
+
+    isShift: false,
+    
     events: {
         "click #main .new": "newPage",
         "click tr input[type=checkbox]": "publishPage",
@@ -35,13 +39,14 @@ PageListView = Backbone.View.extend({
     //template: _.template($('#tpl-page-list').html()),
 
     url: null,
+    
     initialize: function () {
 
         //      this.model.bind("reset", this.render, this);
         //      this.render();
 
     },
-    render: function (ev) {
+    render: function (e) {
 
         $.ajax({
             url: '/pages/' + this.url,
@@ -74,7 +79,7 @@ PageListView = Backbone.View.extend({
                             url: '/pages/sort/',
                             data: { items: $(this).sortable('toArray') },
                             traditional: true,
-                            success: function (data) { }
+                            success: function () { }
                         });
 
                         $(ui.item).find('span').effect("highlight", { color: '#ffffaa' }, 3000);
@@ -83,7 +88,7 @@ PageListView = Backbone.View.extend({
 
                 // Handle the slug and url
                 $('.slug').slugify('input.title');
-                
+
             }
         });
 
@@ -130,18 +135,18 @@ PageListView = Backbone.View.extend({
         return false;
 
     },
-    publishPage: function (event) {
+    publishPage: function (e) {
 
-        var $elm = $(event.currentTarget).parents('tr').find('abbr.timeago');
+        var $elm = $(e.currentTarget).parents('tr').find('abbr.timeago');
         $elm.text(jQuery.timeago(new Date()));
-        $(event.currentTarget).parents('tr').find('span').effect("highlight", { color: '#ffffaa' }, 3000);
+        $(e.currentTarget).parents('tr').find('span').effect("highlight", { color: '#ffffaa' }, 3000);
 
         // Publish or unpublish the page
-        $.post('/pages/publish/', { id: $(event.currentTarget).attr('name'), published: event.currentTarget.checked });
+        $.post('/pages/publish/', { id: $(e.currentTarget).attr('name'), published: e.currentTarget.checked });
 
     },
     deletePage: function (event) {
-        
+
         var $row = $(event.currentTarget).closest('tr');
         $.ajax({
             url: '/pages/delete/',
@@ -185,7 +190,7 @@ PageListView = Backbone.View.extend({
             }
         });
 
-        return false;        
+        return false;
     }
 });
 

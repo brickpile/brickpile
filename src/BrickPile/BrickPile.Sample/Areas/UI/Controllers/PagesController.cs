@@ -117,7 +117,6 @@ namespace BrickPile.UI.Controllers {
             _model.Metadata.ChangedBy = HttpContext.User.Identity.Name;
 
             _session.SaveChanges();
-            //_session.Advanced.Refresh(_model);
 
             var page = _model as IPageModel;
 

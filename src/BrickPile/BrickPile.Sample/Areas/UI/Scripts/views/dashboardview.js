@@ -23,9 +23,6 @@ DashboardView = Backbone.View.extend({
     //el: $("#main"),
 
     initialize: function () {
-        //$(".tabs").tabs();
-        //$("a[rel='example1']").colorbox();
-        //$(".userui").fadeOut(300);
         this.render();
     },
     render: function () {
