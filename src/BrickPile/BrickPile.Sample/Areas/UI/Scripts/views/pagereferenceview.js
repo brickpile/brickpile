@@ -28,7 +28,7 @@ window.PageReferenceView = Backbone.View.extend({
             source: '/pages/search',
             select: function (event, ui) {
                 $(self.el).val(ui.item ? ui.item.label : '');
-                $(self.el).parents().find(':hidden').val(ui.item ? ui.item.id : '');
+                $(self.el).siblings(':hidden').val(ui.item ? ui.item.id : '');
                 return false;
             }
         });
