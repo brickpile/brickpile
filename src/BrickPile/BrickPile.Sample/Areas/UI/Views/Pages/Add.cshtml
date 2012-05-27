@@ -5,8 +5,7 @@
 <div id="models"> 
     <h1><span>Create page</span></h1>
     @Html.ValidationSummary()
-    @using (Html.BeginForm("new", "pages", new { model = Model.CurrentModel }, FormMethod.Post, new { name = "editForm" }))
-    {
+    @using (Html.BeginForm("new", "pages", new { model = Model.CurrentModel }, FormMethod.Post, new { name = "editForm" })) {
         @Html.RadioButtonForSelectList(m => m.SelectedPageModel, new SelectList(Model.AvailableModels, "Value", "Text"))
     }
 </div>

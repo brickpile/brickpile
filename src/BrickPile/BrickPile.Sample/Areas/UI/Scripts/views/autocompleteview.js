@@ -1,5 +1,4 @@
-﻿
-@* Copyright (C) 2011 by Marcus Lindblom
+﻿/* Copyright (C) 2012 by Marcus Lindblom
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -17,27 +16,40 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE. *@
+THE SOFTWARE. */
 
-@model BrickPile.UI.Models.NewModel
-           
-@{
-    ViewBag.Title = "It's time to create your first page";
-}
+var AutocompleteView = Backbone.View.extend({
 
-<h1>It's time to create your first page</h1>
-@using (Html.BeginForm("new", "pages")) {
-    <div>
-        <fieldset>
-            @Html.LabelFor(model => model.AvailableModels)
-            <span class="select">
-                @Html.DropDownListFor(m => m.SelectedPageModel, new SelectList(Model.AvailableModels, "Value", "Text"))
-            </span>
-        </fieldset>
-        <div id="button">
-            <span>
-                <input type="submit" value="Yes, go ahead" />
-            </span>
-        </div>
-    </div>
-}
+    defaults: {},
+
+    initialize: function () {
+        
+        this.options = _.extend(this.defaults, this.options);
+        this.render();
+        
+    },
+
+    render: function () {
+
+        var self = this;
+
+        console.log('Init');
+
+        $(this.el).autocomplete({
+
+            source: '/pages/search',
+
+            select: function (event, ui) {
+
+                $(self.el).val(ui.item ? ui.item.label : '');
+                $(self.options.hidden).val(ui.item ? ui.item.id : '');
+                
+                return false;
+            }
+
+        });
+
+    }
+});
+
+

@@ -1,5 +1,5 @@
 ﻿
-@model BrickPile.UI.Models.ModelReference
+@model BrickPile.UI.Models.PageReference
 
 @{
     var viewData = ViewData;
@@ -66,5 +66,5 @@
     var validators = rules.ToString();
 }
 
-<input type="text" id="@id" name="@name" class="@cssClass" value="@value" @Html.Raw(placeHolder) @validators /><span class="button modelreference"><input type="button" value="Get page..." id="@ViewData.TemplateInfo.HtmlFieldPrefix.Replace('.', '_')" /></span>
+<input type="text" id="@id" name="@name" class="@cssClass" value="@value" @Html.Raw(placeHolder) @validators /><span class="button modelreference"><input class="btn" type="button" value="Get page..." id="@ViewData.TemplateInfo.HtmlFieldPrefix.Replace('.', '_')" /></span>
 @Html.HiddenFor(x => Model.Id)

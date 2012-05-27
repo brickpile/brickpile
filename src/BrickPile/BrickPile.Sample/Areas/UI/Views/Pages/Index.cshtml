@@ -20,130 +20,137 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
 @model BrickPile.UI.Web.ViewModels.IndexViewModel
+@using BrickPile.Domain
 @using BrickPile.UI.Common
+
 @{
     ViewBag.Title = "- Let's pile some bricks eh?";
 }
 
-@section Navigation {
-    <ul>
-        <li>@Html.ActionLink("Dashboard", "index", "dashboard", null, new { @class = "dashboard" })</li>
-        <li>@Html.ActionLink("Pages", "index", "pages", null, new { @class = "pages selected" })</li>
-        <li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users" })</li>
-    </ul>
+@Html.Section(
+@<script id="view-template-new-page-dialog" type="text/html">
+<div id="models"> 
+    <h1><span>Create page</span></h1>
+    <form method="post" action="/pages/new/@Model.CurrentModel.Metadata.Url">
+    @foreach (var type in Html.GetAvailablePageModels()) {
+        var name = type.GetAttribute<PageModelAttribute>().Name;
+        <label>@name<input type="radio" name="SelectedPageModel" value="@type.AssemblyQualifiedName" /></label>
+    }
+    </form>
+</div>
+</script>,"templates")
+
+@Html.Section(
+@<script type="text/javascript">
+    (function ($) {
+        // Shorthand for the application namespace
+        var app = brickpile.app;
+        // Initialize the main view.
+        app.pagesView = new PagesView({ el: $('#main') });
+    })(jQuery);  
+</script>, "scripts")
+
+@if (Request.QueryString["deleted"] != null) {
+    <a href="@Url.Action("index", "pages", new { model = Model.CurrentModel })" class="btn back" title="Go Back">
+        <span class="text">All Pages</span>
+        <span class="left"></span>
+    </a>        
 }
 
-@if (Model.CurrentModel != null) {
-    
-    if (Request.QueryString["deleted"] != null) {
-        <a href="@Url.Action("index", "pages", new { model = Model.CurrentModel })" class="btn back" title="Go Back">
-            <span class="text">All Pages</span>
-            <span class="left"></span>
-        </a>        
-    }
-
-    if (Model.ParentModel != null && Request.QueryString["deleted"] == null) {
-        <a href="@Url.Action("index", "pages", new { model = Model.ParentModel })" class="btn back">
-            <span class="text">@Model.ParentModel.Metadata.Name</span>
-            <span class="left"></span>
-        </a>
-    }
-    <a href="@Url.Action("add", "pages", new { model = Model.CurrentModel })" class="btn new" title="Create a New Page">
-        <i class="icon-plus"></i>
+@if (Model.ParentModel != null && Request.QueryString["deleted"] == null) {
+    <a href="@Url.Action("index", "pages", new { model = Model.ParentModel })" class="btn back">
+        <span class="text">@Model.ParentModel.Metadata.Name</span>
+        <span class="left"></span>
     </a>
-    <table id="tbl-pages" class="sortable">
-        <caption>@Model.CurrentModel.Metadata.Name</caption>
-        <thead>
-            <tr>
-                <th id="sort"><span>&nbsp;</span></th>
-                <th><span>Page name</span></th>                
-                <th id="slug"><span>Slug</span></th>
-                <th id="publish"><span>Published</span></th>
-                <th id="changed"><span>Changed</span></th>
-                <th id="actions"><span>&nbsp;</span></th>
-            </tr>
-        </thead>
-        <tbody>
-                
-            @if (Model.ParentModel == null && Request.QueryString["deleted"] == null) {
-                <tr class="ui-state-disabled home">
-                    <td><span>&nbsp;</span></td>
-                    <td class="name"><span>@Model.RootModel.Metadata.Name</span></td>
-                    <td class="slug"><span>/@Model.RootModel.Metadata.Slug</span></td>
-                    <td class="publish"><span>@Html.CheckBox(Model.RootModel.Id.Replace("/", "_"), Model.RootModel.Metadata.IsPublished, new { @class = "publish" })</span></td>
-                    <td class="changed"><span><abbr class="timeago" title="@Model.RootModel.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(Model.RootModel.Metadata.Changed.FormatDate() + "</abbr> <strong>by</strong> " + Model.RootModel.Metadata.ChangedBy)</span></td>
-                    <td class="actions">
-                        <span>
-                            <span class="btn-group">
-                                <a href="@Url.Action("edit", new { model = Model.RootModel })" class="btn" title="Edit page">
-                                    <i class="icon-pencil"></i>
-                                </a>
-                                <a href="@Url.Action("delete", new { model = Model.RootModel })" class="btn delete" title="Remove page">
-                                    <i class="icon-remove"></i>
-                                </a>
-                            </span>
+}
+<a href="#add" class="btn new" title="Create a New Page">
+    <i class="icon-plus"></i>
+</a>
+<table id="tbl-pages" class="sortable">
+    <caption>@Model.CurrentModel.Metadata.Name</caption>
+    <thead>
+        <tr>
+            <th id="sort"><span>&nbsp;</span></th>
+            <th><span>Page name</span></th>                
+            <th id="slug"><span>Slug</span></th>
+            <th id="publish"><span>Published</span></th>
+            <th id="changed"><span>Changed</span></th>
+            <th id="actions"><span>&nbsp;</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ParentModel == null && Request.QueryString["deleted"] == null) {
+            <tr class="ui-state-disabled home">
+                <td><span>&nbsp;</span></td>
+                <td class="name"><span>@Model.RootModel.Metadata.Name</span></td>
+                <td class="slug"><span>/@Model.RootModel.Metadata.Slug</span></td>
+                <td class="publish"><span>@Html.CheckBox(Model.RootModel.Id.Replace("/", "_"), Model.RootModel.Metadata.IsPublished, new { @class = "publish" })</span></td>
+                <td class="changed"><span><abbr class="timeago" title="@Model.RootModel.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(Model.RootModel.Metadata.Changed.FormatDate() + "</abbr> <strong>by</strong> " + Model.RootModel.Metadata.ChangedBy)</span></td>
+                <td class="actions">
+                    <span>
+                        <span class="btn-group">
+                            <a href="@Url.Action("edit", new { model = Model.RootModel })" class="btn" title="Edit page">
+                                <i class="icon-pencil"></i>
+                            </a>
+                            <a href="@Url.Action("delete", new { model = Model.RootModel })" class="btn delete" title="Remove page">
+                                <i class="icon-remove"></i>
+                            </a>
                         </span>
-                    </td>
-                </tr>                    
-            }
-                
-            @if (Model.Children.Count > 0) {
-
-                foreach (var item in Model.Children) {
-
-                    if (item.Metadata.IsDeleted) {
-                            
-                        <tr id="@item.Id.Replace('/', '_')" class="deleted">
-                            <td><span><i class="icon-list"></i></span></td>
-                            <td class="name"><span>@item.Metadata.Name</span></td>
-                            <td class="slug"><span>@item.Metadata.Slug</span></td>
-                            <td class="publish"><span>@Html.CheckBox(item.Id.Replace("/", "_"), item.Metadata.IsPublished, new { disabled = "disabled" })</span></td>
-                            <td class="changed"><span><abbr class="timeago" title="@item.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(item.Metadata.Changed.FormatDate() + "</abbr> <strong>by</strong> " + item.Metadata.ChangedBy)</span></td>
-                            <td class="actions">
-                                <span>
-                                    <span class="btn-group">
-                                        <a href="@Url.Action("restore", new { model = item })" class="btn restore" title="Restore page to previous state">
-                                            <i class="icon-restore"></i>
-                                        </a>
-                                        <a href="@Url.Action("delete", new { model = item, permanent = "true" })" class="btn perma-delete" title="Delete page permanently">
-                                            <i class="icon-trash"></i>
-                                        </a>
-                                    </span>
+                    </span>
+                </td>
+            </tr>                    
+        }
+        @if (Model.Children.Count > 0) {
+            foreach (var item in Model.Children) {
+                if (item.Metadata.IsDeleted) {
+                    <tr id="@item.Id.Replace('/', '_')" class="deleted">
+                        <td><span><i class="icon-list"></i></span></td>
+                        <td class="name"><span>@item.Metadata.Name</span></td>
+                        <td class="slug"><span>@item.Metadata.Slug</span></td>
+                        <td class="publish"><span>@Html.CheckBox(item.Id.Replace("/", "_"), item.Metadata.IsPublished, new { disabled = "disabled" })</span></td>
+                        <td class="changed"><span><abbr class="timeago" title="@item.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(item.Metadata.Changed.FormatDate() + "</abbr> <strong>by</strong> " + item.Metadata.ChangedBy)</span></td>
+                        <td class="actions">
+                            <span>
+                                <span class="btn-group">
+                                    <a href="@Url.Action("restore", new { model = item })" class="btn restore" title="Restore page to previous state">
+                                        <i class="icon-restore"></i>
+                                    </a>
+                                    <a href="@Url.Action("delete", new { model = item, permanent = "true" })" class="btn perma-delete" title="Delete page permanently">
+                                        <i class="icon-trash"></i>
+                                    </a>
                                 </span>
-                            </td>
-                        </tr>
-                    
-                    } else {
-                                                
-                        <tr id="@item.Id.Replace('/', '_')">
-                            <td class="sort"><span><i class="icon-list" title="Sort (Drag up or down)"></i></span></td>
-                            <td class="name"><span>@item.Metadata.Name</span></td>
-                            <td class="slug"><span>@item.Metadata.Slug</span></td>
-                            <td class="publish"><span>@Html.CheckBox(item.Id.Replace("/", "_"), item.Metadata.IsPublished, new { @class = "publish" })</span></td>
-                            <td class="changed"><span><abbr class="timeago" title="@item.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(item.Metadata.Changed.FormatDate() + "</abbr> <strong>by</strong> " + item.Metadata.ChangedBy)</span></td>
-                            <td class="actions">
-                                <span>
-                                    <span class="btn-group">
-                                        <a href="@Url.Action("edit", new { model = item })" class="btn" title="Edit page">
-                                            <i class="icon-pencil"></i>
-                                        </a>
-                                        <a href="@Url.Action("delete", new { model = item })" class="btn delete" title="Remove page">
-                                            <i class="icon-remove"></i>
-                                        </a>
-                                    </span>
-                                    <a href="@Url.Action("index", new { model = item })" class="btn level-down" title="View child pages of (@item.Metadata.Name)">
-                                        <i class="icon-chevron-right"></i>
-                                    </a>      
+                            </span>
+                        </td>
+                    </tr>
+                } else {
+                    <tr id="@item.Id.Replace('/', '_')">
+                        <td class="sort"><span><i class="icon-list" title="Sort (Drag up or down)"></i></span></td>
+                        <td class="name"><span>@item.Metadata.Name</span></td>
+                        <td class="slug"><span>@item.Metadata.Slug</span></td>
+                        <td class="publish"><span>@Html.CheckBox(item.Id.Replace("/", "_"), item.Metadata.IsPublished, new { @class = "publish" })</span></td>
+                        <td class="changed"><span><abbr class="timeago" title="@item.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(item.Metadata.Changed.FormatDate() + "</abbr> <strong>by</strong> " + item.Metadata.ChangedBy)</span></td>
+                        <td class="actions">
+                            <span>
+                                <span class="btn-group">
+                                    <a href="@Url.Action("edit", new { model = item })" class="btn" title="Edit page">
+                                        <i class="icon-pencil"></i>
+                                    </a>
+                                    <a href="@Url.Action("delete", new { model = item })" class="btn delete" title="Remove page">
+                                        <i class="icon-remove"></i>
+                                    </a>
                                 </span>
-                            </td>                            
-                        </tr>
-                
-                    }
+                                <a href="@Url.Action("index", new { model = item })" class="btn level-down" data-notifications="@item.Children.Count">
+                                    <i class="icon-chevron-right"></i>
+                                </a>      
+                            </span>
+                        </td>                            
+                    </tr>
                 }
             }
-        </tbody>
-    </table>
-}
+        }
+    </tbody>
+</table>
+
 <div id="deleted-pages">
     @if (Request.QueryString["deleted"] == null) {
         <a href="@Url.Action("index", new { model = Model.CurrentModel, deleted = "true" })">Show deleted pages</a>

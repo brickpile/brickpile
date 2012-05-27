@@ -1,0 +1,66 @@
+﻿/*
+    BrickPile CMS
+    Custom property PageReference
+
+    -------------------------------------------------------------------
+    Changes made to this file may affect multiple parts of the website.
+    DO NOT CHANGE IF YOU DON'T KNOW WHAT YOU ARE DOING!
+    -------------------------------------------------------------------
+
+    TABLE OF CONTENTS
+    -----------------
+
+    FONT SIZE CONVERSIONS
+    ---------------------
+    10px: 83.3%
+    11px: 91.7%
+    12px: 100%
+    13px: 108.3%
+    14px: 116.7%
+    15px: 125%
+    16px: 133.3%
+    17px: 141.7%
+    18px: 150%
+    20px: 166.7%
+    24px: 200%
+
+    PSEUDO SELECTORS ORDER
+    ----------------
+    :link, :visited, :hover, :focus, :active
+
+*/
+
+/* =============================================================================
+   Base
+   ========================================================================== */
+    
+.ui-autocomplete {
+    background: -moz-linear-gradient(top, rgba(40,53,61,1) 0%, rgba(34,44,51,1) 20%);
+    background: -webkit-linear-gradient(top, rgba(40,53,61,1) 0%,rgba(34,44,51,1) 100%);
+    border:solid 1px #28353d;
+    border-radius: 4px;
+    box-shadow: 0 1px 0 #4b5a63 inset, 0 0 20px rgba(0,0,0,0.5);
+    display: inline-block;
+    list-style: none;
+    margin:0 6px;
+    padding:1px 4px 4px;
+}
+
+.ui-autocomplete li:first-child  {
+    background:url(../images/dialog-top.png) no-repeat 10px 0;
+    margin: -10px 0 0;
+    padding: 13px 0 0;        
+}
+.ui-autocomplete li:first-child a { border-radius: 4px 4px 0 0; }
+.ui-autocomplete li:last-child a { border-radius: 0 0 4px 4px; }
+.ui-menu-item a {
+    background-color: #fff;
+    border-bottom:1px solid #dcf5ff;
+    color:#28353d;
+    display:block;
+    font-size:85.7%;
+    font-weight: bold;
+    padding:6px 11px 7px;
+}
+
+a.ui-state-hover { background-color: #e0f3fe; }

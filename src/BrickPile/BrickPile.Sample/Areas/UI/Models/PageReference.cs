@@ -1,5 +1,4 @@
-﻿
-@* Copyright (C) 2011 by Marcus Lindblom
+/* Copyright (C) 2011 by Marcus Lindblom
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -17,27 +16,36 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE. *@
+THE SOFTWARE. */
 
-@model BrickPile.UI.Models.NewModel
-           
-@{
-    ViewBag.Title = "It's time to create your first page";
-}
+using System.ComponentModel.DataAnnotations;
 
-<h1>It's time to create your first page</h1>
-@using (Html.BeginForm("new", "pages")) {
-    <div>
-        <fieldset>
-            @Html.LabelFor(model => model.AvailableModels)
-            <span class="select">
-                @Html.DropDownListFor(m => m.SelectedPageModel, new SelectList(Model.AvailableModels, "Value", "Text"))
-            </span>
-        </fieldset>
-        <div id="button">
-            <span>
-                <input type="submit" value="Yes, go ahead" />
-            </span>
-        </div>
-    </div>
+namespace BrickPile.UI.Models {
+    [DisplayColumn("Name")]
+    public class PageReference {
+        /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
+        /// <value>
+        /// The id.
+        /// </value>
+        [ScaffoldColumn(false)]
+        public string Id { get; set; }
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        public string Name { get; set; }
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString() {
+            return Id;
+        }
+    }
 }

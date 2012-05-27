@@ -7,14 +7,6 @@
     ViewBag.Title = "Register";
 }
 
-@section Navigation {
-    <ul id="dashboard-nav">
-        <li>@Html.ActionLink("Dashboard", "index", "dashboard", null, new { @class = "dashboard" })</li>
-        <li>@Html.ActionLink("Pages", "index", "pages", null, new { @class = "content" })</li>        
-		<li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users selected" })</li>
-    </ul>
-}
-
 <h1>Create a New Account</h1>
 @using (Html.BeginForm()) {
     <div>

@@ -57,7 +57,7 @@
 body {
     background: url(images/dark-wood.jpg);
 	color:#333;
-	padding-top:103px;
+    padding-top: 103px;
 }
 
 
@@ -169,7 +169,6 @@ nav a:visited.selected { color:#dcf5c3; }
         -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.3);
             box-shadow: 0 1px 0 rgba(255,255,255,0.3);
 }
-
 
 /* =============================================================================
    Table editing controls
@@ -433,8 +432,12 @@ th#actions { width: 142px; }
  #deleted-pages a:link,
  #deleted-pages a:visited {
     background: rgba(109, 60, 35, 0.3);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.3);
-    border-radius: 5px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+       -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);   
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;       
     border: 1px solid #845735;
     color:#fff;
     font-size: 85.7%;
@@ -477,7 +480,6 @@ th#actions { width: 142px; }
     background-repeat:no-repeat;
     background-position: center center;
 }
-
 
 /*
  * Spinners
@@ -583,8 +585,6 @@ th#actions { width: 142px; }
  
 #main form { margin: 0 3px; }
 
-
-
 fieldset.metadata {
     background: -moz-linear-gradient(center top , #F1F2EF 0%, #E5E7E1 100%);
     background: -webkit-linear-gradient(top, #F1F2EF 0%,#E5E7E1 100%);
@@ -598,6 +598,7 @@ fieldset.metadata {
     padding: 52px 0 0;
     text-align:center;
 }
+
 #metadata {
     background:#475860 url(images/metadata-bg.png) repeat 0 0;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3) inset;
@@ -608,21 +609,26 @@ fieldset.metadata {
     padding:10px;
     text-align:left;
 }
+
 #metadata>div {
     float:left;
     margin-right:4px;
 }
+
 #metadata #slug label {
     width:66px;
 }
+
 #metadata #visible {
     margin:6px 0 12px;
 }
+
 #metadata #visible label,
 #metadata #ispublished label {
     margin:0;
     width:96px;
 }
+
 #metadata label {
     color:#fff;
     display:inline-block;
@@ -632,6 +638,7 @@ fieldset.metadata {
     vertical-align:top;
     width:78px;
 }
+
 #metadata input[type=text],
 #metadata input[type=datetime],
 #metadata textarea {
@@ -646,6 +653,7 @@ fieldset.metadata {
     text-shadow:0 1px 0 rgba(0,0,0,0.5);
     width:14.917em;
 }
+
 #metadata textarea {
     height:4em;
 }
@@ -661,6 +669,7 @@ fieldset .editor-label {
 	text-align:right;
 	position:absolute;
 }
+
 fieldset .editor-field {
 	background:#e0f3fe;
     border-radius:5px;	    
@@ -668,24 +677,28 @@ fieldset .editor-field {
 	display:inline-block;
 	margin-top:8px;
 	padding:.65em 1em .75em;
+    text-align: left;
+    width: 618px;
 }
+
 fieldset .editor-field .editor-field { padding:2.2em 0 0; }
 fieldset .editor-field .editor-label {
     margin-top:.95em;
     width:auto;
 }
+
 fieldset .editor-field .editor-label label {
     display:block;
     margin:0;
     position:static;
     width:auto;
 }
+
 fieldset label {
 	font-weight:bold;
 	display:inline-block;
 	margin-top:2.2em;
 }
-
 
 fieldset input[type=text],
 fieldset textarea {

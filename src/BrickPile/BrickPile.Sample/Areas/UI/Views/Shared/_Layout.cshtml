@@ -1,4 +1,24 @@
 ﻿
+@* Copyright (C) 2011 by Marcus Lindblom
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. *@
+
 @using System.Globalization
 @using BrickPile.UI.Common
 @using SquishIt.Framework
@@ -10,29 +30,29 @@
         <meta charset="utf-8">
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="@Url.Content("~/areas/ui/scripts/tinymce/tiny_mce.js")" type="text/javascript"></script>
+        
         @Html.Raw(Bundle.Css()
-                    .Add(Url.Content("~/areas/ui/content/normalize.css"))
-                    .Add(Url.Content("~/areas/ui/content/brickpile.css"))
-                    .Render("~/areas/ui/styles/brickpile.min_#.css"))
+            .Add(Url.Content("~/areas/ui/content/normalize.css"))
+            .Add(Url.Content("~/areas/ui/content/brickpile.css"))
+            .Render("~/areas/ui/styles/brickpile.min_#.css"))
 
         <!--[if lt IE 9]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        
+
+        <script src="@Url.Content("~/areas/ui/scripts/tinymce/tiny_mce.js")" type="text/javascript"></script>
         @Html.RenderSection("styles")
-        <script type="text/html" id="view-template-pagemodels-form">
-        </script>
+             
     </head>
     <body>
         <div>
             <header role="banner">
                 <div>
-                    <a href="@Url.Action("index","ui") ">
+                    <a href="@Url.Action("index","ui")">
                         <img id="logo" src="@Url.Content("/areas/ui/content/images/logo.png")" width="83" height="19" alt="BrickPile CMS" />    
                     </a>
                     <nav role="navigation">
-                        @RenderSection("Navigation", required:false)
+                        @Html.Partial("_Navigation")
                     </nav>
                 </div>
                 <span>Hello, @Membership.GetUser(HttpContext.Current.User.Identity.Name).UserName &middot; <a href="@Url.Action("logoff","account")" data-bypass>Logout</a></span>
@@ -46,33 +66,35 @@
             </footer>
         </div>
         
-
-        <div class="spinner s48 blue" style="width: 48px;height: 48px;position:absolute;top:50%;left:50%;display:none;"></div>    
-        
+        @Html.RenderSection("templates")
 
         @Html.Raw(Bundle.JavaScript()
-                    .Add(Url.Content("~/areas/ui/scripts/jquery-1.7.2.js"))
-                    .Add(@Url.Content("/areas/ui/scripts/underscore.js"))
-                    .Add(@Url.Content("/areas/ui/scripts/backbone.js"))
-                    .Add(@Url.Content("/areas/ui/scripts/models/page.js"))
-                    .Add(@Url.Content("/areas/ui/scripts/collections/pagecollection.js"))
-                    .Add(@Url.Content("/areas/ui/scripts/views/pagelistitemview.js"))
-                    .Add(@Url.Content("/areas/ui/scripts/views/pagelistview.js"))
-                    .Add(@Url.Content("/areas/ui/scripts/views/pagelistitemview.js"))
-                    .Add(@Url.Content("/areas/ui/scripts/views/dashboardview.js"))
-                    .Add(@Url.Content("/areas/ui/scripts/views/uiview.js"))
-                    .Add(@Url.Content("/areas/ui/scripts/views/editview.js"))
-                    .Add(Url.Content("~/areas/ui/scripts/jquery.timeago.js"))
-                    .Add(Url.Content("~/areas/ui/scripts/jquery.slugify.js"))
-                    .Add(Url.Content("~/areas/ui/scripts/jquery-ui-1.8.18.js"))                    
-                    .Add(@Url.Content("/areas/ui/scripts/brickpile.js"))
-                    .Add(@Url.Content("/areas/ui/scripts/application.js"))
-                    .Render("~/areas/ui/scripts/brickpile_#.js"))
+            .Add(Url.Content("~/areas/ui/scripts/jquery-1.7.2.js"))
+            .Add(Url.Content("~/areas/ui/scripts/jquery-ui-1.8.18.js"))
+            .Add(@Url.Content("/areas/ui/scripts/underscore.js"))
+            .Add(@Url.Content("/areas/ui/scripts/backbone.js"))
+            .Add(Url.Content("~/areas/ui/scripts/jquery.timeago.js"))
+            .Add(Url.Content("~/areas/ui/scripts/jquery.slugify.js"))
+            //.Add(@Url.Content("/areas/ui/scripts/models/page.js"))
+            //.Add(@Url.Content("/areas/ui/scripts/collections/pagecollection.js"))
+            //.Add(@Url.Content("/areas/ui/scripts/views/pagelistitemview.js"))
+            //.Add(@Url.Content("/areas/ui/scripts/views/pagelistview.js"))
+            //.Add(@Url.Content("/areas/ui/scripts/views/pagelistitemview.js"))
+            //.Add(@Url.Content("/areas/ui/scripts/views/dashboardview.js"))
+            .Add(@Url.Content("/areas/ui/scripts/views/editview.js"))
+            .Add(@Url.Content("/areas/ui/scripts/views/newpageview.js"))
+            .Add(@Url.Content("/areas/ui/scripts/views/newpagemodalview.js"))
+            .Add(@Url.Content("/areas/ui/scripts/views/pagesview.js"))
+            .Add(@Url.Content("/areas/ui/scripts/brickpile.js"))
+            //.Add(@Url.Content("/areas/ui/scripts/application.js"))
+            .Render("~/areas/ui/scripts/brickpile_#.js"))
 
         @Html.RenderSection("scripts")
-
+        
         @RenderSection("styles", false)
+        @RenderSection("templates", false)
         @RenderSection("scripts", false)
+
     </body>
 </html>
 

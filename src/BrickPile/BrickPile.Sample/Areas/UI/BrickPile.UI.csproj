@@ -156,7 +156,6 @@
     <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="App_Start\Initializer.cs" />
     <Compile Include="Common\Extensions.cs" />
-    <Compile Include="Common\GravatarHelper.cs" />
     <Compile Include="Common\HtmlExtensions.cs" />
     <Compile Include="Common\RouteCollectionExtensions.cs" />
     <Compile Include="Configuration\Configuration.cs" />
@@ -192,7 +191,7 @@
     <Compile Include="Models\EditModelReferenceModel.cs" />
     <Compile Include="Models\EditUserModel.cs" />
     <Compile Include="Models\ISettings.cs" />
-    <Compile Include="Models\ModelReference.cs" />
+    <Compile Include="Models\PageReference.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StructureInfo.cs" />
@@ -239,6 +238,7 @@
     <Content Include="Content\images\spinner-blue-48.png" />
     <Content Include="Content\images\sprite.png" />
     <Content Include="Content\normalize.css" />
+    <Content Include="Content\properties\property-pagereference.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -290,7 +290,6 @@
     <Content Include="Scripts\backbone.js" />
     <Content Include="Scripts\backbone.min.js" />
     <Content Include="Scripts\brickpile.js" />
-    <Content Include="Scripts\collections\pagecollection.js" />
     <Content Include="Scripts\jquery-1.7.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.2.js" />
     <Content Include="Scripts\jquery-1.7.2.min.js" />
@@ -303,8 +302,6 @@
     <Content Include="Scripts\jquery.selectBox.min.js" />
     <Content Include="Scripts\jquery.slugify.js" />
     <Content Include="Scripts\jquery.timeago.js" />
-    <Content Include="Scripts\models\page.js" />
-    <Content Include="Scripts\models\pagelist.js" />
     <Content Include="Scripts\tinymce\langs\en.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advhr\css\advhr.css" />
@@ -575,11 +572,12 @@
     <Content Include="Scripts\tinymce\utils\validate.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
-    <Content Include="Scripts\views\dashboardview.js" />
+    <Content Include="Scripts\views\autocompleteview.js" />
     <Content Include="Scripts\views\editview.js" />
-    <Content Include="Scripts\views\pagelistitemview.js" />
-    <Content Include="Scripts\views\pagelistview.js" />
-    <Content Include="Scripts\views\uiview.js" />
+    <Content Include="Scripts\views\newpageview.js" />
+    <Content Include="Scripts\views\newpagemodalview.js" />
+    <Content Include="Scripts\views\pagesview.js" />
+    <Content Include="Scripts\views\pagereferenceview.js" />
     <Content Include="Styles\Dashboard.css" />
     <Content Include="Styles\Framework.css" />
     <Content Include="Styles\lionbars.css" />
@@ -616,6 +614,8 @@
     <Content Include="Views\Shared\EditorTemplates\PageName.cshtml" />
     <Content Include="Views\UI\Index.cshtml" />
     <Content Include="web.config" />
+    <Content Include="Views\Shared\EditorTemplates\PageReference.cshtml" />
+    <Content Include="Views\Shared\_Navigation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\BrickPile.Core\BrickPile.Core.csproj">
@@ -632,7 +632,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Pages\Add.cshtml" />
     <Content Include="Views\Pages\Edit.cshtml" />
     <Content Include="Views\Pages\Index.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />

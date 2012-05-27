@@ -1,4 +1,24 @@
-﻿// This contains the module definition factory function, application state,
+﻿/* Copyright (C) 2011 by Marcus Lindblom
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
+// This contains the module definition factory function, application state,
 // events, and the router.
 this.brickpile = {
     // Assist with code organization, by breaking up logical components of code
@@ -18,28 +38,6 @@ this.brickpile = {
             return modules[name] = { Views: {} };
         };
     } (),
-
-    // This is useful when developing if you don't want to use a
-    // build process every time you change a template.
-    //
-    // Delete if you are using a different template loading method.
-    fetchTemplate: function (path, done) {
-        window.JST = window.JST || {};
-
-        // Should be an instant synchronous way of getting the template, if it
-        // exists in the JST object.
-        if (JST[path]) {
-            return done(JST[path]);
-        }
-
-        // Fetch it asynchronously if not available from JST
-        return $.get(path, function (contents) {
-            var tmpl = _.template(contents);
-            JST[path] = tmpl;
-
-            done(tmpl);
-        });
-    },
 
     // Keep active application instances namespaced under an app object.
     app: _.extend({}, Backbone.Events)

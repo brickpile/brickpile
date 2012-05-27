@@ -22,10 +22,6 @@ PageListView = Backbone.View.extend({
 
     el: $("body"),
 
-    isCtrl: false,
-
-    isShift: false,
-    
     events: {
         "click #main .new": "newPage",
         "click tr input[type=checkbox]": "publishPage",
@@ -39,7 +35,7 @@ PageListView = Backbone.View.extend({
     //template: _.template($('#tpl-page-list').html()),
 
     url: null,
-    
+
     initialize: function () {
 
         //      this.model.bind("reset", this.render, this);
@@ -50,16 +46,9 @@ PageListView = Backbone.View.extend({
 
         $.ajax({
             url: '/pages/' + this.url,
-            beforeSend: function () {
-
-                $('#main').empty().hide();
-                $('body').append('<div class="spinner s48 blue" style="height:48px;width:48px;position:absolute;left:50%;top:50%;" />');
-
-            },
             success: function (data) {
 
-                $('.spinner').remove();
-                $('#main').show().html(data);
+                $('#main').html(data);
 
                 $('#main').find('abbr.timeago').timeago();
 
@@ -67,13 +56,8 @@ PageListView = Backbone.View.extend({
                     handle: 'td.sort',
                     items: "tr:not(.ui-state-disabled)",
                     helper: fixHelper,
-                    //helper: 'clone',
-                    //placeholder: "ui-state-highlight",
                     opacity: 0.7,
-                    //forcePlaceholderSize: true,
                     update: function (event, ui) {
-                        console.log('Update sort order: ' + $(this).sortable('toArray'));
-                        //$.post('/pages/sort/', { items: $(this).sortable('toArray') });
                         $.ajax({
                             type: 'POST',
                             url: '/pages/sort/',
@@ -153,7 +137,7 @@ PageListView = Backbone.View.extend({
             type: 'POST',
             dataType: 'html',
             data: { id: $row.attr('id'), permanent: false },
-            success: function (data) {
+            success: function () {
                 $row.fadeTo('fast', 0.6);
                 $row.slideUp('fast');
             }
@@ -169,7 +153,7 @@ PageListView = Backbone.View.extend({
             type: 'POST',
             dataType: 'html',
             data: { id: $row.attr('id'), permanent: true },
-            success: function (data) {
+            success: function () {
                 $row.fadeTo('fast', 0);
                 $row.slideUp('fast');
             }
@@ -184,7 +168,7 @@ PageListView = Backbone.View.extend({
             type: 'POST',
             dataType: 'html',
             data: { id: $row.attr('id') },
-            success: function (data) {
+            success: function () {
                 $row.fadeTo('fast', 0);
                 $row.slideUp('fast');
             }

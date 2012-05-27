@@ -44,8 +44,8 @@ namespace BrickPile.Sample.Models {
         /// <value>
         /// The quote link.
         /// </value>
-        [Display(Name = "Get a quote link", Order = 300)]
-        public ModelReference QuoteLink { get; set; }
+        [Display(Name = "Get a quote link", Order = 300, Prompt = "Specify page name...")]
+        public PageReference QuoteLink { get; set; }
         /// <summary>
         /// Gets or sets the main body.
         /// </summary>

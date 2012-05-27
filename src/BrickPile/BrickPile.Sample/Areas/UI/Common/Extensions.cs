@@ -27,6 +27,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
+using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Web.Routing;
 
@@ -268,5 +269,21 @@ namespace BrickPile.UI.Common {
 
             return string.Empty;
         }
+
+        public static List<Type> GetAvailablePageModels(this HtmlHelper helper) {
+            if(_availablePageModels == null) {
+                _availablePageModels = new List<Type>();
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
+                    foreach (var type in assembly.GetTypes()) {
+                        if (type.GetCustomAttributes(typeof(PageModelAttribute), true).Length > 0) {
+                            _availablePageModels.Add(type);
+                        }
+                    }
+                }                
+            }
+            return _availablePageModels;
+        }
+
+        private static List<Type> _availablePageModels;
     }
 }

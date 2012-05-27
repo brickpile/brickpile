@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
@@ -38,7 +39,35 @@ namespace BrickPile.UI.Common {
         /// @Html.Section(@<link rel="stylesheet" href="~/Styles/bootstrap.min.css" />, "styles")
         /// </example>
         public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template, string addToSection) {
-            htmlHelper.ViewContext.HttpContext.Items[String.Concat("_", addToSection, "_", Guid.NewGuid())] = template;
+            htmlHelper.ViewContext.HttpContext.Items[String.Concat("_", addToSection, "_", Guid.NewGuid())] = new List<Func<object,HelperResult>> {template};
+            return MvcHtmlString.Empty;
+        }
+
+        /// <summary>
+        /// Sections the specified HTML helper.
+        /// </summary>
+        /// <param name="htmlHelper">The HTML helper.</param>
+        /// <param name="template1">The template1.</param>
+        /// <param name="template2">The template2.</param>
+        /// <param name="addToSection">The add to section.</param>
+        /// <returns></returns>
+        public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template1,Func<object, HelperResult> template2, string addToSection) {
+            htmlHelper.ViewContext.HttpContext.Items[String.Concat("_", addToSection, "_", Guid.NewGuid())] =
+                new List<Func<object, HelperResult>> { template1, template2 };
+            return MvcHtmlString.Empty;
+        }
+        /// <summary>
+        /// Sections the specified HTML helper.
+        /// </summary>
+        /// <param name="htmlHelper">The HTML helper.</param>
+        /// <param name="template1">The template1.</param>
+        /// <param name="template2">The template2.</param>
+        /// <param name="template3">The template3.</param>
+        /// <param name="addToSection">The add to section.</param>
+        /// <returns></returns>
+        public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template1, Func<object, HelperResult> template2, Func<object,HelperResult> template3, string addToSection) {
+            htmlHelper.ViewContext.HttpContext.Items[String.Concat("_", addToSection, "_", Guid.NewGuid())] =
+                new List<Func<object, HelperResult>> { template1, template2, template3 };
             return MvcHtmlString.Empty;
         }
         /// <summary>
@@ -50,9 +79,11 @@ namespace BrickPile.UI.Common {
         public static IHtmlString RenderSection(this HtmlHelper htmlHelper, string sectionName) {
             foreach (object key in htmlHelper.ViewContext.HttpContext.Items.Keys) {
                 if (key.ToString().StartsWith(String.Concat("_", sectionName, "_"))) {
-                    var template = htmlHelper.ViewContext.HttpContext.Items[key] as Func<object, HelperResult>;
+                    var template = htmlHelper.ViewContext.HttpContext.Items[key] as List<Func<object, HelperResult>>;
                     if (template != null) {
-                        htmlHelper.ViewContext.Writer.Write(template(null));
+                        foreach (var func in template) {
+                            htmlHelper.ViewContext.Writer.Write(func(null));    
+                        }
                     }
                 }
             }

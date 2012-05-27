@@ -166,15 +166,12 @@ namespace BrickPile.UI.Controllers {
         /// Responsible for providing the add page view with data
         /// </summary>
         /// <returns></returns>
-        public ActionResult Add() {
-
-            if (Request.IsAjaxRequest()) {
-                return PartialView(new NewModel { CurrentModel = _model });
-            }
-            return new EmptyResult();
-
-
-        }
+        //public ActionResult Add() {
+        //    if (Request.IsAjaxRequest()) {
+        //        return PartialView(new NewModel { CurrentModel = _model });
+        //    }
+        //    return new EmptyResult();
+        //}
         /// <summary>
         /// News the specified new page model.
         /// </summary>
@@ -269,6 +266,22 @@ namespace BrickPile.UI.Controllers {
                 model.Metadata.SortOrder = order++;
             }
             _session.SaveChanges();
+        }
+        /// <summary>
+        /// Searches the specified term.
+        /// </summary>
+        /// <param name="term">The term.</param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult Search(string term) {
+
+            var result = from page in _session.Query<IPageModel>()
+                         where page.Metadata.Name.StartsWith(term)
+                         select page;
+
+            var r = from p in result.ToList() select new { id = p.Id, value = p.Metadata.Name, label = p.Metadata.Name };
+
+            return Json(r, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// Initializes a new instance of the <b>PagesController</b> class.

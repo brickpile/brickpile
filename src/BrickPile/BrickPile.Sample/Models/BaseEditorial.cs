@@ -32,7 +32,7 @@ namespace BrickPile.Sample.Models {
         /// The heading.
         /// </value>
         [Required]
-        [Display(Order = 100)]
+        [Display(Order = 100, Prompt = "Enter a descriptive heading")]
         public virtual string Heading { get; set; }
         /// <summary>
         /// Gets or sets the main body.

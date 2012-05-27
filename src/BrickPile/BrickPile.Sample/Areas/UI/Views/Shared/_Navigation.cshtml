@@ -19,25 +19,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
-@model BrickPile.UI.Models.NewModel
-           
-@{
-    ViewBag.Title = "It's time to create your first page";
-}
-
-<h1>It's time to create your first page</h1>
-@using (Html.BeginForm("new", "pages")) {
-    <div>
-        <fieldset>
-            @Html.LabelFor(model => model.AvailableModels)
-            <span class="select">
-                @Html.DropDownListFor(m => m.SelectedPageModel, new SelectList(Model.AvailableModels, "Value", "Text"))
-            </span>
-        </fieldset>
-        <div id="button">
-            <span>
-                <input type="submit" value="Yes, go ahead" />
-            </span>
-        </div>
-    </div>
-}
+<ul>
+    <li>@Html.ActionLink("Dashboard", "index", "dashboard", null, new { @class = "dashboard" })</li>
+    <li>@Html.ActionLink("Pages", "index", "pages", null, new { @class = "pages" })</li>
+    @*<li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users" })</li>*@
+</ul>

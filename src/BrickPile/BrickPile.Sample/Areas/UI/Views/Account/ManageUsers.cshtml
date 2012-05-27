@@ -5,14 +5,6 @@
     ViewBag.Title = "Manage Users";
 }
 
-@section Navigation {
-    <ul id="dashboard-nav">
-        <li>@Html.ActionLink("Dashboard", "index", "dashboard", null, new { @class = "dashboard" })</li>
-        <li>@Html.ActionLink("Pages", "index", "pages", null, new { @class = "content" })</li>
-		<li>@Html.ActionLink("Users", "manageusers", "account", null, new { @class = "users selected" })</li>
-    </ul>
-}
-
 <h1>Manage BrickPile Users</h1>
 <div id="users">
     <span class="button adduser">

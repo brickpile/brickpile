@@ -23,7 +23,7 @@ PageListItemView = Backbone.View.extend({
 
     tagName: "tr",
 
-    template: _.template($('#tpl-page-list-item').html()),
+    //template: _.template($('#tpl-page-list-item').html()),
 
     //template: _.template($('#pageTemplate').html()),
 
@@ -32,7 +32,7 @@ PageListItemView = Backbone.View.extend({
 
 
     events: {
-        "click td input[type=checkbox]": "publish",
+        "click td input[type=checkbox]": "publish"
     },
 
     render: function (eventName) {

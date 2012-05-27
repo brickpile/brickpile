@@ -1,4 +1,4 @@
-/* Copyright (C) 2011 by Marcus Lindblom
+﻿/* Copyright (C) 2012 by Marcus Lindblom
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -18,34 +18,44 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System.ComponentModel.DataAnnotations;
+window.NewPageModalView = Backbone.View.extend({
 
-namespace BrickPile.UI.Models {
-    [DisplayColumn("Name")]
-    public class ModelReference {
-        /// <summary>
-        /// Gets or sets the id.
-        /// </summary>
-        /// <value>
-        /// The id.
-        /// </value>
-        [ScaffoldColumn(false)]
-        public string Id { get; set; }
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        public string Name { get; set; }
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString() {
-            return Id;
-        }
+    el: $('div#main'),
+
+    events: {
+        'click input[type=radio]': 'newPage'
+    },
+
+    newPage: function (event) {
+        $(event.currentTarget).closest('form').submit();
+    },
+
+    // Close the dialog
+    close: function () {
+        $('#models').fadeOut('fast', function () {
+            $(this).remove();
+            $('html').unbind('click');
+        });
+    },
+
+    // Bind events for clicking the html element and for triggering the esc key
+    initialize: function () {
+        
+        this.template = _.template($('#view-template-new-page-dialog').html());
+        
+        var self = this;
+        
+        $('html').bind('click', this.close);
+        $(document).keyup(function (e) {
+            if (e.keyCode == 27) {
+                self.close();
+            }
+        });
+    },
+
+    render: function () {
+        $(this.el).append(this.template());
+        return this;
     }
-}
+
+});

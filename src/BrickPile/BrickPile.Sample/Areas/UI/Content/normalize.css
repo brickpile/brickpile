@@ -245,7 +245,7 @@ a:active {
 
 .btn-large {
     color: #6D6E6D;
-    padding: 1.1em 1.6em;
+    padding: 1em 1.6em .9em;
     font-weight: bold;
     line-height: normal;
     -webkit-border-radius: 5px;

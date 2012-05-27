@@ -18,32 +18,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-EditView = Backbone.View.extend({
+window.EditView = Backbone.View.extend({
 
-    //el: $("#main"),
+    events: {},
 
     initialize: function () {
-        //$(".tabs").tabs();
-        //$("a[rel='example1']").colorbox();
-        //$(".userui").fadeOut(300);
         this.render();
     },
 
     render: function () {
-        $.ajax({
-            url: '/' + this.options.url + '/edit',
-            success: function (data) {
-                $('#main').html(data);
-                
-                $('#CurrentModel_Metadata_Published').datepicker();
-            }
-        });
+        // Ensure that we have a valid slug
+        $('.slug').slugify('input.title');
     }
-    //    events: {
-    //        //"click input": "requestLogin"
-    //        //"click #registerbutton": "requestRegister"
-    //    }
 
 });
-
-//dashboard_view = new DashboardView;
