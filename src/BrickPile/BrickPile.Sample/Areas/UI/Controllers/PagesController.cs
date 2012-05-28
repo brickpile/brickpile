@@ -76,12 +76,13 @@ namespace BrickPile.UI.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult Edit() {
-            var parentId = _model.Parent != null ? (string) _model.Parent.Id : null;
+            IPageModel parent = _model.Parent != null ? _session.Load<IPageModel>(_model.Parent.Id) : null;
             var viewModel = new EditViewModel
                                 {
                                     RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
                                     CurrentModel = _model,
-                                    ParentModel = parentId != null ? _session.Load<IPageModel>(parentId) : null,
+                                    ParentModel = parent,
+                                    IlligalSlugs = parent != null ? Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(parent.Children).Select(x => x .Metadata.Slug)) : null
                                 };
 
             if (Request.IsAjaxRequest()) {
@@ -191,8 +192,9 @@ namespace BrickPile.UI.Controllers {
                                         RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
                                         ParentModel = parent,
                                         NewPageModel = page,
+                                        SlugsInUse = Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(parent.Children).Select(x => x.Metadata.Slug))
                                     };
-
+                
                 ViewBag.Class = "edit";
                 return View("new", viewModel);
                 //return PartialView("new", viewModel);

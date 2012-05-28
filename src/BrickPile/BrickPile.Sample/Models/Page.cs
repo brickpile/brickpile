@@ -45,9 +45,7 @@ namespace BrickPile.Sample.Models {
         /// The nisse.
         /// </value>
         [Display(Name = "Page" ,Prompt = "Specify page name...")]
+        [Required(ErrorMessage = "Knark")]
         public PageReference Nisse2 { get; set; }
-
-        [Display(Name = "Page 2", Prompt = "Specify page name...")]
-        public PageReference Nisse3 { get; set; }
     }
 }

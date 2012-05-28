@@ -2,7 +2,6 @@
 @model BrickPile.UI.Models.PageReference
 @using BrickPile.UI.Common
 
-
 @Html.TextBoxFor(_ => Model.Name, new { @class = "property-pagereference", placeholder = ViewData.ModelMetadata.Watermark })
 @Html.HiddenFor(_ => Model.Id)
 

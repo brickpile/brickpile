@@ -615,6 +615,43 @@ fieldset.metadata {
     margin-right:4px;
 }
 
+#metadata #slug .field-validation-error {
+    background: url(../images/setup/alert.png) no-repeat 10px center, -moz-linear-gradient(top, rgba(60,60,60,0.8), rgba(0,0,0,1));
+    background: url(../images/setup/alert.png) no-repeat 10px center, -webkit-linear-gradient(top, rgba(60, 60, 60, 0.8) 0%, rgba(0, 0, 0, 1) 100%);
+    box-shadow: 0 1px 0 rgba(137,137,137,1) inset, 0 0 10px rgba(0,0,0,0.5);
+    border-radius:5px;
+    border:1px solid #000;
+    color:#989898;
+    text-shadow:0 -1px 0 rgba(0,0,0,8);
+	padding:.7em 1em .6em 3em;
+	position:absolute;
+	width: auto;
+    opacity: 0;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+    top: 130px;
+    right: 143px;
+}
+.field-validation-error span {
+	background: transparent url(../images/setup/password-error.png) no-repeat 0 top;
+	display:block;
+    margin-top: -18px;
+    padding-top: 18px;
+    position:static;
+    color: #A5ABAC;
+    font-weight: normal;
+    right: 0;
+}
+
+#metadata #slug .illigal {
+    opacity: 1;
+    top: 100px;
+    right: 143px;
+}
+
 #metadata #slug label {
     width:66px;
 }
@@ -708,7 +745,6 @@ fieldset textarea {
     padding:.9em .6em 1em;
     width:600px;
 }
-
 
 /* =============================================================================
    Footer

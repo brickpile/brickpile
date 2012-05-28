@@ -32,13 +32,13 @@ THE SOFTWARE. *@
          // Shorthand for the application namespace
          var app = brickpile.app;
          // Initialize the main view.
-         app.newpageView = new NewPageView();
+         app.newpageView = new NewPageView({ el: $('#editForm'), slugsInUse: @Html.Raw(Model.SlugsInUse) });
      })(jQuery);  
 </script>, "scripts")
 
 @Html.ValidationSummary()
 
-@using (Html.BeginForm("save", "pages", new { model = Model.ParentModel }, FormMethod.Post, new { name = "editForm" })) {
+@using (Html.BeginForm("save", "pages", new { model = Model.ParentModel }, FormMethod.Post, new { id = "editForm" })) {
     <div>
         <fieldset class="metadata">
             <div id="metadata">
@@ -60,6 +60,7 @@ THE SOFTWARE. *@
                     <div>
                         @Html.LabelFor(model => model.NewPageModel.Metadata.Slug)
                         @Html.EditorFor(model => model.NewPageModel.Metadata.Slug, "Slug", new { Model.ParentModel })
+                        <label class="field-validation-error"><span>The slug is already in use by another page</span></label>
                     </div>
                     <div>
                         @Html.LabelFor(model => model.NewPageModel.Metadata.Published)

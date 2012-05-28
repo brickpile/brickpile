@@ -20,16 +20,35 @@ THE SOFTWARE. */
 
 NewPageView = Backbone.View.extend({
 
-    events: {},
+    events: { },
 
     initialize: function () {
         this.render();
     },
 
+    
+    evaluateSlug: function (str) {
+        if ($('.slug').hasClass('slugify-locked')) {
+            return false;
+        }
+        if (jQuery.inArray(str.toLowerCase(), this.options.slugsInUse) > -1) {
+            $(this.el).find('#slug .field-validation-error').addClass('illigal');
+            $(this.el).find(':submit').attr('disabled', 'disabled');
+        } else {
+            $(this.el).find('#slug .field-validation-error').removeClass('illigal');
+            $(this.el).find(':submit').removeAttr('disabled', 'disabled');
+        }
+    },
+
     render: function () {
-        console.log('Initialize new page view');
+        var self = this;
         // Ensure that we have a valid slug
-        $('.slug').slugify('input.title');        
+        $('.slug').slugify('input.title', {
+            slugFunc: function (str, originalFunc) {
+                self.evaluateSlug(str);
+                return originalFunc(str);
+            }
+        });
     }
 
 });

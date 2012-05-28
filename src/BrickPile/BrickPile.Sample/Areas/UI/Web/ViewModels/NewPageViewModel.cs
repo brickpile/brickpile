@@ -1,4 +1,5 @@
-﻿using BrickPile.Domain.Models;
+﻿using System.Collections.Generic;
+using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Web.ViewModels {
     public class NewPageViewModel {
@@ -21,5 +22,12 @@ namespace BrickPile.UI.Web.ViewModels {
         /// The new page model.
         /// </value>
         public IPageModel NewPageModel { get; set; }
+        /// <summary>
+        /// Gets or sets the slugs in use.
+        /// </summary>
+        /// <value>
+        /// The slugs in use.
+        /// </value>
+        public string SlugsInUse { get; set; }
     }
 }

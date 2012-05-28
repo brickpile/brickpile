@@ -10,6 +10,7 @@
 
 
         var convertToSlug = function (val) {
+
             return settings.slugFunc(val,
 				(function (v) {
 				    if (!v) return '';
