@@ -24,16 +24,11 @@
     <item name="StructureMap.dll"/>
   </items>
   <items path="packages/RavenDB-Embedded.1.0.888/lib/net40" type="reference" target="testDebug">
+    <!--item name="Raven.Abstractions.dll"/>
     <item name="Raven.Client.Embedded.dll"/>
-  </items>
-  <items path="packages/RavenDB-Embedded.1.0.888/lib/net40" type="reference" target="testDebug">
     <item name="Raven.Client.Lightweight.dll"/>
-  </items>
-  <items path="packages/RavenDB-Embedded.1.0.888/lib/net40" type="reference" target="testDebug">
-    <item name="Raven.Abstractions.dll"/>
-  </items>
-  <items path="packages/RavenDB-Embedded.1.0.888/lib/net40" type="reference" target="testDebug">
-    <item name="Raven.Database.dll"/>
+    <item name="Raven.Database.dll"/-->
+    <item name="*" />
   </items>
   <items path="packages/NLog.2.0.0.2000/lib/net40" type="reference" target="testDebug">
     <item name="NLog.dll"/>

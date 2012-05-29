@@ -60,14 +60,14 @@ namespace BrickPile.UI {
                                           id = UrlParameter.Optional,
                                           area = "UI"
                                       },
-                                      new { subdomain = new SubdomainRouteConstraint(SubDomain) },
+                                     //new { subdomain = new SubdomainRouteConstraint(SubDomain) },
                                       new[] { typeof(Controllers.UIController).Namespace });
 
             context.MapRoute(
                 "UI_Default",
                 "{controller}/{action}/{id}",
-                new { controller = "UI", action = "Index", id = UrlParameter.Optional, area = "UI" },
-                new { subdomain = new SubdomainRouteConstraint(this.SubDomain) }
+                new { controller = "UI", action = "Index", id = UrlParameter.Optional, area = "UI" }
+                //new { subdomain = new SubdomainRouteConstraint(this.SubDomain) }
             );
 
         }
