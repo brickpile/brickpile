@@ -20,24 +20,42 @@ THE SOFTWARE. */
 
 NewPageView = Backbone.View.extend({
 
-    events: { },
+    events: {
+        'keyup .slug': 'updateSlug'
+    },
 
     initialize: function () {
         this.render();
     },
-
     
-    evaluateSlug: function (str) {
+    updateSlug: function (e) {
+        if (jQuery.inArray($(e.currentTarget).val(), this.options.slugsInUse) > -1) {
+            this.showErrorLabel();
+        } else {
+            this.hideErrorLabel();
+        }
+    },
+
+    evaluateSlug: function (param) {
+        // abort if the slug is locked and we are changing the name
         if ($('.slug').hasClass('slugify-locked')) {
             return false;
         }
-        if (jQuery.inArray(str.toLowerCase(), this.options.slugsInUse) > -1) {
-            $(this.el).find('#slug .field-validation-error').addClass('illigal');
-            $(this.el).find(':submit').attr('disabled', 'disabled');
+        if (jQuery.inArray(param.toLowerCase(), this.options.slugsInUse) > -1) {
+            this.showErrorLabel();
         } else {
-            $(this.el).find('#slug .field-validation-error').removeClass('illigal');
-            $(this.el).find(':submit').removeAttr('disabled', 'disabled');
+            this.hideErrorLabel();
         }
+    },
+
+    showErrorLabel: function () {
+        $(this.el).find('#slug .field-validation-error').addClass('illigal');
+        $(this.el).find(':submit').attr('disabled', 'disabled');
+    },
+
+    hideErrorLabel: function () {
+        $(this.el).find('#slug .field-validation-error').removeClass('illigal');
+        $(this.el).find(':submit').removeAttr('disabled', 'disabled');
     },
 
     render: function () {
