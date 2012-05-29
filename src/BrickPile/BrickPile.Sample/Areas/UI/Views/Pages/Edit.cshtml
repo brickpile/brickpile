@@ -62,7 +62,8 @@ THE SOFTWARE. *@
                 <div id="slug">
                     <div>
                         @Html.LabelFor(model => model.CurrentModel.Metadata.Slug)
-                        @Html.EditorFor(model => model.CurrentModel.Metadata.Slug, "Slug", new { Model.ParentModel })
+                        @Html.TextBoxFor(model => model.CurrentModel.Metadata.Slug, new { disabled = "disabled" })
+                        @*@Html.EditorFor(model => model.CurrentModel.Metadata.Slug, "Slug", new { Model.ParentModel })*@
                     </div>
                     <div>
                         @Html.LabelFor(model => model.CurrentModel.Metadata.Published)
