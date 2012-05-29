@@ -39,7 +39,7 @@
     <item name="NLog.dll"/>
   </items>
   <items path="packages/Newtonsoft.Json.4.0.8/lib/net40" type="reference" target="testDebug">
-    <item name="Newtonsoft.Json"/>
+    <item name="Newtonsoft.Json.dll"/>
   </items>
   <items type="nunit" target="testDebug" autover="true" framework="4.0">
     <item name="BrickPile.Tests"/>
