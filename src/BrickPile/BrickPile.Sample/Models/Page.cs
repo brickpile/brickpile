@@ -35,9 +35,7 @@ namespace BrickPile.Sample.Models {
         /// <value>
         /// The news container.
         /// </value>
-        [ScaffoldColumn(false)]
         public PageReference NewsContainer { get; set; }
-
         /// <summary>
         /// Gets or sets the nisse.
         /// </summary>
