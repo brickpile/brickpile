@@ -24,11 +24,20 @@
     <item name="StructureMap.dll"/>
   </items>
   <items path="packages/RavenDB-Embedded.1.0.888/lib/net40" type="reference" target="testDebug">
-    <!--item name="Raven.Abstractions.dll"/>
+    <item name="AsyncCtpLibrary.dll" />
+    <item name="BouncyCastle.Crypto.dll" />
+    <item name="Esent.Interop.dll" />
+    <item name="ICSharpCode.NRefactory.dll" />
+    <item name="Lucene.Net.Contrib.Spatial.dll" />
+    <item name="Lucene.Net.Contrib.SpellChecker.dll" />
+    <item name="Lucene.Net.dll" />
+    <item name="Raven.Abstractions.dll"/>
     <item name="Raven.Client.Embedded.dll"/>
     <item name="Raven.Client.Lightweight.dll"/>
-    <item name="Raven.Database.dll"/-->
-    <item name="*" />
+    <item name="Raven.Database.dll"/>
+    <item name="Raven.Munin.dll"/>
+    <item name="Raven.Storage.Esent.dll" />
+    <item name="Raven.Storage.Managed.dll" />
   </items>
   <items path="packages/NLog.2.0.0.2000/lib/net40" type="reference" target="testDebug">
     <item name="NLog.dll"/>
