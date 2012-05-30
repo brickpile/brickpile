@@ -33,43 +33,55 @@ namespace BrickPile.UI {
         /// <summary>
         /// Gets the sub domain.
         /// </summary>
-        private string SubDomain {
-            get { return ConfigurationManager.AppSettings["brickpile/uisubdomain"] ?? "ui."; }
+        public static string SubDomain {
+            get { return ConfigurationManager.AppSettings["brickpile/uisubdomain"] ?? null; }
         }
         /// <summary>
         /// Registers an area in an ASP.NET MVC application using the specified area's context information.
         /// </summary>
         /// <param name="context">Encapsulates the information that is required in order to register the area.</param>
         public override void RegisterArea(AreaRegistrationContext context) {
-
-            //ViewEngines.Engines.Add(new RazorViewEngine
-            //{
-            //    AreaPartialViewLocationFormats = new[] { "~/Areas/UI/Views/{1}/{0}.cshtml", "~/Areas/UI/Views/Shared/{0}.cshtml", "~/Areas/UI/Views/Shared/DisplayTemplates/{0}.cshtml" },
-            //    AreaMasterLocationFormats = new[] { "~/Areas/UI/Views/{1}/{0}.cshtml" },
-            //    AreaViewLocationFormats = new[] { "~/Areas/UI/Views/{1}/{0}.cshtml" }
-
-            //});            
-
             // Map the back office route for handling pages
-            context.Routes.MapUIRoute("Pages_Default",
-                                      "{controller}/{action}/{id}",
-                                      new
-                                      {
-                                          controller = "UI",
-                                          action = "Index",
-                                          id = UrlParameter.Optional,
-                                          area = "UI"
-                                      },
-                                     //new { subdomain = new SubdomainRouteConstraint(SubDomain) },
-                                      new[] { typeof(Controllers.UIController).Namespace });
+            if(SubDomain != null) {
+                context.Routes.MapUIRoute("Pages_Default",
+                    "{controller}/{action}/{id}",
+                    new
+                    {
+                        controller = "UI",
+                        action = "Index",
+                        id = UrlParameter.Optional,
+                        area = "UI"
+                    },
+                    new { subdomain = new SubdomainRouteConstraint(SubDomain) },
+                    new[] { typeof(Controllers.UIController).Namespace });
 
-            context.MapRoute(
-                "UI_Default",
-                "{controller}/{action}/{id}",
-                new { controller = "UI", action = "Index", id = UrlParameter.Optional, area = "UI" }
-                //new { subdomain = new SubdomainRouteConstraint(this.SubDomain) }
-            );
+                context.MapRoute(
+                    "UI_Default",
+                    "{controller}/{action}/{id}",
+                    new { controller = "UI", action = "Index", id = UrlParameter.Optional, area = "UI" },
+                    new { subdomain = new SubdomainRouteConstraint(SubDomain) },
+                    new[] { typeof(Controllers.UIController).Namespace }
+                );                
+            } else {
+                
+                context.Routes.MapUIRoute("Pages_Default",
+                    "ui/{controller}/{action}/{id}", 
+                    new
+                    {
+                        controller = "UI",
+                        action = "Index",
+                        id = UrlParameter.Optional,
+                        area = "UI"
+                    },
+                    new[] { typeof(Controllers.UIController).Namespace });
 
+                context.MapRoute(
+                    "UI_Default",
+                    "ui/{controller}/{action}/{id}",
+                    new { controller = "UI", action = "Index", id = UrlParameter.Optional, area = "UI" },
+                    new[] { typeof(Controllers.UIController).Namespace }
+                );
+            }
         }
     }
 }
