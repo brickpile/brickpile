@@ -33,7 +33,7 @@ THE SOFTWARE. *@
     <h1><span>Create page</span></h1>
     <form method="post" action="/pages/new/@Model.CurrentModel.Metadata.Url">
     @foreach (var type in Html.GetAvailablePageModels()) {
-        var name = type.GetAttribute<PageModelAttribute>().Name;
+        var name = type.GetAttribute<PageTypeAttribute>().Name;
         <label>@name<input type="radio" name="SelectedPageModel" value="@type.AssemblyQualifiedName" /></label>
     }
     </form>

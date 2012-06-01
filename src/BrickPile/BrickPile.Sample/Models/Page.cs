@@ -27,7 +27,7 @@ namespace BrickPile.Sample.Models {
     /// <summary>
     /// 
     /// </summary>
-    [PageModel(Name = "Article", ControllerType = typeof(PageController))]
+    [PageType(Name = "Article", ControllerType = typeof(PageController))]
     public class Page : BaseEditorial {
         /// <summary>
         /// Gets or sets the news container.
@@ -45,5 +45,7 @@ namespace BrickPile.Sample.Models {
         [Display(Name = "Page" ,Prompt = "Specify page name...")]
         [Required(ErrorMessage = "Knark")]
         public PageReference Nisse2 { get; set; }
+
+
     }
 }

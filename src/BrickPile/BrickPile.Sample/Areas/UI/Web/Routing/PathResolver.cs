@@ -83,9 +83,9 @@ namespace BrickPile.UI.Web.Routing {
                     if(_pageModel == null) {
                         return null;
                     }
-                    var pageModelAttribute = _pageModel.GetType().GetAttribute<PageModelAttribute>();
+                    var pageTypeAttribute = _pageModel.GetType().GetAttribute<PageTypeAttribute>();
                     object area;
-                    _controllerName = _controllerMapper.GetControllerName(routeData.Values.TryGetValue("area", out area) ? typeof(PagesController) : pageModelAttribute.ControllerType);
+                    _controllerName = _controllerMapper.GetControllerName(routeData.Values.TryGetValue("area", out area) ? typeof(PagesController) : pageTypeAttribute.ControllerType);
                     var action = virtualUrl.TrimStart(new[] { '/' });
                     if (!_controllerMapper.ControllerHasAction(_controllerName, action)) {
                         return null;
@@ -98,7 +98,7 @@ namespace BrickPile.UI.Web.Routing {
                 return null;
             }
 
-            var controllerType = _pageModel.GetType().GetAttribute<PageModelAttribute>().ControllerType;
+            var controllerType = _pageModel.GetType().GetAttribute<PageTypeAttribute>().ControllerType;
             _pathData.Controller = _controllerMapper.GetControllerName(controllerType);
             _pathData.CurrentPageModel = _pageModel;
             return _pathData;

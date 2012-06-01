@@ -51,7 +51,7 @@
     <Compile Include="Models\PageModelMetadata.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="PageModelAttribute.cs" />
+    <Compile Include="PageTypeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceHelper.cs" />
   </ItemGroup>

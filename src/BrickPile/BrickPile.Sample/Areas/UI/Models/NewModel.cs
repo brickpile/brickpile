@@ -50,13 +50,13 @@ namespace BrickPile.UI.Models {
         /// <summary>
         /// Gets the available models.
         /// </summary>
-        [Display(Name = "Select page model", Order = 10)]
+        [Display(Name = "Select page type", Order = 10)]
         public IEnumerable<SelectListItem> AvailableModels {
             get {
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
                     foreach (var type in assembly.GetTypes()) {
-                        if (type.GetCustomAttributes(typeof(PageModelAttribute), true).Length > 0) {
-                            yield return new SelectListItem { Text = type.GetAttribute<PageModelAttribute>().Name, Value = type.AssemblyQualifiedName };
+                        if (type.GetCustomAttributes(typeof(PageTypeAttribute), true).Length > 0) {
+                            yield return new SelectListItem { Text = type.GetAttribute<PageTypeAttribute>().Name, Value = type.AssemblyQualifiedName };
                         }
                     }
                 }

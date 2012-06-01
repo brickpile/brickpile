@@ -275,7 +275,7 @@ namespace BrickPile.UI.Common {
                 _availablePageModels = new List<Type>();
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
                     foreach (var type in assembly.GetTypes()) {
-                        if (type.GetCustomAttributes(typeof(PageModelAttribute), true).Length > 0) {
+                        if (type.GetCustomAttributes(typeof(PageTypeAttribute), true).Length > 0) {
                             _availablePageModels.Add(type);
                         }
                     }

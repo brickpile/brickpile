@@ -175,7 +175,7 @@ namespace BrickPile.Tests.Web.Routing {
             Assert.AreEqual("Dummy", data.Controller);
         }
     }
-    [PageModel(Name = "Dummy", ControllerType = typeof(DummyController))]
+    [PageType(Name = "Dummy", ControllerType = typeof(DummyController))]
     public class DummyModel : PageModel { }
     public class DummyController : Controller { }
 }

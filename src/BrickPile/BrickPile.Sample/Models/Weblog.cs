@@ -25,6 +25,6 @@ namespace BrickPile.Sample.Models {
     /// <summary>
     /// 
     /// </summary>
-    [PageModel(Name="Weblog", ControllerType = typeof(WeblogController))]
+    [PageType(Name = "Weblog", ControllerType = typeof(WeblogController))]
     public class Weblog : BaseEditorial {}
 }
