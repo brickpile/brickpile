@@ -161,7 +161,7 @@ nav a:visited.selected { color:#dcf5c3; }
     max-width: 73.500em;
     padding: 10px 7px 3px;
 	position:relative;
-    z-index: 10;
+    
     -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
             border-radius: 5px;    

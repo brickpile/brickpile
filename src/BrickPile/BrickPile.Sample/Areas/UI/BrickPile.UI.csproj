@@ -166,9 +166,6 @@
     <Compile Include="Controllers\AssetsController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\DialogController.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Controllers\PagesController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -186,7 +183,9 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AssetModel.cs" />
     <Compile Include="Models\FileBrowserModel.cs" />
-    <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\Image.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Models\NewModel.cs" />
     <Compile Include="Models\EditModelReferenceModel.cs" />
     <Compile Include="Models\EditUserModel.cs" />
@@ -239,6 +238,7 @@
     <Content Include="Content\images\sprite.png" />
     <Content Include="Content\normalize.css" />
     <Content Include="Content\properties\property-pagereference.css" />
+    <Content Include="Content\properties\property-virtualfileselector.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -302,6 +302,7 @@
     <Content Include="Scripts\jquery.selectBox.min.js" />
     <Content Include="Scripts\jquery.slugify.js" />
     <Content Include="Scripts\jquery.timeago.js" />
+    <Content Include="Scripts\properties\virtualfileproperty.js" />
     <Content Include="Scripts\tinymce\langs\en.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advhr\css\advhr.css" />

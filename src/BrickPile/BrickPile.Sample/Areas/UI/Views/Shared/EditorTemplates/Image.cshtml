@@ -1,54 +1,59 @@
 ﻿@using System.Web.Hosting
 @using BrickPile.FileSystem.AmazonS3.Common
 @using BrickPile.FileSystem.AmazonS3.Hosting
+@using BrickPile.UI.Common
 @model BrickPile.UI.Models.Image
 
-<style type="text/css">
-    .centerbox {
-        /* basic styling */
-        width: 64px;
-        height: 49px;
-        border: 1px solid #ccc;
-        border-radius: 2px;
-        background : #fff url("/areas/ui/images/ajax-loader.gif") no-repeat center center;
+<div id="@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)">
+    <span class="centerbox">
+        @if(Model == null || string.IsNullOrEmpty(Model.VirtualUrl)) {
+            <img src="http://placehold.it/60x38" alt=""/>
+        } else {
+            @*<img src="@Model.Url" height="42" width="60" alt=""/>*@
+            var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(Model.VirtualUrl) as AmazonS3VirtualFile;
+            <img src="@Url.Image(virtualFile).Resize(60,38)" alt="" />
+        }
+    </span>
 
-        /* flexbox, por favor */
-        display: -webkit-inline-box;
-        -webkit-box-orient: horizontal;
-        -webkit-box-pack: center;
-        -webkit-box-align: center;
- 
-        display: -moz-inline-box;
-        -moz-box-orient: horizontal;
-        -moz-box-pack: center;
-        -moz-box-align: center;
-          
-        background-clip: padding-box;
-        -moz-background-clip: padding;
-        -webkit-background-clip: padding;          
-  
-        display: inline-box;
-        box-orient: horizontal;
-        box-pack: center;
-        box-align: center;
+    @Html.TextBoxFor(x => Model.AltText, new { placeholder = "Specify an alternative text for your image", @class = "alttext" })<input type="button" class="btn btn-large" value="Browse..." />
+    @Html.HiddenFor(x => x.VirtualUrl, new { @class = "virtualUrl" })
+    @Html.HiddenFor(x => x.Url, new { @class = "url" })
 
-        vertical-align: top;
-    }
-    .centerbox img {
-        display: block;
-    } 
-</style>
+</div>
 
-<span class="centerbox">
-    @if(Model == null || string.IsNullOrEmpty(Model.VirtualUrl)) {
-        <img src="http://placehold.it/60x45" alt=""/>
-    } else {
-        var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(Model.VirtualUrl) as AmazonS3VirtualFile;
-        <img src="@Url.Image(virtualFile).Resize(60,45)" alt="" />
-    }
-</span>
-
-
-@Html.TextBoxFor(x => Model.AltText, new { placeholder = "Specify an alternative text for your image", @class = "imageurl" }) <span class="button imageurl"><input type="button" value="Browse..." id="@ViewData.TemplateInfo.HtmlFieldPrefix.Replace('.', '_')" /></span>
-@Html.HiddenFor(x => x.VirtualUrl, new { @class = "virtualUrl" })
-@Html.HiddenFor(x => x.Url, new { @class = "url" })
+@Html.Section(@<link rel="stylesheet" media="all" href="@Url.Content("~/areas/ui/content/properties/property-virtualfileselector.css")" />, "styles")
+@Html.Section(
+    @<script id="view-template-virtual-file-dialog" type="text/html">
+         <div class="modal">
+             <div class="modal-header">
+                 <a href="#" class="close"><img src="@Url.Content("/areas/ui/images/dialog-close.png")" alt="close" /></a>
+                 <h1>Select an image...</h1>
+             </div>
+             <div class="modal-body">
+                <ul></ul>
+             </div>
+             <div class="modal-footer">
+                <a href="#" class="btn cancel" >No, cancel</a>
+                <a href="#" class="btn select">Select</a>
+            </div>
+         </div>
+    </script>,
+    @<script id="view-template-virtual-file" type="text/html">
+         <li>
+             <a href="#">
+                <img src="<%= Url %>" width="110" alt=""/>
+             </a>
+        </li>
+    </script>,
+"templates")
+@Html.Section(
+    @<script type="text/javascript" src="@Url.Content("~/areas/ui/scripts/properties/virtualfileproperty.js")"></script>,
+    @<script type="text/javascript">
+        (function ($) {
+            // Shorthand for the application namespace
+            var app = brickpile.app;
+            // Initialize the main view.
+            app.@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty) = new VirtualFilePropertyView({ el: $('#@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)') });
+        })(jQuery);  
+     </script>
+, "scripts")

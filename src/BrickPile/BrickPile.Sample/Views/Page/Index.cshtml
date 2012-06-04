@@ -23,7 +23,12 @@ THE SOFTWARE. *@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@if(Model.CurrentModel.Image != null) {
+    <img src="@Model.CurrentModel.Image.Url" />    
+}
 @Html.Raw(Model.CurrentModel.MainBody)
+
+
 
 @*<div id="fb-root"></div>
 <script>

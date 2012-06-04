@@ -15,11 +15,13 @@ namespace BrickPile.UI.Controllers {
         /// <param name="path">The path.</param>
         /// <returns></returns>
         public ActionResult Index(string path) {
+
             if(string.IsNullOrEmpty(path)) {
                 path = ((AmazonS3VirtualPathProvider)HostingEnvironment.VirtualPathProvider).VirtualPathRoot;
             }
             var directory = HostingEnvironment.VirtualPathProvider.GetDirectory(path);
-            return PartialView(directory);
+            return Json(directory.Files, JsonRequestBehavior.AllowGet);
+            //return PartialView(directory);
         }
         /// <summary>
         /// Gets the directory.
@@ -38,7 +40,7 @@ namespace BrickPile.UI.Controllers {
         /// <returns></returns>
         public ActionResult GetThumbnailUrl(string path) {
             var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(path) as AmazonS3VirtualFile;
-
+            
             var url = Url.Image(virtualFile).Resize(60, 45).ToString();
             return Content(url);
         }

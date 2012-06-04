@@ -30,22 +30,19 @@ namespace BrickPile.Sample.Models {
     [PageType(Name = "Article", ControllerType = typeof(PageController))]
     public class Page : BaseEditorial {
         /// <summary>
-        /// Gets or sets the news container.
-        /// </summary>
-        /// <value>
-        /// The news container.
-        /// </value>
-        public PageReference NewsContainer { get; set; }
-        /// <summary>
         /// Gets or sets the nisse.
         /// </summary>
         /// <value>
         /// The nisse.
         /// </value>
         [Display(Name = "Page" ,Prompt = "Specify page name...")]
-        [Required(ErrorMessage = "Knark")]
-        public PageReference Nisse2 { get; set; }
-
-
+        public PageReference PageReference { get; set; }
+        /// <summary>
+        /// Gets or sets the image.
+        /// </summary>
+        /// <value>
+        /// The image.
+        /// </value>
+        public Image Image { get; set; }
     }
 }

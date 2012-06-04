@@ -230,6 +230,11 @@ namespace BrickPile.UI.Common {
             return MvcHtmlString.Create(sb.ToString());
         }
         private const string DateFormat = "{0} {1} {2}";
+        /// <summary>
+        /// Formats the date.
+        /// </summary>
+        /// <param name="dateTime">The date time.</param>
+        /// <returns></returns>
         public static string FormatDate(this DateTime? dateTime) {
             var difference = DateTime.Now.Subtract((DateTime) dateTime);
 
@@ -247,29 +252,11 @@ namespace BrickPile.UI.Common {
             }
             return string.Format(DateFormat, difference.Hours, difference.Hours == 1 ? "hour" : "hours", "ago");
         }
-        public static string ContentArea(this UrlHelper url, string path) {
-            var area = url.RequestContext.RouteData.DataTokens["area"];
-
-            if (area != null) {
-                if (!string.IsNullOrEmpty(area.ToString()))
-                    area = "Areas/" + area;
-
-                // Simple checks for '~/' and '/' at the
-                // beginning of the path.
-                if (path.StartsWith("~/"))
-                    path = path.Remove(0, 2);
-
-                if (path.StartsWith("/"))
-                    path = path.Remove(0, 1);
-
-                path = path.Replace("../", string.Empty);
-
-                return VirtualPathUtility.ToAbsolute("~/" + area + "/" + path).ToLower();
-            }
-
-            return string.Empty;
-        }
-
+        /// <summary>
+        /// Gets the available page models.
+        /// </summary>
+        /// <param name="helper">The helper.</param>
+        /// <returns></returns>
         public static List<Type> GetAvailablePageModels(this HtmlHelper helper) {
             if(_availablePageModels == null) {
                 _availablePageModels = new List<Type>();

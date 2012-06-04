@@ -71,6 +71,54 @@ namespace BrickPile.UI.Common {
             return MvcHtmlString.Empty;
         }
         /// <summary>
+        /// Sections the specified HTML helper.
+        /// </summary>
+        /// <param name="htmlHelper">The HTML helper.</param>
+        /// <param name="template1">The template1.</param>
+        /// <param name="template2">The template2.</param>
+        /// <param name="template3">The template3.</param>
+        /// <param name="template4">The template4.</param>
+        /// <param name="addToSection">The add to section.</param>
+        /// <returns></returns>
+        public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template1, Func<object, HelperResult> template2, Func<object, HelperResult> template3, Func<object,HelperResult> template4, string addToSection) {
+            htmlHelper.ViewContext.HttpContext.Items[String.Concat("_", addToSection, "_", Guid.NewGuid())] =
+                new List<Func<object, HelperResult>> { template1, template2, template3, template4 };
+            return MvcHtmlString.Empty;
+        }
+        /// <summary>
+        /// Sections the specified HTML helper.
+        /// </summary>
+        /// <param name="htmlHelper">The HTML helper.</param>
+        /// <param name="template1">The template1.</param>
+        /// <param name="template2">The template2.</param>
+        /// <param name="template3">The template3.</param>
+        /// <param name="template4">The template4.</param>
+        /// <param name="template5">The template5.</param>
+        /// <param name="addToSection">The add to section.</param>
+        /// <returns></returns>
+        public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template1, Func<object, HelperResult> template2, Func<object, HelperResult> template3, Func<object, HelperResult> template4, Func<object, HelperResult> template5, string addToSection) {
+            htmlHelper.ViewContext.HttpContext.Items[String.Concat("_", addToSection, "_", Guid.NewGuid())] =
+                new List<Func<object, HelperResult>> { template1, template2, template3, template4,template5 };
+            return MvcHtmlString.Empty;
+        }
+        /// <summary>
+        /// Sections the specified HTML helper.
+        /// </summary>
+        /// <param name="htmlHelper">The HTML helper.</param>
+        /// <param name="template1">The template1.</param>
+        /// <param name="template2">The template2.</param>
+        /// <param name="template3">The template3.</param>
+        /// <param name="template4">The template4.</param>
+        /// <param name="template5">The template5.</param>
+        /// <param name="template6">The template6.</param>
+        /// <param name="addToSection">The add to section.</param>
+        /// <returns></returns>
+        public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template1, Func<object, HelperResult> template2, Func<object, HelperResult> template3, Func<object, HelperResult> template4, Func<object, HelperResult> template5, Func<object, HelperResult> template6, string addToSection) {
+            htmlHelper.ViewContext.HttpContext.Items[String.Concat("_", addToSection, "_", Guid.NewGuid())] =
+                new List<Func<object, HelperResult>> { template1, template2, template3, template4, template5, template6 };
+            return MvcHtmlString.Empty;
+        }
+        /// <summary>
         /// Renders the section.
         /// </summary>
         /// <param name="htmlHelper">The HTML helper.</param>

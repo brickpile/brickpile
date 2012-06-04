@@ -18,7 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-window.PagesView = Backbone.View.extend({
+var PagesView = Backbone.View.extend({
 
     events: {
         'click td input[type=checkbox]': 'publishPage',
