@@ -27,7 +27,7 @@ var NewPageView = Backbone.View.extend({
     initialize: function () {
         this.render();
     },
-    
+
     updateSlug: function (e) {
         if (jQuery.inArray($(e.currentTarget).val(), this.options.slugsInUse) > -1) {
             this.showErrorLabel();
@@ -41,6 +41,7 @@ var NewPageView = Backbone.View.extend({
         if ($('.slug').hasClass('slugify-locked')) {
             return false;
         }
+        console.log(param);
         if (jQuery.inArray(param.toLowerCase(), this.options.slugsInUse) > -1) {
             this.showErrorLabel();
         } else {
@@ -63,8 +64,9 @@ var NewPageView = Backbone.View.extend({
         // Ensure that we have a valid slug
         $('.slug').slugify('input.title', {
             slugFunc: function (str, originalFunc) {
-                self.evaluateSlug(str);
-                return originalFunc(str);
+                var slug = originalFunc(str);
+                self.evaluateSlug(slug);
+                return slug;
             }
         });
     }
