@@ -46,7 +46,7 @@ namespace BrickPile.UI.Controllers {
 
             if(_model == null) {
                 ViewBag.Class = "start";
-                return PartialView("Start", new NewModel());                
+                return View("Start", new NewModel());                
             }
 
             var id = (string)_model.Id;
@@ -192,7 +192,7 @@ namespace BrickPile.UI.Controllers {
                                         RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
                                         ParentModel = parent,
                                         NewPageModel = page,
-                                        SlugsInUse = Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(parent.Children).Select(x => x.Metadata.Slug))
+                                        SlugsInUse = parent != null ? Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(parent.Children).Select(x => x.Metadata.Slug)) : null
                                     };
                 
                 ViewBag.Class = "edit";
@@ -223,11 +223,14 @@ namespace BrickPile.UI.Controllers {
                 if (parent != null) {
                     page.Parent = _model;
                     parent.Children.Add(page.Id);
+
+                    var children = _session.Load<IPageModel>(parent.Children);
+                    var max = children.Max(x => x.Metadata.SortOrder);
+                    page.Metadata.SortOrder = max + 1;
                 }
                 // Set changed date
                 page.Metadata.Changed = DateTime.Now;
                 page.Metadata.ChangedBy = HttpContext.User.Identity.Name;
-                page.Metadata.SortOrder = int.MaxValue;
 
                 // Add page to repository and save changes
                 _session.SaveChanges();
