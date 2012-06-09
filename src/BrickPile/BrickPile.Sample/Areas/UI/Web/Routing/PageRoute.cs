@@ -80,7 +80,7 @@ namespace BrickPile.UI.Web.Routing {
         /// <returns></returns>
         public override RouteData GetRouteData(HttpContextBase httpContextBase) {
 
-            if (new Regex("^https?://" + SubDomain).IsMatch(httpContextBase.Request.Url.AbsoluteUri)) {
+            if (httpContextBase.Request.Url != null && new Regex("^https?://" + SubDomain).IsMatch(httpContextBase.Request.Url.AbsoluteUri)) {
                 return null;
             }
 
@@ -88,13 +88,12 @@ namespace BrickPile.UI.Web.Routing {
 
             // get the virtual path of the request
             var virtualPath = httpContextBase.Request.CurrentExecutionFilePath.TrimStart(new[] { '/' });
-            //var virtualPath = httpContextBase.Request.AppRelativeCurrentExecutionFilePath;
 
             // try to resolve the current item
             var pathData = this.PathResolver.ResolvePath(routeData, virtualPath);
 
             // Abort and proceed to other routes in the route table
-            if (pathData == null) {
+            if (pathData == null || !pathData.CurrentPageModel.Metadata.IsPublished) {
                 return null;
             }
 
