@@ -63,7 +63,6 @@ THE SOFTWARE. *@
                     <div>
                         @Html.LabelFor(model => model.CurrentModel.Metadata.Slug)
                         @Html.TextBoxFor(model => model.CurrentModel.Metadata.Slug, new { disabled = "disabled" })
-                        @*@Html.EditorFor(model => model.CurrentModel.Metadata.Slug, "Slug", new { Model.ParentModel })*@
                     </div>
                     <div>
                         @Html.LabelFor(model => model.CurrentModel.Metadata.Published)
@@ -83,7 +82,14 @@ THE SOFTWARE. *@
             </div>
         </fieldset>
         <fieldset style="background-color:#fff;padding-top:31px;padding-bottom:27px;">
-            @Html.EditorFor(model => model.CurrentModel.Metadata.Name, "PageName")
+            <div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.CurrentModel.Metadata.Name)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.CurrentModel.Metadata.Name, new { @class = "title", required = "required", placeholder = "My awesome page" })
+                </div>
+            </div>            
             @Html.EditorFor(model => model.CurrentModel)
         </fieldset>
         <div id="button">
