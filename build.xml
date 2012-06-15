@@ -40,7 +40,7 @@
     <item name="Raven.Storage.Managed.dll" />
     <item name="Spatial4n.Core.dll" />
   </items>
-  <items path="packages/RavenDB.Embedded.1.0.960/lib/net40" type="reference" target="testDebug">
+  <items path="packages/RavenDB.Client.1.0.960/lib/net40" type="reference" target="testDebug">
     <item name="Raven.Abstractions.dll" />
     <item name="Raven.Client.Lightweight.dll" />
   </items>
