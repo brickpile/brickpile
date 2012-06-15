@@ -54,8 +54,6 @@ namespace BrickPile.UI.App_Start {
 
                 documentStore.Initialize();
 
-                Raven.Client.MvcIntegration.RavenProfiler.InitializeFor(documentStore);
-
                 IndexCreation.CreateIndexes(typeof(Documents_ByParent).Assembly, documentStore);
 
                 x.For<IDocumentStore>().Use(documentStore);
