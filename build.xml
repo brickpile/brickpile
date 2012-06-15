@@ -34,7 +34,6 @@
     <item name="Lucene.Net.Contrib.SpellChecker.dll" />
     <item name="Lucene.Net.dll" />
     <item name="Raven.Abstractions.dll"/>
-    <item name="Raven.Client.Lightweight.dll"/>
     <item name="Raven.Database.dll"/>
     <item name="Raven.Munin.dll"/>
     <item name="Raven.Storage.Esent.dll" />
