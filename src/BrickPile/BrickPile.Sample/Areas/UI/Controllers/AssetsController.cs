@@ -1,4 +1,6 @@
-﻿using System.Web.Hosting;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using BrickPile.FileSystem.AmazonS3.Common;
 using BrickPile.FileSystem.AmazonS3.Hosting;
@@ -19,8 +21,23 @@ namespace BrickPile.UI.Controllers {
             if(string.IsNullOrEmpty(path)) {
                 path = ((AmazonS3VirtualPathProvider)HostingEnvironment.VirtualPathProvider).VirtualPathRoot;
             }
-            var directory = HostingEnvironment.VirtualPathProvider.GetDirectory(path);
-            return Json(directory.Files, JsonRequestBehavior.AllowGet);
+
+            var directory = HostingEnvironment.VirtualPathProvider.GetDirectory(path) as AmazonS3VirtualDirectory;
+
+            return new JsonResult()
+            {
+                Data = new
+                {
+                    Files = directory.Files,
+                    Directories = from dir in directory.Directories as IEnumerable<VirtualDirectory> select new
+                    {
+                        Name = dir.Name,
+                        VirtualPath = dir.VirtualPath
+                    }
+                },JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+            //return Json(directory.GetFolder(directory.VirtualPath.Replace(((AmazonS3VirtualPathProvider)HostingEnvironment.VirtualPathProvider).VirtualPathRoot, string.Empty)), JsonRequestBehavior.AllowGet);
             //return PartialView(directory);
         }
         /// <summary>
@@ -41,7 +58,7 @@ namespace BrickPile.UI.Controllers {
         public ActionResult GetThumbnailUrl(string path) {
             var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(path) as AmazonS3VirtualFile;
             
-            var url = Url.Image(virtualFile).Resize(60, 45).ToString();
+            var url = Url.Image(virtualFile).Resize(60, 38).ToString();
             return Content(url);
         }
     }

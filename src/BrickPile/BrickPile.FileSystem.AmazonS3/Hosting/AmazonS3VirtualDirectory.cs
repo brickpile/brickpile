@@ -17,7 +17,6 @@ namespace BrickPile.FileSystem.AmazonS3.Hosting {
         private readonly AmazonS3VirtualPathProvider _provider;
         private readonly string _virtualPath;
         private readonly AmazonS3Client _client;
-        private ListObjectsRequest _request;
         /// <summary>
         /// Gets the AWS virtual path.
         /// </summary>
@@ -31,56 +30,19 @@ namespace BrickPile.FileSystem.AmazonS3.Hosting {
         }
         private string _awsVirtualPath;
         /// <summary>
-        /// Gets the request.
-        /// </summary>
-        private ListObjectsRequest Request {
-            get {
-                if(_request == null) {
-                    _request = this.AWSVirtualPath == "/" ?
-                        new ListObjectsRequest().WithBucketName(_provider.BucketName)
-                        : new ListObjectsRequest().WithBucketName(_provider.BucketName).WithPrefix(this.AWSVirtualPath);
-                }
-                return _request;
-            }
-        }
-
-        /// <summary>
         /// Gets a list of all the subdirectories contained in this directory.
         /// </summary>
         /// <returns>An object implementing the <see cref="T:System.Collections.IEnumerable"/> interface containing <see cref="T:System.Web.Hosting.VirtualDirectory"/> objects.</returns>
-        //public override IEnumerable Directories {
-        //    get {
-        //        using (var response = this._client.ListObjects(this.Request)) {
-
-        //            if (this.AWSVirtualPath == string.Empty || this.AWSVirtualPath == "/") {
-
-        //                // get the objects at the TOP LEVEL, i.e. not inside any folders
-        //                var objects = response.S3Objects.Where(o => !o.Key.Contains(@"/"));
-
-        //                // get the folders at the TOP LEVEL only
-        //                return from vd in response.S3Objects.Except(objects)
-        //                       where
-        //                           vd.Key.Last() == '/' &&
-        //                           vd.Key.IndexOf(@"/", StringComparison.Ordinal) ==
-        //                           vd.Key.LastIndexOf(@"/", StringComparison.Ordinal)
-        //                       select new AmazonS3VirtualDirectory(this._provider, vd.Key);
-        //            }
-
-        //            var directories = new List<AmazonS3VirtualDirectory>();
-
-        //            foreach (var split in response.S3Objects.Select(s3Object => s3Object.Key.Replace(this.AWSVirtualPath, string.Empty).Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries)).Where(splits => splits.Count() > 1 && !directories.Any(x => x.Name == splits.First()))) {
-        //                directories.Add(new AmazonS3VirtualDirectory(_provider, split.First()));
-        //            }
-
-        //            return directories;
-        //        }
-        //    }
-        //}
         public override IEnumerable Directories {
             get {
                 return this.GetFolder(this.VirtualPath.Replace(this._provider.VirtualPathRoot, string.Empty)).Select(amazonFolder => new AmazonS3VirtualDirectory(this._provider, this._provider.VirtualPathRoot + amazonFolder));
             }
         }
+        /// <summary>
+        /// Gets the folder.
+        /// </summary>
+        /// <param name="folder">The folder.</param>
+        /// <returns></returns>
         public IEnumerable<string> GetFolder(string folder) {
             var request = new ListObjectsRequest().WithBucketName(this._provider.BucketName).WithPrefix(folder);
             using (var response = this._client.ListObjects(request)) {
@@ -92,8 +54,7 @@ namespace BrickPile.FileSystem.AmazonS3.Hosting {
                     // get the folders at the TOP LEVEL only
                     return response.S3Objects.Except(objects).Where(o => o.Key.Last() == '/' && o.Key.IndexOf(@"/") == o.Key.LastIndexOf(@"/")).Select(n => n.Key);
                 }
-
-
+                
                 var directories = new List<string>();
 
                 foreach (var split in response.S3Objects.Select(s3Object => s3Object.Key.Replace(folder, string.Empty).Split('/')).Where(splits => splits.Count() > 1 && !directories.Contains(folder + splits.First()))) {

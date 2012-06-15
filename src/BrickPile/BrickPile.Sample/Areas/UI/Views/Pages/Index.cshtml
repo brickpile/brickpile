@@ -31,7 +31,7 @@ THE SOFTWARE. *@
 @<script id="view-template-new-page-dialog" type="text/html">
 <div id="models"> 
     <h1><span>Create page</span></h1>
-    <form method="post" action="/pages/new/@Model.CurrentModel.Metadata.Url">
+    <form method="post" action="@Url.Action("new","pages", new { model = @Model.CurrentModel })">
     @foreach (var type in Html.GetAvailablePageModels()) {
         var name = type.GetAttribute<PageTypeAttribute>().Name;
         <label>@name<input type="radio" name="SelectedPageModel" value="@type.AssemblyQualifiedName" /></label>
@@ -80,7 +80,7 @@ THE SOFTWARE. *@
     </thead>
     <tbody>
         @if (Model.ParentModel == null && Request.QueryString["deleted"] == null) {
-            <tr class="ui-state-disabled home">
+            <tr id="@Model.RootModel.Id.Replace('/', '_')" class="ui-state-disabled home">
                 <td><span>&nbsp;</span></td>
                 <td class="name"><span>@Model.RootModel.Metadata.Name</span></td>
                 <td class="slug"><span>/@Model.RootModel.Metadata.Slug</span></td>
@@ -100,6 +100,7 @@ THE SOFTWARE. *@
                 </td>
             </tr>                    
         }
+        
         @if (Model.Children.Count > 0) {
             foreach (var item in Model.Children) {
                 if (item.Metadata.IsDeleted) {

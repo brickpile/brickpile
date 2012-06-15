@@ -612,7 +612,6 @@
     <None Include="Styles\webfonts\woff\museo-sans-500.woff" />
     <None Include="Styles\webfonts\woff\museo-sans-700.woff" />
     <Content Include="Views\Pages\Start.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\PageName.cshtml" />
     <Content Include="Views\UI\Index.cshtml" />
     <Content Include="web.config" />
     <Content Include="Views\Shared\EditorTemplates\PageReference.cshtml" />

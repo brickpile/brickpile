@@ -25,7 +25,7 @@ THE SOFTWARE. *@
     ViewBag.Title = "It's time to create your first page";
 }
 
-<h1>It's time to create your first page</h1>
+@*<h1>It's time to create your first page</h1>*@
 @using (Html.BeginForm("new", "pages")) {
     <div>
         <fieldset>
@@ -35,9 +35,7 @@ THE SOFTWARE. *@
             </span>
         </fieldset>
         <div id="button">
-            <span>
-                <input type="submit" value="Yes, go ahead" />
-            </span>
+            <input type="submit" class="btn btn-large" value="Yes, go ahead" />
         </div>
     </div>
 }

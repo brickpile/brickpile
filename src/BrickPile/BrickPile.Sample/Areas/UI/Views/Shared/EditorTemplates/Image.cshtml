@@ -9,16 +9,13 @@
         @if(Model == null || string.IsNullOrEmpty(Model.VirtualUrl)) {
             <img src="http://placehold.it/60x38" alt=""/>
         } else {
-            @*<img src="@Model.Url" height="42" width="60" alt=""/>*@
             var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(Model.VirtualUrl) as AmazonS3VirtualFile;
             <img src="@Url.Image(virtualFile).Resize(60,38)" alt="" />
         }
     </span>
-
     @Html.TextBoxFor(x => Model.AltText, new { placeholder = "Specify an alternative text for your image", @class = "alttext" })<input type="button" class="btn btn-large" value="Browse..." />
-    @Html.HiddenFor(x => x.VirtualUrl, new { @class = "virtualUrl" })
+    @Html.HiddenFor(x => x.VirtualUrl, new { @class = "virtualPath" })
     @Html.HiddenFor(x => x.Url, new { @class = "url" })
-
 </div>
 
 @Html.Section(@<link rel="stylesheet" media="all" href="@Url.Content("~/areas/ui/content/properties/property-virtualfileselector.css")" />, "styles")
@@ -29,6 +26,7 @@
                  <a href="#" class="close"><img src="@Url.Content("/areas/ui/images/dialog-close.png")" alt="close" /></a>
                  <h1>Select an image...</h1>
              </div>
+             <div id="directories"><ul></ul></div>
              <div class="modal-body">
                 <ul></ul>
              </div>
@@ -45,6 +43,13 @@
              </a>
         </li>
     </script>,
+    @<script id="view-template-virtual-directory" type="text/html">
+         <li>
+             <a href="#">
+                <%= Name %>
+             </a>
+        </li>
+    </script>,
 "templates")
 @Html.Section(
     @<script type="text/javascript" src="@Url.Content("~/areas/ui/scripts/properties/virtualfileproperty.js")"></script>,
@@ -53,7 +58,7 @@
             // Shorthand for the application namespace
             var app = brickpile.app;
             // Initialize the main view.
-            app.@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty) = new VirtualFilePropertyView({ el: $('#@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)') });
+            app.virtualFilePropertyView = new VirtualFilePropertyView({ el: $('#@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)') });
         })(jQuery);  
      </script>
 , "scripts")

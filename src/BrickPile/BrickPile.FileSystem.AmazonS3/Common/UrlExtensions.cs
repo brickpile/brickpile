@@ -14,7 +14,7 @@ namespace BrickPile.FileSystem.AmazonS3.Common {
         /// Images the specified helper.
         /// </summary>
         /// <param name="helper">The helper.</param>
-        /// <param name="virtualPath">The virtual path.</param>
+        /// <param name="s3VirtualFile">The s3 virtual file.</param>
         /// <returns></returns>
         public static Image Image(this UrlHelper helper, AmazonS3VirtualFile s3VirtualFile) {
             return new Image(s3VirtualFile);

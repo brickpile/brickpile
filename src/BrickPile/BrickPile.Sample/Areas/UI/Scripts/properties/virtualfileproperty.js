@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2012 by Marcus Lindblom
+﻿/* Copyright (C) 2012 by Marcus Lindblo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@ THE SOFTWARE. */
 // ----------
 
 var VirtualFile = Backbone.Model.extend({
+    
     Url: null,
 
     Etag: null,
@@ -35,18 +36,54 @@ var VirtualFile = Backbone.Model.extend({
     VirtualPath: null,
 
     initialize: function () { }
-    
+
+});
+
+// VirtualDirectory View
+// ----------------------
+
+var VirtualDirectoryView = Backbone.View.extend({
+
+    template: _.template($('#view-template-virtual-directory').html()),
+
+    events: {
+        'click a': 'select'
+    },
+
+    select: function () {
+        alert('foo');
+    },
+
+    initialize: function () { },
+
+    render: function () {
+        var html = this.template(this.model.toJSON());
+        this.setElement($(html));
+        return this;
+    }
+});
+
+// VirtualDirectory
+// ----------------------
+
+var VirtualDirectory = Backbone.Model.extend({
+    name:null    
 });
 
 // VirtualFile Collection
 // ----------------------
 
 var VirtualFileCollection = Backbone.Collection.extend({
-    
-    url: '/assets',
 
-    model: VirtualFile
-    
+    url: '/assets/',
+
+    model: VirtualFile,
+
+    parse: function (response) {
+        this.Directories = response.Directories;
+        return response.Files;
+    }
+
 });
 
 // VirtualFile property modal view
@@ -71,9 +108,11 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         return false;
     },
 
-    selectAndClose: function () {
+    selectAndClose: function (e) {
+        e.preventDefault();
 
         var self = this;
+
         this.$el.find('input:hidden.url').val(currentSelectedModel.get('Url'));
         this.$el.find('input:hidden.virtualPath').val(currentSelectedModel.get('VirtualPath'));
 
@@ -89,6 +128,7 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
             $(this).remove();
             $('.modal-backdrop').remove();
         });
+
         return false;
     },
 
@@ -111,6 +151,18 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         // Render dialog
         this.$el.append(this.template());
 
+//        var $directories = $(this.el).find('#directories ul');
+
+//        jQuery.each(this.collection.Directories, function (i, val) {
+//            console.log(val);
+//            var directory = new VirtualDirectoryView({
+//                model: new VirtualDirectory({ Name: val.Name })
+//            });
+//            var $li = directory.render().$el;
+//            $directories.append($li);
+//        });
+
+
         // Find the dialog body and append the thumbnails
         var $ul = $(this.el).find('.modal-body ul');
         this.collection.each(function (virtualFile) {
@@ -128,7 +180,7 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         // Bind event closing the dialog on esc
         $(document).keyup(function (e) {
             if (e.keyCode == 27) {
-                self.cancel();
+                self.cancelAndClose();
             }
         });
         return this;
@@ -146,7 +198,6 @@ var VirtualFilePropertyView = Backbone.View.extend({
     },
 
     openDialog: function () {
-        console.log('open dialog');
         var coll = new VirtualFileCollection();
         var view = new VirtualFileSelectorModalView({ el: this.el, collection: coll });
         coll.fetch();

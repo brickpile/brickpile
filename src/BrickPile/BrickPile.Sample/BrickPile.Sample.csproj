@@ -210,7 +210,6 @@
     <Content Include="Content\website-design.png" />
     <Content Include="Content\Why.png" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\global.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />

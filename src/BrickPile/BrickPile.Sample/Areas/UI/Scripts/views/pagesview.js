@@ -27,6 +27,8 @@ var PagesView = Backbone.View.extend({
         'click tr a.perma-delete': 'permanentDelete',
         'click tr a.restore': 'restorePage'
     },
+    
+    isCtrl: false,
 
     // Publish or unpublish a page
     publishPage: function (event) {
@@ -113,7 +115,7 @@ var PagesView = Backbone.View.extend({
     initialize: function () {
         this.render();
 
-        $('#main').find('abbr.timeago').timeago();
+        $(this.$el).find('abbr.timeago').timeago();
 
         $('table.sortable tbody').sortable({
             handle: 'td.sort',

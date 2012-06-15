@@ -8,7 +8,6 @@
             slugFunc: (function (val, originalFunc) { return originalFunc(val); })
         }, options);
 
-
         var convertToSlug = function (val) {
 
             return settings.slugFunc(val,

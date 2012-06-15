@@ -73,10 +73,11 @@
         </copy>
         <copy todir="${l_rootFolder}/content/Areas/UI">
           <fileset basedir="${project.baseDir}/BrickPile.Sample/Areas/UI">
-            <include name="Views/**/*" />
-            <include name="Styles/**/*" />
-            <include name="Scripts/**/*" />
+            <include name="Content/**/*" />
             <include name="Images/**/*" />
+            <include name="Scripts/**/*" />
+            <include name="Styles/**/*" />
+            <include name="Views/**/*" />
           </fileset>
         </copy>
       </preNuget>

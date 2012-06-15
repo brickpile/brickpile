@@ -34,11 +34,7 @@ THE SOFTWARE. *@
             .Add(Url.Content("~/content/global.css"))
             .Add(Url.Content("~/content/framework.css"))
             .Add(Url.Content("~/content/views.css"))
-            .Render("~/content/master.css"))
-        @Html.Raw(Bundle.JavaScript()
-            .Add(Url.Content("~/scripts/jquery-1.7.1.js"))
-            .Add(Url.Content("~/scripts/global.js"))
-            .Render("~/scripts/master.js"))
+            .Render("~/content/master.min_#.css"))
         
         <!--link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /-->
 	</head>
@@ -98,6 +94,20 @@ THE SOFTWARE. *@
                 </div>
             </div>
         </footer>
-        @*Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions()*@
+        <script type="text/javascript">
+            // Add a script element as a child of the body
+            function downloadJSAtOnload() {
+                var element = document.createElement("script");
+                element.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js";
+                document.body.appendChild(element);
+            }
+            // Check for browser support of event handling capability
+            if (window.addEventListener)
+                window.addEventListener("load", downloadJSAtOnload, false);
+            else if (window.attachEvent)
+                window.attachEvent("onload", downloadJSAtOnload);
+            else window.onload = downloadJSAtOnload;
+        </script>  
+        @Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions()
 	</body>
 </html>

@@ -170,6 +170,24 @@ nav a:visited.selected { color:#dcf5c3; }
             box-shadow: 0 1px 0 rgba(255,255,255,0.3);
 }
 
+body.start {
+ 	/*max-width:35.286em;*/
+	/*min-width:500px;*/
+	position:static;
+    margin: 0 auto;
+}
+body.start h1 { background-position:18.8em 16px; }
+body.start form>div { padding-top:10px; }
+body.start fieldset { background:none; }
+body.start form { position:relative; }
+body.start form label {
+    color:#3c474e;
+    margin-bottom:7px;
+}
+body.start #button {
+    margin-top:1.4em;
+}
+
 /* =============================================================================
    Table editing controls
    ========================================================================== */
@@ -443,7 +461,7 @@ th#actions { width: 142px; }
     font-size: 85.7%;
     font-weight: bold;
     text-decoration: none;
-    padding: 4px 7px 3px;
+    padding: 7px 7px 6px;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
  }
  #deleted-pages a:hover {
