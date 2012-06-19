@@ -32,7 +32,7 @@
             @using (Html.BeginForm()) {
                 <div>
                     <fieldset>
-                        @Html.TextBoxFor(m => m.UserName, new { @class="text-box", placeholder="Your username...", required="required" })
+                        @Html.TextBoxFor(m => m.UserName, new { @class="text-box", placeholder="Your username...", required="required", autofocus="autofocus" })
                         @Html.ValidationMessageLabelFor(m => m.Password)
                         @Html.PasswordFor(m => m.Password, new { @class = "text-box", placeholder = "... and your password?", required = "required" })
                     </fieldset>

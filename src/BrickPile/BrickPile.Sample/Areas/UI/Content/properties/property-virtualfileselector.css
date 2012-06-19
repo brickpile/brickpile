@@ -35,9 +35,13 @@
    ========================================================================== */
 
 input[type=text].alttext {
-    width: 414px;
+    width: 389px;
     margin-right: 5px;
 }
+
+.editor-field .btn-group { position: absolute;margin-top: .2em; }
+
+.editor-field .btn-group a { text-decoration: none; }
 
 .modal-backdrop {
     position: fixed;
@@ -91,23 +95,53 @@ input[type=text].alttext {
 .modal a {
     text-decoration: none;
 }
-
 .modal a.close {
     position:absolute;
     right:14px;
     top:17px;
 }
-
 .modal-body {
     max-height: 400px;
-    padding: 15px;
+    min-height: 400px;
+    padding: 0 15px 15px 0;
     overflow-y: auto;
 }
-
-.modal-body li {
+.modal-body #directories {
+    background-color: #f3f7f8;
+    border-right: solid 1px #e7e8e4;
+    float: left;
+    bottom: 58px;
+    top: 46px;
+    position: absolute;
+    width: 25%;
+}
+.modal-body #directories ul {
+    margin: 0;
+    padding: 35px 0 0;
+}
+.modal-body #directories li {
+    list-style: none;
+}
+.modal-body #directories a:link,
+.modal-body #directories a:visited {
+    font-size: 12px;
+    color: #333;
+    display: block;
+    padding: 5px 5px 5px 24px;
+}
+.modal-body #directories a:hover,
+.modal-body #directories a:focus,
+.modal-body #directories a:active {
+    text-decoration: underline;
+}
+.modal-body #files {
+    float: right;
+    width: 75%;
+}
+.modal-body #files li {
     margin: 0 1em 1em 0;
 }
-.modal-body li  {
+.modal-body #files li  {
     /* basic styling */
     width: 118px;
     height: 118px;
@@ -135,7 +169,7 @@ input[type=text].alttext {
 
     vertical-align: top;
 }
-.modal-body li img {
+.modal-body #files li img {
     display: block;
     border: 1px solid #ccc;
     border-radius: 2px;
@@ -145,7 +179,7 @@ input[type=text].alttext {
     
     
 }
-.modal-body li.selected img {
+.modal-body #files li.selected img {
     border-color: rgba(82, 168, 236, 0.8);
     outline: 0;
     outline: thin dotted \9;

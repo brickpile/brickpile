@@ -156,7 +156,7 @@ nav a:visited.selected { color:#dcf5c3; }
 #main {
     background: rgba(109, 60, 35, 0.3);
     border: 1px solid #845735;
-    border-spacing: 0 30px;
+    
     margin:0 auto;
     max-width: 73.500em;
     padding: 10px 7px 3px;

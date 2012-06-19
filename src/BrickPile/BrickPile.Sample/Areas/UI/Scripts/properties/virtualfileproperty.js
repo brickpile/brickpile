@@ -50,8 +50,15 @@ var VirtualDirectoryView = Backbone.View.extend({
         'click a': 'select'
     },
 
-    select: function () {
-        alert('foo');
+    select: function (event) {
+        
+        event.preventDefault();
+
+        // Shorthand for the application namespace
+        var app = brickpile.app;
+        // Trigger the selected event
+        app.trigger('folderSelect', this.model);
+        
     },
 
     initialize: function () { },
@@ -67,7 +74,11 @@ var VirtualDirectoryView = Backbone.View.extend({
 // ----------------------
 
 var VirtualDirectory = Backbone.Model.extend({
-    name:null    
+
+    name: null,
+
+    VirtualPath: null
+    
 });
 
 // VirtualFile Collection
@@ -81,6 +92,7 @@ var VirtualFileCollection = Backbone.Collection.extend({
 
     parse: function (response) {
         this.Directories = response.Directories;
+        this.Parent = response.Parent;
         return response.Files;
     }
 
@@ -136,7 +148,13 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         currentSelectedModel = model;
     },
 
+    folderSelect: function (model) {
+        this.collection.url = '/assets?path=' + model.get('VirtualPath');
+        this.collection.fetch();
+    },
+
     initialize: function () {
+
         this.collection.bind("reset", this.render, this);
         this.template = _.template($('#view-template-virtual-file-dialog').html());
 
@@ -144,27 +162,43 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         var app = brickpile.app;
         // bind to the select event
         app.bind('select', this.select, this);
+        app.bind('folderSelect', this.folderSelect, this);
     },
 
     render: function () {
+
         var self = this;
         // Render dialog
-        this.$el.append(this.template());
+        if (this.$el.find('.modal').length < 1) {
+            this.$el.append(this.template());
+        }
 
-//        var $directories = $(this.el).find('#directories ul');
+        var $directories = $(this.el).find('#directories ul');
+        $directories.empty();
 
-//        jQuery.each(this.collection.Directories, function (i, val) {
-//            console.log(val);
-//            var directory = new VirtualDirectoryView({
-//                model: new VirtualDirectory({ Name: val.Name })
-//            });
-//            var $li = directory.render().$el;
-//            $directories.append($li);
-//        });
+        // add the parent item first
+        if (this.collection.Parent != null) {
+            var parent = new VirtualDirectoryView({
+                model: new VirtualDirectory({ Name: '..', VirtualPath: this.collection.Parent.VirtualPath })
+            });
+            var $parentLi = parent.render().$el;
+            $parentLi.find('i').attr('class', 'icon-folder-open').css('margin-left','-10px');
+            $directories.append($parentLi);
+        }
 
+
+
+        jQuery.each(this.collection.Directories, function (i, directory) {
+            var dir = new VirtualDirectoryView({
+                model: new VirtualDirectory({ Name: directory.Name, VirtualPath: directory.VirtualPath })
+            });
+            var $li = dir.render().$el;
+            $directories.append($li);
+        });
 
         // Find the dialog body and append the thumbnails
-        var $ul = $(this.el).find('.modal-body ul');
+        var $ul = $(this.el).find('#files ul');
+        $ul.empty();
         this.collection.each(function (virtualFile) {
             var fileview = new VirtualFileView({
                 model: virtualFile,
@@ -176,7 +210,9 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
             $ul.append($li);
         }, this);
         // Add the backdrop
-        $('body').append('<div class="modal-backdrop"></div>');
+        if ($('.modal-backdrop').length < 1) {
+            $('body').append('<div class="modal-backdrop"></div>');
+        }
         // Bind event closing the dialog on esc
         $(document).keyup(function (e) {
             if (e.keyCode == 27) {
@@ -194,18 +230,31 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
 var VirtualFilePropertyView = Backbone.View.extend({
 
     events: {
-        'click input[type=button]': 'openDialog'
+        'click button.browse': 'openDialog',
+        'click a.clear': 'clear'
     },
 
-    openDialog: function () {
+    openDialog: function (e) {
+        e.preventDefault();
         var coll = new VirtualFileCollection();
         var view = new VirtualFileSelectorModalView({ el: this.el, collection: coll });
         coll.fetch();
     },
 
-    initialize: function () {},
+    clear: function () {
 
-    render: function () { }
+        this.$el.find(':input').val('');
+        this.$el.find('.centerbox img').attr('src', 'http://placehold.it/60x38');
+
+    },
+
+    initialize: function () { },
+
+    render: function () {
+
+        $('.dropdown-toggle').dropdown();
+
+    }
 
 });
 

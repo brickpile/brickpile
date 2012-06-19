@@ -28,17 +28,29 @@ namespace BrickPile.UI.Controllers {
             {
                 Data = new
                 {
-                    Files = directory.Files,
-                    Directories = from dir in directory.Directories as IEnumerable<VirtualDirectory> select new
+                    Files = from file in directory.Files as IEnumerable<AmazonS3VirtualFile> select new
                     {
-                        Name = dir.Name,
-                        VirtualPath = dir.VirtualPath
-                    }
+                        Name = file.Name,
+                        VirtualPath = file.VirtualPath,
+                        Url = file.Url,
+                        Etag = file.Etag,
+                        LocalPath = file.LocalPath,
+                        Thumbnail = Url.Image(file).Resize(110,100).ToString()
+
+                    },
+                    Directories = from dir in directory.Directories as IEnumerable<AmazonS3VirtualDirectory> select new
+                    {
+                        dir.Name,
+                        dir.VirtualPath,
+                    },
+                    Parent = directory.Parent != null ? 
+                    new
+                    {
+                      directory.Parent.Name,
+                      directory.Parent.VirtualPath
+                    } : null
                 },JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-
-            //return Json(directory.GetFolder(directory.VirtualPath.Replace(((AmazonS3VirtualPathProvider)HostingEnvironment.VirtualPathProvider).VirtualPathRoot, string.Empty)), JsonRequestBehavior.AllowGet);
-            //return PartialView(directory);
         }
         /// <summary>
         /// Gets the directory.

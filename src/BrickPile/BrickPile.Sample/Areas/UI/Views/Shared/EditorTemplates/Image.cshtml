@@ -13,7 +13,16 @@
             <img src="@Url.Image(virtualFile).Resize(60,38)" alt="" />
         }
     </span>
-    @Html.TextBoxFor(x => Model.AltText, new { placeholder = "Specify an alternative text for your image", @class = "alttext" })<input type="button" class="btn btn-large" value="Browse..." />
+    @Html.TextBoxFor(x => Model.AltText, new { placeholder = "Specify an alternative text for your image", @class = "alttext" })
+    <div class="btn-group">
+        <button class="btn btn-large browse">Browse...</button>
+        <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#" class="clear">Clear</a></li>
+        </ul>        
+    </div>
     @Html.HiddenFor(x => x.VirtualUrl, new { @class = "virtualPath" })
     @Html.HiddenFor(x => x.Url, new { @class = "url" })
 </div>
@@ -26,9 +35,9 @@
                  <a href="#" class="close"><img src="@Url.Content("/areas/ui/images/dialog-close.png")" alt="close" /></a>
                  <h1>Select an image...</h1>
              </div>
-             <div id="directories"><ul></ul></div>
              <div class="modal-body">
-                <ul></ul>
+                 <div id="directories"><ul></ul></div>
+                 <div id="files"><ul></ul></div>
              </div>
              <div class="modal-footer">
                 <a href="#" class="btn cancel" >No, cancel</a>
@@ -39,13 +48,14 @@
     @<script id="view-template-virtual-file" type="text/html">
          <li>
              <a href="#">
-                <img src="<%= Url %>" width="110" alt=""/>
+                <img src="<%= Thumbnail %>" width="110" alt=""/>
              </a>
         </li>
     </script>,
     @<script id="view-template-virtual-directory" type="text/html">
          <li>
              <a href="#">
+                <i class="icon-folder-close"></i>
                 <%= Name %>
              </a>
         </li>

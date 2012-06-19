@@ -24,11 +24,12 @@ THE SOFTWARE. *@
 }
 
 @if(Model.CurrentModel.Image != null) {
-    <img src="@Model.CurrentModel.Image.Url" />    
+    <img src="@Model.CurrentModel.Image.Url" alt="@Model.CurrentModel.Image.AltText" />    
 }
 @Html.Raw(Model.CurrentModel.MainBody)
 
-@Model.CurrentModel.Metadata.SortOrder
+@Html.DisplayFor(x => x.CurrentModel.Person)
+
 
 @*<div id="fb-root"></div>
 <script>

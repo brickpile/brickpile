@@ -292,6 +292,7 @@
     <Content Include="Scripts\application.js" />
     <Content Include="Scripts\backbone.js" />
     <Content Include="Scripts\backbone.min.js" />
+    <Content Include="Scripts\bootstrap-dropwdown.js" />
     <Content Include="Scripts\brickpile.js" />
     <Content Include="Scripts\jquery-1.7.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.2.js" />
