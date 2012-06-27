@@ -44,34 +44,34 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// Creates a hierarchical unordered navigation list
         /// </summary>
         /// <param name="html">HtmlHelper</param>
-        /// <param name="hierarchy">The hierarchy.</param>
+        /// <param name="pages">The pages.</param>
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
         /// <returns></returns>
-        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent) {
-            return SubMenu(html, hierarchy, itemContent, itemContent);
+        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent) {
+            return SubMenu(html, pages, itemContent, itemContent);
         }
         /// <summary>
         /// Responsible for creating a navigation tree based on a hierarchical structure
         /// </summary>
         /// <param name="html">HtmlHelper</param>
-        /// <param name="hierarchy">The hierarchy.</param>
+        /// <param name="pages">The pages.</param>
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
         /// <param name="selectedItemContent">A lambda expression defining the content in each selected tree node</param>
         /// <returns></returns>
-        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
-            return SubMenu(html, hierarchy, itemContent, selectedItemContent, itemContent);
+        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
+            return SubMenu(html, pages, itemContent, selectedItemContent, itemContent);
         }
         /// <summary>
         /// Responsible for creating a navigation tree based on a hierarchical structure
         /// </summary>
         /// <param name="html">HtmlHelper</param>
-        /// <param name="hierarchy">The hierarchy.</param>
+        /// <param name="pages">The pages.</param>
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
         /// <param name="selectedItemContent">A lambda expression defining the content in each selected tree node</param>
         /// <param name="expandedItemContent">Content of the expanded item.</param>
         /// <returns></returns>
-        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent) {
-            return SubMenu(html, hierarchy, itemContent, selectedItemContent, expandedItemContent, null);
+        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent) {
+            return SubMenu(html, pages, itemContent, selectedItemContent, expandedItemContent, null);
         }
         /// <summary>
         /// Responsible for creating a navigation tree based on a hierarchical structure
@@ -83,12 +83,12 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="expandedItemContent">Content of the expanded item.</param>
         /// <param name="htmlAttributes">The HTML attributes.</param>
         /// <returns></returns>
-        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> hierarchy, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, object htmlAttributes) {
-            if (hierarchy == null) {
+        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, object htmlAttributes) {
+            if (pages == null) {
                 return MvcHtmlString.Empty;
             }
 
-            var hierarchyNodes = hierarchy.AsHierarchy();
+            var hierarchyNodes = pages.AsHierarchy();
 
             var item = hierarchyNodes.SingleOrDefault(x => x.Expanded);
 

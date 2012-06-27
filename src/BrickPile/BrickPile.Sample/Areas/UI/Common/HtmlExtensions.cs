@@ -19,12 +19,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 
 namespace BrickPile.UI.Common {
+    
     public static class HtmlExtensions {
         /// <summary>
         /// Sections the specified HTML helper.
@@ -39,7 +43,12 @@ namespace BrickPile.UI.Common {
         /// @Html.Section(@<link rel="stylesheet" href="~/Styles/bootstrap.min.css" />, "styles")
         /// </example>
         public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template, string addToSection) {
-            htmlHelper.ViewContext.HttpContext.Items[String.Concat("_", addToSection, "_", Guid.NewGuid())] = new List<Func<object,HelperResult>> {template};
+            var section = htmlHelper.ViewContext.HttpContext.Items[addToSection] as IDictionary ?? new Dictionary<object, object>();
+            var checkSum = CalculateMD5Hash(template(null).ToHtmlString());
+            if (!section.Contains(checkSum)) {
+                section.Add(checkSum, new List<Func<object, HelperResult>> { template });
+                htmlHelper.ViewContext.HttpContext.Items[addToSection] = section;
+            }
             return MvcHtmlString.Empty;
         }
 
@@ -51,9 +60,13 @@ namespace BrickPile.UI.Common {
         /// <param name="template2">The template2.</param>
         /// <param name="addToSection">The add to section.</param>
         /// <returns></returns>
-        public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template1,Func<object, HelperResult> template2, string addToSection) {
-            htmlHelper.ViewContext.HttpContext.Items[String.Concat("_", addToSection, "_", Guid.NewGuid())] =
-                new List<Func<object, HelperResult>> { template1, template2 };
+        public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template1, Func<object, HelperResult> template2, string addToSection) {
+            var section = htmlHelper.ViewContext.HttpContext.Items[addToSection] as IDictionary ?? new Dictionary<object, object>();
+            var checkSum = CalculateMD5Hash(template1(null).ToHtmlString() + template2(null).ToHtmlString());
+            if (!section.Contains(checkSum)) {
+                section.Add(checkSum, new List<Func<object, HelperResult>> { template1, template2 });
+                htmlHelper.ViewContext.HttpContext.Items[addToSection] = section;
+            }
             return MvcHtmlString.Empty;
         }
         /// <summary>
@@ -65,9 +78,13 @@ namespace BrickPile.UI.Common {
         /// <param name="template3">The template3.</param>
         /// <param name="addToSection">The add to section.</param>
         /// <returns></returns>
-        public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template1, Func<object, HelperResult> template2, Func<object,HelperResult> template3, string addToSection) {
-            htmlHelper.ViewContext.HttpContext.Items[String.Concat("_", addToSection, "_", Guid.NewGuid())] =
-                new List<Func<object, HelperResult>> { template1, template2, template3 };
+        public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template1, Func<object, HelperResult> template2, Func<object, HelperResult> template3, string addToSection) {
+            var section = htmlHelper.ViewContext.HttpContext.Items[addToSection] as IDictionary ?? new Dictionary<object, object>();
+            var checkSum = CalculateMD5Hash(template1(null).ToHtmlString() + template2(null).ToHtmlString() + template3(null).ToHtmlString());
+            if (!section.Contains(checkSum)) {
+                section.Add(checkSum, new List<Func<object, HelperResult>> { template1, template2, template3 });
+                htmlHelper.ViewContext.HttpContext.Items[addToSection] = section;
+            }
             return MvcHtmlString.Empty;
         }
         /// <summary>
@@ -80,9 +97,13 @@ namespace BrickPile.UI.Common {
         /// <param name="template4">The template4.</param>
         /// <param name="addToSection">The add to section.</param>
         /// <returns></returns>
-        public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template1, Func<object, HelperResult> template2, Func<object, HelperResult> template3, Func<object,HelperResult> template4, string addToSection) {
-            htmlHelper.ViewContext.HttpContext.Items[String.Concat("_", addToSection, "_", Guid.NewGuid())] =
-                new List<Func<object, HelperResult>> { template1, template2, template3, template4 };
+        public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template1, Func<object, HelperResult> template2, Func<object, HelperResult> template3, Func<object, HelperResult> template4, string addToSection) {
+            var section = htmlHelper.ViewContext.HttpContext.Items[addToSection] as IDictionary ?? new Dictionary<object, object>();
+            var checkSum = CalculateMD5Hash(template1(null).ToHtmlString() + template2(null).ToHtmlString() + template3(null).ToHtmlString() + template4(null).ToHtmlString());
+            if (!section.Contains(checkSum)) {
+                section.Add(checkSum, new List<Func<object, HelperResult>> { template1, template2, template3, template4 });
+                htmlHelper.ViewContext.HttpContext.Items[addToSection] = section;
+            }
             return MvcHtmlString.Empty;
         }
         /// <summary>
@@ -97,8 +118,12 @@ namespace BrickPile.UI.Common {
         /// <param name="addToSection">The add to section.</param>
         /// <returns></returns>
         public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template1, Func<object, HelperResult> template2, Func<object, HelperResult> template3, Func<object, HelperResult> template4, Func<object, HelperResult> template5, string addToSection) {
-            htmlHelper.ViewContext.HttpContext.Items[String.Concat("_", addToSection, "_", Guid.NewGuid())] =
-                new List<Func<object, HelperResult>> { template1, template2, template3, template4,template5 };
+            var section = htmlHelper.ViewContext.HttpContext.Items[addToSection] as IDictionary ?? new Dictionary<object, object>();
+            var checkSum = CalculateMD5Hash(template1(null).ToHtmlString() + template2(null).ToHtmlString() + template3(null).ToHtmlString() + template4(null).ToHtmlString() + template5(null).ToHtmlString());
+            if (!section.Contains(checkSum)) {
+                section.Add(checkSum, new List<Func<object, HelperResult>> { template1, template2, template3, template4, template5 });
+                htmlHelper.ViewContext.HttpContext.Items[addToSection] = section;
+            }
             return MvcHtmlString.Empty;
         }
         /// <summary>
@@ -114,8 +139,12 @@ namespace BrickPile.UI.Common {
         /// <param name="addToSection">The add to section.</param>
         /// <returns></returns>
         public static MvcHtmlString Section(this HtmlHelper htmlHelper, Func<object, HelperResult> template1, Func<object, HelperResult> template2, Func<object, HelperResult> template3, Func<object, HelperResult> template4, Func<object, HelperResult> template5, Func<object, HelperResult> template6, string addToSection) {
-            htmlHelper.ViewContext.HttpContext.Items[String.Concat("_", addToSection, "_", Guid.NewGuid())] =
-                new List<Func<object, HelperResult>> { template1, template2, template3, template4, template5, template6 };
+            var section = htmlHelper.ViewContext.HttpContext.Items[addToSection] as IDictionary ?? new Dictionary<object, object>();
+            var checkSum = CalculateMD5Hash(template1(null).ToHtmlString() + template2(null).ToHtmlString() + template3(null).ToHtmlString() + template4(null).ToHtmlString() + template5(null).ToHtmlString() + template6(null).ToHtmlString());
+            if (!section.Contains(checkSum)) {
+                section.Add(checkSum, new List<Func<object, HelperResult>> { template1, template2, template3, template4, template5, template6 });
+                htmlHelper.ViewContext.HttpContext.Items[addToSection] = section;
+            }
             return MvcHtmlString.Empty;
         }
         /// <summary>
@@ -125,18 +154,37 @@ namespace BrickPile.UI.Common {
         /// <param name="sectionName">Name of the section.</param>
         /// <returns></returns>
         public static IHtmlString RenderSection(this HtmlHelper htmlHelper, string sectionName) {
-            foreach (object key in htmlHelper.ViewContext.HttpContext.Items.Keys) {
-                if (key.ToString().StartsWith(String.Concat("_", sectionName, "_"))) {
-                    var template = htmlHelper.ViewContext.HttpContext.Items[key] as List<Func<object, HelperResult>>;
-                    if (template != null) {
-                        foreach (var func in template) {
-                            htmlHelper.ViewContext.Writer.Write(func(null));    
-                        }
+            var section = htmlHelper.ViewContext.HttpContext.Items[sectionName] as IDictionary;
+            if(section == null) {
+                return MvcHtmlString.Empty;
+            }
+            foreach (var key in section.Keys) {
+                var template = section[key] as List<Func<object, HelperResult>>;
+                if(template != null) {
+                    foreach (var func in template) {
+                        htmlHelper.ViewContext.Writer.Write(func(null));
                     }
                 }
             }
             return MvcHtmlString.Empty;
         }
-        
+        /// <summary>
+        /// Calculates the M d5 hash.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns></returns>
+        public static string CalculateMD5Hash(string input) {
+            // step 1, calculate MD5 hash from input
+            MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+            byte[] hash = md5.ComputeHash(inputBytes);
+
+            // step 2, convert byte array to hex string
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++) {
+                sb.Append(hash[i].ToString("X2"));
+            }
+            return sb.ToString();
+        }        
     }
 }

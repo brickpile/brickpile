@@ -17,34 +17,21 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
-using System;
+
 using System.Collections.Generic;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.UI {
     /// <summary>
-    /// Represents the <see cref="StructureInfo" /> class
+    /// Represents the <see cref="StructureInfo"/> class
     /// </summary>
-    [Obsolete("Not used anymore", false)]
     public interface IStructureInfo {
         /// <summary>
-        /// <see cref="StructureInfo.RootModel"/>
-        /// </summary>
-        IPageModel RootModel { get; }
-        /// <summary>
-        ///   <see cref="StructureInfo.CurrentModel"/>
-        /// </summary>
-        IPageModel CurrentModel { get; }
-        /// <summary>
-        /// Gets the parent model.
-        /// </summary>
-        IPageModel ParentModel { get; }
-        /// <summary>
-        /// Gets or sets the hierarchy.
+        /// Represents the aggregated list of pages that is expanded based on the current page, primary used for creating page navigation.
         /// </summary>
         /// <value>
-        /// The hierarchy.
+        /// The pages.
         /// </value>
-        IEnumerable<IHierarchyNode<IPageModel>> Hierarchy { get; set; }
+        IEnumerable<IPageModel> Pages { get; set; }
     }
 }

@@ -22,6 +22,7 @@ using System.Web.Mvc;
 using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
 using BrickPile.Sample.ViewModels;
+using BrickPile.UI;
 using Raven.Client;
 
 namespace BrickPile.Sample.Controllers {
@@ -37,7 +38,7 @@ namespace BrickPile.Sample.Controllers {
             var viewModel = new PageViewModel
                                 {
                                     CurrentModel = this.CurrentModel,
-                                    Hierarchy = this.Hierarchy,
+                                    Pages = this.Pages,
                                     Class = "page"
                                 };
 
@@ -47,9 +48,9 @@ namespace BrickPile.Sample.Controllers {
         /// Initializes a new instance of the <see cref="PageController"/> class.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <param name="session">The session.</param>
-        public PageController(IPageModel model, IDocumentSession session)
-            : base(model, session) {            
+        /// <param name="structureInfo">The structure info.</param>
+        public PageController(IPageModel model, IStructureInfo structureInfo)
+            : base(model, structureInfo) {            
         }
     }
 }

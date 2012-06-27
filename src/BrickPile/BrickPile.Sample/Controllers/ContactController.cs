@@ -1,7 +1,8 @@
 ﻿using System.Web.Mvc;
+using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
 using BrickPile.Sample.ViewModels;
-using Raven.Client;
+using BrickPile.UI;
 
 namespace BrickPile.Sample.Controllers {
     /// <summary>
@@ -16,7 +17,7 @@ namespace BrickPile.Sample.Controllers {
             var model = new ContactViewModel
                             {
                                 CurrentModel = this.CurrentModel,
-                                Hierarchy = this.Hierarchy,
+                                Pages = this.Pages,
                                 Class = "contact"
                             };
             return View(model);
@@ -25,9 +26,8 @@ namespace BrickPile.Sample.Controllers {
         /// Initializes a new instance of the <see cref="ContactController"/> class.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <param name="documentSession">The document session.</param>
-        public ContactController(Contact model, IDocumentSession documentSession)
-            : base(model, documentSession) { }
+        /// <param name="structureInfo">The structure info.</param>
+        public ContactController(IPageModel model, IStructureInfo structureInfo) : base(model,structureInfo) { }
 
     }
 }

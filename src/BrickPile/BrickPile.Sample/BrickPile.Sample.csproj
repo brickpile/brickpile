@@ -231,7 +231,6 @@
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Image.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SelectedTemplate.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\Person.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_LocalResources\Resource.resx">

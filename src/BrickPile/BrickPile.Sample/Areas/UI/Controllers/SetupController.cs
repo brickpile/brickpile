@@ -57,6 +57,8 @@ namespace BrickPile.UI.Controllers {
                     IConfiguration configuration = new Configuration.Configuration();
                     configuration.SiteName = model.Configuration.SiteName;
                     _session.Store(configuration);
+                    IStructureInfo structureInfo = new StructureInfo();
+                    _session.Store(structureInfo);
                     _session.SaveChanges();
 
                     return RedirectToAction("index", "UI", new { area = "ui" });

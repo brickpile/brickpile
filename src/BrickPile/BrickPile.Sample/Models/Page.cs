@@ -44,5 +44,11 @@ namespace BrickPile.Sample.Models {
         /// The image.
         /// </value>
         public Image Image { get; set; }
+
+        public Image Image2 { get; set; }
+
+        public Image Image3 { get; set; }
+
+        public Image Image4 { get; set; }
     }
 }

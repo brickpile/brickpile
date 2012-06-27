@@ -141,6 +141,10 @@
       <Project>{9CE32587-7C80-469C-A26F-AE51B6898F9A}</Project>
       <Name>BrickPile.UI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BrickPile.Sample\BrickPile.Sample.csproj">
+      <Project>{AF8C6C4A-4559-422E-BFAA-901A05265D27}</Project>
+      <Name>BrickPile.Sample</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Raven.Studio.xap" />

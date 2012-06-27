@@ -46,7 +46,7 @@ namespace BrickPile.UI.Controllers {
 
             if(_model == null) {
                 ViewBag.Class = "start";
-                return View("Start", new NewModel());                
+                return View("Start", new NewModel());
             }
 
             var id = (string)_model.Id;
@@ -76,6 +76,7 @@ namespace BrickPile.UI.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult Edit() {
+
             IPageModel parent = _model.Parent != null ? _session.Load<IPageModel>(_model.Parent.Id) : null;
             var viewModel = new EditViewModel
                                 {

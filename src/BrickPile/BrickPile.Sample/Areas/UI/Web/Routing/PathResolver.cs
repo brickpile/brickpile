@@ -21,6 +21,7 @@ THE SOFTWARE. */
 using System.Linq;
 using System.Web;
 using System.Web.Routing;
+using BrickPile.Core.Infrastructure.Common;
 using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
@@ -101,6 +102,7 @@ namespace BrickPile.UI.Web.Routing {
             var controllerType = _pageModel.GetType().GetAttribute<PageTypeAttribute>().ControllerType;
             _pathData.Controller = _controllerMapper.GetControllerName(controllerType);
             _pathData.CurrentPageModel = _pageModel;
+            _pathData.Pages = _session.GetPages(_pageModel.Id);
             return _pathData;
         }
         /// <summary>

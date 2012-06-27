@@ -21,9 +21,8 @@ THE SOFTWARE. */
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using BrickPile.Core.Infrastructure.Common;
 using BrickPile.Domain.Models;
-using Raven.Client;
+using BrickPile.UI;
 
 namespace BrickPile.Sample.Controllers {
     /// <summary>
@@ -31,39 +30,37 @@ namespace BrickPile.Sample.Controllers {
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class BaseController<T> : Controller where T : IPageModel {
+        private readonly IStructureInfo _structureInfo;
         /// <summary>
         /// Base controller with Current model and a default hierarchy for navigational purpose
         /// </summary>
-        private IEnumerable<IPageModel> _hierarchy;
+        private IEnumerable<IPageModel> _pages;
         /// <summary>
         /// Gets the current model.
         /// </summary>
         public T CurrentModel { get; private set; }
         /// <summary>
-        /// Gets the document session.
+        /// Gets the pages.
         /// </summary>
-        public IDocumentSession DocumentSession { get; private set; }
-        /// <summary>
-        /// Gets the hierarchy
-        /// </summary>
-        public virtual IEnumerable<IPageModel> Hierarchy {
+        public virtual IEnumerable<IPageModel> Pages {
             get {
-                return _hierarchy
-                       ?? (_hierarchy = DocumentSession.HierarchyFrom<IPageModel>(x => x.Id == CurrentModel.Id)
+                return _pages
+                       ?? (_pages = _structureInfo.Pages
                                             .Where(x => x.Metadata.IsPublished)
                                             .Where(x => !x.Metadata.IsDeleted)
                                             .Where(x => x.Metadata.DisplayInMenu)
                                             .OrderBy(x => x.Metadata.SortOrder));
             }
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseController&lt;T&gt;"/> class.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <param name="documentSession">The document session.</param>
-        protected BaseController(IPageModel model, IDocumentSession documentSession) {
+        /// <param name="structureInfo">The structure info.</param>
+        protected BaseController(IPageModel model, IStructureInfo structureInfo) {
             CurrentModel = (T)model;
-            DocumentSession = documentSession;
+            _structureInfo = structureInfo;
         }
     }
 }

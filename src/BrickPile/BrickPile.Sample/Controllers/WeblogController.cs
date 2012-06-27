@@ -22,6 +22,7 @@ using System.Web.Mvc;
 using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
 using BrickPile.Sample.ViewModels;
+using BrickPile.UI;
 using Raven.Client;
 
 namespace BrickPile.Sample.Controllers {
@@ -37,17 +38,18 @@ namespace BrickPile.Sample.Controllers {
             var model = new WeblogViewModel
                             {
                                 CurrentModel = this.CurrentModel,
-                                Hierarchy = this.Hierarchy,
+                                Pages = this.Pages,
                                 Class = "weblog"
                             };
             return View(model);
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WeblogController"/> class.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <param name="documentSession">The document session.</param>
-        public WeblogController(IPageModel model, IDocumentSession documentSession)
-            : base(model, documentSession) { }
+        /// <param name="structureInfo">The structure info.</param>
+        public WeblogController(IPageModel model, IStructureInfo structureInfo)
+            : base(model, structureInfo) { }
     }
 }

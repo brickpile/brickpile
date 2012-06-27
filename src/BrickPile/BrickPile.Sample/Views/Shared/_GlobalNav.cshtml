@@ -21,7 +21,7 @@ THE SOFTWARE. *@
 @model BrickPile.UI.Web.ViewModels.IViewModel<BrickPile.Domain.Models.IPageModel>
 @using BrickPile.UI.Web.Mvc.Html
 
-@Html.Menu(Model.Hierarchy,
+@Html.Menu(Model.Pages,
     page => Html.ActionLink(page.Metadata.Name, "index", new { model = page }),
     page => Html.DisplayFor(_ => page.Metadata.Name,"SelectedTemplate"),
     page => Html.ActionLink(page.Metadata.Name, "index", new { model = page }, new { @class = "expanded" }))

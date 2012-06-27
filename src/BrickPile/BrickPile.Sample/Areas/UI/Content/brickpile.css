@@ -601,6 +601,7 @@ th#actions { width: 142px; }
  * Even out the margin
  */
  
+body.edit #main { padding-bottom: 10px; } 
 #main form { margin: 0 3px; }
 
 fieldset.metadata {

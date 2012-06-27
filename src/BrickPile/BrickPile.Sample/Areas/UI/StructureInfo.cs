@@ -17,15 +17,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using BrickPile.Core.Infrastructure.Common;
 using BrickPile.Domain.Models;
-using BrickPile.UI.Common;
-using Raven.Client;
 
 namespace BrickPile.UI {
     /// <summary>
@@ -33,76 +27,14 @@ namespace BrickPile.UI {
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
-    [Obsolete("Not used anymore", false)]
     public class StructureInfo : IStructureInfo {
-
-        private readonly IDocumentSession _session;
-        private IPageModel _currentModel;
-        private IPageModel _rootModel;
-        private IPageModel _parentModel;
-
-        private IEnumerable<IHierarchyNode<IPageModel>> _hierarchicalStructure;
         /// <summary>
-        ///   <see cref="StructureInfo.RootModel"/>
-        /// </summary>
-        public virtual IPageModel RootModel {
-            get {
-                if(_rootModel == null) {
-                    _rootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null);
-                }
-                return _rootModel;
-            }
-        }
-        /// <summary>
-        ///   <see cref="StructureInfo.CurrentModel"/>
-        /// </summary>
-        public virtual IPageModel CurrentModel {
-            get {
-                return _currentModel ??
-                       (_currentModel =
-                        ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>() ??
-                        RootModel);
-            }
-        }
-        /// <summary>
-        /// Gets the parent model.
-        /// </summary>
-        public virtual IPageModel ParentModel {
-            get {
-                if(_parentModel == null && CurrentModel != null && CurrentModel.Parent != null) {
-                    _parentModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Id == CurrentModel.Parent.Id);
-                }
-                return _parentModel;
-            }
-        }
-        /// <summary>
-        /// Gets or sets the hierarchy.
+        /// Represents the current page with it's child pages and all ancestors including each ancestors children, primarily this is used for rendering the navigation controls. 
         /// </summary>
         /// <value>
-        /// The hierarchy.
+        /// The pages.
         /// </value>
-        public virtual IEnumerable<IHierarchyNode<IPageModel>> Hierarchy {
-            get {
-                if (CurrentModel == null)
-                    return null;
-                if (_hierarchicalStructure == null) {
-                    _hierarchicalStructure = _session.HierarchyFrom<IPageModel>(x => x.Id == CurrentModel.Id)
-                        .WherePageIsPublished()
-                        .WherePageIsVisibleInMenu()
-                        .Where(x => !x.Metadata.IsDeleted)
-                        .OrderBy(model => model.Metadata.SortOrder)
-                        .AsHierarchy();
-                }
-                return _hierarchicalStructure;
-            }
-            set { _hierarchicalStructure = value; }
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StructureInfo"/> class.
-        /// </summary>
-        /// <param name="session">The session.</param>
-        public StructureInfo(IDocumentSession session) {
-            _session = session;
-        }
+        public IEnumerable<IPageModel> Pages { get; set; }
+
     }        
 }

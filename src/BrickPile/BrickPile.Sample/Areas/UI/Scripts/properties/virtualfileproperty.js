@@ -168,8 +168,8 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
     render: function () {
 
         var self = this;
-        // Render dialog
-        if (this.$el.find('.modal').length < 1) {
+        // Render dialog, change this name to a more proper dialog name
+        if ($('.modal').length < 1) {
             this.$el.append(this.template());
         }
 
@@ -246,6 +246,10 @@ var VirtualFilePropertyView = Backbone.View.extend({
         this.$el.find(':input').val('');
         this.$el.find('.centerbox img').attr('src', 'http://placehold.it/60x38');
 
+    },
+
+    teardown: function () {
+        this.model.off(null, null, this);
     },
 
     initialize: function () { },

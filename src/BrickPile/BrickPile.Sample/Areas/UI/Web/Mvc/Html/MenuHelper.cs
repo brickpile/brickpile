@@ -44,47 +44,47 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// Responsible for creating a navigation based on an unordered list
         /// </summary>
         /// <param name="html">HtmlHelper</param>
-        /// <param name="pageModels">The page models.</param>
+        /// <param name="pages">The pages.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pageModels, Func<IPageModel, MvcHtmlString> itemContent) {
-            return Menu(html, pageModels, itemContent, itemContent);
+        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent) {
+            return Menu(html, pages, itemContent, itemContent);
         }
         /// <summary>
         /// Responsible for creating a main navigation based on an unordered list
         /// </summary>
         /// <param name="html">HtmlHelper</param>
-        /// <param name="pageModels">The page models.</param>
+        /// <param name="pages">The pages.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <param name="selectedItemContent">Content for selected links</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pageModels, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
-            return Menu(html, pageModels, itemContent, selectedItemContent, itemContent);
+        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
+            return Menu(html, pages, itemContent, selectedItemContent, itemContent);
         }
         /// <summary>
         /// Menus the specified HTML.
         /// </summary>
         /// <param name="html">The HTML.</param>
-        /// <param name="pageModels">The page models.</param>
+        /// <param name="pages">The pages.</param>
         /// <param name="itemContent">Content of the item.</param>
         /// <param name="selectedItemContent">Content of the selected item.</param>
         /// <param name="expandedItemContent">Content of the expanded item.</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pageModels, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent) {
-            return Menu(html, pageModels, itemContent, selectedItemContent, expandedItemContent, null);
+        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent) {
+            return Menu(html, pages, itemContent, selectedItemContent, expandedItemContent, null);
         }
         /// <summary>
         /// Menus the specified HTML.
         /// </summary>
         /// <param name="html">The HTML.</param>
-        /// <param name="pageModels">The page models.</param>
+        /// <param name="pages">The pages.</param>
         /// <param name="itemContent">Content of the item.</param>
         /// <param name="selectedItemContent">Content of the selected item.</param>
         /// <param name="expandedItemContent">Content of the expanded item.</param>
         /// <param name="htmlAttributes">An object that contains the HTML attributes for the element. The attributes are retrieved through reflection by examining the properties of the object. The object is typically created by using object initializer syntax.</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pageModels, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, object htmlAttributes) {
-            if (pageModels == null) {
+        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, object htmlAttributes) {
+            if (pages == null) {
                 return MvcHtmlString.Empty;
             }
 
@@ -93,7 +93,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
             // merge html attributes
             ul.MergeAttributes(new RouteValueDictionary(htmlAttributes));
 
-            var nodes = pageModels.AsHierarchy();
+            var nodes = pages.AsHierarchy();
 
             // only render the top level items
             var items = nodes.Where(x => x.Depth == 1);
@@ -101,7 +101,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
             IPageModel home;
             if(!items.Any()) {
                 // render home if it's published
-                home = pageModels.SingleOrDefault(model => model.Parent == null);
+                home = pages.SingleOrDefault(model => model.Parent == null);
                 if (home != null) {
                     RenderLi(ul, home, home.Equals(CurrentModel) ? selectedItemContent : itemContent);
                     return MvcHtmlString.Create(ul.ToString());
@@ -110,7 +110,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
             }
 
             // add home item
-            home = pageModels.SingleOrDefault(model => model.Parent == null);
+            home = pages.SingleOrDefault(model => model.Parent == null);
             if (home != null) {
                 RenderLi(ul, home, home.Equals(CurrentModel) ? selectedItemContent : itemContent);
             }

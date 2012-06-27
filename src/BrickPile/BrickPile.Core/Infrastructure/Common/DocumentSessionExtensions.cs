@@ -35,6 +35,7 @@ namespace BrickPile.Core.Infrastructure.Common {
         /// <param name="session">The session.</param>
         /// <param name="predicate">The predicate eg. the Id of a document</param>
         /// <returns></returns>
+        [Obsolete("Renamed to GetPages",true)]
         public static IQueryable<T> HierarchyFrom<T>(this IDocumentSession session, Func<PageModel, bool> predicate) where T : IPageModel {
 
             var page = session.Query<PageModel, PageModelWithParentsAndChildren>()
@@ -61,5 +62,36 @@ namespace BrickPile.Core.Infrastructure.Common {
 
             return session.Load<T>(ids).AsQueryable();
         }
+        /// <summary>
+        /// Gets the aggregated list of pages that is expanded based on the current page, primary used for creating page navigation.
+        /// </summary>
+        /// <param name="documentSession">The document session.</param>
+        /// <param name="id">The id of the current page</param>
+        /// <returns></returns>
+        public static IQueryable<IPageModel> GetPages(this IDocumentSession documentSession, string id) {
+            
+            if(string.IsNullOrEmpty(id)) {
+                throw new ArgumentNullException("id","cannot be null");
+            }
+
+            var page = documentSession.Query<PageModel, PageModelWithParentsAndChildren>()
+                .Include(x => x.Ancestors)
+                .Include(x => x.Children)
+                .SingleOrDefault(x => x.Id == id);
+
+            var ids = new List<string> { page.Id };
+            ids.AddRange(page.Children);
+
+            foreach (var ancestor in page.Ancestors.Where(ancestor => ancestor.Children != null)) {
+                if (!ids.Contains(ancestor.Id)) {
+                    ids.Add(ancestor.Id);
+                }
+                foreach (var child in ancestor.Children.Where(child => !ids.Contains(child))) {
+                    ids.Add(child);
+                }
+            }
+
+            return documentSession.Load<IPageModel>(ids).AsQueryable();
+        } 
     }
 }

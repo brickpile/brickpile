@@ -22,6 +22,7 @@ using System.Web.Mvc;
 using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
 using BrickPile.Sample.ViewModels;
+using BrickPile.UI;
 using Raven.Client;
 
 namespace BrickPile.Sample.Controllers {
@@ -29,18 +30,19 @@ namespace BrickPile.Sample.Controllers {
     /// 
     /// </summary>
     public class HomeController : BaseController<Home> {
-        private readonly IDocumentSession _session;
+        private readonly IDocumentSession _documentSession;
         /// <summary>
         /// Indexes this instance.
         /// </summary>
         /// <returns></returns>
         public ActionResult Index() {
             if(CurrentModel != null) {
-                var quotePage = CurrentModel.QuoteLink.Id != null ? _session.Load<BaseEditorial>(CurrentModel.QuoteLink.Id) : null;
+
+                var quotePage = CurrentModel.QuoteLink.Id != null ? _documentSession.Load<BaseEditorial>(CurrentModel.QuoteLink.Id) : null;
                 var viewModel = new HomeViewModel
                                     {
                                         CurrentModel = this.CurrentModel,
-                                        Hierarchy = this.Hierarchy,
+                                        Pages = this.Pages,
                                         QuotePage = quotePage,
                                         Class = "home",
                                     };
@@ -49,14 +51,16 @@ namespace BrickPile.Sample.Controllers {
             }
             return View();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <param name="session">The session.</param>
-        public HomeController(IPageModel model, IDocumentSession session)
-            : base(model, session) {
-            _session = session;
+        /// <param name="documentSession">The documentSession.</param>
+        /// <param name="structureInfo">The structure info.</param>
+        public HomeController(IPageModel model, IDocumentSession documentSession, IStructureInfo structureInfo)
+            : base(model, structureInfo) {
+            _documentSession = documentSession;
         }
     }
 }

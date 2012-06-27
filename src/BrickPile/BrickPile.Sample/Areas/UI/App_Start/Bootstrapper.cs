@@ -74,6 +74,7 @@ namespace BrickPile.UI.App_Start {
 
                 x.For<ISettings>().Use<Settings>();
                 x.For<IPageModel>().UseSpecial(y => y.ConstructedBy( r => ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>()));
+                x.For<IStructureInfo>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.Values["StructureInfo"] as IStructureInfo));
             });
             return ObjectFactory.Container;
         }

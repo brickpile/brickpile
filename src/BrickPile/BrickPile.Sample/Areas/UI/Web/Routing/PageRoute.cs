@@ -98,7 +98,7 @@ namespace BrickPile.UI.Web.Routing {
             }
 
             routeData.ApplyCurrentModel(pathData.Controller, pathData.Action, pathData.CurrentPageModel);
-
+            routeData.Values.Add("StructureInfo", new StructureInfo { Pages = pathData.Pages });
             return routeData;
         }
         /// <summary>
