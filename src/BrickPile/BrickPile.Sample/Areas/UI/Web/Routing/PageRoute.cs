@@ -40,7 +40,14 @@ namespace BrickPile.UI.Web.Routing {
         private static string SubDomain {
             get { return ConfigurationManager.AppSettings["brickpile/uisubdomain"] ?? "ui."; }
         }
+        /// <summary>
+        /// The key for the controller
+        /// </summary>
         public const string ControllerKey = "controller";
+        /// <summary>
+        /// The key for the structure info
+        /// </summary>
+        public const string StructureInfoKey = "structureInfo";
         /// <summary>
         /// Gets the action key.
         /// </summary>
@@ -93,12 +100,17 @@ namespace BrickPile.UI.Web.Routing {
             var pathData = this.PathResolver.ResolvePath(routeData, virtualPath);
 
             // Abort and proceed to other routes in the route table
-            if (pathData == null || !pathData.CurrentPageModel.Metadata.IsPublished) {
+            if (pathData == null) {
                 return null;
             }
 
+            // throw a proper 404 if the page is not published or if it's deleted
+            if(!pathData.CurrentPageModel.Metadata.IsPublished || pathData.CurrentPageModel.Metadata.IsDeleted) {
+                throw new HttpException(404, "HTTP/1.1 404 Not Found");
+            }
+
             routeData.ApplyCurrentModel(pathData.Controller, pathData.Action, pathData.CurrentPageModel);
-            routeData.Values.Add("StructureInfo", new StructureInfo { Pages = pathData.Pages });
+            routeData.ApplyCurrentStructureInfo(new StructureInfo { Pages = pathData.Pages });
             return routeData;
         }
         /// <summary>

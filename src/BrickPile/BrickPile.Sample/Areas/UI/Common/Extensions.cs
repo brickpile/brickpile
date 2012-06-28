@@ -102,6 +102,16 @@ namespace BrickPile.UI.Common {
             return data;
         }
         /// <summary>
+        /// Applies the current structure info.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="structureInfo">The structure info.</param>
+        /// <returns></returns>
+        public static RouteData ApplyCurrentStructureInfo(this RouteData data, IStructureInfo structureInfo) {
+            data.Values[PageRoute.StructureInfoKey] = structureInfo;
+            return data;
+        }
+        /// <summary>
         /// Returns the current model of the current request
         /// </summary>
         /// <param name="data"></param>

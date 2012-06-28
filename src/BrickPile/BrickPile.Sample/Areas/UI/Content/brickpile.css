@@ -436,6 +436,25 @@ th#actions { width: 142px; }
     padding-bottom: 2px;
 }
 
+.actions .btn-group > .btn:first-child {
+    margin-left: 0;
+    -webkit-border-bottom-left-radius: 14px;
+            border-bottom-left-radius: 14px;
+    -webkit-border-top-left-radius: 14px;
+            border-top-left-radius: 14px;
+    -moz-border-radius-bottomleft: 14px;
+    -moz-border-radius-topleft: 14px;
+}
+
+.actions .btn-group > .btn:last-child {
+    -webkit-border-top-right-radius: 14px;
+            border-top-right-radius: 14px;
+    -webkit-border-bottom-right-radius: 14px;
+            border-bottom-right-radius: 14px;
+    -moz-border-radius-topright: 14px;
+    -moz-border-radius-bottomright: 14px;
+}
+
 /*
  * Show deleted pages
  */
