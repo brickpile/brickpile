@@ -6,8 +6,8 @@
 @Html.HiddenFor(_ => Model.Id)
 
 @Html.Section(@<link rel="stylesheet" media="all" href="@Url.Content("~/areas/ui/content/properties/property-pagereference.css")" />, "styles")
+@Html.Section(@<script src="@Url.Content("~/areas/ui/scripts/views/pagereferenceview.js")" type="text/javascript"></script>,"scripts")
 @Html.Section(
-@<script src="@Url.Content("~/areas/ui/scripts/views/pagereferenceview.js")" type="text/javascript"></script>,
 @<script type="text/javascript">
         (function ($) {
             // Shorthand for the application namespace

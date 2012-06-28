@@ -1,4 +1,6 @@
-﻿namespace BrickPile.UI.Models {
+﻿using System.Web.Mvc;
+
+namespace BrickPile.UI.Models {
     public class Image {
         /// <summary>
         /// Gets or sets the URL.

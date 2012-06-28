@@ -43,6 +43,7 @@ namespace BrickPile.Sample.Models {
         /// <value>
         /// The image.
         /// </value>
+        [Required(ErrorMessage = "Knark ...")]
         public Image Image { get; set; }
 
         public Image Image2 { get; set; }
