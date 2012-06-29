@@ -38,7 +38,7 @@ namespace BrickPile.Sample.Controllers {
             var model = new PortfolioViewModel
                             {
                                 CurrentModel = this.CurrentModel,
-                                Pages = this.Pages,
+                                Pages = this.PublishedPages,
                                 Class = "portfolio"
                             };
             return View(model);

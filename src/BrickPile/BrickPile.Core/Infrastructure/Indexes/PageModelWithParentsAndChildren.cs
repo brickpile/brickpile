@@ -33,11 +33,11 @@ namespace BrickPile.Core.Infrastructure.Indexes {
                            select new {
                                page.Id,
                                page.Children,
-                               page.Metadata.DisplayInMenu,
-                               page.Metadata.IsDeleted,
-                               page.Metadata.IsPublished,
-                               page.Metadata.Name,
-                               page.Metadata.Published
+                               //page.Metadata.DisplayInMenu,
+                               //page.Metadata.IsDeleted,
+                               //page.Metadata.IsPublished,
+                               //page.Metadata.Name,
+                               //page.Metadata.Published
                            };
 
             TransformResults = (database, pages) => from page in pages
@@ -46,11 +46,11 @@ namespace BrickPile.Core.Infrastructure.Indexes {
                                                     {
                                                         page.Id,
                                                         page.Children,
-                                                        page.Metadata.DisplayInMenu,
-                                                        page.Metadata.IsDeleted,
-                                                        page.Metadata.IsPublished,
-                                                        page.Metadata.Name,
-                                                        page.Metadata.Published,
+                                                        //page.Metadata.DisplayInMenu,
+                                                        //page.Metadata.IsDeleted,
+                                                        //page.Metadata.IsPublished,
+                                                        //page.Metadata.Name,
+                                                        //page.Metadata.Published,
                                                         Ancestors =
                                                         (
                                                            from ancestor in ancestors
@@ -58,11 +58,11 @@ namespace BrickPile.Core.Infrastructure.Indexes {
                                                            {
                                                                ancestor.Id,
                                                                ancestor.Children,
-                                                               ancestor.Metadata.DisplayInMenu,
-                                                               ancestor.Metadata.IsDeleted,
-                                                               ancestor.Metadata.IsPublished,
-                                                               ancestor.Metadata.Name,
-                                                               ancestor.Metadata.Published
+                                                               //ancestor.Metadata.DisplayInMenu,
+                                                               //ancestor.Metadata.IsDeleted,
+                                                               //ancestor.Metadata.IsPublished,
+                                                               //ancestor.Metadata.Name,
+                                                               //ancestor.Metadata.Published
                                                            })
                                                     };
         }

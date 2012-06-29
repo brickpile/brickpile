@@ -38,7 +38,7 @@ namespace BrickPile.Sample.Controllers {
             var viewModel = new PageViewModel
                                 {
                                     CurrentModel = this.CurrentModel,
-                                    Pages = this.Pages,
+                                    Pages = this.PublishedPages,
                                     Class = "page"
                                 };
 

@@ -46,8 +46,9 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="html">HtmlHelper</param>
         /// <param name="pages">The pages.</param>
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
-        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent) {
+        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, bool enableDisplayInMenu = true) {
             return SubMenu(html, pages, itemContent, itemContent);
         }
         /// <summary>
@@ -57,8 +58,9 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="pages">The pages.</param>
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
         /// <param name="selectedItemContent">A lambda expression defining the content in each selected tree node</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
-        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent) {
+        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true) {
             return SubMenu(html, pages, itemContent, selectedItemContent, itemContent);
         }
         /// <summary>
@@ -69,21 +71,23 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
         /// <param name="selectedItemContent">A lambda expression defining the content in each selected tree node</param>
         /// <param name="expandedItemContent">Content of the expanded item.</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
-        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent) {
+        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true) {
             return SubMenu(html, pages, itemContent, selectedItemContent, expandedItemContent, null);
         }
         /// <summary>
         /// Responsible for creating a navigation tree based on a hierarchical structure
         /// </summary>
         /// <param name="html">HtmlHelper</param>
-        /// <param name="hierarchy">The hierarchy.</param>
+        /// <param name="pages">The pages.</param>
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
         /// <param name="selectedItemContent">A lambda expression defining the content in each selected tree node</param>
         /// <param name="expandedItemContent">Content of the expanded item.</param>
         /// <param name="htmlAttributes">The HTML attributes.</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
-        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, object htmlAttributes) {
+        public static MvcHtmlString SubMenu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, object htmlAttributes, bool enableDisplayInMenu = true) {
             if (pages == null) {
                 return MvcHtmlString.Empty;
             }
@@ -98,11 +102,12 @@ namespace BrickPile.UI.Web.Mvc.Html {
             var ul = new TagBuilder("ul");
             // merge html attributes
             ul.MergeAttributes(new RouteValueDictionary(htmlAttributes));
-
-
+            
             foreach (var node in item.ChildNodes) {
-                RenderLi(ul, node.Entity, node.Entity.Equals(CurrentModel) ? selectedItemContent : (node.Expanded ? expandedItemContent : itemContent));
-                AppendChildrenRecursive(ul, node, x => x.ChildNodes, itemContent, selectedItemContent, expandedItemContent);
+                if(enableDisplayInMenu && node.Entity.Metadata.DisplayInMenu) {
+                    RenderLi(ul, node.Entity, node.Entity.Equals(CurrentModel) ? selectedItemContent : (node.Expanded ? expandedItemContent : itemContent));
+                }
+                AppendChildrenRecursive(ul, node, x => x.ChildNodes, itemContent, selectedItemContent, expandedItemContent, enableDisplayInMenu);
             }
 
             return MvcHtmlString.Create(ul.ToString(TagRenderMode.Normal));            
@@ -118,8 +123,13 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="itemContent">Content of the item.</param>
         /// <param name="selectedItemContent">Content of the selected item.</param>
         /// <param name="expandedItemContent">Content of the expanded item.</param>
-        private static void AppendChildrenRecursive<T>(TagBuilder tagBuilder, IHierarchyNode<IPageModel> rootNode, Func<IHierarchyNode<IPageModel>, IEnumerable<IHierarchyNode<IPageModel>>> childrenProperty, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent, Func<T, MvcHtmlString> expandedItemContent) {
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
+        private static void AppendChildrenRecursive<T>(TagBuilder tagBuilder, IHierarchyNode<IPageModel> rootNode, Func<IHierarchyNode<IPageModel>, IEnumerable<IHierarchyNode<IPageModel>>> childrenProperty, Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent, Func<T, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true) {
             var children = childrenProperty(rootNode);
+            
+            if(children != null && enableDisplayInMenu) {
+                children = children.Where(x => x.Entity.Metadata.DisplayInMenu);
+            }
 
             if (!children.Any()) {
                 tagBuilder.InnerHtml += new TagBuilder("li").ToString(TagRenderMode.EndTag);
@@ -146,6 +156,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
         private static void RenderLi<T>(TagBuilder tagBuilder, T item, Func<T, MvcHtmlString> itemContent) {
             tagBuilder.InnerHtml += new TagBuilder("li").ToString(TagRenderMode.StartTag) + itemContent(item);
+
         }  
     }
 }

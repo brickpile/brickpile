@@ -68,7 +68,7 @@ namespace BrickPile.Core.Infrastructure.Common {
         /// <param name="documentSession">The document session.</param>
         /// <param name="id">The id of the current page</param>
         /// <returns></returns>
-        public static IQueryable<IPageModel> GetPages(this IDocumentSession documentSession, string id) {
+        public static IQueryable<IPageModel> GetPublishedPages(this IDocumentSession documentSession, string id) {
             
             if(string.IsNullOrEmpty(id)) {
                 throw new ArgumentNullException("id","cannot be null");
@@ -91,7 +91,7 @@ namespace BrickPile.Core.Infrastructure.Common {
                 }
             }
 
-            return documentSession.Load<IPageModel>(ids).AsQueryable();
+            return documentSession.Load<IPageModel>(ids).AsQueryable().Where(x => x.Metadata.IsPublished).Where(x => !x.Metadata.IsDeleted);
         } 
     }
 }

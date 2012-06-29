@@ -24,5 +24,4 @@ THE SOFTWARE. *@
 @Html.Menu(Model.Pages,
     page => Html.ActionLink(page.Metadata.Name, "index", new { model = page }),
     page => Html.DisplayFor(_ => page.Metadata.Name,"SelectedTemplate"),
-    page => Html.ActionLink(page.Metadata.Name, "index", new { model = page }, new { @class = "expanded" }),
-    true)
+    page => Html.ActionLink(page.Metadata.Name, "index", new { model = page }, new { @class = "expanded" }))

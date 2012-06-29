@@ -49,7 +49,7 @@ namespace BrickPile.Sample {
         protected void Application_Start() {
 
             // When we use a static file handler for the system thumbnails we need to ignore this path
-            RouteTable.Routes.IgnoreRoute("s3/{*pathInfo}");
+            RouteTable.Routes.IgnoreRoute("static/{*pathInfo}");
 
             AreaRegistration.RegisterAllAreas();
 

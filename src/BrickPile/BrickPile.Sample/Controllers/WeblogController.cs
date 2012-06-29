@@ -38,7 +38,7 @@ namespace BrickPile.Sample.Controllers {
             var model = new WeblogViewModel
                             {
                                 CurrentModel = this.CurrentModel,
-                                Pages = this.Pages,
+                                Pages = this.PublishedPages,
                                 Class = "weblog"
                             };
             return View(model);

@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System.Collections.Generic;
+using System.Linq;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.UI {
@@ -29,12 +30,12 @@ namespace BrickPile.UI {
     /// <example></example>
     public class StructureInfo : IStructureInfo {
         /// <summary>
-        /// Represents the current page with it's child pages and all ancestors including each ancestors children, primarily this is used for rendering the navigation controls. 
+        /// Represents the current page with it's child pages and all ancestors including each ancestors children, primarily this is used for rendering the navigation controls.
         /// </summary>
         /// <value>
         /// The pages.
         /// </value>
-        public IEnumerable<IPageModel> Pages { get; set; }
+        public IQueryable<IPageModel> PublishedPages { get; set; }
 
     }        
 }

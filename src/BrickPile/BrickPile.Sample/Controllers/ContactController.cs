@@ -17,7 +17,7 @@ namespace BrickPile.Sample.Controllers {
             var model = new ContactViewModel
                             {
                                 CurrentModel = this.CurrentModel,
-                                Pages = this.Pages,
+                                Pages = this.PublishedPages,
                                 Class = "contact"
                             };
             return View(model);

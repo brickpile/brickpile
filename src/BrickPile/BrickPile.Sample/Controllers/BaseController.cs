@@ -34,7 +34,7 @@ namespace BrickPile.Sample.Controllers {
         /// <summary>
         /// Base controller with Current model and a default hierarchy for navigational purpose
         /// </summary>
-        private IEnumerable<IPageModel> _pages;
+        private IEnumerable<IPageModel> _publishedPages;
         /// <summary>
         /// Gets the current model.
         /// </summary>
@@ -42,17 +42,12 @@ namespace BrickPile.Sample.Controllers {
         /// <summary>
         /// Gets the pages.
         /// </summary>
-        public virtual IEnumerable<IPageModel> Pages {
+        public virtual IEnumerable<IPageModel> PublishedPages {
             get {
-                return _pages
-                       ?? (_pages = _structureInfo.Pages
-                                            .Where(x => x.Metadata.IsPublished)
-                                            .Where(x => !x.Metadata.IsDeleted)
-                                            .Where(x => x.Metadata.DisplayInMenu)
-                                            .OrderBy(x => x.Metadata.SortOrder));
+                return _publishedPages
+                       ?? (_publishedPages = _structureInfo.PublishedPages.OrderBy(x => x.Metadata.SortOrder));
             }
         }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseController&lt;T&gt;"/> class.
         /// </summary>

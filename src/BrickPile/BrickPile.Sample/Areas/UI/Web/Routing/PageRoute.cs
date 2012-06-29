@@ -110,7 +110,7 @@ namespace BrickPile.UI.Web.Routing {
             }
 
             routeData.ApplyCurrentModel(pathData.Controller, pathData.Action, pathData.CurrentPageModel);
-            routeData.ApplyCurrentStructureInfo(new StructureInfo { Pages = pathData.Pages });
+            routeData.ApplyCurrentStructureInfo(new StructureInfo { PublishedPages = pathData.PublishedPages });
             return routeData;
         }
         /// <summary>
