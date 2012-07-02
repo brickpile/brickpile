@@ -19,6 +19,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System.ComponentModel.DataAnnotations;
+using System.Web;
+using System.Web.Mvc;
 using BrickPile.Domain;
 using BrickPile.Sample.Controllers;
 using BrickPile.UI.Models;
@@ -28,14 +30,14 @@ namespace BrickPile.Sample.Models {
     /// 
     /// </summary>
     [PageType(Name = "Article", ControllerType = typeof(PageController))]
-    public class Page : BaseEditorial {
+    public class Page : BaseModel {
         /// <summary>
         /// Gets or sets the nisse.
         /// </summary>
         /// <value>
         /// The nisse.
         /// </value>
-        [Display(Name = "Page" ,Prompt = "Specify page name...")]
+        [Display(Name = "Page", Prompt = "Specify page name...")]
         public PageReference PageReference { get; set; }
         /// <summary>
         /// Gets or sets the image.
@@ -45,11 +47,5 @@ namespace BrickPile.Sample.Models {
         /// </value>
         [Required(ErrorMessage = "Knark ...")]
         public Image Image { get; set; }
-
-        public Image Image2 { get; set; }
-
-        public Image Image3 { get; set; }
-
-        public Image Image4 { get; set; }
     }
 }

@@ -133,11 +133,11 @@ namespace BrickPile.FileSystem.AmazonS3.Web {
         /// <param name="etag">The etag.</param>
         private void SetCacheParamters(HttpContext context, string mimeType, string localPath, DateTime lastModified, string etag) {
             context.Response.ContentType = mimeType;
-            //context.Response.AddFileDependency(localPath);
-            //context.Response.Cache.SetExpires(DateTime.Now.AddDays(10));
-            //context.Response.Cache.SetLastModified(lastModified);
-            //context.Response.Cache.SetETag(etag);
-            //context.Response.Cache.SetCacheability(HttpCacheability.Public);
+            context.Response.AddFileDependency(localPath);
+            context.Response.Cache.SetExpires(DateTime.Now.AddDays(10));
+            context.Response.Cache.SetLastModified(lastModified);
+            context.Response.Cache.SetETag(etag);
+            context.Response.Cache.SetCacheability(HttpCacheability.Public);
         }
         /// <summary>
         /// Generates the E tag.

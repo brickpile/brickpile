@@ -18,11 +18,31 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.ComponentModel.DataAnnotations;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.Sample.Models {
     /// <summary>
-    /// Abstract base model used as a default template for all page models
+    /// 
     /// </summary>
-    public abstract class BaseModel : PageModel { }
+    public abstract class BaseModel : PageModel {
+        /// <summary>
+        /// Gets or sets the heading.
+        /// </summary>
+        /// <value>
+        /// The heading.
+        /// </value>
+        [Required]
+        [Display(Order = 100, Prompt = "Enter a descriptive heading")]
+        public virtual string Heading { get; set; }
+        /// <summary>
+        /// Gets or sets the main body.
+        /// </summary>
+        /// <value>
+        /// The main body.
+        /// </value>
+        [DataType(DataType.Html)]
+        [Display(Name = "Text")]
+        public virtual string MainBody { get; set; }
+    }
 }

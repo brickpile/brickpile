@@ -17,15 +17,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
-@using BrickPile.FileSystem.AmazonS3.Common
-@model BrickPile.Sample.ViewModels.PortfolioViewModel
+@model BrickPile.UI.Web.ViewModels.IViewModel<BrickPile.Sample.Models.Portfolio>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Main {
-
-    @Html.DisplayFor(_ => Model.CurrentModel.HeaderImage)
 
     <div>
         <section>

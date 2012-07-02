@@ -18,9 +18,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System.Linq;
+using System.Web.Hosting;
 using System.Web.Mvc;
-using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
 using BrickPile.Sample.ViewModels;
 using BrickPile.UI;
@@ -30,38 +29,40 @@ namespace BrickPile.Sample.Controllers {
     /// <summary>
     /// 
     /// </summary>
-    public class HomeController : BaseController<Home> {
+    public class HomeController : Controller {
         private readonly IDocumentSession _documentSession;
+        private readonly IStructureInfo _structureInfo;
         /// <summary>
         /// Indexes this instance.
         /// </summary>
+        /// <param name="currentPage">The current page.</param>
         /// <returns></returns>
-        public ActionResult Index() {
-            if(CurrentModel != null) {
+        public ActionResult Index(Home currentPage) {
 
-                var quotePage = CurrentModel.QuoteLink.Id != null ? _documentSession.Load<BaseEditorial>(CurrentModel.QuoteLink.Id) : null;
-                var viewModel = new HomeViewModel
-                                    {
-                                        CurrentModel = this.CurrentModel,
-                                        Pages = this.PublishedPages,
-                                        QuotePage = quotePage,
-                                        Class = "home",
-                                    };
+            var quotePage = currentPage.QuoteLink.Id != null ?
+                _documentSession.Load<BaseModel>(currentPage.QuoteLink.Id) :
+                null;
+            var viewModel = new HomeViewModel
+                                {
+                                    CurrentModel = currentPage,
+                                    Pages = _structureInfo.PublishedPages,
+                                    QuotePage = quotePage
+                                };
 
-                return View(viewModel);
-            }
-            return View();
+            ViewBag.Class = "home";
+
+            return View(viewModel);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
         /// </summary>
-        /// <param name="model">The model.</param>
         /// <param name="documentSession">The documentSession.</param>
         /// <param name="structureInfo">The structure info.</param>
-        public HomeController(IPageModel model, IDocumentSession documentSession, IStructureInfo structureInfo)
-            : base(model, structureInfo) {
+        public HomeController(IDocumentSession documentSession, IStructureInfo structureInfo) {
             _documentSession = documentSession;
+            _structureInfo = structureInfo;
+
         }
     }
 }

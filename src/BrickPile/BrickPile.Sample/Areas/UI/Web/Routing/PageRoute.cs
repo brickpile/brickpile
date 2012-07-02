@@ -78,7 +78,7 @@ namespace BrickPile.UI.Web.Routing {
         /// Gets the model key.
         /// </summary>
         public static string ModelKey {
-            get { return "model"; }
+            get { return "currentPage"; }
         }
         /// <summary>
         /// Gets the route data.

@@ -91,7 +91,7 @@ namespace BrickPile.Core.Infrastructure.Common {
                 }
             }
 
-            return documentSession.Load<IPageModel>(ids).AsQueryable().Where(x => x.Metadata.IsPublished).Where(x => !x.Metadata.IsDeleted);
+            return documentSession.Load<IPageModel>(ids).AsQueryable().Where(x => x.Metadata.IsPublished).Where(x => !x.Metadata.IsDeleted).OrderBy(x => x.Metadata.SortOrder);
         } 
     }
 }

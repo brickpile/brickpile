@@ -18,17 +18,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System.ComponentModel.DataAnnotations;
 using BrickPile.Domain;
 using BrickPile.Sample.Controllers;
-using BrickPile.UI.Models;
 
 namespace BrickPile.Sample.Models {
     /// <summary>
     /// 
     /// </summary>
     [PageType(Name = "Portfolio", ControllerType = typeof(PortfolioController))]
-    public class Portfolio : BaseEditorial {
+    public class Portfolio : BaseModel {
 
         //[Display(Name = "My picture")]
         //public Image HeaderImage { get; set; }

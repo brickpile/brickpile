@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Infrastructure.Indexes;
@@ -31,6 +32,8 @@ using Raven.Client;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 using StructureMap;
+using StructureMap.Configuration.DSL;
+using StructureMap.Graph;
 
 namespace BrickPile.UI.App_Start {
     /// <summary>
@@ -73,10 +76,39 @@ namespace BrickPile.UI.App_Start {
                 x.For<IControllerMapper>().Use<ControllerMapper>();
 
                 x.For<ISettings>().Use<Settings>();
+
+                //x.Scan(scanner =>
+                //{
+                //    scanner.AssembliesFromApplicationBaseDirectory();
+                //    scanner.Convention<MySpecialConvetion>();
+                //});
+
                 x.For<IPageModel>().UseSpecial(y => y.ConstructedBy( r => ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>()));
+
                 x.For<IStructureInfo>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.Values["StructureInfo"] as IStructureInfo));
+
             });
             return ObjectFactory.Container;
+        }
+    }
+
+    public class MySpecialConvetion : IRegistrationConvention {
+        public void Process(Type type, Registry registry) {
+
+            // only interested in non abstract concrete types that have a matching named interface and start with Sql           
+            //if (type.IsAbstract || !type.IsClass || type.GetInterface(type.Name.Replace("Sql", "I")) == null)
+            //    return;
+
+            // Get interface and register (can use AddType overload method to create named types
+            //Type interfaceType = type.GetInterface(type.Name.Replace("Sql", "I"));
+            //if(type.IsAssignableFrom(typeof(IPageModel))){
+            //    registry.For(type).Use( context => context. ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>());
+            //}
+            //registry.AddType(interfaceType, type);
+
+            //if(type.IsAssignableFrom(typeof(IPageModel))) {
+            //    registry.For<>().UseSpecial(y => y.ConstructedBy( r => ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<>()));
+            //}
         }
     }
 }

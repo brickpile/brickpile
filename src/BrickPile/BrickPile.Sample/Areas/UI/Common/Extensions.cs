@@ -165,11 +165,32 @@ namespace BrickPile.UI.Common {
         /// Actions the link.
         /// </summary>
         /// <param name="htmlHelper">The HTML helper.</param>
+        /// <param name="model">The model.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        /// <returns></returns>
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, IPageModel model, object htmlAttributes) {
+            return htmlHelper.ActionLink(model.Metadata.Name, model, htmlAttributes);
+        }
+        /// <summary>
+        /// Actions the link.
+        /// </summary>
+        /// <param name="htmlHelper">The HTML helper.</param>
         /// <param name="linkText">The link text.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
         public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, IPageModel model) {
-            return htmlHelper.ActionLink(linkText, "index", new { model });
+            return htmlHelper.ActionLink(linkText, model, null);
+        }
+        /// <summary>
+        /// Actions the link.
+        /// </summary>
+        /// <param name="htmlHelper">The HTML helper.</param>
+        /// <param name="linkText">The link text.</param>
+        /// <param name="model">The model.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        /// <returns></returns>
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, IPageModel model, object htmlAttributes) {
+            return htmlHelper.ActionLink(linkText, "index", new { currentPage = model }, htmlAttributes);
         }
         /// <summary>
         /// Actions the specified URL helper.

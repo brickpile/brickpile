@@ -18,7 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
-@model BrickPile.Sample.ViewModels.IBaseViewModel<BrickPile.Sample.Models.BaseEditorial>
+@model BrickPile.UI.Web.ViewModels.IViewModel<BrickPile.Sample.Models.BaseModel>
 @using System.Globalization
 @using SquishIt.Framework
 
@@ -38,7 +38,7 @@ THE SOFTWARE. *@
         
         <!--link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /-->
 	</head>
-	<body class ="@Model.Class">
+	<body class ="@ViewBag.Class">
         <header role="banner">
             <nav>
                 @Html.Partial("_GlobalNav")
@@ -50,7 +50,7 @@ THE SOFTWARE. *@
 
         } else {
             
-            <h1><span>@Model.CurrentModel.Heading</span></h1>       
+            <h1><span>@Model.CurrentModel.Heading</span></h1>
             
         }
 	    <div id="content" role="main">

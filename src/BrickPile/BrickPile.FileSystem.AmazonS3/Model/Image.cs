@@ -38,10 +38,10 @@ namespace BrickPile.FileSystem.AmazonS3.Model {
             // check if it does exist
             //var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(this._virtualPath) as AmazonS3VirtualFile;
 
-            //if (_virtualFile == null || string.IsNullOrEmpty(_virtualFile.Etag)) {
-            //    return string.Empty;
-            //    //throw new HttpException(404, "File not found");
-            //}
+            if (_virtualFile == null || string.IsNullOrEmpty(_virtualFile.Etag)) {
+                return string.Empty;
+                //throw new HttpException(404, "File not found");
+            }
 
             var provider = HostingEnvironment.VirtualPathProvider as AmazonS3VirtualPathProvider;
 

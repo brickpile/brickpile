@@ -1,33 +1,37 @@
 ﻿using System.Web.Mvc;
-using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
-using BrickPile.Sample.ViewModels;
 using BrickPile.UI;
+using BrickPile.UI.Web.ViewModels;
 
 namespace BrickPile.Sample.Controllers {
     /// <summary>
     /// 
     /// </summary>
-    public class ContactController : BaseController<Contact> {
+    public class ContactController : Controller {
+        private readonly IStructureInfo _structureInfo;
         /// <summary>
         /// Indexes this instance.
         /// </summary>
+        /// <param name="currentPage">The current page.</param>
         /// <returns></returns>
-        public ActionResult Index() {
-            var model = new ContactViewModel
-                            {
-                                CurrentModel = this.CurrentModel,
-                                Pages = this.PublishedPages,
-                                Class = "contact"
-                            };
-            return View(model);
+        public ActionResult Index(Contact currentPage) {
+
+            var viewModel = new DefaultViewModel<Contact>
+            {
+                CurrentModel = currentPage,
+                Pages = _structureInfo.PublishedPages
+            };
+
+            ViewBag.Class = "contact";
+
+            return View(viewModel);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactController"/> class.
         /// </summary>
-        /// <param name="model">The model.</param>
         /// <param name="structureInfo">The structure info.</param>
-        public ContactController(IPageModel model, IStructureInfo structureInfo) : base(model,structureInfo) { }
-
+        public ContactController(IStructureInfo structureInfo) {
+            _structureInfo = structureInfo;
+        }
     }
 }

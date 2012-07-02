@@ -106,6 +106,7 @@
     </Compile>
     <Compile Include="usage\SampleModel.cs" />
     <None Include=".doclist" />
+    <None Include="getting-started\iis.markdown" />
     <None Include="getting-started\index.markdown" />
     <None Include="getting-started\setup.markdown" />
     <None Include="index.markdown" />

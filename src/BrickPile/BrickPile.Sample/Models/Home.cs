@@ -28,7 +28,7 @@ namespace BrickPile.Sample.Models {
     /// 
     /// </summary>
     [PageType(Name = "Home page", ControllerType = typeof(HomeController))]
-    public class Home : BaseEditorial {
+    public class Home : BaseModel {
         /// <summary>
         /// Gets or sets the main intro.
         /// </summary>

@@ -112,6 +112,9 @@ namespace BrickPile.UI.Web.Mvc.Html {
                 // render home if it's published
                 home = pages.SingleOrDefault(model => model.Parent == null);
                 if (home != null) {
+                    if(enableDisplayInMenu && !home.Metadata.DisplayInMenu) {
+                        return MvcHtmlString.Empty;
+                    }
                     RenderLi(ul, home, home.Equals(CurrentModel) ? selectedItemContent : itemContent);
                     return MvcHtmlString.Create(ul.ToString());
                 }

@@ -18,7 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
-@model BrickPile.Sample.ViewModels.PageViewModel
+@model BrickPile.UI.Web.ViewModels.IViewModel<BrickPile.Sample.Models.Page>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -27,6 +27,8 @@ THE SOFTWARE. *@
     <img src="@Model.CurrentModel.Image.Url" alt="@Model.CurrentModel.Image.AltText" />    
 }
 @Html.Raw(Model.CurrentModel.MainBody)
+
+@Html.DisplayFor(x => x.CurrentModel.Html)
 
 @*<div id="fb-root"></div>
 <script>

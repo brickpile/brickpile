@@ -19,36 +19,38 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System.Web.Mvc;
-using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
-using BrickPile.Sample.ViewModels;
 using BrickPile.UI;
-using Raven.Client;
+using BrickPile.UI.Web.ViewModels;
 
 namespace BrickPile.Sample.Controllers {
     /// <summary>
     /// 
     /// </summary>
-    public class PortfolioController : BaseController<Portfolio> {
+    public class PortfolioController : Controller {
+        private readonly IStructureInfo _structureInfo;
         /// <summary>
         /// Indexes this instance.
         /// </summary>
+        /// <param name="currentPage">The current page.</param>
         /// <returns></returns>
-        public ActionResult Index() {
-            var model = new PortfolioViewModel
-                            {
-                                CurrentModel = this.CurrentModel,
-                                Pages = this.PublishedPages,
-                                Class = "portfolio"
-                            };
-            return View(model);
+        public ActionResult Index(Portfolio currentPage) {
+            var viewModel = new DefaultViewModel<Portfolio>
+            {
+                CurrentModel = currentPage,
+                Pages =_structureInfo.PublishedPages
+            };
+
+            ViewBag.Class = "portfolio";
+
+            return View(viewModel);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="PortfolioController"/> class.
         /// </summary>
-        /// <param name="model">The model.</param>
         /// <param name="structureInfo">The structure info.</param>
-        public PortfolioController(IPageModel model, IStructureInfo structureInfo)
-            : base(model, structureInfo) { }
+        public PortfolioController(IStructureInfo structureInfo) {
+            _structureInfo = structureInfo;
+        }
     }
 }

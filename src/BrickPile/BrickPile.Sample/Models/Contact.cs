@@ -8,5 +8,5 @@ namespace BrickPile.Sample.Models {
     /// 
     /// </summary>
     [PageType(Name = "Contact", ControllerType = typeof(ContactController), ResourceType = typeof(Resource))]
-    public class Contact : BaseEditorial { }
+    public class Contact : BaseModel { }
 }

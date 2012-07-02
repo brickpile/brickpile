@@ -19,38 +19,38 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System.Web.Mvc;
-using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
-using BrickPile.Sample.ViewModels;
 using BrickPile.UI;
-using Raven.Client;
+using BrickPile.UI.Web.ViewModels;
 
 namespace BrickPile.Sample.Controllers {
     /// <summary>
     /// 
     /// </summary>
-    public class PageController : BaseController<Page> {
+    public class PageController : Controller {
+        private readonly IStructureInfo _structureInfo;
         /// <summary>
         /// Indexes this instance.
         /// </summary>
+        /// <param name="currentPage">The current page.</param>
         /// <returns></returns>
-        public ActionResult Index() {
-            var viewModel = new PageViewModel
-                                {
-                                    CurrentModel = this.CurrentModel,
-                                    Pages = this.PublishedPages,
-                                    Class = "page"
-                                };
+        public ActionResult Index(Page currentPage) {
+            var viewModel = new DefaultViewModel<Page>
+            {
+                CurrentModel = currentPage,
+                Pages = _structureInfo.PublishedPages
+            };
+
+            ViewBag.Class = "page";
 
             return View(viewModel);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="PageController"/> class.
         /// </summary>
-        /// <param name="model">The model.</param>
         /// <param name="structureInfo">The structure info.</param>
-        public PageController(IPageModel model, IStructureInfo structureInfo)
-            : base(model, structureInfo) {            
+        public PageController(IStructureInfo structureInfo) {
+            _structureInfo = structureInfo;
         }
     }
 }

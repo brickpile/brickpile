@@ -18,19 +18,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.Collections.Generic;
+using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
+using BrickPile.UI.Web.ViewModels;
 
 namespace BrickPile.Sample.ViewModels {
     /// <summary>
     /// 
     /// </summary>
-    public class HomeViewModel : BaseViewModel<Home> {
+    public class HomeViewModel : IViewModel<Home> {
         /// <summary>
         /// Gets or sets the teaser one.
         /// </summary>
         /// <value>
         /// The teaser one.
         /// </value>
-        public BaseEditorial QuotePage { get; set; }
+        public BaseModel QuotePage { get; set; }
+        /// <summary>
+        /// Gets the current model.
+        /// </summary>
+        /// <value>
+        /// The current model.
+        /// </value>
+        public Home CurrentModel { get; set; }
+        /// <summary>
+        /// Gets or sets the pages.
+        /// </summary>
+        /// <value>
+        /// The pages.
+        /// </value>
+        public IEnumerable<IPageModel> Pages { get; set; }
     }
 }
