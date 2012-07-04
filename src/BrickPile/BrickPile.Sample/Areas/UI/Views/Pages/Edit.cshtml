@@ -37,6 +37,11 @@ THE SOFTWARE. *@
         <span class="text">@Model.ParentModel.Metadata.Name</span>
         <span class="left"></span>
     </a>
+} else {
+    <a href="@Url.Action("index", "pages", new { model = Model.RootModel })" class="btn back">
+        <span class="text">@Model.RootModel.Metadata.Name</span>
+        <span class="left"></span>
+    </a>    
 }
            
 @Html.ValidationSummary()
@@ -71,11 +76,11 @@ THE SOFTWARE. *@
                 </div>
                 <div>
                     <div id="visible">
-                        @Html.LabelFor(model => model.CurrentModel.Metadata.DisplayInMenu,"Visible in menu")
+                        @Html.LabelFor(model => model.CurrentModel.Metadata.DisplayInMenu, "Visible in menu")
                         @Html.CheckBoxFor(model => model.CurrentModel.Metadata.DisplayInMenu)
                     </div>
                     <div id="ispublished">
-                        @Html.LabelFor(model => model.CurrentModel.Metadata.IsPublished,"Published")
+                        @Html.LabelFor(model => model.CurrentModel.Metadata.IsPublished, "Published")
                         @Html.CheckBoxFor(model => model.CurrentModel.Metadata.IsPublished)
                     </div>
                 </div>
