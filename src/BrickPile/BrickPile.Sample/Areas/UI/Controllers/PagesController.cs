@@ -39,10 +39,11 @@ namespace BrickPile.UI.Controllers {
         /// <summary>
         /// Default action
         /// </summary>
+        /// <param name="deleted">if set to <c>true</c> [deleted].</param>
         /// <returns>
         /// Returns a list of children to the current page
         /// </returns>
-        public ActionResult Index(bool? deleted = false) {
+        public ActionResult Index(bool deleted = false) {
 
             if(_model == null) {
                 ViewBag.Class = "start";
@@ -51,6 +52,7 @@ namespace BrickPile.UI.Controllers {
 
             var id = (string)_model.Id;
             var parentId = _model.Parent != null ? (string) _model.Parent.Id : null;
+            
             var viewModel = new IndexViewModel
                                 {
                                     RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
@@ -62,12 +64,7 @@ namespace BrickPile.UI.Controllers {
                                         .OrderBy(model => model.Metadata.SortOrder)
                                         .ToList()
                                 };
-
             
-            if(Request.IsAjaxRequest()) {
-                return PartialView("Index", viewModel);
-            }
-            //ViewBag.Class = "pages";
             return View("Index", viewModel);
 
         }
@@ -232,7 +229,11 @@ namespace BrickPile.UI.Controllers {
                 // Set changed date
                 page.Metadata.Changed = DateTime.Now;
                 page.Metadata.ChangedBy = HttpContext.User.Identity.Name;
-
+                // Set published date if the page is published
+                if (page.Metadata.IsPublished) {
+                    page.Metadata.Published = DateTime.Now;
+                }
+                
                 // Add page to repository and save changes
                 _session.SaveChanges();
                 //_repository.Refresh(model);
