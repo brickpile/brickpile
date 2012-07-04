@@ -20,6 +20,7 @@ THE SOFTWARE. */
 
 using System;
 using System.Configuration;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Routing;
@@ -105,12 +106,12 @@ namespace BrickPile.UI.Web.Routing {
             }
 
             // throw a proper 404 if the page is not published or if it's deleted
-            if(!pathData.CurrentPageModel.Metadata.IsPublished || pathData.CurrentPageModel.Metadata.IsDeleted) {
+            if(!pathData.CurrentPage.Metadata.IsPublished || pathData.CurrentPage.Metadata.IsDeleted) {
                 throw new HttpException(404, "HTTP/1.1 404 Not Found");
             }
 
-            routeData.ApplyCurrentModel(pathData.Controller, pathData.Action, pathData.CurrentPageModel);
-            routeData.ApplyCurrentStructureInfo(new StructureInfo { PublishedPages = pathData.PublishedPages });
+            routeData.ApplyCurrentModel(pathData.Controller, pathData.Action, pathData.CurrentPage);
+            routeData.ApplyCurrentStructureInfo(new StructureInfo { Pages = pathData.Pages, StartPage = pathData.Pages.Where(x => x.Parent == null) as IPageModel});
             return routeData;
         }
         /// <summary>

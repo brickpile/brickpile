@@ -44,13 +44,13 @@ namespace BrickPile.UI.Web.Routing {
         /// <value>
         /// The current page model.
         /// </value>
-        IPageModel CurrentPageModel { get; set; }
+        IPageModel CurrentPage { get; set; }
         /// <summary>
         /// Gets or sets the pages.
         /// </summary>
         /// <value>
         /// The pages.
         /// </value>
-        IQueryable<IPageModel> PublishedPages { get; set; }
+        IQueryable<IPageModel> Pages { get; set; }
     }
 }

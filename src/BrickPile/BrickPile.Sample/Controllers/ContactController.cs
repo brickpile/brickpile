@@ -19,7 +19,7 @@ namespace BrickPile.Sample.Controllers {
             var viewModel = new DefaultViewModel<Contact>
             {
                 CurrentModel = currentPage,
-                Pages = _structureInfo.PublishedPages
+                Pages = _structureInfo.Pages
             };
 
             ViewBag.Class = "contact";

@@ -52,7 +52,7 @@ namespace BrickPile.UI.Controllers {
 
             var id = (string)_model.Id;
             var parentId = _model.Parent != null ? (string) _model.Parent.Id : null;
-            
+
             var viewModel = new IndexViewModel
                                 {
                                     RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
@@ -161,16 +161,6 @@ namespace BrickPile.UI.Controllers {
             _session.SaveChanges();
             return new EmptyResult();
         }
-        /// <summary>
-        /// Responsible for providing the add page view with data
-        /// </summary>
-        /// <returns></returns>
-        //public ActionResult Add() {
-        //    if (Request.IsAjaxRequest()) {
-        //        return PartialView(new NewModel { CurrentModel = _model });
-        //    }
-        //    return new EmptyResult();
-        //}
         /// <summary>
         /// News the specified new page model.
         /// </summary>

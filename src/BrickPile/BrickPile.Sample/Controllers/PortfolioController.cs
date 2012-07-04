@@ -38,7 +38,7 @@ namespace BrickPile.Sample.Controllers {
             var viewModel = new DefaultViewModel<Portfolio>
             {
                 CurrentModel = currentPage,
-                Pages =_structureInfo.PublishedPages
+                Pages =_structureInfo.Pages
             };
 
             ViewBag.Class = "portfolio";

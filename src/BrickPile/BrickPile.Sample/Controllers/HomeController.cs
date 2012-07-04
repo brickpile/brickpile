@@ -18,7 +18,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System.Web.Hosting;
 using System.Web.Mvc;
 using BrickPile.Sample.Models;
 using BrickPile.Sample.ViewModels;
@@ -45,8 +44,9 @@ namespace BrickPile.Sample.Controllers {
             var viewModel = new HomeViewModel
                                 {
                                     CurrentModel = currentPage,
-                                    Pages = _structureInfo.PublishedPages,
-                                    QuotePage = quotePage
+                                    Pages = _structureInfo.Pages,
+                                    QuotePage = quotePage,
+                                    RootPage = _structureInfo.StartPage
                                 };
 
             ViewBag.Class = "home";

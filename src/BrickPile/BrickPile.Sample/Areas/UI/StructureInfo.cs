@@ -18,7 +18,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System.Collections.Generic;
 using System.Linq;
 using BrickPile.Domain.Models;
 
@@ -30,12 +29,18 @@ namespace BrickPile.UI {
     /// <example></example>
     public class StructureInfo : IStructureInfo {
         /// <summary>
-        /// Represents the current page with it's child pages and all ancestors including each ancestors children, primarily this is used for rendering the navigation controls.
+        /// Represents the current page with it's children, all ancestors including each ancestors children, primarily this is used for rendering the navigation.
         /// </summary>
         /// <value>
         /// The pages.
         /// </value>
-        public IQueryable<IPageModel> PublishedPages { get; set; }
-
+        public IQueryable<IPageModel> Pages { get; set; }
+        /// <summary>
+        /// Gets or sets the root page of the web site.
+        /// </summary>
+        /// <value>
+        /// The root page.
+        /// </value>
+        public IPageModel StartPage { get; set; }
     }        
 }
