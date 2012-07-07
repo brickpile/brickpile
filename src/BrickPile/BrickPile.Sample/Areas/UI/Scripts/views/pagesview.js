@@ -27,14 +27,17 @@ var PagesView = Backbone.View.extend({
         'click tr a.perma-delete': 'permanentDelete',
         'click tr a.restore': 'restorePage'
     },
-    
+
     isCtrl: false,
 
     // Publish or unpublish a page
     publishPage: function (event) {
         try {
             var $elm = $(event.currentTarget).parents('tr').find('abbr.timeago');
-            $elm.text(jQuery.timeago(new Date()));
+            var d = new Date();
+            $elm.html(jQuery.timeago(ISODateString(d)));
+            //$elm.html(new Date());
+            //$elm.timeago(ISODateString(d));
             $(event.currentTarget).parents('tr').find('span').effect('highlight', { color: '#ffffaa' }, 3000);
             $.post('/pages/publish/', { id: $(event.currentTarget).attr('name'), published: event.currentTarget.checked });
         } catch (exception) {
@@ -44,11 +47,17 @@ var PagesView = Backbone.View.extend({
 
     // Open the new page dialog
     addPage: function (event) {
+
+        if ($('#models').length > 0) {
+            return false;
+        }
+
         event.preventDefault();
         event.stopPropagation();
 
         var modal = new NewPageModalView();
         modal.render();
+
     },
 
     // Deletes a page
@@ -115,8 +124,6 @@ var PagesView = Backbone.View.extend({
     initialize: function () {
         this.render();
 
-        $(this.$el).find('abbr.timeago').timeago();
-
         $('table.sortable tbody').sortable({
             handle: 'td.sort',
             items: 'tr:not(.ui-state-disabled)',
@@ -146,5 +153,19 @@ var PagesView = Backbone.View.extend({
     },
 
     // Render view
-    render: function () { }
+    render: function () {
+        $(this.$el).find('.timeago').timeago();
+    }
 });
+
+function ISODateString(d) {
+    function pad(n) {
+        return n < 10 ? '0' + n : n
+    }
+    return d.getUTCFullYear() + '-'
+    + pad(d.getUTCMonth() + 1) + '-'
+    + pad(d.getUTCDate()) + 'T'
+    + pad(d.getUTCHours()) + ':'
+    + pad(d.getUTCMinutes()) + ':'
+    + pad(d.getUTCSeconds()) + 'Z'
+}

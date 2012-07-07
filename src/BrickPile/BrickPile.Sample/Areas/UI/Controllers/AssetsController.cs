@@ -24,7 +24,7 @@ namespace BrickPile.UI.Controllers {
 
             var directory = HostingEnvironment.VirtualPathProvider.GetDirectory(path) as AmazonS3VirtualDirectory;
 
-            return new JsonResult()
+            return new JsonResult
             {
                 Data = new
                 {

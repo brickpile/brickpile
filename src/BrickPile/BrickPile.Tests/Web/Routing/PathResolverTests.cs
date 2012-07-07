@@ -173,6 +173,8 @@ namespace BrickPile.Tests.Web.Routing {
             Assert.NotNull(data);
             Assert.AreEqual("myaction", data.Action);
             Assert.AreEqual("Dummy", data.Controller);
+
+           
         }
     }
     [PageType(Name = "Dummy", ControllerType = typeof(DummyController))]

@@ -32,7 +32,7 @@
     @<script id="view-template-virtual-file-dialog" type="text/html">
          <div class="modal">
              <div class="modal-header">
-                 <a href="#" class="close"><img src="@Url.Content("/areas/ui/images/dialog-close.png")" alt="close" /></a>
+                 <a class="close"><img src="@Url.Content("/areas/ui/images/dialog-close.png")" alt="close" /></a>
                  <h1>Select an image...</h1>
              </div>
              <div class="modal-body">
@@ -40,16 +40,17 @@
                  <div id="files"><ul></ul></div>
              </div>
              <div class="modal-footer">
-                <a href="#" class="btn cancel" >No, cancel</a>
-                <a href="#" class="btn select">Select</a>
+                <a class="btn cancel" >No, cancel</a>
+                <a class="btn select">Select</a>
             </div>
          </div>
     </script>,
     @<script id="view-template-virtual-file" type="text/html">
          <li>
-             <a href="#">
-                <img src="<%= Thumbnail %>" width="110" alt=""/>
+             <a>
+                 <img src="<%= Thumbnail %>" alt="" title="<%= Name %>"/>
              </a>
+             <span style="font-size:11px;color:#28353d;overflow:hidden;margin-top: 10px;display: inline-block;width: 110px;position: relative;"><%= Name %></span>
         </li>
     </script>,
     @<script id="view-template-virtual-directory" type="text/html">

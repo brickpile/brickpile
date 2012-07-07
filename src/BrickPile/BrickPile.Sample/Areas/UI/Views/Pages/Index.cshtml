@@ -85,7 +85,7 @@ THE SOFTWARE. *@
                 <td class="name"><span>@Model.RootModel.Metadata.Name</span></td>
                 <td class="slug"><span>/@Model.RootModel.Metadata.Slug</span></td>
                 <td class="publish"><span>@Html.CheckBox(Model.RootModel.Id.Replace("/", "_"), Model.RootModel.Metadata.IsPublished, new { @class = "publish" })</span></td>
-                <td class="changed"><span><abbr class="timeago" title="@Model.RootModel.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(Model.RootModel.Metadata.Changed.FormatDate() + "</abbr> <strong>by</strong> " + Model.RootModel.Metadata.ChangedBy)</span></td>
+                <td class="changed"><span><abbr class="timeago" title="@Model.RootModel.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(Model.RootModel.Metadata.Changed.Value.ToString("f") + "</abbr> <strong>by</strong> " + Model.RootModel.Metadata.ChangedBy)</span></td>
                 <td class="actions">
                     <span>
                         <span class="btn-group">
@@ -109,7 +109,7 @@ THE SOFTWARE. *@
                         <td class="name"><span>@item.Metadata.Name</span></td>
                         <td class="slug"><span>@item.Metadata.Slug</span></td>
                         <td class="publish"><span>@Html.CheckBox(item.Id.Replace("/", "_"), item.Metadata.IsPublished, new { disabled = "disabled" })</span></td>
-                        <td class="changed"><span><abbr class="timeago" title="@item.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(item.Metadata.Changed.FormatDate() + "</abbr> <strong>by</strong> " + item.Metadata.ChangedBy)</span></td>
+                        <td class="changed"><span><abbr class="timeago" title="@item.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(item.Metadata.Changed.Value.ToString("f") + "</abbr> <strong>by</strong> " + item.Metadata.ChangedBy)</span></td>
                         <td class="actions">
                             <span>
                                 <span class="btn-group">
@@ -129,7 +129,7 @@ THE SOFTWARE. *@
                         <td class="name"><span>@item.Metadata.Name</span></td>
                         <td class="slug"><span>@item.Metadata.Slug</span></td>
                         <td class="publish"><span>@Html.CheckBox(item.Id.Replace("/", "_"), item.Metadata.IsPublished, new { @class = "publish" })</span></td>
-                        <td class="changed"><span><abbr class="timeago" title="@item.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(item.Metadata.Changed.FormatDate() + "</abbr> <strong>by</strong> " + item.Metadata.ChangedBy)</span></td>
+                        <td class="changed"><span><abbr class="timeago" title="@item.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(item.Metadata.Changed.Value.ToString("f") + "</abbr> <strong>by</strong> " + item.Metadata.ChangedBy)</span></td>
                         <td class="actions">
                             <span>
                                 <span class="btn-group">

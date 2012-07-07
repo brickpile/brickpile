@@ -28,8 +28,8 @@ THE SOFTWARE. *@
     <div id="branding">
         <div>
             <div>
-                <h1><span>@Model.CurrentModel.Heading</span></h1>    
-                <p>@Model.CurrentModel.MainIntro</p>
+                <h1><span>@Model.CurrentPage.Heading</span></h1>    
+                <p>@Model.CurrentPage.MainIntro</p>
                 @if(Model.QuotePage != null) {
                     <a href="@Url.Action("index", new { model = Model.QuotePage })" id="quote"><img src="/content/call-to-action.png" alt="Get a quote" width="232" height="80"/></a>
                 }
@@ -42,16 +42,16 @@ THE SOFTWARE. *@
 @section Main {
 
     <section id="why">
-        @Html.Raw(Model.CurrentModel.MainBody)
+        @Html.Raw(Model.CurrentPage.MainBody)
     </section>
     <section id="our-work">
-        @Html.Raw(Model.CurrentModel.Portfolio)
+        @Html.Raw(Model.CurrentPage.Portfolio)
     </section>
     <section id="weblog">
-        @Html.Raw(Model.CurrentModel.Weblog)
+        @Html.Raw(Model.CurrentPage.Weblog)
     </section>
     <section id="contact">
-        @Html.Raw(Model.CurrentModel.Contact)
+        @Html.Raw(Model.CurrentPage.Contact)
     </section>
 
 }

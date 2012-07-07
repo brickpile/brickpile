@@ -59,7 +59,7 @@ input[type=text].alttext {
     top: 50%;
     left: 50%;
     z-index: 1050;
-    width: 790px;
+    width: 840px;
     margin: -250px 0 0 -395px;
     overflow: auto;
     background-color: white;
@@ -111,9 +111,9 @@ input[type=text].alttext {
     border-right: solid 1px #e7e8e4;
     float: left;
     bottom: 58px;
-    top: 46px;
+    top: 47px;
     position: absolute;
-    width: 25%;
+    width: 191px;
 }
 .modal-body #directories ul {
     margin: 0;
@@ -136,15 +136,20 @@ input[type=text].alttext {
 }
 .modal-body #files {
     float: right;
-    width: 75%;
+    width: 615px;
+}
+.modal-body #files ul {
+    margin: 25px 0 0;
+    margin-left: 0;
+    padding-left: 23px;
 }
 .modal-body #files li {
-    margin: 0 1em 1em 0;
+    margin: 0 28px 1em 0;
 }
 .modal-body #files li  {
     /* basic styling */
-    width: 118px;
-    height: 118px;
+    width: 120px;
+    /*height: 135px;*/
     border: 0;
 
     /* flexbox, por favor */
@@ -167,7 +172,10 @@ input[type=text].alttext {
     box-pack: end;
     box-align: center;
 
-    vertical-align: top;
+    text-align: center;
+}
+.modal-body #files li:hover {
+    cursor: pointer;
 }
 .modal-body #files li img {
     display: block;
@@ -179,6 +187,7 @@ input[type=text].alttext {
     
     
 }
+
 .modal-body #files li.selected img {
     border-color: rgba(82, 168, 236, 0.8);
     outline: 0;
@@ -195,6 +204,7 @@ input[type=text].alttext {
          -o-transition: border linear 0.2s, box-shadow linear 0.2s;
             transition: border linear 0.2s, box-shadow linear 0.2s;
 }
+
 .modal-footer {
     padding: 14px 15px 15px;
     margin-bottom: 0;
@@ -212,7 +222,7 @@ input[type=text].alttext {
 .centerbox {
     /* basic styling */
     width: 64px;
-    height: 42px;
+    height: 44px;
     border: 1px solid #ccc;
     border-radius: 2px;
     background : #fff url("/areas/ui/images/ajax-loader.gif") no-repeat center center;
@@ -242,4 +252,16 @@ input[type=text].alttext {
 }
 .centerbox img {
     display: block;
+}
+
+#files li span:after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background: -webkit-gradient( linear, 0 0, 100% 0, from(rgba(255, 255, 255, 0)), to(white) );
+    background: -moz-linear-gradient( 0, rgba(255, 255, 255, 0), white );
 }

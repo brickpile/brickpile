@@ -166,7 +166,6 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
     },
 
     render: function () {
-
         var self = this;
         // Render dialog, change this name to a more proper dialog name
         if ($('.modal').length < 1) {
@@ -182,7 +181,7 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
                 model: new VirtualDirectory({ Name: '..', VirtualPath: this.collection.Parent.VirtualPath })
             });
             var $parentLi = parent.render().$el;
-            $parentLi.find('i').attr('class', 'icon-folder-open').css('margin-left','-10px');
+            $parentLi.find('i').attr('class', 'icon-folder-open').css('margin-left', '-10px');
             $directories.append($parentLi);
         }
 
