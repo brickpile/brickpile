@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Caching;
 using System.Web.Mvc;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Models;
@@ -73,7 +74,6 @@ namespace BrickPile.UI.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult Edit() {
-
             IPageModel parent = _model.Parent != null ? _session.Load<IPageModel>(_model.Parent.Id) : null;
             var viewModel = new EditViewModel
                                 {

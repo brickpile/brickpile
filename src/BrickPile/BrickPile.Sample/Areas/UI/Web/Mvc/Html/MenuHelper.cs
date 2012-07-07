@@ -37,8 +37,8 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <summary>
         /// Gets the current model.
         /// </summary>
-        private static IPageModel CurrentModel {
-            get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>(); }
+        private static IPageModel CurrentPage {
+            get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPageModel>(); }
         }
         /// <summary>
         /// Responsible for creating a navigation based on an unordered list
@@ -115,7 +115,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
                     if(enableDisplayInMenu && !home.Metadata.DisplayInMenu) {
                         return MvcHtmlString.Empty;
                     }
-                    RenderLi(ul, home, home.Equals(CurrentModel) ? selectedItemContent : itemContent);
+                    RenderLi(ul, home, home.Equals(CurrentPage) ? selectedItemContent : itemContent);
                     return MvcHtmlString.Create(ul.ToString());
                 }
                 return MvcHtmlString.Empty;
@@ -125,7 +125,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
             home = pages.SingleOrDefault(model => model.Parent == null);
             if (home != null) {
                 if(enableDisplayInMenu && home.Metadata.DisplayInMenu) {
-                    RenderLi(ul, home, home.Equals(CurrentModel) ? selectedItemContent : itemContent);
+                    RenderLi(ul, home, home.Equals(CurrentPage) ? selectedItemContent : itemContent);
                 }
             }
 
@@ -135,7 +135,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
             }
 
             foreach (var item in items) {
-                RenderLi(ul, item.Entity, item.Entity.Equals(CurrentModel) ? selectedItemContent : (item.Expanded ? expandedItemContent : itemContent));
+                RenderLi(ul, item.Entity, item.Entity.Equals(CurrentPage) ? selectedItemContent : (item.Expanded ? expandedItemContent : itemContent));
             }
 
             return MvcHtmlString.Create(ul.ToString());

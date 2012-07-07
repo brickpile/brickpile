@@ -37,8 +37,8 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <summary>
         /// Gets the current model.
         /// </summary>
-        private static IPageModel CurrentModel {
-            get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>(); }
+        private static IPageModel CurrentPage {
+            get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPageModel>(); }
         }
         /// <summary>
         /// Creates a hierarchical unordered navigation list
@@ -105,7 +105,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
             
             foreach (var node in item.ChildNodes) {
                 if(enableDisplayInMenu && node.Entity.Metadata.DisplayInMenu) {
-                    RenderLi(ul, node.Entity, node.Entity.Equals(CurrentModel) ? selectedItemContent : (node.Expanded ? expandedItemContent : itemContent));
+                    RenderLi(ul, node.Entity, node.Entity.Equals(CurrentPage) ? selectedItemContent : (node.Expanded ? expandedItemContent : itemContent));
                 }
                 AppendChildrenRecursive(ul, node, x => x.ChildNodes, itemContent, selectedItemContent, expandedItemContent, enableDisplayInMenu);
             }
@@ -139,7 +139,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
             var ul = new TagBuilder("ul");
 
             foreach (var item in children) {
-                RenderLi(ul, (T)item.Entity, item.Entity.Id.Equals(CurrentModel) ? selectedItemContent : (item.Expanded ? expandedItemContent : itemContent));
+                RenderLi(ul, (T)item.Entity, item.Entity.Id.Equals(CurrentPage) ? selectedItemContent : (item.Expanded ? expandedItemContent : itemContent));
                 AppendChildrenRecursive(ul, item, childrenProperty, itemContent, selectedItemContent, expandedItemContent);
             }
 

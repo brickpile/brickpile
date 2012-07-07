@@ -110,7 +110,7 @@ namespace BrickPile.UI.Web.Routing {
                 throw new HttpException(404, "HTTP/1.1 404 Not Found");
             }
 
-            routeData.ApplyCurrentModel(pathData.Controller, pathData.Action, pathData.CurrentPage);
+            routeData.ApplyCurrentPage(pathData.Controller, pathData.Action, pathData.CurrentPage);
             routeData.ApplyCurrentStructureInfo(new StructureInfo { Pages = pathData.Pages, StartPage = pathData.Pages.Where(x => x.Parent == null) as IPageModel});
             return routeData;
         }

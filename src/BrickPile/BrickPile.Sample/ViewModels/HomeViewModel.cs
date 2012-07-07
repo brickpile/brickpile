@@ -41,7 +41,7 @@ namespace BrickPile.Sample.ViewModels {
         /// <value>
         /// The current model.
         /// </value>
-        public Home CurrentModel { get; set; }
+        public Home CurrentPage { get; set; }
         /// <summary>
         /// Gets or sets the pages.
         /// </summary>

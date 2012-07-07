@@ -18,7 +18,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Infrastructure.Indexes;
@@ -32,8 +31,6 @@ using Raven.Client;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 using StructureMap;
-using StructureMap.Configuration.DSL;
-using StructureMap.Graph;
 
 namespace BrickPile.UI.App_Start {
     /// <summary>
@@ -47,20 +44,13 @@ namespace BrickPile.UI.App_Start {
         /// </summary>
         /// <returns></returns>
         public static IContainer Initialize() {
-            
             ObjectFactory.Initialize(x => {
-
                 var documentStore = new EmbeddableDocumentStore { ConnectionStringName = "RavenDB" };
-
                 documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null;
                 documentStore.RegisterListener(new StoreListener());
-
                 documentStore.Initialize();
-
                 IndexCreation.CreateIndexes(typeof(Documents_ByParent).Assembly, documentStore);
-
                 x.For<IDocumentStore>().Use(documentStore);
-
                 x.For<IDocumentSession>()
                     .HybridHttpOrThreadLocalScoped()
                     .Use(y =>
@@ -68,47 +58,20 @@ namespace BrickPile.UI.App_Start {
                         var store = y.GetInstance<IDocumentStore>();
                         return store.OpenSession();
                     });
-
                 x.For<IVirtualPathResolver>().Use<VirtualPathResolver>();
                 x.For<IPathResolver>().Use<PathResolver>();
                 x.For<IPathData>().Use<PathData>();
-
                 x.For<IControllerMapper>().Use<ControllerMapper>();
-
                 x.For<ISettings>().Use<Settings>();
-
-                //x.Scan(scanner =>
-                //{
-                //    scanner.AssembliesFromApplicationBaseDirectory();
-                //    scanner.Convention<MySpecialConvetion>();
-                //});
-
-                x.For<IPageModel>().UseSpecial(y => y.ConstructedBy( r => ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>()));
-
+                x.Scan(scanner =>
+                {
+                    scanner.AssembliesFromApplicationBaseDirectory();
+                    scanner.Convention<PageTypeRegistrationConvetion>();
+                });
+                x.For<IPageModel>().UseSpecial(y => y.ConstructedBy( r => ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPageModel>()));
                 x.For<IStructureInfo>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.Values["StructureInfo"] as IStructureInfo));
-
             });
             return ObjectFactory.Container;
-        }
-    }
-
-    public class MySpecialConvetion : IRegistrationConvention {
-        public void Process(Type type, Registry registry) {
-
-            // only interested in non abstract concrete types that have a matching named interface and start with Sql           
-            //if (type.IsAbstract || !type.IsClass || type.GetInterface(type.Name.Replace("Sql", "I")) == null)
-            //    return;
-
-            // Get interface and register (can use AddType overload method to create named types
-            //Type interfaceType = type.GetInterface(type.Name.Replace("Sql", "I"));
-            //if(type.IsAssignableFrom(typeof(IPageModel))){
-            //    registry.For(type).Use( context => context. ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<IPageModel>());
-            //}
-            //registry.AddType(interfaceType, type);
-
-            //if(type.IsAssignableFrom(typeof(IPageModel))) {
-            //    registry.For<>().UseSpecial(y => y.ConstructedBy( r => ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentModel<>()));
-            //}
         }
     }
 }

@@ -19,8 +19,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System.ComponentModel.DataAnnotations;
-using System.Web;
-using System.Web.Mvc;
 using BrickPile.Domain;
 using BrickPile.Sample.Controllers;
 using BrickPile.UI.Models;

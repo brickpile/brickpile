@@ -90,12 +90,12 @@ namespace BrickPile.UI.Common {
         /// <summary>
         /// Used for adding a page model to the RouteData object's DataTokens
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="controllerName"></param>
-        /// <param name="actionName"></param>
-        /// <param name="model"></param>
+        /// <param name="data">The data.</param>
+        /// <param name="controllerName">Name of the controller.</param>
+        /// <param name="actionName">Name of the action.</param>
+        /// <param name="model">The model.</param>
         /// <returns></returns>
-        public static RouteData ApplyCurrentModel(this RouteData data, string controllerName, string actionName, dynamic model) {
+        public static RouteData ApplyCurrentPage(this RouteData data, string controllerName, string actionName, dynamic model) {
             data.Values[PageRoute.ControllerKey] = controllerName.Replace("Controller","");
             data.Values[PageRoute.ActionKey] = actionName;
             data.Values[PageRoute.ModelKey] = model;
@@ -114,9 +114,10 @@ namespace BrickPile.UI.Common {
         /// <summary>
         /// Returns the current model of the current request
         /// </summary>
-        /// <param name="data"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data">The data.</param>
         /// <returns></returns>
-        public static T GetCurrentModel<T>(this RouteData data) {
+        public static T GetCurrentPage<T>(this RouteData data) {
             return (T)data.Values[PageRoute.ModelKey];
         }
         /// <summary>

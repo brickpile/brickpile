@@ -18,7 +18,7 @@ namespace BrickPile.Sample.Controllers {
 
             var viewModel = new DefaultViewModel<Contact>
             {
-                CurrentModel = currentPage,
+                CurrentPage = currentPage,
                 Pages = _structureInfo.Pages
             };
 

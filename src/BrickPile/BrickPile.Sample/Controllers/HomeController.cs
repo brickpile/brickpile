@@ -43,7 +43,7 @@ namespace BrickPile.Sample.Controllers {
                 null;
             var viewModel = new HomeViewModel
                                 {
-                                    CurrentModel = currentPage,
+                                    CurrentPage = currentPage,
                                     Pages = _structureInfo.Pages,
                                     QuotePage = quotePage,
                                     RootPage = _structureInfo.StartPage

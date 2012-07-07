@@ -153,7 +153,7 @@ namespace BrickPile.UI.Web.Routing {
                 return null;
             }
 
-            routeData.ApplyCurrentModel(DefaultControllerName, pathData.Action, pathData.CurrentPage);
+            routeData.ApplyCurrentPage(DefaultControllerName, pathData.Action, pathData.CurrentPage);
 
             return routeData;
         }

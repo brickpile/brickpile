@@ -28,16 +28,16 @@ namespace BrickPile.Sample.Controllers {
     /// 
     /// </summary>
     public class PageController : Controller {
+        private readonly Page _currentPage;
         private readonly IStructureInfo _structureInfo;
         /// <summary>
         /// Indexes this instance.
         /// </summary>
-        /// <param name="currentPage">The current page.</param>
         /// <returns></returns>
-        public ActionResult Index(Page currentPage) {
+        public ActionResult Index() {
             var viewModel = new DefaultViewModel<Page>
             {
-                CurrentModel = currentPage,
+                CurrentPage = _currentPage,
                 Pages = _structureInfo.Pages
             };
 
@@ -48,8 +48,10 @@ namespace BrickPile.Sample.Controllers {
         /// <summary>
         /// Initializes a new instance of the <see cref="PageController"/> class.
         /// </summary>
+        /// <param name="currentPage">The current page.</param>
         /// <param name="structureInfo">The structure info.</param>
-        public PageController(IStructureInfo structureInfo) {
+        public PageController(Page currentPage, IStructureInfo structureInfo) {
+            _currentPage = currentPage;
             _structureInfo = structureInfo;
         }
     }

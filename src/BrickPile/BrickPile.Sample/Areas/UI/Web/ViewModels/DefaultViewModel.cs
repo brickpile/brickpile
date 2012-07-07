@@ -29,7 +29,7 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <summary>
         /// Gets the current model.
         /// </summary>
-        public virtual T CurrentModel { get; set; }
+        public virtual T CurrentPage { get; set; }
         /// <summary>
         /// Gets the structure info.
         /// </summary>

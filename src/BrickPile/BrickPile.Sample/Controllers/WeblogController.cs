@@ -20,7 +20,6 @@ THE SOFTWARE. */
 
 using System.Web.Mvc;
 using BrickPile.Sample.Models;
-using BrickPile.Sample.ViewModels;
 using BrickPile.UI;
 using BrickPile.UI.Web.ViewModels;
 
@@ -38,7 +37,7 @@ namespace BrickPile.Sample.Controllers {
         public ActionResult Index(Weblog currentPage) {
             var viewModel = new DefaultViewModel<Weblog>
             {
-                CurrentModel = currentPage,
+                CurrentPage = currentPage,
                 Pages = _structureInfo.Pages
             };
 

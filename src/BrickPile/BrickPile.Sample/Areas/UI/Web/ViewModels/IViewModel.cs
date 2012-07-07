@@ -26,9 +26,9 @@ namespace BrickPile.UI.Web.ViewModels {
     /// </summary>
     public interface IViewModel<out T> {
         /// <summary>
-        /// <see cref="DefaultViewModel{T}.CurrentModel"/>
+        ///   <see cref="DefaultViewModel{T}.CurrentPage"/>
         /// </summary>
-        T CurrentModel { get; }
+        T CurrentPage { get; }
         /// <summary>
         /// Gets or sets the hierarchy.
         /// </summary>

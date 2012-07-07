@@ -25,9 +25,9 @@ THE SOFTWARE. *@
 <!DOCTYPE html>
 <html lang="@CultureInfo.CurrentCulture.TwoLetterISOLanguageName">
 	<head>
-        <title>@Model.CurrentModel.Metadata.Title</title>
-        @if (!string.IsNullOrEmpty(@Model.CurrentModel.Metadata.Description)) {
-        <meta name="description" content="@Model.CurrentModel.Metadata.Description"/>                                                                                 
+        <title>@Model.CurrentPage.Metadata.Title</title>
+        @if (!string.IsNullOrEmpty(@Model.CurrentPage.Metadata.Description)) {
+        <meta name="description" content="@Model.CurrentPage.Metadata.Description"/>                                                                                 
         }
         <meta charset="utf-8" />
         @Html.Raw(Bundle.Css()
@@ -50,7 +50,7 @@ THE SOFTWARE. *@
 
         } else {
             
-            <h1><span>@Model.CurrentModel.Heading</span></h1>
+            <h1><span>@Model.CurrentPage.Heading</span></h1>
             
         }
 	    <div id="content" role="main">
