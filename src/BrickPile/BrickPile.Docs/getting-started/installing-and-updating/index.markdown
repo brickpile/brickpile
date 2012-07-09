@@ -1,6 +1,6 @@
 ﻿#Installing and Updating
 ##Getting Installed
-Installing BrickPile is simply the act of writing a single PowerShell command inside of the package manager console.
+Installing BrickPile is simply the act of writing a single PowerShell command inside the package manager console.
 
 	PM> Install-Package BrickPile
 

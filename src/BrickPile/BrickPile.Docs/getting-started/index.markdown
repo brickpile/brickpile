@@ -1,1 +1,0 @@
-﻿#Getting started with BrickPile CMS

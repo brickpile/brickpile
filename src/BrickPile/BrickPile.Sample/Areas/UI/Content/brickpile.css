@@ -398,7 +398,7 @@ a:active.back .left { background-position: 0 -60px; }
  */
 th#sort { width: 34px; }
 td.sort .icon-list {
-    cursor: n-resize;
+    cursor: move;
     opacity: 0.2;
 }
 

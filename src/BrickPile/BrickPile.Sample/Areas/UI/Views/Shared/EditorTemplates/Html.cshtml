@@ -1,10 +1,10 @@
 ﻿
+@using BrickPile.UI.Common
 @model string
 
 @Html.TextAreaFor(x => Model, 12, 60, new { @class = @ViewData.TemplateInfo.GetFullHtmlFieldId(String.Empty) })           
 
-
-<script type="text/javascript">
+@Html.Section(@<script type="text/javascript">
     tinyMCE.init({
         mode: "textareas",
         editor_selector: "@ViewData.TemplateInfo.GetFullHtmlFieldId(String.Empty)",
@@ -27,4 +27,4 @@
         convert_urls: false,
         dialog_type: "modal"
     });
-</script>
+</script>,"scripts")

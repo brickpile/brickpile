@@ -588,6 +588,7 @@
     <Content Include="Styles\Framework.css" />
     <Content Include="Styles\lionbars.css" />
     <Content Include="Styles\PartialViews.css" />
+    <Content Include="Styles\Start.css" />
     <Content Include="Styles\Views.css" />
     <Content Include="Styles\webfonts\svg\museo-sans-500.svg" />
     <Content Include="Styles\webfonts\svg\museo-sans-700.svg" />

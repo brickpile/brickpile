@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -46,6 +47,9 @@ namespace BrickPile.Sample {
 
         protected void Application_Start() {
 
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new RazorViewEngine());
+
             // When we use a static file handler for the system thumbnails we need to ignore this path
             RouteTable.Routes.IgnoreRoute("static/{*pathInfo}");
 
@@ -56,6 +60,7 @@ namespace BrickPile.Sample {
 
             // Register the amazon s3 virtual path provider
             HostingEnvironment.RegisterVirtualPathProvider(new AmazonS3VirtualPathProvider());
+
         }
     }
 }

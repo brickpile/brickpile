@@ -1,3 +1,0 @@
-﻿<authentication mode="Forms">
-  <forms loginUrl="~/dashboard/account" timeout="2880" />
-</authentication>

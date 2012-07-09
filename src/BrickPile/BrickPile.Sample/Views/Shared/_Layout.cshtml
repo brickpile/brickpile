@@ -41,7 +41,7 @@ THE SOFTWARE. *@
 	<body class ="@ViewBag.Class">
         <header role="banner">
             <nav>
-                @Html.Partial("_GlobalNav")
+                @Html.Partial("_GlobalNav", Model.Pages)
 		    </nav>
         </header>
         @if (IsSectionDefined("Heading")) {
@@ -64,7 +64,7 @@ THE SOFTWARE. *@
                     <aside id="additional" role="complementary">
                         <nav>
                             <h2>Sub menu</h2>
-                            @Html.Partial("_LocalNav")
+                            @Html.Partial("_LocalNav", Model.Pages)
                         </nav>
                     </aside>
                 }

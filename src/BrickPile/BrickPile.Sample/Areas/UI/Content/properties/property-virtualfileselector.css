@@ -100,6 +100,9 @@ input[type=text].alttext {
     right:14px;
     top:17px;
 }
+.modal a.close:hover {
+    cursor: pointer;
+}
 .modal-body {
     max-height: 400px;
     min-height: 400px;

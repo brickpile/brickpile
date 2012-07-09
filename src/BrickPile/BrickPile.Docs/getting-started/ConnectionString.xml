@@ -1,3 +1,0 @@
-﻿<connectionStrings>
-  <add name="RavenDB" connectionString="DataDir = ~\App_Data\Data" />
-</connectionStrings>

@@ -1,4 +1,5 @@
-#BrickPile Documentation
-This is the official BrickPile documentation
+#The BrickPile Docs
+show the table of content here
+
 
 

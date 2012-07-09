@@ -1,8 +1,11 @@
+using System;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
+using BrickPile.Sample.Models;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
 using Moq;
@@ -177,6 +180,9 @@ namespace BrickPile.Tests.Web.Routing {
            
         }
     }
+
+
+
     [PageType(Name = "Dummy", ControllerType = typeof(DummyController))]
     public class DummyModel : PageModel { }
     public class DummyController : Controller { }

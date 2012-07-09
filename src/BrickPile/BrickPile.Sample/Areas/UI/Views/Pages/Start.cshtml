@@ -19,23 +19,45 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
+@using System.Globalization
+@using BrickPile.UI.Web.Mvc.Html
+
 @model BrickPile.UI.Models.NewModel
-           
 @{
-    ViewBag.Title = "It's time to create your first page";
+    Layout = null;
 }
 
-@*<h1>It's time to create your first page</h1>*@
-@using (Html.BeginForm("new", "pages")) {
-    <div>
-        <fieldset>
-            @Html.LabelFor(model => model.AvailableModels)
-            <span class="select">
-                @Html.DropDownListFor(m => m.SelectedPageModel, new SelectList(Model.AvailableModels, "Value", "Text"))
-            </span>
-        </fieldset>
-        <div id="button">
-            <input type="submit" class="btn btn-large" value="Yes, go ahead" />
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+    <head>
+        <title>BrickPile - It's time to create your first page</title>
+        <meta charset="utf-8">
+        <meta name="description" content="" />
+        
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/ui/content/normalize.css")" media="all" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/ui/styles/start.css")" media="all" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/ui/styles/views.css")" media="all" />
+
+        <script type="text/javascript" src="@Url.Content("~/areas/ui/scripts/jquery-1.7.2.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/areas/ui/scripts/jquery.selectBox.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/areas/ui/scripts/start.js")"></script>
+    </head>
+    <body class="start">
+        <div>
+            <header>
+                <h1>It's time to create your first page</h1>
+            </header>
+            @using (Html.BeginForm("new", "pages")) {
+                <div>
+                    <fieldset>
+                        @Html.LabelFor(model => model.AvailableModels)
+                        @Html.DropDownListFor(m => m.SelectedPageModel, new SelectList(Model.AvailableModels, "Value", "Text"))
+                    </fieldset>
+                    <div id="button">
+                        <input type="submit" class="btn btn-large" value="Create" />
+                    </div>
+                </div>
+            }
         </div>
-    </div>
-}
+    </body>
+</html>

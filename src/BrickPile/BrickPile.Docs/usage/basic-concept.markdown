@@ -1,3 +1,0 @@
-﻿#The basic concept
-
-//TBA

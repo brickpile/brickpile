@@ -18,11 +18,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
-@model BrickPile.UI.Web.ViewModels.IViewModel<BrickPile.Domain.Models.IPageModel>
+@model IEnumerable<BrickPile.Domain.Models.IPageModel>
 @using BrickPile.UI.Common
 @using BrickPile.UI.Web.Mvc.Html
 
-@Html.SubMenu(Model.Pages,
+@Html.SubMenu(Model,
     page => Html.ActionLink(page),
     page => Html.ActionLink(page, new { @class = "selected" }),
     page => Html.ActionLink(page, new { @class = "expanded" }),

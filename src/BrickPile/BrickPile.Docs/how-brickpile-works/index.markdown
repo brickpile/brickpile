@@ -28,7 +28,7 @@ This page type have three properties, all strings in this case but can of course
 The current page is essential when working with BrickPile and there is a couple of ways to get hold of it.
 
 ### Constructor Injected Access
-In this example the Current Page is injected to the constructor strongly typed and then returned to the view.
+In this example the Current Page is injected into the constructor, strongly typed and then returned to the view.
 
 	public class PageController : Controller {
 		private readonly StandardPage _currentPage;
@@ -83,10 +83,9 @@ The StructureInfo object is injected into your controllers constructor and conta
 	public class PageController : Controller {
 		private IStructureInfo _structureInfo;
 		public ActionResult Index(StandardPage currentPage) {
-			var viewModel = new DefaultViewModel<StandardPage>
-			{
+			var viewModel = new DefaultViewModel<StandardPage> {
 				CurrentPage = currentPage,
-				Pages = _structureInfo.Pages
+				Pages = _structureInfo.Pages 
 			}
 			return View(viewModel);
 		}

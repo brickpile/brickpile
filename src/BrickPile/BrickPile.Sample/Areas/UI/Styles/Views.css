@@ -63,11 +63,12 @@ body.setup {
 3 Start
 ----------------------------------------------------------------*/
 body.start {
+    margin: 0 auto;
  	max-width:35.286em;
 	min-width:500px;
 	position:static;
 }
-body.start h1 { background-position:18.8em 16px; }
+body.start h1 { background-position:19.5em 16px; }
 body.start form>div { padding-top:10px; }
 body.start fieldset { background:none; }
 body.start form { position:relative; }

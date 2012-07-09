@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Caching;
 using System.Web.Mvc;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Models;
@@ -112,7 +111,7 @@ namespace BrickPile.UI.Controllers {
             UpdateModel(_model);
 
             _model.Metadata.Changed = DateTime.Now;
-            _model.Metadata.Published = _model.Metadata.IsPublished ? DateTime.Now : default(DateTime?);
+            //_model.Metadata.Published = _model.Metadata.IsPublished ? DateTime.Now : default(DateTime?);
             _model.Metadata.ChangedBy = HttpContext.User.Identity.Name;
 
             _session.SaveChanges();
@@ -174,6 +173,7 @@ namespace BrickPile.UI.Controllers {
                 // create a new page from the selected page model
                 var page = Activator.CreateInstance(Type.GetType(newModel.SelectedPageModel)) as dynamic;
                 page.Metadata.Url = parent != null ? VirtualPathUtility.AppendTrailingSlash(parent.Metadata.Url) : String.Empty;
+                page.Metadata.Published = DateTime.Now;
 
                 var viewModel = new NewPageViewModel
                                     {
@@ -220,13 +220,12 @@ namespace BrickPile.UI.Controllers {
                 page.Metadata.Changed = DateTime.Now;
                 page.Metadata.ChangedBy = HttpContext.User.Identity.Name;
                 // Set published date if the page is published
-                if (page.Metadata.IsPublished) {
-                    page.Metadata.Published = DateTime.Now;
-                }
+                //if (page.Metadata.IsPublished) {
+                page.Metadata.Published = DateTime.Now;
+                //}
                 
                 // Add page to repository and save changes
                 _session.SaveChanges();
-                //_repository.Refresh(model);
 
                 return RedirectToAction("index", new { model = parent ?? page });
             }
@@ -242,7 +241,7 @@ namespace BrickPile.UI.Controllers {
         public virtual ActionResult Publish(string id, bool published) {
             var model = _session.Load<IPageModel>(id.Replace("_","/"));
             model.Metadata.IsPublished = published;
-            model.Metadata.Published = published ? DateTime.Now : default(DateTime?);
+            //model.Metadata.Published = published ? DateTime.Now : default(DateTime?);
             model.Metadata.Changed = DateTime.Now;
             model.Metadata.ChangedBy = HttpContext.User.Identity.Name;
             _session.SaveChanges();
