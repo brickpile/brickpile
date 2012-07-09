@@ -90,6 +90,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
@@ -104,23 +105,28 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="usage\SampleModel.cs" />
+    <Compile Include="how-brickpile-works\SampleModel.cs" />
     <None Include=".doclist" />
+    <None Include="add-on-development\.doclist" />
+    <None Include="add-on-development\index.markdown" />
+    <None Include="add-on-development\tag-property\index.markdown" />
     <None Include="getting-started\installing-and-updating\index.markdown" />
     <None Include="getting-started\requirements\index.markdown" />
     <None Include="index.markdown" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="getting-started\.doclist" />
+    <None Include="managing-content\index.markdown" />
     <None Include="packages.config" />
-    <None Include="usage\.doclist" />
-    <None Include="usage\basic-concept.markdown" />
-    <None Include="usage\index.markdown" />
-    <None Include="usage\pagemodels.markdown" />
+    <None Include="how-brickpile-works\index.markdown" />
+    <None Include="how-brickpile-works\pagemodels.markdown" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="add-on-development\tag-property\images\solution-explorer.png" />
+    <Content Include="add-on-development\tag-property\images\tags-property.png" />
+    <Content Include="add-on-development\tag-property\images\tags-saved-in-ravendb.png" />
     <Content Include="Content\SyntaxHighlighter\shCore.css" />
     <Content Include="Content\SyntaxHighlighter\shCoreDefault.css" />
     <Content Include="Content\SyntaxHighlighter\shCoreDjango.css" />
