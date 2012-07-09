@@ -106,14 +106,11 @@
     </Compile>
     <Compile Include="usage\SampleModel.cs" />
     <None Include=".doclist" />
-    <None Include="getting-started\iis.markdown" />
-    <None Include="getting-started\index.markdown" />
-    <None Include="getting-started\setup.markdown" />
+    <None Include="getting-started\installing-and-updating\index.markdown" />
+    <None Include="getting-started\requirements\index.markdown" />
     <None Include="index.markdown" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="getting-started\.doclist" />
-    <None Include="getting-started\configuration.markdown" />
-    <None Include="getting-started\install.markdown" />
     <None Include="packages.config" />
     <None Include="usage\.doclist" />
     <None Include="usage\basic-concept.markdown" />
@@ -142,9 +139,11 @@
     <Content Include="Content\SyntaxHighlighter\shThemeMidnight.css" />
     <Content Include="Content\SyntaxHighlighter\shThemeRDark.css" />
     <Content Include="css\main.css" />
-    <Content Include="getting-started\AppSettings.xml" />
-    <Content Include="getting-started\Authentication.xml" />
-    <Content Include="getting-started\ConnectionString.xml" />
+    <Content Include="getting-started\installing-and-updating\Authentication.xml" />
+    <Content Include="getting-started\installing-and-updating\ConnectionString.xml" />
+    <Content Include="getting-started\installing-and-updating\images\add-bindings.png" />
+    <Content Include="getting-started\installing-and-updating\images\edit-bindings.png" />
+    <Content Include="getting-started\installing-and-updating\UISubDomain.xml" />
     <Content Include="markdowntemplate.html" />
     <Content Include="Raven.Studio.xap" />
     <Content Include="Scripts\SyntaxHighlighter\shAutoloader.js" />
