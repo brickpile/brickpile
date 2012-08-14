@@ -85,7 +85,7 @@ The StructureInfo object is injected into your controllers constructor and conta
 		public ActionResult Index(StandardPage currentPage) {
 			var viewModel = new DefaultViewModel<StandardPage> {
 				CurrentPage = currentPage,
-				Pages = _structureInfo.Pages 
+				NavigationContext = _structureInfo.NavigationContext 
 			}
 			return View(viewModel);
 		}
@@ -110,7 +110,7 @@ Now we can add the navigation to our `_Layout.cshtml`
 		<body>
 			<header>
 				<nav>
-					@Html.Menu(Model.Pages,
+					@Html.Menu(Model.NavigationContext,
 						page => Html.ActionLink(page))        
 				</nav>
 			</header>
@@ -119,7 +119,7 @@ Now we can add the navigation to our `_Layout.cshtml`
 
 Yes, it's that easy! The Menu helper has a couple more paramters like SelectedItemContent and ExpandedItemContent, you can easily add different markup to each state like this
 
-	@Html.Menu(Model.Pages,
+	@Html.Menu(Model.NavigationContext,
 		page => Html.ActionLink(page),
 		page => Html.DisplayFor(x => page.Metadata.Name, "SelectedTemplate"),
 		page => Html.ActionLink(page, new { @class = "expanded" }))
@@ -132,7 +132,7 @@ In both of these scenarios we are using the built in ActionLink helper that take
 In most cases if you are building an information heavy web site you also need a sub menu, an hierarchical structured menu that makes it possible for the visitors to drill down in the information structure.
 Creating such a menu is just as easy as creating the main menu
 
-	@Html.SubMenu(Model.Pages,
+	@Html.SubMenu(Model.NavigationContext,
 		page => Html.ActionLink(page),
 		page => Html.DisplayFor(x => page.Metadata.Name, "SelectedTemplate"),
 		page => Html.ActionLink(page, new { @class = "expanded" }))
