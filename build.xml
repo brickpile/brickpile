@@ -7,7 +7,7 @@
     <item name="BrickPile.Core" type="class" />
     <item name="BrickPile.Domain" type="class" />
     <item name="BrickPile.FileSystem.AmazonS3" type="class" />
-    <item name="BrickPile.Raven.Plugins" type="class" />
+    <!--<item name="BrickPile.Raven.Plugins" type="class" />-->
     <item name="BrickPile.Sample" type="web" />
     <item name="BrickPile.Tests" type="class" />
   </items>
@@ -23,10 +23,10 @@
   <items path="packages/structuremap.2.6.3/lib" type="reference" target="testDebug">
     <item name="StructureMap.dll"/>
   </items>
-  <items path="packages/RavenDB.Embedded.1.0.960/lib/net40" type="reference" target="testDebug">
+  <items path="packages/RavenDB.Embedded.1.2.2060-Unstable/lib/net40" type="reference" target="testDebug">
     <item name="Raven.Client.Embedded.dll"/>  
   </items>
-  <items path="packages/RavenDB.Database.1.0.960/lib/net40" type="reference" target="testDebug">
+  <items path="packages/RavenDB.Database.1.2.2060-Unstable/lib/net40" type="reference" target="testDebug">
     <item name="BouncyCastle.Crypto.dll" />
     <item name="Esent.Interop.dll" />
     <item name="ICSharpCode.NRefactory.dll" />
@@ -36,18 +36,16 @@
     <item name="Raven.Abstractions.dll"/>
     <item name="Raven.Database.dll"/>
     <item name="Raven.Munin.dll"/>
-    <item name="Raven.Storage.Esent.dll" />
-    <item name="Raven.Storage.Managed.dll" />
     <item name="Spatial4n.Core.dll" />
   </items>
-  <items path="packages/RavenDB.Client.1.0.960/lib/net40" type="reference" target="testDebug">
+  <items path="packages/RavenDB.Client.1.2.2060-Unstable/lib/net40" type="reference" target="testDebug">
     <item name="Raven.Abstractions.dll" />
     <item name="Raven.Client.Lightweight.dll" />
   </items>
   <items path="packages/NLog.2.0.0.2000/lib/net40" type="reference" target="testDebug">
     <item name="NLog.dll"/>
   </items>
-  <items path="packages/Newtonsoft.Json.4.0.8/lib/net40" type="reference" target="testDebug">
+  <items path="packages/Newtonsoft.Json.4.5.1/lib/net40" type="reference" target="testDebug">
     <item name="Newtonsoft.Json.dll"/>
   </items>
   <items type="nunit" target="testDebug" autover="true" framework="4.0">
@@ -66,11 +64,11 @@
             <include name="BrickPile.UI.dll"/>
           </fileset>
         </copy>
-        <copy todir="${l_rootFolder}/content/App_Data/Plugins">
+        <!--<copy todir="${l_rootFolder}/content/App_Data/Plugins">
           <fileset basedir="${project.buildDir}/Dlls/Release">
             <include name="BrickPile.Raven.Plugins.dll" />
           </fileset>
-        </copy>
+        </copy>-->
         <copy todir="${l_rootFolder}/content">
           <fileset basedir="${project.baseDir}">
             <include name="web.config.transform" />
