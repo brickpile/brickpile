@@ -108,7 +108,6 @@
     <Compile Include="Controllers\ContentControllerTests.cs" />
     <Compile Include="Controllers\UIControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test.cs" />
     <Compile Include="Web\Hosting\AmazonS3VirtualPathProviderTests.cs" />
     <Compile Include="Web\Routing\DashboardPathResolverTests.cs" />
     <Compile Include="Web\Routing\PathResolverTests.cs" />
