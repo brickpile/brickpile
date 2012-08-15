@@ -607,15 +607,7 @@
     <Content Include="Styles\webfonts\svg\museo-sans-500.svg" />
     <Content Include="Styles\webfonts\svg\museo-sans-700.svg" />
     <Content Include="Styles\webfonts\svg\style_159303.svg" />
-    <Content Include="web.config" />
     <Content Include="Views\Shared\EditorTemplates\HtmlString.cshtml" />
-    <None Include="Web.config.cfg" />
-    <None Include="Web.config.Debug.cfg">
-      <DependentUpon>Web.config.cfg</DependentUpon>
-    </None>
-    <None Include="Web.config.Release.cfg">
-      <DependentUpon>Web.config.cfg</DependentUpon>
-    </None>
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
