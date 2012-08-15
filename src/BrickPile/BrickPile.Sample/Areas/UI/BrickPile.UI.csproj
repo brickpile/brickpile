@@ -660,6 +660,7 @@
     <Content Include="Views\Shared\EditorTemplates\Slug.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\UI\Index.cshtml" />
+    <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\BrickPile.Core\BrickPile.Core.csproj">
