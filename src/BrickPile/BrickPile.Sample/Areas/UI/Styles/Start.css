@@ -284,10 +284,11 @@ span.select {
 .selectBox-dropdown .selectBox-label {
     color: #656e72;
 	width: 100%;
-	padding: 10px 16px 7px;
+	padding: 12px 16px 7px;
 	display: inline-block;
 	white-space: nowrap;
 	overflow: hidden;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 1);
 }
 
 .selectBox-dropdown .selectBox-arrow {

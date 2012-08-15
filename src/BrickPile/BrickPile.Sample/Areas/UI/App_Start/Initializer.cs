@@ -20,6 +20,7 @@ THE SOFTWARE. */
 
 using System.Web.Mvc;
 using System.Web.Routing;
+using BrickPile.Domain.Models;
 using BrickPile.UI.App_Start;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
@@ -46,12 +47,49 @@ namespace BrickPile.UI.App_Start {
             RouteTable.Routes.Add(new PageRoute(
                                       "{*path}",
                                       new RouteValueDictionary(
-                                        new
-                                        {
-                                            controller = "pages",
-                                            action = "index"
-                                        }),
+                                          new
+                                          {
+                                              controller = "pages",
+                                              action = "index"
+                                          }),
                                       new MvcRouteHandler()));
+
+            var binderProvider = new InheritanceAwareModelBinderProvider
+            {
+                {typeof (IPageModel), new PageModelBinder()}
+            };
+
+            ModelBinderProviders.BinderProviders.Add(binderProvider);
+
         }
     }
+    //public class PageModelBinder : DefaultModelBinder {
+    //    protected override void OnModelUpdated(ControllerContext controllerContext, ModelBindingContext bindingContext) {
+    //        foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(bindingContext.ModelType)) {
+    //            var attributes = property.Attributes;
+    //            if (attributes.Count == 0) continue;
+    //            foreach (var attribute in attributes) {
+    //                if (attribute.GetType().BaseType == typeof(ValidationAttribute) && property.PropertyType == typeof(PageReference)) {
+    //                    var pageReference = bindingContext.ModelType.GetProperty(property.Name).GetValue(bindingContext.Model, null) as PageReference;
+    //                    Type attrType = attribute.GetType();
+    //                    if (attrType == typeof(RequiredAttribute) && string.IsNullOrEmpty(pageReference.Name)) {
+
+    //                        bindingContext.ModelState.AddModelError(property.Name, ((RequiredAttribute)attribute).FormatErrorMessage(property.DisplayName));
+    //                    }
+    //                }
+    //            }
+    //        }
+    //        base.OnModelUpdated(controllerContext, bindingContext);
+    //    }
+    //}
+
+    //public class InheritanceAwareModelBinderProvider : Dictionary<Type, IModelBinder>, IModelBinderProvider {
+    //    public IModelBinder GetBinder(Type modelType) {
+    //        var binders = from binder in this
+    //                      where binder.Key.IsAssignableFrom(modelType)
+    //                      select binder.Value;
+
+    //        return binders.FirstOrDefault();
+    //    }
+    //}
 }

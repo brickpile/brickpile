@@ -49,7 +49,7 @@ namespace BrickPile.UI.App_Start {
                 documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null;
                 documentStore.RegisterListener(new StoreListener());
                 documentStore.Initialize();
-                IndexCreation.CreateIndexes(typeof(Documents_ByParent).Assembly, documentStore);
+                IndexCreation.CreateIndexes(typeof(DocumentsByParent).Assembly, documentStore);
                 x.For<IDocumentStore>().Use(documentStore);
                 x.For<IDocumentSession>()
                     .HybridHttpOrThreadLocalScoped()

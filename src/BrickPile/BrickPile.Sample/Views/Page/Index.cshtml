@@ -26,17 +26,5 @@ THE SOFTWARE. *@
 @if (Model.CurrentPage.Image != null) {
     <img src="@Model.CurrentPage.Image.Url" alt="@Model.CurrentPage.Image.AltText" />    
 }
-@Html.Raw(Model.CurrentPage.MainBody)
 
-@*<div id="fb-root"></div>
-<script>
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=265895203421271";
-        fjs.parentNode.insertBefore(js, fjs);
-    } (document, 'script', 'facebook-jssdk'));
-</script>
-
-<div class="fb-comments" data-href="http://demo.getbrickpile.com/@Model.CurrentModel.Metadata.Url" data-num-posts="2" data-width="690"></div>*@
+@Model.CurrentPage.MainBody

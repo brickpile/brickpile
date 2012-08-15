@@ -42,7 +42,7 @@ namespace BrickPile.Sample.Controllers {
             var viewModel = new DefaultViewModel<Page>
             {
                 CurrentPage = _currentPage,
-                Pages = _structureInfo.Pages
+                NavigationContext = _structureInfo.NavigationContext
             };
 
             ViewBag.Class = "page";

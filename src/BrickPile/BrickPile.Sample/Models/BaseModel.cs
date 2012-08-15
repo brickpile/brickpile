@@ -20,6 +20,7 @@ THE SOFTWARE. */
 
 using System.ComponentModel.DataAnnotations;
 using BrickPile.Domain.Models;
+using BrickPile.UI.Web;
 
 namespace BrickPile.Sample.Models {
     /// <summary>
@@ -32,7 +33,7 @@ namespace BrickPile.Sample.Models {
         /// <value>
         /// The heading.
         /// </value>
-        [Required]
+        //[Required]
         [Display(Order = 100, Prompt = "Enter a descriptive heading")]
         public virtual string Heading { get; set; }
         /// <summary>
@@ -41,8 +42,8 @@ namespace BrickPile.Sample.Models {
         /// <value>
         /// The main body.
         /// </value>
-        [DataType(DataType.Html)]
         [Display(Name = "Text")]
-        public virtual string MainBody { get; set; }
+        [Required]
+        public virtual HtmlString MainBody { get; set; }
     }
 }

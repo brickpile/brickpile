@@ -33,12 +33,9 @@ namespace BrickPile.Core.Infrastructure.Indexes {
                            select new {
                                page.Id,
                                page.Children,
-                               //page.Metadata.DisplayInMenu,
-                               //page.Metadata.IsDeleted,
-                               //page.Metadata.IsPublished,
-                               //page.Metadata.Name,
-                               //page.Metadata.Published
                            };
+
+            Sort(x => x.Metadata.SortOrder, Raven.Abstractions.Indexing.SortOptions.Int);
 
             TransformResults = (database, pages) => from page in pages
                                                     let ancestors = Recurse(page, c => database.Load<PageModel>(c.Parent.Id))
@@ -46,11 +43,6 @@ namespace BrickPile.Core.Infrastructure.Indexes {
                                                     {
                                                         page.Id,
                                                         page.Children,
-                                                        //page.Metadata.DisplayInMenu,
-                                                        //page.Metadata.IsDeleted,
-                                                        //page.Metadata.IsPublished,
-                                                        //page.Metadata.Name,
-                                                        //page.Metadata.Published,
                                                         Ancestors =
                                                         (
                                                            from ancestor in ancestors
@@ -58,11 +50,6 @@ namespace BrickPile.Core.Infrastructure.Indexes {
                                                            {
                                                                ancestor.Id,
                                                                ancestor.Children,
-                                                               //ancestor.Metadata.DisplayInMenu,
-                                                               //ancestor.Metadata.IsDeleted,
-                                                               //ancestor.Metadata.IsPublished,
-                                                               //ancestor.Metadata.Name,
-                                                               //ancestor.Metadata.Published
                                                            })
                                                     };
         }

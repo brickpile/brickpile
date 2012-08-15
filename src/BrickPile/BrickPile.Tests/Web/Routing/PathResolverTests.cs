@@ -184,6 +184,6 @@ namespace BrickPile.Tests.Web.Routing {
 
 
     [PageType(Name = "Dummy", ControllerType = typeof(DummyController))]
-    public class DummyModel : PageModel { }
+    public class DummyModel : BrickPile.Domain.Models.PageModel { }
     public class DummyController : Controller { }
 }

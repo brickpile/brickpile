@@ -8,16 +8,14 @@
         <div>
             <div class="editor-label">
                 @if(prop.IsRequired) {
-                    @Html.Label(prop.PropertyName)
-                    @*var displayName = prop.DisplayName;
-                    @Html.LabelFor(_ => prop.DisplayName, @<em>(mandatory)</em>, displayName)*@
+                    @Html.LabelFor(m => prop, @<em>(mandatory)</em>, prop.GetDisplayName())
                 } else {
                     @Html.Label(prop.PropertyName)
                 }
             </div>
             <div class="editor-field">
                 @Html.Editor(prop.PropertyName)
-                @Html.ValidationMessage(prop.PropertyName, "*")
+                @*@Html.ValidationMessage(prop.PropertyName, "*")*@
             </div>
         </div>
     }

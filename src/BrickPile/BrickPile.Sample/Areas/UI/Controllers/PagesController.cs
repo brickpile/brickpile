@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Models;
 using BrickPile.UI.Web.ViewModels;
@@ -32,10 +33,8 @@ namespace BrickPile.UI.Controllers {
 
    [Authorize]
     public class PagesController : Controller {
-
         private dynamic _model;
         private readonly IDocumentSession _session;
-
         /// <summary>
         /// Default action
         /// </summary>
@@ -45,20 +44,21 @@ namespace BrickPile.UI.Controllers {
         /// </returns>
         public ActionResult Index(bool deleted = false) {
 
-            if(_model == null) {
+            // If the current page is null, assume we haven't created the start page yet
+            if (_model == null) {
                 ViewBag.Class = "start";
                 return View("Start", new NewModel());
             }
 
             var id = (string)_model.Id;
-            var parentId = _model.Parent != null ? (string) _model.Parent.Id : null;
+            var parentId = _model.Parent != null ? (string)_model.Parent.Id : null;
 
             var viewModel = new IndexViewModel
                                 {
                                     RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
                                     CurrentModel = _model,
                                     ParentModel = parentId != null ? _session.Load<IPageModel>(parentId) : null,
-                                    Children = _session.Query<IPageModel>()
+                                    Children = _session.Query<IPageModel, DocumentsByParent>()
                                         .Where(model => model.Parent.Id == id)
                                         .Where(model => model.Metadata.IsDeleted == deleted)
                                         .OrderBy(model => model.Metadata.SortOrder)
@@ -111,7 +111,6 @@ namespace BrickPile.UI.Controllers {
             UpdateModel(_model);
 
             _model.Metadata.Changed = DateTime.Now;
-            //_model.Metadata.Published = _model.Metadata.IsPublished ? DateTime.Now : default(DateTime?);
             _model.Metadata.ChangedBy = HttpContext.User.Identity.Name;
 
             _session.SaveChanges();
@@ -203,6 +202,18 @@ namespace BrickPile.UI.Controllers {
                 var parent = _model as PageModel;
                 // create a new page from the new model
                 var page = Activator.CreateInstance(Type.GetType(Request.Form["AssemblyQualifiedName"])) as dynamic;
+
+                if(!TryUpdateModel(page,"NewPageModel")) {
+                    var viewModel = new NewPageViewModel
+                    {
+                        RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
+                        ParentModel = parent,
+                        NewPageModel = page,
+                        SlugsInUse = parent != null ? Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(parent.Children).Select(x => x.Metadata.Slug)) : null
+                    };
+                    return View("new", viewModel);
+                }
+
                 // Update all values
                 UpdateModel(page, "NewPageModel");
                 // Store the new page
@@ -219,10 +230,6 @@ namespace BrickPile.UI.Controllers {
                 // Set changed date
                 page.Metadata.Changed = DateTime.Now;
                 page.Metadata.ChangedBy = HttpContext.User.Identity.Name;
-                // Set published date if the page is published
-                //if (page.Metadata.IsPublished) {
-                page.Metadata.Published = DateTime.Now;
-                //}
                 
                 // Add page to repository and save changes
                 _session.SaveChanges();
@@ -241,7 +248,6 @@ namespace BrickPile.UI.Controllers {
         public virtual ActionResult Publish(string id, bool published) {
             var model = _session.Load<IPageModel>(id.Replace("_","/"));
             model.Metadata.IsPublished = published;
-            //model.Metadata.Published = published ? DateTime.Now : default(DateTime?);
             model.Metadata.Changed = DateTime.Now;
             model.Metadata.ChangedBy = HttpContext.User.Identity.Name;
             _session.SaveChanges();

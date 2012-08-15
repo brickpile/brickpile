@@ -38,7 +38,7 @@ namespace BrickPile.Sample.Controllers {
             var viewModel = new DefaultViewModel<Weblog>
             {
                 CurrentPage = currentPage,
-                Pages = _structureInfo.Pages
+                NavigationContext = _structureInfo.NavigationContext
             };
 
             ViewBag.Class = "weblog";

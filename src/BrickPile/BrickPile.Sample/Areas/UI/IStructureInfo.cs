@@ -32,7 +32,7 @@ namespace BrickPile.UI {
         /// <value>
         /// The pages.
         /// </value>
-        IQueryable<IPageModel> Pages { get; set; }
+        IQueryable<IPageModel> NavigationContext { get; set; }
         /// <summary>
         /// Gets or sets the root page of the web site.
         /// </summary>

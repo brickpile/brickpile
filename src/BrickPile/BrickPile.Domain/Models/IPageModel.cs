@@ -31,7 +31,7 @@ namespace BrickPile.Domain.Models {
         /// <summary>
         /// Gets the meta data.
         /// </summary>
-        IPageMetadata Metadata { get; }
+        PageMetadata Metadata { get; }
         /// <summary>
         /// Gets or sets the parent.
         /// </summary>

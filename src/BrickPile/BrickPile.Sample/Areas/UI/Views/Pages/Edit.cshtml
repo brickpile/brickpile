@@ -19,8 +19,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
-@using BrickPile.UI.Common
 @model BrickPile.UI.Web.ViewModels.EditViewModel
+@using BrickPile.UI.Common
+@using Raven.Database.Linq.PrivateExtensions
 
 @Html.Section(
 @<script type="text/javascript">
@@ -43,8 +44,20 @@ THE SOFTWARE. *@
         <span class="left"></span>
     </a>    
 }
-           
-@Html.ValidationSummary()
+
+@section PreMain {
+    @if(!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-block alert-error">
+            <h4>Oh snap! You got an error!</h4>
+            <ul>
+                @foreach (var modelError in ViewData.ModelState.SelectMany(keyValuePair => keyValuePair.Value.Errors)) {
+                    <li>@modelError.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+}
 
 @using (Html.BeginForm("update", "pages", new { model = Model.CurrentModel }, FormMethod.Post, new { name = "editForm" })) {
     <div>

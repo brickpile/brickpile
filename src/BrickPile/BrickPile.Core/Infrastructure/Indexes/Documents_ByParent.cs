@@ -28,13 +28,21 @@ namespace BrickPile.Core.Infrastructure.Indexes {
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
-    public class Documents_ByParent :  AbstractIndexCreationTask<IPageModel> {
+    public class DocumentsByParent :  AbstractIndexCreationTask<IPageModel> {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Documents_ByParent"/> class.
+        /// Initializes a new instance of the <see cref="DocumentsByParent"/> class.
         /// </summary>
-        public Documents_ByParent() {
-            Map = documents => from document in documents
-                               select new {document.Parent.Id};
+        public DocumentsByParent() {
+
+            Map = pages => from page in pages
+                           select new
+                           {
+                               Parent_Id = page.Parent.Id,
+                               Metadata_IsDeleted = page.Metadata.IsDeleted,
+                               Metadata_SortOrder = page.Metadata.SortOrder
+                           };
+
+            Sort(x => x.Metadata.SortOrder, Raven.Abstractions.Indexing.SortOptions.Int);
         }
     }
 }

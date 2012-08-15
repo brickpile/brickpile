@@ -29,7 +29,7 @@ namespace BrickPile.Domain.Models {
         /// </summary>
         /// <value></value>
         [Display(Name = "Name", Order = 10, Prompt = "My awesome page")]
-        [Required(ErrorMessage = "Name_Required")]
+        [Required(ErrorMessage = "You need to specify a name for the page.")]
         public virtual string Name { get; set; }
         /// <summary>
         /// Gets or sets the title.
@@ -71,7 +71,8 @@ namespace BrickPile.Domain.Models {
         /// The published.
         /// </value>
         [Display(Name = "Published", Order = 60)]
-        public virtual DateTime? Published { get; set; }
+        //[DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
+        public virtual DateTime Published { get; set; }
         /// <summary>
         /// Gets or sets the changed.
         /// </summary>

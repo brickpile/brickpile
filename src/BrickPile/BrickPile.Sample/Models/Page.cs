@@ -19,7 +19,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System.ComponentModel.DataAnnotations;
-using System.Web;
 using BrickPile.Domain;
 using BrickPile.Sample.Controllers;
 using BrickPile.UI.Models;
@@ -37,6 +36,7 @@ namespace BrickPile.Sample.Models {
         /// The nisse.
         /// </value>
         [Display(Name = "Page", Prompt = "Specify page name...")]
+        [Required]
         public PageReference PageReference { get; set; }
         /// <summary>
         /// Gets or sets the image.

@@ -39,7 +39,7 @@ namespace BrickPile.Domain.Models {
         /// <summary>
         /// Gets the meta data.
         /// </summary>
-        public virtual IPageMetadata Metadata { get; private set; }
+        public virtual PageMetadata Metadata { get; private set; }
         /// <summary>
         /// Gets or sets the parent.
         /// </summary>
@@ -64,7 +64,7 @@ namespace BrickPile.Domain.Models {
         /// <summary>
         /// Initializes a new instance of the <see cref="PageModel"/> class.
         /// </summary>
-        protected PageModel() {
+        public PageModel() {
             Metadata = new PageMetadata();
             Children = new List<string>();
         }

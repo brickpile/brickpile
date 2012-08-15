@@ -784,6 +784,27 @@ fieldset textarea {
     width:600px;
 }
 
+.alert {
+    background-color: #FCF8E3;
+    border: 1px solid #FBEED5;
+    border-radius: 4px 4px 4px 4px;
+    color: #C09853;
+    margin:0 auto 18px;
+    padding: 8px 35px 8px 14px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    max-width: 69.1em;
+}
+
+.alert-danger, .alert-error {
+    background-color: #F2DEDE;
+    border-color: #EED3D7;
+    color: #B94A48;
+}
+
+.alert-block > p, .alert-block > ul {
+    margin-bottom: 0;
+}
+
 /* =============================================================================
    Footer
    ========================================================================== */

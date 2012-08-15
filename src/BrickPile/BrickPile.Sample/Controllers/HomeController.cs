@@ -41,10 +41,11 @@ namespace BrickPile.Sample.Controllers {
             var quotePage = currentPage.QuoteLink.Id != null ?
                 _documentSession.Load<BaseModel>(currentPage.QuoteLink.Id) :
                 null;
+
             var viewModel = new HomeViewModel
                                 {
                                     CurrentPage = currentPage,
-                                    Pages = _structureInfo.Pages,
+                                    NavigationContext = _structureInfo.NavigationContext,
                                     QuotePage = quotePage,
                                     RootPage = _structureInfo.StartPage
                                 };
@@ -62,7 +63,6 @@ namespace BrickPile.Sample.Controllers {
         public HomeController(IDocumentSession documentSession, IStructureInfo structureInfo) {
             _documentSession = documentSession;
             _structureInfo = structureInfo;
-
         }
     }
 }

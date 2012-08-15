@@ -51,6 +51,6 @@ namespace BrickPile.UI.Web.Routing {
         /// <value>
         /// The pages.
         /// </value>
-        IQueryable<IPageModel> Pages { get; set; }
+        IQueryable<IPageModel> NavigationContext { get; set; }
     }
 }

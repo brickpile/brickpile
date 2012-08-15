@@ -111,7 +111,7 @@ namespace BrickPile.UI.Web.Routing {
             }
             
             routeData.ApplyCurrentPage(pathData.Controller, pathData.Action, pathData.CurrentPage);
-            routeData.ApplyCurrentStructureInfo(new StructureInfo { Pages = pathData.Pages, StartPage = pathData.Pages.Where(x => x.Parent == null) as IPageModel});
+            routeData.ApplyCurrentStructureInfo(new StructureInfo { NavigationContext = pathData.NavigationContext, StartPage = pathData.NavigationContext.Where(x => x.Parent == null) as IPageModel});
 
             return routeData;
         }

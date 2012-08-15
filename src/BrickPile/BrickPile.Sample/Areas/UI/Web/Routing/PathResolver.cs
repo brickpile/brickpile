@@ -102,7 +102,7 @@ namespace BrickPile.UI.Web.Routing {
             var controllerType = _pageModel.GetType().GetAttribute<PageTypeAttribute>().ControllerType;
             _pathData.Controller = controllerType != null ? _controllerMapper.GetControllerName(controllerType) : string.Format("{0}Controller", _pageModel.GetType().Name);
             _pathData.CurrentPage = _pageModel;
-            _pathData.Pages = _session.GetPublishedPages(_pageModel.Id);
+            _pathData.NavigationContext = _session.GetPublishedPages(_pageModel.Id);
             return _pathData;
         }
         /// <summary>

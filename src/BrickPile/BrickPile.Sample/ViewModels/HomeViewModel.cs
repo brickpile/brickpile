@@ -48,7 +48,7 @@ namespace BrickPile.Sample.ViewModels {
         /// <value>
         /// The pages.
         /// </value>
-        public IEnumerable<IPageModel> Pages { get; set; }
+        public IEnumerable<IPageModel> NavigationContext { get; set; }
         /// <summary>
         /// Gets or sets the root page.
         /// </summary>

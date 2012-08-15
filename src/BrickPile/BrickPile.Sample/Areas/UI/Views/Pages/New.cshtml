@@ -36,7 +36,19 @@ THE SOFTWARE. *@
      })(jQuery);  
 </script>, "scripts")
 
-@Html.ValidationSummary()
+@section PreMain {
+    @if(!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-block alert-error">
+            <h4>Oh snap! You got an error!</h4>
+            <ul>
+                @foreach (var modelError in ViewData.ModelState.SelectMany(keyValuePair => keyValuePair.Value.Errors)) {
+                    <li>@modelError.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+}
 
 @using (Html.BeginForm("save", "pages", new { model = Model.ParentModel }, FormMethod.Post, new { id = "editForm" })) {
     <div>
@@ -64,7 +76,7 @@ THE SOFTWARE. *@
                     </div>
                     <div>
                         @Html.LabelFor(model => model.NewPageModel.Metadata.Published)
-                        @Html.TextBoxFor(model => model.NewPageModel.Metadata.Published)
+                        @Html.EditorFor(model => model.NewPageModel.Metadata.Published)
                     </div>
                 </div>
                 <div>
@@ -85,7 +97,7 @@ THE SOFTWARE. *@
                     @Html.LabelFor(model => model.NewPageModel.Metadata.Name)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => model.NewPageModel.Metadata.Name, new { @class = "title", required = "required", placeholder = "My awesome page", autofocus = "autofocus" })
+                    @Html.TextBoxFor(model => model.NewPageModel.Metadata.Name, new { @class = "title", placeholder = "My awesome page", autofocus = "autofocus" })
                 </div>
             </div>            
             @Html.EditorFor(model => model.NewPageModel)

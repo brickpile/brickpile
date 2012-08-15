@@ -22,6 +22,7 @@ using System.ComponentModel.DataAnnotations;
 using BrickPile.Domain;
 using BrickPile.Sample.Controllers;
 using BrickPile.UI.Models;
+using BrickPile.UI.Web;
 
 namespace BrickPile.Sample.Models {
     /// <summary>
@@ -53,7 +54,7 @@ namespace BrickPile.Sample.Models {
         /// The main body.
         /// </value>
         [Display(Name = "Why", Order = 400)]
-        public override string MainBody {
+        public override HtmlString MainBody {
             get { 
                 return base.MainBody;
             }
@@ -69,7 +70,7 @@ namespace BrickPile.Sample.Models {
         /// </value>
         [Display(Order = 500)]
         [DataType(DataType.Html)]
-        public string Portfolio { get; set; }
+        public HtmlString Portfolio { get; set; }
         /// <summary>
         /// Gets or sets the weblog.
         /// </summary>
@@ -78,7 +79,7 @@ namespace BrickPile.Sample.Models {
         /// </value>
         [Display(Order = 600)]
         [DataType(DataType.Html)]
-        public string Weblog { get; set; }
+        public HtmlString Weblog { get; set; }
         /// <summary>
         /// Gets or sets the contact.
         /// </summary>
@@ -87,7 +88,7 @@ namespace BrickPile.Sample.Models {
         /// </value>
         [Display(Order = 700)]
         [DataType(DataType.Html)]
-        public string Contact { get; set; }
+        public HtmlString Contact { get; set; }
         /// <summary>
         /// Gets or sets the about us.
         /// </summary>
@@ -96,7 +97,7 @@ namespace BrickPile.Sample.Models {
         /// </value>
         [Display(Name = "About us",Order = 800)]
         [DataType(DataType.Html)]
-        public string AboutUs { get; set; }
+        public HtmlString AboutUs { get; set; }
     }
 
 }

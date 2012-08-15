@@ -33,6 +33,6 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <summary>
         /// Gets the structure info.
         /// </summary>
-        public virtual IEnumerable<IPageModel> Pages { get; set; }
+        public virtual IEnumerable<IPageModel> NavigationContext { get; set; }
     }
 }

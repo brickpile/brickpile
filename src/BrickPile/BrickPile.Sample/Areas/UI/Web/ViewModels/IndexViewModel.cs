@@ -27,7 +27,7 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <value>
         /// The children.
         /// </value>
-        public IList<IPageModel> Children { get; set; }
+        public IEnumerable<IPageModel> Children { get; set; }
 
     }
 }
