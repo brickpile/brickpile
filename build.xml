@@ -35,7 +35,6 @@
     <item name="Lucene.Net.dll" />
     <item name="Raven.Abstractions.dll"/>
     <item name="Raven.Database.dll"/>
-    <item name="Raven.Munin.dll"/>
     <item name="Spatial4n.Core.dll" />
   </items>
   <items path="packages/RavenDB.Client.1.2.2060-Unstable/lib/net40" type="reference" target="testDebug">
