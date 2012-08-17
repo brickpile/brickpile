@@ -10,7 +10,7 @@
     <licenseUrl>https://github.com/kloojed/BrickPile/blob/master/README</licenseUrl>
     <projectUrl>http://www.getbrickpile.com</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Sample template package for BrickPile using MVC3/Razor.</description>
+    <description>Sample template package for BrickPile using MVC4/Razor.</description>
 		<tags>brickpile cms ravendb mvc nosql</tags>
     <dependencies>
       <dependency id="BrickPile" version="0.2.0.36" />

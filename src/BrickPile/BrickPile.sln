@@ -7,7 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		BrickPile-Sample.nuspec = BrickPile-Sample.nuspec
 		BrickPile.nuspec = BrickPile.nuspec
 		..\..\build.xml = ..\..\build.xml
-		..\..\README.md = ..\..\README.md
 		NuGet\content\web.config.transform = NuGet\content\web.config.transform
 	EndProjectSection
 EndProject

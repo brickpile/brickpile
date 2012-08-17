@@ -4,13 +4,13 @@
 		<id>BrickPile</id>
 		<version>${project.fileVersion}-alpha</version>
     <title>BrickPile</title>
-    <summary>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 3</summary>
+    <summary>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4</summary>
 		<authors>Marcus Lindblom</authors>
 		<owners>Marcus Lindblom</owners>
     <licenseUrl>https://github.com/kloojed/BrickPile/blob/master/README</licenseUrl>
     <projectUrl>http://www.getbrickpile.com</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 3</description>
+    <description>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4</description>
 		<tags>brickpile cms ravendb mvc nosql</tags>
     <dependencies>
       <dependency id="RavenDB.Embedded" version="1.0.960" />
