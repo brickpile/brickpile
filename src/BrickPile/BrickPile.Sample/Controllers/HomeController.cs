@@ -47,7 +47,7 @@ namespace BrickPile.Sample.Controllers {
                                     CurrentPage = currentPage,
                                     NavigationContext = _structureInfo.NavigationContext,
                                     QuotePage = quotePage,
-                                    RootPage = _structureInfo.StartPage
+                                    StartPage = _structureInfo.StartPage
                                 };
 
             ViewBag.Class = "home";

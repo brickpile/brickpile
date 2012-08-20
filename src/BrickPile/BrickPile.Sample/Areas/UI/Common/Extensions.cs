@@ -20,8 +20,11 @@ THE SOFTWARE. */
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -30,6 +33,7 @@ using System.Web.Routing;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Web.Routing;
+using StructureMap;
 
 namespace BrickPile.UI.Common {
     public static class Extensions {
@@ -74,19 +78,6 @@ namespace BrickPile.UI.Common {
         public static IEnumerable<HierarchyNode<TEntity>> AsHierarchy<TEntity>(this IEnumerable<TEntity> allItems) where TEntity : class, IPageModel {
             return CreateHierarchy(allItems, default(TEntity), 0);
         }
-        /// <summary>
-        /// Registers the page route.
-        /// </summary>
-        /// <param name="routes">The routes.</param>
-        /// <param name="pathResolver">The path resolver.</param>
-        /// <param name="virtualPathResolver">The virtual path resolver.</param>
-        /// <returns></returns>
-        //public static RouteCollection RegisterPageRoute(this RouteCollection routes, IPathResolver pathResolver, IVirtualPathResolver virtualPathResolver) {
-        //    var pageRoute = new PageRoute(pathResolver, virtualPathResolver);
-        //    routes.Add("PageRoute", pageRoute);
-        //    return routes;
-        //}
-
         /// <summary>
         /// Used for adding a page model to the RouteData object's DataTokens
         /// </summary>
@@ -137,21 +128,6 @@ namespace BrickPile.UI.Common {
                 delim = "&";
             }
             return source + delim + HttpUtility.UrlEncode(key) + "=" + HttpUtility.UrlEncode(value);
-        }
-        /// <summary>
-        /// Formats the size of the file.
-        /// </summary>
-        /// <param name="fileSize">Size of the file.</param>
-        /// <returns></returns>
-        public static string FormatFileSize(this long fileSize) {
-            string[] suffix = { "bytes", "KB", "MB", "GB" };
-            long j = 0;
-
-            while (fileSize > 1024 && j < 4) {
-                fileSize = fileSize / 1024;
-                j++;
-            }
-            return (fileSize + " " + suffix[j]);
         }
         /// <summary>
         /// Actions the link.
@@ -212,7 +188,15 @@ namespace BrickPile.UI.Common {
         public static string Action(this UrlHelper urlHelper,string actionName, IPageModel model) {
             return urlHelper.Action(actionName, new { model });
         }
-
+        /// <summary>
+        /// UIs the controls.
+        /// </summary>
+        /// <param name="htmlHelper">The HTML helper.</param>
+        /// <returns></returns>
+        public static MvcHtmlString UIControls(this HtmlHelper htmlHelper) {
+            var structureInfo = ObjectFactory.GetInstance<IStructureInfo>();
+            return htmlHelper.Partial("~/Areas/UI/Views/Shared/UIControls.cshtml",structureInfo);
+        }
         /// <summary>
         /// Get the attribute of a specific type, returns null if not exists
         /// </summary>
@@ -304,5 +288,6 @@ namespace BrickPile.UI.Common {
         }
 
         private static List<Type> _availablePageModels;
+
     }
 }

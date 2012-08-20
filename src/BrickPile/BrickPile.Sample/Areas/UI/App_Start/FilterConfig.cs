@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace BrickPile.UI2 {
+namespace BrickPile.UI.App_Start {
     /// <summary>
     /// 
     /// </summary>
@@ -9,8 +9,6 @@ namespace BrickPile.UI2 {
         /// Registers the global filters.
         /// </summary>
         /// <param name="filters">The filters.</param>
-        public static void RegisterGlobalFilters(GlobalFilterCollection filters) {
-            filters.Add(new HandleErrorAttribute());
-        }
+        public static void RegisterGlobalFilters(GlobalFilterCollection filters) { }
     }
 }

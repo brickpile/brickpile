@@ -15,6 +15,10 @@ namespace BrickPile.UI.Web {
         /// <summary>
         /// Initializes a new instance of the <see cref="HtmlString"/> class.
         /// </summary>
+        public HtmlString() :this(string.Empty) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HtmlString"/> class.
+        /// </summary>
         /// <param name="value">The value.</param>
         public HtmlString(string value) { 
             this.Html = value;

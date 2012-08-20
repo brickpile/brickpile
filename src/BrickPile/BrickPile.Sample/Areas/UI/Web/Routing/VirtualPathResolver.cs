@@ -20,7 +20,6 @@ THE SOFTWARE. */
 
 using System.Web;
 using System.Web.Routing;
-using BrickPile.Core.Exception;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Web.Routing {

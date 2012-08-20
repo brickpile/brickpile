@@ -43,7 +43,6 @@ namespace BrickPile.Sample.Models {
         /// The main body.
         /// </value>
         [Display(Name = "Text")]
-        [Required]
         public virtual HtmlString MainBody { get; set; }
     }
 }

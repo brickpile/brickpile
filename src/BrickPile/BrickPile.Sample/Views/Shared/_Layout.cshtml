@@ -20,6 +20,7 @@ THE SOFTWARE. *@
 
 @model BrickPile.UI.Web.ViewModels.IViewModel<BrickPile.Sample.Models.BaseModel>
 @using System.Globalization
+@using BrickPile.UI.Common
 @using SquishIt.Framework
 
 <!DOCTYPE html>
@@ -107,6 +108,7 @@ THE SOFTWARE. *@
             else if (window.attachEvent)
                 window.attachEvent("onload", downloadJSAtOnload);
             else window.onload = downloadJSAtOnload;
-        </script>  
+        </script>
+        @Html.UIControls()
 	</body>
 </html>

@@ -335,11 +335,6 @@ body.start #button {
 #tbl-pages th:last-child > span,
 #tbl-pages td:last-child > span {
     margin-right: 3px;
-    text-align: right;
-}
-
-tbody tr.home td:last-child span {
-    padding-right: 28px;
 }
 
 #tbl-pages tbody tr.deleted { opacity: 0.6; }
@@ -413,7 +408,7 @@ th#publish { width: 80px; }
  */
 
 .level-down {
-    margin-top: -20px;
+    margin-top: -18px;
     padding-left: 4px;
     padding-right: 5px;
     -webkit-border-radius: 19px;
@@ -425,7 +420,7 @@ th#publish { width: 80px; }
  * Edit & delete button
  */
  
-th#actions { width: 142px; }
+th#actions { width: 174px; }
 
 .actions .btn-group {
     margin-right: 9px;

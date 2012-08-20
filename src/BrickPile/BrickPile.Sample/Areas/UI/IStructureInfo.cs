@@ -40,5 +40,12 @@ namespace BrickPile.UI {
         /// The root page.
         /// </value>
         IPageModel StartPage { get; set; }
+        /// <summary>
+        /// Gets or sets the parent page.
+        /// </summary>
+        /// <value>
+        /// The parent page.
+        /// </value>
+        IPageModel ParentPage { get; set; }
     }
 }

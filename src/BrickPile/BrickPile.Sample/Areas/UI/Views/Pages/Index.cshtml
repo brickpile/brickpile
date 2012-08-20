@@ -20,6 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
 @model BrickPile.UI.Web.ViewModels.IndexViewModel
+@using System.Configuration
 @using BrickPile.Domain
 @using BrickPile.UI.Common
 
@@ -92,6 +93,9 @@ THE SOFTWARE. *@
                             <a href="@Url.Action("edit", new { model = Model.RootModel })" class="btn" title="Edit page">
                                 <i class="icon-pencil"></i>
                             </a>
+                            <a href="@Url.Action("index", new { currentPage = Model.RootModel, area = "" })" class="btn" title="Preview page">
+                                <i class="icon-eye-open"></i>
+                            </a>
                             <a href="@Url.Action("delete", new { model = Model.RootModel })" class="btn delete" title="Delete page">
                                 <i class="icon-remove"></i>
                             </a>
@@ -135,6 +139,9 @@ THE SOFTWARE. *@
                                 <span class="btn-group">
                                     <a href="@Url.Action("edit", new { model = item })" class="btn" title="Edit page">
                                         <i class="icon-pencil"></i>
+                                    </a>
+                                    <a href="@Url.Action("index", new { currentPage = item, area = "" })" class="btn" title="Preview page">
+                                        <i class="icon-eye-open"></i>
                                     </a>
                                     <a href="@Url.Action("delete", new { model = item })" class="btn delete" title="Delete page">
                                         <i class="icon-remove"></i>

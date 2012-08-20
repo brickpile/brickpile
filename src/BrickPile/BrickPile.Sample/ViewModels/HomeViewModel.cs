@@ -50,11 +50,11 @@ namespace BrickPile.Sample.ViewModels {
         /// </value>
         public IEnumerable<IPageModel> NavigationContext { get; set; }
         /// <summary>
-        /// Gets or sets the root page.
+        /// Gets or sets the start page.
         /// </summary>
         /// <value>
-        /// The root page.
+        /// The start page.
         /// </value>
-        public IPageModel RootPage { get; set; }
+        public IPageModel StartPage { get; set; }
     }
 }

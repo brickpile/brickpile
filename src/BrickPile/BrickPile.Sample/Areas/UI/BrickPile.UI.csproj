@@ -250,6 +250,7 @@
     <Content Include="Content\brickpile.css" />
     <Content Include="Content\images\dark-wood.jpg" />
     <Content Include="Content\images\dialog-top.png" />
+    <Content Include="Content\images\editorialcontrols.png" />
     <Content Include="Content\images\glyphicons.png" />
     <Content Include="Content\images\glyphicons_halflings.png" />
     <Content Include="Content\images\header.png" />
@@ -662,6 +663,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\UI\Index.cshtml" />
     <Content Include="web.config" />
+    <Content Include="Views\Shared\UIControls.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\BrickPile.Core\BrickPile.Core.csproj">

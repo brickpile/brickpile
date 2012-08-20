@@ -40,6 +40,7 @@ namespace BrickPile.UI.App_Start {
             
             RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             RouteTable.Routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
             ControllerBuilder.Current.SetControllerFactory(typeof(BrickPileControllerFactory));
 
@@ -60,36 +61,6 @@ namespace BrickPile.UI.App_Start {
             };
 
             ModelBinderProviders.BinderProviders.Add(binderProvider);
-
         }
     }
-    //public class PageModelBinder : DefaultModelBinder {
-    //    protected override void OnModelUpdated(ControllerContext controllerContext, ModelBindingContext bindingContext) {
-    //        foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(bindingContext.ModelType)) {
-    //            var attributes = property.Attributes;
-    //            if (attributes.Count == 0) continue;
-    //            foreach (var attribute in attributes) {
-    //                if (attribute.GetType().BaseType == typeof(ValidationAttribute) && property.PropertyType == typeof(PageReference)) {
-    //                    var pageReference = bindingContext.ModelType.GetProperty(property.Name).GetValue(bindingContext.Model, null) as PageReference;
-    //                    Type attrType = attribute.GetType();
-    //                    if (attrType == typeof(RequiredAttribute) && string.IsNullOrEmpty(pageReference.Name)) {
-
-    //                        bindingContext.ModelState.AddModelError(property.Name, ((RequiredAttribute)attribute).FormatErrorMessage(property.DisplayName));
-    //                    }
-    //                }
-    //            }
-    //        }
-    //        base.OnModelUpdated(controllerContext, bindingContext);
-    //    }
-    //}
-
-    //public class InheritanceAwareModelBinderProvider : Dictionary<Type, IModelBinder>, IModelBinderProvider {
-    //    public IModelBinder GetBinder(Type modelType) {
-    //        var binders = from binder in this
-    //                      where binder.Key.IsAssignableFrom(modelType)
-    //                      select binder.Value;
-
-    //        return binders.FirstOrDefault();
-    //    }
-    //}
 }

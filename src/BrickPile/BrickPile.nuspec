@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata>
 		<id>BrickPile</id>
-		<version>${project.fileVersion}-alpha</version>
+		<version>${project.fileVersion}-Unstable</version>
     <title>BrickPile</title>
     <summary>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4</summary>
 		<authors>Marcus Lindblom</authors>
@@ -13,7 +13,7 @@
     <description>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4</description>
 		<tags>brickpile cms ravendb mvc nosql</tags>
     <dependencies>
-      <dependency id="RavenDB.Embedded" version="1.0.960" />
+      <dependency id="RavenDB.Embedded" version="1.2.2060-Unstable" />
       <dependency id="structuremap" version="2.6.3" />
       <dependency id="WebActivator" version="1.5" />
       <dependency id="SquishIt" version="0.8.6" />
