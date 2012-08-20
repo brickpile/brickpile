@@ -7,7 +7,7 @@
     <summary>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4</summary>
 		<authors>Marcus Lindblom</authors>
 		<owners>Marcus Lindblom</owners>
-    <licenseUrl>https://github.com/kloojed/BrickPile/blob/master/README</licenseUrl>
+    <licenseUrl>https://github.com/kloojed/BrickPile/blob/master/LICENSE.txt</licenseUrl>
     <projectUrl>http://www.getbrickpile.com</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4</description>

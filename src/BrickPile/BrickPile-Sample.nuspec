@@ -2,12 +2,12 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata>
 		<id>BrickPile-Sample</id>
-		<version>${project.fileVersion}-alpha</version>
+		<version>${project.fileVersion}-Unstable</version>
     <title>BrickPile sample templates</title>
     <summary>Sample template package for BrickPile CMS</summary>
 		<authors>Marcus Lindblom</authors>
 		<owners>Marcus Lindblom</owners>
-    <licenseUrl>https://github.com/kloojed/BrickPile/blob/master/README</licenseUrl>
+    <licenseUrl>https://github.com/kloojed/BrickPile/blob/master/LICENSE.txt</licenseUrl>
     <projectUrl>http://www.getbrickpile.com</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Sample template package for BrickPile using MVC4/Razor.</description>
