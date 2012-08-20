@@ -1,0 +1,51 @@
+﻿@using BrickPile.UI.Common
+@model BrickPile.UI.IStructureInfo
+
+@if(ViewContext.HttpContext.User.Identity.IsAuthenticated) {
+    
+    <style type="text/css" media="all">
+        #brickpile-editorial-ctrls * {
+            padding: 0;
+            margin: 0;
+        }
+        #brickpile-editorial-ctrls {
+            background: url("/areas/ui/content/images/editorialcontrols.png") no-repeat;
+            position: fixed;
+            padding: 0 0 0 25px;
+            bottom: 0;
+            left: 30px;
+        }
+        #brickpile-editorial-ctrls ul {
+            background: url("/areas/ui/content/images/editorialcontrols.png") no-repeat 100% -68px;
+            height: 34px;
+            padding: 14px 17px 0 2px;
+            list-style: none;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+        }
+        #brickpile-editorial-ctrls li {
+            float: left;
+            padding: 0 0 0 2px;
+        }
+        #brickpile-editorial-ctrls li.ui {
+            background: url("/areas/ui/content/images/editorialcontrols.png") no-repeat -131px -146px;
+        }
+        #brickpile-editorial-ctrls li a {
+            display: block;
+            height: 34px;
+            width: 40px;
+            text-indent: -9999px;
+        }
+        #brickpile-editorial-ctrls li.ui a { background: url("/areas/ui/content/images/editorialcontrols.png") no-repeat -45px -199px; }
+        #brickpile-editorial-ctrls li.ui a:hover { background-position: -45px -259px; }
+    </style>
+    
+    <div id="brickpile-editorial-ctrls">
+        <ul>
+            <li class="ui">
+                @Html.ActionLink("En länk", "index", new {model = Model.ParentPage ?? Model.StartPage, area = "UI"})                
+            </li>
+        </ul>
+    </div>
+}
