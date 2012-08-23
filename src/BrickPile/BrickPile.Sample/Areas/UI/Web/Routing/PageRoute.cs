@@ -114,6 +114,7 @@ namespace BrickPile.UI.Web.Routing {
             routeData.ApplyCurrentStructureInfo(new StructureInfo
             {
                 NavigationContext = pathData.NavigationContext.Where(x => x.Metadata.IsPublished).Where(x => !x.Metadata.IsDeleted).OrderBy(x => x.Metadata.SortOrder),
+                CurrentPage = pathData.CurrentPage,
                 StartPage = pathData.NavigationContext.Single(x => x.Parent == null),
                 ParentPage = pathData.CurrentPage.Parent != null ? pathData.NavigationContext.SingleOrDefault(x => x.Id == pathData.CurrentPage.Parent.Id) : null
             });

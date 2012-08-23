@@ -45,12 +45,14 @@ namespace BrickPile.UI.Common {
         /// <param name="parentItem">The parent item.</param>
         /// <param name="depth">The depth.</param>
         /// <returns></returns>
-        private static IEnumerable<HierarchyNode<TEntity>> CreateHierarchy<TEntity>(IEnumerable<TEntity> allItems, TEntity parentItem, int depth) where TEntity : class, IPageModel {
+        private static IEnumerable<HierarchyNode<TEntity>> CreateHierarchy<TEntity>(IEnumerable<TEntity> allItems,
+                                                                                    TEntity parentItem, int depth)
+            where TEntity : class, IPageModel {
 
             if (parentItem == null)
                 parentItem = allItems.SingleOrDefault(i => i.Parent == null);
 
-            if(parentItem == null) {
+            if (parentItem == null) {
                 yield break;
             }
             IEnumerable<TEntity> childs = allItems.Where(i => i.Parent != null && i.Parent.Id.Equals(parentItem.Id));
@@ -61,23 +63,26 @@ namespace BrickPile.UI.Common {
                 foreach (var item in childs)
                     yield return
                         new HierarchyNode<TEntity>()
-                            {
-                                Entity = item,
-                                ChildNodes = CreateHierarchy(allItems, item, depth),
-                                Depth = depth,
-                                Expanded = allItems.Any(x => x.Parent != null && x.Parent.Id.Equals(item.Id))
-                            };
+                        {
+                            Entity = item,
+                            ChildNodes = CreateHierarchy(allItems, item, depth),
+                            Depth = depth,
+                            Expanded = allItems.Any(x => x.Parent != null && x.Parent.Id.Equals(item.Id))
+                        };
             }
         }
+
         /// <summary>
         /// Ases the hierarchy.
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="allItems">All items.</param>
         /// <returns></returns>
-        public static IEnumerable<HierarchyNode<TEntity>> AsHierarchy<TEntity>(this IEnumerable<TEntity> allItems) where TEntity : class, IPageModel {
+        public static IEnumerable<HierarchyNode<TEntity>> AsHierarchy<TEntity>(this IEnumerable<TEntity> allItems)
+            where TEntity : class, IPageModel {
             return CreateHierarchy(allItems, default(TEntity), 0);
         }
+
         /// <summary>
         /// Used for adding a page model to the RouteData object's DataTokens
         /// </summary>
@@ -86,12 +91,14 @@ namespace BrickPile.UI.Common {
         /// <param name="actionName">Name of the action.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public static RouteData ApplyCurrentPage(this RouteData data, string controllerName, string actionName, dynamic model) {
-            data.Values[PageRoute.ControllerKey] = controllerName.Replace("Controller","");
+        public static RouteData ApplyCurrentPage(this RouteData data, string controllerName, string actionName,
+                                                 dynamic model) {
+            data.Values[PageRoute.ControllerKey] = controllerName.Replace("Controller", "");
             data.Values[PageRoute.ActionKey] = actionName;
             data.Values[PageRoute.ModelKey] = model;
             return data;
         }
+
         /// <summary>
         /// Applies the current structure info.
         /// </summary>
@@ -102,6 +109,7 @@ namespace BrickPile.UI.Common {
             data.Values[PageRoute.StructureInfoKey] = structureInfo;
             return data;
         }
+
         /// <summary>
         /// Returns the current model of the current request
         /// </summary>
@@ -109,8 +117,9 @@ namespace BrickPile.UI.Common {
         /// <param name="data">The data.</param>
         /// <returns></returns>
         public static T GetCurrentPage<T>(this RouteData data) {
-            return (T)data.Values[PageRoute.ModelKey];
+            return (T) data.Values[PageRoute.ModelKey];
         }
+
         /// <summary>
         /// Adds the query param.
         /// </summary>
@@ -122,13 +131,16 @@ namespace BrickPile.UI.Common {
             string delim;
             if ((source == null) || !source.Contains("?")) {
                 delim = "?";
-            } else if (source.EndsWith("?") || source.EndsWith("&")) {
+            }
+            else if (source.EndsWith("?") || source.EndsWith("&")) {
                 delim = string.Empty;
-            } else {
+            }
+            else {
                 delim = "&";
             }
             return source + delim + HttpUtility.UrlEncode(key) + "=" + HttpUtility.UrlEncode(value);
         }
+
         /// <summary>
         /// Actions the link.
         /// </summary>
@@ -138,6 +150,7 @@ namespace BrickPile.UI.Common {
         public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, IPageModel model) {
             return htmlHelper.ActionLink(model.Metadata.Name, model);
         }
+
         /// <summary>
         /// Actions the link.
         /// </summary>
@@ -148,6 +161,7 @@ namespace BrickPile.UI.Common {
         public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, IPageModel model, object htmlAttributes) {
             return htmlHelper.ActionLink(model.Metadata.Name, model, htmlAttributes);
         }
+
         /// <summary>
         /// Actions the link.
         /// </summary>
@@ -158,6 +172,7 @@ namespace BrickPile.UI.Common {
         public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, IPageModel model) {
             return htmlHelper.ActionLink(linkText, model, null);
         }
+
         /// <summary>
         /// Actions the link.
         /// </summary>
@@ -166,9 +181,11 @@ namespace BrickPile.UI.Common {
         /// <param name="model">The model.</param>
         /// <param name="htmlAttributes">The HTML attributes.</param>
         /// <returns></returns>
-        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, IPageModel model, object htmlAttributes) {
-            return htmlHelper.ActionLink(linkText, "index", new { currentPage = model }, htmlAttributes);
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, IPageModel model,
+                                               object htmlAttributes) {
+            return htmlHelper.ActionLink(linkText, "index", new {currentPage = model}, htmlAttributes);
         }
+
         /// <summary>
         /// Actions the specified URL helper.
         /// </summary>
@@ -178,6 +195,7 @@ namespace BrickPile.UI.Common {
         public static string Action(this UrlHelper urlHelper, IPageModel model) {
             return urlHelper.Action("index", new {model});
         }
+
         /// <summary>
         /// Actions the specified URL helper.
         /// </summary>
@@ -185,9 +203,10 @@ namespace BrickPile.UI.Common {
         /// <param name="actionName">Name of the action.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public static string Action(this UrlHelper urlHelper,string actionName, IPageModel model) {
-            return urlHelper.Action(actionName, new { model });
+        public static string Action(this UrlHelper urlHelper, string actionName, IPageModel model) {
+            return urlHelper.Action(actionName, new {model});
         }
+
         /// <summary>
         /// UIs the controls.
         /// </summary>
@@ -195,8 +214,9 @@ namespace BrickPile.UI.Common {
         /// <returns></returns>
         public static MvcHtmlString UIControls(this HtmlHelper htmlHelper) {
             var structureInfo = ObjectFactory.GetInstance<IStructureInfo>();
-            return htmlHelper.Partial("~/Areas/UI/Views/Shared/UIControls.cshtml",structureInfo);
+            return htmlHelper.Partial("~/Areas/UI/Views/Shared/UIControls.cshtml", structureInfo);
         }
+
         /// <summary>
         /// Get the attribute of a specific type, returns null if not exists
         /// </summary>
@@ -207,12 +227,13 @@ namespace BrickPile.UI.Common {
 
             var attributes = type.GetCustomAttributes(true);
             foreach (var attributeInType in attributes) {
-                if (typeof(T).IsAssignableFrom(attributeInType.GetType()))
-                    attribute = (T)attributeInType;
+                if (typeof (T).IsAssignableFrom(attributeInType.GetType()))
+                    attribute = (T) attributeInType;
             }
 
             return attribute;
         }
+
         /// <summary>
         /// Radioes the button for select list.
         /// </summary>
@@ -222,7 +243,10 @@ namespace BrickPile.UI.Common {
         /// <param name="expression">The expression.</param>
         /// <param name="listOfValues">The list of values.</param>
         /// <returns></returns>
-        public static MvcHtmlString RadioButtonForSelectList<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> listOfValues) {
+        public static MvcHtmlString RadioButtonForSelectList<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper,
+                                                                                Expression<Func<TModel, TProperty>>
+                                                                                    expression,
+                                                                                IEnumerable<SelectListItem> listOfValues) {
             var metaData = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
             var sb = new StringBuilder();
             if (listOfValues != null) {
@@ -231,21 +255,23 @@ namespace BrickPile.UI.Common {
                         "{0}_{1}",
                         metaData.PropertyName,
                         item.Value
-                    );
+                        );
 
-                    var radio = htmlHelper.RadioButtonFor(expression, item.Value, new { id }).ToHtmlString();
+                    var radio = htmlHelper.RadioButtonFor(expression, item.Value, new {id}).ToHtmlString();
                     sb.AppendFormat(
                         "<label for=\"{0}\">{2} {1}</label>",
                         id,
                         HttpUtility.HtmlEncode(item.Text),
                         radio
-                    );
+                        );
                 }
             }
 
             return MvcHtmlString.Create(sb.ToString());
         }
+
         private const string DateFormat = "{0} {1} {2}";
+
         /// <summary>
         /// Formats the date.
         /// </summary>
@@ -264,30 +290,57 @@ namespace BrickPile.UI.Common {
                 if (difference.Minutes == 0) {
                     return "just now";
                 }
-                return string.Format(DateFormat, difference.Minutes, difference.Minutes == 1 ? "minute" : "minutes", "ago");
+                return string.Format(DateFormat, difference.Minutes, difference.Minutes == 1 ? "minute" : "minutes",
+                                     "ago");
             }
             return string.Format(DateFormat, difference.Hours, difference.Hours == 1 ? "hour" : "hours", "ago");
         }
+
         /// <summary>
         /// Gets the available page models.
         /// </summary>
         /// <param name="helper">The helper.</param>
         /// <returns></returns>
         public static List<Type> GetAvailablePageModels(this HtmlHelper helper) {
-            if(_availablePageModels == null) {
+            if (_availablePageModels == null) {
                 _availablePageModels = new List<Type>();
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
                     foreach (var type in assembly.GetTypes()) {
-                        if (type.GetCustomAttributes(typeof(PageTypeAttribute), true).Length > 0) {
+                        if (type.GetCustomAttributes(typeof (PageTypeAttribute), true).Length > 0) {
                             _availablePageModels.Add(type);
                         }
                     }
-                }                
+                }
             }
             return _availablePageModels;
         }
 
         private static List<Type> _availablePageModels;
+        
+        public static string GetBaseDomain(string domainName) {
+            var tokens = domainName.Split('.');
+            // only split 3 segments like www.west-wind.com
+            if (tokens.Length != 3)
+                return domainName;
 
+            var tok = new List<string>(tokens);
+            var remove = tokens.Length - 2;
+            tok.RemoveRange(0, remove);
+
+            return tok[0] + "." + tok[1];
+        }
+
+        /// <summary>
+        /// Returns the base domain from a domain name
+        /// Example: http://www.west-wind.com returns west-wind.com
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
+        public static string GetBaseDomain(this Uri uri) {
+            if (uri.HostNameType == UriHostNameType.Dns)
+                return GetBaseDomain(uri.DnsSafeHost);
+
+            return uri.Host;
+        }
     }
 }

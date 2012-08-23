@@ -45,7 +45,7 @@ namespace BrickPile.UI.App_Start {
             ControllerBuilder.Current.SetControllerFactory(typeof(BrickPileControllerFactory));
 
             // Register the default page route
-            RouteTable.Routes.Add(new PageRoute(
+            RouteTable.Routes.Add("Default_Pages", new PageRoute(
                                       "{*path}",
                                       new RouteValueDictionary(
                                           new

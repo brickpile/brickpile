@@ -63,7 +63,6 @@ namespace BrickPile.UI {
                     new[] { typeof(Controllers.UIController).Namespace }
                 );                
             } else {
-                
                 context.Routes.MapUIRoute("Pages_Default",
                     "ui/{controller}/{action}/{id}", 
                     new
