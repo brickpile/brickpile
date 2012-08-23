@@ -34,6 +34,13 @@ namespace BrickPile.UI {
         /// </value>
         IQueryable<IPageModel> NavigationContext { get; set; }
         /// <summary>
+        /// Gets or sets the current page.
+        /// </summary>
+        /// <value>
+        /// The current page.
+        /// </value>
+        IPageModel CurrentPage { get; set; }
+        /// <summary>
         /// Gets or sets the root page of the web site.
         /// </summary>
         /// <value>
