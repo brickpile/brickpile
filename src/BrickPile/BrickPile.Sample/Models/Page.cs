@@ -30,10 +30,10 @@ namespace BrickPile.Sample.Models {
     [PageType(Name = "Article", ControllerType = typeof(PageController))]
     public class Page : BaseModel {
         /// <summary>
-        /// Gets or sets the nisse.
+        /// Gets or sets the page reference.
         /// </summary>
         /// <value>
-        /// The nisse.
+        /// The page reference.
         /// </value>
         [Display(Name = "Page", Prompt = "Specify page name...")]
         [Required]

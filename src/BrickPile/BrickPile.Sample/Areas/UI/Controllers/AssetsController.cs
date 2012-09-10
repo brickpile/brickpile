@@ -9,6 +9,7 @@ namespace BrickPile.UI.Controllers {
     /// <summary>
     /// 
     /// </summary>
+    [Authorize]
     public class AssetsController : Controller {
 
         /// <summary>
