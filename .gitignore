@@ -31,7 +31,7 @@ Storage*/
 Backup*/
 NuGet*/
 # Don't include NuGet Packages
-packages/
+packages*/
 src/BrickPile/packages/RavenDB*/server/Data*/
 src/BrickPile/packages/RavenDB*/server/Raven.Server.log*
 src/BrickPile/BrickPile.Sample/Areas/BrickPile.UI/Scripts/brickpile.js
