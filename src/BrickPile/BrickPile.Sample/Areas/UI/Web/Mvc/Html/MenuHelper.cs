@@ -41,6 +41,22 @@ namespace BrickPile.UI.Web.Mvc.Html {
             get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPageModel>(); }
         }
         /// <summary>
+        /// Gets the structure info.
+        /// </summary>
+        private static IStructureInfo StructureInfo {
+            get {
+                return ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.Values["StructureInfo"] as StructureInfo;
+            }
+        }
+        /// <summary>
+        /// Menus the specified HTML.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <returns></returns>
+        public static MvcHtmlString Menu(this HtmlHelper html) {
+            return Menu(html, StructureInfo.NavigationContext, html.ActionLink);
+        }
+        /// <summary>
         /// Responsible for creating a navigation based on an unordered list
         /// </summary>
         /// <param name="html">HtmlHelper</param>

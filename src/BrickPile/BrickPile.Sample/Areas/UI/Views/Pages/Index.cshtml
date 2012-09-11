@@ -93,7 +93,7 @@ THE SOFTWARE. *@
                             <a href="@Url.Action("edit", new { model = Model.RootModel })" class="btn" title="Edit page">
                                 <i class="icon-pencil"></i>
                             </a>
-                            <a href="@Url.Action("index", new { currentPage = Model.RootModel, area = "" })" class="btn" title="View page">
+                            <a href="@Url.RouteUrl("Default_Pages", new RouteValueDictionary(new { currentPage = Model.RootModel }), Request.Url.Scheme, Request.Url.GetBaseDomain())" class="btn" title="View page">
                                 <i class="icon-eye-open"></i>
                             </a>
                             <a href="@Url.Action("delete", new { model = Model.RootModel })" class="btn delete" title="Delete page">
@@ -140,7 +140,7 @@ THE SOFTWARE. *@
                                     <a href="@Url.Action("edit", new { model = item })" class="btn" title="Edit page">
                                         <i class="icon-pencil"></i>
                                     </a>
-                                    <a href="@Url.Action("index", new { currentPage = item, area = "" })" class="btn" title="View page">
+                                    <a href="@Url.RouteUrl("Default_Pages", new RouteValueDictionary(new { currentPage = item }), Request.Url.Scheme, Request.Url.GetBaseDomain())" class="btn" title="View page">
                                         <i class="icon-eye-open"></i>
                                     </a>
                                     <a href="@Url.Action("delete", new { model = item })" class="btn delete" title="Delete page">

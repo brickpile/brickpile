@@ -23,10 +23,10 @@
   <items path="packages/structuremap.2.6.3/lib" type="reference" target="testDebug">
     <item name="StructureMap.dll"/>
   </items>
-  <items path="packages/RavenDB.Embedded.1.2.2060-Unstable/lib/net40" type="reference" target="testDebug">
+  <items path="packages/RavenDB.Embedded.1.2.2083-Unstable/lib/net40" type="reference" target="testDebug">
     <item name="Raven.Client.Embedded.dll"/>  
   </items>
-  <items path="packages/RavenDB.Database.1.2.2060-Unstable/lib/net40" type="reference" target="testDebug">
+  <items path="packages/RavenDB.Database.1.2.2083-Unstable/lib/net40" type="reference" target="testDebug">
     <item name="BouncyCastle.Crypto.dll" />
     <item name="Esent.Interop.dll" />
     <item name="ICSharpCode.NRefactory.dll" />
@@ -37,7 +37,7 @@
     <item name="Raven.Database.dll"/>
     <item name="Spatial4n.Core.dll" />
   </items>
-  <items path="packages/RavenDB.Client.1.2.2060-Unstable/lib/net40" type="reference" target="testDebug">
+  <items path="packages/RavenDB.Client.1.2.2083-Unstable/lib/net40" type="reference" target="testDebug">
     <item name="Raven.Abstractions.dll" />
     <item name="Raven.Client.Lightweight.dll" />
   </items>
