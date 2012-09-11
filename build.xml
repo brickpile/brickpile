@@ -30,7 +30,7 @@
     <item name="BouncyCastle.Crypto.dll" />
     <item name="Esent.Interop.dll" />
     <item name="ICSharpCode.NRefactory.dll" />
-    <item name="Lucene.Net.Contrib.Spatial.dll" />
+    <item name="Lucene.Net.Contrib.Spatial.NTS.dll" />
     <item name="Lucene.Net.Contrib.SpellChecker.dll" />
     <item name="Lucene.Net.dll" />
     <item name="Raven.Abstractions.dll"/>
