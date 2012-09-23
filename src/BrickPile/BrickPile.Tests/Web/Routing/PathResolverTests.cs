@@ -179,8 +179,6 @@ namespace BrickPile.Tests.Web.Routing {
             Assert.AreEqual("Dummy", data.Controller);
            
         }
-
-        public void Can_Save_Revision_
     }
 
     [PageType(Name = "Dummy", ControllerType = typeof(DummyController))]
