@@ -18,14 +18,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System.Web;
 using System.Web.Mvc;
 using BrickPile.Sample.Models;
 using BrickPile.UI;
-using BrickPile.UI.Common;
 using BrickPile.UI.Web.ViewModels;
-using Raven.Client;
-using Raven.Client.Document;
 
 namespace BrickPile.Sample.Controllers {
     /// <summary>
@@ -39,6 +35,7 @@ namespace BrickPile.Sample.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult Index() {
+
             var viewModel = new DefaultViewModel<Page>
             {
                 CurrentPage = _currentPage,

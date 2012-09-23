@@ -18,7 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
-@model BrickPile.UI.Web.ViewModels.IViewModel<BrickPile.Sample.Models.BaseModel>
+@model BrickPile.UI.Web.ViewModels.IViewModel<BrickPile.Domain.Models.IPageModel>
 @using System.Globalization
 @using BrickPile.UI.Common
 @using SquishIt.Framework
@@ -51,7 +51,7 @@ THE SOFTWARE. *@
 
         } else {
             
-            <h1><span>@Model.CurrentPage.Heading</span></h1>
+            <h1><span>@Model.CurrentPage.Metadata.Name</span></h1>
             
         }
 	    <div id="content" role="main">

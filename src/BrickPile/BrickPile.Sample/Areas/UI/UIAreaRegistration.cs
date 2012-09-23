@@ -31,56 +31,34 @@ namespace BrickPile.UI {
         /// <returns>The name of the area to register.</returns>
         public override string AreaName { get { return "UI"; } }
         /// <summary>
-        /// Gets the sub domain.
-        /// </summary>
-        public static string SubDomain {
-            get { return ConfigurationManager.AppSettings["brickpile/uisubdomain"] ?? null; }
-        }
-        /// <summary>
         /// Registers an area in an ASP.NET MVC application using the specified area's context information.
         /// </summary>
         /// <param name="context">Encapsulates the information that is required in order to register the area.</param>
         public override void RegisterArea(AreaRegistrationContext context) {
             // Map the back office route for handling pages
-            if(SubDomain != null) {
-                context.Routes.MapUIRoute("Pages_Default",
-                    "{controller}/{action}/{id}",
-                    new
-                    {
-                        controller = "UI",
-                        action = "Index",
-                        id = UrlParameter.Optional,
-                        area = "UI"
-                    },
-                    new { subdomain = new SubdomainRouteConstraint(SubDomain) },
-                    new[] { typeof(Controllers.UIController).Namespace });
+            context.Routes.MapUIRoute("Pages_Default",
+                "ui/{controller}/{action}/{id}", 
+                new
+                {
+                    controller = "UI",
+                    action = "Index",
+                    id = UrlParameter.Optional,
+                    area = "UI"
+                },
+                new[] { typeof(Controllers.UIController).Namespace });
 
-                context.MapRoute(
-                    "UI_Default",
-                    "{controller}/{action}/{id}",
-                    new { controller = "UI", action = "Index", id = UrlParameter.Optional, area = "UI" },
-                    new { subdomain = new SubdomainRouteConstraint(SubDomain) },
-                    new[] { typeof(Controllers.UIController).Namespace }
-                );                
-            } else {
-                context.Routes.MapUIRoute("Pages_Default",
-                    "ui/{controller}/{action}/{id}", 
-                    new
-                    {
-                        controller = "UI",
-                        action = "Index",
-                        id = UrlParameter.Optional,
-                        area = "UI"
-                    },
-                    new[] { typeof(Controllers.UIController).Namespace });
-
-                context.MapRoute(
-                    "UI_Default",
-                    "ui/{controller}/{action}/{id}",
-                    new { controller = "UI", action = "Index", id = UrlParameter.Optional, area = "UI" },
-                    new[] { typeof(Controllers.UIController).Namespace }
-                );
-            }
+            context.MapRoute(
+                "UI_Default",
+                "ui/{controller}/{action}/{id}",
+                new
+                {
+                    controller = "UI",
+                    action = "Index", 
+                    id = UrlParameter.Optional,
+                    area = "UI"
+                },
+                new[] { typeof(Controllers.UIController).Namespace }
+            );
         }
     }
 }

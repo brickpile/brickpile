@@ -34,7 +34,7 @@ namespace BrickPile.Sample.ViewModels {
         /// <value>
         /// The teaser one.
         /// </value>
-        public BaseModel QuotePage { get; set; }
+        public IPageModel QuotePage { get; set; }
         /// <summary>
         /// Gets the current model.
         /// </summary>
@@ -49,12 +49,5 @@ namespace BrickPile.Sample.ViewModels {
         /// The pages.
         /// </value>
         public IEnumerable<IPageModel> NavigationContext { get; set; }
-        /// <summary>
-        /// Gets or sets the start page.
-        /// </summary>
-        /// <value>
-        /// The start page.
-        /// </value>
-        public IPageModel StartPage { get; set; }
     }
 }

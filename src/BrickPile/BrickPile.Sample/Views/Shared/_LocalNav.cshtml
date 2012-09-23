@@ -22,8 +22,7 @@ THE SOFTWARE. *@
 @using BrickPile.UI.Common
 @using BrickPile.UI.Web.Mvc.Html
 
-@Html.SubMenu(Model,
-    page => Html.ActionLink(page),
+@Html.SubMenu(page => Html.ActionLink(page),
     page => Html.ActionLink(page, new { @class = "selected" }),
     page => Html.ActionLink(page, new { @class = "expanded" }),
     new { @class = "some classes" })

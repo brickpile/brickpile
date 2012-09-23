@@ -22,7 +22,7 @@ THE SOFTWARE. *@
 @using BrickPile.UI.Common
 @using BrickPile.UI.Web.Mvc.Html
 
-@Html.Menu(Model,
-    page => Html.ActionLink(page),
+@Html.Menu(page => Html.ActionLink(page),
     page => Html.DisplayFor(_ => page.Metadata.Name, "SelectedTemplate"),
-    page => Html.ActionLink(page, new { @class = "expanded" }))
+    page => Html.ActionLink(page, new { @class = "expanded" })
+    )

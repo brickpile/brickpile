@@ -1,8 +1,9 @@
-﻿@using System.Configuration
-@using BrickPile.UI.Common
+﻿
+@using System.Configuration
 @model BrickPile.UI.IStructureInfo
 
 @if(ViewContext.HttpContext.User.Identity.IsAuthenticated) {
+    
     <style type="text/css" media="all">
         #brickpile-editorial-ctrls * {
             padding: 0;
@@ -34,15 +35,9 @@
             background-position: 1px -131px;
         }
     </style>
+    
     <div id="brickpile-editorial-ctrls">
-        @{
-            var uriBuilder = new UriBuilder(@Url.RouteUrl("Pages_Default", new { model = Model.ParentPage ?? Model.StartPage }, Request.Url.Scheme));    
-            if(!string.IsNullOrEmpty(ConfigurationManager.AppSettings["brickpile/uisubdomain"])) {
-                var prefix = ConfigurationManager.AppSettings["brickpile/uisubdomain"];
-                uriBuilder.Host = prefix + uriBuilder.Host;
-            }
-        }
-        <a href="@uriBuilder.ToString()" title="To the back office"><i class="icon-back-office"></i></a>
+        <a href="@Url.Action("index", new { model = Model.ParentPage ?? Model.StartPage , area = "UI" })" title="To the back office"><i class="icon-back-office"></i></a>
         <a href="@Url.Action("edit", new { model = Model.CurrentPage, area = "UI" })" title="Edit @Model.CurrentPage.Metadata.Name"><i class="icon-pencil"></i></a>
     </div>
 }

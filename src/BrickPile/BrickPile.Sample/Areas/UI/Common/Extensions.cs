@@ -91,8 +91,7 @@ namespace BrickPile.UI.Common {
         /// <param name="actionName">Name of the action.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public static RouteData ApplyCurrentPage(this RouteData data, string controllerName, string actionName,
-                                                 dynamic model) {
+        public static RouteData ApplyCurrentPage(this RouteData data, string controllerName, string actionName, dynamic model) {
             data.Values[PageRoute.ControllerKey] = controllerName.Replace("Controller", "");
             data.Values[PageRoute.ActionKey] = actionName;
             data.Values[PageRoute.ModelKey] = model;
@@ -119,7 +118,14 @@ namespace BrickPile.UI.Common {
         public static T GetCurrentPage<T>(this RouteData data) {
             return (T) data.Values[PageRoute.ModelKey];
         }
-
+        /// <summary>
+        /// Gets the structure info.
+        /// </summary>
+        /// <param name="routeData">The route data.</param>
+        /// <returns></returns>
+        public static IStructureInfo GetStructureInfo(this RouteData routeData) {
+            return routeData.Values[PageRoute.StructureInfoKey] as IStructureInfo;
+        }
         /// <summary>
         /// Adds the query param.
         /// </summary>
@@ -195,7 +201,6 @@ namespace BrickPile.UI.Common {
         public static string Action(this UrlHelper urlHelper, IPageModel model) {
             return urlHelper.Action("index", new {model});
         }
-
         /// <summary>
         /// Actions the specified URL helper.
         /// </summary>
@@ -206,7 +211,6 @@ namespace BrickPile.UI.Common {
         public static string Action(this UrlHelper urlHelper, string actionName, IPageModel model) {
             return urlHelper.Action(actionName, new {model});
         }
-
         /// <summary>
         /// UIs the controls.
         /// </summary>
@@ -316,31 +320,5 @@ namespace BrickPile.UI.Common {
         }
 
         private static List<Type> _availablePageModels;
-        
-        public static string GetBaseDomain(string domainName) {
-            var tokens = domainName.Split('.');
-            // only split 3 segments like www.west-wind.com
-            if (tokens.Length != 3)
-                return domainName;
-
-            var tok = new List<string>(tokens);
-            var remove = tokens.Length - 2;
-            tok.RemoveRange(0, remove);
-
-            return tok[0] + "." + tok[1];
-        }
-
-        /// <summary>
-        /// Returns the base domain from a domain name
-        /// Example: http://www.west-wind.com returns west-wind.com
-        /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
-        public static string GetBaseDomain(this Uri uri) {
-            if (uri.HostNameType == UriHostNameType.Dns)
-                return GetBaseDomain(uri.DnsSafeHost);
-
-            return uri.Host;
-        }
     }
 }

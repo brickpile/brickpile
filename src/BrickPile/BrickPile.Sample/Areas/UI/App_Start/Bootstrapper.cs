@@ -69,7 +69,7 @@ namespace BrickPile.UI.App_Start {
                     scanner.Convention<PageTypeRegistrationConvetion>();
                 });
                 x.For<IPageModel>().UseSpecial(y => y.ConstructedBy( r => ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPageModel>()));
-                x.For<IStructureInfo>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.Values["StructureInfo"] as IStructureInfo));
+                x.For<IStructureInfo>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.GetStructureInfo()));
             });
             return ObjectFactory.Container;
         }

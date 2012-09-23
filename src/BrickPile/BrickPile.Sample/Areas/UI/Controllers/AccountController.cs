@@ -19,6 +19,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System;
+using System.Configuration;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
@@ -53,6 +55,7 @@ namespace BrickPile.UI.Controllers {
 			    if (MembershipService.ValidateUser(model.UserName, model.Password))
 				{
 					FormsService.SignIn(model.UserName, model.RememberMe);
+
 					if (Url.IsLocalUrl(returnUrl))
 					{
 						return Redirect(returnUrl);
@@ -98,6 +101,7 @@ namespace BrickPile.UI.Controllers {
 				if (createStatus == MembershipCreateStatus.Success)
 				{
 					FormsService.SignIn(model.UserName, false /* createPersistentCookie */);
+
 					return RedirectToAction("index", "Content",new { area = "UI" });
 				}
 				else

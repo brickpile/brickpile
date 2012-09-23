@@ -57,6 +57,52 @@ namespace BrickPile.UI.Web.Mvc.Html {
             return Menu(html, StructureInfo.NavigationContext, html.ActionLink);
         }
         /// <summary>
+        /// Menus the specified HTML.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="itemContent">Content of the item.</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
+        /// <returns></returns>
+        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPageModel, MvcHtmlString> itemContent, bool enableDisplayInMenu = true) {
+            return Menu(html,StructureInfo.NavigationContext, itemContent, itemContent, enableDisplayInMenu);
+        }
+        /// <summary>
+        /// Menus the specified HTML.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="itemContent">Content of the item.</param>
+        /// <param name="selectedItemContent">Content of the selected item.</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
+        /// <returns></returns>
+        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true) {
+            return Menu(html, StructureInfo.NavigationContext, itemContent, selectedItemContent, itemContent, enableDisplayInMenu);
+        }
+        /// <summary>
+        /// Menus the specified HTML.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="itemContent">Content of the item.</param>
+        /// <param name="selectedItemContent">Content of the selected item.</param>
+        /// <param name="expandedItemContent">Content of the expanded item.</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
+        /// <returns></returns>
+        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true) {
+            return Menu(html, StructureInfo.NavigationContext, itemContent, selectedItemContent, expandedItemContent, null, enableDisplayInMenu);
+        }
+        /// <summary>
+        /// Menus the specified HTML.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="itemContent">Content of the item.</param>
+        /// <param name="selectedItemContent">Content of the selected item.</param>
+        /// <param name="expandedItemContent">Content of the expanded item.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
+        /// <returns></returns>
+        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, object htmlAttributes, bool enableDisplayInMenu = true) {
+            return Menu(html, StructureInfo.NavigationContext, itemContent, selectedItemContent, expandedItemContent,htmlAttributes, enableDisplayInMenu);
+        }
+        /// <summary>
         /// Responsible for creating a navigation based on an unordered list
         /// </summary>
         /// <param name="html">HtmlHelper</param>

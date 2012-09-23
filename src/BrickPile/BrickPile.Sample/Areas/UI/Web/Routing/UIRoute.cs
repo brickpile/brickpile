@@ -32,12 +32,6 @@ namespace BrickPile.UI.Web.Routing {
         }
         private IVirtualPathResolver _virtualPathResolver;
         /// <summary>
-        /// Gets the pages URL pattern.
-        /// </summary>
-        public static string  PagesUrlPattern {
-            get { return UIAreaRegistration.SubDomain != null ? "/pages" : "/ui/pages"; }
-        }
-        /// <summary>
         /// Gets the model key.
         /// </summary>
         public static string ModelKey {
@@ -135,18 +129,13 @@ namespace BrickPile.UI.Web.Routing {
             // get the virtual path of the request
             var virtualPath = httpContext.Request.CurrentExecutionFilePath;
 
-            // exit with the base functionality
-            if (!virtualPath.StartsWith(PagesUrlPattern, StringComparison.OrdinalIgnoreCase)) {
-                return null;
-            }
-
             var routeData = new RouteData(this, _routeHandler);
             
             foreach (var defaultPair in this._defaults)
                 routeData.Values[defaultPair.Key] = defaultPair.Value;
             
             // try to resolve the current item
-            var pathData = PathResolver.ResolvePath(routeData, virtualPath.Replace(PagesUrlPattern, string.Empty));
+            var pathData = PathResolver.ResolvePath(routeData, virtualPath.Replace("/ui/pages", string.Empty));
 
             // Abort and proceed to other routes in the route table
             if (pathData == null) {
@@ -181,7 +170,7 @@ namespace BrickPile.UI.Web.Routing {
 
             vpd.Route = this;
 
-            vpd.VirtualPath = string.Format(PagesUrlPattern.TrimStart(new[] { '/' }) + "/{0}", VirtualPathResolver.ResolveVirtualPath(model, values));
+            vpd.VirtualPath = string.Format("/ui/pages".TrimStart(new[] { '/' }) + "/{0}", VirtualPathResolver.ResolveVirtualPath(model, values));
 
             var queryParams = String.Empty;
             // add query string parameters

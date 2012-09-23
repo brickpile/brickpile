@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System.Web.Mvc;
+using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
 using BrickPile.Sample.ViewModels;
 using BrickPile.UI;
@@ -37,17 +38,16 @@ namespace BrickPile.Sample.Controllers {
         /// <param name="currentPage">The current page.</param>
         /// <returns></returns>
         public ActionResult Index(Home currentPage) {
-
+            
             var quotePage = currentPage.QuoteLink.Id != null ?
-                _documentSession.Load<BaseModel>(currentPage.QuoteLink.Id) :
+                _documentSession.Load<IPageModel>(currentPage.QuoteLink.Id) :
                 null;
 
             var viewModel = new HomeViewModel
                                 {
                                     CurrentPage = currentPage,
                                     NavigationContext = _structureInfo.NavigationContext,
-                                    QuotePage = quotePage,
-                                    StartPage = _structureInfo.StartPage
+                                    QuotePage = quotePage                                    
                                 };
 
             ViewBag.Class = "home";

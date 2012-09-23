@@ -41,6 +41,60 @@ namespace BrickPile.UI.Web.Mvc.Html {
             get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPageModel>(); }
         }
         /// <summary>
+        /// Gets the structure info.
+        /// </summary>
+        private static IStructureInfo StructureInfo {
+            get {
+                return ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.Values["StructureInfo"] as StructureInfo;
+            }
+        }
+        /// <summary>
+        /// Subs the menu.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="itemContent">Content of the item.</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
+        /// <returns></returns>
+        public static MvcHtmlString SubMenu(this HtmlHelper html, Func<IPageModel, MvcHtmlString> itemContent, bool enableDisplayInMenu = true) {
+            return SubMenu(html, StructureInfo.NavigationContext, itemContent, itemContent);
+        }
+        /// <summary>
+        /// Subs the menu.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="itemContent">Content of the item.</param>
+        /// <param name="selectedItemContent">Content of the selected item.</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
+        /// <returns></returns>
+        public static MvcHtmlString SubMenu(this HtmlHelper html, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true) {
+            return SubMenu(html, StructureInfo.NavigationContext, itemContent, selectedItemContent, itemContent);
+        }
+        /// <summary>
+        /// Subs the menu.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="itemContent">Content of the item.</param>
+        /// <param name="selectedItemContent">Content of the selected item.</param>
+        /// <param name="expandedItemContent">Content of the expanded item.</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
+        /// <returns></returns>
+        public static MvcHtmlString SubMenu(this HtmlHelper html, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true) {
+            return SubMenu(html, StructureInfo.NavigationContext, itemContent, selectedItemContent, expandedItemContent, null);
+        }
+        /// <summary>
+        /// Subs the menu.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="itemContent">Content of the item.</param>
+        /// <param name="selectedItemContent">Content of the selected item.</param>
+        /// <param name="expandedItemContent">Content of the expanded item.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
+        /// <returns></returns>
+        public static MvcHtmlString SubMenu(this HtmlHelper html, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, object htmlAttributes, bool enableDisplayInMenu = true) {
+            return SubMenu(html, StructureInfo.NavigationContext, itemContent, selectedItemContent, expandedItemContent,htmlAttributes, enableDisplayInMenu);
+        }
+        /// <summary>
         /// Creates a hierarchical unordered navigation list
         /// </summary>
         /// <param name="html">HtmlHelper</param>

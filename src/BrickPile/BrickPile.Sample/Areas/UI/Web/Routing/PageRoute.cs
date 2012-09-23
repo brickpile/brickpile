@@ -36,12 +36,6 @@ namespace BrickPile.UI.Web.Routing {
         private readonly RouteValueDictionary _dataTokens;
         private readonly IRouteHandler _routeHandler;
         /// <summary>
-        /// Gets the sub domain.
-        /// </summary>
-        private static string SubDomain {
-            get { return ConfigurationManager.AppSettings["brickpile/uisubdomain"] ?? "ui."; }
-        }
-        /// <summary>
         /// The key for the controller
         /// </summary>
         public const string ControllerKey = "controller";
@@ -87,11 +81,6 @@ namespace BrickPile.UI.Web.Routing {
         /// <param name="httpContextBase">The HTTP context base.</param>
         /// <returns></returns>
         public override RouteData GetRouteData(HttpContextBase httpContextBase) {
-
-            if (httpContextBase.Request.Url != null && new Regex("^https?://" + SubDomain).IsMatch(httpContextBase.Request.Url.AbsoluteUri)) {
-                return null;
-            }
-
             var routeData = new RouteData(this, _routeHandler);
 
             // get the virtual path of the request
@@ -106,14 +95,14 @@ namespace BrickPile.UI.Web.Routing {
             }
 
             // throw a proper 404 if the page is not published or if it's deleted
-            if(!pathData.CurrentPage.Metadata.IsPublished || pathData.CurrentPage.Metadata.IsDeleted) {
+            if((!pathData.CurrentPage.Metadata.IsPublished || pathData.CurrentPage.Metadata.IsDeleted) && !httpContextBase.User.Identity.IsAuthenticated ) {
                 throw new HttpException(404, "HTTP/1.1 404 Not Found");
             }
             
             routeData.ApplyCurrentPage(pathData.Controller, pathData.Action, pathData.CurrentPage);
             routeData.ApplyCurrentStructureInfo(new StructureInfo
             {
-                NavigationContext = pathData.NavigationContext.Where(x => x.Metadata.IsPublished).Where(x => !x.Metadata.IsDeleted).OrderBy(x => x.Metadata.SortOrder),
+                NavigationContext = httpContextBase.User.Identity.IsAuthenticated ? pathData.NavigationContext.OrderBy(x => x.Metadata.SortOrder) : pathData.NavigationContext.Where(x => x.Metadata.IsPublished).Where(x => !x.Metadata.IsDeleted).OrderBy(x => x.Metadata.SortOrder),
                 CurrentPage = pathData.CurrentPage,
                 StartPage = pathData.NavigationContext.Single(x => x.Parent == null),
                 ParentPage = pathData.CurrentPage.Parent != null ? pathData.NavigationContext.SingleOrDefault(x => x.Id == pathData.CurrentPage.Parent.Id) : null

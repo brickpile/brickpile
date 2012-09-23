@@ -6,6 +6,7 @@ using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
+using BrickPile.UI;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
 using Moq;
@@ -176,14 +177,13 @@ namespace BrickPile.Tests.Web.Routing {
             Assert.NotNull(data);
             Assert.AreEqual("myaction", data.Action);
             Assert.AreEqual("Dummy", data.Controller);
-
            
         }
+
+        public void Can_Save_Revision_
     }
 
-
-
     [PageType(Name = "Dummy", ControllerType = typeof(DummyController))]
-    public class DummyModel : BrickPile.Domain.Models.PageModel { }
+    public class DummyModel : PageModel { }
     public class DummyController : Controller { }
 }
