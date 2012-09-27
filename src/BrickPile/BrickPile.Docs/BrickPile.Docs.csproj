@@ -104,6 +104,7 @@
     <None Include="css\icons\Entypo-webfont.eot" />
     <None Include="css\icons\Entypo-webfont.ttf" />
     <None Include="css\icons\Entypo-webfont.woff" />
+    <None Include="getting-started\index.markdown" />
     <None Include="getting-started\installing-and-updating\index.markdown" />
     <None Include="getting-started\requirements\index.markdown" />
     <None Include="icon\entypo-fontfacekit.zip" />
