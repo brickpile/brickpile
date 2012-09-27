@@ -53,7 +53,7 @@
   <items type="nunit" target="testDebug" autover="true" framework="4.0">
     <item name="BrickPile.Tests"/>
   </items>
-  <items type="nuget" options="publish:true">
+  <items type="nuget" options="publish:false">
     <item name="BrickPile">
       <preNuget>
         <property name="l_rootFolder" value="${action.workDir}/BrickPile"/>
