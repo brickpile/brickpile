@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata>
 		<id>BrickPile-Sample</id>
-		<version>${project.fileVersion}-Unstable</version>
+		<version>${project.fileVersion}</version>
     <title>BrickPile sample templates</title>
     <summary>Sample template package for BrickPile CMS</summary>
 		<authors>Marcus Lindblom</authors>
