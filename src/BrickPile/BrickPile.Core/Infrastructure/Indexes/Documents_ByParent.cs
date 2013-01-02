@@ -20,6 +20,7 @@ THE SOFTWARE. */
 
 using System.Linq;
 using BrickPile.Domain.Models;
+using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
 
 namespace BrickPile.Core.Infrastructure.Indexes {
@@ -42,7 +43,7 @@ namespace BrickPile.Core.Infrastructure.Indexes {
                                Metadata_SortOrder = page.Metadata.SortOrder
                            };
 
-            Sort(x => x.Metadata.SortOrder, Raven.Abstractions.Indexing.SortOptions.Int);
+            Sort(x => x.Metadata.SortOrder, SortOptions.Int);
         }
     }
 }

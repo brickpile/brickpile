@@ -278,7 +278,19 @@ body.start #button {
     text-shadow:0 1px 0 rgba(255,255,255,1);
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
-            border-radius: 5px;     
+            border-radius: 5px;
+            
+    
+}
+
+#tbl-pages tbody tr {
+    /*-webkit-transform: rotateX(90deg);*/
+}
+
+#tbl-pages tbody tr.show {
+    -webkit-transform: rotateX(0deg);
+	-webkit-transform-style: preserve-3d;
+	-webkit-transition: .1s;    
 }
 
 #tbl-pages td {
@@ -290,6 +302,7 @@ body.start #button {
 }
 
 #tbl-pages td > span {
+    background-color: rgb(242, 244, 240);
     background-image: linear-gradient(bottom, rgb(242,244,240) 10%, rgb(255,255,255) 55%);
     background-image: -o-linear-gradient(bottom, rgb(242,244,240) 10%, rgb(255,255,255) 55%);
     background-image: -moz-linear-gradient(bottom, rgb(242,244,240) 10%, rgb(255,255,255) 55%);
@@ -530,7 +543,53 @@ th#actions { width: 174px; }
 /* =============================================================================
    New page dialog
    ========================================================================== */
-   
+@-webkit-keyframes show {
+  0% {
+    -webkit-transform:  scale(.2);
+  }
+  30% {
+    -webkit-transform: scale(1.03);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes show {
+  0% {
+    transform: scale(.2);
+  }
+  30% {
+    transform: scale(1.03);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes popoverOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateY(-5px);
+    opacity: 0;
+  }
+}
+@keyframes popoverOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-5px);
+    opacity: 0;
+  }
+}
+
+
+#models.inactive {
+    -webkit-animation:popoverOut .5s ease-out forwards;
+    animation:popoverOut .5s ease-out forwards;
+}
+
 #models {
     background: -moz-linear-gradient(top, rgba(40,53,61,1) 0%, rgba(34,44,51,1) 20%);
     background: -webkit-linear-gradient(top, rgba(40,53,61,1) 0%,rgba(34,44,51,1) 100%);
@@ -542,7 +601,11 @@ th#actions { width: 174px; }
     top: 53px;
     width: 224px;
     z-index:200;
+    font-size: 110%;
+    -webkit-animation: show .4s ease-out forwards;
+    animation: show .4s ease-out forwards;
 }
+
 #models h1 {
     background:url(images/dialog-top.png) no-repeat 87% 0;
     margin: -8px 0 0;

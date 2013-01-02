@@ -19,9 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System;
-using System.Configuration;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Routing;
 using BrickPile.Domain.Models;
@@ -102,7 +100,7 @@ namespace BrickPile.UI.Web.Routing {
             routeData.ApplyCurrentPage(pathData.Controller, pathData.Action, pathData.CurrentPage);
             routeData.ApplyCurrentStructureInfo(new StructureInfo
             {
-                NavigationContext = httpContextBase.User.Identity.IsAuthenticated ? pathData.NavigationContext.OrderBy(x => x.Metadata.SortOrder) : pathData.NavigationContext.Where(x => x.Metadata.IsPublished).Where(x => !x.Metadata.IsDeleted).OrderBy(x => x.Metadata.SortOrder),
+                NavigationContext = httpContextBase.User.Identity.IsAuthenticated ? pathData.NavigationContext.Where(x => !x.Metadata.IsDeleted).OrderBy(x => x.Metadata.SortOrder) : pathData.NavigationContext.Where(x => x.Metadata.IsPublished).Where(x => !x.Metadata.IsDeleted).OrderBy(x => x.Metadata.SortOrder),
                 CurrentPage = pathData.CurrentPage,
                 StartPage = pathData.NavigationContext.Single(x => x.Parent == null),
                 ParentPage = pathData.CurrentPage.Parent != null ? pathData.NavigationContext.SingleOrDefault(x => x.Id == pathData.CurrentPage.Parent.Id) : null

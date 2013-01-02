@@ -36,8 +36,6 @@ var PagesView = Backbone.View.extend({
             var $elm = $(event.currentTarget).parents('tr').find('abbr.timeago');
             var d = new Date();
             $elm.html(jQuery.timeago(ISODateString(d)));
-            //$elm.html(new Date());
-            //$elm.timeago(ISODateString(d));
             $(event.currentTarget).parents('tr').find('span').effect('highlight', { color: '#ffffaa' }, 3000);
             $.post('/pages/publish/', { id: $(event.currentTarget).attr('name'), published: event.currentTarget.checked });
         } catch (exception) {
@@ -155,6 +153,15 @@ var PagesView = Backbone.View.extend({
     // Render view
     render: function () {
         $(this.$el).find('.timeago').timeago();
+
+//        $.each($('table tbody tr'), function (i, el) {
+
+//            setTimeout(function () {
+//                $(el).addClass('show');
+//            }, 70 + (i * 70));
+
+//        });
+
     }
 });
 

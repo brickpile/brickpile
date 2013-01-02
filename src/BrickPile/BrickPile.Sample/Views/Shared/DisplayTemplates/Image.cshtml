@@ -1,4 +1,6 @@
 ﻿
+@using BrickPile.FileSystem.AmazonS3.Common
 @model BrickPile.UI.Models.Image
 
-<img src="@Model.Url" alt="@Model.AltText" />
+
+<img src="@Url.Image(Model.Url).Resize(600,400)" alt="@Model.AltText" />

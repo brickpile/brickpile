@@ -18,22 +18,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web.Helpers;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.Sample.Controllers;
-using BrickPile.UI.Models;
 using BrickPile.UI.Web;
+using Image = BrickPile.UI.Models.Image;
 
 namespace BrickPile.Sample.Models {
     /// <summary>
     /// 
     /// </summary>
-    [PageType(Name = "Article", ControllerType = typeof(PageController))]
-    public class Page : PageModel {
+    [PageType(
+        Name = "Article",
+        ControllerType = typeof(PageController))]
+    public class Page : PageBase {
         /// <summary>
         /// Gets or sets the heading.
         /// </summary>
@@ -41,14 +40,18 @@ namespace BrickPile.Sample.Models {
         /// The heading.
         /// </value>
         //[Required]
-        [Display(Order = 100, Prompt = "Enter a descriptive heading")]
-        public virtual string Heading { get; set; }
+        [Display(
+            Order = 100,
+            Prompt = "Enter a descriptive heading")]
+        //Required(ErrorMessage = "Great thanks!")]
+        public string Heading { get; set; }
         /// <summary>
         /// Gets or sets the main body.
         /// </summary>
         /// <value>
         /// The main body.
         /// </value>
+        //[Required(ErrorMessage = "What know then?")]
         public HtmlString MainBody { get; set; }
         /// <summary>
         /// Gets or sets the page reference.
@@ -56,8 +59,9 @@ namespace BrickPile.Sample.Models {
         /// <value>
         /// The page reference.
         /// </value>
-        [Display(Name = "Page", Prompt = "Specify page name...")]
-        [Required]
+        [Display(
+            Name = "Page",
+            Prompt = "Specify page name...")]
         public PageReference PageReference { get; set; }
         /// <summary>
         /// Gets or sets the image.
@@ -65,6 +69,11 @@ namespace BrickPile.Sample.Models {
         /// <value>
         /// The image.
         /// </value>
+        [Display(
+            Name = "An image",
+            Prompt = "Specify an alternative text for your image",
+            Order = 1)]
+        //Required(ErrorMessage = "You need to specify an image bitch!")]
         public Image Image { get; set; }
     }
 }

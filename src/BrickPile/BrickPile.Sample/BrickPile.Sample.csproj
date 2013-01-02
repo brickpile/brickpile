@@ -43,10 +43,10 @@
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB.Client.2.0.2173-Unstable\lib\net40\Raven.Abstractions.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Client.2.0.2187-Unstable\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Lightweight, Version=2.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB.Client.2.0.2173-Unstable\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Client.2.0.2187-Unstable\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -118,16 +118,18 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\PortfolioController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\WeblogController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Home.cs" />
+    <Compile Include="Models\MyImage.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="Models\Portfolio.cs" />
     <Compile Include="Models\PropertyTest.cs" />
-    <Compile Include="Models\StandardPage.cs" />
+    <Compile Include="Models\PageBase.cs" />
     <Compile Include="Models\Weblog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
@@ -207,6 +209,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Form\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Audio.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BrickPile.Core\BrickPile.Core.csproj">

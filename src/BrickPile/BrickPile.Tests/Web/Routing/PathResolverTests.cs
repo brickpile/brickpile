@@ -1,12 +1,10 @@
-using System;
-using System.Web;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
-using BrickPile.Sample.Models;
-using BrickPile.UI;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
 using Moq;
@@ -179,9 +177,123 @@ namespace BrickPile.Tests.Web.Routing {
             Assert.AreEqual("Dummy", data.Controller);
            
         }
+        //[TestCase("/myaction/")]
+        //public void Can_Lookup_Controller_Without_ControllerType_Specified(string virtualUrl) {
+        //    // Arrange
+        //    var pathData = new PathData();
+        //    var mapper = new Mock<IControllerMapper>();
+        //    var container = new Mock<IContainer>();
+
+        //    mapper.Setup(x => x.GetControllerName(typeof(DummyModelWithoutControllerTypeController))).Returns("DummyModelWithoutControllerType");
+        //    mapper.Setup(x => x.ControllerHasAction("DummyModelWithoutControllerType", "myaction")).Returns(true);
+        //    container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
+
+        //    mapper.Setup(m => m.ControllerHasAction("DummyModelWithoutControllerType", "myaction")).Returns(true);
+
+        //    // Act
+        //    IPathData data;
+        //    using (var session = _store.OpenSession()) {
+        //        // create and store a new page model
+        //        var pageModel = new DummyModelWithoutControllerType { Parent = null };
+        //        session.Store(pageModel);
+        //        session.SaveChanges();
+
+        //        var resolver = new PathResolver(session, pathData, mapper.Object, container.Object);
+        //        data = resolver.ResolvePath(new RouteData(), virtualUrl);
+        //    }
+
+        //    // Assert
+        //    Assert.NotNull(data);
+        //    Assert.AreEqual("myaction", data.Action);
+        //    Assert.AreEqual("DummyModelWithoutControllerType", data.Controller);
+            
+        //}
+
+        [TestCase("/mypage")]
+        public void Can_Create_Model_WithOut_Inheritance(string url) {
+
+            // Arrange
+            var pathData = new PathData();
+            var mapper = new Mock<IControllerMapper>();
+            var container = new Mock<IContainer>();
+
+            mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
+            mapper.Setup(x => x.ControllerHasAction("Dummy", "mypage")).Returns(true);
+            container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
+
+            // Act
+            IPathData data;
+            using (var session = _store.OpenSession()) {
+
+                var siteMap = new SiteMap();
+                session.Store(siteMap);
+                // create and store a new page model
+                var page = new DummyModel();
+                //page.Childs.Add(new DummyModel {Metadata = { Name = "Child 1"}});
+
+                var content = new StandardPage();
+                session.Store(content);
+                //page.PageReference.Id = content.Id;
+
+                //var pageModel = new DummyModel();
+                //session.Store(pageModel);
+                //session.SaveChanges();
+
+                var resolver = new PathResolver(session, pathData, mapper.Object, container.Object);
+                data = resolver.ResolvePath(new RouteData(), url);
+            }
+            // Assert
+            Assert.NotNull(data);
+        }
+
+        [Test]
+        public void Can_Query_Page_Using_AllPages_Index() {
+
+            // Arrange
+            IPageModel data;
+
+            // Act
+            using (var session = _store.OpenSession()) {
+
+                var pageModel = new DummyModel
+                {
+                    Id = "DummyPages/1",
+                    Parent = null
+                };
+                session.Store(pageModel);
+                session.SaveChanges();
+
+            }
+            using (var session = _store.OpenSession()) {
+
+                //data = session.Query<IPageModel, AllPages>()
+                //    .Customize(x => x.WaitForNonStaleResults())
+                //    .SingleOrDefault(x => x.Parent == null);
+            }
+
+            // Assert
+            //Assert.NotNull(data);
+        }
+    }
+
+    [PageType(Name = "Standard page", ControllerType = typeof(DummyController))]
+    public class StandardPage {
+
+        public string Id { get; set; }
+
     }
 
     [PageType(Name = "Dummy", ControllerType = typeof(DummyController))]
     public class DummyModel : PageModel { }
+
+    public class SiteMap {
+        public DummyModel StartPage { get; set; }
+    }
+
+    [PageType]
+    public class DummyModelWithoutControllerType : PageModel {}
+
     public class DummyController : Controller { }
+
+    public class DummyModelWithoutControllerTypeController : Controller {}
 }

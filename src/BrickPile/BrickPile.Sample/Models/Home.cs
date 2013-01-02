@@ -22,7 +22,6 @@ using System.ComponentModel.DataAnnotations;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.Sample.Controllers;
-using BrickPile.UI.Models;
 using BrickPile.UI.Web;
 
 namespace BrickPile.Sample.Models {
@@ -46,8 +45,7 @@ namespace BrickPile.Sample.Models {
         /// <value>
         /// The main intro.
         /// </value>
-        [DataType(DataType.MultilineText)]
-        [Display(Name = "Introduction",Order = 200)]
+        [DataType(DataType.MultilineText), Display(Name = "Introduction",Order = 200)]
         public string MainIntro { get; set; }
         /// <summary>
         /// Gets or sets the quote link.
@@ -71,8 +69,7 @@ namespace BrickPile.Sample.Models {
         /// <value>
         /// The portfolio.
         /// </value>
-        [Display(Order = 500)]
-        [DataType(DataType.Html)]
+        [Display(Order = 500), DataType(DataType.Html)]
         public HtmlString Portfolio { get; set; }
         /// <summary>
         /// Gets or sets the weblog.
@@ -80,8 +77,7 @@ namespace BrickPile.Sample.Models {
         /// <value>
         /// The weblog.
         /// </value>
-        [Display(Order = 600)]
-        [DataType(DataType.Html)]
+        [Display(Order = 600), DataType(DataType.Html)]
         public HtmlString Weblog { get; set; }
         /// <summary>
         /// Gets or sets the contact.
@@ -89,8 +85,7 @@ namespace BrickPile.Sample.Models {
         /// <value>
         /// The contact.
         /// </value>
-        [Display(Order = 700)]
-        [DataType(DataType.Html)]
+        [Display(Order = 700), DataType(DataType.Html)]
         public HtmlString Contact { get; set; }
         /// <summary>
         /// Gets or sets the about us.
@@ -98,8 +93,7 @@ namespace BrickPile.Sample.Models {
         /// <value>
         /// The about us.
         /// </value>
-        [Display(Name = "About us",Order = 800)]
-        [DataType(DataType.Html)]
+        [Display(Name = "About us",Order = 800), DataType(DataType.Html)]
         public HtmlString AboutUs { get; set; }
     }
 

@@ -24,62 +24,77 @@ THE SOFTWARE. */
 var VirtualFile = Backbone.Model.extend({
     
     defaults: {
+        
         Thumbnails: {
             Small: null,
             Medium: null
         }
+        
     },
-    
     Etag: null,
-
     LocalPath: null,
-
     IsDirectory: null,
-
     Name: null,
-    
     VirtualPath: null,
+    Url: null
     
-    Url: null,
-    
-    initialize: function () { }
-
 });
 
-// VirtualDirectory View
-// ----------------------
+var DroppedFile = Backbone.Model.extend({
+    
+    name: null,
+    
+    fileSize: null
+    
+});
 
-//var VirtualDirectoryView = Backbone.View.extend({
+var DroppedFileView = Backbone.View.extend({
+    
+    tagName: 'li',
 
-//    template: _.template($('#view-template-virtual-directory').html()),
+    template: _.template($('#view-template-dropped-file').html()),
+    
+    events: {
+        'click a': 'remove'
+    },
+    
+    _progress: function(percentComplete) {
+        
+        this.$el.find('.ui-progress').animateProgress((percentComplete * 100), function () { }, 2000);
+        this.$el.find('.percentCompleted').text( Math.round(percentComplete * 100) + '%');
+        
+    },
+    
+    initialize: function() {
 
-//    events: {
-//        'click a': 'select',
-//    },
+        this.$el.hoverIntent(
+            function (ev) {
+                $(ev.currentTarget).find('a.remove').fadeIn('fast');
+            }, function (ev) {
+                $(ev.currentTarget).find('a.remove').fadeOut('fast');
+            });
+        
+        this.model.bind('showProgress', this._progress, this);
+    },
 
-//    initialize: function () {
-//        
-//    },
+    render: function() {
+        this.$el.html(this.template(this.model.toJSON()));
+        return this;
+    },
+    
+    remove: function (e) {
+        
+        e.preventDefault();
 
-//    render: function () {
-//        var html = this.template(this.model.toJSON());
-//        this.setElement($(html));
-//        return this;
-//    }
-//});
+        var app = brickpile.app;
+        
+        app.trigger('remove', this.model);
+        
+        this.$el.remove();
+        
+    }
 
-// VirtualDirectory
-// ----------------------
-
-//var VirtualDirectory = Backbone.Model.extend({
-//    
-//    name: null,
-
-//    VirtualPath: null,
-//    
-//    Parent: null
-//    
-//});
+});
 
 // VirtualFile Collection
 // ----------------------
@@ -88,17 +103,7 @@ var VirtualFileCollection = Backbone.Collection.extend({
 
     url: '/api/asset/',
 
-    model: VirtualFile,
-
-//    parse: function (response) {
-//        this.Directories = response.Directories;
-//        this.Parent = response.Parent;
-//        return response.Files;
-//    }
-    
-    initialize: function() {
-        console.log('Fetching');
-    }
+    model: VirtualFile
 
 });
 
@@ -106,6 +111,8 @@ var VirtualFileCollection = Backbone.Collection.extend({
 // -------------------------------
 
 var VirtualFileSelectorModalView = Backbone.View.extend({
+    
+    tagName:  'div',
 
     currentSelectedModel: null,
 
@@ -122,41 +129,39 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         'click a.videos' : 'videos',
         'click a.audios' : 'audios',
         'click a.documents' : 'documents',
-        'click .modal-header button' : 'addAsset',
+        'click .modal-header button': 'addAsset',
         
         'click a.close': 'cancelAndClose',
         'click a.cancel': 'cancelAndClose',
         'click a.select': 'selectAndClose'
-        //'click a.newDirectory': 'newDirectory',
-        //'click a.deleteDirectory': 'deleteDirectory',
     },
     
-    all: function(ev) {
+    all: function() {
         this.collection.url = '/api/asset';
         this.collection.fetch();
     },
 
-    recent: function(ev) {
+    recent: function() {
         this.collection.url = '/api/asset?recent=1';
         this.collection.fetch();
     },
     
-    images: function(ev) {
+    images: function() {
         this.collection.url = '/api/asset?type=image';
         this.collection.fetch();
     },
 
-    videos: function(ev) {
+    videos: function() {
         this.collection.url = '/api/asset?type=video';
         this.collection.fetch();
     },
 
-    audios: function(ev) {
+    audios: function() {
         this.collection.url = '/api/asset?type=audio';
         this.collection.fetch();
     },
     
-    documents: function(ev) {
+    documents: function() {
         this.collection.url = '/api/asset?type=document';
         this.collection.fetch();
     },
@@ -167,11 +172,12 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
             return false;
         }
 
-        event.preventDefault();
-        event.stopPropagation();
+        ev.preventDefault();
+        ev.stopPropagation();
 
-        var modal = new NewAssetDialogView({ el: ('.modal') });
-        modal.render();
+        var modal = new NewAssetDialogView();
+        
+        this.$el.find('#asset-dialog').append(modal.render().el);
         
     },
 
@@ -179,36 +185,31 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
     cancelAndClose: function () {
 
         var self = this;
-        self.destroy();
 
-        $(this.el).find('.modal').fadeOut('fast', function () {
+        $(this.el).fadeOut('fast', function () {
+            
             $(self.el).unbind('dragenter dragover drop');
+            
             $(this).remove();
-
+            
             $('.modal-backdrop').remove();
+            
         });
         return false;
     },
-    
-    // removes this view to free up memory 
-    destroy: function(){
-        console.log('Destroy');
-        this.unbind();
-        //this.remove(); 
-    }, 
 
     selectAndClose: function (e) {
         
         e.preventDefault();
-        
-        this.$el.find('input:hidden.url').val(currentSelectedModel.get('Url'));
-        this.$el.find('input:hidden.virtualPath').val(currentSelectedModel.get('VirtualPath'));
-        this.$el.find('.centerbox img').attr('src', (currentSelectedModel.get('Thumbnails').Small.Url));
 
+        this.trigger('brickpile:close-assets', currentSelectedModel);
 
-        $(this.el).find('.modal').fadeOut('fast', function () {
+        $(this.el).fadeOut('fast', function () {
+            
             $(this).remove();
+            
             $('.modal-backdrop').remove();
+            
         });
 
         return false;
@@ -218,61 +219,10 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         currentSelectedModel = model;
     },
 
-//    openFolder: function (event, model) {
-//        
-//        event.stopImmediatePropagation();
-
-//        this.prevTarget = this.currentTarget;
-//        this.currentTarget = event.currentTarget;
-
-//        $(event.currentTarget).children('i').attr('class', 'icon-folder-open');
-
-//        this.currentPath = model.get('VirtualPath');
-//        this.collection.url = '/assets?path=' + model.get('VirtualPath');
-//        this.collection.fetch();
-//        console.log('Open');
-//    },
-//    
-//    closeFolder: function(event,model) {
-//        
-//        event.stopImmediatePropagation();
-
-////        this.currentPath = this.collection.Parent.VirtualPath;
-////        this.collection.url = '/assets?path=' + this.collection.Parent.VirtualPath;
-////        this.collection.fetch();
-////        
-//        console.log('Closing: ' + this.collection.Parent.VirtualPath);
-//    },
-
-//    newDirectory: function () {
-//        var view = new NewVirtualDirectoryView(
-//            {
-//                el: this.currentTarget != null ? $(this.currentTarget).siblings('ul') : $(this.el).find('#directories>ul'),
-//                virtualPath: this.currentPath != null ? this.currentPath : null
-//            });
-//        view.render();
-//    },
-
-//    deleteDirectory: function (e) {
-//        
-//        if(!this.currentTarget) return;
-
-//        var self = this;
-
-//        $.ajax({
-//            url: '/assets/deletedirectory',
-//            data: { virtualPath: self.currentPath != null ? self.currentPath : '' },
-//            success: function () {
-//                $(self.currentTarget).closest('li').remove();
-//                self.currentTarget = null;
-//                self.currentPath = null;
-//            }
-//        });
-//    },
-//    
     initialize: function () {
 
         this.collection.bind("reset", this.render, this);
+        
         this.template = _.template($('#view-template-virtual-file-dialog').html());
         
         // Shorthand for the application namespace
@@ -287,142 +237,49 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
 
         // Automatically re-render whenever the Collection is populated.
         this.collection.on("reset", this.render, this);
-
-        //this.infiniScroll = new Backbone.InfiniScroll(this.collection, {success: this.appendRender, pageSize: 5, scrollOffset: 500 });
-
+        
     },
 
     render: function () {
 
         var self = this;
 
-        // Render dialog, change this name to a more proper dialog name
-        if ($('.modal').length < 1) {
-            this.$el.append(this.template());
-        }
-        
-        $('.modal').find('.modal-body').scroll(function() {
-            console.log('Scrolling');
-        });
-
-
-//        var $directories = $('<ul></ul>');
-
-//        jQuery.each(this.collection.Directories, function(i, directory) {
-//            var dir = new VirtualDirectoryView({
-//                model: new VirtualDirectory({ Name: directory.Name, VirtualPath: directory.VirtualPath })
-//            });
-//            var $li = dir.render().$el;
-//            $directories.append($li);
-//        });
-
-//        if (this.collection.Parent == null) {
-//            
-//            $(this.el).find('#directories').prepend($directories);
-//            
-//        }
-//        else if ($(this.currentTarget).parents('ul').length == 1) {
-//            jQuery.each($(this.currentTarget).parent('li').siblings(), function(i, listItem) {
-//                $(listItem).find('i').attr('class', 'icon-folder-close');
-//                $(listItem).find('ul').remove();
-//            });
-//            $(self.currentTarget).parent('li').children('ul').remove();
-//            $(self.currentTarget).parent('li').append($directories);
-//        }
-//        else {
-//            $(self.currentTarget).parent('li').children('ul').remove();
-//            $(self.currentTarget).parent('li').append($directories);
-//        }
+        this.$el.html(this.template());
 
         // Find the dialog body and append the thumbnails
         var $ul = $('<ul></ul>');
         $ul.empty();
+        
         this.collection.each(function (virtualFile) {
+            
             var fileview = new VirtualFileView({
                 model: virtualFile,
                 inputUrl: this.$el.find('input:hidden.url'),
                 inputVirtualUrl: this.$el.find('input:hidden.virtualUrl'),
                 thumbnail: this.$el.find('.centerbox img'),
             });
-            var $li = fileview.render().$el;
-            $ul.append($li);
+            
+            $ul.append(fileview.render().$el);
         }, this);
-        
+                
         $(this.el).find('#files').html($ul);
 
         // Add the backdrop
         if ($('.modal-backdrop').length < 1) {
             $('body').append('<div class="modal-backdrop"></div>');
         }
+
         // Bind event closing the dialog on esc
         $(document).keyup(function (e) {
             if (e.keyCode == 27) {
                 self.cancelAndClose();
             }
         });
-	
-        return false;
-    },
-    
-    checkScroll: function() {
-        console.log('Scrolling...');
+        
+        return this;
+
     }
 });
-
-// VirtualDirectory item view
-// -------------------------
-
-//var NewVirtualDirectoryView = Backbone.View.extend({
-
-//    defaults: {
-//        virtualPath: null
-//    },
-
-//    events: {
-//        'focusout input[type=text]': 'undo',
-//        'keypress input[type=text]': 'create'
-//    },
-
-//    undo: function(e) {
-//        if (!$(e.target).val()) {
-//            $(e.target).remove();   
-//        }
-//    },
-
-//    create: function (e) {
-
-//        e.stopPropagation();
-
-//        if (e.keyCode != 13) return;
-//        if (!$(e.target).val()) return;
-
-//        var self = this;
-
-//        $.ajax({
-//            url: '/assets/createdirectory',
-//            data: { virtualPath: this.defaults.virtualPath == null ? '' : this.defaults.virtualPath, directoryName: $(e.target).val() },
-//            success: function (data) {
-//                var dir = new VirtualDirectoryView({
-//                    model: new VirtualDirectory({ Name: data.name, VirtualPath: data.virtualPath })
-//                });
-//                var $li = dir.render().$el;
-//                $(self.el).find('li:last').replaceWith($li);
-//            }
-//        });
-
-//        return false;
-
-//    },
-
-//    initialize: function (options) {
-//        this.options = _.extend(this.defaults, this.options);
-//        this.template = _.template($('#view-template-new-virtual-directory').html());
-//    },
-
-//    render: function () {
-//        this.$el.append(this.template());
-//    }
-//});
 
 // VirtualFile property view
 // -------------------------
@@ -430,33 +287,47 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
 var VirtualFilePropertyView = Backbone.View.extend({
 
     events: {
-        'click button.browse': 'openDialog',
+        
+        'click button.browse': 'open',
         'click a.clear': 'clear'
+        
     },
 
-    openDialog: function (e) {
+    open: function (e) {
 
         e.preventDefault();
         
         var coll = new VirtualFileCollection();
+        
         var view = new VirtualFileSelectorModalView(
             {
-                el: this.el,
                 collection: coll
             });
+        
+        this.$el.append(view.render().el);
+
+        view.bind('brickpile:close-assets', this.close, this);
+
         coll.fetch();
+    },
+    
+    close: function (model) {
+        this.$el.find('input:hidden.url').val(model.get('Url'));
+        this.$el.find('input:hidden.virtualPath').val(model.get('VirtualPath'));
+        this.$el.find('.centerbox img').attr('src', (model.get('Thumbnails').Small.Url));
     },
 
     clear: function () {
+        
         this.$el.find(':input').val('');
+        
         this.$el.find('.centerbox img').attr('src', 'http://placehold.it/60x38');
+        
     },
 
-    teardown: function () {
-        this.model.off(null, null, this);
+    initialize: function () {
+        
     },
-
-    initialize: function () { },
 
     render: function () {
         $('.dropdown-toggle').dropdown();
@@ -468,16 +339,22 @@ var VirtualFilePropertyView = Backbone.View.extend({
 
 var VirtualFileView = Backbone.View.extend({
     
+    tagName: 'li',
+    
     template: _.template($('#view-template-virtual-file').html()),
 
     events: {
-        'click a': 'select',
+        'click a.asset-item': 'select',
+        'click a.delete': 'remove',
     },
 
-    select: function () {
-        
-        this.$el.parents('ul').children('li').removeClass('selected');
-        this.$el.addClass('selected');
+    select: function (ev) {
+
+        ev.stopPropagation();
+
+        this.$el.closest('ul').find('li a').removeClass('selected');
+            
+        $(ev.currentTarget).addClass('selected');    
 
         // Shorthand for the application namespace
         var app = brickpile.app;
@@ -485,13 +362,63 @@ var VirtualFileView = Backbone.View.extend({
         app.trigger('select', this.model);
 
     },
+    
+    remove: function () {
+        
+        var self = this;
+        
+        var data = this.model.get('Id');
+        
+        this.model.destroy({
+            success:function () {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/api/asset/?id=" + data,
+                        success: function () {
+                            self.$el.fadeOut('fast', function() {
+                                $(this).remove();
+                            });
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status);
+                            alert(thrownError);
+                        }
+                    });
+            }
+        });
+        return false;
+    },
 
-    initialize: function () { },
+    initialize: function () {
+        this.$el.hoverIntent( this.showTools , this.hideTools );
+    },
+    
+    /*
+        Show tool button
+    */
+    showTools: function(e) {
+        $(e.currentTarget).find('.dropdown-toggle').fadeIn('fast');
+    },
+    
+    /*
+        Hide tool button if the dropdown not is open
+    */
+    hideTools: function (e) {
+        $(e.currentTarget).find('.dropdown-toggle').fadeOut('fast');
+    },
 
     render: function () {
-        var html = this.template(this.model.toJSON());
-        this.setElement($(html));
+        
+        this.$el.html(this.template(this.model.toJSON()));
         return this;
+        
     }
 
 });
+
+function bytesToSize(bytes) {
+    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes == 0) return 'n/a';
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[[i]];
+};

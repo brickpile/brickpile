@@ -38,19 +38,28 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Asset.cs" />
+    <Compile Include="Models\Audio.cs" />
+    <Compile Include="Models\Document.cs" />
     <Compile Include="Models\DocumentReference.cs" />
     <Compile Include="Models\IDocumentReference.cs" />
+    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\IPageMetadata.cs" />
     <Compile Include="Models\IPageModel.cs" />
     <Compile Include="Models\PageMetadata.cs" />
     <Compile Include="Models\PageMetadataMetadata.cs" />
     <Compile Include="Models\PageModel.cs" />
     <Compile Include="Models\PageModelMetadata.cs" />
+    <Compile Include="Models\PageReference.cs" />
     <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Thumbnail.cs" />
+    <Compile Include="Models\Thumbnails.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Video.cs" />
     <Compile Include="PageTypeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceHelper.cs" />

@@ -3,7 +3,9 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using System.Web.Hosting;
+using BrickPile.Core.Hosting;
 using BrickPile.FileSystem.AmazonS3.Hosting;
 using NUnit.Framework;
 
@@ -12,7 +14,7 @@ namespace BrickPile.Tests.Web.Hosting {
         // Instance property for the HostingEnvironment-enabled AppDomain.
         private AppDomain _hostingEnvironmentDomain = null;
 
-        //[TestFixtureSetUp]
+        [TestFixtureSetUp]
         public void Setup() {
             // Create the AppDomain that will support the VPP.
             this._hostingEnvironmentDomain =
@@ -36,7 +38,7 @@ namespace BrickPile.Tests.Web.Hosting {
 
         }
 
-        //[TestFixtureTearDown]
+        [TestFixtureTearDown]
         public void TestFixtureTearDown() {
             // When the fixture is done, tear down the special AppDomain.
             AppDomain.Unload(this._hostingEnvironmentDomain);
@@ -47,13 +49,13 @@ namespace BrickPile.Tests.Web.Hosting {
         private void Execute(CrossAppDomainDelegate testMethod) {
             this._hostingEnvironmentDomain.DoCallBack(testMethod);
         }
-        //[Test]
+        [Test]
         public void Can_Load_File_From_S3_Root() {
             // Use the special "Execute" method to run code
             // in the special AppDomain.
             this.Execute(() =>
             {
-                var file = HostingEnvironment.VirtualPathProvider.GetFile("/s3/main_area_7.jpg");
+                var file = HostingEnvironment.VirtualPathProvider.GetFile("/static/9723d032034644629505f37994d89074.jpg");
                 var stream = file.Open();
                 Assert.NotNull(stream);
                 Assert.IsFalse(file.IsDirectory);
@@ -104,6 +106,33 @@ namespace BrickPile.Tests.Web.Hosting {
                 Assert.AreEqual(1, directory.Directories.Count());
                 Assert.AreEqual("/s3/",directory.VirtualPath);
             });
+        }
+        [Test]
+        public void Can_Upload_File() {
+            // Use the special "Execute" method to run code
+            // in the special AppDomain.
+            this.Execute(() =>
+            {
+                const string virtualPath = "/static/D1.jpg";
+                //CommonVirtualFile file;
+                var file = HostingEnvironment.VirtualPathProvider.GetFile(virtualPath) as CommonVirtualFile;
+                if (file == null) {
+                    var virtualDir = VirtualPathUtility.GetDirectory(virtualPath);
+                    var directory = HostingEnvironment.VirtualPathProvider.GetDirectory(virtualDir) as CommonVirtualDirectory;
+                    file = directory.CreateFile(VirtualPathUtility.GetFileName(virtualPath));
+                }
+                // open the replacement file and read its content
+                byte[] fileContent;
+                using (FileStream fileStream = new FileStream(@"c:\temp\D1.jpg", FileMode.Open, FileAccess.Read)) {
+                    fileContent = new byte[fileStream.Length];
+                    fileStream.Read(fileContent, 0, fileContent.Length);
+                }
+                // write the content to the file (that exists in BrickPile's file system)
+                using (Stream stream = file.Open(FileMode.Create)) {
+                    stream.Write(fileContent, 0, fileContent.Length);
+                }
+            });
+            
         }
     }
     static class EnumerableExtensions {

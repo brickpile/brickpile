@@ -58,10 +58,13 @@ namespace BrickPile.UI.Web.Routing {
 
             // The requested url is for the start page with no action
             if (string.IsNullOrEmpty(virtualUrl) || string.Equals(virtualUrl, "/")) {
+
                 _pageModel = _session.Query<IPageModel>()
                     .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                     .SingleOrDefault(x => x.Parent == null);
+
             } else {
+
                 // Remove the trailing slash
                 virtualUrl = VirtualPathUtility.RemoveTrailingSlash(virtualUrl).TrimStart(new[] { '/' });
                 // The normal beahaviour should be to load the page based on the url
@@ -80,7 +83,9 @@ namespace BrickPile.UI.Web.Routing {
                 }
                 // If the page model still is empty, let's try to resolve if the start page has an action named (virtualUrl)
                 if (_pageModel == null) {
-                    _pageModel = _session.Query<IPageModel>().SingleOrDefault(x => x.Parent == null);
+                    _pageModel = _session.Query<IPageModel>()
+                        .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                        .SingleOrDefault(x => x.Parent == null);
                     if(_pageModel == null) {
                         return null;
                     }
@@ -100,7 +105,7 @@ namespace BrickPile.UI.Web.Routing {
             }
 
             var controllerType = _pageModel.GetType().GetAttribute<PageTypeAttribute>().ControllerType;
-            _pathData.Controller = controllerType != null ? _controllerMapper.GetControllerName(controllerType) : string.Format("{0}Controller", _pageModel.GetType().Name);
+            _pathData.Controller = controllerType != null ? _controllerMapper.GetControllerName(controllerType) : null;
             _pathData.CurrentPage = _pageModel;
             _pathData.NavigationContext = _session.GetPublishedPages(_pageModel.Id);
             return _pathData;

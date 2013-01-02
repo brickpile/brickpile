@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Text.RegularExpressions;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
+using System.Web.Caching;
 using System.Web.Helpers;
 using System.Web.Hosting;
-using BrickPile.FileSystem.AmazonS3.Hosting;
+using BrickPile.Core.Hosting;
 
 namespace BrickPile.FileSystem.AmazonS3.Web {
     public class StaticFileHandler : IHttpHandler {
@@ -23,106 +24,92 @@ namespace BrickPile.FileSystem.AmazonS3.Web {
         /// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests.</param>
         public void ProcessRequest(HttpContext context) {
 
-            // get the correct provider
-            var provider = HostingEnvironment.VirtualPathProvider as AmazonS3VirtualPathProvider;
+            //// get the correct provider
+            var provider = HostingEnvironment.VirtualPathProvider as CommonVirtualPathProvider;
 
-            // abort if the provider is null
+            //// abort if the provider is null
             if (provider == null) {
                 throw new Exception("Provider does not exist");
             }
-            
-            // get the requested file name
-            var localFileName = VirtualPathUtility.GetFileName(context.Request.FilePath);
 
-            if (localFileName == null) return;
+            var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(context.Request.FilePath) as CommonVirtualFile;
 
-            // parse width and height of the image
-            var regex = new Regex(@"[_]{1}(?<width>\d+)(?:[_]{1})(?<height>\d+)(?=[.])");
-            if (!regex.IsMatch(context.Request.FilePath)) {
-                throw new Exception("The filename is not well formed, should be name_width_height.extension");
-            }
-
-            var match = regex.Match(context.Request.FilePath);
-
-            var width = match.Groups["width"].Value;
-            var height = match.Groups["height"].Value;
-
-            //regex = new Regex(@"_[\d]+[\d]+(?=[.]?)");
-            if(!regex.IsMatch(localFileName)) return;
-
-            // parse the incoming file path
-            //var virtualPath = provider.VirtualPathRoot + Regex.Replace(localFileName, @"[_]{1}(?<width>\d+)(?:[_]{1})(?<height>\d+)(?=[.])", string.Empty);
-            var virtualPath = Regex.Replace(context.Request.FilePath, @"[_]{1}(?<width>\d+)(?:[_]{1})(?<height>\d+)(?=[.])", string.Empty);
-
-            // get the file from amazon s3 in format /s3/File.jpg
-            var virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(virtualPath) as AmazonS3VirtualFile;
-
-            // abort and send not found if file does not exist
+            //// abort and send not found if file does not exist
             if (virtualFile == null) {
                 throw new HttpException(404, "File not found");
             }
 
-            // combine the directory path
-            //string directory = Path.Combine(provider.LocalPath, virtualFile.Etag.Replace("\"", ""));
-            var directory = Path.Combine(provider.LocalPath, virtualFile.VirtualPath.Replace(provider.VirtualPathRoot, null).Replace(VirtualPathUtility.GetFileName(virtualFile.VirtualPath), null), virtualFile.Etag.Replace("\"", ""));
+            var width = context.Request.QueryString["width"] ?? string.Empty;
+            var height = context.Request.QueryString["height"] ?? string.Empty;
 
-            // get the local path for the resized image
-            var localPath = Path.Combine(directory, localFileName);
+            // Resize image
+            if (!string.IsNullOrEmpty(width) && !string.IsNullOrEmpty(height)) {
+                var hash = CalculateMd5Hash(context.Request.RawUrl);
+                WebImage image;
+                if (HttpRuntime.Cache[hash] == null) {
+                    // resize the image
+                    image = new WebImage(virtualFile.Open())
+                        .Resize(int.Parse(width) + 1, int.Parse(height) + 1, true, true)
+                        .Crop(1, 1);
 
-            if (!File.Exists(localPath)) {
+                    HttpRuntime.Cache.Add(hash, image, null,
+                      Cache.NoAbsoluteExpiration,
+                      new TimeSpan(0, 60, 0),
+                      CacheItemPriority.Default, null);
 
-                // get the path for the temporary file
-                var tmpFile = Path.Combine(directory,Path.ChangeExtension(localFileName,"tmp"));
-
-                // exit with the correct http exception if file is not found
-                if (!File.Exists(tmpFile)) {
-                    throw new HttpException(404, "File not found");
+                } else {
+                    image = HttpRuntime.Cache[hash] as WebImage;
                 }
-
-                // download and convert the requested image to the specified size
-                // TODO: cache the original image so we can us it the next time another size is requested
-
-                if (!File.Exists(Path.Combine(directory, VirtualPathUtility.GetFileName(virtualFile.VirtualPath)))) {
-                    using (var ms = new MemoryStream()) {
-                        virtualFile.Open().CopyTo(ms);
-                        File.WriteAllBytes(
-                            Path.Combine(directory, VirtualPathUtility.GetFileName(virtualFile.VirtualPath)),
-                            ms.ToArray());
-                    }
-                }
-
-                // resize the image
-                var image = new WebImage(Path.Combine(directory, VirtualPathUtility.GetFileName(virtualFile.VirtualPath)))
-                    .Resize(int.Parse(width) + 1, int.Parse(height) + 1,true,true)
-                    .Crop(1, 1);
-                image.Save(localPath);
-
-                // delete the temp file and log any exception
-                try {
-                    File.Delete(tmpFile);
-                } catch (IOException ex) {
-                    Debug.WriteLine(ex.Message);
+                if (image != null) {
+                    image.Write();
+                    return;
                 }
             }
 
-            var lastWriteTime = File.GetLastWriteTime(localPath);
-            var lastModified = new DateTime(lastWriteTime.Year, lastWriteTime.Month, lastWriteTime.Day,
-                                            lastWriteTime.Hour, lastWriteTime.Minute, lastWriteTime.Second, 0);
+            //var lastWriteTime = File.GetLastWriteTime(virtualFile.LocalPath);
+            //var lastModified = new DateTime(lastWriteTime.Year, lastWriteTime.Month, lastWriteTime.Day,
+            //                                lastWriteTime.Hour, lastWriteTime.Minute, lastWriteTime.Second, 0);
 
-            DateTime now = DateTime.Now;
-            if (lastModified > now) {
-                lastModified = new DateTime(now.Ticks - (now.Ticks % 0x989680L));
-            }
+            //DateTime now = DateTime.Now;
+            //if (lastModified > now) {
+            //    lastModified = new DateTime(now.Ticks - (now.Ticks % 0x989680L));
+            //}
 
-            var etag = GenerateETag(lastModified, now);
+            //var etag = GenerateETag(lastModified, now);
 
-            SetCacheParamters(context, MimeMapping.GetMimeMapping(localPath),
-                              localPath, lastModified, etag);
+            //SetCacheParamters(context, MimeMapping.GetMimeMapping(virtualFile.LocalPath),
+            //                  virtualFile.LocalPath, lastModified, etag);
 
-            using (Stream stream = File.OpenRead(localPath)) {
+
+            context.Response.ContentType = MimeMapping.GetMimeMapping(virtualFile.VirtualPath);
+            context.Response.Cache.SetExpires(DateTime.Now.AddDays(10));
+            context.Response.Cache.SetCacheability(HttpCacheability.Public);
+            using(Stream stream = virtualFile.Open()) {
                 stream.CopyTo(context.Response.OutputStream);
             }
+
+            //using (Stream stream = File.OpenRead(virtualFile.LocalPath)) {
+            //    stream.CopyTo(context.Response.OutputStream);
+            //}
         }
+        /// <summary>
+        /// Calculates the MD5 hash.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns></returns>
+        public static string CalculateMd5Hash(string input) {
+            // step 1, calculate MD5 hash from input
+            var md5 = MD5.Create();
+            var inputBytes = Encoding.ASCII.GetBytes(input);
+            var hash = md5.ComputeHash(inputBytes);
+
+            // step 2, convert byte array to hex string
+            var sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++) {
+                sb.Append(hash[i].ToString("X2"));
+            }
+            return sb.ToString();
+        }        
         /// <summary>
         /// Sets the cache paramters.
         /// </summary>

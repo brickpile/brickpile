@@ -30,10 +30,11 @@ THE SOFTWARE. *@
         <meta charset="utf-8">
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
         @Html.Raw(Bundle.Css()
             .Add(Url.Content("~/areas/ui/content/normalize.css"))
             .Add(Url.Content("~/areas/ui/content/brickpile.css"))
+            .Add(Url.Content("~/areas/ui/content/ui-progress-bar.css"))
             .Render("~/areas/ui/styles/brickpile.min_#.css"))
 
         <!--[if lt IE 9]>
@@ -70,17 +71,22 @@ THE SOFTWARE. *@
         @Html.RenderSection("templates")
 
         @Html.Raw(Bundle.JavaScript()
-            .Add(Url.Content("~/areas/ui/scripts/jquery-1.7.2.js"))
-            .Add(Url.Content("~/areas/ui/scripts/jquery-ui-1.8.18.js"))
+            .Add(Url.Content("~/areas/ui/scripts/jquery-1.8.3.js"))
+            .Add(Url.Content("~/areas/ui/scripts/jquery-ui-1.9.2.js"))
             .Add(@Url.Content("/areas/ui/scripts/underscore.js"))
             .Add(@Url.Content("/areas/ui/scripts/backbone.js"))
             .Add(Url.Content("~/areas/ui/scripts/jquery.timeago.js"))
             .Add(Url.Content("~/areas/ui/scripts/jquery.slugify.js"))
+            .Add(Url.Content("~/areas/ui/scripts/jquery.validate.js"))
+            .Add(Url.Content("~/areas/ui/scripts/jquery.hoverIntent.js"))            
             .Add(Url.Content("~/areas/ui/scripts/bootstrap-dropwdown.js"))
+            .Add(Url.Content("~/areas/ui/scripts/animated-progress.js"))
             .Add(@Url.Content("/areas/ui/scripts/views/editview.js"))
             .Add(@Url.Content("/areas/ui/scripts/views/newpageview.js"))
             .Add(@Url.Content("/areas/ui/scripts/views/newpagemodalview.js"))
+            .Add(@Url.Content("/areas/ui/scripts/views/newassetdialogview.js"))            
             .Add(@Url.Content("/areas/ui/scripts/views/pagesview.js"))
+            .Add(@Url.Content("/areas/ui/scripts/application.js"))
             .Add(@Url.Content("/areas/ui/scripts/brickpile.js"))
             .Render("~/areas/ui/scripts/brickpile_#.js"))
 

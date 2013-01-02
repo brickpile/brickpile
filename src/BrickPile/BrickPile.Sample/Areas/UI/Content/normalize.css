@@ -254,6 +254,35 @@ a:active {
     border-radius: 5px;
 }
 
+.btn-mini [class^="icon-"],
+.btn-mini [class*=" icon-"] {
+  margin-top: -1px;
+}
+
+.btn-mini {
+  padding: 0 6px;
+  font-size: 10.5px;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+
+.btn-group > .btn-mini {
+  font-size: 10.5px;
+}
+
+button.btn.btn-mini,
+input[type="submit"].btn.btn-mini {
+  *padding-top: 1px;
+  *padding-bottom: 1px;
+}
+
+.btn-mini .caret,
+.btn-small .caret,
+.btn-large .caret {
+  margin-top: 6px;
+}
+
 .btn-group > .dropdown-toggle {
     padding-right: 8px;
     padding-left: 8px;
@@ -382,13 +411,14 @@ a:active {
 }
 
 .dropdown-menu a {
-  display: block;
-  padding: 3px 15px;
-  clear: both;
-  font-weight: normal;
-  line-height: 18px;
-  color: #333333;
-  white-space: nowrap;
+    display: block;
+    padding: 3px 15px;
+    clear: both;
+    font-weight: normal;
+    line-height: 18px;
+    color: #333333;
+    white-space: nowrap;
+    text-align: left;
 }
 
 .dropdown-menu li > a:hover,

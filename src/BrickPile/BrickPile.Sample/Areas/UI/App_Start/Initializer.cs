@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Domain.Models;
@@ -33,16 +34,26 @@ namespace BrickPile.UI.App_Start {
         /// </summary>
         public static void Start() {
 
+            //Insure that Raven is setup
+            var documentStore = RavenConfig.InitializeRaven();
             //Insure that Structuremap would inject dependecies for any ASP.NET controller created
-            var container = Bootstrapper.Initialize();
+            var container = StructureMapConfig.InitializeStructureMap(documentStore);
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(container));
-            
+
             RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             RouteTable.Routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+            RouteTable.Routes.IgnoreRoute("static/{*pathInfo}");
+            
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
             ControllerBuilder.Current.SetControllerFactory(typeof(BrickPileControllerFactory));
+
+            RouteTable.Routes.MapHttpRoute(
+                name: "API Default",
+                routeTemplate: "api/{controller}/{id,recent}",
+                defaults: new {id = RouteParameter.Optional, recent = RouteParameter.Optional }
+                );
 
             // Register the default page route
             RouteTable.Routes.Add("Default_Pages", new PageRoute(

@@ -32,19 +32,23 @@ var NewPageModalView = Backbone.View.extend({
 
     // Close the dialog
     close: function () {
+        
+        $('#models').addClass('inactive').delay(400);
+        
         $('#models').fadeOut('fast', function () {
             $(this).remove();
             $('html').unbind('click');
         });
+        
     },
 
     // Bind events for clicking the html element and for triggering the esc key
     initialize: function () {
-        
+
         this.template = _.template($('#view-template-new-page-dialog').html());
-        
+
         var self = this;
-        
+
         $('html').bind('click', this.close);
         $(document).keyup(function (e) {
             if (e.keyCode == 27) {

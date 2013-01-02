@@ -19,6 +19,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 namespace BrickPile.UI.Configuration {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IConfiguration {
         /// <summary>
         /// Gets the id.

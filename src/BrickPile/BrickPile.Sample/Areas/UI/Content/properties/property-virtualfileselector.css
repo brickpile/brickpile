@@ -43,6 +43,8 @@ input[type=text].alttext {
 
 .editor-field .btn-group a { text-decoration: none; }
 
+
+
 .modal-backdrop {
     position: fixed;
     opacity: 0.6;
@@ -54,7 +56,139 @@ input[type=text].alttext {
     z-index: 100;
 }
 
+
+#asset-dialog {
+    background-color: #fff;
+    border: 1px solid #999;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 6px;
+       -moz-border-radius: 6px;
+            border-radius: 6px;
+    -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+       -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    -webkit-background-clip: padding-box;
+       -moz-background-clip: padding-box;
+            background-clip: padding-box;
+            
+    
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1000;
+    width: 1000px;
+    margin: -350px 0 0 -500px;    
+}
+
+#asset-dialog-header {
+    -webkit-border-radius: 5px 5px 0 0;
+       -moz-border-radius: 5px 5px 0 0;
+            border-radius: 5px 5px 0 0;
+    background: -webkit-linear-gradient(top, #f1f2ef 0%,#e5e7e1 100%);
+              background: -moz-linear-gradient(top, #f1f2ef, #e5e7e1);
+    padding: 15px 0;
+}
+
+#asset-dialog #files { padding-left: 190px; }
+
+#asset-dialog #files li {
+    
+    width: 120px;
+    border: 0;
+    
+    /* flexbox, por favor */
+    display: -webkit-inline-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-pack: end;
+    -webkit-box-align: center;
+ 
+    display: -moz-inline-box;
+    -moz-box-orient: vertical;
+    -moz-box-pack: end;
+    -moz-box-align: center;
+          
+    background-clip: padding-box;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding;          
+  
+    display: inline-box;
+    box-orient: vertical;
+    box-pack: end;
+    box-align: center;
+
+    text-align: center;
+    position: relative;
+    
+    margin: 0 28px 2em 0;
+}
+
+#asset-dialog .thumbnail {
+    position: relative;
+}
+
+#asset-dialog #files li button {
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 0;
+    border-radius: 2px 0 0 0;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    padding: 3px 3px 1px;
+}
+
+#asset-dialog #files li .dropdown-menu {
+    background: -moz-linear-gradient(top, rgba(40,53,61,1) 0%, rgba(34,44,51,1) 20%);
+    background: -webkit-linear-gradient(top, rgba(40,53,61,1) 0%,rgba(34,44,51,1) 100%);
+    border:solid 1px #28353d;
+    border-radius: 4px;
+    box-shadow: 0 1px 0 #4b5a63 inset, 0 0 20px rgba(0,0,0,0.5);
+    opacity: 0.98;
+    width: 150px;
+}
+
+#asset-dialog #files li .dropdown-menu ul {
+    background:url(../images/dialog-top.png) no-repeat 66% 0;
+    margin: -12px 0 0;
+    padding: 12px 0 0;        
+}
+
+#asset-dialog #files li .dropdown-menu li {
+    display: block;
+    margin: 0;
+    text-align: left;
+    width: auto;
+    padding: 0 3px;
+}
+#asset-dialog #files li .dropdown-menu a {
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 1);
+    font-size: 12px;
+    display: block;
+    padding: 5px 4px 4px;
+}
+
+#asset-dialog #files li .dropdown-menu a:hover {
+    background: #67bce0;
+    background: -moz-linear-gradient(top,  #67bce0 0%, #60abf8 50%, #43acd9 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#67bce0), color-stop(50%,#60abf8), color-stop(100%,#43acd9));
+    background: -webkit-linear-gradient(top,  #67bce0 0%,#60abf8 50%,#43acd9 100%);
+    background: -o-linear-gradient(top,  #67bce0 0%,#60abf8 50%,#43acd9 100%);
+    background: -ms-linear-gradient(top,  #67bce0 0%,#60abf8 50%,#43acd9 100%);
+    background: linear-gradient(to bottom,  #67bce0 0%,#60abf8 50%,#43acd9 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#67bce0', endColorstr='#43acd9',GradientType=0 );
+    box-shadow: 0 1px 0px #99d2eb inset;
+    text-shadow: 0 1px 0 #187cbe;
+    border-radius: 1px;
+}
+.nano { background: #bba; width: 500px; height: 500px; }
+.nano .content { padding: 10px; }
+.nano .pane   { background: #888; }
+.nano .slider { background: #111; }
+
+/*
 .modal {
+    
     position: fixed;
     top: 50%;
     left: 50%;
@@ -74,6 +208,7 @@ input[type=text].alttext {
     -webkit-background-clip: padding-box;
     -moz-background-clip: padding-box;
     background-clip: padding-box;
+    
 }
 
 .modal-header {
@@ -82,7 +217,7 @@ input[type=text].alttext {
     background: -webkit-linear-gradient(top, #f1f2ef 0%,#e5e7e1 100%);
     padding: 15px 0;
 }
-
+*/
 .modal-header h1 {
     color:#6b6f64;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -90,6 +225,12 @@ input[type=text].alttext {
     text-shadow:0 1px 0 rgba(255,255,255,1);    
     margin: 0;
     padding: 0;
+}
+
+.modal-header button {
+    position: absolute;
+    right: 10px;
+    top: 10px;
 }
 
 .modal a {
@@ -104,10 +245,11 @@ input[type=text].alttext {
     cursor: pointer;
 }
 .modal-body {
-    max-height: 400px;
-    min-height: 400px;
+    max-height: 500px;
+    min-height: 500px;
     padding: 0 15px 15px 0;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 .modal-body #directories {
     background-color: #f3f7f8;
@@ -117,39 +259,49 @@ input[type=text].alttext {
     top: 47px;
     position: absolute;
     width: 191px;
+    overflow: auto;
 }
 .modal-body #directories ul {
     margin: 0;
     padding: 35px 0 0;
+    overflow: auto;
+    height: 353px;
 }
+.modal-body #directories ul ul { padding: 0;margin-left: 10px;height: auto; }
 .modal-body #directories li {
     list-style: none;
 }
-.modal-body #directories a:link,
-.modal-body #directories a:visited {
+.modal-body #directories ul a {
     font-size: 12px;
     color: #333;
-    display: block;
+    display: inline-block;
     padding: 5px 5px 5px 24px;
 }
-.modal-body #directories a:hover,
-.modal-body #directories a:focus,
-.modal-body #directories a:active {
+.modal-body #directories ul a:hover,
+.modal-body #directories ul a:focus,
+.modal-body #directories ul a:active {
     text-decoration: underline;
 }
-.modal-body #files {
+.modal-body #directories .newDirectory,
+.modal-body #directories .deleteDirectory {
+    display: inline-block;
+    padding: 5px;
+}
+.modal-body #directories ul li i { margin-right: 5px;}
+/*.modal-body #files {
     float: right;
     width: 615px;
 }
-.modal-body #files ul {
+*/
+.modal-body #files > ul {
     margin: 25px 0 0;
     margin-left: 0;
     padding-left: 23px;
 }
-.modal-body #files li {
-    margin: 0 28px 1em 0;
+.modal-body #files li.asset-list-item {
+    margin: 0 28px 2em 0;
 }
-.modal-body #files li  {
+.modal-body #files li.asset-list-item  {
     /* basic styling */
     width: 120px;
     /*height: 135px;*/
@@ -176,7 +328,9 @@ input[type=text].alttext {
     box-align: center;
 
     text-align: center;
+    position: relative;
 }
+
 .modal-body #files li:hover {
     cursor: pointer;
 }
@@ -191,7 +345,7 @@ input[type=text].alttext {
     
 }
 
-.modal-body #files li.selected img {
+.modal-body #files a.selected img {
     border-color: rgba(82, 168, 236, 0.8);
     outline: 0;
     outline: thin dotted \9;
@@ -208,6 +362,13 @@ input[type=text].alttext {
             transition: border linear 0.2s, box-shadow linear 0.2s;
 }
 
+/*.modal-body #files .btn-mini {
+    background-color: #fff;
+    position: absolute;
+    margin-top: -26px;
+    right: 6px;
+}
+*/
 .modal-footer {
     padding: 14px 15px 15px;
     margin-bottom: 0;
@@ -268,3 +429,133 @@ input[type=text].alttext {
     background: -webkit-gradient( linear, 0 0, 100% 0, from(rgba(255, 255, 255, 0)), to(white) );
     background: -moz-linear-gradient( 0, rgba(255, 255, 255, 0), white );
 }
+
+/* =============================================================================
+   Drop area
+   ========================================================================== */
+   
+#droparea {
+    
+    background: -moz-linear-gradient(top, rgba(40,53,61,1) 0%, rgba(34,44,51,1) 20%);
+    background: -webkit-linear-gradient(top, rgba(40,53,61,1) 0%,rgba(34,44,51,1) 100%);
+    border:solid 1px #28353d;
+    border-radius: 4px;
+    box-shadow: 0 1px 0 #4b5a63 inset, 0 0 20px rgba(0,0,0,0.5);
+    right:3px;
+    position: absolute;
+    top: 53px;
+    width: 224px;
+    z-index:200;
+    padding: 9px 5px;
+    
+}
+
+#droparea > div {
+    background-color: #fff;
+    position: relative;
+    border-radius: 3px;
+    text-align: center;
+    padding: 5px;
+    color: #aaa;
+    font-size: 0.786em;
+    
+}
+
+#droparea h1 {
+    background:url(../images/dialog-top.png) no-repeat 75% 0;
+    margin: -17px 0 0;
+    padding: 16px 0 0;        
+}
+    
+#droparea h1 {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color:#dcf5c3;
+    font-size:100%;
+    font-weight:bold;
+    height:29px;
+    text-align:center;
+    text-shadow:0 1px 0 rgba(0,0,0,1);
+}
+
+#droparea > div > span {
+    font-size: 12px;
+    border: dashed 2px #eee;
+    display: block;
+    border-radius: 3px;
+    padding: 1em 0;
+    color: #aaa;
+    min-height: 30px;
+}
+
+#droparea ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+ 
+}
+
+#droparea li {
+    padding: .5em 0;
+}
+
+#droparea li span.size {
+    position: absolute;
+    right: 7px;
+}
+
+#droparea .ui-progress {
+    display: none;
+    width: 0;
+}
+#droparea a.remove {
+    display: none;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+#droparea button {
+    margin-top: 1em;
+}
+
+#files-status {
+    text-align: left;
+    position: relative;
+}
+
+#files-status span {
+    position: absolute;
+    right: 7px;
+}
+
+/*
+#droparea div.inner {
+    background-color:#fff;
+    border-radius: 4px;
+    box-shadow:0 1px 1px rgba(33,47,59,1);
+    margin-bottom: 10px;
+    padding: 0;
+    font-size: 11px;
+}
+
+#droparea ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#droparea li {
+    padding: .5em;
+    border-bottom: solid 1px #ccc;
+    position: relative;
+    text-align: left;
+}
+#droparea li span {
+    right: .5em;
+    position: absolute;
+    
+}
+
+#droparea li:last-child { border: none; }
+
+*/

@@ -19,7 +19,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System.ComponentModel.DataAnnotations;
-using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Configuration {
     public class Configuration : IConfiguration {

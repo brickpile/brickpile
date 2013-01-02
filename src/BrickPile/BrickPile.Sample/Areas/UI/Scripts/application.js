@@ -20,6 +20,17 @@ THE SOFTWARE. */
 
 (function ($) {
 
+    // Patch collection fetching to emit a `fetch` event.
+    Backbone.Collection.prototype.fetch = function () {
+        var fetch = Backbone.Collection.prototype.fetch;
+
+        return function () {
+            this.trigger("fetch");
+
+            return fetch.apply(this, arguments);
+        };
+    } ();
+
 //    var pageListView = new PageListView();
 
 //    var Router = Backbone.Router.extend({
@@ -68,7 +79,7 @@ THE SOFTWARE. */
 //    });
 
     // Shorthand the application namespace
-    var app = brickpile.app;
+    //var app = brickpile.app;
 
     // Define your master router on the application namespace and trigger all
     // navigation from this instance.
@@ -98,7 +109,7 @@ THE SOFTWARE. */
     
 
     // Ensure that we have a valid slug
-    $('.slug').slugify('input.title');
+    //$('.slug').slugify('input.title');
 
     // All navigation that is relative should be passed through the navigate
     // method, to be processed by the router.  If the link has a data-bypass

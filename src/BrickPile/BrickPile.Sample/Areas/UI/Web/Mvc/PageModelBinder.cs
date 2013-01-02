@@ -2,7 +2,8 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using BrickPile.UI.Models;
+using BrickPile.Domain.Models;
+using Image = BrickPile.UI.Models.Image;
 
 namespace BrickPile.UI.Web.Mvc {
     /// <summary>
@@ -24,20 +25,63 @@ namespace BrickPile.UI.Web.Mvc {
                 foreach (var attribute in attributes) {
 
                     // We can only handle
-                    if (attribute.GetType().BaseType == typeof(ValidationAttribute) && property.PropertyType == typeof(PageReference)) {
+                    if (attribute.GetType().BaseType != typeof (ValidationAttribute)) continue;
 
-                        var pageReference = bindingContext.ModelType.GetProperty(property.Name).GetValue(bindingContext.Model, null) as PageReference;
+                    if (property.PropertyType == typeof (PageReference)) {
+
+                        var pageReference =
+                            bindingContext.ModelType.GetProperty(property.Name).GetValue(bindingContext.Model, null)
+                            as PageReference;
 
                         Type attrType = attribute.GetType();
 
-                        if (attrType == typeof(RequiredAttribute) && string.IsNullOrEmpty(pageReference.Name)) {
+                        if (attrType == typeof (RequiredAttribute) && string.IsNullOrEmpty(pageReference.Name)) {
+
+                            var displayAttr = property.Attributes[typeof (DisplayAttribute)] as DisplayAttribute;
+                            var displayName = displayAttr != null ? displayAttr.Name : property.DisplayName;
+
+                            bindingContext.ModelState.AddModelError(property.Name,
+                                                                    ((RequiredAttribute) attribute).
+                                                                        FormatErrorMessage(displayName));
+                        }
+                    }
+
+                    if(property.PropertyType == typeof(Image)) {
+                        var image =
+                            bindingContext.ModelType.GetProperty(property.Name).GetValue(bindingContext.Model, null)
+                            as Image;
+
+                        Type attrType = attribute.GetType();
+
+                        if (attrType == typeof(RequiredAttribute) && string.IsNullOrEmpty(image.VirtualUrl)) {
 
                             var displayAttr = property.Attributes[typeof(DisplayAttribute)] as DisplayAttribute;
                             var displayName = displayAttr != null ? displayAttr.Name : property.DisplayName;
 
-                            bindingContext.ModelState.AddModelError(property.Name, ((RequiredAttribute)attribute).FormatErrorMessage(displayName));
-
+                            bindingContext.ModelState.AddModelError(property.Name,
+                                                                    ((RequiredAttribute)attribute).
+                                                                        FormatErrorMessage(displayName));
                         }
+                            
+                    }
+
+                    if (property.PropertyType == typeof(HtmlString)) {
+                        var html =
+                            bindingContext.ModelType.GetProperty(property.Name).GetValue(bindingContext.Model, null)
+                            as HtmlString;
+
+                        Type attrType = attribute.GetType();
+
+                        if (attrType == typeof(RequiredAttribute) && string.IsNullOrEmpty(html.Html)) {
+
+                            var displayAttr = property.Attributes[typeof(DisplayAttribute)] as DisplayAttribute;
+                            var displayName = displayAttr != null ? displayAttr.Name : property.DisplayName;
+
+                            bindingContext.ModelState.AddModelError(property.Name,
+                                                                    ((RequiredAttribute)attribute).
+                                                                        FormatErrorMessage(displayName));
+                        }
+
                     }
                 }
             }

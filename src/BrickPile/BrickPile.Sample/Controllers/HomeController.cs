@@ -18,7 +18,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.Linq;
 using System.Web.Mvc;
+using BrickPile.Core.Infrastructure.Common;
 using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
 using BrickPile.Sample.ViewModels;
@@ -38,16 +40,16 @@ namespace BrickPile.Sample.Controllers {
         /// <param name="currentPage">The current page.</param>
         /// <returns></returns>
         public ActionResult Index(Home currentPage) {
-            
+
             var quotePage = currentPage.QuoteLink.Id != null ?
-                _documentSession.Load<IPageModel>(currentPage.QuoteLink.Id) :
+                _documentSession.Load<IPageModel>(currentPage.QuoteLink) :
                 null;
 
             var viewModel = new HomeViewModel
                                 {
                                     CurrentPage = currentPage,
                                     NavigationContext = _structureInfo.NavigationContext,
-                                    QuotePage = quotePage                                    
+                                    QuotePage = quotePage,
                                 };
 
             ViewBag.Class = "home";

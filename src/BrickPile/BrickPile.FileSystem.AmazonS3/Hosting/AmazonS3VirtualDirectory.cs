@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
-using System.Web.Hosting;
 using Amazon.S3;
 using Amazon.S3.Model;
+using BrickPile.Core.Hosting;
 
 namespace BrickPile.FileSystem.AmazonS3.Hosting {
     /// <summary>
     /// 
     /// </summary>
-    public class AmazonS3VirtualDirectory : VirtualDirectory {
+    public class AmazonS3VirtualDirectory : CommonVirtualDirectory {
         private readonly AmazonS3VirtualPathProvider _provider;
         private readonly string _virtualPath;
         private readonly AmazonS3Client _client;
@@ -41,7 +41,7 @@ namespace BrickPile.FileSystem.AmazonS3.Hosting {
         /// </summary>
         /// <param name="folder">The folder.</param>
         /// <returns></returns>
-        public IEnumerable<string> GetFolder(string folder) {
+        private IEnumerable<string> GetFolder(string folder) {
             var request = new ListObjectsRequest().WithBucketName(this._provider.BucketName).WithPrefix(folder);
             using (var response = this._client.ListObjects(request)) {
 
@@ -95,11 +95,19 @@ namespace BrickPile.FileSystem.AmazonS3.Hosting {
         /// <summary>
         /// Gets the parent.
         /// </summary>
-        public AmazonS3VirtualDirectory Parent {
+        public override CommonVirtualDirectory Parent {
             get {
                 var directory = VirtualPathUtility.GetDirectory(base.VirtualPath);
-                return (_provider.GetDirectory(directory) as AmazonS3VirtualDirectory);
+                return (_provider.GetDirectory(directory) as CommonVirtualDirectory);
             }
+        }
+        /// <summary>
+        /// Unifieds the virtual file.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        public override CommonVirtualFile CreateFile(string name) {
+            return new AmazonS3VirtualFile(this._provider, VirtualPathUtility.Combine(this.VirtualPath, name));
         }
         /// <summary>
         /// Gets the display name of the virtual resource.

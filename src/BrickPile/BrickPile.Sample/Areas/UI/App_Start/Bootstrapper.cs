@@ -18,13 +18,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Core.Infrastructure.Listeners;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
-using BrickPile.UI.Models;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
 using Raven.Client;
@@ -38,19 +38,31 @@ namespace BrickPile.UI.App_Start {
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
+    [Obsolete("Use RavenConfig and StructureMapConfig instead", true)]
     public class Bootstrapper {
         /// <summary>
         /// Configures StructureMap to look for registries.
         /// </summary>
         /// <returns></returns>
         public static IContainer Initialize() {
+
             ObjectFactory.Initialize(x => {
-                var documentStore = new EmbeddableDocumentStore { ConnectionStringName = "RavenDB" };
-                documentStore.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null;
+
+                var documentStore = new EmbeddableDocumentStore
+                {
+                    ConnectionStringName = "RavenDB",
+                    Conventions =
+                    {
+                        FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null
+                    }
+                };
+
                 documentStore.RegisterListener(new StoreListener());
                 documentStore.Initialize();
                 IndexCreation.CreateIndexes(typeof(DocumentsByParent).Assembly, documentStore);
+
                 x.For<IDocumentStore>().Use(documentStore);
+
                 x.For<IDocumentSession>()
                     .HybridHttpOrThreadLocalScoped()
                     .Use(y =>
@@ -58,11 +70,11 @@ namespace BrickPile.UI.App_Start {
                         var store = y.GetInstance<IDocumentStore>();
                         return store.OpenSession();
                     });
+
                 x.For<IVirtualPathResolver>().Use<VirtualPathResolver>();
                 x.For<IPathResolver>().Use<PathResolver>();
                 x.For<IPathData>().Use<PathData>();
                 x.For<IControllerMapper>().Use<ControllerMapper>();
-                x.For<ISettings>().Use<Settings>();
                 x.Scan(scanner =>
                 {
                     scanner.AssembliesFromApplicationBaseDirectory();
@@ -71,6 +83,7 @@ namespace BrickPile.UI.App_Start {
                 x.For<IPageModel>().UseSpecial(y => y.ConstructedBy( r => ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPageModel>()));
                 x.For<IStructureInfo>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.GetStructureInfo()));
             });
+
             return ObjectFactory.Container;
         }
     }

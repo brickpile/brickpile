@@ -24,44 +24,10 @@ using System.Linq;
 using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain.Models;
 using Raven.Client;
-using Raven.Client.Linq;
 
 namespace BrickPile.Core.Infrastructure.Common {
     public static class DocumentSessionExtensions {
-        /// <summary>
-        /// Method for retrieving all ancestors with their direct children from a specific page
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="session">The session.</param>
-        /// <param name="predicate">The predicate eg. the Id of a document</param>
-        /// <returns></returns>
-        [Obsolete("Renamed to GetPages",true)]
-        public static IQueryable<T> HierarchyFrom<T>(this IDocumentSession session, Func<PageModel, bool> predicate) where T : IPageModel {
 
-            var page = session.Query<PageModel, PageModelWithParentsAndChildren>()
-                .Include(x => x.Ancestors)
-                .Include(x => x.Children)
-                .Where(predicate)
-                .SingleOrDefault();
-
-            if (page == null) {
-                return null;
-            }
-
-            var ids = new List<string> { page.Id };
-            ids.AddRange(page.Children);
-
-            foreach (var ancestor in page.Ancestors.Where(ancestor => ancestor.Children != null)) {
-                if (!ids.Contains(ancestor.Id)) {
-                    ids.Add(ancestor.Id);
-                }
-                foreach (var child in ancestor.Children.Where(child => !ids.Contains(child))) {
-                    ids.Add(child);
-                }
-            }
-
-            return session.Load<T>(ids).AsQueryable();
-        }
         /// <summary>
         /// Gets the aggregated list of pages that is expanded based on the current page, primary used for creating page navigation.
         /// </summary>
@@ -91,7 +57,18 @@ namespace BrickPile.Core.Infrastructure.Common {
                 }
             }
 
-            return documentSession.Load<IPageModel>(ids).AsQueryable(); // .Where(x => x.Metadata.IsPublished).Where(x => !x.Metadata.IsDeleted).OrderBy(x => x.Metadata.SortOrder);
-        } 
+            return documentSession.Load<IPageModel>(ids).AsQueryable();
+        }
+
+        /// <summary>
+        /// Loads the specified document session.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="documentSession">The document session.</param>
+        /// <param name="pageReference">The page reference.</param>
+        /// <returns></returns>
+        public static T Load<T>(this IDocumentSession documentSession, PageReference pageReference) {
+            return documentSession.Load<T>(pageReference.Id);
+        }
     }
 }
