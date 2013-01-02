@@ -1,0 +1,23 @@
+﻿@model BrickPile.Sample.Controllers.IViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>title</title>
+    </head>
+    <body>
+        <div>
+            @using (Html.BeginForm()) {
+                @Html.EditorFor(x => x.Page.Metadata)
+
+                @Html.EditorFor(x => x.Content)
+                <input type="submit" value="Save" class="btn btn-large" />
+            }      
+        </div>
+    </body>
+</html>
