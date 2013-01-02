@@ -8,4 +8,3 @@ http://groups.google.com/group/brickpile
 
 ###For documentation see the BrickPile wiki:
 http://wiki.github.com/kloojed/brickpile
-
