@@ -3,6 +3,10 @@
   <appSettings>
     <add key="Raven/PluginsDirectory" value="~\App_Data\Plugins" />
   </appSettings>
+
+  <connectionStrings>
+    <add name="RavenDB" connectionString="Url = http://localhost:8080" />
+  </connectionStrings>  
   
 	<system.web>
     <membership defaultProvider="RavenDBMembership">
