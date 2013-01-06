@@ -33,7 +33,8 @@ namespace BrickPile.UI.Controllers {
 
    [Authorize]
     public class PagesController : Controller {
-        private dynamic _model;
+       private readonly IStructureInfo _structureInfo;
+       private dynamic _model;
         private readonly IDocumentSession _session;
         /// <summary>
         /// Default action
@@ -50,19 +51,12 @@ namespace BrickPile.UI.Controllers {
                 return View("Start", new NewModel());
             }
 
-            var id = (string)_model.Id;
-            var parentId = _model.Parent != null ? (string)_model.Parent.Id : null;
-
             var viewModel = new IndexViewModel
                                 {
-                                    RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
-                                    CurrentModel = _model,
-                                    ParentModel = parentId != null ? _session.Load<IPageModel>(parentId) : null,
-                                    Children = _session.Query<IPageModel, DocumentsByParent>()
-                                        .Where(model => model.Parent.Id == id)
-                                        .Where(model => model.Metadata.IsDeleted == deleted)
-                                        .OrderBy(model => model.Metadata.SortOrder)
-                                        .ToList()
+                                    RootModel = _structureInfo.StartPage,
+                                    CurrentModel = _structureInfo.CurrentPage,
+                                    ParentModel = _structureInfo.ParentPage,
+                                    Children = _structureInfo.NavigationContext.Where(x => _structureInfo.CurrentPage.Children.Contains(x.Id))
                                 };
             
             return View("Index", viewModel);
@@ -73,18 +67,16 @@ namespace BrickPile.UI.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult Edit() {
-            IPageModel parent = _model.Parent != null ? _session.Load<IPageModel>(_model.Parent.Id) : null;
+
             var viewModel = new EditViewModel
                                 {
-                                    RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
-                                    CurrentModel = _model,
-                                    ParentModel = parent,
-                                    IlligalSlugs = parent != null ? Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(parent.Children).Select(x => x .Metadata.Slug)) : null
+                                    RootModel = _structureInfo.StartPage,
+                                    CurrentModel = _structureInfo.CurrentPage,
+                                    ParentModel = _structureInfo.ParentPage,
+                                    IlligalSlugs = _structureInfo.ParentPage != null ?
+                                        Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(_structureInfo.ParentPage.Children).Select(x => x.Metadata.Slug)) :
+                                        null
                                 };
-
-            if (Request.IsAjaxRequest()) {
-                return PartialView("Edit", viewModel);
-            }
 
             ViewBag.Class = "edit";
             return View(viewModel);
@@ -98,13 +90,14 @@ namespace BrickPile.UI.Controllers {
         public virtual ActionResult Update() {
 
             if (!TryUpdateModel(_model, "CurrentModel")) {
-                var parentId = _model.Parent != null ? (string)_model.Parent.Id : null;
+
                 var viewModel = new EditViewModel
                 {
-                    RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
-                    CurrentModel = _model,
-                    ParentModel = parentId != null ? _session.Load<IPageModel>(parentId) : null,
+                    RootModel = _structureInfo.StartPage,
+                    CurrentModel = _structureInfo.CurrentPage,
+                    ParentModel = _structureInfo.ParentPage,
                 };
+
                 return View("edit", viewModel);
             }
 
@@ -117,8 +110,9 @@ namespace BrickPile.UI.Controllers {
 
             var page = _model as IPageModel;
 
-            if (page.Parent != null) {
-                _model = _session.Load<IPageModel>(page.Parent.Id);
+            if (page.Parent != null)
+            {
+                _model = _structureInfo.ParentPage;
             }
 
             return RedirectToAction("index", new { model = _model });
@@ -175,16 +169,15 @@ namespace BrickPile.UI.Controllers {
                 page.Metadata.Published = DateTime.Now;
 
                 var viewModel = new NewPageViewModel
-                                    {
-                                        RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
-                                        ParentModel = parent,
-                                        NewPageModel = page,
-                                        SlugsInUse = parent != null ? Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(parent.Children).Select(x => x.Metadata.Slug)) : null
-                                    };
-                
+                {
+                    RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
+                    ParentModel = parent,
+                    NewPageModel = page,
+                    SlugsInUse = parent != null ? Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(parent.Children).Select(x => x.Metadata.Slug)) : null
+                };
+
                 ViewBag.Class = "edit";
                 return View("new", viewModel);
-                //return PartialView("new", viewModel);
 
             }
 
@@ -198,12 +191,14 @@ namespace BrickPile.UI.Controllers {
         [ValidateInput(false)]
         public virtual ActionResult Save() {
 
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 var parent = _model as PageModel;
                 // create a new page from the new model
                 var page = Activator.CreateInstance(Type.GetType(Request.Form["AssemblyQualifiedName"])) as dynamic;
 
-                if(!TryUpdateModel(page,"NewPageModel")) {
+                if (!TryUpdateModel(page, "NewPageModel"))
+                {
                     var viewModel = new NewPageViewModel
                     {
                         RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
@@ -219,7 +214,8 @@ namespace BrickPile.UI.Controllers {
                 // Store the new page
                 _session.Store(page);
                 // Set the parent if it's not the start page
-                if (parent != null) {
+                if (parent != null)
+                {
                     page.Parent = _model;
                     parent.Children.Add(page.Id);
 
@@ -230,7 +226,7 @@ namespace BrickPile.UI.Controllers {
                 // Set changed date
                 page.Metadata.Changed = DateTime.Now;
                 page.Metadata.ChangedBy = HttpContext.User.Identity.Name;
-                
+
                 // Add page to repository and save changes
                 _session.SaveChanges();
 
@@ -285,12 +281,15 @@ namespace BrickPile.UI.Controllers {
 
             return Json(r, JsonRequestBehavior.AllowGet);
         }
-        /// <summary>
-        /// Initializes a new instance of the <b>PagesController</b> class.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        /// <param name="session">The session.</param>
-        public PagesController(IPageModel model, IDocumentSession session) {
+
+       /// <summary>
+       /// Initializes a new instance of the <b>PagesController</b> class.
+       /// </summary>
+       /// <param name="structureInfo"></param>
+       /// <param name="model">The model.</param>
+       /// <param name="session">The session.</param>
+       public PagesController(IStructureInfo structureInfo, IPageModel model, IDocumentSession session) {
+            _structureInfo = structureInfo;
             _model = model;
             _session = session;
         }
