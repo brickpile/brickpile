@@ -345,7 +345,7 @@ var VirtualFileView = Backbone.View.extend({
 
     events: {
         'click a.asset-item': 'select',
-        'click a.delete': 'remove',
+        'click button.delete': 'remove',
     },
 
     select: function (ev) {
@@ -390,21 +390,12 @@ var VirtualFileView = Backbone.View.extend({
     },
 
     initialize: function () {
-        this.$el.hoverIntent( this.showTools , this.hideTools );
-    },
-    
-    /*
-        Show tool button
-    */
-    showTools: function(e) {
-        $(e.currentTarget).find('.dropdown-toggle').fadeIn('fast');
-    },
-    
-    /*
-        Hide tool button if the dropdown not is open
-    */
-    hideTools: function (e) {
-        $(e.currentTarget).find('.dropdown-toggle').fadeOut('fast');
+        this.$el.hoverIntent(
+            function (e) {
+                $(e.currentTarget).find('button.delete').fadeIn('fast');
+        },  function (e) {
+                $(e.currentTarget).find('button.delete').fadeOut('fast');
+        });
     },
 
     render: function () {
