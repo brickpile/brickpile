@@ -14,40 +14,38 @@
   <items type="class" path="BrickPile.Sample/Areas" generateXml="false" target="runtime|testDebug" autover="true">
     <item name="BrickPile.UI" projectFolderName="UI" type="web" />
   </items>
-  <items path="packages/NUnit.2.6.0.12054/lib" type="reference" target="testDebug">
+  <items path="packages/NUnit.2.6.2/lib" type="reference" target="testDebug">
     <item name="nunit.framework.dll"/>
   </items>
   <items path="packages/Moq.4.0.10827/lib/NET40" type="reference" target="testDebug">
     <item name="Moq.dll"/>
   </items>  
-  <items path="packages/structuremap.2.6.3/lib" type="reference" target="testDebug">
+  <items path="packages/structuremap.2.6.4.1/lib" type="reference" target="testDebug">
     <item name="StructureMap.dll"/>
   </items>
-  <items path="packages/RavenDB.Embedded.1.2.2083-Unstable/lib/net40" type="reference" target="testDebug">
+  <items path="packages/RavenDB.Embedded.2.0.2230/lib/net40" type="reference" target="testDebug">
     <item name="Raven.Client.Embedded.dll"/>  
   </items>
-  <items path="packages/RavenDB.Database.1.2.2083-Unstable/lib/net40" type="reference" target="testDebug">
-    <item name="BouncyCastle.Crypto.dll" />
+  <items path="packages/RavenDB.Database.2.0.2230/lib/net40" type="reference" target="testDebug">
     <item name="Esent.Interop.dll" />
-    <item name="FSharp.Core.dll" />
     <item name="GeoAPI.dll" />
+    <item name="ICSharpCode.NRefactory.CSharp.dll" />
     <item name="ICSharpCode.NRefactory.dll" />
+    <item name="Jint.Raven.dll" />
     <item name="Lucene.Net.Contrib.Spatial.NTS.dll" />
     <item name="Lucene.Net.dll" />
-    <item name="NetTopologySuite.dll" />
-    <item name="PowerCollections.dll" />
-    <item name="Raven.Abstractions.dll"/>
-    <item name="Raven.Database.dll"/>
+    <item name="Mono.Cecil.dll" />
+    <item name="NetTopologySuite.dll"/>
+    <item name="PowerCollections.dll"/>
+    <item name="Raven.Abstractions.dll" />
+    <item name="Raven.Database.dll" />
     <item name="Spatial4n.Core.NTS.dll" />
   </items>
-  <items path="packages/RavenDB.Client.1.2.2083-Unstable/lib/net40" type="reference" target="testDebug">
+  <items path="packages/RavenDB.Client.2.0.2230/lib/net40" type="reference" target="testDebug">
     <item name="Raven.Abstractions.dll" />
     <item name="Raven.Client.Lightweight.dll" />
   </items>
-  <items path="packages/NLog.2.0.0.2000/lib/net40" type="reference" target="testDebug">
-    <item name="NLog.dll"/>
-  </items>
-  <items path="packages/Newtonsoft.Json.4.5.1/lib/net40" type="reference" target="testDebug">
+  <items path="packages/Newtonsoft.Json.4.5.11/lib/net40" type="reference" target="testDebug">
     <item name="Newtonsoft.Json.dll"/>
   </items>
   <items type="nunit" target="testDebug" autover="true" framework="4.0">

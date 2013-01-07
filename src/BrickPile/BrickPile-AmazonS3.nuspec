@@ -13,7 +13,7 @@
     <description>Amazon S3 virtual path provider for BrickPile CMS</description>
 		<tags>brickpile cms ravendb mvc nosql amazon s3</tags>
     <dependencies>
-      <dependency id="AWSSDK" version="1.4.6.3" />
+      <dependency id="AWSSDK" version="1.5.10.0" />
     </dependencies>
   </metadata>
 </package>
