@@ -22,10 +22,17 @@ namespace BrickPile.Tests.Web.Routing {
         /// </summary>
         [SetUp]
         public void Setup() {
-            _store = new EmbeddableDocumentStore { RunInMemory = true };
+            _store = new EmbeddableDocumentStore
+            {
+                RunInMemory = true,
+                Conventions =
+                {
+                    FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null
+                }
+            };
+            
             _store.Initialize();
-            _store.Conventions.FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null;
-            IndexCreation.CreateIndexes(typeof(PageByUrl).Assembly, _store);
+            IndexCreation.CreateIndexes(typeof(DocumentsByParent).Assembly, _store);
         }
         /// <summary>
         /// Tears down.
@@ -209,7 +216,7 @@ namespace BrickPile.Tests.Web.Routing {
             
         //}
 
-        [TestCase("/mypage")]
+        //[TestCase("/mypage")]
         public void Can_Create_Model_WithOut_Inheritance(string url) {
 
             // Arrange
@@ -258,7 +265,8 @@ namespace BrickPile.Tests.Web.Routing {
                 var pageModel = new DummyModel
                 {
                     Id = "DummyPages/1",
-                    Parent = null
+                    Parent = null,
+                    Metadata = { Name = "Foo" }
                 };
                 session.Store(pageModel);
                 session.SaveChanges();
@@ -266,22 +274,57 @@ namespace BrickPile.Tests.Web.Routing {
             }
             using (var session = _store.OpenSession()) {
 
-                //data = session.Query<IPageModel, AllPages>()
-                //    .Customize(x => x.WaitForNonStaleResults())
-                //    .SingleOrDefault(x => x.Parent == null);
+                data = session.Query<IPageModel>()
+                    .Customize(x => x.WaitForNonStaleResults())
+                    .SingleOrDefault(x => x.Metadata.Name == "Foo");
             }
 
             // Assert
-            //Assert.NotNull(data);
+            Assert.NotNull(data);
+        }
+
+        //[Test]
+        public void Can_Query_Page_By_Type() {
+
+            // Arrange
+            List<StandardPage> data;
+
+            // Act
+            using (var session = _store.OpenSession()) {
+
+                var pageModel = new DummyModel
+                {
+                    Id = "DummyPages/1",
+                    Parent = null,
+                    Metadata = { Name = "Foo" }
+                };
+
+                var standardPage = new StandardPage
+                {
+                    Parent = pageModel,
+                    Metadata = {Name = "Page"}
+                };
+
+                session.Store(standardPage);
+                session.Store(pageModel);
+                session.SaveChanges();
+
+            }
+
+            using (var session = _store.OpenSession()) {
+
+                data = session.Query<StandardPage>().ToList();
+
+            }
+
+            // Assert
+            Assert.NotNull(data);
+            Assert.AreEqual(1, data.Count);
         }
     }
 
     [PageType(Name = "Standard page", ControllerType = typeof(DummyController))]
-    public class StandardPage {
-
-        public string Id { get; set; }
-
-    }
+    public class StandardPage : PageModel { }
 
     [PageType(Name = "Dummy", ControllerType = typeof(DummyController))]
     public class DummyModel : PageModel { }
