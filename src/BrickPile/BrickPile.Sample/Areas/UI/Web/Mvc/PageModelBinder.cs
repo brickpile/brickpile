@@ -1,9 +1,8 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using BrickPile.Domain.Models;
-using Image = BrickPile.UI.Models.Image;
+using BrickPile.Core.DataAnnotations;
 
 namespace BrickPile.UI.Web.Mvc {
     /// <summary>
@@ -16,72 +15,17 @@ namespace BrickPile.UI.Web.Mvc {
         /// <param name="controllerContext">The context within which the controller operates. The context information includes the controller, HTTP content, request context, and route data.</param>
         /// <param name="bindingContext">The context within which the model is bound. The context includes information such as the model object, model name, model type, property filter, and value provider.</param>
         protected override void OnModelUpdated(ControllerContext controllerContext, ModelBindingContext bindingContext) {
-
             foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(bindingContext.ModelType)) {
-
                 var attributes = property.Attributes;
                 if (attributes.Count == 0) continue;
-
                 foreach (var attribute in attributes) {
-
-                    // We can only handle
                     if (attribute.GetType().BaseType != typeof (ValidationAttribute)) continue;
-
-                    if (property.PropertyType == typeof (PageReference)) {
-
-                        var pageReference =
-                            bindingContext.ModelType.GetProperty(property.Name).GetValue(bindingContext.Model, null)
-                            as PageReference;
-
-                        Type attrType = attribute.GetType();
-
-                        if (attrType == typeof (RequiredAttribute) && string.IsNullOrEmpty(pageReference.Name)) {
-
-                            var displayAttr = property.Attributes[typeof (DisplayAttribute)] as DisplayAttribute;
-                            var displayName = displayAttr != null ? displayAttr.Name : property.DisplayName;
-
-                            bindingContext.ModelState.AddModelError(property.Name,
-                                                                    ((RequiredAttribute) attribute).
-                                                                        FormatErrorMessage(displayName));
+                    if (typeof(IValidatableProperty).IsAssignableFrom((property.PropertyType))) {
+                        var propertyInfo = bindingContext.ModelType.GetProperty(property.Name).GetValue(bindingContext.Model, null);
+                        var result = ((IValidatableProperty)propertyInfo).Validate(new ValidationContext(propertyInfo, null, null), property);
+                        if(result != ValidationResult.Success) {
+                             bindingContext.ModelState.AddModelError(string.Join(", ", result.MemberNames), result.ErrorMessage);
                         }
-                    }
-
-                    if(property.PropertyType == typeof(Image)) {
-                        var image =
-                            bindingContext.ModelType.GetProperty(property.Name).GetValue(bindingContext.Model, null)
-                            as Image;
-
-                        Type attrType = attribute.GetType();
-
-                        if (attrType == typeof(RequiredAttribute) && string.IsNullOrEmpty(image.VirtualUrl)) {
-
-                            var displayAttr = property.Attributes[typeof(DisplayAttribute)] as DisplayAttribute;
-                            var displayName = displayAttr != null ? displayAttr.Name : property.DisplayName;
-
-                            bindingContext.ModelState.AddModelError(property.Name,
-                                                                    ((RequiredAttribute)attribute).
-                                                                        FormatErrorMessage(displayName));
-                        }
-                            
-                    }
-
-                    if (property.PropertyType == typeof(HtmlString)) {
-                        var html =
-                            bindingContext.ModelType.GetProperty(property.Name).GetValue(bindingContext.Model, null)
-                            as HtmlString;
-
-                        Type attrType = attribute.GetType();
-
-                        if (attrType == typeof(RequiredAttribute) && string.IsNullOrEmpty(html.Html)) {
-
-                            var displayAttr = property.Attributes[typeof(DisplayAttribute)] as DisplayAttribute;
-                            var displayName = displayAttr != null ? displayAttr.Name : property.DisplayName;
-
-                            bindingContext.ModelState.AddModelError(property.Name,
-                                                                    ((RequiredAttribute)attribute).
-                                                                        FormatErrorMessage(displayName));
-                        }
-
                     }
                 }
             }

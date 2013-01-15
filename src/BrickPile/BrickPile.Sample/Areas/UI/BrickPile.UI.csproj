@@ -147,7 +147,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="App_Start\Initializer.cs" />
     <Compile Include="App_Start\PageModelRegistrationConvetion.cs" />
     <Compile Include="App_Start\RavenConfig.cs" />
@@ -159,14 +158,12 @@
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AssetController.cs" />
-    <Compile Include="Controllers\AssetsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="Controllers\UIController.cs" />
     <Compile Include="HierarchyNode.cs" />
     <Compile Include="IHierarchyNode.cs" />
-    <Compile Include="InputBuilder.cs" />
     <Compile Include="IStructureInfo.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\EditModelReferenceModel.cs">
