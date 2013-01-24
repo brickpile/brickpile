@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata>
 		<id>BrickPile</id>
-		<version>${project.fileVersion}-Unstable</version>
+		<version>$version$-Unstable</version>
     <title>BrickPile</title>
     <summary>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4</summary>
 		<authors>Marcus Lindblom</authors>
