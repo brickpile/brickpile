@@ -107,7 +107,7 @@ namespace BrickPile.Tests.Web.Hosting {
                 Assert.AreEqual("/s3/",directory.VirtualPath);
             });
         }
-        [Test]
+        //[Test]
         public void Can_Upload_File() {
             // Use the special "Execute" method to run code
             // in the special AppDomain.

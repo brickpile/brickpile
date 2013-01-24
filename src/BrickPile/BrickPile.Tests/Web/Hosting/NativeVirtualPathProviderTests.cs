@@ -12,6 +12,8 @@ namespace BrickPile.Tests.Web.Hosting {
         private AppDomain _hostingEnvironmentDomain = null;
         private const string SubFolderPathToDelete = @"c:\temp\sub\subfolder\";
         private const string FolderToDelete = @"c:\temp\sub\foldertodelete\";
+        private const string FileToLoad = @"c:\temp\test.txt";
+
         /// <summary>
         /// Setups this instance.
         /// </summary>
@@ -40,6 +42,8 @@ namespace BrickPile.Tests.Web.Hosting {
             // Create directory to delete
             Directory.CreateDirectory(FolderToDelete);
 
+            //File.Create(FileToLoad);
+
         }
         /// <summary>
         /// Tests the fixture tear down.
@@ -48,6 +52,8 @@ namespace BrickPile.Tests.Web.Hosting {
         public void TestFixtureTearDown() {
             // Delete sub folder
             Directory.Delete(SubFolderPathToDelete);
+
+            //File.Delete(FileToLoad);
 
             // When the fixture is done, tear down the special AppDomain.
             AppDomain.Unload(this._hostingEnvironmentDomain);
@@ -64,24 +70,25 @@ namespace BrickPile.Tests.Web.Hosting {
         /// <summary>
         /// Can_s the load_ file_ from_ disc_ root.
         /// </summary>
-        [Test]
+        //[Test]
         public void Can_Load_File_From_Disc_Root() {
             // Use the special "Execute" method to run code
             // in the special AppDomain.
             this.Execute(() =>
             {
                 var file = HostingEnvironment.VirtualPathProvider.GetFile("/assets/test.txt");
-                var stream = file.Open();
-                Assert.NotNull(stream);
-                Assert.IsFalse(file.IsDirectory);
-                Assert.NotNull(file);
-                Console.WriteLine("Test.txt virtual path" + file.VirtualPath);
+                using(var s = file.Open()) {
+                    Assert.NotNull(s);
+                    Assert.IsFalse(file.IsDirectory);
+                    Assert.NotNull(file);
+                    Console.WriteLine("Test.txt virtual path" + file.VirtualPath);                    
+                }
             });
         }
         /// <summary>
         /// Can_s the load_ file_ from_ sub folder.
         /// </summary>
-        [Test]
+        //[Test]
         public void Can_Load_File_From_SubFolder() {
             // Use the special "Execute" method to run code
             // in the special AppDomain.
@@ -180,7 +187,7 @@ namespace BrickPile.Tests.Web.Hosting {
         /// <summary>
         /// Delete_s the directory.
         /// </summary>
-        [Test]
+        //[Test]
         public void Create_And_Save_New_File_In_Directory() {
 
             // Use the special "Execute" method to run code
