@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Web;
 using System.Web.Hosting;
 using BrickPile.Core.Hosting;
@@ -12,7 +13,7 @@ namespace BrickPile.Tests.Web.Hosting {
         private AppDomain _hostingEnvironmentDomain = null;
         private const string SubFolderPathToDelete = @"c:\temp\sub\subfolder\";
         private const string FolderToDelete = @"c:\temp\sub\foldertodelete\";
-        private const string FileToLoad = @"c:\temp\test.txt";
+        private readonly string _fileToLoad = Path.Combine(Path.GetTempPath(), "test.txt");
 
         /// <summary>
         /// Setups this instance.
@@ -42,8 +43,9 @@ namespace BrickPile.Tests.Web.Hosting {
             // Create directory to delete
             Directory.CreateDirectory(FolderToDelete);
 
-            //File.Create(FileToLoad);
+            File.Create(_fileToLoad);
 
+            Thread.Sleep(500);
         }
         /// <summary>
         /// Tests the fixture tear down.
@@ -53,7 +55,7 @@ namespace BrickPile.Tests.Web.Hosting {
             // Delete sub folder
             Directory.Delete(SubFolderPathToDelete);
 
-            //File.Delete(FileToLoad);
+            File.Delete(_fileToLoad);
 
             // When the fixture is done, tear down the special AppDomain.
             AppDomain.Unload(this._hostingEnvironmentDomain);
@@ -126,6 +128,7 @@ namespace BrickPile.Tests.Web.Hosting {
         public void File_Exists() {
             // Use the special "Execute" method to run code
             // in the special AppDomain.
+            
             this.Execute(() =>
             {
                 var fileExists = HostingEnvironment.VirtualPathProvider.FileExists("/assets/test.txt");
