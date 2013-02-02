@@ -128,6 +128,7 @@ var NewAssetDialogView = Backbone.View.extend({
 
         this.template = _.template($('#view-template-new-asset-dialog').html());
 
+
         this.$el.bind('dragenter dragover', false).bind('drop', function (evt) {
 
             evt.stopPropagation();
@@ -202,6 +203,31 @@ var NewAssetDialogView = Backbone.View.extend({
         var self = this;
 
         this.$el.html(this.template());
+
+        // Attach event for handling single/multiple files added using browse
+        this.$el.find('.manual-file-chooser').change(function () {
+            
+            jQuery.each($(this)[0].files, function (i, file) {
+
+                self.data.push(file);
+
+                var droppedFile = new DroppedFile({
+                    name: file.name,
+                    fileSize: bytesToSize(file.size)
+                });
+
+                var view = new DroppedFileView({ model: droppedFile });
+
+                self.models.push(droppedFile);
+
+                var $li = view.render().$el;
+                $('#droparea ul').append($li);
+
+                self._updateStatus();
+
+            });
+            
+        });
 
         self.$el.click(function (e) {
             e.stopPropagation();
