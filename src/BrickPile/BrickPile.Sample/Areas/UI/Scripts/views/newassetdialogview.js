@@ -160,6 +160,8 @@ var NewAssetDialogView = Backbone.View.extend({
                         self._updateStatus();
 
                     }
+                    
+                    self._upload();
 
                 } else {
                     alert("your browser sucks!");
@@ -206,8 +208,8 @@ var NewAssetDialogView = Backbone.View.extend({
 
         // Attach event for handling single/multiple files added using browse
         this.$el.find('.manual-file-chooser').change(function () {
-            
-            jQuery.each($(this)[0].files, function (i, file) {
+
+            $.each($(this)[0].files, function (i, file) {
 
                 self.data.push(file);
 
@@ -226,7 +228,9 @@ var NewAssetDialogView = Backbone.View.extend({
                 self._updateStatus();
 
             });
-            
+
+            self._upload();
+
         });
 
         self.$el.click(function (e) {
