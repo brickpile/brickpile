@@ -203,6 +203,10 @@ var NewAssetDialogView = Backbone.View.extend({
 
         this.$el.html(this.template());
 
+        self.$el.click(function (e) {
+            e.stopPropagation();
+        });
+
         // Bind event closing the dialog on esc
         $(document).keyup(function (e) {
             if (e.keyCode == 27) {
