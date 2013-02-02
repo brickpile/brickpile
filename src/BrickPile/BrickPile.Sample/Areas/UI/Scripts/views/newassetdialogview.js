@@ -26,7 +26,6 @@ var NewAssetDialogView = Backbone.View.extend({
 
     events: {
         'click #btn-upload': '_upload',
-        'click #btn-cancel': 'close',
         'click a.remove': 'remove'
     },
 
@@ -34,10 +33,9 @@ var NewAssetDialogView = Backbone.View.extend({
     close: function () {
 
         $(this.el).fadeOut('fast', function () {
-
             $(this).remove();
             $('html').unbind('click');
-
+            $('body').unbind('click');
         });
 
     },
@@ -169,7 +167,7 @@ var NewAssetDialogView = Backbone.View.extend({
 
         });
 
-        
+
         self.data = new Array();
 
         self.models = new Array();
@@ -201,8 +199,22 @@ var NewAssetDialogView = Backbone.View.extend({
     },
 
     render: function () {
+        var self = this;
 
         this.$el.html(this.template());
+
+        // Bind event closing the dialog on esc
+        $(document).keyup(function (e) {
+            if (e.keyCode == 27) {
+                self.close();
+            }
+        });
+
+        // Bind event closing the dialog on body click
+        $('body').bind('click', function () {
+            self.close();
+        });
+
         return this;
 
     }
