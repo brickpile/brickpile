@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Threading;
 using System.Web;
 using System.Web.Hosting;
 using BrickPile.Core.Hosting;
@@ -10,10 +9,7 @@ using NUnit.Framework;
 
 namespace BrickPile.Tests.Web.Hosting {
     class NativeVirtualPathProviderTests {
-        private AppDomain _hostingEnvironmentDomain = null;
-        private const string SubFolderPathToDelete = @"c:\temp\sub\subfolder\";
-        private const string FolderToDelete = @"c:\temp\sub\foldertodelete\";
-        private readonly string _fileToLoad = Path.Combine(Path.GetTempPath(), "test.txt");
+        private AppDomain _hostingEnvironmentDomain;
 
         /// <summary>
         /// Setups this instance.
@@ -40,22 +36,16 @@ namespace BrickPile.Tests.Web.Hosting {
             // Finally, register your VPP instance so you can test.
             this.Execute(() => HostingEnvironment.RegisterVirtualPathProvider(new NativeVirtualPathProvider()));
 
-            // Create directory to delete
-            Directory.CreateDirectory(FolderToDelete);
-
-            File.Create(_fileToLoad);
-
-            Thread.Sleep(500);
         }
         /// <summary>
         /// Tests the fixture tear down.
         /// </summary>
         [TestFixtureTearDown]
         public void TestFixtureTearDown() {
-            // Delete sub folder
-            Directory.Delete(SubFolderPathToDelete);
-
-            File.Delete(_fileToLoad);
+            
+            if(Directory.Exists(@"c:\temp\sub")) {
+                Directory.Delete(@"c:\temp\sub");    
+            }
 
             // When the fixture is done, tear down the special AppDomain.
             AppDomain.Unload(this._hostingEnvironmentDomain);
@@ -72,7 +62,7 @@ namespace BrickPile.Tests.Web.Hosting {
         /// <summary>
         /// Can_s the load_ file_ from_ disc_ root.
         /// </summary>
-        //[Test]
+        [Test]
         public void Can_Load_File_From_Disc_Root() {
             // Use the special "Execute" method to run code
             // in the special AppDomain.
@@ -85,23 +75,6 @@ namespace BrickPile.Tests.Web.Hosting {
                     Assert.NotNull(file);
                     Console.WriteLine("Test.txt virtual path" + file.VirtualPath);                    
                 }
-            });
-        }
-        /// <summary>
-        /// Can_s the load_ file_ from_ sub folder.
-        /// </summary>
-        //[Test]
-        public void Can_Load_File_From_SubFolder() {
-            // Use the special "Execute" method to run code
-            // in the special AppDomain.
-            this.Execute(() =>
-            {
-                var file = HostingEnvironment.VirtualPathProvider.GetFile("/assets/sub/test.txt");
-                var stream = file.Open();
-                Assert.NotNull(stream);
-                Assert.IsFalse(file.IsDirectory);
-                Assert.NotNull(file);
-                Console.WriteLine("test.txt virtual path" + file.VirtualPath);
             });
         }
         /// <summary>
@@ -144,7 +117,7 @@ namespace BrickPile.Tests.Web.Hosting {
             // in the special AppDomain.
             this.Execute(() =>
             {
-                var directoryExists = HostingEnvironment.VirtualPathProvider.DirectoryExists("/assets/sub/");
+                var directoryExists = HostingEnvironment.VirtualPathProvider.DirectoryExists("/assets/");
                 Assert.IsTrue(directoryExists);
             });
         }
@@ -157,10 +130,9 @@ namespace BrickPile.Tests.Web.Hosting {
             // in the special AppDomain.
             this.Execute(() =>
             {
-                var directory = HostingEnvironment.VirtualPathProvider.GetDirectory("/assets/sub/");
+                var directory = HostingEnvironment.VirtualPathProvider.GetDirectory("/assets/");
                 Assert.IsNotNull(directory);
                 Assert.IsTrue(directory.IsDirectory);
-                Assert.AreEqual("Sub", directory.Name);
             });
         }
         [Test]
@@ -169,21 +141,26 @@ namespace BrickPile.Tests.Web.Hosting {
             // in the special AppDomain.
             this.Execute(() =>
             {
-                var directory = HostingEnvironment.VirtualPathProvider.GetDirectory("/assets/sub/") as CommonVirtualDirectory;
-                directory.CreateDirectory("SubFolder");
+                var directory = HostingEnvironment.VirtualPathProvider.GetDirectory("/assets/") as CommonVirtualDirectory;
+                directory.CreateDirectory("sub");
             });
         }
         /// <summary>
         /// Delete_s the directory.
         /// </summary>
-        [Test]
+        //[Test]
         public void Delete_Directory() {
-            
             // Use the special "Execute" method to run code
             // in the special AppDomain.
+            
+            // arrange
+            if(!Directory.Exists(@"c:\temp\sub")) {
+                Directory.CreateDirectory(@"c:\temp\sub");
+            }
+
             this.Execute(() =>
             {
-                var directory = HostingEnvironment.VirtualPathProvider.GetDirectory("/assets/sub/foldertodelete") as CommonVirtualDirectory;
+                var directory = HostingEnvironment.VirtualPathProvider.GetDirectory("/assets/sub") as CommonVirtualDirectory;
                 directory.Delete();
             });
         }
