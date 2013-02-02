@@ -313,6 +313,7 @@
     <Content Include="Scripts\backbone.min.js" />
     <Content Include="Scripts\bootstrap-dropwdown.js" />
     <Content Include="Scripts\brickpile.js" />
+    <Content Include="Scripts\custom\editor\HtmlEditorVirtualFilePropertyView.js" />
     <Content Include="Scripts\jquery-1.8.3-vsdoc.js" />
     <Content Include="Scripts\jquery-1.8.3.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
@@ -664,6 +665,7 @@
     <Content Include="Views\Shared\_Navigation.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Image.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Html.cshtml" />
+    <Content Include="Views\Shared\AssetManager.cshtml" />
     <None Include="Views\Shared\EditorTemplates\Image.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ModelReference.cshtml" />
     <None Include="Views\Shared\EditorTemplates\Object.cshtml" />

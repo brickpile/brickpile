@@ -52,7 +52,8 @@ namespace BrickPile.Sample.Models {
         /// The main body.
         /// </value>
         //[Required(ErrorMessage = "What know then?")]
-        public HtmlString MainBody { get; set; }
+        [DataType(DataType.Html)]
+        public string MainBody { get; set; }
         /// <summary>
         /// Gets or sets the page reference.
         /// </summary>

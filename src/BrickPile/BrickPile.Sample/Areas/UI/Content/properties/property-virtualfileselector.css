@@ -71,13 +71,12 @@ input[type=text].alttext {
        -moz-background-clip: padding-box;
             background-clip: padding-box;
             
-    
-    position: fixed;
-    top: 50%;
+    position: absolute;
+    top: 0;
     left: 50%;
-    z-index: 1000;
+    margin: 0 0 0 -500px;
+    z-index: 999999;
     width: 1000px;
-    margin: -350px 0 0 -500px;    
 }
 
 #asset-dialog-header {

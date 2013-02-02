@@ -812,6 +812,7 @@ fieldset .editor-field {
 	padding:.65em 1em .75em;
     text-align: left;
     width: 618px;
+    position: relative;
 }
 
 fieldset .editor-field .editor-field { padding:2.2em 0 0; }
