@@ -1,11 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using BrickPile.Domain;
-using BrickPile.Domain.Models;
+using BrickPile.UI.Web.ViewModels;
 
 namespace BrickPile.Sample.Models {
-    [PageType]
-    public class PropertyTest : PageModel {
+    [ContentType]
+    public class PropertyTest : IContent {
+
+        [ScaffoldColumn(false)]
+        public string Id { get; set; }
 
         public bool? NullableBool { get; set; }
 

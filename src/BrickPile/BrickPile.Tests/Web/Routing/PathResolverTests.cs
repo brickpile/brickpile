@@ -7,6 +7,7 @@ using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
+using BrickPile.UI.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
@@ -62,8 +63,11 @@ namespace BrickPile.Tests.Web.Routing {
 
             using (var session = _store.OpenSession()) {
 
+                var content = new StandardPage();
+                session.Store(content);
+
                 // create and store a new page model
-                var pageModel = new DummyModel { Parent = null };
+                var pageModel = new PageModel { Parent = null, ContentReference = content.Id };
                 session.Store(pageModel);
                 session.SaveChanges();
 
@@ -98,8 +102,11 @@ namespace BrickPile.Tests.Web.Routing {
             // Act
             IPathData data;
             using (var session = _store.OpenSession()) {
+                var content = new StandardPage();
+                session.Store(content);
+
                 // create and store a new page model
-                var pageModel = new DummyModel { Metadata = { Url = "page" } };
+                var pageModel = new PageModel { Metadata = { Url = "page" }, ContentReference = content.Id };
                 session.Store(pageModel);
                 session.SaveChanges();
 
@@ -132,8 +139,12 @@ namespace BrickPile.Tests.Web.Routing {
             // Act
             IPathData data;
             using (var session = _store.OpenSession()) {
+
+                var content = new StandardPage();
+                session.Store(content);
+
                 // create and store a new page model
-                var pageModel = new DummyModel { Metadata = { Url = "page" } };
+                var pageModel = new PageModel { Metadata = { Url = "page" }, ContentReference = content.Id };
                 session.Store(pageModel);
                 session.SaveChanges();
 
@@ -169,9 +180,15 @@ namespace BrickPile.Tests.Web.Routing {
             // Act
             IPathData data;
             using (var session = _store.OpenSession()) {
+
+                var content = new StandardPage();
+                session.Store(content);
+
                 // create and store a new page model
-                var pageModel = new DummyModel { Parent = null };
+
+                var pageModel = new PageModel { Parent = null, ContentReference = content.Id };
                 session.Store(pageModel);
+
                 session.SaveChanges();
 
                 var resolver = new PathResolver(session, pathData, mapper.Object, container.Object);
@@ -262,7 +279,7 @@ namespace BrickPile.Tests.Web.Routing {
             // Act
             using (var session = _store.OpenSession()) {
 
-                var pageModel = new DummyModel
+                var pageModel = new PageModel
                 {
                     Id = "DummyPages/1",
                     Parent = null,
@@ -292,20 +309,13 @@ namespace BrickPile.Tests.Web.Routing {
             // Act
             using (var session = _store.OpenSession()) {
 
-                var pageModel = new DummyModel
+                var pageModel = new PageModel
                 {
                     Id = "DummyPages/1",
                     Parent = null,
                     Metadata = { Name = "Foo" }
                 };
 
-                var standardPage = new StandardPage
-                {
-                    Parent = pageModel,
-                    Metadata = {Name = "Page"}
-                };
-
-                session.Store(standardPage);
                 session.Store(pageModel);
                 session.SaveChanges();
 
@@ -323,18 +333,24 @@ namespace BrickPile.Tests.Web.Routing {
         }
     }
 
-    [PageType(Name = "Standard page", ControllerType = typeof(DummyController))]
-    public class StandardPage : PageModel { }
+    [ContentType(Name = "Standard page", ControllerType = typeof(DummyController))]
+    public class StandardPage : IContent {
+        public string Id { get; set; }
+    }
 
-    [PageType(Name = "Dummy", ControllerType = typeof(DummyController))]
-    public class DummyModel : PageModel { }
+    [ContentType(Name = "Dummy", ControllerType = typeof(DummyController))]
+    public class DummyModel : IContent {
+        public string Id { get; set; }
+    }
 
     public class SiteMap {
         public DummyModel StartPage { get; set; }
     }
 
-    [PageType]
-    public class DummyModelWithoutControllerType : PageModel {}
+    [ContentType]
+    public class DummyModelWithoutControllerType : IContent {
+        public string Id { get; set; }
+    }
 
     public class DummyController : Controller { }
 

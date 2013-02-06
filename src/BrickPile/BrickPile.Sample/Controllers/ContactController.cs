@@ -18,7 +18,7 @@ namespace BrickPile.Sample.Controllers {
 
             var viewModel = new DefaultViewModel<Contact>
             {
-                CurrentPage = currentPage,
+                //CurrentPage = currentPage,
                 NavigationContext = _structureInfo.NavigationContext
             };
 

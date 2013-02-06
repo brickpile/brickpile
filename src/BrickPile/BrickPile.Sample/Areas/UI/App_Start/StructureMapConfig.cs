@@ -4,6 +4,7 @@ using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
+using BrickPile.UI.Web.ViewModels;
 using Raven.Client;
 using StructureMap;
 
@@ -43,10 +44,12 @@ namespace BrickPile.UI.App_Start {
                 x.Scan(scanner =>
                 {
                     scanner.AssembliesFromApplicationBaseDirectory();
-                    scanner.Convention<PageTypeRegistrationConvetion>();
+                    scanner.Convention<ContentTypeRegistrationConvetion>();
                 });
 
                 x.For<IPageModel>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPageModel>()));
+
+                x.For<IContent>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentContent<IContent>()));
 
                 x.For<IStructureInfo>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.GetStructureInfo()));
 

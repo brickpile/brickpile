@@ -107,8 +107,10 @@ THE SOFTWARE. *@
                 <div class="editor-field">
                     @Html.TextBoxFor(model => model.CurrentModel.Metadata.Name, new { @class = "title", required = "required", placeholder = "My awesome page" })
                 </div>
-            </div>            
-            @Html.EditorFor(model => model.CurrentModel)
+            </div>
+
+            @Html.EditorFor(model => model.CurrentContent)
+
         </fieldset>
         <div id="button">
             <input type="submit" value="Save" class="btn btn-large" />
