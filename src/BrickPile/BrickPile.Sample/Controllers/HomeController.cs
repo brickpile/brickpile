@@ -37,16 +37,18 @@ namespace BrickPile.Sample.Controllers {
         /// <summary>
         /// Indexes this instance.
         /// </summary>
+        /// <param name="currentContent">Content of the current.</param>
         /// <param name="currentPage">The current page.</param>
         /// <returns></returns>
-        public ActionResult Index(Home currentPage) {
+        public ActionResult Index(Home currentContent, PageModel currentPage) {
 
-            var quotePage = currentPage.QuoteLink.Id != null ?
-                _documentSession.Load<IPageModel>(currentPage.QuoteLink) :
+            var quotePage = currentContent.QuoteLink.Id != null ?
+                _documentSession.Load<IPageModel>(currentContent.QuoteLink) :
                 null;
 
             var viewModel = new HomeViewModel
                                 {
+                                    CurrentContent = currentContent,
                                     CurrentPage = currentPage,
                                     NavigationContext = _structureInfo.NavigationContext,
                                     QuotePage = quotePage,

@@ -21,10 +21,10 @@ THE SOFTWARE. */
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
-using BrickPile.Domain.Models;
 using BrickPile.UI.App_Start;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
+using BrickPile.UI.Web.ViewModels;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Initializer), "Start")]
 namespace BrickPile.UI.App_Start {
@@ -68,7 +68,7 @@ namespace BrickPile.UI.App_Start {
 
             var binderProvider = new InheritanceAwareModelBinderProvider
             {
-                {typeof (IPageModel), new PageModelBinder()}
+                {typeof (IContent), new ContentModelBinder()}
             };
 
             ModelBinderProviders.BinderProviders.Add(binderProvider);

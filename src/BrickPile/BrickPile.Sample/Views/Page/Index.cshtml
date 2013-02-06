@@ -23,8 +23,8 @@ THE SOFTWARE. *@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (Model.CurrentPage.Image != null) {
-    <img src="@Model.CurrentPage.Image.Url" alt="@Model.CurrentPage.Image.AltText" />    
+@if (Model.CurrentContent.Image != null) {
+    <img src="@Model.CurrentContent.Image.Url" alt="@Model.CurrentContent.Image.AltText" />    
 }
-@Model.CurrentPage.MainBody
+@Model.CurrentContent.MainBody
 

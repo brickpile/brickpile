@@ -96,6 +96,17 @@ namespace BrickPile.UI.Common {
         }
 
         /// <summary>
+        /// Applies the current page.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="content">The content.</param>
+        /// <returns></returns>
+        public static RouteData ApplyCurrentContent(this RouteData data, dynamic content) {
+            data.Values[PageRoute.Contentkey] = content;
+            return data;
+        }
+
+        /// <summary>
         /// Applies the current structure info.
         /// </summary>
         /// <param name="data">The data.</param>
@@ -114,6 +125,16 @@ namespace BrickPile.UI.Common {
         /// <returns></returns>
         public static T GetCurrentPage<T>(this RouteData data) {
             return (T) data.Values[PageRoute.ModelKey];
+        }
+
+        /// <summary>
+        /// Gets the content of the current.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        public static T GetCurrentContent<T>(this RouteData data) {
+            return (T) data.Values[PageRoute.Contentkey];
         }
         /// <summary>
         /// Gets the structure info.
@@ -307,7 +328,7 @@ namespace BrickPile.UI.Common {
                 _availablePageModels = new List<Type>();
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
                     foreach (var type in assembly.GetTypes()) {
-                        if (type.GetCustomAttributes(typeof (PageTypeAttribute), true).Length > 0) {
+                        if (type.GetCustomAttributes(typeof(ContentTypeAttribute), true).Length > 0) {
                             _availablePageModels.Add(type);
                         }
                     }

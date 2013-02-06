@@ -188,7 +188,7 @@
     <Compile Include="Web\Mvc\Html\ValidationExtensions.cs" />
     <Compile Include="Web\Mvc\IControllerMapper.cs" />
     <Compile Include="Web\Mvc\InheritanceAwareModelBinderProvider.cs" />
-    <Compile Include="Web\Mvc\PageModelBinder.cs" />
+    <Compile Include="Web\Mvc\ContentModelBinder.cs" />
     <Compile Include="Web\Mvc\StructureMapDependencyResolver.cs" />
     <Compile Include="Web\Routing\IPathData.cs" />
     <Compile Include="Web\Routing\IPathResolver.cs" />

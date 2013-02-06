@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System.Web.Mvc;
+using BrickPile.Domain.Models;
 using BrickPile.Sample.Models;
 using BrickPile.UI;
 using BrickPile.UI.Web.ViewModels;
@@ -28,7 +29,8 @@ namespace BrickPile.Sample.Controllers {
     /// 
     /// </summary>
     public class PageController : Controller {
-        private readonly Page _currentPage;
+        private readonly Page _currentContent;
+        private readonly PageModel _currentPage;
         private readonly IStructureInfo _structureInfo;
         /// <summary>
         /// Indexes this instance.
@@ -38,6 +40,7 @@ namespace BrickPile.Sample.Controllers {
 
             var viewModel = new DefaultViewModel<Page>
             {
+                CurrentContent = _currentContent,
                 CurrentPage = _currentPage,
                 NavigationContext = _structureInfo.NavigationContext
             };
@@ -49,9 +52,11 @@ namespace BrickPile.Sample.Controllers {
         /// <summary>
         /// Initializes a new instance of the <see cref="PageController"/> class.
         /// </summary>
-        /// <param name="currentPage">The current page.</param>
+        /// <param name="currentContent">Content of the current.</param>
         /// <param name="structureInfo">The structure info.</param>
-        public PageController(Page currentPage, IStructureInfo structureInfo) {
+        /// <param name="currentPage">The current page.</param>
+        public PageController(Page currentContent, IStructureInfo structureInfo, PageModel currentPage) {
+            _currentContent = currentContent;
             _currentPage = currentPage;
             _structureInfo = structureInfo;
         }

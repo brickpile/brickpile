@@ -100,8 +100,8 @@ THE SOFTWARE. *@
                     @Html.TextBoxFor(model => model.NewPageModel.Metadata.Name, new { @class = "title", placeholder = "My awesome page", autofocus = "autofocus" })
                 </div>
             </div>            
-            @Html.EditorFor(model => model.NewPageModel)
-            @Html.HiddenFor(model => model.NewPageModel.GetType().AssemblyQualifiedName) 
+            @Html.EditorFor(model => model.ContentModel)
+            @Html.HiddenFor(model => model.ContentModel.GetType().AssemblyQualifiedName)
         </fieldset>
         <div id="button">
             <input type="submit" value="Save" class="btn btn-large" />

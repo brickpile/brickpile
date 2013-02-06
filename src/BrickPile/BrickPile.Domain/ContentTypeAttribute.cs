@@ -27,7 +27,7 @@ namespace BrickPile.Domain {
     /// <remarks></remarks>
     /// <example></example>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public class PageTypeAttribute : Attribute {
+    public class ContentTypeAttribute : Attribute {
         private string _name;
         /// <summary>
         /// Get/Sets the Name of the PageModelAttribute
@@ -56,25 +56,25 @@ namespace BrickPile.Domain {
         /// </value>
         public Type ResourceType { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="PageTypeAttribute"/> class.
+        /// Initializes a new instance of the <see cref="ContentTypeAttribute"/> class.
         /// </summary>
-        public PageTypeAttribute() { }
+        public ContentTypeAttribute() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="PageTypeAttribute"/> class.
+        /// Initializes a new instance of the <see cref="ContentTypeAttribute"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="controllerType">Type of the controller.</param>
-        public PageTypeAttribute(string name, Type controllerType) {
+        public ContentTypeAttribute(string name, Type controllerType) {
             Name = name;
             ControllerType = controllerType;
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="PageTypeAttribute"/> class.
+        /// Initializes a new instance of the <see cref="ContentTypeAttribute"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="controllerType">Type of the controller.</param>
         /// <param name="resourceType">Type of the resource.</param>
-        public PageTypeAttribute(string name, Type controllerType, Type resourceType) {
+        public ContentTypeAttribute(string name, Type controllerType, Type resourceType) {
             Name = name;
             ControllerType = controllerType;
             ResourceType = resourceType;

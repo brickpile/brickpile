@@ -144,10 +144,12 @@ namespace BrickPile.UI.Web.Routing {
             }
 
             routeData.ApplyCurrentPage(DefaultControllerName, pathData.Action, pathData.CurrentPage);
+            routeData.ApplyCurrentContent(pathData.CurrentContent);
             routeData.ApplyCurrentStructureInfo(new StructureInfo
             {
                 NavigationContext = pathData.NavigationContext.OrderBy(x => x.Metadata.SortOrder),
                 CurrentPage = pathData.CurrentPage,
+                CurrentContent = pathData.CurrentContent,
                 StartPage = pathData.NavigationContext.Single(x => x.Parent == null),
                 ParentPage = pathData.CurrentPage.Parent != null ? pathData.NavigationContext.SingleOrDefault(x => x.Id == pathData.CurrentPage.Parent.Id) : null
             });

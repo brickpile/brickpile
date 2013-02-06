@@ -22,17 +22,27 @@ using System.ComponentModel.DataAnnotations;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.Sample.Controllers;
-using BrickPile.UI.Web;
+using BrickPile.UI.Web.ViewModels;
 using Image = BrickPile.UI.Models.Image;
 
 namespace BrickPile.Sample.Models {
     /// <summary>
     /// 
     /// </summary>
-    [PageType(
+    [ContentType(
         Name = "Article",
         ControllerType = typeof(PageController))]
-    public class Page : PageBase {
+    public class Page : IContent {
+
+        /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
+        /// <value>
+        /// The id.
+        /// </value>
+        [ScaffoldColumn(false)]
+        public string Id { get; set; }
+
         /// <summary>
         /// Gets or sets the heading.
         /// </summary>
@@ -45,6 +55,7 @@ namespace BrickPile.Sample.Models {
             Prompt = "Enter a descriptive heading")]
         //Required(ErrorMessage = "Great thanks!")]
         public string Heading { get; set; }
+
         /// <summary>
         /// Gets or sets the main body.
         /// </summary>
@@ -54,6 +65,7 @@ namespace BrickPile.Sample.Models {
         //[Required(ErrorMessage = "What know then?")]
         [DataType(DataType.Html)]
         public string MainBody { get; set; }
+
         /// <summary>
         /// Gets or sets the page reference.
         /// </summary>
@@ -64,6 +76,7 @@ namespace BrickPile.Sample.Models {
             Name = "Page",
             Prompt = "Specify page name...")]
         public PageReference PageReference { get; set; }
+
         /// <summary>
         /// Gets or sets the image.
         /// </summary>
