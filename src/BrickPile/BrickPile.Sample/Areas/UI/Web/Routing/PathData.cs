@@ -20,6 +20,7 @@ THE SOFTWARE. */
 
 using System.Linq;
 using BrickPile.Domain.Models;
+using BrickPile.UI.Web.ViewModels;
 
 namespace BrickPile.UI.Web.Routing {
     public class PathData : IPathData {
@@ -44,6 +45,13 @@ namespace BrickPile.UI.Web.Routing {
         /// The current page model.
         /// </value>
         public IPageModel CurrentPage { get; set; }
+        /// <summary>
+        /// Gets or sets the content of the current.
+        /// </summary>
+        /// <value>
+        /// The content of the current.
+        /// </value>
+        public IContent CurrentContent { get; set; }
         /// <summary>
         /// Gets or sets the pages.
         /// </summary>

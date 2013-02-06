@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using BrickPile.Core.DataAnnotations;
@@ -8,7 +7,7 @@ namespace BrickPile.UI.Web.Mvc {
     /// <summary>
     /// 
     /// </summary>
-    public class PageModelBinder : DefaultModelBinder {
+    public class ContentModelBinder : DefaultModelBinder {
         /// <summary>
         /// Called when the model is updated.
         /// </summary>

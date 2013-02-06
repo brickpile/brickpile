@@ -46,5 +46,7 @@ namespace BrickPile.Domain.Models {
         /// The children.
         /// </value>
         List<string> Children { get; }
+
+        string ContentReference { get; set; }
     }
 }

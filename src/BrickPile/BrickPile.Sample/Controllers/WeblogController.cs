@@ -37,7 +37,7 @@ namespace BrickPile.Sample.Controllers {
         public ActionResult Index(Weblog currentPage) {
             var viewModel = new DefaultViewModel<Weblog>
             {
-                CurrentPage = currentPage,
+                //CurrentPage = currentPage,
                 NavigationContext = _structureInfo.NavigationContext
             };
 

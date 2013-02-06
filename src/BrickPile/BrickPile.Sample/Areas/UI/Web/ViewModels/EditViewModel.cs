@@ -24,6 +24,9 @@ namespace BrickPile.UI.Web.ViewModels {
         /// The parent model.
         /// </value>
         public IPageModel ParentModel { get; set; }
+
+
+        public IContent CurrentContent { get; set; }
         /// <summary>
         /// Gets or sets the illigal slugs.
         /// </summary>
