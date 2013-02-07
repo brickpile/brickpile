@@ -139,8 +139,6 @@ var NewAssetDialogView = Backbone.View.extend({
                 this.totalSizeUploaded += files[i].size;
 
                 $(this.el).find('#files-status').html(this.totalFiles + ' files <span>' + bytesToSize(this.totalSizeUploaded) + ' </span>');
-                    
-                    self._upload();
 
             }
         }
@@ -191,34 +189,6 @@ var NewAssetDialogView = Backbone.View.extend({
         // Bind event closing the dialog on body click
         $('body').bind('click', function () {
             self.close();
-        });
-
-
-        // Attach event for handling single/multiple files added using browse
-        this.$el.find('.manual-file-chooser').change(function () {
-
-            $.each($(this)[0].files, function (i, file) {
-
-                self.data.push(file);
-
-                var droppedFile = new DroppedFile({
-                    name: file.name,
-                    fileSize: bytesToSize(file.size)
-                });
-
-                var view = new DroppedFileView({ model: droppedFile });
-
-                self.models.push(droppedFile);
-
-                var $li = view.render().$el;
-                $('#droparea ul').append($li);
-
-                self._updateStatus();
-
-            });
-
-            self._upload();
-
         });
 
         self.$el.click(function (e) {
