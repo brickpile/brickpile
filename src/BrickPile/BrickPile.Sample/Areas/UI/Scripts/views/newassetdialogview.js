@@ -20,189 +20,193 @@ THE SOFTWARE. */
 
 var NewAssetDialogView = Backbone.View.extend({
 
-    data: null,
+    list: [],
+    totalSize: 0,
+    maxRequestLength: null,
+    totalProgress: 0,
+    views: [],
+    currentView: null,
+    totalFiles: 0,
+    totalSizeUploaded: 0,
 
-    models: null,
-
-    events: {
-        'click #btn-upload': '_upload',
-        'click #btn-cancel': 'close',
-        'click a.remove': 'remove'
-    },
-
-    // Close the dialog
     close: function () {
 
         $(this.el).fadeOut('fast', function () {
-
             $(this).remove();
             $('html').unbind('click');
-
+            $('body').unbind('click');
         });
 
     },
 
-    _upload: function () {
-
+    uploadFile: function (file) {
         var self = this;
 
-        $.each(self.data, function (i, item) {
+        // prepare FormData
+        var formData = new FormData();
+        formData.append(file.name, file);
 
-            var formData = new window.FormData();
+        $.ajax({
+            xhr: function () {
+                var xhr = new window.XMLHttpRequest();
 
-            formData.append("file" + i, item);
+                $('.ui-progress').css('display', 'block');
 
-            $.ajax({
+                xhr.upload.addEventListener("progress", function (ev) {
+                    self.handleProgress(ev);
+                }, false);
 
-                xhr: function () {
+                return xhr;
+            },
+            type: "POST",
+            url: "/api/asset",
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (res) {
 
-                    var xhr = new window.XMLHttpRequest();
+                var item = res[0];
 
-                    //Upload progress
-                    $('.ui-progress').css('display', 'block');
+                var fileview = new VirtualFileView({
+                    model: new VirtualFile({
+                        Id: item.Id,
+                        Name: item.Name,
+                        VirtualPath: item.VirtualPath,
+                        ContentType: item.ContentType,
+                        Thumbnail: item.Thumbnail,
+                        Url: item.Url
+                    })
+                });
 
-                    xhr.upload.addEventListener("progress", function (e) {
+                $('#files > ul').prepend(fileview.render().$el);
 
-                        if (e.lengthComputable) {
+                // Shorthand for the application namespace
+                var app = brickpile.app;
+                // Trigger asset delete event
+                app.trigger('brickpile:asset-uploaded');
+                
+                self.totalProgress += file.size;
+                self.uploadNext();
 
-                            var percentComplete = e.loaded / e.total;
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    },
 
-                            // Trigger the event on the current model
-                            var file = self.models[i];
+    uploadNext: function () {
+        if (this.list.length) {
+            var nextFile = this.list.shift();
+            this.uploadFile(nextFile);
+        }
+        if (this.views.length) {
+            this.currentView = this.views.shift();
+        }
+    },
 
-                            file.trigger('showProgress', percentComplete);
+    handleProgress: function (ev) {
+        if (ev.lengthComputable) {
+            var progress = ev.loaded / ev.total;
+            this.currentView.trigger('brickpile:upload-progress', progress);
+        }
+    },
 
-                            //Do something with upload progress
-                            console.log(Math.round((percentComplete * 100)) + '%');
+    processFiles: function (files) {
+        if (!files || !files.length || this.list.length) return;
 
-                        }
-                    }, false);
+        this.totalSize = 0;
+        this.totalProgress = 0;
 
-                    return xhr;
-                },
+        for (var i = 0; i < files.length; i++) {
 
-                type: "POST",
-                url: "/api/asset",
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (res) {
-
-                    $.each(res, function (f, file) {
-
-                        var fileview = new VirtualFileView({
-
-                            model: new VirtualFile({
-
-                                Id: file.Id,
-                                Name: file.Name,
-                                VirtualPath: file.VirtualPath,
-                                ContentType: file.ContentType,
-                                Thumbnails: {
-                                    Small: file.Thumbnails.Small,
-                                    Medium: file.Thumbnails.Medium
-                                },
-                                Url: file.Url
-
-                            })
-
-                        });
-
-                        var $li = fileview.render().$el;
-                        $('#files > ul').prepend($li);
-
-                    });
-
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status);
-                    alert(thrownError);
-                }
+            var view = new DroppedFileView({
+                model: new DroppedFile({
+                    name: files[i].name,
+                    size: files[i].size,
+                    fileSize: bytesToSize(files[i].size)
+                })
             });
-        });
+            $('#droparea ul').append(view.render().$el);
+
+            if (files[i].size < this.maxRequestLength) {
+
+                this.list.push(files[i]);
+                this.views.push(view);
+                this.totalSize += files[i].size;
+                this.totalFiles++;
+                this.totalSizeUploaded += files[i].size;
+
+                $(this.el).find('#files-status').html(this.totalFiles + ' files <span>' + bytesToSize(this.totalSizeUploaded) + ' </span>');
+
+            }
+        }
+
+        this.uploadNext();
+
     },
 
-    // Bind events for clicking the html element and for triggering the esc key
-
-    initialize: function () {
-
+    initialize: function (options) {
         var self = this;
+
+        this.maxRequestLength = options.maxRequestLength;
 
         this.template = _.template($('#view-template-new-asset-dialog').html());
 
-        this.$el.bind('dragenter dragover', false).bind('drop', function (evt) {
-
-            evt.stopPropagation();
-
-            evt.preventDefault();
-
-            var files = evt.originalEvent.dataTransfer.files;
-
-            if (files.length > 0) {
-
-                if (window.FormData !== undefined) {
-
-                    for (var i = 0; i < files.length; i++) {
-
-                        self.data.push(files[i]);
-
-                        var droppedFile = new DroppedFile({
-                            name: files[i].name,
-                            fileSize: bytesToSize(files[i].size)
-                        });
-
-                        var view = new DroppedFileView({ model: droppedFile });
-
-                        self.models.push(droppedFile);
-
-                        var $li = view.render().$el;
-                        $('#droparea ul').append($li);
-
-                        self._updateStatus();
-
-                    }
-
-                } else {
-                    alert("your browser sucks!");
-                }
-            }
-
+        // Attach event for handling drag'n drop
+        this.$el.bind('dragenter dragover', false).bind('drop', function (ev) {
+            ev.stopPropagation();
+            ev.preventDefault();
+            self.processFiles(ev.originalEvent.dataTransfer.files);
         });
-
-        
-        self.data = new Array();
-
-        self.models = new Array();
-
-        var app = brickpile.app;
-
-        app.bind('remove', this.remove, this);
-
-    },
-
-    remove: function (model) {
-
-        var index = this.models.indexOf(model);
-        delete this.models.splice(index, 1);
-        delete this.data.splice(index, 1);
-
-        this._updateStatus();
-    },
-
-    _updateStatus: function () {
-
-        var totalSize = 0;
-        $.each(this.data, function (i, file) {
-            totalSize += file.size;
-        });
-
-        $(this.el).find('#files-status').html(this.data.length + ' files <span>' + bytesToSize(totalSize) + ' </span>');
 
     },
 
     render: function () {
+        var self = this;
 
         this.$el.html(this.template());
+
+        this.$el.find('.nano').nanoScroller();
+
+        // Attach event for handling single/multiple files added using browse
+        this.$el.find('.manual-file-chooser').change(function () {
+            self.processFiles($(this)[0].files);
+        });
+
+        self.$el.click(function (e) {
+            e.stopPropagation();
+        });
+
+        // Bind event closing the dialog on esc
+        $(document).keyup(function (e) {
+            if (e.keyCode == 27) {
+                self.close();
+            }
+        });
+
+        // Bind event closing the dialog on body click
+        $('body').bind('click', function () {
+            self.close();
+        });
+
+        self.$el.click(function (e) {
+            e.stopPropagation();
+        });
+
+        // Bind event closing the dialog on esc
+        $(document).keyup(function (e) {
+            if (e.keyCode == 27) {
+                self.close();
+            }
+        });
+
+        // Bind event closing the dialog on body click
+        $('body').bind('click', function () {
+            self.close();
+        });
+
         return this;
 
     }

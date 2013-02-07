@@ -41,20 +41,12 @@ namespace BrickPile.Domain.Models {
         /// </value>
         public DateTime DateUploaded { get; set; }
         /// <summary>
-        /// Gets or sets the images.
-        /// </summary>
-        /// <value>
-        /// The images.
-        /// </value>
-        public Thumbnails Thumbnails { get; set; }
-        /// <summary>
         /// Gets or sets the link.
         /// </summary>
         /// <value>
         /// The link.
         /// </value>
         public string VirtualPath { get; set; }
-
         /// <summary>
         /// Gets or sets the URL.
         /// </summary>
@@ -63,10 +55,11 @@ namespace BrickPile.Domain.Models {
         /// </value>
         public string Url { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="Asset"/> class.
+        /// Gets or sets the thumbnail.
         /// </summary>
-        protected Asset() {
-            Thumbnails = new Thumbnails();            
-        }
+        /// <value>
+        /// The thumbnail.
+        /// </value>
+        public byte[] Thumbnail { get; set; }
     }
 }
