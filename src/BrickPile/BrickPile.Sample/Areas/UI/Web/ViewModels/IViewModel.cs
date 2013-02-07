@@ -34,6 +34,7 @@ namespace BrickPile.UI.Web.ViewModels {
         /// Gets the current page.
         /// </summary>
         PageModel CurrentPage { get; }
+
         /// <summary>
         /// Gets or sets the hierarchy.
         /// </summary>

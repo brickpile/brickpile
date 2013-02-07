@@ -1,6 +1,19 @@
 ﻿
+@using System.Configuration
+@using System.Web.Configuration
 @using BrickPile.UI.Common
 @model string
+
+@{
+    var maxRequestLength = 4194304;
+    // Set the maximum file size for uploads in bytes.
+    var section = ConfigurationManager.GetSection("system.web/httpRuntime") as HttpRuntimeSection;
+    if (section != null) {
+        // Retreive the maximum request length from the web.config and convert to bytes.
+        maxRequestLength = (section.MaxRequestLength * 1024);
+    }
+}
+
 <div id="@ViewData.TemplateInfo.GetFullHtmlFieldId("wrapper")">
     @Html.TextAreaFor(x => Model, 12, 60, new { @class = @ViewData.TemplateInfo.GetFullHtmlFieldId(String.Empty) })           
  </div>
@@ -42,37 +55,40 @@
          </div>
 
      </script>,
-    @<script id="view-template-new-asset-dialog" type="text/html">
+     @<script id="view-template-new-asset-dialog" type="text/html">
          <div id="droparea">
-             <h1><span>Drop 'em here</span></h1>
-             <div>
-                <p>Upload files by dragging and dropping them here</p>
+            <h1><span>Drop 'em here</span></h1>
+            <div>
+                <span>Upload files by dragging &amp; dropping them or <input type="file" multiple="multiple" class="manual-file-chooser"> <a class="manual-file-chooser-txt" href="#">choose a file</a></span>
                 <ul />
                 <div id="files-status"></div>
-             </div>
-            <button type="button" class="btn btn-mini" id="btn-upload"><i class="icon-upload"></i> Upload files</button>
-            <button type="button" class="btn btn-mini" id="btn-cancel">Cancel</button>
+            </div>
         </div>
     </script>,
     @<script id="view-template-virtual-file" type="text/html">
          <div class="thumbnail">
              <a class="asset-item">
-                 <img src="<%= Thumbnails.Medium.Url %>" width="<%= Thumbnails.Medium.Width %>" height="<%= Thumbnails.Medium.Height %>" alt="" />
+                 <img src="data:image/png;base64,<%= Thumbnail %>" alt="" />
              </a>
              <button class="delete" style="display: none;">
                  <span class="icon-trash"></span>
              </button>
          </div>
      </script>,
-    @<script id="view-template-dropped-file" type="text/html">
-         <span class="name"><%=name %></span><span class="size"><%=fileSize%></span> <span class="percentCompleted"></span> <a class="remove" ><i class="icon-remove-circle"></i></a>
-         <div class="ui-progress-bar ui-progress-bar.blue" id="progress_bar">
+     @<script id="view-template-dropped-file" type="text/html">
+         <% if (size > @maxRequestLength) { %>
+         <span class="name"><del><%=name %></del> - File size error</span><span class="size"><del><%=fileSize%></del></span>
+         <div class="ui-progress-bar error" id="progress_bar">
+             <div class="ui-progress" style="display: block;width: 100%;"></div>
+         </div>
+         <% } else { %>
+         <span class="name"><%=name %></span><span class="size"><%=fileSize%></span> <span class="percentCompleted"></span>
+         <div class="ui-progress-bar" id="progress_bar">
              <div class="ui-progress"></div>
          </div>
-     </script>,
-     "templates")
+         <% } %>
+     </script>, "templates")
 
-@*Html.Section(@<script type="text/javascript" src="@Url.Content("~/areas/ui/scripts/tinymce/tiny_mce_popup.js")"></script>, "scripts")*@
 @Html.Section(@<script type="text/javascript" src="@Url.Content("~/areas/ui/scripts/properties/virtualfileproperty.js")"></script>, "scripts")
 @Html.Section(@<script type="text/javascript" src="@Url.Content("~/areas/ui/scripts/custom/editor/HtmlEditorVirtualFilePropertyView.js")"></script>, "scripts")
 <!-- After -->
@@ -102,7 +118,7 @@
     });
     function assetBrowser(field_name, url, type, win) {        
         var $callbackfield = $(win.document.getElementById(field_name));
-        var view = new HtmlEditorVirtualFilePropertyView({ el: $('#@ViewData.TemplateInfo.GetFullHtmlFieldId("wrapper")'), callbackfield: $callbackfield });
+        var view = new HtmlEditorVirtualFilePropertyView({ el: $('#@ViewData.TemplateInfo.GetFullHtmlFieldId("wrapper")'), callbackfield: $callbackfield, maxRequestLength: @maxRequestLength });
         view.open();                
     }
-</script>,"scripts")
+</script>, "scripts")

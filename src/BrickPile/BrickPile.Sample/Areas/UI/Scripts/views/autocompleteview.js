@@ -33,8 +33,6 @@ var AutocompleteView = Backbone.View.extend({
 
         var self = this;
 
-        console.log('Init');
-
         $(this.el).autocomplete({
 
             source: '/pages/search',
