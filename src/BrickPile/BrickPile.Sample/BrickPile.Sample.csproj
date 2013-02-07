@@ -127,8 +127,6 @@
     <Compile Include="Models\Page.cs" />
     <Compile Include="Models\Portfolio.cs" />
     <Compile Include="Models\PropertyTest.cs" />
-    <Compile Include="Models\SimplePage.cs" />
-    <Compile Include="Controllers\SimplePageController.cs" />
     <Compile Include="Models\Weblog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
@@ -209,7 +207,6 @@
     <Content Include="Views\Form\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Audio.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
-    <Content Include="Views\SimplePage\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BrickPile.Core\BrickPile.Core.csproj">
