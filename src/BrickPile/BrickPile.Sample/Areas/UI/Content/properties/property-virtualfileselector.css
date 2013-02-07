@@ -180,39 +180,6 @@ input[type=text].alttext {
     text-shadow: 0 1px 0 #187cbe;
     border-radius: 1px;
 }
-
-/*
-.modal {
-    
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 1050;
-    width: 840px;
-    margin: -250px 0 0 -395px;
-    overflow: auto;
-    background-color: white;
-    border: 1px solid #999;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-    -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    -webkit-background-clip: padding-box;
-    -moz-background-clip: padding-box;
-    background-clip: padding-box;
-    
-}
-
-.modal-header {
-    border-radius: 5px 5px 0 0;
-    background: -moz-linear-gradient(top, #f1f2ef, #e5e7e1);
-    background: -webkit-linear-gradient(top, #f1f2ef 0%,#e5e7e1 100%);
-    padding: 15px 0;
-}
-*/
 .modal-header h1 {
     color:#6b6f64;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -284,11 +251,6 @@ input[type=text].alttext {
     padding: 5px;
 }
 .modal-body #directories ul li i { margin-right: 5px;}
-/*.modal-body #files {
-    float: right;
-    width: 615px;
-}
-*/
 .modal-body #files > ul {
     margin: 25px 0 0;
     margin-left: 0;
@@ -358,13 +320,6 @@ input[type=text].alttext {
             transition: border linear 0.2s, box-shadow linear 0.2s;
 }
 
-/*.modal-body #files .btn-mini {
-    background-color: #fff;
-    position: absolute;
-    margin-top: -26px;
-    right: 6px;
-}
-*/
 .modal-footer {
     padding: 14px 15px 15px;
     margin-bottom: 0;
@@ -493,6 +448,7 @@ input[type=text].alttext {
 }
 
 #droparea li span.size {
+    background: none;
     position: absolute;
     right: 10px;
 }
@@ -531,6 +487,12 @@ input[type=text].alttext {
 
 #droparea .manual-file-chooser-txt {
     color: #333;
+}
+
+#droparea .upload-error {
+    color:#B94A48;
+    background: url(../images/error.png) no-repeat 0 center;
+    padding-left: 15px;
 }
 
 /** initial setup **/

@@ -61,10 +61,8 @@ var VirtualFileCollection = Backbone.Collection.extend({
     query: null,
     url: function () {
         if(this.query) {
-            console.log(this.query);
             return '/api/asset/?page=' + this.page + '&' + this.query;    
         } else {
-            console.log(this.query);
             return '/api/asset/?page=' + this.page;
         }
     },
@@ -90,7 +88,6 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
     isLoading: false,
     totalResults:null,
     skippedResults: null,
-    totalPages:null,
     events: {
         'click a.all': 'all',
         'click a.recent': 'recent',
@@ -237,14 +234,12 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
     },
     assetUploaded: function () {
         this.totalResults++;
-        this.totalPages = Math.round((parseInt(this.totalResults) / 50));
         this.updateStatus();
         // Update the scroll bar
         $(this.el).find('.nano').nanoScroller();
     },
     assetDeleted: function () {
         this.totalResults--;
-        this.totalPages = Math.round((parseInt(this.totalResults) / 50));
         this.updateStatus();
         // Update the scroll bar
         $(this.el).find('.nano').nanoScroller();

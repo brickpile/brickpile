@@ -104,7 +104,7 @@
      </script>,
     @<script id="view-template-dropped-file" type="text/html">
          <% if (size > @maxRequestLength) { %>
-         <span class="name"><del><%=name %></del> - File size error</span><span class="size"><del><%=fileSize%></del></span>
+         <span class="name upload-error" title="File size exceeds the upload limit"><del><%=name %></del></span><span class="size upload-error"><del><%=fileSize%></del></span>
          <div class="ui-progress-bar error" id="progress_bar">
              <div class="ui-progress" style="display: block;width: 100%;"></div>
          </div>
