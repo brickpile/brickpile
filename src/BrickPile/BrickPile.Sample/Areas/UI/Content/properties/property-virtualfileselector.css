@@ -72,9 +72,9 @@ input[type=text].alttext {
             background-clip: padding-box;
             
     position: absolute;
-    top: 0;
+    top: 50%;
     left: 50%;
-    margin: 0 0 0 -500px;
+    margin: -300px 0 0 -500px;
     z-index: 999999;
     width: 1000px;
 }
@@ -180,43 +180,6 @@ input[type=text].alttext {
     text-shadow: 0 1px 0 #187cbe;
     border-radius: 1px;
 }
-.nano { background: #bba; width: 500px; height: 500px; }
-.nano .content { padding: 10px; }
-.nano .pane   { background: #888; }
-.nano .slider { background: #111; }
-
-/*
-.modal {
-    
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 1050;
-    width: 840px;
-    margin: -250px 0 0 -395px;
-    overflow: auto;
-    background-color: white;
-    border: 1px solid #999;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-    -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    -webkit-background-clip: padding-box;
-    -moz-background-clip: padding-box;
-    background-clip: padding-box;
-    
-}
-
-.modal-header {
-    border-radius: 5px 5px 0 0;
-    background: -moz-linear-gradient(top, #f1f2ef, #e5e7e1);
-    background: -webkit-linear-gradient(top, #f1f2ef 0%,#e5e7e1 100%);
-    padding: 15px 0;
-}
-*/
 .modal-header h1 {
     color:#6b6f64;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -246,7 +209,7 @@ input[type=text].alttext {
 .modal-body {
     max-height: 500px;
     min-height: 500px;
-    padding: 0 15px 15px 0;
+    padding: 0;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -254,11 +217,12 @@ input[type=text].alttext {
     background-color: #f3f7f8;
     border-right: solid 1px #e7e8e4;
     float: left;
-    bottom: 58px;
-    top: 47px;
+    bottom: 0;
+    top: 0;
     position: absolute;
     width: 191px;
     overflow: auto;
+    z-index: 100;
 }
 .modal-body #directories ul {
     margin: 0;
@@ -287,11 +251,6 @@ input[type=text].alttext {
     padding: 5px;
 }
 .modal-body #directories ul li i { margin-right: 5px;}
-/*.modal-body #files {
-    float: right;
-    width: 615px;
-}
-*/
 .modal-body #files > ul {
     margin: 25px 0 0;
     margin-left: 0;
@@ -361,13 +320,6 @@ input[type=text].alttext {
             transition: border linear 0.2s, box-shadow linear 0.2s;
 }
 
-/*.modal-body #files .btn-mini {
-    background-color: #fff;
-    position: absolute;
-    margin-top: -26px;
-    right: 6px;
-}
-*/
 .modal-footer {
     padding: 14px 15px 15px;
     margin-bottom: 0;
@@ -446,7 +398,6 @@ input[type=text].alttext {
     width: 224px;
     z-index:200;
     padding: 9px 5px;
-    
 }
 
 #droparea > div {
@@ -454,7 +405,7 @@ input[type=text].alttext {
     position: relative;
     border-radius: 3px;
     text-align: center;
-    padding: 5px;
+    padding: 5px 10px;
     color: #aaa;
     font-size: 0.786em;
     
@@ -477,13 +428,11 @@ input[type=text].alttext {
 }
 
 #droparea > div > span {
-    font-size: 12px;
-    border: dashed 2px #eee;
+    background: url(../images/upload.png) no-repeat 0 center;
     display: block;
     border-radius: 3px;
-    padding: 1em 0;
+    padding: 2em .5em 2em 28px;
     color: #aaa;
-    min-height: 30px;
 }
 
 #droparea ul {
@@ -499,8 +448,9 @@ input[type=text].alttext {
 }
 
 #droparea li span.size {
+    background: none;
     position: absolute;
-    right: 7px;
+    right: 10px;
 }
 
 #droparea .ui-progress {
@@ -524,37 +474,80 @@ input[type=text].alttext {
 
 #files-status span {
     position: absolute;
-    right: 7px;
+    right: 0;
 }
 
-/*
-#droparea div.inner {
-    background-color:#fff;
-    border-radius: 4px;
-    box-shadow:0 1px 1px rgba(33,47,59,1);
-    margin-bottom: 10px;
-    padding: 0;
-    font-size: 11px;
-}
-
-#droparea ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-#droparea li {
-    padding: .5em;
-    border-bottom: solid 1px #ccc;
-    position: relative;
-    text-align: left;
-}
-#droparea li span {
-    right: .5em;
+#droparea .manual-file-chooser {
     position: absolute;
-    
+    width: 240px;
+    margin-left: -80px;
+    opacity: 0.0001;
+    cursor: pointer;    
 }
 
-#droparea li:last-child { border: none; }
+#droparea .manual-file-chooser-txt {
+    color: #333;
+}
 
-*/
+#droparea .upload-error {
+    color:#B94A48;
+    background: url(../images/error.png) no-repeat 0 center;
+    padding-left: 15px;
+}
+
+/** initial setup **/
+.nano {
+  position : relative;
+  width    : 100%;
+  height   : 100%;
+  overflow : hidden;
+}
+.nano .content {
+  position      : absolute;
+  overflow      : scroll;
+  overflow-x    : hidden;
+  top           : 0;
+  right         : 0;
+  bottom        : 0;
+  left          : 0;
+}
+.nano .content:focus {
+  outline: thin dotted;
+}
+.nano .content::-webkit-scrollbar {
+  visibility: hidden;
+}
+.has-scrollbar .content::-webkit-scrollbar {
+  visibility: visible;
+}
+.nano > .pane {
+  background : rgba(0,0,0,.25);
+  position   : absolute;
+  width      : 8px;
+  right      : 0;
+  top        : 0;
+  bottom     : 0;
+  visibility : hidden\9; /* Target only IE7 and IE8 with this hack */
+  opacity    : .01; 
+  -webkit-transition    : .2s;
+  -moz-transition       : .2s;
+  -o-transition         : .2s;
+  transition            : .2s;
+  -moz-border-radius    : 5px;
+  -webkit-border-radius : 5px;  
+  border-radius         : 5px;
+    margin: 5px;
+}
+.nano > .pane > .slider {
+  background: #444;
+  background: rgba(0,0,0,.5);
+  position              : relative;
+  margin                : 0 1px;
+  -moz-border-radius    : 3px;
+  -webkit-border-radius : 3px;  
+  border-radius         : 3px;
+}
+.nano:hover > .pane, .pane.active, .pane.flashed {
+  visibility : visible\9; /* Target only IE7 and IE8 with this hack */
+  opacity    : 0.99;
+}
