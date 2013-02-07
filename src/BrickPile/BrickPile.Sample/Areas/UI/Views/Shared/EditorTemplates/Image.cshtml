@@ -1,6 +1,18 @@
-﻿@using BrickPile.FileSystem.AmazonS3.Common
+﻿@using System.Configuration
+@using System.Web.Configuration
+@using BrickPile.FileSystem.AmazonS3.Common
 @using BrickPile.UI.Common
 @model BrickPile.UI.Models.Image
+
+@{
+    var maxRequestLength = 4194304;
+    // Set the maximum file size for uploads in bytes.
+    var section = ConfigurationManager.GetSection("system.web/httpRuntime") as HttpRuntimeSection;
+    if (section != null) {
+        // Retreive the maximum request length from the web.config and convert to bytes.
+        maxRequestLength = (section.MaxRequestLength * 1024);
+    }
+}
 
 <div id="@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)">
     
@@ -43,7 +55,7 @@
                  <h1>Select an image...</h1>
              </div>
 
-             <div class="modal-body">
+             <div class="modal-body nano">
                  <div id="directories">
                      <ul>
                          <li><a class="all"><i class="icon-th-large"></i>All items</a></li>
@@ -55,11 +67,13 @@
                          <li><a class="others">Other</a></li>
                      </ul>
                  </div>
-                 <div id="files"></div>
+                 <div id="files" class="content">
+                    <ul />
+                 </div>
              </div>
 
              <div class="modal-footer">
-
+                <span style="font-size: 11px;color:#aaa;margin:0 auto;position: absolute;left:47%;margin-top:5px;"></span>
                  <a class="btn cancel" >No, cancel</a>
                  <a class="btn select">Select</a>
 
@@ -70,18 +84,18 @@
      </script>,
     @<script id="view-template-new-asset-dialog" type="text/html">
          <div id="droparea">
-             <h1><span>Drop 'em here</span></h1>
-             <div>
+            <h1><span>Drop 'em here</span></h1>
+            <div>
                 <span>Upload files by dragging &amp; dropping them or <input type="file" multiple="multiple" class="manual-file-chooser"> <a class="manual-file-chooser-txt" href="#">choose a file</a></span>
                 <ul />
                 <div id="files-status"></div>
-             </div>
+            </div>
         </div>
     </script>,
     @<script id="view-template-virtual-file" type="text/html">
          <div class="thumbnail">
              <a class="asset-item">
-                 <img src="<%= Thumbnails.Medium.Url %>" width="<%= Thumbnails.Medium.Width %>" height="<%= Thumbnails.Medium.Height %>" alt="" />
+                 <img src="data:image/png;base64,<%= Thumbnail %>" alt="" />
              </a>
              <button class="delete" style="display: none;">
                  <span class="icon-trash"></span>
@@ -89,10 +103,17 @@
          </div>
      </script>,
     @<script id="view-template-dropped-file" type="text/html">
-         <span class="name"><%=name %></span><span class="size"><%=fileSize%></span> <span class="percentCompleted"></span> <a class="remove" ><i class="icon-remove-circle"></i></a>
-         <div class="ui-progress-bar ui-progress-bar.blue" id="progress_bar">
+         <% if (size > @maxRequestLength) { %>
+         <span class="name"><del><%=name %></del> - File size error</span><span class="size"><del><%=fileSize%></del></span>
+         <div class="ui-progress-bar error" id="progress_bar">
+             <div class="ui-progress" style="display: block;width: 100%;"></div>
+         </div>
+         <% } else { %>
+         <span class="name"><%=name %></span><span class="size"><%=fileSize%></span> <span class="percentCompleted"></span>
+         <div class="ui-progress-bar" id="progress_bar">
              <div class="ui-progress"></div>
          </div>
+         <% } %>
      </script>,
      "templates")
 @Html.Section(@<script type="text/javascript" src="@Url.Content("~/areas/ui/scripts/properties/virtualfileproperty.js")"></script>, "scripts")
@@ -102,7 +123,7 @@
              // Shorthand for the application namespace
              var app = brickpile.app;
              // Initialize the main view.
-             app.@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty) = new VirtualFilePropertyView({ el: $('#@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)') });
+             app.@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty) = new VirtualFilePropertyView({ el: $('#@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)'), maxRequestLength: @maxRequestLength });
          })(jQuery);  
      </script>
 , "scripts")

@@ -180,10 +180,6 @@ input[type=text].alttext {
     text-shadow: 0 1px 0 #187cbe;
     border-radius: 1px;
 }
-.nano { background: #bba; width: 500px; height: 500px; }
-.nano .content { padding: 10px; }
-.nano .pane   { background: #888; }
-.nano .slider { background: #111; }
 
 /*
 .modal {
@@ -246,7 +242,7 @@ input[type=text].alttext {
 .modal-body {
     max-height: 500px;
     min-height: 500px;
-    padding: 0 15px 15px 0;
+    padding: 0;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -254,11 +250,12 @@ input[type=text].alttext {
     background-color: #f3f7f8;
     border-right: solid 1px #e7e8e4;
     float: left;
-    bottom: 58px;
-    top: 47px;
+    bottom: 0;
+    top: 0;
     position: absolute;
     width: 191px;
     overflow: auto;
+    z-index: 100;
 }
 .modal-body #directories ul {
     margin: 0;
@@ -446,7 +443,6 @@ input[type=text].alttext {
     width: 224px;
     z-index:200;
     padding: 9px 5px;
-    
 }
 
 #droparea > div {
@@ -454,7 +450,7 @@ input[type=text].alttext {
     position: relative;
     border-radius: 3px;
     text-align: center;
-    padding: 5px;
+    padding: 5px 10px;
     color: #aaa;
     font-size: 0.786em;
     
@@ -477,13 +473,11 @@ input[type=text].alttext {
 }
 
 #droparea > div > span {
-    font-size: 12px;
-    border: dashed 2px #eee;
+    background: url(../images/upload.png) no-repeat 0 center;
     display: block;
     border-radius: 3px;
-    padding: 1em 0;
+    padding: 2em .5em 2em 28px;
     color: #aaa;
-    min-height: 30px;
 }
 
 #droparea ul {
@@ -500,7 +494,7 @@ input[type=text].alttext {
 
 #droparea li span.size {
     position: absolute;
-    right: 7px;
+    right: 10px;
 }
 
 #droparea .ui-progress {
@@ -524,7 +518,7 @@ input[type=text].alttext {
 
 #files-status span {
     position: absolute;
-    right: 7px;
+    right: 0;
 }
 
 #droparea .manual-file-chooser {
@@ -537,4 +531,61 @@ input[type=text].alttext {
 
 #droparea .manual-file-chooser-txt {
     color: #333;
+}
+
+/** initial setup **/
+.nano {
+  position : relative;
+  width    : 100%;
+  height   : 100%;
+  overflow : hidden;
+}
+.nano .content {
+  position      : absolute;
+  overflow      : scroll;
+  overflow-x    : hidden;
+  top           : 0;
+  right         : 0;
+  bottom        : 0;
+  left          : 0;
+}
+.nano .content:focus {
+  outline: thin dotted;
+}
+.nano .content::-webkit-scrollbar {
+  visibility: hidden;
+}
+.has-scrollbar .content::-webkit-scrollbar {
+  visibility: visible;
+}
+.nano > .pane {
+  background : rgba(0,0,0,.25);
+  position   : absolute;
+  width      : 8px;
+  right      : 0;
+  top        : 0;
+  bottom     : 0;
+  visibility : hidden\9; /* Target only IE7 and IE8 with this hack */
+  opacity    : .01; 
+  -webkit-transition    : .2s;
+  -moz-transition       : .2s;
+  -o-transition         : .2s;
+  transition            : .2s;
+  -moz-border-radius    : 5px;
+  -webkit-border-radius : 5px;  
+  border-radius         : 5px;
+    margin: 5px;
+}
+.nano > .pane > .slider {
+  background: #444;
+  background: rgba(0,0,0,.5);
+  position              : relative;
+  margin                : 0 1px;
+  -moz-border-radius    : 3px;
+  -webkit-border-radius : 3px;  
+  border-radius         : 3px;
+}
+.nano:hover > .pane, .pane.active, .pane.flashed {
+  visibility : visible\9; /* Target only IE7 and IE8 with this hack */
+  opacity    : 0.99;
 }

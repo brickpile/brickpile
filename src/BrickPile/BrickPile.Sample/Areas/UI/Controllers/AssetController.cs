@@ -21,69 +21,120 @@ namespace BrickPile.UI.Controllers {
     /// </summary>
     //[Authorize]
     public class AssetController : ApiController {
+        private const int PageSize = 50;
 
-        private HttpRequest _request = HttpContext.Current.Request;
-
-        /// <summary>
-        /// Gets this instance.
-        /// </summary>
-        /// <returns></returns>
-        public IQueryable<Asset> Get() {
-
+        public AssetResponse Get(int page) {
+            
             var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
-            return session.Query<Asset, AllAssets>()
-                .OrderByDescending(x => x.DateUploaded);
 
+            var response = new AssetResponse();
+
+            RavenQueryStatistics stats;
+            response.Assets = session.Query<Asset, AllAssets>()
+                .Statistics(out stats)
+                .OrderByDescending(x => x.DateUploaded)
+                .Skip(page * PageSize)
+                .Take(PageSize).ToArray();
+
+            response.SkippedResults = stats.SkippedResults;
+            response.TotalResults = stats.TotalResults;
+
+            return response;
         }
+
+        public class AssetResponse {
+            public int TotalResults { get; set; }
+            public int SkippedResults { get; set; }
+            public IEnumerable<Asset> Assets { get; set; }  
+        }
+
         /// <summary>
         /// Gets the specified recent.
         /// </summary>
         /// <param name="recent">The recent.</param>
+        /// <param name="page">The page.</param>
         /// <returns></returns>
-        public IQueryable<Asset> Get(int recent) {
+        public AssetResponse Get(int page, int recent) {
             var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
-            return session.Query<Asset, AllAssets>()
+
+            var response = new AssetResponse();
+
+            RavenQueryStatistics stats;
+            response.Assets = session.Query<Asset, AllAssets>()
+                .Statistics(out stats)
                 .Where(x => x.DateUploaded > DateTime.Now.AddHours(-48))
-                .OrderByDescending(x => x.DateUploaded);
+                .OrderByDescending(x => x.DateUploaded)
+                .Skip(page * PageSize)
+                .Take(PageSize).ToArray();
+
+            response.SkippedResults = stats.SkippedResults;
+            response.TotalResults = stats.TotalResults;
+
+            return response;
+
         }
         /// <summary>
         /// Gets the specified type.
         /// </summary>
+        /// <param name="page">The page.</param>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        public IQueryable<Asset> Get(string type) {
+        public AssetResponse Get(int page, string type) {
             var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
+
+            var response = new AssetResponse();
+
+            RavenQueryStatistics stats;
+
             switch (type) {
                 case "image":
-                    return  session.Query<Image>().OrderByDescending(x => x.DateUploaded);
+                    response.Assets = session.Query<Image>()
+                        .Statistics(out stats)
+                        .OrderByDescending(x => x.DateUploaded)
+                        .Skip(page * PageSize)
+                        .Take(PageSize).ToArray();
+                    break;
                 case "video":
-                    return session.Query<Video>().OrderByDescending(x => x.DateUploaded);
+                    response.Assets = session.Query<Video>()
+                        .Statistics(out stats)
+                        .OrderByDescending(x => x.DateUploaded)
+                        .Skip(page * PageSize)
+                        .Take(PageSize).ToArray();
+                    break;
                 case "audio":
-                    return session.Query<Audio>().OrderByDescending(x => x.DateUploaded);
+                    response.Assets = session.Query<Audio>()
+                        .Statistics(out stats)
+                        .OrderByDescending(x => x.DateUploaded)
+                        .Skip(page * PageSize)
+                        .Take(PageSize).ToArray();
+                    break;
                 case "document":
-                    return session.Query<Document>().OrderByDescending(x => x.DateUploaded);
+                    response.Assets = session.Query<Document>()
+                        .Statistics(out stats)
+                        .OrderByDescending(x => x.DateUploaded)
+                        .Skip(page * PageSize)
+                        .Take(PageSize).ToArray();
+                    break;
+                default:
+                    return Get(0);
             }
-            return Get();
+            response.SkippedResults = stats.SkippedResults;
+            response.TotalResults = stats.TotalResults;
+            return response;
         }
 
         public void Delete(string id) {
             // Abort if the provider does not exist
             var virtualPathProvider = HostingEnvironment.VirtualPathProvider as CommonVirtualPathProvider;
-            if(virtualPathProvider == null)
-                return;
+            if(virtualPathProvider == null) { return; }
 
             var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
             var item = session.Load<Asset>(id);
 
             var asset = virtualPathProvider.GetFile(item.VirtualPath) as CommonVirtualFile;
-            
-            var mediumThumbnail = virtualPathProvider.GetFile(item.Thumbnails.Medium.VirtualPath) as CommonVirtualFile;
 
             if(asset != null) {
                 asset.Delete();
-            }
-            if (mediumThumbnail != null) {
-                mediumThumbnail.Delete();
             }
             session.Delete(item);
             session.SaveChanges();
@@ -113,22 +164,32 @@ namespace BrickPile.UI.Controllers {
 
                     var asset = t.Result.Contents.Select(httpContent =>
                     {
-
+                        // Read the stream
                         var stream = httpContent.ReadAsStreamAsync().Result;
                         var length = stream.Length;
 
+                        // Get root directory of the current virtual path provider
                         var virtualDirectory = virtualPathProvider.GetDirectory(virtualPathProvider.VirtualPathRoot) as CommonVirtualDirectory;
 
+                        if (virtualDirectory == null) {
+                            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                        }
+
+                        // Set the name and if not present add some bogus name
                         var name = !string.IsNullOrWhiteSpace(httpContent.Headers.ContentDisposition.FileName)
                                            ? httpContent.Headers.ContentDisposition.FileName
                                            : "NoName";
 
+                        // Clean up the name
                         name = name.Replace("\"", string.Empty);
 
+                        // Create a new name for the file stored in the vpp
                         var uniqueFileName = Guid.NewGuid().ToString("n");
-
+                        
+                        // Create the file in current directory
                         var virtualFile = virtualDirectory.CreateFile(string.Format("{0}{1}",uniqueFileName, VirtualPathUtility.GetExtension(name)));
 
+                        // Write the file to the current storage
                         using (var s = virtualFile.Open(FileMode.Create)) {
                             var bytesInStream = new byte[stream.Length];
                             stream.Read(bytesInStream, 0, bytesInStream.Length);
@@ -137,66 +198,21 @@ namespace BrickPile.UI.Controllers {
 
                         Asset file;
                         if (httpContent.Headers.ContentType.MediaType.Contains("image")) {
-
-                            var mediumThumbnail = new WebImage(stream).Resize(111, 101).Crop(1, 1);
-
-                            var virtualMediumThumbnail =
-                                virtualDirectory.CreateFile(string.Format("{0}{1}", uniqueFileName + "_medium",
-                                                                          VirtualPathUtility.GetExtension(name)));
-
-                            using (var s = virtualMediumThumbnail.Open(FileMode.Create)) {
-                                s.Write(mediumThumbnail.GetBytes(), 0, mediumThumbnail.GetBytes().Length);
-                            }
-
                             file = new Image();
-                            
-                            //((Image)file).Width = 1024;
-                            //((Image)file).Height = 768;
-
-                            file.Thumbnails.Small.Height = mediumThumbnail.Height;
-                            file.Thumbnails.Small.Width = mediumThumbnail.Width;
-                            file.Thumbnails.Small.Url = virtualMediumThumbnail.Url;
-                            file.Thumbnails.Small.VirtualPath = virtualMediumThumbnail.VirtualPath;
-
-                            file.Thumbnails.Medium.Height = mediumThumbnail.Height;
-                            file.Thumbnails.Medium.Width = mediumThumbnail.Width;
-                            file.Thumbnails.Medium.Url = virtualMediumThumbnail.Url;
-                            file.Thumbnails.Medium.VirtualPath = virtualMediumThumbnail.VirtualPath;
-
+                            using (var image = System.Drawing.Image.FromStream(stream, false, false)) {
+                                ((Image)file).Width = image.Width;
+                                ((Image)file).Height = image.Height;
+                            }
+                            var mediumThumbnail = new WebImage(stream).Resize(111, 101).Crop(1, 1);
+                            file.Thumbnail = mediumThumbnail.GetBytes();
                         }
                         else if (httpContent.Headers.ContentType.MediaType.Contains("video")) {
-                            
-                            file = new Video();
-
-                            file.Thumbnails.Small.Height = 38;
-                            file.Thumbnails.Small.Width = 60;
-                            file.Thumbnails.Small.Url = "http://placehold.it/60x38";
-
-                            file.Thumbnails.Medium.Height = 110;
-                            file.Thumbnails.Medium.Width = 100;
-                            file.Thumbnails.Medium.Url = "http://placehold.it/110x100";
-
+                            file = new Video { Thumbnail = new WebClient().DownloadData("http://placekitten.com/110/100") };
                         }
                         else if (httpContent.Headers.ContentType.MediaType.Contains("audio")) {
-                            file = new Audio();
-                            file.Thumbnails.Small.Height = 38;
-                            file.Thumbnails.Small.Width = 60;
-                            file.Thumbnails.Small.Url = "http://placehold.it/60x38";
-
-                            file.Thumbnails.Medium.Height = 110;
-                            file.Thumbnails.Medium.Width = 100;
-                            file.Thumbnails.Medium.Url = "http://placehold.it/110x100";
-
+                            file = new Audio { Thumbnail = new WebClient().DownloadData("http://placekitten.com/110/100") }; 
                         } else {
-                            file = new Document();
-                            file.Thumbnails.Small.Height = 38;
-                            file.Thumbnails.Small.Width = 60;
-                            file.Thumbnails.Small.Url = "http://placehold.it/60x38";
-
-                            file.Thumbnails.Medium.Height = 110;
-                            file.Thumbnails.Medium.Width = 100;
-                            file.Thumbnails.Medium.Url = "http://placehold.it/110x100";
-
+                            file = new Document { Thumbnail = new WebClient().DownloadData("http://placekitten.com/110/100") };
                         }
 
                         file.Name = name;

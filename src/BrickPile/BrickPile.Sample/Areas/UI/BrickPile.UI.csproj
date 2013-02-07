@@ -222,9 +222,9 @@
     <Content Include="Content\images\header.png" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\metadata-bg.png" />
-    <Content Include="Content\images\spinner-blue-48.png" />
     <Content Include="Content\images\spinner.gif" />
     <Content Include="Content\images\sprite.png" />
+    <Content Include="Content\images\upload.png" />
     <Content Include="Content\normalize.css" />
     <Content Include="Content\properties\property-pagereference.css" />
     <Content Include="Content\properties\property-virtualfileselector.css" />
@@ -325,6 +325,8 @@
     <Content Include="Scripts\jquery-ui-1.9.2.min.js" />
     <Content Include="Scripts\jquery.hoverIntent.min.js" />
     <Content Include="Scripts\jQuery.lionbars.0.2.1.min.js" />
+    <Content Include="Scripts\jquery.nanoscroller.js" />
+    <Content Include="Scripts\jquery.nanoscroller.min.js" />
     <Content Include="Scripts\jquery.selectbox.js" />
     <Content Include="Scripts\jquery.selectBox.min.js" />
     <Content Include="Scripts\jquery.slugify.js" />
