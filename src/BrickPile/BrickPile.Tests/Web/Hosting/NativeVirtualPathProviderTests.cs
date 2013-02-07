@@ -62,7 +62,7 @@ namespace BrickPile.Tests.Web.Hosting {
         /// <summary>
         /// Can_s the load_ file_ from_ disc_ root.
         /// </summary>
-        [Test]
+        //[Test]
         public void Can_Load_File_From_Disc_Root() {
             // Use the special "Execute" method to run code
             // in the special AppDomain.
@@ -97,7 +97,7 @@ namespace BrickPile.Tests.Web.Hosting {
         /// <summary>
         /// File_s the exists.
         /// </summary>
-        [Test]
+        //[Test]
         public void File_Exists() {
             // Use the special "Execute" method to run code
             // in the special AppDomain.
