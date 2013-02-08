@@ -49,12 +49,6 @@ namespace BrickPile.UI.App_Start {
 
             ControllerBuilder.Current.SetControllerFactory(typeof(BrickPileControllerFactory));
 
-            RouteTable.Routes.MapHttpRoute(
-                name: "API Default",
-                routeTemplate: "api/{controller}/{id,recent}",
-                defaults: new {id = RouteParameter.Optional, recent = RouteParameter.Optional }
-                );
-
             // Register the default page route
             RouteTable.Routes.Add("Default_Pages", new PageRoute(
                                       "{*path}",
