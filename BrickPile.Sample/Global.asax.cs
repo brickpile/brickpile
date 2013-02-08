@@ -25,8 +25,8 @@ namespace BrickPile.Sample {
             //BrickPile.
 
             // Register the amazon s3 virtual path provider
-            HostingEnvironment.RegisterVirtualPathProvider(new AmazonS3VirtualPathProvider());
-            //HostingEnvironment.RegisterVirtualPathProvider(new NativeVirtualPathProvider());
+            //HostingEnvironment.RegisterVirtualPathProvider(new AmazonS3VirtualPathProvider());
+            HostingEnvironment.RegisterVirtualPathProvider(new NativeVirtualPathProvider());
         }
     }
 }
