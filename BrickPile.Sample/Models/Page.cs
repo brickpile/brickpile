@@ -23,7 +23,6 @@ using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.Sample.Controllers;
 using BrickPile.UI.Web.ViewModels;
-using Image = BrickPile.UI.Models.Image;
 
 namespace BrickPile.Sample.Models {
     /// <summary>
@@ -87,7 +86,7 @@ namespace BrickPile.Sample.Models {
             Name = "An image",
             Prompt = "Specify an alternative text for your image",
             Order = 1)]
-        [Required(ErrorMessage = "{0} cannot be empty bitch!")]
+        //[Required(ErrorMessage = "{0} cannot be empty bitch!")]
         public Image Image { get; set; }
     }
 }
