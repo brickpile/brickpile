@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		BrickPile-Sample.nuspec = BrickPile-Sample.nuspec
 		BrickPile.nuspec = BrickPile.nuspec
 		..\..\build.xml = ..\..\build.xml
-		NuGet\content\web.config.transform = NuGet\content\web.config.transform
+		web.config.transform = web.config.transform
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Areas", "Areas", "{07100C53-8172-4CA4-86DE-26B5B7DC1D4B}"
