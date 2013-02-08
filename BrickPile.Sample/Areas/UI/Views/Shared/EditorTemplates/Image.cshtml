@@ -1,6 +1,5 @@
 ﻿@using System.Configuration
 @using System.Web.Configuration
-@using BrickPile.FileSystem.AmazonS3.Common
 @using BrickPile.UI.Common
 @model BrickPile.UI.Models.Image
 
@@ -19,9 +18,9 @@
     <span class="centerbox">
         
         @if(Model == null || string.IsNullOrEmpty(Model.VirtualUrl)) {
-            <img src="http://placehold.it/60x38" alt=""/>
+            <img src="http://placehold.it/60x38" alt="" height="38" width="60"/>
         } else {
-            <img src="@Url.Image(Model.VirtualUrl).Resize(60,38)" alt="" height="38" width="60" />
+            <img src="@Model.VirtualUrl" alt="" height="38" width="60" />
         }
 
     </span>
