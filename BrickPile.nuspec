@@ -19,4 +19,15 @@
       <dependency id="SquishIt" version="0.8.6" />
     </dependencies>
   </metadata>
+  <files>
+    <file src="BrickPile.Sample\Areas\UI\bin\BrickPile.Core.dll" target="lib\net40" />
+    <file src="BrickPile.Sample\Areas\UI\bin\BrickPile.Domain.dll" target="lib\net40" />
+    <file src="BrickPile.Sample\Areas\UI\bin\BrickPile.UI.dll" target="lib\net40" />
+    <file src="BrickPile.Sample\Areas\UI\Views\**\*.*" target="content\Areas\UI\Views" />
+    <file src="BrickPile.Sample\Areas\UI\Scripts\**\*.*" target="content\Areas\UI\Scripts" />
+    <file src="BrickPile.Sample\Areas\UI\Styles\**\*.*" target="content\Areas\UI\Styles" />
+    <file src="BrickPile.Sample\Areas\UI\Images\**\*.*" target="content\Areas\UI\Images" />
+    <file src="BrickPile.Sample\Areas\UI\Content\**\*.*" target="content\Areas\UI\Content" />
+    <file src="web.config.transform" target="content\" />
+  </files>    
 </package>
