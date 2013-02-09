@@ -811,14 +811,16 @@ fieldset .editor-field {
 	margin-top:8px;
 	padding:.65em 1em .75em;
     text-align: left;
-    width: 618px;
+    width: 620px;
     position: relative;
 }
 
-fieldset .editor-field .editor-field { padding:2.2em 0 0; }
+fieldset .editor-field .editor-field { padding:0; }
 fieldset .editor-field .editor-label {
+    font-size: 0.857em;
     margin-top:.95em;
     width:auto;
+    position: static;
 }
 
 fieldset .editor-field .editor-label label {
