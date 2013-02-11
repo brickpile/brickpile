@@ -381,7 +381,7 @@
                     _this.sliderY = e.pageY - _this.$el.offset().top - _this.offsetY;
                     _this.scroll();
                     _this.updateScrollValues();
-                    if (_this.contentScrollTop >= _this.maxScrollTop) {
+                    if ((_this.contentScrollTop * 1.3) >= _this.maxScrollTop) {
                         _this.$el.trigger('scrollend');
                     } else if (_this.contentScrollTop === 0) {
                         _this.$el.trigger('scrolltop');
@@ -417,7 +417,7 @@
                     if (e == null) {
                         return;
                     }
-                    if (_this.contentScrollTop >= _this.maxScrollTop) {
+                    if ((_this.contentScrollTop*1.3) >= _this.maxScrollTop) {
                         if (_this.options.preventPageScrolling) {
                             _this.preventScrolling(e, DOWN);
                         }
