@@ -147,6 +147,10 @@ namespace BrickPile.UI.Controllers {
             var model = _session.Load<IPageModel>(id.Replace("_", "/"));
 
             if(permanent) {
+                if(!string.IsNullOrEmpty(model.ContentReference)) {
+                    var content = _session.Load<IContent>(model.ContentReference);
+                    _session.Delete(content);
+                }
                 _session.Delete(model);
                 if(model.Parent != null) {
                     var parent = _session.Load<IPageModel>(model.Parent.Id);
