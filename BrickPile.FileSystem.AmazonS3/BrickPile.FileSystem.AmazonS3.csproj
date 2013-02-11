@@ -72,14 +72,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\UrlExtensions.cs" />
     <Compile Include="Hosting\AmazonS3VirtualDirectory.cs" />
     <Compile Include="Hosting\AmazonS3VirtualFile.cs" />
     <Compile Include="Hosting\AmazonS3VirtualPathProvider.cs" />
-    <Compile Include="Model\Image.cs" />
     <Compile Include="MimeMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Web\StaticFileHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BrickPile.Core\BrickPile.Core.csproj">
