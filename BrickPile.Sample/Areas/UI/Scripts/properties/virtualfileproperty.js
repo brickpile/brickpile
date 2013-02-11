@@ -22,13 +22,16 @@ THE SOFTWARE. */
 // ----------
 
 var VirtualFile = Backbone.Model.extend({
-    Etag: null,
-    LocalPath: null,
-    IsDirectory: null,
+    Id:null,
+    ContentType:null,
+    ContentLength: null,
     Name: null,
+    DateUploaded: null,
     VirtualPath: null,
     Url: null,
-    Thumbnail:null    
+    Thumbnail:null,
+    Width:null,
+    Height:null
 });
 
 var DroppedFile = Backbone.Model.extend({
@@ -271,8 +274,16 @@ var VirtualFilePropertyView = Backbone.View.extend({
         coll.fetch();
     },
     close: function (model) {
-        this.$el.find('input:hidden.url').val(model.get('Url'));
+        this.$el.find('input:hidden.id').val(model.get('Id'));
+        this.$el.find('input:hidden.contentType').val(model.get('ContentType'));
+        this.$el.find('input:hidden.contentLength').val(model.get('ContentLength'));
+        this.$el.find('input:hidden.name').val(model.get('Name'));
+        this.$el.find('input:hidden.dateUploaded').val(model.get('DateUploaded'));
         this.$el.find('input:hidden.virtualPath').val(model.get('VirtualPath'));
+        this.$el.find('input:hidden.url').val(model.get('Url'));
+        this.$el.find('input:hidden.thumbnail').val(model.get('Thumbnail'));
+        this.$el.find('input:hidden.width').val(model.get('Width'));
+        this.$el.find('input:hidden.height').val(model.get('Height'));
         this.$el.find('.centerbox img').attr('src', 'data:image/png;base64,'+ (model.get('Thumbnail')));
     },
     clear: function () {

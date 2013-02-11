@@ -1,6 +1,6 @@
 ﻿
-@using BrickPile.FileSystem.AmazonS3.Common
-@model BrickPile.UI.Models.Image
+@model BrickPile.Domain.Models.Image
+
+<img src="@Model.VirtualPath" alt="@Model.AltText" width="@Model.Width" height="@Model.Height" />
 
 
-<img src="@Url.Image(Model.Url).Resize(600,400)" alt="@Model.AltText" />

@@ -39,7 +39,7 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// The uploaded.
         /// </value>
-        public DateTime DateUploaded { get; set; }
+        public DateTime? DateUploaded { get; set; }
         /// <summary>
         /// Gets or sets the link.
         /// </summary>
