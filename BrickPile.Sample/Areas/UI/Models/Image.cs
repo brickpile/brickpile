@@ -1,8 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using BrickPile.Core.DataAnnotations;
 
 namespace BrickPile.UI.Models {
+    [Obsolete("Use BrickPile.Domain.Models.Image instead")]
     public class Image : IValidatableProperty {
         /// <summary>
         /// Gets or sets the URL.

@@ -70,11 +70,15 @@ var NewAssetDialogView = Backbone.View.extend({
                 var fileview = new VirtualFileView({
                     model: new VirtualFile({
                         Id: item.Id,
-                        Name: item.Name,
-                        VirtualPath: item.VirtualPath,
                         ContentType: item.ContentType,
+                        ContentLength: item.ContentLength,
+                        Name: item.Name,
+                        DateUploaded: item.DateUploaded,
+                        VirtualPath: item.VirtualPath,
+                        Url: item.Url,
                         Thumbnail: item.Thumbnail,
-                        Url: item.Url
+                        Width: item.Width,
+                        Height: item.Height
                     })
                 });
 

@@ -1,7 +1,7 @@
 ﻿@using System.Configuration
 @using System.Web.Configuration
 @using BrickPile.UI.Common
-@model BrickPile.UI.Models.Image
+@model BrickPile.Domain.Models.Image
 
 @{
     var maxRequestLength = 4194304;
@@ -17,10 +17,10 @@
     
     <span class="centerbox">
         
-        @if(Model == null || string.IsNullOrEmpty(Model.VirtualUrl)) {
+        @if(Model == null || string.IsNullOrEmpty(Model.VirtualPath)) {
             <img src="http://placehold.it/60x38" alt="" height="38" width="60"/>
         } else {
-            <img src="@Model.VirtualUrl" alt="" height="38" width="60" />
+            <img src="@Model.VirtualPath" alt="" height="38" width="60" />
         }
 
     </span>
@@ -37,8 +37,16 @@
         </ul>        
     </div>
 
-    @Html.HiddenFor(x => x.VirtualUrl, new { @class = "virtualPath" })
+    @Html.HiddenFor(x => x.Id, new { @class = "id" })
+    @Html.HiddenFor(x => x.ContentType, new { @class = "contentType" })
+    @Html.HiddenFor(x => x.ContentLength, new { @class = "contentLength" })
+    @Html.HiddenFor(x => x.Name, new { @class = "name" })
+    @Html.HiddenFor(x => x.DateUploaded, new { @class = "dateUploaded" })
+    @Html.HiddenFor(x => x.VirtualPath, new { @class = "virtualPath" })
     @Html.HiddenFor(x => x.Url, new { @class = "url" })
+    @Html.HiddenFor(x => x.Thumbnail, new { @class = "thumbnail" })
+    @Html.HiddenFor(x => x.Width, new { @class = "width" })
+    @Html.HiddenFor(x => x.Height, new { @class = "height" })
 
 </div>
 
