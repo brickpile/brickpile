@@ -27,14 +27,34 @@ var PageReferenceView = Backbone.View.extend({
     initialize: function () {
         this.pageInput = $(this.el).find('input[type=text]');
         this.pageHidden = $(this.el).find('input[type=hidden]');
-
+        this.emptyMessage = $(this.el).find('.field-validation-error');
         var self = this;
+
+        this.pageInput.keyup(function () {
+            if (self.pageInput.val() == "") {
+                self.clear();
+            }
+        });
+
+
         $(this.el).find('input[type=text]').autocomplete({
-            source: '/pages/search',            
+            autoFocus: true,
+            source: '/pages/search',
             select: function (event, ui) {
                 self.pageInput.val(ui.item ? ui.item.label : '');
                 self.pageHidden.val(ui.item ? ui.item.id : '');
                 return false;
+            },
+            search: function (event, ui) {
+                self.pageInput.addClass("spinning");
+            },
+            response: function (event, ui) {
+                self.pageInput.removeClass("spinning");
+                self.emptyMessage.removeClass("empty");
+                if (ui.content.length == 0) {
+                    self.pageHidden.val("");
+                    self.emptyMessage.addClass("empty");
+                }
             }
         });
     },
@@ -42,6 +62,7 @@ var PageReferenceView = Backbone.View.extend({
     clear: function () {
         this.pageInput.val("");
         this.pageHidden.val("");
+        this.emptyMessage.removeClass("empty");
     },
 
     render: function () {
