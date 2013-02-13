@@ -34,18 +34,18 @@ THE SOFTWARE. *@
         <meta charset="utf-8">
         <meta name="description" content="" />
 
-        <link rel="stylesheet" type="text/css" href="@Url.Content("../../styles/framework.css")" media="all" />
-        <link rel="stylesheet" type="text/css" href="@Url.Content("../../styles/views.css")" media="all" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/ui/styles/framework.css")" media="all" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/areas/ui/styles/views.css")" media="all" />
 
-        <script type="text/javascript" src="@Url.Content("../../scripts/jquery-1.9.1.js")"></script>
-        <script type="text/javascript" src="@Url.Content("../../scripts/setup.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/areas/ui/scripts/jquery-1.9.1.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/areas/ui/scripts/setup.js")"></script>
     </head>
     <body class="setup">
         <div>
             <header>
                 <h1>Yep, this is the setup screen</h1>
             </header>
-            <img src="@Url.Content("../../images/setup/logo.png")" alt="BrickPile" id="logo" />
+            <img src="@Url.Content("~/areas/ui/images/setup/logo.png")" alt="BrickPile" id="logo" />
             @using (Html.BeginForm("index","setup")) {
                 <div>
                     <fieldset>
