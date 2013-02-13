@@ -207,12 +207,15 @@ namespace BrickPile.UI.Controllers {
                             file.Thumbnail = mediumThumbnail.GetBytes();
                         }
                         else if (httpContent.Headers.ContentType.MediaType.Contains("video")) {
-                            file = new Video { Thumbnail = new WebClient().DownloadData("http://placekitten.com/110/100") };
+                            var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
+                            file = new Video { Thumbnail = icon.GetBytes() };
                         }
                         else if (httpContent.Headers.ContentType.MediaType.Contains("audio")) {
-                            file = new Audio { Thumbnail = new WebClient().DownloadData("http://placekitten.com/110/100") }; 
+                            var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
+                            file = new Video { Thumbnail = icon.GetBytes() };
                         } else {
-                            file = new Document { Thumbnail = new WebClient().DownloadData("http://placekitten.com/110/100") };
+                            var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
+                            file = new Video { Thumbnail = icon.GetBytes() };
                         }
 
                         file.Name = name;
