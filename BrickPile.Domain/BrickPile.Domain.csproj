@@ -74,6 +74,7 @@
     <Compile Include="Models\Audio.cs" />
     <Compile Include="Models\Document.cs" />
     <Compile Include="Models\DocumentReference.cs" />
+    <Compile Include="Models\IContent.cs" />
     <Compile Include="Models\IDocumentReference.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\IPageMetadata.cs" />

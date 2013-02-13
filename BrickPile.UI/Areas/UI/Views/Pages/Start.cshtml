@@ -1,0 +1,63 @@
+﻿
+@* Copyright (C) 2011 by Marcus Lindblom
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. *@
+
+@using System.Globalization
+@using BrickPile.UI.Web.Mvc.Html
+
+@model BrickPile.UI.Areas.UI.Models.NewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+    <head>
+        <title>BrickPile - It's time to create your first page</title>
+        <meta charset="utf-8">
+        <meta name="description" content="" />
+        
+        <link rel="stylesheet" type="text/css" href="@Url.Content("../../content/normalize.css")" media="all" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("../../styles/start.css")" media="all" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("../../styles/views.css")" media="all" />
+
+        <script type="text/javascript" src="@Url.Content("../../scripts/jquery-1.9.1.js")"></script>
+        <script type="text/javascript" src="@Url.Content("../../scripts/jquery.selectBox.js")"></script>
+        <script type="text/javascript" src="@Url.Content("../../scripts/start.js")"></script>
+    </head>
+    <body class="start">
+        <div>
+            <header>
+                <h1>It's time to create your first page</h1>
+            </header>
+            @using (Html.BeginForm("new", "pages")) {
+                <div>
+                    <fieldset>
+                        @Html.LabelFor(model => model.AvailableModels)
+                        @Html.DropDownListFor(m => m.SelectedPageModel, new SelectList(Model.AvailableModels, "Value", "Text"))
+                    </fieldset>
+                    <div id="button">
+                        <input type="submit" class="btn btn-large" value="Create" />
+                    </div>
+                </div>
+            }
+        </div>
+    </body>
+</html>
