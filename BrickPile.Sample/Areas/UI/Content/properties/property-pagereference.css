@@ -43,7 +43,7 @@
     display: inline-block;
     list-style: none;
     margin:0 6px;
-    padding:1px 4px 4px;
+    padding:1px 4px 4px;    
 }
 
 .ui-autocomplete li:first-child  {
@@ -55,12 +55,16 @@
 .ui-autocomplete li:last-child a { border-radius: 0 0 4px 4px; }
 .ui-menu-item a {
     background-color: #fff;
-    border-bottom:1px solid #dcf5ff;
+    border-bottom:1px solid #eee;
     color:#28353d;
     display:block;
     font-size:85.7%;
     font-weight: bold;
     padding:6px 11px 7px;
+    cursor: pointer;
+}
+.ui-menu-item a.ui-state-focus {
+    background: #ffffd8;
 }
 
 a.ui-state-hover { background-color: #e0f3fe; }
@@ -69,4 +73,28 @@ span.ui-helper-hidden-accessible { display: none; }
 fieldset input.property-pagereference {
     width: 512px;
     margin-right: 5px;
+}
+fieldset input.property-pagereference.spinning {
+    background-image: url(../images/spinner.gif);
+    background-repeat: no-repeat;
+    background-position: 98% 50%;
+}
+
+.field-validation-error {
+    background: url("../../images/setup/alert.png") no-repeat scroll 10px center, -moz-linear-gradient(center top , rgba(60, 60, 60, 0.8), #000000) repeat scroll 0 0 transparent;
+    border: 1px solid #000000;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 1px 0 #898989 inset, 0 0 10px rgba(0, 0, 0, 0.5);
+    color: #989898;
+    opacity: 0;
+    padding: 0.7em 1em 0.6em 3em;
+    position: absolute;
+    left: 14px;
+    text-shadow: 0 -1px 0 #000000;
+    top: 36px;
+    transition: all 0.3s ease-in-out 0s;
+    width: auto;
+}
+.field-validation-error.empty {
+    opacity: 1;
 }
