@@ -215,10 +215,6 @@
       <Project>{827F415E-59D8-4F6A-B47A-1F345A790F5E}</Project>
       <Name>BrickPile.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BrickPile.FileSystem.AmazonS3\BrickPile.FileSystem.AmazonS3.csproj">
-      <Project>{ED504457-C561-4F99-8A2C-F92ECF30BEB1}</Project>
-      <Name>BrickPile.FileSystem.AmazonS3</Name>
-    </ProjectReference>
     <ProjectReference Include="Areas\UI\BrickPile.UI.csproj">
       <Project>{80B0D647-4F56-49E2-9540-E9100F8C04F1}</Project>
       <Name>BrickPile.UI</Name>
