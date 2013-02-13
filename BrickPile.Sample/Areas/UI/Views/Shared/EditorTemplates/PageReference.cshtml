@@ -2,9 +2,13 @@
 @model BrickPile.Domain.Models.PageReference
 @using BrickPile.UI.Common
 
+<div id="@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)">
 @Html.TextBoxFor(_ => Model.Name, new { @class = "property-pagereference", placeholder = ViewData.ModelMetadata.Watermark })
+<div class="btn-group">        
+    <button class="btn btn-large clear" type="button">Clear</button>    
+    </div>
 @Html.HiddenFor(_ => Model.Id)
-
+</div>
 @Html.Section(@<link rel="stylesheet" media="all" href="@Url.Content("~/areas/ui/content/properties/property-pagereference.css")" />, "styles")
 @Html.Section(@<script src="@Url.Content("~/areas/ui/scripts/views/pagereferenceview.js")" type="text/javascript"></script>,"scripts")
 @Html.Section(
@@ -13,7 +17,7 @@
             // Shorthand for the application namespace
             var app = brickpile.app;
             // Initialize the main view.
-            app.@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty) = new PageReferenceView({ el: $('#@ViewData.TemplateInfo.GetFullHtmlFieldId("Name")') });
+            app.@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty) = new PageReferenceView({ el: $('#@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)') });
         })(jQuery);  
     </script>
 , "scripts")

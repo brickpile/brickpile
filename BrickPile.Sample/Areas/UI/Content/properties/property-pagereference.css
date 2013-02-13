@@ -64,3 +64,9 @@
 }
 
 a.ui-state-hover { background-color: #e0f3fe; }
+span.ui-helper-hidden-accessible { display: none; }
+
+fieldset input.property-pagereference {
+    width: 512px;
+    margin-right: 5px;
+}
