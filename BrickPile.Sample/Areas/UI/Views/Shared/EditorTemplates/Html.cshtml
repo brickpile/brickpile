@@ -21,15 +21,12 @@
 @Html.Section(@<link rel="stylesheet" media="all" href="@Url.Content("~/areas/ui/content/properties/property-virtualfileselector.css")" />, "styles")
 @Html.Section(
     @<script id="view-template-virtual-file-dialog" type="text/html">
-         
          <div id="asset-dialog">
-
              <div id="asset-dialog-header" class="modal-header">
                  <!--a class="close"><img src="@Url.Content("/areas/ui/images/dialog-close.png")" alt="close" /></a-->
                  <button class="btn" type="button"><i class="icon-download-alt"></i> Add new asset</button>
                  <h1>Select an image...</h1>
              </div>
-
              <div class="modal-body">
                  <div id="directories">
                      <ul>
@@ -44,16 +41,11 @@
                  </div>
                  <div id="files"></div>
              </div>
-
              <div class="modal-footer">
-
                  <a class="btn cancel" >No, cancel</a>
                  <a class="btn select">Select</a>
-
              </div>
-
          </div>
-
      </script>,
      @<script id="view-template-new-asset-dialog" type="text/html">
          <div id="droparea">
@@ -67,12 +59,17 @@
     </script>,
     @<script id="view-template-virtual-file" type="text/html">
          <div class="thumbnail">
-             <a class="asset-item">
-                 <img src="data:image/png;base64,<%= Thumbnail %>" alt="" />
-             </a>
-             <button class="delete" style="display: none;">
-                 <span class="icon-trash"></span>
-             </button>
+             <div>
+                 <a class="asset-item">
+                     <img src="data:image/png;base64,<%= Thumbnail %>" alt="" />
+                 </a>
+                 <button class="delete" style="display: none;">
+                     <span class="icon-trash"></span>
+                 </button>
+             </div>
+             <span class="name">
+                <span><%=Name%></span>
+             </span>
          </div>
      </script>,
      @<script id="view-template-dropped-file" type="text/html">

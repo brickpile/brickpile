@@ -119,9 +119,13 @@ input[type=text].alttext {
     position: relative;
     
     margin: 0 28px 2em 0;
+
+    overflow: hidden;
+
+    min-height: 115px;
 }
 
-#asset-dialog .thumbnail {
+#asset-dialog .thumbnail div {
     position: relative;
 }
 
@@ -336,32 +340,11 @@ input[type=text].alttext {
 
 .centerbox {
     /* basic styling */
-    width: 64px;
-    height: 44px;
     border: 1px solid #ccc;
     border-radius: 2px;
     background : #fff url("/areas/ui/images/ajax-loader.gif") no-repeat center center;
-
-    /* flexbox, por favor */
-    display: -webkit-inline-box;
-    -webkit-box-orient: horizontal;
-    -webkit-box-pack: center;
-    -webkit-box-align: center;
- 
-    display: -moz-inline-box;
-    -moz-box-orient: horizontal;
-    -moz-box-pack: center;
-    -moz-box-align: center;
-          
-    background-clip: padding-box;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding;          
-  
-    display: inline-box;
-    box-orient: horizontal;
-    box-pack: center;
-    box-align: center;
-
+    display: inline-block;
+    padding: 3px;    
     vertical-align: top;
     margin-top: .2em;
 }
@@ -369,7 +352,15 @@ input[type=text].alttext {
     display: block;
 }
 
-#files li span:after {
+#files li span.name {
+    color: #28353d;
+    font-size: 0.857em;
+    display: inline-block;
+    margin-top: 8px;
+    position: relative;
+    width: 120px;
+}
+#files li span.name span:after {
     content: "";
     pointer-events: none;
     position: absolute;

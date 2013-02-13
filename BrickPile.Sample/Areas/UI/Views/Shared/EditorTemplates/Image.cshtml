@@ -20,9 +20,8 @@
         @if(Model == null || string.IsNullOrEmpty(Model.VirtualPath)) {
             <img src="http://placehold.it/60x38" alt="" height="38" width="60"/>
         } else {
-            <img src="@Model.VirtualPath" alt="" height="38" width="60" />
+            <img src="data:image/png;base64,@Convert.ToBase64String(@Model.Thumbnail)" alt="" height="38" width="60" />
         }
-
     </span>
 
     @Html.TextBoxFor(x => Model.AltText, new { placeholder = ViewData.ModelMetadata.Watermark, @class = "alttext" })
@@ -53,15 +52,11 @@
 @Html.Section(@<link rel="stylesheet" media="all" href="@Url.Content("~/areas/ui/content/properties/property-virtualfileselector.css")" />, "styles")
 @Html.Section(
     @<script id="view-template-virtual-file-dialog" type="text/html">
-         
          <div id="asset-dialog">
-
              <div id="asset-dialog-header" class="modal-header">
-                 <!--a class="close"><img src="@Url.Content("/areas/ui/images/dialog-close.png")" alt="close" /></a-->
                  <button class="btn" type="button"><i class="icon-download-alt"></i> Add new asset</button>
                  <h1>Select an image...</h1>
              </div>
-
              <div class="modal-body nano">
                  <div id="directories">
                      <ul>
@@ -78,16 +73,12 @@
                     <ul />
                  </div>
              </div>
-
              <div class="modal-footer">
                 <span style="font-size: 11px;color:#aaa;margin:0 auto;position: absolute;left:47%;margin-top:5px;"></span>
                  <a class="btn cancel" >No, cancel</a>
                  <a class="btn select">Select</a>
-
              </div>
-
          </div>
-
      </script>,
     @<script id="view-template-new-asset-dialog" type="text/html">
          <div id="droparea">
@@ -101,12 +92,17 @@
     </script>,
     @<script id="view-template-virtual-file" type="text/html">
          <div class="thumbnail">
-             <a class="asset-item">
-                 <img src="data:image/png;base64,<%= Thumbnail %>" alt="" />
-             </a>
-             <button class="delete" style="display: none;">
-                 <span class="icon-trash"></span>
-             </button>
+             <div>
+                 <a class="asset-item">
+                     <img src="data:image/png;base64,<%= Thumbnail %>" alt="" />
+                 </a>
+                 <button class="delete" style="display: none;">
+                     <span class="icon-trash"></span>
+                 </button>
+             </div>
+             <span class="name">
+                <span><%=Name%></span>
+             </span>
          </div>
      </script>,
     @<script id="view-template-dropped-file" type="text/html">
