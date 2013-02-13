@@ -20,18 +20,28 @@ THE SOFTWARE. */
 
 var PageReferenceView = Backbone.View.extend({
 
-    events: { },
+    events: {
+        'click button.clear': 'clear'
+    },
 
     initialize: function () {
+        this.pageInput = $(this.el).find('input[type=text]');
+        this.pageHidden = $(this.el).find('input[type=hidden]');
+
         var self = this;
-        $(this.el).autocomplete({
-            source: '/pages/search',
+        $(this.el).find('input[type=text]').autocomplete({
+            source: '/pages/search',            
             select: function (event, ui) {
-                $(self.el).val(ui.item ? ui.item.label : '');
-                $(self.el).siblings(':hidden').val(ui.item ? ui.item.id : '');
+                self.pageInput.val(ui.item ? ui.item.label : '');
+                self.pageHidden.val(ui.item ? ui.item.id : '');
                 return false;
             }
         });
+    },
+
+    clear: function () {
+        this.pageInput.val("");
+        this.pageHidden.val("");
     },
 
     render: function () {

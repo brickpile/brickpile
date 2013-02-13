@@ -324,10 +324,10 @@ namespace BrickPile.UI.Controllers {
         public JsonResult Search(string term) {
 
             var result = from page in _session.Query<IPageModel>()
-                         where page.Metadata.Name.StartsWith(term)
-                         select page;
+                         where page.Metadata.Name.StartsWith(term) || page.Metadata.Url.StartsWith(term)
+                         select page;            
 
-            var r = from p in result.ToList() select new { id = p.Id, value = p.Metadata.Name, label = p.Metadata.Name };
+            var r = from p in result.ToList() select new { id = p.Id, value = p.Metadata.Name, label = p.Metadata.Url + " (" + p.Metadata.Name.ToLower() + ")" };
 
             return Json(r, JsonRequestBehavior.AllowGet);
         }
