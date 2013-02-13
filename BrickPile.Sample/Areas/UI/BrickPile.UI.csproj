@@ -684,10 +684,6 @@
       <Project>{827F415E-59D8-4F6A-B47A-1F345A790F5E}</Project>
       <Name>BrickPile.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\BrickPile.FileSystem.AmazonS3\BrickPile.FileSystem.AmazonS3.csproj">
-      <Project>{ED504457-C561-4F99-8A2C-F92ECF30BEB1}</Project>
-      <Name>BrickPile.FileSystem.AmazonS3</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,7 +1,6 @@
 ﻿using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
-using BrickPile.FileSystem.AmazonS3.Hosting;
 using BrickPile.Sample.App_Start;
 using BrickPile.UI.Web.Hosting;
 using FilterConfig = BrickPile.Sample.App_Start.FilterConfig;

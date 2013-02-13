@@ -26,8 +26,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPile.Tests", "BrickPil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPile.Docs", "BrickPile.Docs\BrickPile.Docs.csproj", "{BD11B4D2-874A-406F-9646-B7CE7382C0B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPile.FileSystem.AmazonS3", "BrickPile.FileSystem.AmazonS3\BrickPile.FileSystem.AmazonS3.csproj", "{ED504457-C561-4F99-8A2C-F92ECF30BEB1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPile.UI", "BrickPile.Sample\Areas\UI\BrickPile.UI.csproj", "{80B0D647-4F56-49E2-9540-E9100F8C04F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPile.Sample", "BrickPile.Sample\BrickPile.Sample.csproj", "{0BB57172-DA2A-45D2-823F-C360E39D568F}"
@@ -63,12 +61,6 @@ Global
 		{BD11B4D2-874A-406F-9646-B7CE7382C0B8}.Dev|Any CPU.Build.0 = Dev|Any CPU
 		{BD11B4D2-874A-406F-9646-B7CE7382C0B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD11B4D2-874A-406F-9646-B7CE7382C0B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED504457-C561-4F99-8A2C-F92ECF30BEB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED504457-C561-4F99-8A2C-F92ECF30BEB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED504457-C561-4F99-8A2C-F92ECF30BEB1}.Dev|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED504457-C561-4F99-8A2C-F92ECF30BEB1}.Dev|Any CPU.Build.0 = Debug|Any CPU
-		{ED504457-C561-4F99-8A2C-F92ECF30BEB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED504457-C561-4F99-8A2C-F92ECF30BEB1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{80B0D647-4F56-49E2-9540-E9100F8C04F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{80B0D647-4F56-49E2-9540-E9100F8C04F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80B0D647-4F56-49E2-9540-E9100F8C04F1}.Dev|Any CPU.ActiveCfg = Debug|Any CPU
