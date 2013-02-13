@@ -325,13 +325,13 @@ namespace BrickPile.UI.Controllers {
         /// <param name="term">The term.</param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult Search(string term) {
-
+        public JsonResult Search(string term) {            
             var result = from page in _session.Query<IPageModel>()
-                         where page.Metadata.Name.StartsWith(term) || page.Metadata.Url.StartsWith(term)
+                         where page.Metadata.Name.StartsWith(term)
                          select page;            
 
-            var r = from p in result.ToList() select new { id = p.Id, value = p.Metadata.Name, label = p.Metadata.Url + " (" + p.Metadata.Name.ToLower() + ")" };
+            var r = from p in result.ToList() orderby p.Metadata.Name ascending 
+                    select new { id = p.Id, value = p.Metadata.Name, label = p.Metadata.Name };
 
             return Json(r, JsonRequestBehavior.AllowGet);
         }
