@@ -214,6 +214,7 @@
     <Content Include="Content\brickpile.css" />
     <Content Include="Content\images\dark-wood.jpg" />
     <Content Include="Content\images\dialog-top.png" />
+    <Content Include="Content\images\document.png" />
     <Content Include="Content\images\editorialcontrols.png" />
     <Content Include="Content\images\error.png" />
     <Content Include="Content\images\glyphicons.png" />
