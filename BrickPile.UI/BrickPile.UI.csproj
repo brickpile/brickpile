@@ -141,13 +141,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\Initializer.cs" />
     <Compile Include="App_Start\PageModelRegistrationConvetion.cs" />
     <Compile Include="App_Start\RavenConfig.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructureMapConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\UI\Controllers\AccountController.cs" />
     <Compile Include="Areas\UI\Controllers\AssetController.cs" />
     <Compile Include="Areas\UI\Controllers\DashboardController.cs" />
@@ -163,9 +160,6 @@
     <Compile Include="Common\RouteCollectionExtensions.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="HierarchyNode.cs" />
     <Compile Include="IHierarchyNode.cs" />
     <Compile Include="IStructureInfo.cs" />
@@ -639,7 +633,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Global.asax" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -702,13 +695,6 @@
     <Content Include="Areas\UI\Views\Account\Register.cshtml" />
     <Content Include="Areas\UI\Views\Dashboard\Index.cshtml" />
     <Content Include="Areas\UI\Views\UI\Index.cshtml" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
