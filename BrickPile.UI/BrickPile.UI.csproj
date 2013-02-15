@@ -702,6 +702,13 @@
     <Content Include="Areas\UI\Views\Account\Register.cshtml" />
     <Content Include="Areas\UI\Views\Dashboard\Index.cshtml" />
     <Content Include="Areas\UI\Views\UI\Index.cshtml" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
