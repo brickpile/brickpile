@@ -160,14 +160,9 @@
     <Compile Include="Common\RouteCollectionExtensions.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="HierarchyNode.cs" />
     <Compile Include="IHierarchyNode.cs" />
     <Compile Include="IStructureInfo.cs" />
-    <Compile Include="Models\Home.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StructureInfo.cs" />
     <Compile Include="Web\ContainerDisposalModule.cs" />
@@ -630,23 +625,12 @@
     <Content Include="Areas\UI\Scripts\views\pagesview.js" />
     <Content Include="Areas\UI\Scripts\views\uiview.js" />
     <Content Include="Areas\UI\Styles\brickpile.css" />
-    <Content Include="Areas\UI\Styles\Dashboard.css" />
     <Content Include="Areas\UI\Styles\Framework.css" />
-    <Content Include="Areas\UI\Styles\PartialViews.css" />
     <Content Include="Areas\UI\Styles\Start.css" />
     <Content Include="Areas\UI\Styles\Views.css" />
     <Content Include="Areas\UI\Styles\webfonts\svg\museo-sans-500.svg" />
     <Content Include="Areas\UI\Styles\webfonts\svg\museo-sans-700.svg" />
     <Content Include="Areas\UI\Styles\webfonts\svg\style_159303.svg" />
-    <Content Include="Global.asax" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -705,7 +689,6 @@
     <None Include="Areas\UI\Styles\webfonts\woff\felttip-roman.woff" />
     <None Include="Areas\UI\Styles\webfonts\woff\museo-sans-500.woff" />
     <None Include="Areas\UI\Styles\webfonts\woff\museo-sans-700.woff" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Areas\UI\Views\Account\ChangePassword.cshtml" />
     <Content Include="Areas\UI\Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Areas\UI\Views\Account\EditUser.cshtml" />

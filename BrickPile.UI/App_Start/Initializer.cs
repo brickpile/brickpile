@@ -18,17 +18,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Domain.Models;
-using BrickPile.UI.App_Start;
+using BrickPile.UI;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
-using BrickPile.UI.Web.ViewModels;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Initializer), "Start")]
-namespace BrickPile.UI.App_Start {
+namespace BrickPile.UI {
     public static class Initializer {
         /// <summary>
         /// Initializer for BrickPile

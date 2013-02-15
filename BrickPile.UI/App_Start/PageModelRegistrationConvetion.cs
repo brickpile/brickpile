@@ -8,7 +8,7 @@ using BrickPile.UI.Web.ViewModels;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 
-namespace BrickPile.UI.App_Start {
+namespace BrickPile.UI {
     //public class PageTypeRegistrationConvetion : IRegistrationConvention {
     //    /// <summary>
     //    /// 

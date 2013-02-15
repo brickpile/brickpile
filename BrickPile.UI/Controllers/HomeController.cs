@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using BrickPile.UI.Models;
+﻿using System.Web.Mvc;
+using BrickPile.Samples.Models;
 
-namespace BrickPile.UI.Controllers
+namespace BrickPile.Samples.Controllers
 {
     public class HomeController : Controller
     {

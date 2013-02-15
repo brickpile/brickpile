@@ -4,11 +4,10 @@ using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
-using BrickPile.UI.Web.ViewModels;
 using Raven.Client;
 using StructureMap;
 
-namespace BrickPile.UI.App_Start {
+namespace BrickPile.UI {
     /// <summary>
     /// 
     /// </summary>

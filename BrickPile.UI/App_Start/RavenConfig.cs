@@ -5,7 +5,7 @@ using Raven.Client.Document;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 
-namespace BrickPile.UI.App_Start {
+namespace BrickPile.UI {
     /// <summary>
     /// 
     /// </summary>
