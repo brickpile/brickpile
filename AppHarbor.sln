@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPile.UI", "BrickPile.UI\BrickPile.UI.csproj", "{AE2A380E-493F-43A9-873A-BCF63929E3EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPile.Core", "BrickPile.Core\BrickPile.Core.csproj", "{6D6BC9A5-DA23-402F-AFED-6B72BF8EAD58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPile.Domain", "BrickPile.Domain\BrickPile.Domain.csproj", "{827F415E-59D8-4F6A-B47A-1F345A790F5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Dev|Any CPU = Dev|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE2A380E-493F-43A9-873A-BCF63929E3EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE2A380E-493F-43A9-873A-BCF63929E3EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE2A380E-493F-43A9-873A-BCF63929E3EE}.Dev|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE2A380E-493F-43A9-873A-BCF63929E3EE}.Dev|Any CPU.Build.0 = Debug|Any CPU
+		{AE2A380E-493F-43A9-873A-BCF63929E3EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE2A380E-493F-43A9-873A-BCF63929E3EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D6BC9A5-DA23-402F-AFED-6B72BF8EAD58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D6BC9A5-DA23-402F-AFED-6B72BF8EAD58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D6BC9A5-DA23-402F-AFED-6B72BF8EAD58}.Dev|Any CPU.ActiveCfg = Dev|Any CPU
+		{6D6BC9A5-DA23-402F-AFED-6B72BF8EAD58}.Dev|Any CPU.Build.0 = Dev|Any CPU
+		{6D6BC9A5-DA23-402F-AFED-6B72BF8EAD58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D6BC9A5-DA23-402F-AFED-6B72BF8EAD58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{827F415E-59D8-4F6A-B47A-1F345A790F5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{827F415E-59D8-4F6A-B47A-1F345A790F5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{827F415E-59D8-4F6A-B47A-1F345A790F5E}.Dev|Any CPU.ActiveCfg = Dev|Any CPU
+		{827F415E-59D8-4F6A-B47A-1F345A790F5E}.Dev|Any CPU.Build.0 = Dev|Any CPU
+		{827F415E-59D8-4F6A-B47A-1F345A790F5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{827F415E-59D8-4F6A-B47A-1F345A790F5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
