@@ -8,5 +8,7 @@ namespace BrickPile.Samples.Models {
     public class Home : IContent {
         [ScaffoldColumn(false)]
         public string Id { get; set; }
+
+        public string Heading { get; set; }
     }
 }
