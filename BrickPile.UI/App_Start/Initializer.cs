@@ -43,8 +43,6 @@ namespace BrickPile.UI {
             RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             RouteTable.Routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
             RouteTable.Routes.IgnoreRoute("static/{*pathInfo}");
-            
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
             ControllerBuilder.Current.SetControllerFactory(typeof(BrickPileControllerFactory));
 

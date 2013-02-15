@@ -200,9 +200,6 @@
     <Compile Include="Web\ViewModels\SetupViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Areas\UI\Content\brickpile.css" />
     <Content Include="Areas\UI\Content\images\back-btn.png" />
     <Content Include="Areas\UI\Content\images\dark-wood.jpg" />
