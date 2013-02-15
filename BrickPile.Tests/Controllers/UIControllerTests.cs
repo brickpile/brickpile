@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Tests.Common;
-using BrickPile.UI.Controllers;
 using Moq;
 using NUnit.Framework;
 

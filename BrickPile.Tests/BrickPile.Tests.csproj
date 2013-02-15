@@ -99,13 +99,9 @@
       <Project>{827F415E-59D8-4F6A-B47A-1F345A790F5E}</Project>
       <Name>BrickPile.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BrickPile.Sample\Areas\UI\BrickPile.UI.csproj">
-      <Project>{80B0D647-4F56-49E2-9540-E9100F8C04F1}</Project>
+    <ProjectReference Include="..\BrickPile.UI\BrickPile.UI.csproj">
+      <Project>{AE2A380E-493F-43A9-873A-BCF63929E3EE}</Project>
       <Name>BrickPile.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BrickPile.Sample\BrickPile.Sample.csproj">
-      <Project>{0BB57172-DA2A-45D2-823F-C360E39D568F}</Project>
-      <Name>BrickPile.Sample</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
