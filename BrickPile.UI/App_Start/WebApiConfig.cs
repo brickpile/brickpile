@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace BrickPile.Samples {
+namespace BrickPile.UI {
     public static class WebApiConfig {
         public static void Register(HttpConfiguration config) {
             config.Routes.MapHttpRoute(
