@@ -10,5 +10,8 @@ namespace BrickPile.Samples.Models {
         public string Id { get; set; }
 
         public string Heading { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        public string MainIntro { get; set; }
     }
 }
