@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPile.Docs", "BrickPile
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPile.UI", "BrickPile.UI\BrickPile.UI.csproj", "{AE2A380E-493F-43A9-873A-BCF63929E3EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPile.Samples", "BrickPile.UI\BrickPile.Samples.csproj", "{0E36E923-DAAB-4E07-8205-A7674DE20774}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,12 @@ Global
 		{AE2A380E-493F-43A9-873A-BCF63929E3EE}.Dev|Any CPU.Build.0 = Debug|Any CPU
 		{AE2A380E-493F-43A9-873A-BCF63929E3EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE2A380E-493F-43A9-873A-BCF63929E3EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E36E923-DAAB-4E07-8205-A7674DE20774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E36E923-DAAB-4E07-8205-A7674DE20774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E36E923-DAAB-4E07-8205-A7674DE20774}.Dev|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E36E923-DAAB-4E07-8205-A7674DE20774}.Dev|Any CPU.Build.0 = Debug|Any CPU
+		{0E36E923-DAAB-4E07-8205-A7674DE20774}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E36E923-DAAB-4E07-8205-A7674DE20774}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
