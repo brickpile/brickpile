@@ -79,7 +79,10 @@ fieldset input.property-pagereference.spinning {
     background-repeat: no-repeat;
     background-position: 98% 50%;
 }
-
+.editor-field .btn-group {
+    margin-top: 0.2em;
+    position: absolute;
+}
 .field-validation-error {
     background: url("../../images/setup/alert.png") no-repeat scroll 10px center, -moz-linear-gradient(center top , rgba(60, 60, 60, 0.8), #000000) repeat scroll 0 0 transparent;
     border: 1px solid #000000;
