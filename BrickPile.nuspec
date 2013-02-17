@@ -20,9 +20,9 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="BrickPile.UI\Areas\UI\bin\BrickPile.Core.dll" target="lib\net40" />
-    <file src="BrickPile.UI\Areas\UI\bin\BrickPile.Domain.dll" target="lib\net40" />
-    <file src="BrickPile.UI\Areas\UI\bin\BrickPile.UI.dll" target="lib\net40" />
+    <file src="BrickPile.UI\bin\BrickPile.Core.dll" target="lib\net40" />
+    <file src="BrickPile.UI\bin\BrickPile.Domain.dll" target="lib\net40" />
+    <file src="BrickPile.UI\bin\BrickPile.UI.dll" target="lib\net40" />
     <file src="BrickPile.UI\Areas\UI\Views\**\*.*" target="content\Areas\UI\Views" />
     <file src="BrickPile.UI\Areas\UI\Scripts\**\*.*" target="content\Areas\UI\Scripts" />
     <file src="BrickPile.UI\Areas\UI\Styles\**\*.*" target="content\Areas\UI\Styles" />
