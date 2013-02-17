@@ -12,6 +12,7 @@ using System.Web.Http;
 using BrickPile.Core.Hosting;
 using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain.Models;
+using BrickPile.UI.Web;
 using Raven.Client;
 
 namespace BrickPile.UI.Areas.UI.Controllers {
