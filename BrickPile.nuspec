@@ -15,8 +15,8 @@
     <dependencies>
       <dependency id="RavenDB.Embedded" version="2.0.2261" />
       <dependency id="structuremap" version="2.6.4.1" />
-      <dependency id="WebActivator" version="1.5.3" />
-      <dependency id="SquishIt" version="0.8.6" />
+      <dependency id="WebActivatorEX" version="2.0.1" />
+      <dependency id="SquishIt" version="0.9.2" />
     </dependencies>
   </metadata>
   <files>
