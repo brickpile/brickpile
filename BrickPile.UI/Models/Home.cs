@@ -2,6 +2,7 @@
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.Samples.Controllers;
+using BrickPile.UI.Web;
 
 namespace BrickPile.Samples.Models {
     [ContentType(Name = "Home", ControllerType = typeof(HomeController))]
@@ -13,5 +14,8 @@ namespace BrickPile.Samples.Models {
 
         [DataType(DataType.MultilineText)]
         public string MainIntro { get; set; }
+
+        [Required]
+        public Image Image { get; set; }
     }
 }
