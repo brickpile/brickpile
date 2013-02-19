@@ -58,17 +58,6 @@ namespace BrickPile.Core.Infrastructure.Common {
             }
 
             return documentSession.Load<IPageModel>(ids).AsQueryable();
-        }
-
-        /// <summary>
-        /// Loads the specified document session.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="documentSession">The document session.</param>
-        /// <param name="pageReference">The page reference.</param>
-        /// <returns></returns>
-        public static T Load<T>(this IDocumentSession documentSession, PageReference pageReference) {
-            return documentSession.Load<T>(pageReference.Id);
-        }
+        }        
     }
 }
