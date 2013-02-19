@@ -183,6 +183,7 @@
     <Compile Include="Web\Mvc\IControllerMapper.cs" />
     <Compile Include="Web\Mvc\InheritanceAwareModelBinderProvider.cs" />
     <Compile Include="Web\Mvc\StructureMapDependencyResolver.cs" />
+    <Compile Include="Web\PageReference.cs" />
     <Compile Include="Web\Routing\IPathData.cs" />
     <Compile Include="Web\Routing\IPathResolver.cs" />
     <Compile Include="Web\Routing\IVirtualPathResolver.cs" />

@@ -79,21 +79,29 @@ fieldset input.property-pagereference.spinning {
     background-repeat: no-repeat;
     background-position: 98% 50%;
 }
-
-.field-validation-error {
-    background: url("../../images/setup/alert.png") no-repeat scroll 10px center, -moz-linear-gradient(center top , rgba(60, 60, 60, 0.8), #000000) repeat scroll 0 0 transparent;
-    border: 1px solid #000000;
-    border-radius: 5px 5px 5px 5px;
-    box-shadow: 0 1px 0 #898989 inset, 0 0 10px rgba(0, 0, 0, 0.5);
-    color: #989898;
-    opacity: 0;
-    padding: 0.7em 1em 0.6em 3em;
+.editor-field .btn-group {
+    margin-top: 0.2em;
     position: absolute;
-    left: 14px;
-    text-shadow: 0 -1px 0 #000000;
-    top: 36px;
-    transition: all 0.3s ease-in-out 0s;
-    width: auto;
+}
+.field-validation-error {
+    background: url(../../images/setup/alert.png) no-repeat 10px center, -moz-linear-gradient(top, rgba(60,60,60,0.8), rgba(0,0,0,1));
+    background: url(../../images/setup/alert.png) no-repeat 10px center, -webkit-linear-gradient(top, rgba(60, 60, 60, 0.8) 0%, rgba(0, 0, 0, 1) 100%);
+    box-shadow: 0 1px 0 rgba(137,137,137,1) inset, 0 0 10px rgba(0,0,0,0.5);
+    border-radius:5px;
+    border:1px solid #000;
+    color:#989898;
+    text-shadow:0 -1px 0 rgba(0,0,0,8);
+	padding:.7em 1em .6em 3em;
+	position:absolute;
+	width: auto;
+    opacity: 0;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;    
+	left: 14px;    
+    top: 36px;        
 }
 .field-validation-error.empty {
     opacity: 1;
