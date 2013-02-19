@@ -28,7 +28,7 @@ namespace BrickPile.UI {
             documentStore.RegisterListener(new StoreListener());
             documentStore.Initialize();
 
-            IndexCreation.CreateIndexes(typeof (DocumentsByParent).Assembly, documentStore);
+            IndexCreation.CreateIndexes(typeof(PageByUrl).Assembly, documentStore);
 
             return documentStore;
         }
