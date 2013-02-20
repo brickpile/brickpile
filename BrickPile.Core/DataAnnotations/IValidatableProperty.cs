@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace BrickPile.Core.DataAnnotations {
@@ -9,6 +10,6 @@ namespace BrickPile.Core.DataAnnotations {
         /// <param name="validationContext">The validation context.</param>
         /// <param name="propertyDescriptor">The property descriptor.</param>
         /// <returns></returns>
-        ValidationResult Validate(ValidationContext validationContext, PropertyDescriptor propertyDescriptor);
+        IEnumerable<ValidationResult> Validate(ValidationContext validationContext, PropertyDescriptor propertyDescriptor);
     }
 }

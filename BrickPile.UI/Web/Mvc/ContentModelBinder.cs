@@ -18,12 +18,13 @@ namespace BrickPile.UI.Web.Mvc {
                 if (typeof(IValidatableProperty).IsAssignableFrom((property.PropertyType))) {
                     var propertyInfo = bindingContext.ModelType.GetProperty(property.Name).GetValue(bindingContext.Model, null);
                     var result = ((IValidatableProperty)propertyInfo).Validate(new ValidationContext(propertyInfo, null, null), property);
-                    if(result != ValidationResult.Success) {
-                            bindingContext.ModelState.AddModelError(string.Join(", ", result.MemberNames), result.ErrorMessage);
+                    foreach (var validationResult in result) {
+                        if (validationResult != ValidationResult.Success) {
+                            bindingContext.ModelState.AddModelError(string.Join(", ", validationResult.MemberNames), validationResult.ErrorMessage);
+                        }
                     }
                 }                
             }
-
             base.OnModelUpdated(controllerContext, bindingContext);
         }
     }
