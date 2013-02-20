@@ -104,35 +104,35 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         'click a.cancel': 'cancelAndClose',
         'click a.select': 'selectAndClose'
     },
-    all: function() {
+    all: function(ev) {
         this.collection.page = 0;
         this.collection.query = null;
-        this.render();
+        this.reloadResults(ev);
     },
-    recent: function() {
+    recent: function(ev) {
         this.collection.page = 0;
         this.collection.query = 'recent=1';
-        this.render();
+        this.reloadResults(ev);
     },
-    images: function() {
+    images: function(ev) {
         this.collection.page = 0;
         this.collection.query = 'type=image';
-        this.render();
+        this.reloadResults(ev);
     },
-    videos: function() {
+    videos: function(ev) {
         this.collection.page = 0;
         this.collection.query = 'type=video';
-        this.render();
+        this.reloadResults(ev);
     },
-    audios: function() {
+    audios: function(ev) {
         this.collection.page = 0;
         this.collection.query = 'type=audio';
-        this.render();
+        this.reloadResults(ev);        
     },
-    documents: function() {
+    documents: function(ev) {
         this.collection.page = 0;
         this.collection.query = 'type=document';
-        this.render();
+        this.reloadResults(ev);
     },
     addAsset: function(ev) {
         if ($('#droparea').length > 0) return false;
@@ -204,7 +204,16 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
                 self.cancelAndClose();
             }
         });
+        //Select the all directory
+        $(this.el).find('#directories li a.all').addClass("selected");
+        
         return this;
+    },
+    reloadResults: function(ev) {
+        $(this.el).find('#files ul').empty();
+        $(this.el).find('#directories li a').removeClass("selected");
+        $(ev.target).addClass("selected");
+        this.loadResults();
     },
     loadResults: function () {
         var self = this;

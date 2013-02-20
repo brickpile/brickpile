@@ -243,7 +243,9 @@ input[type=text].alttext {
     color: #333;
     display: inline-block;
     padding: 5px 5px 5px 24px;
+    cursor: pointer;
 }
+.modal-body #directories ul a.selected { font-weight: bold;}
 .modal-body #directories ul a:hover,
 .modal-body #directories ul a:focus,
 .modal-body #directories ul a:active {
