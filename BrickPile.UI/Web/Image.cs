@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using BrickPile.Core.DataAnnotations;
@@ -39,16 +40,16 @@ namespace BrickPile.UI.Web {
         /// <param name="validationContext">The validation context.</param>
         /// <param name="propertyDescriptor">The property descriptor.</param>
         /// <returns></returns>
-        public ValidationResult Validate(ValidationContext validationContext, PropertyDescriptor propertyDescriptor) {
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, PropertyDescriptor propertyDescriptor) {
             if (propertyDescriptor != null) {
                 var displayAttr = propertyDescriptor.Attributes[typeof(DisplayAttribute)] as DisplayAttribute;
                 var requiredAttr = propertyDescriptor.Attributes[typeof(RequiredAttribute)] as RequiredAttribute;
                 var displayName = displayAttr != null ? displayAttr.Name : propertyDescriptor.DisplayName;
                 if (requiredAttr != null && VirtualPath == null) {
-                    return new ValidationResult(requiredAttr.FormatErrorMessage(displayName));
+                    yield return new ValidationResult(requiredAttr.FormatErrorMessage(displayName));
                 }
             }
-            return ValidationResult.Success;            
+            yield return ValidationResult.Success;            
         }
     }
 }
