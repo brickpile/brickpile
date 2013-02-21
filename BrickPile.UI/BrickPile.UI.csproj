@@ -165,10 +165,13 @@
     <Compile Include="IStructureInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StructureInfo.cs" />
+    <Compile Include="Web\Audio.cs" />
     <Compile Include="Web\ContainerDisposalModule.cs" />
+    <Compile Include="Web\Document.cs" />
     <Compile Include="Web\Hosting\NativeVirtualDirectory.cs" />
     <Compile Include="Web\Hosting\NativeVirtualFile.cs" />
     <Compile Include="Web\Hosting\NativeVirtualPathProvider.cs" />
+    <Compile Include="Web\Image.cs" />
     <Compile Include="Web\Mvc\BrickPileControllerFactory.cs" />
     <Compile Include="Web\Mvc\ContentModelBinder.cs" />
     <Compile Include="Web\Mvc\ControllerMapper.cs" />
@@ -180,6 +183,7 @@
     <Compile Include="Web\Mvc\IControllerMapper.cs" />
     <Compile Include="Web\Mvc\InheritanceAwareModelBinderProvider.cs" />
     <Compile Include="Web\Mvc\StructureMapDependencyResolver.cs" />
+    <Compile Include="Web\PageReference.cs" />
     <Compile Include="Web\Routing\IPathData.cs" />
     <Compile Include="Web\Routing\IPathResolver.cs" />
     <Compile Include="Web\Routing\IVirtualPathResolver.cs" />
@@ -192,6 +196,7 @@
     <Compile Include="Web\Security\PasswordUtil.cs" />
     <Compile Include="Web\Security\RavenDBMembershipProvider.cs" />
     <Compile Include="Web\Security\RavenDBRoleProvider.cs" />
+    <Compile Include="Web\Video.cs" />
     <Compile Include="Web\ViewModels\DefaultViewModel.cs" />
     <Compile Include="Web\ViewModels\EditViewModel.cs" />
     <Compile Include="Web\ViewModels\IndexViewModel.cs" />
