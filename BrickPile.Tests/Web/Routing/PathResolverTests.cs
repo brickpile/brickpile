@@ -33,7 +33,7 @@ namespace BrickPile.Tests.Web.Routing {
             };
             
             _store.Initialize();
-            IndexCreation.CreateIndexes(typeof(DocumentsByParent).Assembly, _store);
+            IndexCreation.CreateIndexes(typeof(PageByUrl).Assembly, _store);
         }
         /// <summary>
         /// Tears down.

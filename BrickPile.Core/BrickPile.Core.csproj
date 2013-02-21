@@ -59,7 +59,6 @@
     <Compile Include="Hosting\CommonVirtualFile.cs" />
     <Compile Include="Infrastructure\Common\DocumentSessionExtensions.cs" />
     <Compile Include="Infrastructure\Indexes\AllAssets.cs" />
-    <Compile Include="Infrastructure\Indexes\Documents_ByParent.cs" />
     <Compile Include="Infrastructure\Indexes\PageByUrl.cs" />
     <Compile Include="Infrastructure\Indexes\PageModelWithParentsAndChildren.cs" />
     <Compile Include="Infrastructure\Listeners\StoreListener.cs" />

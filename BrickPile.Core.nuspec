@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>BrickPile.Core</id>
+		<version>$version$-Unstable</version>
+    <title>BrickPile Core Assemblies</title>
+    <summary>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4</summary>
+		<authors>Marcus Lindblom</authors>
+		<owners>Marcus Lindblom</owners>
+    <licenseUrl>https://github.com/kloojed/BrickPile/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>http://www.getbrickpile.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4</description>
+		<tags>brickpile cms ravendb mvc nosql</tags>
+    <dependencies>
+      <dependency id="RavenDB.Client" version="2.0.2261" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="BrickPile.UI\bin\BrickPile.Core.dll" target="lib\net40" />
+  </files>    
+</package>
