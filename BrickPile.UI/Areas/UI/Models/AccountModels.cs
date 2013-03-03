@@ -81,7 +81,7 @@ namespace BrickPile.UI.Areas.UI.Models
 		public string Email { get; set; }
 
         [Required(ErrorMessage = "Required!")]
-		[ValidatePasswordLength(ErrorMessage = "To short bitch!")]
+		[ValidatePasswordLength(ErrorMessage = "To short i'm afraid!")]
 		[DataType(DataType.Password)]
 		[Display(Name = "Password...")]
 		public string Password { get; set; }
