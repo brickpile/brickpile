@@ -20,7 +20,6 @@ THE SOFTWARE. */
 
 using System.Web.Mvc;
 using System.Web.Routing;
-using BrickPile.Domain.Models;
 using BrickPile.UI;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
@@ -57,12 +56,8 @@ namespace BrickPile.UI {
                                           }),
                                       new MvcRouteHandler()));
 
-            var binderProvider = new InheritanceAwareModelBinderProvider
-            {
-                {typeof (IContent), new ContentModelBinder()}
-            };
-
-            ModelBinderProviders.BinderProviders.Add(binderProvider);
+            ModelValidatorProviders.Providers.Clear();
+            ModelValidatorProviders.Providers.Add(new ContentTypeMetadataValidatorProvider());
         }
     }
 }

@@ -81,8 +81,6 @@
     <Compile Include="Models\PageModel.cs" />
     <Compile Include="Models\PageModelMetadata.cs" />
     <Compile Include="Models\Role.cs" />
-    <Compile Include="Models\Thumbnail.cs" />
-    <Compile Include="Models\Thumbnails.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="ContentTypeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
