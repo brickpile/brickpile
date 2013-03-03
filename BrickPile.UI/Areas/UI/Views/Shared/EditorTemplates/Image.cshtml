@@ -2,7 +2,6 @@
 @using System.Web.Configuration
 @using BrickPile.UI.Common
 @model BrickPile.UI.Web.Image
-
 @{
     var maxRequestLength = 4194304;
     // Set the maximum file size for uploads in bytes.
@@ -12,20 +11,15 @@
         maxRequestLength = (section.MaxRequestLength * 1024);
     }
 }
-
 <div id="@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)">
-    
     <span class="centerbox">
-        
         @if(Model == null || string.IsNullOrEmpty(Model.VirtualPath)) {
             <img src="http://placehold.it/60x38" alt="" height="38" width="60"/>
         } else {
             <img src="data:image/png;base64,@Convert.ToBase64String(@Model.Thumbnail)" alt="" height="38" width="60" />
         }
     </span>
-
     @Html.TextBoxFor(x => Model.AltText, new { placeholder = ViewData.ModelMetadata.Watermark, @class = "alttext" })
-
     <div class="btn-group">
         <button class="btn btn-large browse" type="button">Browse...</button>
         <button class="btn btn-large dropdown-toggle" data-toggle="dropdown" type="button">
@@ -35,7 +29,6 @@
             <li><a class="clear">Clear</a></li>
         </ul>        
     </div>
-
     @Html.HiddenFor(x => x.Id, new { @class = "id" })
     @Html.HiddenFor(x => x.ContentType, new { @class = "contentType" })
     @Html.HiddenFor(x => x.ContentLength, new { @class = "contentLength" })
@@ -46,79 +39,12 @@
     @Html.HiddenFor(x => x.Thumbnail, new { @class = "thumbnail" })
     @Html.HiddenFor(x => x.Width, new { @class = "width" })
     @Html.HiddenFor(x => x.Height, new { @class = "height" })
-
 </div>
 
-@Html.Section(@<link rel="stylesheet" media="all" href="@Url.Content("~/areas/ui/content/properties/property-virtualfileselector.css")" />, "styles")
-@Html.Section(
-    @<script id="view-template-virtual-file-dialog" type="text/html">
-         <div id="asset-dialog">
-             <div id="asset-dialog-header" class="modal-header">
-                 <button class="btn" type="button"><i class="icon-download-alt"></i> Add new asset</button>
-                 <h1>Select an asset...</h1>
-             </div>
-             <div class="modal-body nano">
-                 <div id="directories">
-                     <ul>
-                         <li><a class="all"><i class="icon-th-large"></i>All items</a></li>
-                         <li><a class="recent"><i class="icon-time"></i>Recent</a></li>
-                         <li><a class="images"><i class="icon-picture"></i>Images</a></li>
-                         <li><a class="videos"><i class="icon-film"></i>Videos</a></li>
-                         <li><a class="documents"><i class="icon-file"></i>Documents</a></li>
-                         <li><a class="audios"><i class="icon-headphones"></i>Audio</a></li>                         
-                     </ul>
-                 </div>
-                 <div id="files" class="content">
-                    <ul />
-                 </div>
-             </div>
-             <div class="modal-footer">
-                <span style="font-size: 11px;color:#aaa;margin:0 auto;position: absolute;left:47%;margin-top:5px;"></span>
-                 <a class="btn cancel" >No, cancel</a>
-                 <a class="btn select">Select</a>
-             </div>
-         </div>
-     </script>,
-    @<script id="view-template-new-asset-dialog" type="text/html">
-         <div id="droparea">
-            <h1><span>Drop 'em here</span></h1>
-            <div>
-                <span>Upload files by dragging &amp; dropping them or <input type="file" multiple="multiple" class="manual-file-chooser"> <a class="manual-file-chooser-txt" href="#">choose a file</a></span>
-                <ul />
-                <div id="files-status"></div>
-            </div>
-        </div>
-    </script>,
-    @<script id="view-template-virtual-file" type="text/html">
-         <div class="thumbnail">
-             <div>
-                 <a class="asset-item">
-                     <img src="data:image/png;base64,<%= Thumbnail %>" alt="" />
-                 </a>
-                 <button class="delete" style="display: none;">
-                     <span class="icon-trash"></span>
-                 </button>
-             </div>
-             <span class="name">
-                <span><%=Name%></span>
-             </span>
-         </div>
-     </script>,
-    @<script id="view-template-dropped-file" type="text/html">
-         <% if (size > @maxRequestLength) { %>
-         <span class="name upload-error" title="File size exceeds the upload limit"><del><%=name %></del></span><span class="size upload-error"><del><%=fileSize%></del></span>
-         <div class="ui-progress-bar error" id="progress_bar">
-             <div class="ui-progress" style="display: block;width: 100%;"></div>
-         </div>
-         <% } else { %>
-         <span class="name"><%=name %></span><span class="size"><%=fileSize%></span> <span class="percentCompleted"></span>
-         <div class="ui-progress-bar" id="progress_bar">
-             <div class="ui-progress"></div>
-         </div>
-         <% } %>
-     </script>,
-     "templates")
+@Html.Partial("_AssetsDialog", maxRequestLength)
+
 @Html.Section(@<script type="text/javascript" src="@Url.Content("~/areas/ui/scripts/properties/virtualfileproperty.js")"></script>, "scripts")
+
 @Html.Section(
     @<script type="text/javascript">
          (function ($) {
