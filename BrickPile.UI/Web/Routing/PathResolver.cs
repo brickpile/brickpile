@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System;
 using System.Linq;
 using System.Web;
 using System.Web.Routing;
@@ -28,7 +29,6 @@ using BrickPile.Domain.Models;
 using BrickPile.UI.Areas.UI.Controllers;
 using BrickPile.UI.Common;
 using BrickPile.UI.Web.Mvc;
-using BrickPile.UI.Web.ViewModels;
 using Raven.Client;
 using StructureMap;
 
@@ -88,35 +88,50 @@ namespace BrickPile.UI.Web.Routing {
                 }
                 // If the page model still is empty, let's try to resolve if the start page has an action named (virtualUrl)
                 if (_pageModel == null) {
+
                     _pageModel = _session.Query<IPageModel>()
                         .Customize(x => x.Include<IPageModel>(y => y.ContentReference))
                         .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                         .SingleOrDefault(x => x.Parent == null);
-                    if(_pageModel == null) {
-                        return null;
-                    }
-                    _content = _session.Load<IContent>(_pageModel.ContentReference);
-                    var contentTypeAttribute = _content.GetType().GetAttribute<ContentTypeAttribute>();
-                    object area;
-                    _controllerName = _controllerMapper.GetControllerName(routeData.Values.TryGetValue("area", out area) ? typeof(PagesController) : contentTypeAttribute.ControllerType);
-                    var action = virtualUrl.TrimStart(new[] { '/' });
-                    if (!_controllerMapper.ControllerHasAction(_controllerName, action)) {
-                        return null;
-                    }
-                    _pathData.Action = action;
+                    _pathData.Action = virtualUrl.TrimStart(new[] { '/' });
                 }
             }
 
             if (_pageModel == null) {
                 return null;
             }
+            
             _content = _session.Load<IContent>(_pageModel.ContentReference);
-            var controllerType = _content.GetType().GetAttribute<ContentTypeAttribute>().ControllerType;
+            var contentTypeAttribute = _content.GetType().GetAttribute<ContentTypeAttribute>();
+
+            if(contentTypeAttribute == null) {
+                throw new NullReferenceException("Missing ContentType attribute");
+            }
+            
+            object area;
+            if(routeData.Values.TryGetValue("area", out area)) {
+                _controllerName = _controllerMapper.GetControllerName(typeof (PagesController));
+            } else {
+                _controllerName = contentTypeAttribute.ControllerType == null ?
+                    string.Format("{0}Controller", _content.GetType().Name) :
+                    _controllerMapper.GetControllerName(contentTypeAttribute.ControllerType);
+            }
+
+            //var controllerAction = virtualUrl.TrimStart(new[] { '/' });
+            if (!_controllerMapper.ControllerHasAction(_controllerName, _pathData.Action)) {
+                return null;
+            }
+
+            //_pathData.Action = controllerAction;
             _pathData.CurrentContent = _content;
-            _pathData.Controller = controllerType != null ? _controllerMapper.GetControllerName(controllerType) : null;
+            _pathData.Controller = _controllerName;
             _pathData.CurrentPage = _pageModel;
             _pathData.NavigationContext = _session.GetPublishedPages(_pageModel.Id);
             return _pathData;
+
+            //var controllerType = _content.GetType().GetAttribute<ContentTypeAttribute>().ControllerType;
+            //_pathData.Controller = controllerType != null ? _controllerMapper.GetControllerName(controllerType) : null;
+            
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="PathResolver"/> class.

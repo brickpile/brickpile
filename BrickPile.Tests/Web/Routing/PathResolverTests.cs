@@ -57,6 +57,7 @@ namespace BrickPile.Tests.Web.Routing {
 
             mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
             container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
+            mapper.Setup(x => x.ControllerHasAction("Dummy", "index")).Returns(true);
 
             // Act
             IPathData data;
@@ -98,6 +99,7 @@ namespace BrickPile.Tests.Web.Routing {
 
             mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
             container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
+            mapper.Setup(x => x.ControllerHasAction("Dummy", "index")).Returns(true);
 
             // Act
             IPathData data;
@@ -135,6 +137,7 @@ namespace BrickPile.Tests.Web.Routing {
 
             mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
             container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
+            mapper.Setup(x => x.ControllerHasAction("Dummy", "myaction")).Returns(true);
 
             // Act
             IPathData data;
@@ -175,8 +178,6 @@ namespace BrickPile.Tests.Web.Routing {
             mapper.Setup(x => x.ControllerHasAction("Dummy", "myaction")).Returns(true);
             container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
 
-            mapper.Setup(m => m.ControllerHasAction("Content", "myaction")).Returns(true);
-
             // Act
             IPathData data;
             using (var session = _store.OpenSession()) {
@@ -201,73 +202,43 @@ namespace BrickPile.Tests.Web.Routing {
             Assert.AreEqual("Dummy", data.Controller);
            
         }
-        //[TestCase("/myaction/")]
-        //public void Can_Lookup_Controller_Without_ControllerType_Specified(string virtualUrl) {
-        //    // Arrange
-        //    var pathData = new PathData();
-        //    var mapper = new Mock<IControllerMapper>();
-        //    var container = new Mock<IContainer>();
-
-        //    mapper.Setup(x => x.GetControllerName(typeof(DummyModelWithoutControllerTypeController))).Returns("DummyModelWithoutControllerType");
-        //    mapper.Setup(x => x.ControllerHasAction("DummyModelWithoutControllerType", "myaction")).Returns(true);
-        //    container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
-
-        //    mapper.Setup(m => m.ControllerHasAction("DummyModelWithoutControllerType", "myaction")).Returns(true);
-
-        //    // Act
-        //    IPathData data;
-        //    using (var session = _store.OpenSession()) {
-        //        // create and store a new page model
-        //        var pageModel = new DummyModelWithoutControllerType { Parent = null };
-        //        session.Store(pageModel);
-        //        session.SaveChanges();
-
-        //        var resolver = new PathResolver(session, pathData, mapper.Object, container.Object);
-        //        data = resolver.ResolvePath(new RouteData(), virtualUrl);
-        //    }
-
-        //    // Assert
-        //    Assert.NotNull(data);
-        //    Assert.AreEqual("myaction", data.Action);
-        //    Assert.AreEqual("DummyModelWithoutControllerType", data.Controller);
-            
-        //}
-
-        //[TestCase("/mypage")]
-        public void Can_Create_Model_WithOut_Inheritance(string url) {
-
+        [TestCase("/myaction/")]
+        public void Can_Lookup_Controller_Without_ControllerType_Specified(string virtualUrl) {
             // Arrange
             var pathData = new PathData();
             var mapper = new Mock<IControllerMapper>();
             var container = new Mock<IContainer>();
 
-            mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
-            mapper.Setup(x => x.ControllerHasAction("Dummy", "mypage")).Returns(true);
+            //mapper.Setup(x => x.GetControllerName(typeof(DummyModelWithoutControllerType))).Returns("DummyModelWithoutControllerType");
+            //mapper.Setup(x => x.ControllerHasAction("DummyModelWithoutControllerTypeController", "myaction")).Returns(true);
             container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
+
+            mapper.Setup(m => m.ControllerHasAction("DummyModelWithoutControllerTypeController", "myaction")).Returns(true);
 
             // Act
             IPathData data;
             using (var session = _store.OpenSession()) {
-
-                var siteMap = new SiteMap();
-                session.Store(siteMap);
                 // create and store a new page model
-                var page = new DummyModel();
-                //page.Childs.Add(new DummyModel {Metadata = { Name = "Child 1"}});
 
-                var content = new StandardPage();
+                var page = new PageModel {Parent = null};
+                session.Store(page);
+
+                var content = new DummyModelWithoutControllerType();
                 session.Store(content);
-                //page.PageReference.Id = content.Id;
 
-                //var pageModel = new DummyModel();
-                //session.Store(pageModel);
-                //session.SaveChanges();
+                page.ContentReference = content.Id;
+
+                session.SaveChanges();
 
                 var resolver = new PathResolver(session, pathData, mapper.Object, container.Object);
-                data = resolver.ResolvePath(new RouteData(), url);
+                data = resolver.ResolvePath(new RouteData(), virtualUrl);
             }
+
             // Assert
             Assert.NotNull(data);
+            Assert.AreEqual("myaction", data.Action);
+            Assert.AreEqual("DummyModelWithoutControllerTypeController", data.Controller);
+
         }
 
         [Test]
@@ -299,38 +270,6 @@ namespace BrickPile.Tests.Web.Routing {
             // Assert
             Assert.NotNull(data);
         }
-
-        //[Test]
-        public void Can_Query_Page_By_Type() {
-
-            // Arrange
-            List<StandardPage> data;
-
-            // Act
-            using (var session = _store.OpenSession()) {
-
-                var pageModel = new PageModel
-                {
-                    Id = "DummyPages/1",
-                    Parent = null,
-                    Metadata = { Name = "Foo" }
-                };
-
-                session.Store(pageModel);
-                session.SaveChanges();
-
-            }
-
-            using (var session = _store.OpenSession()) {
-
-                data = session.Query<StandardPage>().ToList();
-
-            }
-
-            // Assert
-            Assert.NotNull(data);
-            Assert.AreEqual(1, data.Count);
-        }
     }
 
     [ContentType(Name = "Standard page", ControllerType = typeof(DummyController))]
@@ -343,16 +282,25 @@ namespace BrickPile.Tests.Web.Routing {
         public string Id { get; set; }
     }
 
-    public class SiteMap {
-        public DummyModel StartPage { get; set; }
-    }
-
     [ContentType]
     public class DummyModelWithoutControllerType : IContent {
         public string Id { get; set; }
     }
 
-    public class DummyController : Controller { }
+    public class DummyController : Controller {
+        public ActionResult Index() {
+            return new EmptyResult();
+        }
+        public ActionResult MyAction() {
+            return new EmptyResult();
+        }
+    }
 
-    public class DummyModelWithoutControllerTypeController : Controller {}
+    public class DummyModelWithoutControllerTypeController : Controller {
+        public ActionResult Index() {
+            return new EmptyResult();
+        }
+
+    }
+    
 }
