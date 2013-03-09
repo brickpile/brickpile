@@ -6,7 +6,7 @@
 * [RavenDB](http://ravendb.net/)
 
 **And that's about it.** A slight bit of knowledge about ASP.NET MVC development is also required.
-##Installing and Updating
+##Installing
 ###Getting Installed
 Installing BrickPile is simply the act of writing a single PowerShell command inside the package manager console.
 
