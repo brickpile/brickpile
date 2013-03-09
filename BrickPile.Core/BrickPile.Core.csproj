@@ -58,7 +58,7 @@
   <ItemGroup>
     <Compile Include="DataAnnotations\IValidatableProperty.cs" />
     <Compile Include="Exception\BrickPileException.cs" />
-    <Compile Include="Graph\PageModelRegistrationConvetion.cs" />
+    <Compile Include="Graph\ContentTypeRegistrationConvetion.cs" />
     <Compile Include="Hosting\CommonVirtualPathProvider.cs" />
     <Compile Include="Hosting\CommonVirtualDirectory.cs" />
     <Compile Include="Hosting\CommonVirtualFile.cs" />
