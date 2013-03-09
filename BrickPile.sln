@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72CDE90C-23AE-45E2-B62D-185446CEE4C3}"
 	ProjectSection(SolutionItems) = preProject
 		BrickPile-AmazonS3.nuspec = BrickPile-AmazonS3.nuspec
@@ -8,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		BrickPile.Core.nuspec = BrickPile.Core.nuspec
 		BrickPile.nuspec = BrickPile.nuspec
 		..\..\build.xml = ..\..\build.xml
-		NuGet\content\web.config.transform = NuGet\content\web.config.transform
+		web.config.transform = web.config.transform
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{40034A3F-D988-4072-85DA-F50AD614181B}"

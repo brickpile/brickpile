@@ -25,6 +25,7 @@ using System.Web;
 using System.Web.Mvc;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Areas.UI.Models;
+using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.ViewModels;
 using Raven.Client;
 
@@ -195,7 +196,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 
                 var viewModel = new NewPageViewModel
                 {
-                    RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
+                    RootModel = _structureInfo != null ? _structureInfo.StartPage : null,
                     ParentModel = parent,
                     NewPageModel = page,
                     ContentModel = content,
@@ -212,79 +213,52 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// <summary>
         /// Saves the specified new page model.
         /// </summary>
-        /// <param name="collection">The collection.</param>
-        /// <param name="newPageModel">The new page model.</param>
+        /// <param name="pageModel">The page model.</param>
+        /// <param name="content">The content.</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        public virtual ActionResult Save(FormCollection collection) {
+        public virtual ActionResult Save([Bind(Prefix = "NewPageModel")] PageModel pageModel, [ModelBinder(typeof(ContentModelBinder)), Bind(Prefix = "ContentModel")] IContent content) {
 
-            if (ModelState.IsValid)
+            var parent = _currentPage as PageModel;
+
+            if(!ModelState.IsValid) {
+                var viewModel = new NewPageViewModel
+                {
+                    RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
+                    ParentModel = parent,
+                    ContentModel = content,
+                    NewPageModel = pageModel,
+                    SlugsInUse = parent != null ? Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(parent.Children).Select(x => x.Metadata.Slug)) : null
+                };
+                return View("new", viewModel);                    
+            }
+            
+            _session.Store(pageModel);
+            _session.Store(content);
+
+            pageModel.ContentReference = content.Id;
+
+            // Set the parent if it's not the start page
+            if (parent != null)
             {
-                var parent = _currentPage as PageModel;
-                // create a new page from the new model
-                var content = Activator.CreateInstance(Type.GetType(Request.Form["AssemblyQualifiedName"])) as dynamic;
+                pageModel.Parent = _currentPage;
+                parent.Children.Add(pageModel.Id);
 
-                var page = new PageModel();
-
-                if (!TryUpdateModel(page, "NewPageModel", collection))
-                {
-                    var viewModel = new NewPageViewModel
-                    {
-                        RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
-                        ParentModel = parent,
-                        ContentModel = content,
-                        NewPageModel = page,
-                        SlugsInUse = parent != null ? Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(parent.Children).Select(x => x.Metadata.Slug)) : null
-                    };
-                    return View("new", viewModel);
-                }
-
-                // Update all values
-                UpdateModel(page, "NewPageModel");
-                // Store the new page
-                _session.Store(page);
-
-                if (!TryUpdateModel(content, "ContentModel", collection)) {
-                    var viewModel = new NewPageViewModel
-                    {
-                        RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
-                        ParentModel = parent,
-                        ContentModel = content,
-                        NewPageModel = page,
-                        SlugsInUse = parent != null ? Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(parent.Children).Select(x => x.Metadata.Slug)) : null
-                    };
-                    return View("new", viewModel);
-                }
-
-                UpdateModel(content, "ContentModel");
-
-                _session.Store(content);
-
-                page.ContentReference = content.Id;
-
-                // Set the parent if it's not the start page
-                if (parent != null)
-                {
-                    page.Parent = _currentPage;
-                    parent.Children.Add(page.Id);
-
-                    var children = _session.Load<IPageModel>(parent.Children);
-                    var max = children.Max(x => x.Metadata.SortOrder);
-                    page.Metadata.SortOrder = max + 1;
-                }
-
-                // Set changed date
-                page.Metadata.Changed = DateTime.Now;
-                page.Metadata.ChangedBy = HttpContext.User.Identity.Name;
-
-                // Add page to repository and save changes
-                _session.SaveChanges();
-
-                return RedirectToAction("index", new { model = parent ?? page });
+                var children = _session.Load<IPageModel>(parent.Children);
+                var max = children.Max(x => x.Metadata.SortOrder);
+                pageModel.Metadata.SortOrder = max + 1;
             }
 
-            return null;
+            // Set changed date
+            pageModel.Metadata.Changed = DateTime.Now;
+            pageModel.Metadata.ChangedBy = HttpContext.User.Identity.Name;
+
+            // Add page to repository and save changes
+            _session.SaveChanges();
+
+            return RedirectToAction("index", new { model = parent ?? pageModel });
+
         }
 
         /// <summary>

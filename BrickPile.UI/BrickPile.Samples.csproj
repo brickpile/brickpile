@@ -633,7 +633,6 @@
     <Content Include="Areas\UI\Views\Setup\Index.cshtml" />
     <Content Include="Areas\UI\Views\Shared\DisplayTemplates\Image.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\Html.cshtml" />
-    <Content Include="Areas\UI\Views\Shared\EditorTemplates\HtmlString.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\Image.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\Object.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\PageReference.cshtml" />
@@ -646,6 +645,7 @@
     <Content Include="Areas\UI\Views\Web.config" />
     <Content Include="Areas\UI\Views\_ViewStart.cshtml" />
     <Content Include="Views\Container\Index.cshtml" />
+    <Content Include="Areas\UI\Views\Shared\_AssetsDialog.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

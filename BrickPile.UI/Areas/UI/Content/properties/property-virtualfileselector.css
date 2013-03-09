@@ -71,7 +71,7 @@ input[type=text].alttext {
        -moz-background-clip: padding-box;
             background-clip: padding-box;
             
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     margin: -300px 0 0 -500px;
