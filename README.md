@@ -1,4 +1,4 @@
-##BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4.
+#BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4.
 
 ## Requirements
 ### Brace yourself, BrickPile makes the following demands:
