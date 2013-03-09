@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using BrickPile.Core.Graph;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
 using BrickPile.UI.Web.Mvc;

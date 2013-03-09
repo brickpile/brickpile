@@ -3,11 +3,10 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Domain.Models;
-using BrickPile.UI.Common;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 
-namespace BrickPile.UI {
+namespace BrickPile.Core.Graph {
     /// <summary>
     /// 
     /// </summary>
@@ -35,18 +34,18 @@ namespace BrickPile.UI {
         /// <typeparam name="T"></typeparam>
         /// <param name="registry">The registry.</param>
         static private void Register<T>(Registry registry) where T : IContent {
-            registry.For<T>().UseSpecial(y => y.ConstructedBy(r => GetCurrentPage<T>()));
+            registry.For<T>().UseSpecial(y => y.ConstructedBy(r => GetCurrentContent<T>()));
         }
         /// <summary>
-        /// Gets the current page model.
+        /// Gets the current content.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        static private T GetCurrentPage<T>() where T : IContent {
+        static private T GetCurrentContent<T>() where T : IContent {
             var handler = (MvcHandler)HttpContext.Current.Handler;
             if (handler == null)
                 return default(T);
-            return handler.RequestContext.RouteData.GetCurrentContent<T>();
+            return (T)handler.RequestContext.RouteData.Values["currentContent"];
         }
     }
 }
