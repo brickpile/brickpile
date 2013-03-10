@@ -15,10 +15,10 @@ Installing BrickPile is simply the act of writing a single PowerShell command in
 **And that's basically it.** Of course you need an empty ASP.NET MVC 4 web application.
 
 ##Configuration
-As default BrickPile will use the RavenDB server on http://localhost:8080 but this can easily be configured to use an other port or RavenDB embedded with the following example.
+As default BrickPile will run RavenDB in embedded mode and store the documents in `~\App_Data\Raven`. This can easily be configured to use an other location or RavenDB server. The following example shows how to use RavenDB server.
 
 	<connectionStrings>
-		<add name="RavenDB" connectionString="DataDir = ~\App_Data\Data" />
+		<add name="RavenDB" connectionString="Url = http://localhost:8080" />
 	</connectionStrings>
 
 **Note:** To run BrickPile with RavenDB server you need to [download](http://ravendb.net/download) it and execute `[RavenDBdir]\Server\Raven.Server.exe`. For more configuration options see [RavenDB documentation](http://ravendb.net/documentation).
@@ -34,7 +34,7 @@ And then make sure that your `web.config` has the correct PhysicalPath and that 
              <add key="PhysicalPath" value="C:\temp\static\" />
         </appSettings>
 
-**Note:** The PhysicalPath can also be relative to the site root like this `~/App_Data/`
+**Note:** The PhysicalPath can also be relative to the site root like this `~/App_Data/Static`
 
 ## Setup
 When the configuration is done just hit `F5` inside Visual Studio, this will hopefully bring up the setup screen.
