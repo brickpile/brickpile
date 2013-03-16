@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.Linq;
 using System.Web;
 using System.Web.Routing;
 using BrickPile.Domain.Models;
@@ -36,15 +37,21 @@ namespace BrickPile.UI.Web.Routing {
             if (pageModel == null) {
                 return null;
             }
+
             var url = pageModel.Metadata.Url ?? string.Empty;
 
             if (routeValueDictionary.ContainsKey(UIRoute.ActionKey)) {
+
                 _action = routeValueDictionary[UIRoute.ActionKey] as string;
-                if (_action != null && !_action.Equals(UIRoute.DefaultAction)) {
-                    return string.Format("{0}/{1}/", url, _action);
+
+                if (_action != null && !_action.ToLower().Equals(UIRoute.DefaultAction)) {
+
+                    return VirtualPathUtility.AppendTrailingSlash(string.Join("/", new[] { url,_action }.Where(item => !string.IsNullOrWhiteSpace(item)))).ToLower();
+
                 }
             }
-            return string.Format("{0}", VirtualPathUtility.AppendTrailingSlash(url));
+
+            return VirtualPathUtility.AppendTrailingSlash(url).ToLower();
         }
     }
 }

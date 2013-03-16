@@ -85,6 +85,7 @@
     <Compile Include="Web\Hosting\NativeVirtualPathProviderTests.cs" />
     <Compile Include="Web\Routing\DashboardPathResolverTests.cs" />
     <Compile Include="Web\Routing\PathResolverTests.cs" />
+    <Compile Include="Web\Routing\VirtualPathResolverTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
