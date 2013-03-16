@@ -125,7 +125,9 @@ namespace BrickPile.UI.Web.Routing {
         /// An object that contains information about the URL that is associated with the route.
         /// </returns>
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
-            var model = values[ModelKey] as IPageModel;
+
+            var model = values[ModelKey] as IPageModel ??
+                requestContext.RouteData.GetCurrentPage<IPageModel>();
 
             if (model == null) {
                 return null;
