@@ -117,21 +117,15 @@ namespace BrickPile.UI.Web.Routing {
                     _controllerMapper.GetControllerName(contentTypeAttribute.ControllerType);
             }
 
-            //var controllerAction = virtualUrl.TrimStart(new[] { '/' });
             if (!_controllerMapper.ControllerHasAction(_controllerName, _pathData.Action)) {
                 return null;
             }
 
-            //_pathData.Action = controllerAction;
             _pathData.CurrentContent = _content;
             _pathData.Controller = _controllerName;
             _pathData.CurrentPage = _pageModel;
             _pathData.NavigationContext = _session.GetPublishedPages(_pageModel.Id);
             return _pathData;
-
-            //var controllerType = _content.GetType().GetAttribute<ContentTypeAttribute>().ControllerType;
-            //_pathData.Controller = controllerType != null ? _controllerMapper.GetControllerName(controllerType) : null;
-            
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="PathResolver"/> class.
