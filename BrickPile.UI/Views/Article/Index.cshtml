@@ -1,0 +1,758 @@
+﻿@using BrickPile.Domain
+@using BrickPile.Domain.Models
+@using BrickPile.UI.Common
+@model BrickPile.Samples.Models.ArticleViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <title>title</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width" />
+        <script type="text/javascript">
+            document.documentElement.className = document.documentElement.className.replace(/(\s|^)no-js(\s|$)/, '$1js$2');        </script> 
+        <link href="//get.pictos.cc/fonts/4039/6" rel="stylesheet" type="text/css">
+
+        <style type="text/css" media="all">
+            body {
+                font-family: 'Lucida Grande', Arial, sans-serif;
+                font-size: 12px;
+                
+                -webkit-transition: all .2s linear;                
+                   -moz-transition: all .2s linear;
+                     -o-transition: all .2s linear;
+                        transition: all .2s linear;
+            }
+            html.loading #main {
+                background: url(/content/loading_throbber.gif) no-repeat center;
+            }
+            #noscript-warning {
+                background-color: #AE0000;
+                color: #FFFFFF;
+                font-family: sans-serif;
+                font-size: 120%;
+                font-weight: bold;
+                left: 0;
+                padding: 5px 0;
+                position: fixed;
+                text-align: center;
+                top: -58px;
+                width: 100%;
+                z-index: 1;
+                
+                -webkit-transition: top .2s linear;
+                   -moz-transition: top .2s linear;
+                     -o-transition: top .2s linear;
+                        transition: top .2s linear;
+            }            
+            html.no-js #noscript-warning {
+                top: 0;
+            }
+            a {
+                color:rgb(241, 241, 241);
+            }
+            main {
+                max-width: 768px;
+            }
+            
+            #main-nav {
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: 90px;
+                background-color: rgb(44, 44, 45);
+                
+            }
+            #main-nav ul {
+                list-style-type: none;
+                margin: 2em 0 0;
+                padding: 0;
+                /*border-top: 1px solid #3b3b3c;*/
+            }
+            
+            #main-nav li {
+                padding: 0;
+                min-height: 50px;
+            }
+            
+            #main-nav a {
+                display: block;
+                font-size: 12px;
+                /*line-height: 50px;
+                min-height: 50px;*/
+                overflow: hidden;
+                padding: 0 20px 0;
+                position: relative;
+                text-decoration: none;
+                text-overflow: ellipsis;
+                /*text-shadow: 0 1px 0 rgba(255,255,255,0.9);*/
+                white-space: pre;
+                text-align: center;
+                color: rgba(110, 110, 110, 0.9);
+                text-shadow: 0 1px 0 rgba(0,0,0,0.7);
+                margin-bottom: 1em;
+            }
+            #main {
+                position: absolute;
+                left: 90px;
+                right: 0;
+                bottom: 0;
+                top: 0;
+            }
+            
+            #pages {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                background-color: rgb(236, 235, 232);
+                width: 20%;
+                overflow-y: auto;
+            }
+            #pages li {
+                position: relative;
+            }
+            #pages a.edit {
+                color: #000;
+                display: block;
+                font-size: 12px;
+                line-height: 50px;
+                min-height: 50px;
+                overflow: hidden;
+                padding: 0 40px 0 48px;
+                position: relative;
+                text-decoration: none;
+                text-overflow: ellipsis;
+                text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+                white-space: pre;                
+            }
+            #pages a.view {
+                color: #000;
+                position: absolute;
+                right: 15px;
+                top: 14px;
+            }
+            #pages button {
+                background: rgb(255,255,255); /* Old browsers */
+                background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(243,243,243,1) 50%, rgba(237,237,237,1) 51%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(50%,rgba(243,243,243,1)), color-stop(51%,rgba(237,237,237,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+                background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+                background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+                background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* IE10+ */
+                background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* W3C */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+
+                
+                border: solid 1px #ccc;
+                border-radius: 5px;
+                position: absolute;
+                left: 15px;
+                top: 13px;
+                padding: 0 2px;
+            }
+            #pages button:before {
+                font-size: 13px;
+                text-shadow: none;
+                
+            }            
+/*            
+            #pages a.view:before {
+                font-family: 'Pictos Custom';
+                content: "e";
+                font-size: 25px;
+                position: relative;
+                bottom: -4px;
+                padding-right: 10px;
+                color: #bbb;
+                left: -7px;
+            }
+*/
+            #pages a:focus:before,
+            #pages a:active:before {
+                color: #fff;
+            }
+
+            #pages a:hover {
+                background-color: #e1e1e0;
+                cursor: default;
+                text-decoration: none;                
+            }
+            #pages a:focus,
+            #pages a:active {
+                background: #86b410;
+                color: #fff;
+                outline: 0;
+                text-shadow: none;
+            }            
+            
+            #pages ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            #pages li {
+                padding: 0;
+                min-height: 50px;
+            }
+            #add {
+                color: #000;
+                display: block;
+                font-size: 12px;
+                min-height: 50px;
+                overflow: hidden;
+                padding: 0 20px 0 19px;
+                position: relative;
+                text-decoration: none;
+                text-overflow: ellipsis;
+                text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+                white-space: pre;                
+                
+                background-color: #f3f3f3;
+                border-bottom: 1px solid #d4d4d4;
+                line-height: 54px;                
+            }
+            #pages a#add:before {
+                font-size: 25px;
+                position: relative;
+                bottom: -4px;
+                padding-right: 10px;
+                color: #bbb;
+                text-shadow: none;
+            }
+            #pages a#add:focus:before,
+            #pages a#add:active:before {
+                color: #fff;
+            }
+            #pages a.view { text-decoration: none; }
+            #pages a.view:before {
+                color: #bbb;
+                font-size: 21px;
+                text-shadow: none;
+                top: 15px;
+            }
+            .icon span {
+                display: block;
+            }         
+            .icon:before {
+                font-family: 'Pictos Custom';
+                content: attr(data-icon);
+                font-size: 38px;
+                text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+                -webkit-font-smoothing: antialiased;
+                color: rgba(110,110,110,0.9);
+                /* Insert your fancy colours here */
+            }
+            #content {
+                position: absolute;
+                left: 21%;
+                top: 25px;
+            }
+        </style>
+    </head>
+<body>
+    <div id="noscript-warning">
+        <p>TURN ON JS GOD DAMNIT!</p>
+    </div>
+    <main>
+        <div id="main-nav">
+            
+            <ul>
+                <li><a href="/ui/pages/" class="icon" data-icon="e"><span>Pages</span></a></li>
+                <li><a href="/ui/assets/" class="icon" data-icon="a"><span>Assets</span></a></li>
+            </ul>
+        </div>
+        <div id="main">
+            <div id="pages"></div>
+            <div id="content"></div>
+            <div id="epiceditor"></div>
+        </div>
+    </main>
+    
+    
+    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+
+    <script type="text/javascript" src="/content/form2js.js"></script>
+    <script type="text/javascript" src="/content/jquery.toObject.js"></script>
+
+    <script id="view-template-page-list-item" type="text/template">
+        <a href="/ui/pages/edit/{{id.substring(6)}}" class="edit">{{metadata.name}}</a>
+        <a href="/ui/pages/{{id.substring(6)}}" style="display:none" class="icon view" data-icon=">"></a>
+        <button class="icon" style="display:none" data-icon="." />
+    </script>
+    
+    <script id="view-template-asset-list-item" type="text/template">
+        <a href="#">{{Name}}</a>
+    </script>
+
+    @{
+        var contentTypes = Html.GetAvailablePageModels();
+    }
+    
+    <script id="view-template-new-page" type="text/template">
+        <div style="position:absolute;top:0;left:0;height:100px;width: 100%;background: #bbb;">                
+        @foreach(var type in contentTypes) {
+            var name = type.GetAttribute<ContentTypeAttribute>().Name ?? type.Name;
+            <label>@name<input type="radio" name="SelectedPageModel" value="@type.AssemblyQualifiedName" /></label>        
+        }
+        </div>
+    </script>
+
+    @* Render all editor templates *@
+    @foreach (var type in contentTypes) {
+        var content = Activator.CreateInstance(type) as IContent;
+        <script id="edit-template-@type.FullName.Replace(".","-").ToLower()" type="text/template">
+            @using (Html.BeginForm()) {
+                @Html.EditorFor(x => content, null, "")
+                <input type="submit" value="Save"/>
+            }
+            </script>
+        }
+    
+    <script id="edit-template-page" type="text/template">
+        <form method="post" id="myForm">
+            <label>Name:</label>
+            <br />
+            <input type="text" name="metadata.name" value="{{metadata.name}}" />
+            <br />
+            <label>Title:</label>
+            <br />
+            <input type="text" name="metadata.title" value="{{metadata.title}}" />
+            <br />
+            <label>Description:</label>
+            <br />
+            <textarea name="metadata.description">{{metadata.description}}</textarea>
+            <br />
+            <label>Slug:</label>
+            <br />
+            <input type="text" name="metadata.slug" value="{{metadata.slug}}" />
+            <br />
+            <label>Url:</label>
+            <br />
+            <input type="url" name="metadata.url" value="{{metadata.url}}" />
+            <br />
+            <label>Published:</label>
+            <br/>
+            <input type="text" name="metadata.published" value="{{metadata.published}}" />
+            <br />
+            <label>Published:</label>
+            <br />
+            <input type="checkbox" name="metadata.isPublished" {[ print( metadata.isPublished ? 'checked="checked"' : '') ]} />
+            <br />
+            <label>Visible in menu:</label>
+            <br />
+            <input type="checkbox" name="metadata.displayInMenu" {[ print( metadata.displayInMenu ? 'checked="checked"' : '') ]} />
+
+            <br />
+            <input type="submit" value="Save" />
+        </form>    
+    </script>
+    <script>
+
+        _.templateSettings = {
+            evaluate: /\{\[([\s\S]+?)\]\}/g,
+            interpolate: /\{\{([\s\S]+?)\}\}/g,
+            escape: /\{\{-([\s\S]+?)\}\}/g
+        };
+
+        var Asset = Backbone.Model.extend({
+            initialize: function () {
+                console.log('Init asset');
+            }
+        });
+
+        var AssetCollection = Backbone.Collection.extend({
+            url: '/api/asset',
+            model: Asset,
+            parse: function (response) {
+                return response.Assets;
+            },
+            initialize: function () { }
+        });
+
+        var AssetListItemView = Backbone.View.extend({
+            tagName: 'li',
+            template: _.template($('#view-template-asset-list-item').html()),
+            initialize: function () { },
+            render: function () {
+                var html = this.template(this.model.toJSON());
+                $(this.el).html(html);
+                return this;
+            }
+        });
+
+        var AssetListView = Backbone.View.extend({
+            tagName: 'ul',
+            initialize: function () {
+                this.collection.bind("reset", this.render, this);
+            },
+            render: function () {
+                this.$el.empty();
+                this.collection.each(function (asset) {
+                    var assetview = new AssetListItemView({
+                        model: asset
+                    });
+                    var $li = assetview.render().$el;
+                    this.$el.append($li);
+                }, this);
+
+
+                return this;
+            }
+        });
+
+        var Content = Backbone.Model.extend({
+            urlRoot: '/api/content',
+            initialize: function () {
+                
+                //var type = this.get('$type');
+                //var index = type.indexOf(',');
+                //console.log(this.get('$type').substring(0,index));
+                //console.log(this.get('heading'));
+                
+            },
+            toJSON: function(){
+                // build the "$type" as the first parameter
+                var json = { '$type': this.get('$type')};
+                // get the rest of the data
+                _.extend(json, Backbone.Model.prototype.toJSON.call(this));
+                // send it back, and hope it's in the right order
+                return json;
+            }
+            
+        });
+
+        var Page = Backbone.Model.extend({
+            urlRoot: '/api/page',
+            initialize: function () {
+                this.on('change', this.notifyGeneral, this);
+            },
+            notifyGeneral: function () {
+                console.log('model has changes');
+            }
+        });
+
+        var PageCollection = Backbone.Collection.extend({
+            url: function () {
+                return '/api/page/' + this.id;    
+            },            
+            model: Page,
+            parse: function (response) {
+                console.log(response.currentPage.id);
+                this.currentPage = new Page(response.currentPage);
+                return response.children;
+            },
+            initialize: function (models, options) {
+                this.id = options.id;    
+            },
+        });
+
+        var PageListItemView = Backbone.View.extend({
+            events: {
+                'click button': 'destroy',
+                'mouseenter': 'hoverOn',
+                'mouseleave': 'hoverOff'
+            },
+            tagName: 'li',
+            template: _.template($('#view-template-page-list-item').html()),
+            initialize: function () {
+                _.bindAll(this, 'render');
+                //this.render = _.bind(this.render, this);
+                this.model.bind('change', this.render);
+                this.model.bind('remove', this.render);
+            },
+            render: function () {
+                var html = this.template(this.model.toJSON());
+                $(this.el).html(html);
+                return this;
+            },
+            destroy: function () {
+
+                console.log('destroy');
+
+                var app = brickpile.app;
+                app.pages.remove(this.model.id);
+                
+                this.remove();
+                this.unbind();
+                this.model.destroy();
+
+            },
+            hoverOn: function(e) {
+                this.$el.find('button').show();
+                this.$el.find('a.view').show();
+            },
+            hoverOff: function(e) {
+                this.$el.find('button').hide();
+                this.$el.find('a.view').hide();
+            }
+        });
+
+        var PageListView = Backbone.View.extend({
+            tagName: 'ul',
+            initialize: function () {
+                //this.collection.bind("reset", this.render, this);
+                var self = this;
+                this.collection.bind("add", function (event) {
+                    self.render();
+                });
+            },
+            addPage: function (ev) {
+                    
+                var self = this;
+                    
+                var $input = $('<input type="text" />');
+
+                $input.bind('keypress', function (e) {
+                    var code = (e.keyCode ? e.keyCode : e.which);
+                    if (code == 13) {
+                            
+                        var page = new Page();
+                        page.set({
+                            metadata: {
+                                name: $(this).val(),
+                                url: 'my-name-is-eminem',
+                                slug: 'my-name-is-eminem',
+                                sortOrder: self.collection.length + 1,
+                                isPublished: false,
+                                pubblished: new Date(),
+                                Changed: new Date()
+                            }, parent: {
+                                id: self.collection.currentPage.id,
+                                url: self.collection.currentPage.get('metadata').url,
+                                slug: self.collection.currentPage.get('metadata').slug
+                            }
+                        });
+                            
+                        page.save(null, {
+                            success: function (model, response) {
+                                self.collection.add(model);
+                                $input.remove();
+                            }
+                        });
+                            
+                    }
+                });
+                $input.prependTo(this.$el).wrap('<li />');
+            },
+            render: function () {
+                var self = this;
+                this.$el.empty();
+
+                var $add = $('<a id="add" class="icon" data-icon="+">New Page</a>');
+                $add.bind('click', function (ev) {
+                    ev.preventDefault();
+                    self.addPage();
+                });
+
+                this.$el.append($add).wrapInner('<li />');
+
+                this.collection.each(function (page) {
+                    var pageview = new PageListItemView({
+                        model: page
+                    });
+                    var $li = pageview.render().$el;
+                    this.$el.append($li);
+                }, this);
+                return this;
+            }
+        });
+
+        var PageEditView = Backbone.View.extend({
+            events: {
+                'click input[type=submit]': 'save'
+            },
+            template: _.template($('#edit-template-page').html()),
+            initialize: function () {
+                //this.collection.bind("reset", this.render, this);
+            },
+            render: function () {
+                var html = this.template(this.model.toJSON());
+                $(this.el).html(html);
+                return this;
+            },
+            save: function (e) {
+                e.preventDefault();
+                var self = this;
+                var formData = $('#myForm').toObject();
+                this.model.set(formData);
+                this.model.save(formData);
+            }
+        });
+        
+        var ContentEditView = Backbone.View.extend({
+            events: {
+                'click input[type=submit]': 'save'
+            },
+            //template: _.template($('#edit-template-article').html()),
+            initialize: function () {
+                try {
+                    var type = this.model.get('$type');
+                    var index = type.indexOf(',');
+                    this.template = _.template($('#edit-template-' + type.substring(0, index).replace(/\./g, '-').toLowerCase()).html());                    
+                } catch(e) {
+                    console.log('Unable to set editor template for model ' + e);
+                } 
+            },
+            render: function () {
+                var html = this.template(this.model.toJSON());
+                $(this.el).html(html);
+                return this;
+            },
+            save: function (e) {
+                e.preventDefault();
+                var formData = this.$el.find('form').toObject();
+                this.model.set(formData);
+                this.model.save(formData);
+            }
+        });
+
+
+        // This contains the module definition factory function, application state,
+        // events, and the router.
+        this.brickpile = {
+            // Assist with code organization, by breaking up logical components of code
+            // into modules.
+            module: function () {
+                // Internal module cache.
+                var modules = {};
+
+                // Create a new module reference scaffold or load an existing module.
+                return function (name) {
+                    // If this module has already been created, return it.
+                    if (modules[name]) {
+                        return modules[name];
+                    }
+
+                    // Create a module and save it under this name
+                    return modules[name] = { Views: {} };
+                };
+            } (),
+
+            // Keep active application instances namespaced under an app object.
+            app: _.extend({}, Backbone.Events)
+        };
+
+        var Router = Backbone.Router.extend({
+            routes: {
+                'ui/': 'index',
+                //'ui/assets/': 'assets',
+                'ui/pages/': 'pages',
+                'ui/pages/:id': 'viewPage',
+                'ui/pages/edit/:id': 'editPage'
+            },
+
+            index: function () {
+
+                var route = this;
+                $('#pages').empty();
+                console.log('ui');
+
+            },
+            assets: function () {
+
+                var route = this;
+
+                var coll = new AssetCollection();
+                coll.fetch({ data: { page: 0} }).success(function () {
+                    var view = new AssetListView({ collection: coll });
+                    $('#pages').html(view.render().el);
+                    console.log('success');
+                });
+
+                console.log('assets');
+
+            },
+            pages: function () {
+
+                var route = this;
+                
+                var app = brickpile.app;
+                    
+                app.pages = new PageCollection([], { id: 'pages/258' });
+                app.pages.fetch({
+                    success: function () {
+                        var view = new PageListView({ collection: app.pages });
+                        $('#pages').html(view.render().el);
+                    }
+                });
+
+            },
+            viewPage: function (id) {
+
+                console.log('Viewing page: ' + id);
+                
+                var route = this;    
+                var app = brickpile.app;
+                    
+                app.pages = new PageCollection([], { id: 'pages/' + id });
+                app.pages.fetch({
+                    success: function () {
+                        var view = new PageListView({ collection: app.pages });
+                        $('#pages').html(view.render().el);
+                    }
+                });
+            },
+            editPage: function (id) {
+
+                console.log('Editing page: ' + id);
+                
+                var app = brickpile.app;
+                    
+                var page = app.pages.get('pages/' + id);
+                var view = new PageEditView({ model: page });
+                $('#content').html(view.render().el);
+
+                var content = new Content({ id: page.get('contentReference') });
+                content.fetch({
+                    success: function(content) {
+                        var contentView = new ContentEditView({ model: content });
+                        $('#content').append(contentView.render().el);
+                    }
+                });
+                
+            }
+        });
+
+        // Shorthand the application namespace
+        var app = brickpile.app;
+
+        // Define your master router on the application namespace and trigger all
+        // navigation from this instance.
+        app.router = new Router();
+
+        // Trigger the initial route and enable HTML5 History API support
+        Backbone.history.start({ pushState: true });
+        $(document).on('click', 'a:not([data-bypass])', function (evt) {
+
+            var href = $(this).attr('href');
+            var protocol = this.protocol + '//';
+
+            if (href.slice(protocol.length) !== protocol) {
+                evt.preventDefault();
+                app.router.navigate(href, true);
+            }
+        });
+        
+        $(document).ajaxStart(function() {
+            $('html').addClass('loading');
+        });
+        
+        $(document).ajaxStop(function() {
+            $('html').removeClass('loading');
+        });
+
+    </script>
+</body>
+</html>
+

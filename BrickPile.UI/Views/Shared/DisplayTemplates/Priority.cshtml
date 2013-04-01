@@ -1,0 +1,10 @@
+﻿@using BrickPile.Samples.Models
+@model Priority?
+
+@if(Model.HasValue) {
+    if(Model == Priority.High) {
+        <h1>To high!!!</h1>    
+    } else {
+        <h1>To low</h1>
+    }
+}

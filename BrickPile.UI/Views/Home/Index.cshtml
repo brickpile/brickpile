@@ -1,9 +1,9 @@
-﻿@model BrickPile.Samples.Models.Home
+﻿@using BrickPile.UI.Web.Mvc.Html
+@model BrickPile.Samples.Models.Home
 
 @{
     ViewBag.Title = "title";
     Layout = "~/views/shared/_Layout.cshtml";
 }
-<h1>@Model.Heading</h1>
-<p>@Model.MainIntro</p>
 
+@Html.Menu()

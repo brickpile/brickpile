@@ -15,7 +15,8 @@ namespace BrickPile.Samples.Models {
         [DataType(DataType.MultilineText)]
         public string MainIntro { get; set; }
 
-        [Required]
+        //[Required]
+        [ScaffoldColumn(false)]
         public Image Image { get; set; }
     }
 }
