@@ -30,16 +30,16 @@ namespace BrickPile.UI.Areas.UI {
         }
 
         public override void RegisterArea(AreaRegistrationContext context) {
-            context.Routes.MapUIRoute("Pages_Default",
-                "ui/{controller}/{action}/{id}",
-                new
-                {
-                    controller = "UI",
-                    action = "Index",
-                    id = UrlParameter.Optional,
-                    area = "UI"
-                },
-                new[] { typeof(Controllers.UIController).Namespace });
+            //context.Routes.MapUIRoute("Pages_Default",
+            //    "ui/{controller}/{action}/{id}",
+            //    new
+            //    {
+            //        controller = "UI",
+            //        action = "Index",
+            //        id = UrlParameter.Optional,
+            //        area = "UI"
+            //    },
+            //    new[] { typeof(Controllers.UIController).Namespace });
 
             context.MapRoute(
                 "UI_Default",

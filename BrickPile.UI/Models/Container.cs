@@ -14,8 +14,16 @@ namespace BrickPile.Samples.Models {
         [ScaffoldColumn(false)]
         public string Id { get; set; }
 
-        public string Heading { get; set; }        
-        [Required]
-        public PageReference ContainerPage { get; set; }        
+        public string Heading { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        public string MainBody { get; set; }
+
+        //[Required]
+        //public PageReference ContainerPage { get; set; }
+    }
+    public class ContainerViewModel {
+        public Container CurrentContent { get; set; }
+        public PageModel CurrentPage { get; set; }
     }
 }

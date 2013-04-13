@@ -40,12 +40,12 @@ namespace BrickPile.UI.Web.Mvc {
         ///   
         /// <exception cref="T:System.ArgumentException">The <paramref name="controllerName"/> parameter is null or empty.</exception>
         public override IController CreateController(RequestContext requestContext, string controllerName) {
-            if (!HasConfiguration()) {
-                requestContext.RouteData.DataTokens["area"] = "ui";
-                requestContext.RouteData.Values["action"] = "index";
-                requestContext.RouteData.Values["controller"] = "setup";
-                return base.CreateController(requestContext, "setup");
-            }
+            //if (!HasConfiguration()) {
+            //    requestContext.RouteData.DataTokens["area"] = "ui";
+            //    requestContext.RouteData.Values["action"] = "index";
+            //    requestContext.RouteData.Values["controller"] = "setup";
+            //    return base.CreateController(requestContext, "setup");
+            //}
 
             return base.CreateController(requestContext, controllerName);
         }

@@ -16,6 +16,7 @@ namespace BrickPile.Samples.Controllers
         public PageModel CurrentPage { get; set; }
         public IEnumerable<PageModel> Children { get; set; } 
     }
+    [Authorize]
     public class PageController : ApiController {
         // GET api/page
         public HttpResponseMessage Get() {

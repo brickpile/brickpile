@@ -23,6 +23,7 @@ using System.Web.Routing;
 using BrickPile.UI;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
+using Raven.Contrib.AspNet.Auth;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Initializer), "Start")]
 namespace BrickPile.UI {
@@ -36,6 +37,8 @@ namespace BrickPile.UI {
             var documentStore = RavenConfig.InitializeRaven();
             //Insure that Structuremap would inject dependecies for any ASP.NET controller created
             var container = StructureMapConfig.InitializeStructureMap(documentStore);
+            
+            AuthProvider.Configuration.DocumentStore = documentStore;
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(container));
 

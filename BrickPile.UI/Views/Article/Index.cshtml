@@ -19,10 +19,12 @@
         <meta name="viewport" content="width=device-width" />
         <script type="text/javascript">
             document.documentElement.className = document.documentElement.className.replace(/(\s|^)no-js(\s|$)/, '$1js$2');        </script> 
-        <link href="//get.pictos.cc/fonts/4039/6" rel="stylesheet" type="text/css">
+        <link href="//get.pictos.cc/fonts/4039/11" rel="stylesheet" type="text/css">
 
         <style type="text/css" media="all">
+            
             body {
+                
                 font-family: 'Lucida Grande', Arial, sans-serif;
                 font-size: 12px;
                 
@@ -31,8 +33,42 @@
                      -o-transition: all .2s linear;
                         transition: all .2s linear;
             }
-            html.loading #main {
-                background: url(/content/loading_throbber.gif) no-repeat center;
+            
+            html.loading #main { background: url(/content/loading_throbber.gif) no-repeat center; }
+            h1 {
+                border-bottom: solid 1px #e5e5e5;
+                font-weight: bold;
+                font-size: 18px;
+                margin-top: 30px;
+                padding-bottom: 16px;
+                padding-left: 46px;                
+            }
+            h1.icon:before {
+                font-size: 34px;
+                color: #000;
+                position: relative;
+                bottom: -4px;
+                margin-right: 9px;
+            }
+            form {
+                margin-left: 46px;
+            }
+            label, .editor-label {
+                font-size: 13px;
+                font-weight: 600;
+                width: 120px;
+                display: inline-block;
+                text-align: right;
+                margin-right: 19px;
+            }
+            .editor-field {
+                display: inline-block;
+            }
+            input[type=text], input[type=url], textarea, input[type=checkbox] {
+                border: solid 1px #e5e5e5;
+                border-radius: 1px;
+                padding: 5px 10px;
+                margin-bottom: 20px;
             }
             #noscript-warning {
                 background-color: #AE0000;
@@ -53,9 +89,7 @@
                      -o-transition: top .2s linear;
                         transition: top .2s linear;
             }            
-            html.no-js #noscript-warning {
-                top: 0;
-            }
+            html.no-js #noscript-warning { top: 0; }
             a {
                 color:rgb(241, 241, 241);
             }
@@ -68,8 +102,8 @@
                 left: 0;
                 top: 0;
                 bottom: 0;
-                width: 90px;
-                background-color: rgb(44, 44, 45);
+                width: 110px;
+                background-color: #222;
                 
             }
             #main-nav ul {
@@ -86,7 +120,7 @@
             
             #main-nav a {
                 display: block;
-                font-size: 12px;
+                font-size: 13px;
                 /*line-height: 50px;
                 min-height: 50px;*/
                 overflow: hidden;
@@ -97,13 +131,13 @@
                 /*text-shadow: 0 1px 0 rgba(255,255,255,0.9);*/
                 white-space: pre;
                 text-align: center;
-                color: rgba(110, 110, 110, 0.9);
-                text-shadow: 0 1px 0 rgba(0,0,0,0.7);
+                color: #555;
+                /*text-shadow: 0 1px 0 rgba(0,0,0,0.7);*/
                 margin-bottom: 1em;
             }
             #main {
                 position: absolute;
-                left: 90px;
+                left: 110px;
                 right: 0;
                 bottom: 0;
                 top: 0;
@@ -114,34 +148,47 @@
                 top: 0;
                 bottom: 0;
                 left: 0;
-                background-color: rgb(236, 235, 232);
+                background-color: #2681dc;
                 width: 20%;
                 overflow-y: auto;
+                padding-top: 52px;
             }
             #pages li {
                 position: relative;
             }
             #pages a.edit {
-                color: #000;
+                
+                color: #7db4ec;
                 display: block;
-                font-size: 12px;
+                font-size: 13px;
+                font-weight: 600;
                 line-height: 50px;
                 min-height: 50px;
                 overflow: hidden;
-                padding: 0 40px 0 48px;
+                padding: 0 40px 0 23px;
                 position: relative;
                 text-decoration: none;
                 text-overflow: ellipsis;
-                text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+                /*text-shadow: 0 1px 0 rgba(255,255,255,0.9);*/
                 white-space: pre;                
+                
+            }
+            #pages a.edit:before {
+                color: #7cb5ec;
+                font-size: 21px;
+                font-weight: 100;
+                text-shadow: none;
+                margin-right: 9px;
+                position: relative;
+                bottom: -2px;
             }
             #pages a.view {
-                color: #000;
                 position: absolute;
-                right: 15px;
-                top: 14px;
+                right: 21px;
+                top: 17px;
             }
             #pages button {
+                
                 background: rgb(255,255,255); /* Old browsers */
                 background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(243,243,243,1) 50%, rgba(237,237,237,1) 51%, rgba(255,255,255,1) 100%); /* FF3.6+ */
                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(50%,rgba(243,243,243,1)), color-stop(51%,rgba(237,237,237,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
@@ -175,7 +222,7 @@
                 color: #bbb;
                 left: -7px;
             }
-*/
+
             #pages a:focus:before,
             #pages a:active:before {
                 color: #fff;
@@ -193,40 +240,45 @@
                 outline: 0;
                 text-shadow: none;
             }            
-            
+*/            
             #pages ul {
                 list-style-type: none;
                 margin: 0;
                 padding: 0;
             }
             #pages li {
+                border-bottom: solid 1px #3c8ee0;
                 padding: 0;
                 min-height: 50px;
             }
             #add {
-                color: #000;
+                font-weight: bold;
+                font-size: 18px;
+                color: #fff;
                 display: block;
-                font-size: 12px;
                 min-height: 50px;
                 overflow: hidden;
-                padding: 0 20px 0 19px;
+                padding: 0 40px 0 23px;
                 position: relative;
                 text-decoration: none;
                 text-overflow: ellipsis;
-                text-shadow: 0 1px 0 rgba(255,255,255,0.9);
                 white-space: pre;                
-                
-                background-color: #f3f3f3;
-                border-bottom: 1px solid #d4d4d4;
                 line-height: 54px;                
             }
-            #pages a#add:before {
-                font-size: 25px;
-                position: relative;
-                bottom: -4px;
-                padding-right: 10px;
-                color: #bbb;
+            #pages a#add:after {
+                
+                font-family: 'Pictos Custom';
+                content: attr(data-icon);
+                
+                -webkit-font-smoothing: antialiased;
+                color: #fff;                
+                
+                font-size: 34px;
+                position: absolute;
+                right: 23px; 
+                
                 text-shadow: none;
+                
             }
             #pages a#add:focus:before,
             #pages a#add:active:before {
@@ -234,10 +286,9 @@
             }
             #pages a.view { text-decoration: none; }
             #pages a.view:before {
-                color: #bbb;
+                color: #7db4ec;
                 font-size: 21px;
                 text-shadow: none;
-                top: 15px;
             }
             .icon span {
                 display: block;
@@ -245,16 +296,16 @@
             .icon:before {
                 font-family: 'Pictos Custom';
                 content: attr(data-icon);
-                font-size: 38px;
+                font-size: 48px;
                 text-shadow: 0 1px 0 rgba(0,0,0,0.6);
                 -webkit-font-smoothing: antialiased;
                 color: rgba(110,110,110,0.9);
-                /* Insert your fancy colours here */
             }
             #content {
                 position: absolute;
-                left: 21%;
+                left: 20%;
                 top: 25px;
+                right: 0;
             }
         </style>
     </head>
@@ -266,8 +317,10 @@
         <div id="main-nav">
             
             <ul>
+                <li><a href="/ui/dashboard/" class="icon" data-icon="d"><span>Dashboard</span></a></li>
                 <li><a href="/ui/pages/" class="icon" data-icon="e"><span>Pages</span></a></li>
                 <li><a href="/ui/assets/" class="icon" data-icon="a"><span>Assets</span></a></li>
+                <li><a href="/ui/users/" class="icon" data-icon="u"><span>Users</span></a></li>                
             </ul>
         </div>
         <div id="main">
@@ -286,9 +339,9 @@
     <script type="text/javascript" src="/content/jquery.toObject.js"></script>
 
     <script id="view-template-page-list-item" type="text/template">
-        <a href="/ui/pages/edit/{{id.substring(6)}}" class="edit">{{metadata.name}}</a>
+        <a href="/ui/pages/edit/{{id.substring(6)}}" class="edit icon" data-icon="p">{{metadata.name}}</a>
         <a href="/ui/pages/{{id.substring(6)}}" style="display:none" class="icon view" data-icon=">"></a>
-        <button class="icon" style="display:none" data-icon="." />
+        <!--button class="icon" style="display:none" data-icon="." /-->
     </script>
     
     <script id="view-template-asset-list-item" type="text/template">
@@ -312,50 +365,51 @@
     @foreach (var type in contentTypes) {
         var content = Activator.CreateInstance(type) as IContent;
         <script id="edit-template-@type.FullName.Replace(".","-").ToLower()" type="text/template">
-            @using (Html.BeginForm()) {
+            <form>    
                 @Html.EditorFor(x => content, null, "")
                 <input type="submit" value="Save"/>
-            }
+            </form>
             </script>
         }
     
     <script id="edit-template-page" type="text/template">
-        <form method="post" id="myForm">
-            <label>Name:</label>
-            <br />
+        <h1 class="icon" data-icon="p">Editing page: {{metadata.name}}</h1>
+        <form id="myForm">
+            <label>Page Name:</label>
             <input type="text" name="metadata.name" value="{{metadata.name}}" />
             <br />
+
             <label>Title:</label>
-            <br />
             <input type="text" name="metadata.title" value="{{metadata.title}}" />
             <br />
+
             <label>Description:</label>
-            <br />
             <textarea name="metadata.description">{{metadata.description}}</textarea>
             <br />
+
             <label>Slug:</label>
+            <input type="text" name="metadata.slug" readonly="readonly" value="{{metadata.slug}}" />
             <br />
-            <input type="text" name="metadata.slug" value="{{metadata.slug}}" />
-            <br />
+
             <label>Url:</label>
+            <input type="url" name="metadata.url" readonly="readonly" value="{{metadata.url}}" />
             <br />
-            <input type="url" name="metadata.url" value="{{metadata.url}}" />
-            <br />
+
             <label>Published:</label>
-            <br/>
             <input type="text" name="metadata.published" value="{{metadata.published}}" />
             <br />
-            <label>Published:</label>
-            <br />
+            
+            <label>Published</label>
             <input type="checkbox" name="metadata.isPublished" {[ print( metadata.isPublished ? 'checked="checked"' : '') ]} />
             <br />
-            <label>Visible in menu:</label>
-            <br />
-            <input type="checkbox" name="metadata.displayInMenu" {[ print( metadata.displayInMenu ? 'checked="checked"' : '') ]} />
 
+            <label>Visible in menu</label>
+            <input type="checkbox" name="metadata.displayInMenu" {[ print( metadata.displayInMenu ? 'checked="checked"' : '') ]} />
             <br />
+
             <input type="submit" value="Save" />
         </form>    
+    
     </script>
     <script>
 
@@ -414,12 +468,6 @@
         var Content = Backbone.Model.extend({
             urlRoot: '/api/content',
             initialize: function () {
-                
-                //var type = this.get('$type');
-                //var index = type.indexOf(',');
-                //console.log(this.get('$type').substring(0,index));
-                //console.log(this.get('heading'));
-                
             },
             toJSON: function(){
                 // build the "$type" as the first parameter
@@ -435,11 +483,8 @@
         var Page = Backbone.Model.extend({
             urlRoot: '/api/page',
             initialize: function () {
-                this.on('change', this.notifyGeneral, this);
-            },
-            notifyGeneral: function () {
-                console.log('model has changes');
             }
+
         });
 
         var PageCollection = Backbone.Collection.extend({
@@ -511,7 +556,7 @@
                     
                 var self = this;
                     
-                var $input = $('<input type="text" />');
+                var $input = $('<input type="text" style="margin-top:15px;margin-left:21px;" placeholder="My awesome page..." />');
 
                 $input.bind('keypress', function (e) {
                     var code = (e.keyCode ? e.keyCode : e.which);
@@ -543,13 +588,14 @@
                             
                     }
                 });
-                $input.prependTo(this.$el).wrap('<li />');
+                
+                $input.appendTo(this.$el).wrap('<li />');
             },
             render: function () {
                 var self = this;
                 this.$el.empty();
 
-                var $add = $('<a id="add" class="icon" data-icon="+">New Page</a>');
+                var $add = $('<a id="add" data-icon="+">Add new page</a>');
                 $add.bind('click', function (ev) {
                     ev.preventDefault();
                     self.addPage();
@@ -676,10 +722,11 @@
             pages: function () {
 
                 var route = this;
-                
+
+                $('#content').empty();
+
                 var app = brickpile.app;
-                    
-                app.pages = new PageCollection([], { id: 'pages/258' });
+                app.pages = new PageCollection([], { id: 'pages/1' });
                 app.pages.fetch({
                     success: function () {
                         var view = new PageListView({ collection: app.pages });

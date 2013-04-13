@@ -1,4 +1,4 @@
-﻿
+﻿@model BrickPile.UI.Areas.UI.Models.LoginModel
 @* Copyright (C) 2011 by Marcus Lindblom
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,3 +18,148 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="sv" class="no-js"> <!--<![endif]-->
+<head>
+    <title>BrickPile is a tidy bit of GUI</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript">
+        document.documentElement.className = document.documentElement.className.replace(/(\s|^)no-js(\s|$)/, '$1js$2');    </script>
+    <link href="//get.pictos.cc/fonts/4039/16" rel="stylesheet" type="text/css">
+    <link href="/areas/ui/css/normalize.css" rel="stylesheet" type="text/css"/>
+    <link href="/areas/ui/css/brickpile.css" rel="stylesheet"  type="text/css"/>
+</head>
+<body>
+    <header style="text-align: right;"></header>
+    <nav>
+        <ul>
+            <li><a href="/ui/dashboard/" class="icon" data-icon="d"><span>Dashboard</span></a></li>
+            <li><a href="/ui/pages/" class="icon" data-icon="e"><span>Pages</span></a></li>
+            <li><a href="/ui/assets/" class="icon" data-icon="a"><span>Assets</span></a></li>
+            <li><a href="/ui/users/" class="icon" data-icon="u"><span>Users</span></a></li>                
+        </ul>
+    </nav>
+    <main>
+        <div id="pages">
+        </div>
+        <div id="content"></div>
+    </main>
+    
+    <div id="login-screen" class="@(ViewBag.IsAuthenticated ? "hidden" : null)" style="@(ViewBag.IsAuthenticated ? "display:none;" : null)">
+        <div id="bg-wrap">
+            
+            <form id="login-form" class="icon animated fadeInDown" data-icon="k">
+                <input type="text" name="UserName" id="UserName" placeholder="username" autofocus="autofocus"/>
+                <input type="password" name="Password" id="Password" placeholder="password"/>
+                <button type="submit" class="icon" data-icon="v"></button>
+            </form>
+            
+            <form id="register-form" style="display: none;">
+                <fieldset>
+                    <legend>Register form</legend>
+                    <label>Name:</label>
+                    <input type="text" name="UserName" id="UserName"/>
+                    <br/>
+                    <label>Password</label>
+                    <input type="password" name="Password" id="Password"/>
+                    <br/>
+                    <label>Confirm Password</label>
+                    <input type="password" name="ConfirmPassword" id="ConfirmPassword" />
+                    <br />
+                    <button type="submit">Register</button>
+                </fieldset>
+            </form>             
+        </div>        
+    </div>
+    
+    <script id="view-template-login-status-view" type="text/template">
+        <div id="loginStatus" style="position:absolute;z-index:100;bottom:20px;text-align:center;width:100%;">
+            <img src="http://www.gravatar.com/avatar/c5d9c4382bb64bf021b5177e3fa3927d?s=34" style="border-radius:3px;" />
+            <a style="font-size:11px;color:#ababab;text-shadow: 0 0 1px #000;-webkit-font-smoothing: antialiased;">{{username}}</a>
+            <button class="icon" data-icon="s" style="background-color:transparent;border:0;"></button>
+        </div>    
+    </script>
+
+    <script id="view-template-page-list-item" type="text/template">
+        <a href="/ui/pages/edit/{{id.substring(6)}}" class="edit icon" data-icon="p">{{metadata.name}}</a>
+        <a href="/ui/pages/{{id.substring(6)}}" style="display:none" class="icon view" data-icon=">"></a>
+        <!--button class="icon" style="display:none" data-icon="." /-->
+    </script>
+
+    <script id="view-template-asset-list-item" type="text/template">
+        <a href="#">{{Name}}</a>
+    </script>
+    
+    <script id="edit-template-page" type="text/template">
+        <h1 class="icon" data-icon="p">Editing page: {{metadata.name}}</h1>
+        <form id="myForm">
+            <label>Page Name:</label>
+            <input type="text" name="metadata.name" value="{{metadata.name}}" />
+            <br />
+
+            <label>Title:</label>
+            <input type="text" name="metadata.title" value="{{metadata.title}}" />
+            <br />
+
+            <label>Description:</label>
+            <textarea name="metadata.description">{{metadata.description}}</textarea>
+            <br />
+
+            <label>Slug:</label>
+            <input type="text" name="metadata.slug" readonly="readonly" value="{{metadata.slug}}" />
+            <br />
+
+            <label>Url:</label>
+            <input type="url" name="metadata.url" readonly="readonly" value="{{metadata.url}}" />
+            <br />
+
+            <label>Published:</label>
+            <input type="text" name="metadata.published" value="{{metadata.published}}" />
+            <br />
+            
+            <label>Published</label>
+            <input type="checkbox" name="metadata.isPublished" {[ print( metadata.isPublished ? 'checked="checked"' : '') ]} />
+            <br />
+
+            <label>Visible in menu</label>
+            <input type="checkbox" name="metadata.displayInMenu" {[ print( metadata.displayInMenu ? 'checked="checked"' : '') ]} />
+            <br />
+
+            <input type="submit" value="Save" />
+        </form>    
+    
+    </script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+    <script>
+        _.templateSettings = {
+            evaluate: /\{\[([\s\S]+?)\]\}/g,
+            interpolate: /\{\{([\s\S]+?)\}\}/g,
+            escape: /\{\{-([\s\S]+?)\}\}/g
+        };
+    </script>
+    <script src="/areas/ui/js/models/page.js"></script>
+    <script src="/areas/ui/js/models/auth.js"></script>
+    <script src="/areas/ui/js/models/user.js"></script>
+    <script src="/areas/ui/js/models/session.js"></script>
+    <script src="/areas/ui/js/collections/pages.js"></script>
+    <script src="/areas/ui/js/views/base.js"></script>
+    <script src="/areas/ui/js/views/pages/view.js"></script>
+    <script src="/areas/ui/js/views/pages/list.js"></script>
+    <script src="/areas/ui/js/views/pages/edit.js"></script>
+    <script src="/areas/ui/js/views/auth/login.js"></script>
+    <script src="/areas/ui/js/views/auth/register.js"></script>
+    <script src="/areas/ui/js/views/auth/status.js"></script>
+    <script src="/areas/ui/js/libs/Forms2js/form2js.js"></script>
+    <script src="/areas/ui/js/libs/Forms2js/jquery.toObject.js"></script>
+    <script src="/areas/ui/js/brickpile.js"></script>
+    <script src="/areas/ui/js/app.js"></script>
+</body>
+</html>

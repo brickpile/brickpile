@@ -9,6 +9,9 @@ using Raven.Client;
 using StructureMap;
 
 namespace BrickPile.Samples.Controllers {
+    public class ContentResponse {
+        public IContent Content { get; set; }
+    }
     public class ContentController : ApiController {
         // GET api/page
         public IEnumerable<IContent> Get() {

@@ -44,6 +44,9 @@
     <Reference Include="AjaxMin">
       <HintPath>..\packages\AjaxMin.4.48.4489.28432\lib\net20\AjaxMin.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetOpenAuth">
+      <HintPath>..\packages\DotNetOpenAuth.Ultimate.4.2.2.13055\lib\net40-full\DotNetOpenAuth.dll</HintPath>
+    </Reference>
     <Reference Include="EcmaScript.NET">
       <HintPath>..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\EcmaScript.NET.dll</HintPath>
     </Reference>
@@ -59,6 +62,12 @@
     </Reference>
     <Reference Include="Raven.Client.Lightweight, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Contrib.AspNet.Auth">
+      <HintPath>..\lib\Raven.Contrib.AspNet.Auth\Raven.Contrib.AspNet.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Contrib.AspNet.Auth.Providers">
+      <HintPath>..\lib\Raven.Contrib.AspNet.Auth.Providers\Raven.Contrib.AspNet.Auth.Providers.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Database, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB.Database.2.0.2330\lib\net40\Raven.Database.dll</HintPath>
@@ -148,16 +157,28 @@
     <Compile Include="App_Start\Initializer.cs" />
     <Compile Include="App_Start\RavenConfig.cs" />
     <Compile Include="App_Start\StructureMapConfig.cs" />
-    <Compile Include="Areas\UI\Controllers\AccountController.cs" />
+    <Compile Include="Areas\UI\Controllers\AuthController.cs" />
     <Compile Include="Areas\UI\Controllers\AssetController.cs" />
+    <Compile Include="Areas\UI\Controllers\Controller.cs" />
     <Compile Include="Areas\UI\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\UI\Controllers\PageController.cs" />
     <Compile Include="Areas\UI\Controllers\PagesController.cs" />
     <Compile Include="Areas\UI\Controllers\SetupController.cs" />
     <Compile Include="Areas\UI\Controllers\UIController.cs" />
-    <Compile Include="Areas\UI\Models\AccountModels.cs" />
+    <None Include="Areas\UI\Models\AccountModels.cs.bak" />
     <Compile Include="Areas\UI\Models\EditUserModel.cs" />
+    <Compile Include="Areas\UI\Models\ExternalLoginModel.cs" />
+    <Compile Include="Areas\UI\Models\ExternalLoginsListModel.cs" />
+    <Compile Include="Areas\UI\Models\LocalPasswordModel.cs" />
+    <Compile Include="Areas\UI\Models\LoginModel.cs" />
+    <Compile Include="Areas\UI\Models\ManageModel.cs" />
     <Compile Include="Areas\UI\Models\NewModel.cs" />
+    <Compile Include="Areas\UI\Models\RegisterExternalLoginModel.cs" />
+    <Compile Include="Areas\UI\Models\RegisterModel.cs" />
+    <Compile Include="Areas\UI\Models\RemoveExternalLoginModel.cs" />
     <Compile Include="Areas\UI\UIAreaRegistration.cs" />
+    <Compile Include="Areas\UI\UriExtensions.cs" />
+    <Compile Include="Areas\UI\UrlHelperExtensions.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\HtmlExtensions.cs" />
     <Compile Include="Common\RouteCollectionExtensions.cs" />
@@ -294,6 +315,8 @@
     <Content Include="Areas\UI\Content\webfonts\svg\museo-sans-500.svg" />
     <Content Include="Areas\UI\Content\webfonts\svg\museo-sans-700.svg" />
     <Content Include="Areas\UI\Content\webfonts\svg\style_159303.svg" />
+    <Content Include="Areas\UI\Css\brickpile.css" />
+    <Content Include="Areas\UI\Css\normalize.css" />
     <Content Include="Areas\UI\Images\add.png" />
     <Content Include="Areas\UI\Images\ajax-loader.gif" />
     <Content Include="Areas\UI\Images\button.png" />
@@ -326,6 +349,22 @@
     <Content Include="Areas\UI\Images\tileable-pattern-01.png" />
     <Content Include="Areas\UI\Images\undo.png" />
     <Content Include="Areas\UI\Images\wood.jpg" />
+    <Content Include="Areas\UI\Js\app.js" />
+    <Content Include="Areas\UI\Js\brickpile.js" />
+    <Content Include="Areas\UI\Js\Collections\pages.js" />
+    <Content Include="Areas\UI\Js\Libs\Forms2js\form2js.js" />
+    <Content Include="Areas\UI\Js\Libs\Forms2js\jquery.toObject.js" />
+    <Content Include="Areas\UI\Js\Models\auth.js" />
+    <Content Include="Areas\UI\Js\Models\page.js" />
+    <Content Include="Areas\UI\Js\Models\user.js" />
+    <Content Include="Areas\UI\Js\Models\session.js" />
+    <Content Include="Areas\UI\Js\Views\Auth\status.js" />
+    <Content Include="Areas\UI\Js\Views\Auth\login.js" />
+    <Content Include="Areas\UI\Js\Views\Auth\register.js" />
+    <Content Include="Areas\UI\Js\Views\Content\edit.js" />
+    <Content Include="Areas\UI\Js\Views\Pages\edit.js" />
+    <Content Include="Areas\UI\Js\Views\Pages\list.js" />
+    <Content Include="Areas\UI\Js\Views\Pages\view.js" />
     <Content Include="Areas\UI\Scripts\animated-progress.js" />
     <Content Include="Areas\UI\Scripts\application.js" />
     <Content Include="Areas\UI\Scripts\backbone.js" />
@@ -678,6 +717,15 @@
     <Content Include="Areas\UI\Views\Shared\DisplayTemplates\Image.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\Html.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\Image.cshtml" />
+    <Content Include="Areas\UI\Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Areas\UI\Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Areas\UI\Views\Account\Login.cshtml" />
+    <Content Include="Areas\UI\Views\Account\Manage.cshtml" />
+    <Content Include="Areas\UI\Views\Account\Register.cshtml" />
+    <Content Include="Areas\UI\Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Areas\UI\Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Areas\UI\Views\Account\_RemoveExternalLoginsPartial.cshtml" />
+    <Content Include="Areas\UI\Views\Account\_SetPasswordPartial.cshtml" />
     <None Include="Areas\UI\Views\Shared\EditorTemplates\Object.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\PageReference.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\Slug.cshtml" />
@@ -695,16 +743,10 @@
     <None Include="Areas\UI\Styles\webfonts\woff\felttip-roman.woff" />
     <None Include="Areas\UI\Styles\webfonts\woff\museo-sans-500.woff" />
     <None Include="Areas\UI\Styles\webfonts\woff\museo-sans-700.woff" />
-    <Content Include="Areas\UI\Views\Account\ChangePassword.cshtml" />
-    <Content Include="Areas\UI\Views\Account\ChangePasswordSuccess.cshtml" />
-    <Content Include="Areas\UI\Views\Account\EditUser.cshtml" />
-    <Content Include="Areas\UI\Views\Account\LogOn.cshtml" />
-    <Content Include="Areas\UI\Views\Account\ManageRoles.cshtml" />
-    <Content Include="Areas\UI\Views\Account\ManageUsers.cshtml" />
-    <Content Include="Areas\UI\Views\Account\Register.cshtml" />
     <Content Include="Areas\UI\Views\Dashboard\Index.cshtml" />
     <Content Include="Areas\UI\Views\UI\Index.cshtml" />
     <Content Include="Areas\UI\Views\Shared\_AssetsDialog.cshtml" />
+    <Content Include="Areas\UI\Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

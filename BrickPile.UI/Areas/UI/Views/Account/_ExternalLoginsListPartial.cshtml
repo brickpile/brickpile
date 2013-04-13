@@ -1,0 +1,29 @@
+﻿@model BrickPile.UI.Areas.UI.Models.ExternalLoginsListModel
+
+@if (Model.ProviderNames.Any())
+{
+    using (Html.BeginForm("ExternalLogin", "Account", new { Model.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+
+        <fieldset id="socialLoginList">
+            <legend>Log in using another service</legend>
+            <p>
+                @foreach (string providerName in Model.ProviderNames)
+                {
+                    <button type="submit" name="provider" value="@providerName" title="Log in using your @providerName account">@providerName</button>
+                }
+            </p>
+        </fieldset>
+    }
+}
+else
+{
+    <div class="message-info">
+        <p>
+            There are no external authentication services configured.
+            See <a href="http://go.microsoft.com/fwlink/?LinkId=252166">this article</a>
+            for details on setting up this ASP.NET application to support logging in via external services.
+        </p>
+    </div>
+}

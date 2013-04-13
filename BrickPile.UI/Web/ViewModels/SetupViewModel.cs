@@ -15,6 +15,6 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <value>
         /// The setup model.
         /// </value>
-        public RegisterModel SetupModel { get; set; }
+        //public RegisterModel SetupModel { get; set; }
     }
 }

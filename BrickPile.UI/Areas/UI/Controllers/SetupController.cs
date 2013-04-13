@@ -27,8 +27,8 @@ using Raven.Client;
 
 namespace BrickPile.UI.Areas.UI.Controllers {
     public class SetupController : Controller {
-        private readonly IMembershipService _membershipService;
-        private readonly IFormsAuthenticationService _formsService;
+        //private readonly IMembershipService _membershipService;
+        //private readonly IFormsAuthenticationService _formsService;
         private readonly IDocumentSession _session;
         /// <summary>
         /// Indexes this instance.
@@ -46,34 +46,35 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// <returns></returns>
         [HttpPost]
         public ActionResult Index(SetupViewModel model) {
-            if (ModelState.IsValid) {
-                // Attempt to register the user
-                MembershipCreateStatus createStatus = _membershipService.CreateUser(model.SetupModel.UserName, model.SetupModel.Password, model.SetupModel.Email);
+            return new EmptyResult();
+            //if (ModelState.IsValid) {
+            //    // Attempt to register the user
+            //    MembershipCreateStatus createStatus = _membershipService.CreateUser(model.SetupModel.UserName, model.SetupModel.Password, model.SetupModel.Email);
 
-                if (createStatus == MembershipCreateStatus.Success) {
+            //    if (createStatus == MembershipCreateStatus.Success) {
 
-                    _formsService.SignIn(model.SetupModel.UserName, false /* createPersistentCookie */);
-                    // Create the site configuration
-                    IConfiguration configuration = new Configuration.Configuration();
-                    configuration.SiteName = model.Configuration.SiteName;
-                    _session.Store(configuration);
-                    _session.SaveChanges();
+            //        _formsService.SignIn(model.SetupModel.UserName, false /* createPersistentCookie */);
+            //        // Create the site configuration
+            //        IConfiguration configuration = new Configuration.Configuration();
+            //        configuration.SiteName = model.Configuration.SiteName;
+            //        _session.Store(configuration);
+            //        _session.SaveChanges();
 
-                    return RedirectToAction("index", "UI", new { area = "ui" });
-                }
+            //        return RedirectToAction("index", "UI", new { area = "ui" });
+            //    }
 
-                ModelState.AddModelError("", AccountValidation.ErrorCodeToString(createStatus));
-            }
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            //    ModelState.AddModelError("", AccountValidation.ErrorCodeToString(createStatus));
+            //}
+            //// If we got this far, something failed, redisplay form
+            //return View(model);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="SetupController"/> class.
         /// </summary>
         /// <param name="session">The session.</param>
         public SetupController(IDocumentSession session) {
-            _membershipService = new AccountMembershipService();
-            _formsService = new FormsAuthenticationService();
+            //_membershipService = new AccountMembershipService();
+            //_formsService = new FormsAuthenticationService();
             _session = session;
         }
     }

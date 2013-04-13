@@ -1,0 +1,17 @@
+﻿@if (ViewBag.IsAuthenticated)
+{
+    @:Hello, <a href="@Url.Action("Manage", "Account")" class="username" title="Manange">@ViewBag.UserName</a>!
+
+    <form id="logoutForm" action="@Url.Action("LogOff", "Account")" method="POST">
+        @Html.AntiForgeryToken()
+
+        <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+    </form>
+}
+else
+{
+    <ul>
+        <li><a id="registerLink" href="@Url.Action("Register", "Account")">Register</a></li>
+        <li><a id="loginLink" href="@Url.Action("Login", "Account")">Log in</a></li>
+    </ul>
+}
