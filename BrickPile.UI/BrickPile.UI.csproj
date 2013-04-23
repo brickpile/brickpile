@@ -361,6 +361,7 @@
     <Content Include="Areas\UI\Js\Views\Auth\status.js" />
     <Content Include="Areas\UI\Js\Views\Auth\login.js" />
     <Content Include="Areas\UI\Js\Views\Auth\register.js" />
+    <Content Include="Areas\UI\Js\Views\base.js" />
     <Content Include="Areas\UI\Js\Views\Content\edit.js" />
     <Content Include="Areas\UI\Js\Views\Pages\edit.js" />
     <Content Include="Areas\UI\Js\Views\Pages\list.js" />

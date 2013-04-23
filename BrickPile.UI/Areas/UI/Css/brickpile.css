@@ -315,7 +315,8 @@
     }
 
     
-    #login-form {
+    #login-form,
+    #register-form {
         
         position: absolute;
         left: 50%;
@@ -341,7 +342,8 @@
         */
     }
 
-    #login-form input {
+    #login-form input,
+    #register-form input {
         border: 0;
         background-color: #f2f2f2;
         font-size: 24px;
@@ -356,14 +358,17 @@
         width: 100%;
         color: #4d5b64;
     }
-    #login-form input[placeholder] { color: #b6baba;}
-    #login-form button {
+    #login-form input[placeholder],
+    #register-form input[placeholder] { color: #b6baba;}
+    #login-form button,
+    #register-form button {
         background-color: #74c3ff;
         border: 0;
         width: 100%;
     }
     
-    #login-form:before {
+    #login-form:before,
+    #register-form:before {
         color: #ff7a74;
         content: attr(data-icon);
         font-family: "Pictos Custom",sans-serif;
@@ -371,7 +376,8 @@
         text-shadow: none;
     }
     
-    #login-form button.icon:before {
+    #login-form button.icon:before,
+    #register-form button.icon:before {
         color: #fff;
         content: attr(data-icon);
         font-family: "Pictos Custom",sans-serif;
@@ -379,29 +385,6 @@
         margin: 0;
         padding: 0;
         text-shadow: none;
-    }
-    
-    
-    #register-form {
-        position: absolute;
-        left: 50%;
-        margin-left: -440px;
-        top: 60%;
-        margin-top: -300px;
-        z-index: 1000;
-        text-align: left;
-        width: 325px;
-        min-height: 200px;
-        /*
-        text-align: center;
-        cursor: default;
-        border-radius: 5px;
-        background: #f6f5f2;
-        user-select: none;
-        -moz-user-select: -moz-none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        */
     }
     
     .animated {

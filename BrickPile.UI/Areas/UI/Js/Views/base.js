@@ -24,7 +24,7 @@ _.extend(BaseView.prototype, Backbone.View.prototype, {
         this.unbind();        // This will unbind all listeners to events from 
         // this view. This is probably not necessary 
         // because this view will be garbage collected.
-        //this.remove(); // Uses the default Backbone.View.remove() method which
+        this.remove(); // Uses the default Backbone.View.remove() method which
         // removes this.el from the DOM and removes DOM events.
     }
 

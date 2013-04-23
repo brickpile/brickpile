@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -26,11 +27,14 @@ using System.Security.Authentication;
 using System.Web.Http;
 using System.Web.Mvc;
 using BrickPile.UI.Areas.UI.Models;
+using BrickPile.UI.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Raven.Client;
 using Raven.Contrib.AspNet.Auth;
 using Raven.Contrib.AspNet.Auth.Interfaces;
 using Raven.Contrib.AspNet.Auth.Providers;
+using StructureMap;
 
 namespace BrickPile.UI.Areas.UI.Controllers {
 
@@ -46,6 +50,8 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         protected readonly IAuthProvider Authenticator;
 
         private readonly IDictionary<string, IExternalAuthProvider> _providers;
+
+        private IDocumentSession _session = ObjectFactory.GetInstance<IDocumentSession>();
 
         public AuthController() {
 
@@ -139,12 +145,22 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         public HttpResponseMessage Post([FromBody]RegisterModel model) {
             if (ModelState.IsValid) {
                 // Attempt to register the user
+                var jsonSerializerSettings = new JsonSerializerSettings
+                {
+                    Formatting = Formatting.Indented,
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
                 try {
                     Authenticator.CreateAccount(model.UserName, model.Password);
                     Authenticator.Login(model.UserName, model.Password);
 
+                    IConfiguration configuration = new Configuration.Configuration();
+                    _session.Store(configuration);
+                    _session.SaveChanges();
+
                     return new HttpResponseMessage
                     {
+                        Content = new StringContent(JsonConvert.SerializeObject(new { username = Authenticator.Current }, jsonSerializerSettings)),
                         StatusCode = HttpStatusCode.OK
                     };
                 } catch (DuplicateUserNameException) {
@@ -161,18 +177,27 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 
         [System.Web.Http.HttpGet]
         public HttpResponseMessage Session() {
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
             if(Authenticator.IsAuthenticated) {
-                var jsonSerializerSettings = new JsonSerializerSettings
-                {
-                    Formatting = Formatting.Indented,
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                };
                 return new HttpResponseMessage
                 {
                     Content = new StringContent(JsonConvert.SerializeObject(new { username = Authenticator.Current },jsonSerializerSettings)),
                     StatusCode = HttpStatusCode.OK
                 };
             }
+
+            var config = _session.Load<IConfiguration>("brickpile/configuration");
+            if(config == null) {
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.Forbidden
+                };                                
+            }
+
             return new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.Unauthorized

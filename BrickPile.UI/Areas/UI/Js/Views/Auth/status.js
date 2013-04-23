@@ -1,10 +1,10 @@
 ﻿var LoginStatusView = Backbone.View.extend({
-    
+
     events: {
         'click button': 'logoff'
     },
     initialize: function () {
-        
+
     },
     template: _.template($('#view-template-login-status-view').html()),
     render: function () {
@@ -12,16 +12,14 @@
         return this;
     },
     logoff: function () {
+        
         var app = brickpile.app;
+
+        $('#login-screen').removeClass('hidden').removeAttr('style');
+        $('#login-screen').addClass('animated fadeInDown');
+        app.router.navigate('ui/login/', true);
+        
         var url = '/api/auth/logoff';
-        $.ajax({
-            url: url,
-            type: 'POST',
-            success: function () {
-                $('#login-screen').removeClass('hidden').removeAttr('style');
-                $('#login-screen').addClass('animated fadeInDown');
-                app.router.navigate('ui/login/', true);
-            }
-        });
+        $.post(url);
     }
 });

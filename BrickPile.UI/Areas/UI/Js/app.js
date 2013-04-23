@@ -2,6 +2,7 @@
     routes: {
         'ui/': 'index',
         'ui/login/': 'login',
+        'ui/setup/': 'setup',
         //'ui/assets/': 'assets',
         'ui/pages/': 'pages',
 
@@ -15,11 +16,19 @@
         app.session = new Session();
         app.session.fetch({
             success: function (model, response, options) {
+                
+                console.log(response.status);
                 var view = new LoginStatusView({ model: model });
                 $('nav').append(view.render().el);
+                
             },
             error: function (model, response, options) {
-                route.navigate('ui/login/', true);
+                console.log(response.status);
+                if (response.status == 403) {
+                    route.navigate('ui/setup/', true);
+                } else {
+                    route.navigate('ui/login/', true);
+                }
             }
         });
 
@@ -27,12 +36,12 @@
         //$('#bg-wrap').append(new LoginView().render().el);
         //window.RegisterView = new RegisterView();
     },
-    login: function () {
-        console.log('do this')
-        var view = new LoginView({ model: new User() });
-        
+    setup: function () {
+        $('#bg-wrap').append(new RegisterView().render().el);
     },
-
+    login: function () {
+        $('#bg-wrap').append(new LoginView({ model: new User() }).render().el);
+    },
     pages: function () {
 
         var route = this;
@@ -64,7 +73,7 @@
             }
         });
     },
-    
+
     editPage: function (id) {
 
         console.log('Editing page: ' + id);
@@ -75,16 +84,16 @@
         var view = new PageEditView({ model: page });
         $('#content').html(view.render().el);
 
-//        var content = new Content({ id: page.get('contentReference') });
-//        content.fetch({
-//            success: function (content) {
-//                var contentView = new ContentEditView({ model: content });
-//                $('#content').append(contentView.render().el);
-//            }
-//        });
+        //        var content = new Content({ id: page.get('contentReference') });
+        //        content.fetch({
+        //            success: function (content) {
+        //                var contentView = new ContentEditView({ model: content });
+        //                $('#content').append(contentView.render().el);
+        //            }
+        //        });
 
     }
-    
+
 
 });
 
