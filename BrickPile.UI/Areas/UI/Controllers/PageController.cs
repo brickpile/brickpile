@@ -33,6 +33,14 @@ namespace BrickPile.UI.Areas.UI.Controllers
                 .Customize(x => x.Include<PageModel>(y => y.Children))
                 .SingleOrDefault(x => x.Parent == null);
 
+            //if(home == null) {
+                
+            //return new HttpResponseMessage(HttpStatusCode.OK)
+            //{
+            //    Content = new StringContent(JsonConvert.SerializeObject(new ResponseContent { Children = new List<PageModel>(), CurrentPage = new PageModel(){ Metadata = { Name = "Foo"} }}, jsonSerializerSettings))
+            //};
+            //}
+
             var viewModel = new ResponseContent
             {
                 CurrentPage = home,
@@ -43,10 +51,9 @@ namespace BrickPile.UI.Areas.UI.Controllers
 
             var response = new HttpResponseMessage(HttpStatusCode.OK)
             {
-                Content = new StringContent(
-                    JsonConvert.SerializeObject(viewModel, jsonSerializerSettings)
-                    )
+                Content = new StringContent(JsonConvert.SerializeObject(viewModel, jsonSerializerSettings))
             };
+
             return response;
         }
 

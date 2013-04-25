@@ -53,8 +53,14 @@ THE SOFTWARE. *@
     <div id="login-screen" class="@(ViewBag.IsAuthenticated ? "hidden" : null)" style="@(ViewBag.IsAuthenticated ? "display:none;" : null)">
         <div id="bg-wrap">
 
-        </div>        
+        </div>
     </div>
+    
+    <script id="view-template-page-list-item" type="text/template">
+        <a href="/ui/pages/edit/{{id.substring(6)}}" class="edit icon" data-icon="p">{{metadata.name}}</a>
+        <a href="/ui/pages/{{id.substring(6)}}" style="display:none" class="icon view" data-icon=">"></a>
+    </script>
+    <script id="view-template-page-list" type="text/template">fii</script>
     <script id="view-template-login-view" type="text/template">
         <form id="login-form" class="icon animated fadeInDown" data-icon="k">
             <input type="text" name="UserName" id="UserName" placeholder="username" autofocus="autofocus"/>
@@ -76,19 +82,7 @@ THE SOFTWARE. *@
             <a style="font-size:11px;color:#ababab;text-shadow: 0 0 1px #000;-webkit-font-smoothing: antialiased;">{{username}}</a>
             <button class="icon" data-icon="s" style="background-color:transparent;border:0;"></button>
         </div>    
-    
     </script>
-
-    <script id="view-template-page-list-item" type="text/template">
-        <a href="/ui/pages/edit/{{id.substring(6)}}" class="edit icon" data-icon="p">{{metadata.name}}</a>
-        <a href="/ui/pages/{{id.substring(6)}}" style="display:none" class="icon view" data-icon=">"></a>
-        <!--button class="icon" style="display:none" data-icon="." /-->
-    </script>
-
-    <script id="view-template-asset-list-item" type="text/template">
-        <a href="#">{{Name}}</a>
-    </script>
-    
     <script id="edit-template-page" type="text/template">
         <h1 class="icon" data-icon="p">Editing page: {{metadata.name}}</h1>
         <form id="myForm">
