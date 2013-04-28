@@ -206,6 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\UI\Content\brickpile.css" />
+    <Content Include="Areas\UI\Content\ui-datetimepicker.css" />
     <Content Include="Areas\UI\Content\images\back-btn.png" />
     <Content Include="Areas\UI\Content\images\dark-wood.jpg" />
     <Content Include="Areas\UI\Content\images\dialog-top.png" />
@@ -333,6 +334,7 @@
     <Content Include="Areas\UI\Scripts\jquery-1.9.1.min.js" />
     <Content Include="Areas\UI\Scripts\jquery-ui-1.10.0.js" />
     <Content Include="Areas\UI\Scripts\jquery-ui-1.10.0.min.js" />
+    <Content Include="Areas\UI\Scripts\jquery-ui-timepicker-addon.js" />
     <Content Include="Areas\UI\Scripts\jquery.hoverIntent.js" />
     <Content Include="Areas\UI\Scripts\jquery.nanoscroller.js" />
     <Content Include="Areas\UI\Scripts\jquery.selectbox.js" />

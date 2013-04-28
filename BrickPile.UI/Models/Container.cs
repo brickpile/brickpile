@@ -16,6 +16,8 @@ namespace BrickPile.Samples.Models {
 
         public string Heading { get; set; }        
         [Required]
-        public PageReference ContainerPage { get; set; }        
+        public PageReference ContainerPage { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
+        public DateTime CurrentDate { get; set; }
     }
 }

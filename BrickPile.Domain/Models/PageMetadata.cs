@@ -68,6 +68,7 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// The published.
         /// </value>
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public virtual DateTime Published { get; set; }
         /// <summary>
         /// Gets or sets the changed.
