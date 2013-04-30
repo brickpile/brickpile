@@ -68,6 +68,13 @@ var NewPageView = Backbone.View.extend({
                 return slug;
             }
         });
+        $('input[type=datetime]').datetimepicker(
+            {
+                dayNamesMin: [ "S", "M", "T", "W", "T", "F", "S" ],
+                firstDay:1,
+                dateFormat: "yy-mm-dd"
+            }
+        );
     }
 
 });

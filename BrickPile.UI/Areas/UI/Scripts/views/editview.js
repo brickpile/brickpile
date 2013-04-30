@@ -29,6 +29,13 @@ var EditView = Backbone.View.extend({
     render: function () {
         // Ensure that we have a valid slug
         $('.slug').slugify('input.title');
+        $('input[type=datetime]').datetimepicker(
+            {
+                dayNamesMin: ["S", "M", "T", "W", "T", "F", "S"],
+                firstDay:1,
+                dateFormat: "yy-mm-dd"
+            }
+        );
     }
 
 });
