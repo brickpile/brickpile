@@ -44,6 +44,10 @@
     <Reference Include="AjaxMin">
       <HintPath>..\packages\AjaxMin.4.48.4489.28432\lib\net20\AjaxMin.dll</HintPath>
     </Reference>
+    <Reference Include="BCrypt.Net, Version=0.1.4056.18965, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\BCrypt-Official.0.1.107\BCrypt.Net.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetOpenAuth">
       <HintPath>..\packages\DotNetOpenAuth.Ultimate.4.2.2.13055\lib\net40-full\DotNetOpenAuth.dll</HintPath>
     </Reference>
