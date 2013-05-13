@@ -9,7 +9,7 @@
             var index = type.indexOf(',');
             this.template = _.template($('#edit-template-' + type.substring(0, index).replace(/\./g, '-').toLowerCase()).html());
         } catch (e) {
-            console.log('Unable to set editor template for model ' + e);
+            //console.log('Unable to set editor template for model ' + e);
         }
     },
     render: function () {

@@ -25,7 +25,8 @@ using System.Web.Mvc;
 using StructureMap;
 
 namespace BrickPile.UI.Web.Mvc {
-    public class StructureMapDependencyResolver : IDependencyResolver {
+    public class StructureMapDependencyResolver : IDependencyResolver
+    {
         private readonly IContainer _container;
         /// <summary>
         /// Resolves singly registered services that support arbitrary object creation.
@@ -34,13 +35,17 @@ namespace BrickPile.UI.Web.Mvc {
         /// <returns>
         /// The requested service or object.
         /// </returns>
-        public object GetService(Type serviceType) {
+        public object GetService(Type serviceType)
+        {
             if (serviceType == null) return null;
-            try {
+            try
+            {
                 return serviceType.IsAbstract || serviceType.IsInterface
                          ? _container.TryGetInstance(serviceType)
                          : _container.GetInstance(serviceType);
-            } catch {
+            }
+            catch
+            {
 
                 return null;
             }
@@ -52,14 +57,16 @@ namespace BrickPile.UI.Web.Mvc {
         /// <returns>
         /// The requested services.
         /// </returns>
-        public IEnumerable<object> GetServices(Type serviceType) {
+        public IEnumerable<object> GetServices(Type serviceType)
+        {
             return _container.GetAllInstances<object>().Where(s => s.GetType() == serviceType);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="StructureMapDependencyResolver"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public StructureMapDependencyResolver(IContainer container) {
+        public StructureMapDependencyResolver(IContainer container)
+        {
             _container = container;
         }
     }

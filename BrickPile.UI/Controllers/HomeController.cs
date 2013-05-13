@@ -1,10 +1,12 @@
 ﻿using System.Web.Mvc;
 using BrickPile.Samples.Models;
+using Raven.Client;
 
 namespace BrickPile.Samples.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IDocumentSession _session;
         //
         // GET: /Home/
 
@@ -12,6 +14,9 @@ namespace BrickPile.Samples.Controllers
         {
             return View(currentContent);
         }
-
+        public HomeController(IDocumentSession session)
+        {
+            _session = session;
+        }
     }
 }

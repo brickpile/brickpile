@@ -18,11 +18,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.UI;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Raven.Contrib.AspNet.Auth;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Initializer), "Start")]
@@ -41,6 +44,8 @@ namespace BrickPile.UI {
             AuthProvider.Configuration.DocumentStore = documentStore;
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(container));
+
+            GlobalConfiguration.Configuration.DependencyResolver = new StructureMapWebApiDependencyResolver(container);
 
             RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             RouteTable.Routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
@@ -61,6 +66,13 @@ namespace BrickPile.UI {
 
             ModelValidatorProviders.Providers.Clear();
             ModelValidatorProviders.Providers.Add(new ContentTypeMetadataValidatorProvider());
+
+            //JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            //{
+            //    Formatting = Formatting.Indented,
+            //    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            //    TypeNameHandling = TypeNameHandling.Objects
+            //};
         }
     }
 }

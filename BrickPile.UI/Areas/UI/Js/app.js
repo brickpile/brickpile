@@ -11,14 +11,14 @@
     },
 
     index: function () {
+        
         var route = this;
-        var app = brickpile.app;
+        // load a session object from the server
         app.session = new Session();
         app.session.fetch({
             success: function (model, response, options) {
                 var view = new LoginStatusView({ model: model });
                 $('nav').append(view.render().el);
-
             },
             error: function (model, response, options) {
                 if (response.status == 403) {
@@ -37,52 +37,72 @@
         $('#bg-wrap').append(new LoginView({ model: new User() }).render().el);
     },
     pages: function () {
-
-        var route = this;
-
-        $('#content').empty();
-
-        var app = brickpile.app;
-        app.pages = new Pages([], { id: '' });
+        
+        app.pages = new PageCollection([], { id: '' });
+        
         app.pages.fetch({
+            
             success: function () {
-                console.log('success');
+
                 var view = new PageListView({ collection: app.pages });
-                $('#pages').append(view.render().el);
+                var $el = view.render().$el;
+
+                app.pages.push(app.pages.currentPage);
+
+                //var homeView = new PageListItemView({ model: app.pages.currentPage });
+                
+                //$el.find('ul').prepend(homeView.render().el);
+                
+                $('#gutter').html($el);
+                
+                $('#content').empty();
+                
             },
             error: function () {
-                console.log('err');
-                var view = new PageListView({ collection: app.pages });
-                $('#pages').append(view.render().el);
+                //console.log('err');
             }
         });
 
     },
     viewPage: function (id) {
 
-        console.log('Viewing page: ' + id);
-
-        var route = this;
-        var app = brickpile.app;
-
-        app.pages = new Pages([], { id: 'pages/' + id });
+        app.pages = new PageCollection([], { id: id });
         app.pages.fetch({
             success: function () {
                 var view = new PageListView({ collection: app.pages });
-                $('#pages').html(view.render().$el);
+                $('#gutter').html(view.render().$el);
+                $('#content').empty();
             }
         });
+        
     },
 
     editPage: function (id) {
-
-        console.log('Editing page: ' + id);
-
-        var app = brickpile.app;
-
+        
+        var pageEditView = null;
+        
         var page = app.pages.get('pages/' + id);
-        var view = new PageEditView({ model: page });
-        $('#content').html(view.render().el);
+        
+        // If the model is not present locally, refresh from the server
+        if (!page) {            
+            app.pages = new PageCollection([], { id: app.pages.currentPage.get('parent').id.substring(6) });
+
+            app.pages.fetch({
+                success: function() {
+
+                    var pageListview = new PageListView({ collection: app.pages });
+                    $('#gutter').html(pageListview.render().$el);
+
+                    page = app.pages.get('pages/' + id );
+                    pageEditView = new PageEditView({ model: page });
+                    $('#content').html(pageEditView.render().el);
+
+                }
+            });
+        } else {
+            pageEditView = new PageEditView({ model: page });
+            $('#content').html(pageEditView.render().el);
+        }
 
         //        var content = new Content({ id: page.get('contentReference') });
         //        content.fetch({
@@ -93,7 +113,6 @@
         //        });
 
     }
-
 
 });
 

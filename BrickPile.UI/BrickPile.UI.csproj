@@ -58,14 +58,21 @@
       <HintPath>..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Raven.Abstractions, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Abstractions.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RavenDB.Client.2.0.2360\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Embedded, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB.Embedded.2.0.2330\lib\net40\Raven.Client.Embedded.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RavenDB.Embedded.2.0.2360\lib\net40\Raven.Client.Embedded.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Lightweight, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RavenDB.Client.2.0.2360\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Contrib.AspNet.Auth">
       <HintPath>..\lib\Raven.Contrib.AspNet.Auth\Raven.Contrib.AspNet.Auth.dll</HintPath>
@@ -74,7 +81,8 @@
       <HintPath>..\lib\Raven.Contrib.AspNet.Auth.Providers\Raven.Contrib.AspNet.Auth.Providers.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Database, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB.Database.2.0.2330\lib\net40\Raven.Database.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RavenDB.Database.2.0.2360\lib\net40\Raven.Database.dll</HintPath>
     </Reference>
     <Reference Include="SquishIt.Framework">
       <HintPath>..\packages\SquishIt.0.9.2\lib\SquishIt.Framework.dll</HintPath>
@@ -93,6 +101,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -105,9 +117,6 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
       <Private>True</Private>
@@ -133,10 +142,6 @@
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -212,6 +217,8 @@
     <Compile Include="Web\Mvc\IControllerMapper.cs" />
     <Compile Include="Web\Mvc\InheritanceAwareModelBinderProvider.cs" />
     <Compile Include="Web\Mvc\StructureMapDependencyResolver.cs" />
+    <Compile Include="Web\Mvc\StructureMapScope.cs" />
+    <Compile Include="Web\Mvc\StructureMapWebApiDependencyResolver.cs" />
     <Compile Include="Web\Mvc\ValidatablePropertyAdapter.cs" />
     <Compile Include="Web\PageReference.cs" />
     <Compile Include="Web\Routing\IPathData.cs" />
@@ -355,10 +362,12 @@
     <Content Include="Areas\UI\Images\wood.jpg" />
     <Content Include="Areas\UI\Js\app.js" />
     <Content Include="Areas\UI\Js\brickpile.js" />
+    <Content Include="Areas\UI\Js\Collections\contenttypes.js" />
     <Content Include="Areas\UI\Js\Collections\pages.js" />
     <Content Include="Areas\UI\Js\Libs\Forms2js\form2js.js" />
     <Content Include="Areas\UI\Js\Libs\Forms2js\jquery.toObject.js" />
     <Content Include="Areas\UI\Js\Models\auth.js" />
+    <Content Include="Areas\UI\Js\Models\contenttype.js" />
     <Content Include="Areas\UI\Js\Models\page.js" />
     <Content Include="Areas\UI\Js\Models\user.js" />
     <Content Include="Areas\UI\Js\Models\session.js" />
@@ -367,6 +376,8 @@
     <Content Include="Areas\UI\Js\Views\Auth\register.js" />
     <Content Include="Areas\UI\Js\Views\base.js" />
     <Content Include="Areas\UI\Js\Views\Content\edit.js" />
+    <Content Include="Areas\UI\Js\Views\Content\list.js" />
+    <Content Include="Areas\UI\Js\Views\Content\view.js" />
     <Content Include="Areas\UI\Js\Views\Pages\edit.js" />
     <Content Include="Areas\UI\Js\Views\Pages\list.js" />
     <Content Include="Areas\UI\Js\Views\Pages\view.js" />

@@ -141,7 +141,7 @@
         top: 0;
     }
             
-    #pages {
+    #gutter {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -152,10 +152,10 @@
         padding-top: 52px;
     }
    
-            #pages li {
+            #gutter li {
                 position: relative;
             }
-            #pages a.edit {
+            #gutter a.edit {
                 
                 color: #7db4ec;
                 display: block;
@@ -172,7 +172,7 @@
                 white-space: pre;                
                 
             }
-            #pages a.edit:before {
+            #gutter a.edit:before {
                 color: #7cb5ec;
                 font-size: 21px;
                 font-weight: 100;
@@ -181,12 +181,12 @@
                 position: relative;
                 bottom: -2px;
             }
-            #pages a.view {
+            #gutter a.view {
                 position: absolute;
                 right: 21px;
                 top: 17px;
             }
-            #pages button {
+            #gutter button {
                 
                 background: rgb(255,255,255); /* Old browsers */
                 background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(243,243,243,1) 50%, rgba(237,237,237,1) 51%, rgba(255,255,255,1) 100%); /* FF3.6+ */
@@ -205,17 +205,17 @@
                 top: 13px;
                 padding: 0 2px;
             }
-            #pages button:before {
+            #gutter button:before {
                 font-size: 13px;
                 text-shadow: none;
                 
             }            
-            #pages ul {
+            #gutter ul {
                 list-style-type: none;
                 margin: 0;
                 padding: 0;
             }
-            #pages li {
+            #gutter li {
                 border-bottom: solid 1px #3c8ee0;
                 padding: 0;
                 min-height: 50px;
@@ -234,7 +234,7 @@
                 white-space: pre;                
                 line-height: 54px;                
             }
-            #pages a#add:after {
+            #gutter a#add:after {
                 
                 font-family: 'Pictos Custom';
                 content: attr(data-icon);
@@ -249,12 +249,12 @@
                 text-shadow: none;
                 
             }
-            #pages a#add:focus:before,
-            #pages a#add:active:before {
+            #gutter a#add:focus:before,
+            #gutter a#add:active:before {
                 color: #fff;
             }
-            #pages a.view { text-decoration: none; }
-            #pages a.view:before {
+            #gutter a.view { text-decoration: none; }
+            #gutter a.view:before {
                 color: #7db4ec;
                 font-size: 21px;
                 text-shadow: none;
@@ -503,4 +503,32 @@
 #loginStatus button:before {
     font-size: 32px;
     line-height: .5;
-}    
+}
+
+            form {
+                margin-left: 46px;
+            }
+            label, .editor-label {
+                font-size: 13px;
+                font-weight: 600;
+                width: 120px;
+                display: inline-block;
+                text-align: right;
+                margin-right: 19px;
+            }
+            .editor-field {
+                display: inline-block;
+            }
+            input[type=text], input[type=url], textarea, input[type=checkbox] {
+                border: solid 1px #e5e5e5;
+                border-radius: 1px;
+                padding: 5px 10px;
+                margin-bottom: 20px;
+            }
+
+
+            .content-types {
+                position: absolute;
+                width: 200px;
+                top: 0;
+            }

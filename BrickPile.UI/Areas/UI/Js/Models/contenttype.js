@@ -1,0 +1,1 @@
+﻿var ContentType = Backbone.Model.extend({});

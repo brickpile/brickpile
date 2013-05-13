@@ -29,7 +29,8 @@ THE SOFTWARE. *@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width" />
     <script type="text/javascript">
-        document.documentElement.className = document.documentElement.className.replace(/(\s|^)no-js(\s|$)/, '$1js$2');    </script>
+        document.documentElement.className = document.documentElement.className.replace(/(\s|^)no-js(\s|$)/, '$1js$2');
+    </script>
     <link href="//get.pictos.cc/fonts/4039/16" rel="stylesheet" type="text/css">
     <link href="/areas/ui/css/normalize.css" rel="stylesheet" type="text/css"/>
     <link href="/areas/ui/css/brickpile.css" rel="stylesheet"  type="text/css"/>
@@ -45,9 +46,12 @@ THE SOFTWARE. *@
         </ul>
     </nav>
     <main>
-        <div id="pages">
+        <div id="gutter">
+            
         </div>
-        <div id="content"></div>
+        <div id="content">
+            
+        </div>
     </main>
     
     <div id="login-screen" class="@(ViewBag.IsAuthenticated ? "hidden" : null)" style="@(ViewBag.IsAuthenticated ? "display:none;" : null)">
@@ -55,19 +59,35 @@ THE SOFTWARE. *@
 
         </div>
     </div>
+
+    <script id="tpl-page-current" type="text/template">
+        
+        <span>{{currentPage.metadata.name}}</span>
+        <button>Do shit</button>
+        <ul />
     
-    <script id="view-template-page-list-item" type="text/template">
-        <a href="/ui/pages/edit/{{id.substring(6)}}" class="edit icon" data-icon="p">{{metadata.name}}</a>
-        <a href="/ui/pages/{{id.substring(6)}}" style="display:none" class="icon view" data-icon=">"></a>
     </script>
-    <script id="view-template-page-list" type="text/template">fii</script>
+    
+    <script id="tpl-content-type-list-item" type="text/template">
+        <a href="#">{{name}}</a>
+    </script>
+    
+    <script id="tpl-page-list-item" type="text/template">
+        <li>
+            <a href="/ui/pages/edit/{{id.substring(6)}}" class="edit icon" data-icon="p">{{metadata.name}}</a>
+            <a href="/ui/pages/{{id.substring(6)}}" class="icon view" data-icon=">"></a>
+        </li>
+    </script>
+
     <script id="view-template-login-view" type="text/template">
         <form id="login-form" class="icon animated fadeInDown" data-icon="k">
             <input type="text" name="UserName" id="UserName" placeholder="username" autofocus="autofocus"/>
             <input type="password" name="Password" id="Password" placeholder="password"/>
             <button type="submit" class="icon" data-icon="v"></button>
         </form>        
+    
     </script>
+
     <script id="view-template-setup-view" type="text/template">
         <form id="register-form" class="icon animated fadeInDown" data-icon="k">
             <input type="text" name="UserName" id="UserName" placeholder="username" autofocus="autofocus"/>
@@ -76,6 +96,7 @@ THE SOFTWARE. *@
             <button type="submit" class="icon" data-icon="v"></button>
         </form>
     </script>
+
     <script id="view-template-login-status-view" type="text/template">
         <div id="loginStatus" style="position:absolute;z-index:100;bottom:20px;text-align:center;width:100%;">
             <img src="http://www.gravatar.com/avatar/c5d9c4382bb64bf021b5177e3fa3927d?s=34" style="border-radius:3px;" />
@@ -83,6 +104,7 @@ THE SOFTWARE. *@
             <button class="icon" data-icon="s" style="background-color:transparent;border:0;"></button>
         </div>    
     </script>
+
     <script id="edit-template-page" type="text/template">
         <h1 class="icon" data-icon="p">Editing page: {{metadata.name}}</h1>
         <form id="myForm">
@@ -121,11 +143,15 @@ THE SOFTWARE. *@
             <input type="submit" value="Save" />
         </form>    
     
+    
     </script>
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    
+    <script src="http://code.jquery.com/jquery-git.js"></script>
+    <script src="http://documentcloud.github.io/underscore/underscore-min.js"></script>
+    <script src="http://documentcloud.github.io/backbone/backbone-min.js"></script>
+    @*    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>*@
     <script>
         _.templateSettings = {
             evaluate: /\{\[([\s\S]+?)\]\}/g,
@@ -134,10 +160,14 @@ THE SOFTWARE. *@
         };
     </script>
     <script src="/areas/ui/js/models/page.js"></script>
+    <script src="/areas/ui/js/models/contenttype.js"></script>
     <script src="/areas/ui/js/models/auth.js"></script>
     <script src="/areas/ui/js/models/user.js"></script>
     <script src="/areas/ui/js/models/session.js"></script>
+
     <script src="/areas/ui/js/collections/pages.js"></script>
+    <script src="/areas/ui/js/collections/contenttypes.js"></script>
+
     <script src="/areas/ui/js/views/base.js"></script>
     <script src="/areas/ui/js/views/pages/view.js"></script>
     <script src="/areas/ui/js/views/pages/list.js"></script>
@@ -145,6 +175,9 @@ THE SOFTWARE. *@
     <script src="/areas/ui/js/views/auth/login.js"></script>
     <script src="/areas/ui/js/views/auth/register.js"></script>
     <script src="/areas/ui/js/views/auth/status.js"></script>
+    <script src="/areas/ui/js/views/content/view.js"></script>
+    <script src="/areas/ui/js/views/content/list.js"></script>
+
     <script src="/areas/ui/js/libs/Forms2js/form2js.js"></script>
     <script src="/areas/ui/js/libs/Forms2js/jquery.toObject.js"></script>
     <script src="/areas/ui/js/brickpile.js"></script>
