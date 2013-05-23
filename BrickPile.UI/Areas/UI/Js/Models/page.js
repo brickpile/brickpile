@@ -14,7 +14,9 @@
             slug: null,
             url: null,
             sortOrder: null
-        }
+        },
+        parent: null,
+        contentReference: null
     },    
     url: function () {
         if (this.id) {

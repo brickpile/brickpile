@@ -264,6 +264,8 @@
                 left: 20%;
                 top: 25px;
                 right: 0;
+                overflow-y: auto;
+                bottom: 0;
             }
    
    

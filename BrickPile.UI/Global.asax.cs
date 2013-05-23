@@ -3,8 +3,6 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.UI.Web.Hosting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace BrickPile.Samples {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -18,7 +16,6 @@ namespace BrickPile.Samples {
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             HostingEnvironment.RegisterVirtualPathProvider(new NativeVirtualPathProvider());
-
 
         }
     }

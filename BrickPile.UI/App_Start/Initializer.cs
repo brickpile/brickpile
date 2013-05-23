@@ -62,10 +62,11 @@ namespace BrickPile.UI {
                                               controller = "pages",
                                               action = "index"
                                           }),
-                                      new MvcRouteHandler()));
+                                          new RouteValueDictionary(new { controller = "UI|api" }),
+                                        new MvcRouteHandler()));
 
-            ModelValidatorProviders.Providers.Clear();
-            ModelValidatorProviders.Providers.Add(new ContentTypeMetadataValidatorProvider());
+            //ModelValidatorProviders.Providers.Clear();
+            //ModelValidatorProviders.Providers.Add(new ContentTypeMetadataValidatorProvider());
 
             //JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             //{

@@ -85,6 +85,13 @@ namespace BrickPile.UI.Web.Routing {
         /// <param name="httpContextBase">The HTTP context base.</param>
         /// <returns></returns>
         public override RouteData GetRouteData(HttpContextBase httpContextBase) {
+
+            var path = httpContextBase.Request.Path;
+            if (path.Contains("api") || path.Contains("ui")) 
+            {
+                return null;
+            }
+
             var routeData = new RouteData(this, _routeHandler);
 
             // get the virtual path of the request
@@ -168,6 +175,7 @@ namespace BrickPile.UI.Web.Routing {
             _url = url;
             _defaults = defaults;
             _routeHandler = routeHandler;
+            //_constraints = new RouteValueDictionary(new { area = "(?!UI)" });
         }
 
         /// <summary>

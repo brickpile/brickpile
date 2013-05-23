@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.Samples.Controllers;
@@ -18,5 +19,7 @@ namespace BrickPile.Samples.Models {
         //[Required]
         [ScaffoldColumn(false)]
         public Image Image { get; set; }
+
     }
+
 }

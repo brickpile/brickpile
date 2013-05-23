@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using System.Text;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.Samples.Controllers;
@@ -24,6 +23,11 @@ namespace BrickPile.Samples.Models {
         public int Count { get; set; }
         
         public Contact Contact { get; set; }
+
+        public Article() {
+            Contact = new Contact();
+        }
+
     }
     public class ArticleViewModel {
         public Article Content { get; set; }

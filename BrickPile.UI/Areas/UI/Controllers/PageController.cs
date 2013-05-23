@@ -9,6 +9,7 @@ using BrickPile.Domain.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Raven.Client;
+using StructureMap;
 
 namespace BrickPile.UI.Areas.UI.Controllers
 {
@@ -28,7 +29,7 @@ namespace BrickPile.UI.Areas.UI.Controllers
     [Authorize]
     public class PageController : ApiController
     {
-        private readonly IDocumentSession _session;
+        private IDocumentSession _session;
 
         // GET api/page
         [HttpGet]
@@ -41,6 +42,8 @@ namespace BrickPile.UI.Areas.UI.Controllers
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
 
+            _session = ObjectFactory.GetInstance<IDocumentSession>();
+
             var home = _session.Query<PageModel>()
                 .Customize(x => x.Include<PageModel>(y => y.Children))
                 .SingleOrDefault(x => x.Parent == null);
@@ -51,7 +54,6 @@ namespace BrickPile.UI.Areas.UI.Controllers
 
             if (home != null)
             {
-                //children.Add(home);
                 children.AddRange(_session.Query<PageModel>()
                                             .Where(x => x.Parent.Id == home.Id)
                                             .OrderBy(x => x.Metadata.SortOrder));
@@ -59,12 +61,14 @@ namespace BrickPile.UI.Areas.UI.Controllers
                 viewModel.Children = children;
             }
 
+            viewModel.CurrentPage = home;
+
             // Add this to some kind of cached list
-            viewModel.ContentTypes = (from contentType in GetAvailableContentTypes()
+            viewModel.ContentTypes = (from contentType in ContentTypes
                                       select new ContentType
                                           {
                                               Name = contentType.Name,
-                                              AssemblyQualifiedName = contentType.AssemblyQualifiedName
+                                              AssemblyQualifiedName = contentType.FullName + ", " + contentType.Assembly.GetName().Name
                                           }).ToList();
 
             var response = new HttpResponseMessage(HttpStatusCode.OK)
@@ -86,6 +90,8 @@ namespace BrickPile.UI.Areas.UI.Controllers
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
 
+            _session = ObjectFactory.GetInstance<IDocumentSession>();
+
             var current = _session.Include<PageModel>(y => y.Children).Load<PageModel>(id);
 
             var viewModel = new ResponseContent
@@ -94,11 +100,11 @@ namespace BrickPile.UI.Areas.UI.Controllers
                     Children = _session.Query<PageModel>()
                                       .Where(x => x.Parent.Id == current.Id)
                                       .OrderBy(x => x.Metadata.SortOrder),
-                    ContentTypes = (from contentType in GetAvailableContentTypes()
+                    ContentTypes = (from contentType in ContentTypes
                                     select new ContentType
                                         {
                                             Name = contentType.Name,
-                                            AssemblyQualifiedName = contentType.AssemblyQualifiedName
+                                            AssemblyQualifiedName = contentType.FullName + ", " + contentType.Assembly.GetName().Name
                                         }).ToList()
                 };
 
@@ -116,6 +122,8 @@ namespace BrickPile.UI.Areas.UI.Controllers
 
         // POST api/page
         public HttpResponseMessage Post([FromBody]PageModel value) {
+
+            _session = ObjectFactory.GetInstance<IDocumentSession>();
 
             _session.Store(value);
             _session.SaveChanges();
@@ -136,6 +144,8 @@ namespace BrickPile.UI.Areas.UI.Controllers
 
         // PUT api/page/5
         public HttpResponseMessage Put(int id, [FromBody]PageModel value) {
+
+            _session = ObjectFactory.GetInstance<IDocumentSession>();
 
             value.Metadata.Changed = DateTime.Now;
 
@@ -164,13 +174,13 @@ namespace BrickPile.UI.Areas.UI.Controllers
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PageController"/> class.
+        /// Initializes a new instance of the <see cref="PageController" /> class.
         /// </summary>
         /// <param name="session">The session.</param>
-        public PageController(IDocumentSession session)
-        {
-            _session = session;
-        }
+        //public PageController(IDocumentSession session)
+        //{
+        //    _session = session;
+        //}
 
         //public static string GetStringIdFor<T>(int id)
         //{
@@ -179,11 +189,21 @@ namespace BrickPile.UI.Areas.UI.Controllers
         //    return c.FindFullDocumentKeyFromNonStringIdentifier(id, typeof(T), false);
         //}
 
-        public static List<Type> GetAvailableContentTypes()
-        {
-            return (from assembly in AppDomain.CurrentDomain.GetAssemblies()
-                    from type in assembly.GetTypes()
-                    where type.GetCustomAttributes(typeof (ContentTypeAttribute), true).Length > 0 select type).ToList();
+        public static List<Type> ContentTypes {
+            get {
+                if (_contentTypes == null)
+                {
+                    _contentTypes = (from assembly in AppDomain.CurrentDomain.GetAssemblies()
+                            from type in assembly.GetTypes()
+                            where type.GetCustomAttributes(typeof(ContentTypeAttribute), true).Length > 0
+                            select type).ToList();
+                    
+                }
+                return _contentTypes;
+            }
         }
+
+        private static List<Type> _contentTypes ;
+
     }
 }

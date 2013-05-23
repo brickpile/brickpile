@@ -13,7 +13,6 @@
     },
     save: function (e) {
         e.preventDefault();
-        var self = this;
         var formData = $('#myForm').toObject();
         this.model.set(formData);
         this.model.save(formData);

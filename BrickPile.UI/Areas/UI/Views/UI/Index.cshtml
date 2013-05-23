@@ -1,4 +1,6 @@
-﻿@model BrickPile.UI.Areas.UI.Models.LoginModel
+﻿@using BrickPile.Domain.Models
+@using BrickPile.UI.Common
+@model BrickPile.UI.Areas.UI.Models.LoginModel
 @* Copyright (C) 2011 by Marcus Lindblom
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -61,9 +63,9 @@ THE SOFTWARE. *@
     </div>
 
     <script id="tpl-page-current" type="text/template">
-        
-        <span>{{currentPage.metadata.name}}</span>
-        <button>Do shit</button>
+
+        <a href="#" id="add" data-icon="+">Add a new page</a>
+
         <ul />
     
     </script>
@@ -75,7 +77,9 @@ THE SOFTWARE. *@
     <script id="tpl-page-list-item" type="text/template">
         <li>
             <a href="/ui/pages/edit/{{id.substring(6)}}" class="edit icon" data-icon="p">{{metadata.name}}</a>
-            <a href="/ui/pages/{{id.substring(6)}}" class="icon view" data-icon=">"></a>
+            {[ if(parent) { ]}
+                <a href="/ui/pages/{{id.substring(6)}}" class="icon view" data-icon=">"></a>
+            {[ } ]} 
         </li>
     </script>
 
@@ -146,9 +150,24 @@ THE SOFTWARE. *@
     
     </script>
     
+        @{
+        var contentTypes = Html.GetAvailablePageModels();
+    }
+    
+    @* Render all editor templates *@
+    @foreach (var type in contentTypes) {
+        var content = Activator.CreateInstance(type) as IContent;
+        <script id="edit-template-@type.FullName.Replace(".","-").ToLower()" type="text/template">
+            <form>    
+                @Html.EditorFor(x => content, null, "")
+                <input type="submit" value="Save"/>
+            </form>
+            </script>
+        }
+    
     <script src="http://code.jquery.com/jquery-git.js"></script>
-    <script src="http://documentcloud.github.io/underscore/underscore-min.js"></script>
-    <script src="http://documentcloud.github.io/backbone/backbone-min.js"></script>
+    <script src="https://raw.github.com/documentcloud/underscore/master/underscore.js"></script>
+    <script src="https://raw.github.com/documentcloud/backbone/master/backbone.js"></script>
     @*    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>*@
@@ -156,11 +175,13 @@ THE SOFTWARE. *@
         _.templateSettings = {
             evaluate: /\{\[([\s\S]+?)\]\}/g,
             interpolate: /\{\{([\s\S]+?)\}\}/g,
-            escape: /\{\{-([\s\S]+?)\}\}/g
+            escape: /\{\{-([\s\S]+?)\}\}/g,
+            //variable: 'data'
         };
     </script>
     <script src="/areas/ui/js/models/page.js"></script>
     <script src="/areas/ui/js/models/contenttype.js"></script>
+    <script src="/areas/ui/js/models/content.js"></script>
     <script src="/areas/ui/js/models/auth.js"></script>
     <script src="/areas/ui/js/models/user.js"></script>
     <script src="/areas/ui/js/models/session.js"></script>
@@ -177,6 +198,7 @@ THE SOFTWARE. *@
     <script src="/areas/ui/js/views/auth/status.js"></script>
     <script src="/areas/ui/js/views/content/view.js"></script>
     <script src="/areas/ui/js/views/content/list.js"></script>
+    <script src="/areas/ui/js/views/content/edit.js"></script>
 
     <script src="/areas/ui/js/libs/Forms2js/form2js.js"></script>
     <script src="/areas/ui/js/libs/Forms2js/jquery.toObject.js"></script>

@@ -7,14 +7,18 @@
     model: Page,
     
     parse: function (response) {
-        this.currentPage = new Page(response.currentPage);
+        if (response.currentPage) {
+            this.currentPage = new Page(response.currentPage);
+        }
         this.contentTypes = new ContentTypeCollection(response.contentTypes);
         return response.children;
     },
     
     toJSON: function () {
-        var obj={};
-        obj.currentPage = this.currentPage.toJSON();
+        var obj = {};
+        if (this.currentPage) {
+            obj.currentPage = this.currentPage.toJSON();
+        }
         obj.contentTypes = this.contentTypes.toJSON();
         obj.children = this.map(function(model){ return model.toJSON(); });
         return obj;

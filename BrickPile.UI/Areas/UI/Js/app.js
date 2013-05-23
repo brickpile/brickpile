@@ -7,7 +7,7 @@
         'ui/pages/': 'pages',
 
         'ui/pages/:id': 'viewPage',
-        'ui/pages/edit/:id': 'editPage'
+        'ui/pages/edit/:id': 'edit'
     },
 
     index: function () {
@@ -37,22 +37,20 @@
         $('#bg-wrap').append(new LoginView({ model: new User() }).render().el);
     },
     pages: function () {
-        
+
         app.pages = new PageCollection([], { id: '' });
         
         app.pages.fetch({
             
             success: function () {
 
+                if (app.pages.currentPage) {
+                    app.pages.unshift(app.pages.currentPage);
+                }
+                
                 var view = new PageListView({ collection: app.pages });
                 var $el = view.render().$el;
-
-                app.pages.push(app.pages.currentPage);
-
-                //var homeView = new PageListItemView({ model: app.pages.currentPage });
-                
-                //$el.find('ul').prepend(homeView.render().el);
-                
+ 
                 $('#gutter').html($el);
                 
                 $('#content').empty();
@@ -77,18 +75,31 @@
         
     },
 
-    editPage: function (id) {
+    edit: function (id) {
         
         var pageEditView = null;
         
         var page = app.pages.get('pages/' + id);
         
         // If the model is not present locally, refresh from the server
-        if (!page) {            
-            app.pages = new PageCollection([], { id: app.pages.currentPage.get('parent').id.substring(6) });
+        if (!page) {
+
+            var parentId;
+            if (app.pages.currentPage) {
+                parentId = app.pages.currentPage.get('parent').id.substring(6);
+            } else {
+                parentId = '';
+            }
+
+            app.pages = new PageCollection([], { id: parentId });
 
             app.pages.fetch({
+                
                 success: function() {
+
+                    if (app.pages.currentPage) {
+                        app.pages.unshift(app.pages.currentPage);
+                    }
 
                     var pageListview = new PageListView({ collection: app.pages });
                     $('#gutter').html(pageListview.render().$el);
@@ -102,15 +113,17 @@
         } else {
             pageEditView = new PageEditView({ model: page });
             $('#content').html(pageEditView.render().el);
-        }
 
-        //        var content = new Content({ id: page.get('contentReference') });
-        //        content.fetch({
-        //            success: function (content) {
-        //                var contentView = new ContentEditView({ model: content });
-        //                $('#content').append(contentView.render().el);
-        //            }
-        //        });
+            console.log(page.get('contentReference'));
+
+            var content = new Content({ id: page.get('contentReference') });
+            content.fetch({
+                success: function (model) {
+                    var contentView = new ContentEditView({ model: model });
+                    $('#content').append(contentView.render().el);
+                }
+            });
+        }
 
     }
 

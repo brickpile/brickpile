@@ -28,7 +28,7 @@ namespace BrickPile.UI {
             {
                 store.ConnectionStringName = "RavenDB";
             }
-            store.RegisterListener(new StoreListener());
+            //store.RegisterListener(new StoreListener());
             store.Initialize();
             IndexCreation.CreateIndexes(typeof(PageByUrl).Assembly, store);
             return store;

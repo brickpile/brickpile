@@ -6,4 +6,25 @@
     Layout = "~/views/shared/_Layout.cshtml";
 }
 
+@Model.Heading
+
 @Html.Menu()
+
+
+<main>
+    
+@foreach (var teaser in Model.Teasers)
+{
+    Html.DisplayFor(x => x);
+}       
+
+</main>
+
+<aside>
+
+@foreach (var teaser in Model.Teasers)
+{
+    Html.DisplayFor(x => x);
+}    
+
+</aside>
