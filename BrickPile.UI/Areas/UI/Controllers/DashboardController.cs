@@ -18,13 +18,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System;
 using System.Web.Mvc;
 
 namespace BrickPile.UI.Areas.UI.Controllers {
     /// <summary>
     /// Default controller for the Dashboard
     /// </summary>
-    [Authorize]
+    [Authorize, Obsolete]
     public class DashboardController : Controller {
         /// <summary>
         /// Default action

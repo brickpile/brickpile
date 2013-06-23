@@ -29,16 +29,16 @@ namespace BrickPile.UI.Web.Routing {
         /// <summary>
         /// Resolves the virtual path.
         /// </summary>
-        /// <param name="pageModel">The page model.</param>
+        /// <param name="page">The page.</param>
         /// <param name="routeValueDictionary">The route value dictionary.</param>
         /// <returns></returns>
-        public virtual string ResolveVirtualPath(IPageModel pageModel, RouteValueDictionary routeValueDictionary) {
+        public virtual string ResolveVirtualPath(IPage page, RouteValueDictionary routeValueDictionary) {
 
-            if (pageModel == null) {
+            if (page == null) {
                 return null;
             }
 
-            var url = pageModel.Metadata.Url ?? string.Empty;
+            var url = page.Metadata.Url ?? string.Empty;
 
             if (routeValueDictionary.ContainsKey(UIRoute.ActionKey)) {
 

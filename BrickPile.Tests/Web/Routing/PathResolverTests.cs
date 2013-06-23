@@ -25,11 +25,7 @@ namespace BrickPile.Tests.Web.Routing {
         public void Setup() {
             _store = new EmbeddableDocumentStore
             {
-                RunInMemory = true,
-                Conventions =
-                {
-                    FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null
-                }
+                RunInMemory = true
             };
             
             _store.Initialize();
@@ -64,12 +60,12 @@ namespace BrickPile.Tests.Web.Routing {
 
             using (var session = _store.OpenSession()) {
 
-                var content = new StandardPage();
+                var content = new StandardPage { Id = "StandardPages/1", Parent = null };
                 session.Store(content);
 
                 // create and store a new page model
-                var pageModel = new PageModel { Parent = null, ContentReference = content.Id };
-                session.Store(pageModel);
+                //var pageModel = new PageModel { Parent = null };
+                //session.Store(pageModel);
                 session.SaveChanges();
 
                 // try to resovle the page via the path
@@ -104,12 +100,12 @@ namespace BrickPile.Tests.Web.Routing {
             // Act
             IPathData data;
             using (var session = _store.OpenSession()) {
-                var content = new StandardPage();
+                var content = new StandardPage() { Metadata = { Url = "page" } };
                 session.Store(content);
 
                 // create and store a new page model
-                var pageModel = new PageModel { Metadata = { Url = "page" }, ContentReference = content.Id };
-                session.Store(pageModel);
+                //var pageModel = new PageModel { Metadata = { Url = "page" }, ContentReference = content.Id };
+                //session.Store(pageModel);
                 session.SaveChanges();
 
                 var resolver = new PathResolver(session, pathData, mapper.Object, container.Object);
@@ -143,12 +139,12 @@ namespace BrickPile.Tests.Web.Routing {
             IPathData data;
             using (var session = _store.OpenSession()) {
 
-                var content = new StandardPage();
+                var content = new StandardPage() { Metadata = { Url = "page" } };
                 session.Store(content);
 
                 // create and store a new page model
-                var pageModel = new PageModel { Metadata = { Url = "page" }, ContentReference = content.Id };
-                session.Store(pageModel);
+                //var pageModel = new PageModel { Metadata = { Url = "page" }, ContentReference = content.Id };
+                //session.Store(pageModel);
                 session.SaveChanges();
 
                 var resolver = new PathResolver(session, pathData, mapper.Object, container.Object);
@@ -182,13 +178,13 @@ namespace BrickPile.Tests.Web.Routing {
             IPathData data;
             using (var session = _store.OpenSession()) {
 
-                var content = new StandardPage();
+                var content = new StandardPage() { Parent = null, Metadata = { Url = virtualUrl }};
                 session.Store(content);
 
                 // create and store a new page model
 
-                var pageModel = new PageModel { Parent = null, ContentReference = content.Id };
-                session.Store(pageModel);
+                //var pageModel = new PageModel { Parent = null, ContentReference = content.Id };
+                //session.Store(pageModel);
 
                 session.SaveChanges();
 
@@ -220,13 +216,13 @@ namespace BrickPile.Tests.Web.Routing {
             using (var session = _store.OpenSession()) {
                 // create and store a new page model
 
-                var page = new PageModel {Parent = null};
+                var page = new DummyModelWithoutControllerType { Parent = null };
                 session.Store(page);
 
-                var content = new DummyModelWithoutControllerType();
-                session.Store(content);
+                //var content = new DummyModelWithoutControllerType();
+                //session.Store(content);
 
-                page.ContentReference = content.Id;
+                //page.ContentReference = content.Id;
 
                 session.SaveChanges();
 
@@ -245,26 +241,25 @@ namespace BrickPile.Tests.Web.Routing {
         public void Can_Query_Page_Using_AllPages_Index() {
 
             // Arrange
-            IPageModel data;
+            IPage data;
 
             // Act
             using (var session = _store.OpenSession()) {
 
-                var pageModel = new PageModel
+                var page = new StandardPage
                 {
-                    Id = "DummyPages/1",
                     Parent = null,
-                    Metadata = { Name = "Foo" }
+                    Metadata = { Url = "Foo" }
                 };
-                session.Store(pageModel);
+                session.Store(page);
                 session.SaveChanges();
 
             }
             using (var session = _store.OpenSession()) {
 
-                data = session.Query<IPageModel>()
+                data = session.Query<IPage, AllPages>()
                     .Customize(x => x.WaitForNonStaleResults())
-                    .SingleOrDefault(x => x.Metadata.Name == "Foo");
+                    .SingleOrDefault(x => x.Metadata.Url == "Foo");
             }
 
             // Assert
@@ -273,18 +268,15 @@ namespace BrickPile.Tests.Web.Routing {
     }
 
     [ContentType(Name = "Standard page", ControllerType = typeof(DummyController))]
-    public class StandardPage : IContent {
-        public string Id { get; set; }
+    public class StandardPage : Page {
     }
 
     [ContentType(Name = "Dummy", ControllerType = typeof(DummyController))]
-    public class DummyModel : IContent {
-        public string Id { get; set; }
+    public class DummyModel : Page {
     }
 
     [ContentType]
-    public class DummyModelWithoutControllerType : IContent {
-        public string Id { get; set; }
+    public class DummyModelWithoutControllerType : Page {
     }
 
     public class DummyController : Controller {

@@ -155,7 +155,6 @@
     </Compile>
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\ContainerController.cs" />
-    <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -600,6 +599,7 @@
     <Content Include="Content\form2js.js" />
     <Content Include="Content\jquery.toObject.js" />
     <Content Include="Content\json2.js" />
+    <Content Include="Content\Test.js" />
     <Content Include="Global.asax" />
     <Content Include="Views\Web.config" />
     <Content Include="Web.config">
@@ -701,7 +701,9 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Article\Index2.cshtml" />
     <None Include="Views\Shared\EditorTemplates\String.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TheProp.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

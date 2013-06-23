@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using Newtonsoft.Json;
@@ -15,8 +16,8 @@ namespace BrickPile.UI.Areas.UI.Controllers
 {
     public class ResponseContent {
 
-        public PageModel CurrentPage { get; set; }
-        public IEnumerable<PageModel> Children { get; set; }
+        public IPage CurrentPage { get; set; }
+        public IEnumerable<IPage> Children { get; set; }
         public List<ContentType> ContentTypes { get; set; } 
     }
 
@@ -44,20 +45,21 @@ namespace BrickPile.UI.Areas.UI.Controllers
 
             _session = ObjectFactory.GetInstance<IDocumentSession>();
 
-            var home = _session.Query<PageModel>()
-                .Customize(x => x.Include<PageModel>(y => y.Children))
+            var home = _session.Query<IPage, AllPages>()
+                .Customize(x => x.Include<IPage, AllPages>(y => y.Children))
+                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                 .SingleOrDefault(x => x.Parent == null);
 
             var viewModel = new ResponseContent();
 
-            var children = new List<PageModel>();
+            var children = new List<IPage>();
 
-            if (home != null)
-            {
-                children.AddRange(_session.Query<PageModel>()
+            if (home != null) {
+
+                children.AddRange(_session.Query<IPage, AllPages>()
                                             .Where(x => x.Parent.Id == home.Id)
                                             .OrderBy(x => x.Metadata.SortOrder));
-                viewModel.CurrentPage = home;
+
                 viewModel.Children = children;
             }
 
@@ -81,7 +83,7 @@ namespace BrickPile.UI.Areas.UI.Controllers
 
         // GET api/page/articles/5
         [HttpGet]
-        public HttpResponseMessage Get(int id) {
+        public HttpResponseMessage Get(string id) {
 
             var jsonSerializerSettings = new JsonSerializerSettings
             {
@@ -92,12 +94,12 @@ namespace BrickPile.UI.Areas.UI.Controllers
 
             _session = ObjectFactory.GetInstance<IDocumentSession>();
 
-            var current = _session.Include<PageModel>(y => y.Children).Load<PageModel>(id);
+            var current = _session.Include<IPage,AllPages>(y => y.Children).Load<Page>(id);
 
             var viewModel = new ResponseContent
                 {
                     CurrentPage = current,
-                    Children = _session.Query<PageModel>()
+                    Children = _session.Query<IPage, AllPages>()
                                       .Where(x => x.Parent.Id == current.Id)
                                       .OrderBy(x => x.Metadata.SortOrder),
                     ContentTypes = (from contentType in ContentTypes
@@ -121,7 +123,8 @@ namespace BrickPile.UI.Areas.UI.Controllers
         }
 
         // POST api/page
-        public HttpResponseMessage Post([FromBody]PageModel value) {
+        [HttpPost]
+        public HttpResponseMessage Post([FromBody]IPage value) {
 
             _session = ObjectFactory.GetInstance<IDocumentSession>();
 
@@ -143,7 +146,8 @@ namespace BrickPile.UI.Areas.UI.Controllers
         }
 
         // PUT api/page/5
-        public HttpResponseMessage Put(int id, [FromBody]PageModel value) {
+        [HttpPut]
+        public HttpResponseMessage Put(string id, [FromBody]IPage value) {
 
             _session = ObjectFactory.GetInstance<IDocumentSession>();
 
@@ -168,7 +172,7 @@ namespace BrickPile.UI.Areas.UI.Controllers
 
         // DELETE api/page/5
         public void Delete(string id) {
-            var content = _session.Load<PageModel>(id);
+            var content = _session.Load<Page>(id);
             _session.Delete(content);
             _session.SaveChanges();
         }

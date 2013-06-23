@@ -8,9 +8,7 @@ using BrickPile.Samples.Controllers;
 
 namespace BrickPile.Samples.Models {
     [ContentType(ControllerType = typeof(ArticleController),Name = "Article")]
-    public class Article : IContent {
-        [ScaffoldColumn(false)]
-        public string Id { get; set; }
+    public class Article : Page {
 
         public string Heading { get; set; }
 
@@ -30,8 +28,7 @@ namespace BrickPile.Samples.Models {
 
     }
     public class ArticleViewModel {
-        public Article Content { get; set; }
-        public IPageModel CurrentPage { get; set; }
+        public Article CurrentPage { get; set; }
     }
 
     public class Contact {
@@ -54,7 +51,7 @@ namespace BrickPile.Samples.Models {
                     continue;
                 }
 
-                string str = char.ToLower(s[0], CultureInfo.InvariantCulture).ToString((IFormatProvider)CultureInfo.InvariantCulture);
+                string str = char.ToLower(s[0], CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
                 if (s.Length > 1)
                     str = str + s.Substring(1);
                 list.Add(str);

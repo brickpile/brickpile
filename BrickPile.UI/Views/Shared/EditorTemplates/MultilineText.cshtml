@@ -1,6 +1,4 @@
 ﻿@using BrickPile.Samples.Models
 @model string
 
-@*@Html.TextArea(@ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty).ToCamelCase(),"{{" + @ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty).ToCamelCase() + "}}",5,60,null)*@
-
 <textarea name="@ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty).ToCamelCase()" cols="60" rows="5">{{@ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty).ToCamelCase()}}</textarea>

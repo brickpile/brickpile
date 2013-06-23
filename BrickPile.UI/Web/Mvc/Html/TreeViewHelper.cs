@@ -26,6 +26,7 @@ using System.Web.Mvc;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Web.Mvc.Html {
+    [Obsolete]
     public static class TreeViewHelper {
         //* *******************************************************************
         //*  Methods 

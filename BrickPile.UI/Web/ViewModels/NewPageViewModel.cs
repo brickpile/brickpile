@@ -1,6 +1,8 @@
-﻿using BrickPile.Domain.Models;
+﻿using System;
+using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Web.ViewModels {
+    [Obsolete]
     public class NewPageViewModel {
         /// <summary>
         /// Gets or sets the root model.
@@ -8,21 +10,19 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <value>
         /// The root model.
         /// </value>
-        public IPageModel RootModel { get; set; }
+        public IPage RootModel { get; set; }
         /// <summary>
         /// Get/Sets the CurrentModel of the DashboardViewModel
         /// </summary>
         /// <value></value>
-        public IPageModel ParentModel { get; set; }
+        public IPage ParentModel { get; set; }
         /// <summary>
         /// Gets or sets the new page model.
         /// </summary>
         /// <value>
         /// The new page model.
         /// </value>
-        public PageModel NewPageModel { get; set; }
-
-        public IContent ContentModel { get; set; }
+        public Page NewPageModel { get; set; }
 
         /// <summary>
         /// Gets or sets the slugs in use.

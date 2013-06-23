@@ -72,7 +72,7 @@ If you wish to handle the Current Page yourself you can use
 
 or maybe
 
-	ControllerContext.RequestContext.RouteData.GetCurrentPage<IPageModel>
+	ControllerContext.RequestContext.RouteData.GetCurrentPage<IPage>
 
 ##Automatic Navigation
 In BrickPile it's very easy to get the navigation up'n running using built in HTML-helpers and the **StructureInfo** object.
@@ -124,7 +124,7 @@ Yes, it's that easy! The Menu helper has a couple more paramters like SelectedIt
 		page => Html.DisplayFor(x => page.Metadata.Name, "SelectedTemplate"),
 		page => Html.ActionLink(page, new { @class = "expanded" }))
 
-In both of these scenarios we are using the built in ActionLink helper that takes an **IPageModel** as a parameter, you can of course use the standard ActionLink helper but then it's important the add a custom route value called currentPage like this `page => Html.ActionLink(page.Metadata.Name,"index", new { currentPage = page })`
+In both of these scenarios we are using the built in ActionLink helper that takes an **IPage** as a parameter, you can of course use the standard ActionLink helper but then it's important the add a custom route value called currentPage like this `page => Html.ActionLink(page.Metadata.Name,"index", new { currentPage = page })`
 
 **Note:** The above examples is also used if you wish to link to another page inline without the menu helper or maybe post a form.
 

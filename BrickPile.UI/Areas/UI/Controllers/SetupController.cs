@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System;
 using System.Web.Mvc;
 using System.Web.Security;
 using BrickPile.UI.Areas.UI.Models;
@@ -26,6 +27,7 @@ using BrickPile.UI.Web.ViewModels;
 using Raven.Client;
 
 namespace BrickPile.UI.Areas.UI.Controllers {
+    [Obsolete]
     public class SetupController : Controller {
         //private readonly IMembershipService _membershipService;
         //private readonly IFormsAuthenticationService _formsService;

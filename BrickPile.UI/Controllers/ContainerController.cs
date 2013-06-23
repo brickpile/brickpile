@@ -13,10 +13,9 @@ namespace BrickPile.Samples.Controllers
         //
         // GET: /Container/
 
-        public ActionResult Index(PageModel currentPage, Container currentContent) {
+        public ActionResult Index(Container currentPage) {
             var viewModel = new ContainerViewModel
             {
-                CurrentContent = currentContent,
                 CurrentPage = currentPage
             };
             return View(viewModel);

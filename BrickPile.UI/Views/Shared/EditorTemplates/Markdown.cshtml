@@ -1,1 +1,13 @@
-﻿<div id="epiceditor"></div>
+﻿@using BrickPile.Samples.Models
+@using BrickPile.UI.Common
+
+<textarea class="@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty).ToCamelCase()" name="@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty).ToCamelCase()">{{@ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty).ToCamelCase()}}</textarea>
+
+@Html.Section(@<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>,"scripts")
+@Html.Section(@<script>
+                   require(['brickpile'], function (brickpile) {
+                       brickpile.app.on('brickpile:editorLoaded', function () {
+                           tinymce.init({ selector: '.@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty).ToCamelCase()' });
+                       });
+                   });
+               </script>, "scripts")

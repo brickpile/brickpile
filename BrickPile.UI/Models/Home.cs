@@ -1,15 +1,11 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.Samples.Controllers;
-using BrickPile.UI.Web;
 
 namespace BrickPile.Samples.Models {
     [ContentType(Name = "Home", ControllerType = typeof(HomeController))]
-    public class Home : IContent {
-        [ScaffoldColumn(false)]
-        public string Id { get; set; }
+    public class Home : Page {
 
         public string Heading { get; set; }
 
@@ -17,9 +13,17 @@ namespace BrickPile.Samples.Models {
         public string MainIntro { get; set; }
 
         //[Required]
-        [ScaffoldColumn(false)]
-        public Image Image { get; set; }
+        //[ScaffoldColumn(false)]
+        //public Image Image { get; set; }
 
+        public TheProp TheProp { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Home"/> class.
+        /// </summary>
+        public Home() {
+            TheProp = new TheProp();
+        }
     }
 
 }

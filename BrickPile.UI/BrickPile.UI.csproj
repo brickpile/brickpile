@@ -172,7 +172,6 @@
     <Compile Include="Areas\UI\Controllers\Controller.cs" />
     <Compile Include="Areas\UI\Controllers\DashboardController.cs" />
     <Compile Include="Areas\UI\Controllers\PageController.cs" />
-    <Compile Include="Areas\UI\Controllers\PagesController.cs" />
     <Compile Include="Areas\UI\Controllers\SetupController.cs" />
     <Compile Include="Areas\UI\Controllers\UIController.cs" />
     <None Include="Areas\UI\Models\AccountModels.cs.bak" />
@@ -365,14 +364,19 @@
     <Content Include="Areas\UI\Js\brickpile.js" />
     <Content Include="Areas\UI\Js\Collections\contenttypes.js" />
     <Content Include="Areas\UI\Js\Collections\pages.js" />
-    <Content Include="Areas\UI\Js\Libs\Forms2js\form2js.js" />
-    <Content Include="Areas\UI\Js\Libs\Forms2js\jquery.toObject.js" />
+    <Content Include="Areas\UI\Js\Libs\backbone\backbone.js" />
+    <Content Include="Areas\UI\Js\Libs\form2js\form2js.js" />
+    <Content Include="Areas\UI\Js\Libs\form2js\jquery.toObject.js" />
+    <Content Include="Areas\UI\Js\Libs\jquery\jquery.js" />
+    <Content Include="Areas\UI\Js\Libs\require\require.js" />
+    <Content Include="Areas\UI\Js\Libs\underscore\underscore.js" />
+    <Content Include="Areas\UI\Js\main.js" />
     <Content Include="Areas\UI\Js\Models\auth.js" />
-    <Content Include="Areas\UI\Js\Models\content.js" />
     <Content Include="Areas\UI\Js\Models\contenttype.js" />
     <Content Include="Areas\UI\Js\Models\page.js" />
     <Content Include="Areas\UI\Js\Models\user.js" />
     <Content Include="Areas\UI\Js\Models\session.js" />
+    <Content Include="Areas\UI\Js\router.js" />
     <Content Include="Areas\UI\Js\Views\Auth\status.js" />
     <Content Include="Areas\UI\Js\Views\Auth\login.js" />
     <Content Include="Areas\UI\Js\Views\Auth\register.js" />
@@ -695,6 +699,19 @@
     <Content Include="Areas\UI\Styles\webfonts\svg\museo-sans-500.svg" />
     <Content Include="Areas\UI\Styles\webfonts\svg\museo-sans-700.svg" />
     <Content Include="Areas\UI\Styles\webfonts\svg\style_159303.svg" />
+    <Content Include="Scripts\backbone.js" />
+    <Content Include="Scripts\backbone.min.js" />
+    <Content Include="Scripts\Collections\AssetCollection.js" />
+    <Content Include="Scripts\Collections\PageCollection.js" />
+    <Content Include="Scripts\Models\Asset.js" />
+    <Content Include="Scripts\Models\Content.js" />
+    <Content Include="Scripts\Models\Page.js" />
+    <Content Include="Scripts\require.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Scripts\Views\PageListItemView.js" />
+    <Content Include="Scripts\Views\PageListView.js" />
+    <Content Include="Scripts\Views\PageView.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

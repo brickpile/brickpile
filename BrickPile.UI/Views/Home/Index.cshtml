@@ -1,4 +1,6 @@
-﻿@using BrickPile.UI.Web.Mvc.Html
+﻿@using BrickPile.Samples.Models
+@using BrickPile.UI.Common
+@using BrickPile.UI.Web.Mvc.Html
 @model BrickPile.Samples.Models.Home
 
 @{
@@ -10,21 +12,6 @@
 
 @Html.Menu()
 
-
-<main>
-    
-@foreach (var teaser in Model.Teasers)
-{
-    Html.DisplayFor(x => x);
-}       
-
-</main>
-
-<aside>
-
-@foreach (var teaser in Model.Teasers)
-{
-    Html.DisplayFor(x => x);
-}    
-
-</aside>
+@foreach (Container container in ViewBag.Containers) {
+    @container.Metadata.Name <br/>
+}

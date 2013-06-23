@@ -122,8 +122,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         //[ValidateAntiForgeryToken]
         public HttpResponseMessage LogOff() {
             Authenticator.Logout();
-            return new HttpResponseMessage
-            {
+            return new HttpResponseMessage {
                 StatusCode = HttpStatusCode.OK
             };
         }
@@ -139,8 +138,8 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         //
         // POST: /Account/Register
 
-        //[System.Web.Http.HttpPost]
-        //[System.Web.Http.AllowAnonymous]
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.AllowAnonymous]
         //[ValidateAntiForgeryToken]
         public HttpResponseMessage Post([FromBody]RegisterModel model) {
             if (ModelState.IsValid) {

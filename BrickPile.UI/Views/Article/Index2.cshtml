@@ -1,0 +1,21 @@
+﻿@using BrickPile.UI.Common
+@using BrickPile.UI.Web.Mvc.Html
+@model BrickPile.Samples.Models.ArticleViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/views/shared/_Layout.cshtml";
+}
+
+@Html.Menu()
+
+@Html.SubMenu(
+    page => Html.ActionLink(page)
+)
+
+<h1>@Model.CurrentPage.Heading</h1>
+<p>@Model.CurrentPage.MainIntro</p>
+@Html.Raw(Model.CurrentPage.FireAtWill)
+
+@Model.CurrentPage.Contact.Firstname
+
+@Model.CurrentPage.Count

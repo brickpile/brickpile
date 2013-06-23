@@ -26,7 +26,7 @@ namespace BrickPile.UI.Web.Mvc {
         /// </returns>
         public override IEnumerable<ModelValidationResult> Validate(object container) {
 
-            var contentType = ControllerContext.RouteData.Values["currentContent"] as IContent;
+            var contentType = ControllerContext.RouteData.Values["currentPage"] as IPage;
 
             var model = Metadata.Model;
             if (model == null || contentType == null) {

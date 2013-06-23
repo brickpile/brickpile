@@ -271,6 +271,7 @@ var VirtualFilePropertyView = Backbone.View.extend({
         'click a.clear': 'clear'
     },
     open: function (e) {
+        console.log('foo');
         e.preventDefault();
         var coll = new VirtualFileCollection();
         var view = new VirtualFileSelectorModalView(

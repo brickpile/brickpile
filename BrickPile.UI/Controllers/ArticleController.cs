@@ -13,20 +13,18 @@ namespace BrickPile.Samples.Controllers
         /// <summary>
         /// Indexes the specified current content.
         /// </summary>
-        /// <param name="currentContent">Content of the current.</param>
         /// <param name="currentPage">The current page.</param>
         /// <returns></returns>
-        public ActionResult Index(Article currentContent) {
+        public ActionResult Index(Article currentPage) {
 
-            var currentPage = _session.Query<IPageModel>().FirstOrDefault();
+            //var currentPage = _session.Query<IPageModel>().FirstOrDefault();
 
             var viewModel = new ArticleViewModel
             {
-                Content = currentContent,
                 CurrentPage = currentPage
             };
 
-            return View(viewModel);
+            return View("Index2",viewModel);
         }
 
         //public ActionResult Comment(Comment comment) {

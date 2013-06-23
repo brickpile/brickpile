@@ -14,7 +14,8 @@
     render: function () {
         try {
             var html = this.template(this.model.toJSON());
-            $(this.el).html(html);     
+            $(this.el).html(html);
+
         } catch (err) {
             var txt = "There was an error on this page.\n\n";
             txt += "Error description: " + err.message + "\n\n";

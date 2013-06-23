@@ -1,62 +1,48 @@
-﻿var ContentTypeListItemView = Backbone.View.extend({
-    
-    events: {
-        'click a' : 'add'
-    },
-    
-    tagName: 'li',
-    
-    template: _.template($('#tpl-content-type-list-item').html()),
-    
-    render: function () {
-        
-        var html = this.template(this.model.toJSON());
-        $(this.el).html(html);
-        return this;
-        
-    },
-    add: function (ev) {
+﻿define([
+        'jquery',
+        'underscore',
+        'backbone',
+        'models/page'
+    ],
+    function($, _, Backbone, Page) {
+        var ContentTypeListItemView = Backbone.View.extend({
+            events: {
+                'click a': 'add'
+            },
 
-        var self = this;
+            tagName: 'li',
 
-        ev.preventDefault();
+            template: _.template($('#tpl-content-type-list-item').html()),
 
-        var app = brickpile.app;
+            render: function() {
 
-        var $input = $('<input type="text" style="margin-top:15px;margin-left:21px;" placeholder="My awesome page..." autofocus="autofocus" />');
+                var html = this.template(this.model.toJSON());
+                $(this.el).html(html);
+                return this;
 
-        $input.bind('keypress', function (e) {
-            var code = (e.keyCode ? e.keyCode : e.which);
-            if (code == 13) {
+            },
+            add: function(ev) {
 
-                var textbox = this;
+                var self = this;
 
-                //alert(self.model.get('assemblyQualifiedName'));
+                ev.preventDefault();
 
-                var content = new Content();
-                content.set({
-                    $type: self.model.get('assemblyQualifiedName')
-                });
-                
-                // save the page back to the server
-                content.save(null, {
-                    success: function (resp) {
-                        
-                        // test start
+                var app = brickpile.app;
 
-                        //app.pages.create({
-                        //    metadata: {
-                        //        name: $(textbox).val()
-                        //    },
-                        //    contentReference: resp.get('id')
-                        //}, { wait: true });
+                var $input = $('<input type="text" style="margin-top:15px;margin-left:21px;" placeholder="My awesome page..." autofocus="autofocus" />');
 
+                $input.bind('keypress', function(e) {
+                    var code = (e.keyCode ? e.keyCode : e.which);
+                    if (code == 13) {
 
-                        // test end
+                        var textbox = this;
 
                         // create a new instance of a page
 
                         var page = new Page();
+                        page.set({
+                            $type: self.model.get('assemblyQualifiedName')
+                        });
 
                         // if this is the first page, don't add a slug or url
                         if (app.pages.currentPage) {
@@ -84,23 +70,22 @@
                                     id: app.pages.currentPage.id,
                                     url: app.pages.currentPage.get('metadata').url,
                                     slug: app.pages.currentPage.get('metadata').slug
-                                },
-                                contentReference: resp.get('id')
+                                }
                             });
-                            
+
                             page.save(null, {
-                                success: function (model) {
+                                success: function(model) {
                                     // update the collection with the new page
                                     app.pages.add(model);
-                                    
+
                                     // update the current page with the new child
                                     app.pages.currentPage.get('children').push(model.get('id'));
                                     app.pages.currentPage.save();
-                                    
+
                                     // remove the input
                                     $input.remove();
                                     // edit the page
-                                    app.router.navigate('ui/pages/edit/' + model.get('id').substring(6), true);
+                                    app.router.navigate('ui/page/edit/' + model.get('id'), true);
                                 }
                             });
 
@@ -112,59 +97,33 @@
                                     isPublished: false,
                                     pubblished: new Date(),
                                     Changed: new Date()
-                                },
-                                contentReference: resp.get('id')
+                                }
                             });
-                            
+
                             page.save(null, {
-                                success: function (model) {
-                                    
-                                    //// update the collection with the new page
-                                    //app.pages.add(model);
-                                    //// update the current page with the new child
-
-                                    ////app.pages.currentPage = model;
-
-                                    //app.pages.currentPage.get('children').push(model.get('id'));
-                                    //app.pages.currentPage.save();
+                                success: function(model) {
 
                                     //// remove the input
                                     $input.remove();
                                     //// edit the page
-                                    app.router.navigate('ui/pages/edit/' + model.get('id').substring(6), true);
-                                    
+                                    app.router.navigate('ui/page/edit/' + model.get('id'), true);
+
                                 }
                             });
                         }
-                        // save the page back to the server
-                        //page.save(null, {
-                        //    success: function (model) {
-                        //        // update the collection with the new page
-                        //        app.pages.add(model);
-                        //        // update the current page with the new child
-                        //        if(app.pages.currentPage) {
-                        //            app.pages.currentPage.get('children').push(model.get('id'));
-                        //            app.pages.currentPage.save();
-                        //        }
-                        //        // remove the input
-                        //        $input.remove();
-                        //        // edit the page
-                        //        app.router.navigate('ui/pages/edit/' + model.get('id').substring(6), true);
-                        //    }
-                        //});
                     }
+
                 });
+
+                $input.appendTo($('#gutter ul')).wrap('<li />');
+
+                $('.content-types').remove();
+
+                return false;
             }
         });
-
-        $input.appendTo($('#gutter ul')).wrap('<li />');
-
-        $('.content-types').remove();
-
-        return false;
-    }
-    
-});
+        return ContentTypeListItemView;
+    });
 
 /**
  * Converts a string to a "URL-safe" slug.
@@ -176,7 +135,7 @@
  *   ['–', '—', '―', '~', '\\', '/', '|', '+', '\'', '‘', '’', ' ']
  */
 if (!String.prototype.slugify) {
-    String.prototype.slugify = function (delimiter, separators) {
+    String.prototype.slugify = function(delimiter, separators) {
         var i = separators && separators.length,
             slug = this,
             delimiter = delimiter || '-',
@@ -868,10 +827,10 @@ if (!String.prototype.slugify) {
 
         // do all the replacements
         slug = slug.toLowerCase(); // if we don't do this, add the uppercase versions to the sanitizer plus inlcude A-Z in the prohibited filter
-        slug = slug.replace(prohibited, function (match) { return sanitizer[match] || ''; });
+        slug = slug.replace(prohibited, function(match) { return sanitizer[match] || ''; });
         slug = slug.replace(consecutive, delimiter);
         slug = slug.replace(trim, "$1");
 
         return slug;
-    }
+    };
 }

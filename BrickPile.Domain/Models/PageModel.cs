@@ -25,10 +25,12 @@ namespace BrickPile.Domain.Models {
     /// <summary>
     /// The base class for page models
     /// </summary>
-    /// <remarks>Use IPageModel to create your own base class</remarks>
     /// <example></example>
+    /// <remarks>
+    /// Use IPage to create your own base class
+    /// </remarks>
     [MetadataType(typeof(PageModelMetadata))]
-    public sealed class PageModel : IPageModel {
+    public class Page : IPage {
 
         /// <summary>
         /// Gets or sets the id.
@@ -49,7 +51,7 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// The parent.
         /// </value>
-        public DocumentReference<IPageModel> Parent { get; set; }
+        public DocumentReference<IPage> Parent { get; set; }
 
         /// <summary>
         /// Gets or sets the ancestors.
@@ -57,7 +59,7 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// The ancestors.
         /// </value>
-        internal IList<PageModel> Ancestors { get; set; }
+        internal IList<Page> Ancestors { get; set; }
 
         /// <summary>
         /// Gets or sets the children.
@@ -68,18 +70,9 @@ namespace BrickPile.Domain.Models {
         public List<string> Children { get; private set; }
 
         /// <summary>
-        /// Gets or sets the content reference.
+        /// Initializes a new instance of the <see cref="Page"/> class.
         /// </summary>
-        /// <value>
-        /// The content reference.
-        /// </value>
-        [ScaffoldColumn(false)]
-        public string ContentReference { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PageModel"/> class.
-        /// </summary>
-        public PageModel() {
+        public Page() {
             Metadata = new PageMetadata();
             Children = new List<string>();
         }

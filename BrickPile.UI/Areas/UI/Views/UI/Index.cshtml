@@ -1,6 +1,7 @@
 ﻿@using BrickPile.Domain.Models
 @using BrickPile.UI.Common
 @model BrickPile.UI.Areas.UI.Models.LoginModel
+
 @* Copyright (C) 2011 by Marcus Lindblom
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -36,15 +37,16 @@ THE SOFTWARE. *@
     <link href="//get.pictos.cc/fonts/4039/16" rel="stylesheet" type="text/css">
     <link href="/areas/ui/css/normalize.css" rel="stylesheet" type="text/css"/>
     <link href="/areas/ui/css/brickpile.css" rel="stylesheet"  type="text/css"/>
+    @Html.RenderSection("styles")
 </head>
 <body>
     <header style="text-align: right;"></header>
     <nav>
         <ul>
             <li><a href="/ui/dashboard/" class="icon" data-icon="d"><span>Dashboard</span></a></li>
-            <li><a href="/ui/pages/" class="icon" data-icon="e"><span>Pages</span></a></li>
-            <li><a href="/ui/assets/" class="icon" data-icon="a"><span>Assets</span></a></li>
-            <li><a href="/ui/users/" class="icon" data-icon="u"><span>Users</span></a></li>                
+            <li><a href="/ui/page/" class="icon" data-icon="e"><span>Pages</span></a></li>
+            <li><a href="/ui/asset/" class="icon" data-icon="a"><span>Assets</span></a></li>
+            <li><a href="/ui/user/" class="icon" data-icon="u"><span>Users</span></a></li>                
         </ul>
     </nav>
     <main>
@@ -76,9 +78,9 @@ THE SOFTWARE. *@
     
     <script id="tpl-page-list-item" type="text/template">
         <li>
-            <a href="/ui/pages/edit/{{id.substring(6)}}" class="edit icon" data-icon="p">{{metadata.name}}</a>
+            <a href="/ui/page/edit/{{id}}" class="edit icon" data-icon="p">{{metadata.name}}</a>
             {[ if(parent) { ]}
-                <a href="/ui/pages/{{id.substring(6)}}" class="icon view" data-icon=">"></a>
+                <a href="/ui/page/{{id}}" class="icon view" data-icon=">"></a>
             {[ } ]} 
         </li>
     </script>
@@ -156,30 +158,65 @@ THE SOFTWARE. *@
     
     @* Render all editor templates *@
     @foreach (var type in contentTypes) {
-        var content = Activator.CreateInstance(type) as IContent;
+        var content = Activator.CreateInstance(type) as IPage;
         <script id="edit-template-@type.FullName.Replace(".","-").ToLower()" type="text/template">
-            <form>    
+            <form id="myForm">
+                <label>Page Name:</label>
+                <input type="text" name="metadata.name" value="{{metadata.name}}" />
+                <br />
+
+                <label>Title:</label>
+                <input type="text" name="metadata.title" value="{{metadata.title}}" />
+                <br />
+
+                <label>Description:</label>
+                <textarea name="metadata.description">{{metadata.description}}</textarea>
+                <br />
+
+                <label>Slug:</label>
+                <input type="text" name="metadata.slug" readonly="readonly" value="{{metadata.slug}}" />
+                <br />
+
+                <label>Url:</label>
+                <input type="url" name="metadata.url" readonly="readonly" value="{{metadata.url}}" />
+                <br />
+
+                <label>Published:</label>
+                <input type="text" name="metadata.published" value="{{metadata.published}}" />
+                <br />
+            
+                <label>Published</label>
+                <input type="checkbox" name="metadata.isPublished" {[ print( metadata.isPublished ? 'checked="checked"' : '') ]} />
+                <br />
+
+                <label>Visible in menu</label>
+                <input type="checkbox" name="metadata.displayInMenu" {[ print( metadata.displayInMenu ? 'checked="checked"' : '') ]} />
+                <br />
                 @Html.EditorFor(x => content, null, "")
                 <input type="submit" value="Save"/>
             </form>
-            </script>
+            
+        </script>
         }
     
-    <script src="http://code.jquery.com/jquery-git.js"></script>
+    @*    <script src="http://code.jquery.com/jquery-git.js"></script>
     <script src="https://raw.github.com/documentcloud/underscore/master/underscore.js"></script>
     <script src="https://raw.github.com/documentcloud/backbone/master/backbone.js"></script>
-    @*    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>*@
-    <script>
+
+    <script src="/scripts/require.js"></script>*@
+    
+    <!-- Load the script "/areas/ui/js/main.js" as our entry point -->
+    <script data-main="/areas/ui/js/main" src="/Areas/ui/js/libs/require/require.js"></script>
+
+@*    <script>
         _.templateSettings = {
             evaluate: /\{\[([\s\S]+?)\]\}/g,
             interpolate: /\{\{([\s\S]+?)\}\}/g,
-            escape: /\{\{-([\s\S]+?)\}\}/g,
-            //variable: 'data'
+            escape: /\{\{-([\s\S]+?)\}\}/g
         };
-    </script>
-    <script src="/areas/ui/js/models/page.js"></script>
+    </script>*@
+
+@*    <script src="/areas/ui/js/models/page.js"></script>
     <script src="/areas/ui/js/models/contenttype.js"></script>
     <script src="/areas/ui/js/models/content.js"></script>
     <script src="/areas/ui/js/models/auth.js"></script>
@@ -203,6 +240,9 @@ THE SOFTWARE. *@
     <script src="/areas/ui/js/libs/Forms2js/form2js.js"></script>
     <script src="/areas/ui/js/libs/Forms2js/jquery.toObject.js"></script>
     <script src="/areas/ui/js/brickpile.js"></script>
-    <script src="/areas/ui/js/app.js"></script>
+    <script src="/areas/ui/js/app.js"></script>*@
+    
+    @Html.RenderSection("scripts")
+    
 </body>
 </html>

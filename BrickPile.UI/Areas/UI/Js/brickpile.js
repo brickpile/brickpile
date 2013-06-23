@@ -18,27 +18,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
-// This contains the module definition factory function, application state,
-// events, and the router.
-this.brickpile = {
-    // Assist with code organization, by breaking up logical components of code
-    // into modules.
-    module: function () {
-        // Internal module cache.
-        var modules = {};
+define([
+        'jquery',
+        'underscore',
+        'backbone'
+    ], function($, _, Backbone) {
 
-        // Create a new module reference scaffold or load an existing module.
-        return function (name) {
-            // If this module has already been created, return it.
-            if (modules[name]) {
-                return modules[name];
-            }
+        this.brickpile = {
+            // Assist with code organization, by breaking up logical components of code
+            // into modules.
+            module: function() {
+                // Internal module cache.
+                var modules = {};
 
-            // Create a module and save it under this name
-            return modules[name] = { Views: {} };
+                // Create a new module reference scaffold or load an existing module.
+                return function(name) {
+                    // If this module has already been created, return it.
+                    if (modules[name]) {
+                        return modules[name];
+                    }
+
+                    // Create a module and save it under this name
+                    return modules[name] = { Views: {} };
+                };
+            }(),
+
+            // Keep active application instances namespaced under an app object.
+            app: _.extend({}, Backbone.Events)
         };
-    } (),
 
-    // Keep active application instances namespaced under an app object.
-    app: _.extend({}, Backbone.Events)
-};
+        return this.brickpile;
+    });

@@ -21,9 +21,9 @@ using System.Collections.Generic;
 
 namespace BrickPile.Domain.Models {
     /// <summary>
-    /// Represents the page model
+    /// Represents the page
     /// </summary>
-    public interface IPageModel {
+    public interface IPage {
         /// <summary>
         /// Gets the id.
         /// </summary>
@@ -38,7 +38,7 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// The parent.
         /// </value>
-        DocumentReference<IPageModel> Parent { get; set; }
+        DocumentReference<IPage> Parent { get; set; }
         /// <summary>
         /// Gets or sets the children.
         /// </summary>
@@ -47,6 +47,5 @@ namespace BrickPile.Domain.Models {
         /// </value>
         List<string> Children { get; }
 
-        string ContentReference { get; set; }
     }
 }

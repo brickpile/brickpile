@@ -1,0 +1,21 @@
+﻿
+@using BrickPile.Samples.Models
+@using BrickPile.UI.Common
+@model BrickPile.Samples.Controllers.TheProp
+
+<div id="@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)">
+    
+    <input type="text" value="{{@ViewData.TemplateInfo.GetFullHtmlFieldName("Test").ToCamelCase()}}" name="@ViewData.TemplateInfo.GetFullHtmlFieldName("Test").ToCamelCase()" />
+    <button type="button">Push me</button>
+
+</div>
+
+@Html.Section(@<script>
+                   require(['brickpile','/Content/Test.js'], function (Brickpile, Test) {
+                       Brickpile.app.on('brickpile:editorLoaded', function () {
+                           var view = new Test({
+                               el: '#@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)'
+                           });
+                       });
+                   });
+               </script>, "scripts")

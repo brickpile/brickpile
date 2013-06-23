@@ -111,12 +111,12 @@ namespace BrickPile.UI.Web.Routing {
             }
             
             routeData.ApplyCurrentPage(pathData.Controller, pathData.Action, pathData.CurrentPage);
-            routeData.ApplyCurrentContent(pathData.CurrentContent);
+            //routeData.ApplyCurrentContent(pathData.CurrentContent);
             routeData.ApplyCurrentStructureInfo(new StructureInfo
             {
                 NavigationContext = httpContextBase.User.Identity.IsAuthenticated ? pathData.NavigationContext.Where(x => !x.Metadata.IsDeleted).OrderBy(x => x.Metadata.SortOrder) : pathData.NavigationContext.Where(x => x.Metadata.IsPublished).Where(x => !x.Metadata.IsDeleted).OrderBy(x => x.Metadata.SortOrder),
                 CurrentPage = pathData.CurrentPage,
-                CurrentContent = pathData.CurrentContent,
+                //CurrentContent = pathData.CurrentContent,
                 StartPage = pathData.NavigationContext.Single(x => x.Parent == null),
                 ParentPage = pathData.CurrentPage.Parent != null ? pathData.NavigationContext.SingleOrDefault(x => x.Id == pathData.CurrentPage.Parent.Id) : null
             });
@@ -133,8 +133,8 @@ namespace BrickPile.UI.Web.Routing {
         /// </returns>
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
 
-            var model = values[ModelKey] as IPageModel ??
-                requestContext.RouteData.GetCurrentPage<IPageModel>();
+            var model = values[ModelKey] as IPage ??
+                requestContext.RouteData.GetCurrentPage<IPage>();
 
             if (model == null) {
                 return null;
