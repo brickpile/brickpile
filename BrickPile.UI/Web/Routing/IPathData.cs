@@ -44,7 +44,7 @@ namespace BrickPile.UI.Web.Routing {
         /// <value>
         /// The current page model.
         /// </value>
-        IPageModel CurrentPage { get; set; }
+        IPage CurrentPage { get; set; }
 
         /// <summary>
         /// Gets or sets the pages.
@@ -52,6 +52,6 @@ namespace BrickPile.UI.Web.Routing {
         /// <value>
         /// The pages.
         /// </value>
-        IQueryable<IPageModel> NavigationContext { get; set; }
+        IQueryable<IPage> NavigationContext { get; set; }
     }
 }

@@ -31,12 +31,12 @@ namespace BrickPile.Core.Infrastructure.Indexes {
     /// <summary>
     /// 
     /// </summary>
-    public class PageModelWithParentsAndChildren : AbstractMultiMapIndexCreationTask<PageModel> {
+    public class PageModelWithParentsAndChildren : AbstractMultiMapIndexCreationTask<Page> {
         /// <summary>
         /// Initializes a new instance of the <see cref="PageModelWithParentsAndChildren"/> class.
         /// </summary>
         public PageModelWithParentsAndChildren() {
-            AddMapForAll<PageModel>(pages => from page in pages
+            AddMapForAll<Page>(pages => from page in pages
                                         select new {
                                             page.Id,
                                             page.Children
@@ -45,7 +45,7 @@ namespace BrickPile.Core.Infrastructure.Indexes {
             Sort(x => x.Metadata.SortOrder, Raven.Abstractions.Indexing.SortOptions.Int);
 
             TransformResults = (database, pages) => from page in pages
-                                                    let ancestors = Recurse(page, c => database.Load<PageModel>(c.Parent.Id))
+                                                    let ancestors = Recurse(page, c => database.Load<Page>(c.Parent.Id))
                                                     select new {
                                                         page.Id,
                                                         page.Children,

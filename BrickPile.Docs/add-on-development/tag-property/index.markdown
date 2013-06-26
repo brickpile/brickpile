@@ -65,7 +65,7 @@ Add a new class with the following content
 This model binder above can be very improved but for this tutorial I think it will do the job. As a final step we should tell our model to use this model binder when saving a page. Add the model binder attribute to the page model you added the tags property to. In my case the final page model looks like this.
 
     [ModelBinder(typeof(TagsModelBinder))]
-    public class Page : PageModel {
+    public class StandardPage : Page {
         [UIHint("Tags")]
         public ICollection<string> Tags { get; set; }
     }

@@ -12,13 +12,13 @@ namespace BrickPile.Core.Infrastructure.Indexes {
     /// <summary>
     /// 
     /// </summary>
-    public class AllPages : AbstractMultiMapIndexCreationTask<IPageModel> {
+    public class AllPages : AbstractMultiMapIndexCreationTask<IPage> {
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AllPages"/> class.
         /// </summary>
         public AllPages() {
-            AddMapForAll<IPageModel>(pages => from page in pages
+            AddMapForAll<IPage>(pages => from page in pages
                                           select new {
                                               page.Id,
                                               Metadata_Url = page.Metadata.Url,

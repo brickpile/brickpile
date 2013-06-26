@@ -36,6 +36,6 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <value>
         /// The hierarchy.
         /// </value>
-        IEnumerable<IPageModel> NavigationContext { get; set; }
+        IEnumerable<IPage> NavigationContext { get; set; }
     }
 }

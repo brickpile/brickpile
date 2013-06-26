@@ -43,7 +43,7 @@ namespace BrickPile.Domain.Models {
         /// The parent.
         /// </value>
         [ScaffoldColumn(false)]
-        public virtual DocumentReference<IPageModel> Parent { get; set; }
+        public virtual DocumentReference<IPage> Parent { get; set; }
         /// <summary>
         /// Gets or sets the children.
         /// </summary>

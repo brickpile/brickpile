@@ -119,8 +119,8 @@ namespace BrickPile.UI.Web.Routing {
         /// </returns>
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
 
-            var model = values[ModelKey] as IPageModel ??
-                requestContext.RouteData.GetCurrentPage<IPageModel>();
+            var model = values[ModelKey] as IPage ??
+                requestContext.RouteData.GetCurrentPage<IPage>();
 
             if (model == null) {
                 return null;

@@ -47,7 +47,7 @@ namespace BrickPile.UI {
                     scanner.Convention<ContentTypeRegistrationConvetion>();
                 });
 
-                x.For<IPageModel>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPageModel>()));
+                x.For<IPage>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPage>()));
 
                 x.For<IStructureInfo>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.GetStructureInfo()));
 

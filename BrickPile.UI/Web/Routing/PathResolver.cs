@@ -42,7 +42,7 @@ namespace BrickPile.UI.Web.Routing {
         private readonly IControllerMapper _controllerMapper;
         private readonly IContainer _container;
         private IDocumentSession _session;
-        private IPageModel _pageModel;
+        private IPage _pageModel;
         private string _controllerName;
         /// <summary>
         /// Resolves the path.
@@ -60,7 +60,7 @@ namespace BrickPile.UI.Web.Routing {
             // The requested url is for the start page with no action
             if (string.IsNullOrEmpty(virtualUrl) || string.Equals(virtualUrl, "/")) {
 
-                _pageModel = _session.Query<IPageModel, AllPages>()
+                _pageModel = _session.Query<IPage, AllPages>()
                     .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                     .SingleOrDefault(x => x.Parent == null);
 
@@ -69,7 +69,7 @@ namespace BrickPile.UI.Web.Routing {
                 // Remove the trailing slash
                 virtualUrl = VirtualPathUtility.RemoveTrailingSlash(virtualUrl).TrimStart(new[] { '/' });
                 // The normal beahaviour should be to load the page based on the url
-                _pageModel = _session.Query<IPageModel, AllPages>()
+                _pageModel = _session.Query<IPage, AllPages>()
                     .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                     .FirstOrDefault(x => x.Metadata.Url == virtualUrl);
                 // Try to load the page without the last segment of the url and set the last segment as action))
@@ -77,7 +77,7 @@ namespace BrickPile.UI.Web.Routing {
                     var index = virtualUrl.LastIndexOf("/");
                     var action = virtualUrl.Substring(index, virtualUrl.Length - index).Trim(new[] { '/' });
                     virtualUrl = virtualUrl.Substring(0, index).TrimStart(new[] { '/' });
-                    _pageModel = _session.Query<IPageModel, AllPages>()
+                    _pageModel = _session.Query<IPage, AllPages>()
                         .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                         .FirstOrDefault(x => x.Metadata.Url == virtualUrl);
                     _pathData.Action = action;
@@ -85,7 +85,7 @@ namespace BrickPile.UI.Web.Routing {
                 // If the page model still is empty, let's try to resolve if the start page has an action named (virtualUrl)
                 if (_pageModel == null) {
 
-                    _pageModel = _session.Query<IPageModel, AllPages>()
+                    _pageModel = _session.Query<IPage, AllPages>()
                         .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                         .SingleOrDefault(x => x.Parent == null);
                     _pathData.Action = virtualUrl.TrimStart(new[] { '/' });

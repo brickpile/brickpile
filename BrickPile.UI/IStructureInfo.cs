@@ -32,27 +32,27 @@ namespace BrickPile.UI {
         /// <value>
         /// The pages.
         /// </value>
-        IQueryable<IPageModel> NavigationContext { get; set; }
+        IQueryable<IPage> NavigationContext { get; set; }
         /// <summary>
         /// Gets or sets the current page.
         /// </summary>
         /// <value>
         /// The current page.
         /// </value>
-        IPageModel CurrentPage { get; set; }
+        IPage CurrentPage { get; set; }
         /// <summary>
         /// Gets or sets the root page of the web site.
         /// </summary>
         /// <value>
         /// The root page.
         /// </value>
-        IPageModel StartPage { get; set; }
+        IPage StartPage { get; set; }
         /// <summary>
         /// Gets or sets the parent page.
         /// </summary>
         /// <value>
         /// The parent page.
         /// </value>
-        IPageModel ParentPage { get; set; }
+        IPage ParentPage { get; set; }
     }
 }
