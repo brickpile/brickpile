@@ -73,12 +73,7 @@ namespace BrickPile.UI.Web.Routing {
         public static string ModelKey {
             get { return "currentPage"; }
         }
-        /// <summary>
-        /// Gets the contentkey.
-        /// </summary>
-        public static string Contentkey {
-            get { return "currentContent"; }
-        }
+
         /// <summary>
         /// Gets the route data.
         /// </summary>
@@ -104,12 +99,10 @@ namespace BrickPile.UI.Web.Routing {
             }
             
             routeData.ApplyCurrentPage(pathData.Controller, pathData.Action, pathData.CurrentPage);
-            routeData.ApplyCurrentContent(pathData.CurrentContent);
             routeData.ApplyCurrentStructureInfo(new StructureInfo
             {
                 NavigationContext = httpContextBase.User.Identity.IsAuthenticated ? pathData.NavigationContext.Where(x => !x.Metadata.IsDeleted).OrderBy(x => x.Metadata.SortOrder) : pathData.NavigationContext.Where(x => x.Metadata.IsPublished).Where(x => !x.Metadata.IsDeleted).OrderBy(x => x.Metadata.SortOrder),
                 CurrentPage = pathData.CurrentPage,
-                CurrentContent = pathData.CurrentContent,
                 StartPage = pathData.NavigationContext.Single(x => x.Parent == null),
                 ParentPage = pathData.CurrentPage.Parent != null ? pathData.NavigationContext.SingleOrDefault(x => x.Id == pathData.CurrentPage.Parent.Id) : null
             });

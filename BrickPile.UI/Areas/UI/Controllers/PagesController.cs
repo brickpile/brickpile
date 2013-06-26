@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Areas.UI.Models;
 using BrickPile.UI.Web.Mvc;
@@ -37,7 +38,6 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         private readonly IStructureInfo _structureInfo;
         private dynamic _currentPage;
         private readonly IDocumentSession _session;
-        private dynamic _content;
 
        /// <summary>
         /// Default action
@@ -75,7 +75,6 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                                 {
                                     RootModel = _structureInfo.StartPage,
                                     CurrentModel = _structureInfo.CurrentPage,
-                                    CurrentContent = _structureInfo.CurrentContent,
                                     ParentModel = _structureInfo.ParentPage,
                                     IlligalSlugs = _structureInfo.ParentPage != null ?
                                         Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(_structureInfo.ParentPage.Children).Select(x => x.Metadata.Slug)) :
@@ -93,33 +92,17 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         [ValidateInput(false)]
         public virtual ActionResult Update(FormCollection collection) {
 
-            if (!TryUpdateModel(_content, "CurrentContent", collection)) {
+            if (!TryUpdateModel(_currentPage, "CurrentModel", collection)) {
 
                 var viewModel = new EditViewModel
                 {
                     RootModel = _structureInfo.StartPage,
                     CurrentModel = _structureInfo.CurrentPage,
-                    CurrentContent = _content,
                     ParentModel = _structureInfo.ParentPage,
                 };
 
                 return View("edit", viewModel);
             }
-
-            if (!TryUpdateModel(_currentPage, "CurrentModel")) {
-
-                var viewModel = new EditViewModel
-                {
-                    RootModel = _structureInfo.StartPage,
-                    CurrentModel = _structureInfo.CurrentPage,
-                    CurrentContent = _content,
-                    ParentModel = _structureInfo.ParentPage,
-                };
-
-                return View("edit", viewModel);
-            }
-
-            UpdateModel(_content,"CurrentContent", collection);
 
             UpdateModel(_currentPage, "CurrentModel", collection);
 
@@ -148,10 +131,6 @@ namespace BrickPile.UI.Areas.UI.Controllers {
             var model = _session.Load<IPageModel>(id.Replace("_", "/"));
 
             if(permanent) {
-                if(!string.IsNullOrEmpty(model.ContentReference)) {
-                    var content = _session.Load<IContent>(model.ContentReference);
-                    _session.Delete(content);
-                }
                 _session.Delete(model);
                 if(model.Parent != null) {
                     var parent = _session.Load<IPageModel>(model.Parent.Id);
@@ -180,7 +159,6 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// News the specified new page model.
         /// </summary>
         /// <param name="newModel">The new model.</param>
-        /// <param name="collection">The collection.</param>
         /// <returns></returns>
         public ActionResult New(NewModel newModel) {
 
@@ -188,9 +166,9 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 
                 var parent = _currentPage as IPageModel;
                 // create a new page from the selected page model
-                var content = Activator.CreateInstance(Type.GetType(newModel.SelectedPageModel)) as dynamic;
+                var page = Activator.CreateInstance(Type.GetType(newModel.SelectedPageModel)) as dynamic;
                 
-                var page = new PageModel();
+                //var page = new PageModel();
                 page.Metadata.Url = parent != null ? VirtualPathUtility.AppendTrailingSlash(parent.Metadata.Url) : String.Empty;
                 page.Metadata.Published = DateTime.Now;
 
@@ -199,7 +177,6 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                     RootModel = _structureInfo != null ? _structureInfo.StartPage : null,
                     ParentModel = parent,
                     NewPageModel = page,
-                    ContentModel = content,
                     SlugsInUse = parent != null ? Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(parent.Children).Select(x => x.Metadata.Slug)) : null
                 };
 
@@ -218,16 +195,15 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        public virtual ActionResult Save([Bind(Prefix = "NewPageModel")] PageModel pageModel, [ModelBinder(typeof(ContentModelBinder)), Bind(Prefix = "ContentModel")] IContent content) {
+        public virtual ActionResult Save([ModelBinder(typeof(ContentModelBinder)), Bind(Prefix = "NewPageModel")] IPageModel pageModel) {
 
             var parent = _currentPage as PageModel;
 
             if(!ModelState.IsValid) {
                 var viewModel = new NewPageViewModel
                 {
-                    RootModel = _session.Query<IPageModel>().SingleOrDefault(model => model.Parent == null),
+                    RootModel = _session.Query<IPageModel, AllPages>().SingleOrDefault(model => model.Parent == null),
                     ParentModel = parent,
-                    ContentModel = content,
                     NewPageModel = pageModel,
                     SlugsInUse = parent != null ? Newtonsoft.Json.JsonConvert.SerializeObject(_session.Load<IPageModel>(parent.Children).Select(x => x.Metadata.Slug)) : null
                 };
@@ -235,9 +211,6 @@ namespace BrickPile.UI.Areas.UI.Controllers {
             }
             
             _session.Store(pageModel);
-            _session.Store(content);
-
-            pageModel.ContentReference = content.Id;
 
             // Set the parent if it's not the start page
             if (parent != null)
@@ -300,7 +273,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// <returns></returns>
         [HttpGet]
         public JsonResult Search(string term) {            
-            var result = from page in _session.Query<IPageModel>()
+            var result = from page in _session.Query<IPageModel, AllPages>()
                          where page.Metadata.Name.StartsWith(term)
                          select page;            
 
@@ -316,12 +289,10 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// <param name="structureInfo">The structure info.</param>
         /// <param name="currentPage">The current page.</param>
         /// <param name="session">The session.</param>
-        /// <param name="content">The content.</param>
-        public PagesController(IStructureInfo structureInfo, IPageModel currentPage, IDocumentSession session, IContent content) {
+        public PagesController(IStructureInfo structureInfo, IPageModel currentPage, IDocumentSession session) {
             _structureInfo = structureInfo;
             _currentPage = currentPage;
             _session = session;
-            _content = content;
         }
     }
 }

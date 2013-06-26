@@ -45,13 +45,7 @@ namespace BrickPile.UI.Web.Routing {
         /// The current page model.
         /// </value>
         IPageModel CurrentPage { get; set; }
-        /// <summary>
-        /// Gets or sets the content of the current.
-        /// </summary>
-        /// <value>
-        /// The content of the current.
-        /// </value>
-        IContent CurrentContent { get; set; }
+
         /// <summary>
         /// Gets or sets the pages.
         /// </summary>

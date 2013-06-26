@@ -20,9 +20,9 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <value>
         /// The new page model.
         /// </value>
-        public PageModel NewPageModel { get; set; }
+        public IPageModel NewPageModel { get; set; }
 
-        public IContent ContentModel { get; set; }
+        //public IPageModel ContentModel { get; set; }
 
         /// <summary>
         /// Gets or sets the slugs in use.

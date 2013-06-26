@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.UI.Web.ViewModels {
@@ -25,8 +24,6 @@ namespace BrickPile.UI.Web.ViewModels {
         /// </value>
         public IPageModel ParentModel { get; set; }
 
-
-        public IContent CurrentContent { get; set; }
         /// <summary>
         /// Gets or sets the illigal slugs.
         /// </summary>

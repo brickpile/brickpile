@@ -81,6 +81,17 @@ namespace BrickPile.UI.Common {
         }
 
         /// <summary>
+        /// Applies the current page.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        public static RouteData ApplyCurrentPage(this RouteData data, dynamic model) {
+            data.Values[PageRoute.ModelKey] = model;
+            return data;
+        }
+
+        /// <summary>
         /// Used for adding a page model to the RouteData object's DataTokens
         /// </summary>
         /// <param name="data">The data.</param>
@@ -92,17 +103,6 @@ namespace BrickPile.UI.Common {
             data.Values[PageRoute.ControllerKey] = controllerName.Replace("Controller", "");
             data.Values[PageRoute.ActionKey] = actionName;
             data.Values[PageRoute.ModelKey] = model;
-            return data;
-        }
-
-        /// <summary>
-        /// Applies the current page.
-        /// </summary>
-        /// <param name="data">The data.</param>
-        /// <param name="content">The content.</param>
-        /// <returns></returns>
-        public static RouteData ApplyCurrentContent(this RouteData data, dynamic content) {
-            data.Values[PageRoute.Contentkey] = content;
             return data;
         }
 
@@ -127,15 +127,6 @@ namespace BrickPile.UI.Common {
             return (T) data.Values[PageRoute.ModelKey];
         }
 
-        /// <summary>
-        /// Gets the content of the current.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data">The data.</param>
-        /// <returns></returns>
-        public static T GetCurrentContent<T>(this RouteData data) {
-            return (T) data.Values[PageRoute.Contentkey];
-        }
         /// <summary>
         /// Gets the structure info.
         /// </summary>

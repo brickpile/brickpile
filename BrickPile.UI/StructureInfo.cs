@@ -20,7 +20,6 @@ THE SOFTWARE. */
 
 using System.Linq;
 using BrickPile.Domain.Models;
-using BrickPile.UI.Web.ViewModels;
 
 namespace BrickPile.UI {
     /// <summary>
@@ -57,14 +56,6 @@ namespace BrickPile.UI {
         /// The parent page.
         /// </value>
         public IPageModel ParentPage { get; set; }
-
-        /// <summary>
-        /// Gets or sets the content of the current.
-        /// </summary>
-        /// <value>
-        /// The content of the current.
-        /// </value>
-        public IContent CurrentContent { get; set; }
         
     }        
 }

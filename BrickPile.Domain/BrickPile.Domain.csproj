@@ -72,7 +72,6 @@
   <ItemGroup>
     <Compile Include="Models\Asset.cs" />
     <Compile Include="Models\DocumentReference.cs" />
-    <Compile Include="Models\IContent.cs" />
     <Compile Include="Models\IDocumentReference.cs" />
     <Compile Include="Models\IPageMetadata.cs" />
     <Compile Include="Models\IPageModel.cs" />

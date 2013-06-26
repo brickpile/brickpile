@@ -25,11 +25,7 @@ namespace BrickPile.UI.Web.ViewModels {
     /// The default view model
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultViewModel<T> : IViewModel<T> where T : IContent {
-        /// <summary>
-        /// Gets the current model.
-        /// </summary>
-        public virtual T CurrentContent { get; set; }
+    public class DefaultViewModel<T> : IViewModel<T> where T : IPageModel {
 
         /// <summary>
         /// Gets or sets the current page.
@@ -37,7 +33,7 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <value>
         /// The current page.
         /// </value>
-        public PageModel CurrentPage { get; set; }
+        public T CurrentPage { get; set; }
 
         /// <summary>
         /// Gets the structure info.

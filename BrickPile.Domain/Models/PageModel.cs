@@ -28,7 +28,7 @@ namespace BrickPile.Domain.Models {
     /// <remarks>Use IPageModel to create your own base class</remarks>
     /// <example></example>
     [MetadataType(typeof(PageModelMetadata))]
-    public sealed class PageModel : IPageModel {
+    public class PageModel : IPageModel {
 
         /// <summary>
         /// Gets or sets the id.

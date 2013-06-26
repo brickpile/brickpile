@@ -28,12 +28,7 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <summary>
         ///   <see cref="DefaultViewModel{T}.CurrentPage"/>
         /// </summary>
-        T CurrentContent { get; }
-
-        /// <summary>
-        /// Gets the current page.
-        /// </summary>
-        PageModel CurrentPage { get; }
+        T CurrentPage { get; }
 
         /// <summary>
         /// Gets or sets the hierarchy.
