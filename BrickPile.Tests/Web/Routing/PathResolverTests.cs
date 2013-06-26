@@ -223,12 +223,12 @@ namespace BrickPile.Tests.Web.Routing {
         public void Can_Query_Page_Using_AllPages_Index() {
 
             // Arrange
-            IPageModel data;
+            IPage data;
 
             // Act
             using (var session = _store.OpenSession()) {
 
-                var pageModel = new PageModel
+                var pageModel = new Page
                 {
                     Id = "DummyPages/1",
                     Parent = null,
@@ -240,7 +240,7 @@ namespace BrickPile.Tests.Web.Routing {
             }
             using (var session = _store.OpenSession()) {
 
-                data = session.Query<IPageModel, AllPages>()
+                data = session.Query<IPage, AllPages>()
                     .Customize(x => x.WaitForNonStaleResults())
                     .SingleOrDefault(x => x.Metadata.Name == "Foo");
             }
@@ -251,18 +251,18 @@ namespace BrickPile.Tests.Web.Routing {
     }
 
     [ContentType(Name = "Standard page", ControllerType = typeof(DummyController))]
-    public class StandardPage : PageModel {
+    public class StandardPage : Page {
     }
 
 
-    public class StandardPageWithoutControllerType : PageModel {}
+    public class StandardPageWithoutControllerType : Page {}
 
     [ContentType(Name = "Dummy", ControllerType = typeof(DummyController))]
-    public class DummyModel : PageModel {
+    public class DummyModel : Page {
     }
 
     [ContentType]
-    public class DummyModelWithoutControllerType : PageModel {
+    public class DummyModelWithoutControllerType : Page {
     }
 
     public class DummyController : Controller {

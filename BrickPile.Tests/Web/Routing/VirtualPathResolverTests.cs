@@ -17,7 +17,7 @@ namespace BrickPile.Tests.Web.Routing {
         public void Can_Resolve_Virtual_Path_With_Default_Action() {
 
             // Arrange
-            IPageModel model = new PageModel {Metadata = {Url = "page1/page2"}};
+            IPage model = new Page {Metadata = {Url = "page1/page2"}};
             var routeValueDictionary = new RouteValueDictionary();
 
             // Act
@@ -35,7 +35,7 @@ namespace BrickPile.Tests.Web.Routing {
         public void Can_Resolve_Virtual_Path_With_Comment_Action() {
 
             // Arrange
-            IPageModel model = new PageModel { Metadata = { Url = "page1/page2" } };
+            IPage model = new Page { Metadata = { Url = "page1/page2" } };
             var routeValueDictionary = new RouteValueDictionary();
             routeValueDictionary["Action"] = "Comment";
 

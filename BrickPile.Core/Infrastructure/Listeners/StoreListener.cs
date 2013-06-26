@@ -18,7 +18,7 @@ namespace BrickPile.Core.Infrastructure.Listeners {
         /// mean that any changes to the entityInstance would be ignored in the current SaveChanges call.
         /// </returns>
         public bool BeforeStore(string key, object entityInstance, RavenJObject metadata, RavenJObject original) {
-            var entity = entityInstance as IPageModel;
+            var entity = entityInstance as IPage;
 
             if (entity == null)
                 return false;
