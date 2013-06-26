@@ -17,14 +17,21 @@ namespace BrickPile.UI.Web.Mvc {
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">The <paramref name="bindingContext "/>parameter is null.</exception>
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext) {
-            
-            if(string.IsNullOrEmpty(controllerContext.RequestContext.HttpContext.Request.Form["AssemblyQualifiedName"])) {
-                return null;
+
+            if (controllerContext == null) {
+                throw new ArgumentNullException("controllerContext");
+            }
+            if (bindingContext == null) {
+                throw new ArgumentNullException("bindingContext");
+            }
+
+            if (string.IsNullOrEmpty(controllerContext.RequestContext.HttpContext.Request.Form["AssemblyQualifiedName"])) {
+                throw new Exception("Form must contain AssemblyQualifiedName");
             }
 
             var item = Activator.CreateInstance(Type.GetType(controllerContext.RequestContext.HttpContext.Request.Form["AssemblyQualifiedName"], true));
 
-            var context = new ModelBindingContext(bindingContext)
+            var modelBindingContext = new ModelBindingContext(bindingContext)
             {
                 ModelMetadata = ModelMetadataProviders.Current.GetMetadataForType(() => item, item.GetType()),
                 ModelName = "ContentModel",
@@ -32,9 +39,18 @@ namespace BrickPile.UI.Web.Mvc {
                 ValueProvider = bindingContext.ValueProvider
             };
 
+            var content = base.BindModel(controllerContext, modelBindingContext);
+
+            // The model is null if we only have the Id property on the content type
+            // Return the newly created item so we can save the page
+            if(content == null) {
+                return item;
+            }
+
             controllerContext.RouteData.ApplyCurrentContent(item);
 
-            return base.BindModel(controllerContext, context);
+            return content;
+            
         }
     }
 }
