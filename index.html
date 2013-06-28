@@ -31,37 +31,65 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <h1>
+<a name="brickpile-is-a-lightweight-cms-built-on-ravendb-and-aspnet-mvc-4" class="anchor" href="#brickpile-is-a-lightweight-cms-built-on-ravendb-and-aspnet-mvc-4"><span class="octicon octicon-link"></span></a>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4.</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<h2>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<h3>
+<a name="brace-yourself-brickpile-makes-the-following-demands" class="anchor" href="#brace-yourself-brickpile-makes-the-following-demands"><span class="octicon octicon-link"></span></a>Brace yourself, BrickPile makes the following demands:</h3>
+
+<ul>
+<li>ASP.NET MVC 4</li>
+<li><a href="http://ravendb.net/">RavenDB</a></li>
+</ul><p><strong>And that's about it.</strong> A slight bit of knowledge about ASP.NET MVC development is also required.</p>
+
+<h2>
+<a name="installing" class="anchor" href="#installing"><span class="octicon octicon-link"></span></a>Installing</h2>
+
+<h3>
+<a name="getting-installed" class="anchor" href="#getting-installed"><span class="octicon octicon-link"></span></a>Getting Installed</h3>
+
+<p>Installing BrickPile is simply the act of writing a single PowerShell command inside the package manager console.</p>
+
+<p>PM&gt; Install-Package BrickPile -Pre</p>
+
+<p><strong>And that's basically it.</strong> Of course you need an empty ASP.NET MVC 4 web application.</p>
+
+<h2>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+<p>As default BrickPile will run RavenDB in embedded mode and store the documents in <code>~\App_Data\Raven</code>. This can easily be configured to use an other location or RavenDB server. The following example shows how to use RavenDB server.</p>
+
+<pre><code>&lt;connectionStrings&gt;
+    &lt;add name="RavenDB" connectionString="Url = http://localhost:8080" /&gt;
+&lt;/connectionStrings&gt;
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p><strong>Note:</strong> To run BrickPile with RavenDB server you need to <a href="http://ravendb.net/download">download</a> it and execute <code>[RavenDBdir]\Server\Raven.Server.exe</code>. For more configuration options see <a href="http://ravendb.net/documentation">RavenDB documentation</a>.</p>
 
 <h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a name="assets-configuration" class="anchor" href="#assets-configuration"><span class="octicon octicon-link"></span></a>Assets configuration</h3>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>In order to use Assets you have to change two things.
+In <code>Global.asax</code>, add:
+<code>HostingEnvironment.RegisterVirtualPathProvider(new NativeVirtualPathProvider());</code></p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<p>And then make sure that your <code>web.config</code> has the correct PhysicalPath and that the directory exist:</p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<pre><code>    &lt;appSettings&gt;
+         &lt;add key="PhysicalPath" value="C:\temp\static\" /&gt;
+    &lt;/appSettings&gt;
+</code></pre>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<p><strong>Note:</strong> The PhysicalPath can also be relative to the site root like this <code>~/App_Data/Static</code></p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<h2>
+<a name="setup" class="anchor" href="#setup"><span class="octicon octicon-link"></span></a>Setup</h2>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>When the configuration is done just hit <code>F5</code> inside Visual Studio, this will hopefully bring up the setup screen.
+Fill the form with the correct information and hit "Let's do this" and your done.</p>
       </section>
     </div>
 
