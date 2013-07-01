@@ -279,7 +279,7 @@ body.start #button {
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
-            
+    opacity: 1;
     
 }
 
