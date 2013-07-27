@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain;
@@ -27,7 +28,7 @@ namespace BrickPile.UI.Areas.UI.Controllers
         public string AssemblyQualifiedName { get; set; }
     }
 
-    [Authorize]
+    //[Authorize]
     public class PageController : ApiController
     {
         private IDocumentSession _session;
@@ -36,8 +37,7 @@ namespace BrickPile.UI.Areas.UI.Controllers
         [HttpGet]
         public HttpResponseMessage Get() {
 
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
+            var jsonSerializerSettings = new JsonSerializerSettings {
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.Objects,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -73,20 +73,17 @@ namespace BrickPile.UI.Areas.UI.Controllers
                                               AssemblyQualifiedName = contentType.FullName + ", " + contentType.Assembly.GetName().Name
                                           }).ToList();
 
-            var response = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new StringContent(JsonConvert.SerializeObject(viewModel,jsonSerializerSettings))
-            };
-
-            return response;
+            return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(JsonConvert.SerializeObject(viewModel,jsonSerializerSettings))
+                };
         }
 
         // GET api/page/articles/5
         [HttpGet]
-        public HttpResponseMessage Get(string id) {
+        public HttpResponseMessage Get(string type, int id) {
 
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
+            var jsonSerializerSettings = new JsonSerializerSettings {
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.Objects,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -94,7 +91,11 @@ namespace BrickPile.UI.Areas.UI.Controllers
 
             _session = ObjectFactory.GetInstance<IDocumentSession>();
 
-            var current = _session.Include<IPage,AllPages>(y => y.Children).Load<Page>(id);
+            var current = _session.Include<IPage,AllPages>(y => y.Children).Load<Page>(string.Join("/",type,id));
+
+            if (current == null) {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
 
             var viewModel = new ResponseContent
                 {
@@ -110,15 +111,11 @@ namespace BrickPile.UI.Areas.UI.Controllers
                                         }).ToList()
                 };
 
-            // Add this to some kind of cached list
-
-            var response = new HttpResponseMessage(HttpStatusCode.OK)
-            {
+            return new HttpResponseMessage(HttpStatusCode.OK) {
                 Content = new StringContent(
                     JsonConvert.SerializeObject(viewModel, jsonSerializerSettings)
                     )
             };
-            return response;
 
         }
 
@@ -131,23 +128,21 @@ namespace BrickPile.UI.Areas.UI.Controllers
             _session.Store(value);
             _session.SaveChanges();
 
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
+            var jsonSerializerSettings = new JsonSerializerSettings {
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.Objects,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
 
-            var response = new HttpResponseMessage(HttpStatusCode.OK)
-            {
+            return new HttpResponseMessage(HttpStatusCode.OK) {
                 Content = new StringContent(JsonConvert.SerializeObject(value, jsonSerializerSettings))
             };
-            return response;
+
         }
 
         // PUT api/page/5
         [HttpPut]
-        public HttpResponseMessage Put(string id, [FromBody]IPage value) {
+        public HttpResponseMessage Put([FromBody]IPage value) {
 
             _session = ObjectFactory.GetInstance<IDocumentSession>();
 
@@ -156,42 +151,31 @@ namespace BrickPile.UI.Areas.UI.Controllers
             _session.Store(value);
             _session.SaveChanges();
 
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
+            var jsonSerializerSettings = new JsonSerializerSettings {
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.Objects,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
 
-            var response = new HttpResponseMessage(HttpStatusCode.OK)
-            {
+            return new HttpResponseMessage(HttpStatusCode.Created) {
                 Content = new StringContent(JsonConvert.SerializeObject(value, jsonSerializerSettings))
             };
-            return response;
+
         }
 
         // DELETE api/page/5
-        public void Delete(string id) {
-            var content = _session.Load<Page>(id);
-            _session.Delete(content);
+        public HttpResponseMessage Delete(string type, int id) {
+
+            _session = ObjectFactory.GetInstance<IDocumentSession>();
+
+            var page = _session.Load<Page>(string.Join("/", type,id));
+            if (page == null) {
+                return new HttpResponseMessage(HttpStatusCode.NoContent);
+            }
+            _session.Delete(page);
             _session.SaveChanges();
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PageController" /> class.
-        /// </summary>
-        /// <param name="session">The session.</param>
-        //public PageController(IDocumentSession session)
-        //{
-        //    _session = session;
-        //}
-
-        //public static string GetStringIdFor<T>(int id)
-        //{
-        //    var session = ObjectFactory.GetInstance<IDocumentSession>();
-        //    var c = session.Advanced.DocumentStore.Conventions;
-        //    return c.FindFullDocumentKeyFromNonStringIdentifier(id, typeof(T), false);
-        //}
 
         public static List<Type> ContentTypes {
             get {
@@ -199,7 +183,7 @@ namespace BrickPile.UI.Areas.UI.Controllers
                 {
                     _contentTypes = (from assembly in AppDomain.CurrentDomain.GetAssemblies()
                             from type in assembly.GetTypes()
-                            where type.GetCustomAttributes(typeof(ContentTypeAttribute), true).Length > 0
+                                     where type.GetCustomAttributes(typeof(PageTypeAttribute), true).Length > 0
                             select type).ToList();
                     
                 }
@@ -209,5 +193,10 @@ namespace BrickPile.UI.Areas.UI.Controllers
 
         private static List<Type> _contentTypes ;
 
+        public static string GetStringIdFor<T>(int id) {
+            var session = ObjectFactory.GetInstance<IDocumentSession>();
+            var c = session.Advanced.DocumentStore.Conventions;
+            return c.FindFullDocumentKeyFromNonStringIdentifier(id, typeof(T), false);
+        }
     }
 }

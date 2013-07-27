@@ -66,7 +66,7 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// The published.
         /// </value>
-        DateTime Published { get; set; }
+        DateTime? Published { get; set; }
         /// <summary>
         /// Gets or sets the changed.
         /// </summary>
@@ -87,7 +87,7 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// 	<c>true</c> if this instance is published; otherwise, <c>false</c>.
         /// </value>
-        bool IsPublished { get; set; }
+        bool IsPublished { get; }
         /// <summary>
         /// Gets or sets a value indicating whether this instance is deleted.
         /// </summary>

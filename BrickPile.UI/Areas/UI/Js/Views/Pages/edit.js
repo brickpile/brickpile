@@ -2,16 +2,34 @@
         'jquery',
         'underscore',
         'backbone',
+        'shortcuts',
+        'brickpile',
         'form2js',
-        'form2jsToObject'
+        'form2jsToObject',
+        'views/base'
     ],
-    function($, _, Backbone, Form2js, Form2jsToObject) {
-
-        var PageEditView = Backbone.View.extend({
+    function ($, _, Backbone, Shortcuts, Brickpile, Form2js, Form2jsToObject, BaseView) {
+        
+        var PageEditView = BaseView.extend({
+            
             events: {
-                'click input[type=submit]': 'save'
+                'click input[type=submit]' : 'save',
+                'click input[type=radio]' : function(e) {
+                    alert($(e.currentTarget).val());
+                }
             },
-            initialize: function() {
+            
+            shortcuts: {
+                'ctrl+s, ⌘+s': 'save'
+            },
+            
+            initialize: function () {
+                
+                _.extend(this, new Backbone.Shortcuts);
+                this.delegateShortcuts();
+                
+                //this.bindTo(this.model, 'change', this.render);
+                
                 try {
                     var type = this.model.get('$type');
                     var index = type.indexOf(',');
@@ -22,7 +40,9 @@
                     txt += "Click OK to continue.\n\n";
                     alert(txt);
                 }
-                //this.collection.bind("reset", this.render, this);
+                
+                //_.bindAll(this, "render");
+                //this.model.bind('change', this.render);
             },
             render: function() {
 
@@ -37,12 +57,17 @@
                 }
 
                 return this;
-            },
-            save: function(e) {
+            },           
+            save: function (e) {
+                
                 e.preventDefault();
+                
+                // trigger event before save
+                Brickpile.app.trigger('page:saving');
+                
                 var formData = $('#myForm').toObject();
-                this.model.set(formData);
                 this.model.save(formData);
+
             }
         });
         return PageEditView;

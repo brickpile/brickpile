@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -71,6 +72,7 @@ namespace BrickPile.Domain.Models {
         /// The published.
         /// </value>
         [Display(Name = "Published", Order = 60)]
+        [HiddenInput(DisplayValue = true)]
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
         public virtual DateTime Published { get; set; }
         /// <summary>

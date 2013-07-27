@@ -35,18 +35,23 @@ THE SOFTWARE. *@
         document.documentElement.className = document.documentElement.className.replace(/(\s|^)no-js(\s|$)/, '$1js$2');
     </script>
     <link href="//get.pictos.cc/fonts/4039/16" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+    @*<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">*@
     <link href="/areas/ui/css/normalize.css" rel="stylesheet" type="text/css"/>
     <link href="/areas/ui/css/brickpile.css" rel="stylesheet"  type="text/css"/>
     @Html.RenderSection("styles")
 </head>
 <body>
+    <div id="noscript-warning">
+        <p>TURN ON JS GOD DAMNIT!</p>
+    </div>
     <header style="text-align: right;"></header>
     <nav>
         <ul>
-            <li><a href="/ui/dashboard/" class="icon" data-icon="d"><span>Dashboard</span></a></li>
-            <li><a href="/ui/page/" class="icon" data-icon="e"><span>Pages</span></a></li>
-            <li><a href="/ui/asset/" class="icon" data-icon="a"><span>Assets</span></a></li>
-            <li><a href="/ui/user/" class="icon" data-icon="u"><span>Users</span></a></li>                
+            <li><a href="/ui/dashboard/"><span aria-hidden="true" data-icon="d"></span>Dashboard</a></li>
+            <li><a href="/ui/page/"><span aria-hidden="true" data-icon="e"></span>Pages</a></li>
+            <li><a href="/ui/asset/"><span aria-hidden="true" data-icon="a"></span>Assets</a></li>
+            <li><a href="/ui/user/"><span aria-hidden="true" data-icon="u"></span>Users</a></li>
         </ul>
     </nav>
     <main>
@@ -65,20 +70,24 @@ THE SOFTWARE. *@
     </div>
 
     <script id="tpl-page-current" type="text/template">
-
-        <a href="#" id="add" data-icon="+">Add a new page</a>
+        
+        <div style="border-bottom:solid 1px #d4d4d4;color:#000;display:block;text-align:center;position:relative;padding:16px 0;background-color:#f3f3f3;">
+            <a href="#" id="more" data-icon="m"></a>
+            <strong style="text-transform:uppercase;">{{currentPage.metadata.name}}</strong>
+            <a href="#" id="add" data-icon="+"></a>
+        </div>
 
         <ul />
-    
+ 
     </script>
     
     <script id="tpl-content-type-list-item" type="text/template">
-        <a href="#">{{name}}</a>
+        <a href="#"><span aria-hidden="true" data-icon="q"></span>{{name}}</a>
     </script>
     
     <script id="tpl-page-list-item" type="text/template">
         <li>
-            <a href="/ui/page/edit/{{id}}" class="edit icon" data-icon="p">{{metadata.name}}</a>
+            <a href="/ui/page/edit/{{id}}" class="edit">{{metadata.name}}</a>
             {[ if(parent) { ]}
                 <a href="/ui/page/{{id}}" class="icon view" data-icon=">"></a>
             {[ } ]} 
@@ -110,50 +119,9 @@ THE SOFTWARE. *@
             <button class="icon" data-icon="s" style="background-color:transparent;border:0;"></button>
         </div>    
     </script>
-
-    <script id="edit-template-page" type="text/template">
-        <h1 class="icon" data-icon="p">Editing page: {{metadata.name}}</h1>
-        <form id="myForm">
-            <label>Page Name:</label>
-            <input type="text" name="metadata.name" value="{{metadata.name}}" />
-            <br />
-
-            <label>Title:</label>
-            <input type="text" name="metadata.title" value="{{metadata.title}}" />
-            <br />
-
-            <label>Description:</label>
-            <textarea name="metadata.description">{{metadata.description}}</textarea>
-            <br />
-
-            <label>Slug:</label>
-            <input type="text" name="metadata.slug" readonly="readonly" value="{{metadata.slug}}" />
-            <br />
-
-            <label>Url:</label>
-            <input type="url" name="metadata.url" readonly="readonly" value="{{metadata.url}}" />
-            <br />
-
-            <label>Published:</label>
-            <input type="text" name="metadata.published" value="{{metadata.published}}" />
-            <br />
-            
-            <label>Published</label>
-            <input type="checkbox" name="metadata.isPublished" {[ print( metadata.isPublished ? 'checked="checked"' : '') ]} />
-            <br />
-
-            <label>Visible in menu</label>
-            <input type="checkbox" name="metadata.displayInMenu" {[ print( metadata.displayInMenu ? 'checked="checked"' : '') ]} />
-            <br />
-
-            <input type="submit" value="Save" />
-        </form>    
     
-    
-    </script>
-    
-        @{
-        var contentTypes = Html.GetAvailablePageModels();
+    @{
+        var contentTypes = Html.GetAvailablePageTypes();
     }
     
     @* Render all editor templates *@
@@ -177,70 +145,37 @@ THE SOFTWARE. *@
                 <input type="text" name="metadata.slug" readonly="readonly" value="{{metadata.slug}}" />
                 <br />
 
-                <label>Url:</label>
-                <input type="url" name="metadata.url" readonly="readonly" value="{{metadata.url}}" />
+                <input type="hidden" name="metadata.url" value="{{metadata.url}}" />
+
+                <label for="immediate">Immediately</label>
+                <input type="radio" id="immediate" name="foo" value="0" checked />
                 <br />
 
-                <label>Published:</label>
+                <label for="custom">Set date and time</label>
+                <input type="radio" id="custom" name="foo" value="1" />
+                <br />
+
+                <label>Set time to publish page:</label>
                 <input type="text" name="metadata.published" value="{{metadata.published}}" />
-                <br />
-            
-                <label>Published</label>
-                <input type="checkbox" name="metadata.isPublished" {[ print( metadata.isPublished ? 'checked="checked"' : '') ]} />
+                <input type="text" {[ print( metadata.published ? 'value=' + (new Date(metadata.published).getMonth() + 1) + "/" +  new Date(metadata.published).getDate() + "/" +  new Date(metadata.published).getFullYear() : 'value=""') ]} />
+                <input type="text" {[ print( metadata.published ? 'value=' + new Date(metadata.published).getUTCHours() + ":" +  ((new Date(metadata.published).getUTCMinutes()<10? '0':'') + new Date(metadata.published).getUTCMinutes()) : 'value=""') ]} />
                 <br />
 
-                <label>Visible in menu</label>
+                <label>Visible in menu:</label>
                 <input type="checkbox" name="metadata.displayInMenu" {[ print( metadata.displayInMenu ? 'checked="checked"' : '') ]} />
                 <br />
+
+                <input type="hidden" name="metadata.sortOrder" value="{{metadata.sortOrder}}" />
+
                 @Html.EditorFor(x => content, null, "")
                 <input type="submit" value="Save"/>
             </form>
             
         </script>
-        }
-    
-    @*    <script src="http://code.jquery.com/jquery-git.js"></script>
-    <script src="https://raw.github.com/documentcloud/underscore/master/underscore.js"></script>
-    <script src="https://raw.github.com/documentcloud/backbone/master/backbone.js"></script>
-
-    <script src="/scripts/require.js"></script>*@
+    }
     
     <!-- Load the script "/areas/ui/js/main.js" as our entry point -->
     <script data-main="/areas/ui/js/main" src="/Areas/ui/js/libs/require/require.js"></script>
-
-@*    <script>
-        _.templateSettings = {
-            evaluate: /\{\[([\s\S]+?)\]\}/g,
-            interpolate: /\{\{([\s\S]+?)\}\}/g,
-            escape: /\{\{-([\s\S]+?)\}\}/g
-        };
-    </script>*@
-
-@*    <script src="/areas/ui/js/models/page.js"></script>
-    <script src="/areas/ui/js/models/contenttype.js"></script>
-    <script src="/areas/ui/js/models/content.js"></script>
-    <script src="/areas/ui/js/models/auth.js"></script>
-    <script src="/areas/ui/js/models/user.js"></script>
-    <script src="/areas/ui/js/models/session.js"></script>
-
-    <script src="/areas/ui/js/collections/pages.js"></script>
-    <script src="/areas/ui/js/collections/contenttypes.js"></script>
-
-    <script src="/areas/ui/js/views/base.js"></script>
-    <script src="/areas/ui/js/views/pages/view.js"></script>
-    <script src="/areas/ui/js/views/pages/list.js"></script>
-    <script src="/areas/ui/js/views/pages/edit.js"></script>
-    <script src="/areas/ui/js/views/auth/login.js"></script>
-    <script src="/areas/ui/js/views/auth/register.js"></script>
-    <script src="/areas/ui/js/views/auth/status.js"></script>
-    <script src="/areas/ui/js/views/content/view.js"></script>
-    <script src="/areas/ui/js/views/content/list.js"></script>
-    <script src="/areas/ui/js/views/content/edit.js"></script>
-
-    <script src="/areas/ui/js/libs/Forms2js/form2js.js"></script>
-    <script src="/areas/ui/js/libs/Forms2js/jquery.toObject.js"></script>
-    <script src="/areas/ui/js/brickpile.js"></script>
-    <script src="/areas/ui/js/app.js"></script>*@
     
     @Html.RenderSection("scripts")
     

@@ -1,8 +1,9 @@
 ﻿define([
         'jquery',
         'underscore',
-        'backbone'
-    ], function($, _, Backbone) {
+        'backbone',
+        'shortcuts'
+    ], function($, _, Backbone, Shortcuts) {
 
         var BaseView = function(options) {
 
@@ -23,12 +24,17 @@
                 });
                 this.bindings = [];
             },
+            
+            unbindShortcuts: function() {
+                this.undelegateShortcuts();
+            },
 
             dispose: function() {
                 this.unbindFromAll(); // Will unbind all events this view has bound to
                 this.unbind(); // This will unbind all listeners to events from 
                 // this view. This is probably not necessary 
                 // because this view will be garbage collected.
+                this.unbindShortcuts(); // Will unbind all shortcuts this view has boud to
                 this.remove(); // Uses the default Backbone.View.remove() method which
                 // removes this.el from the DOM and removes DOM events.
             }

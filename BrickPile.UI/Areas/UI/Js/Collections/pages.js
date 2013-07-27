@@ -6,7 +6,8 @@
         'collections/contenttypes'
 ], function ($, _, Backbone, Page, ContentTypeCollection) {
 
-        var PageCollection = Backbone.Collection.extend({
+    var PageCollection = Backbone.Collection.extend({
+        
             url: function() {
                 return '/api/page/' + this.id;
             },

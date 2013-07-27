@@ -17,12 +17,24 @@ define([
     
     var Router = Backbone.Router.extend({
         routes: {
-            'ui/': 'index',
+            '': 'index',
+            'ui/' : 'index',
             'ui/login/': 'login',
             'ui/setup/': 'setup',
+            'ui/dashboard/': 'dashboard',
             'ui/page/': 'pages',
+            'ui/page/new/': 'add',
             'ui/page/:id': 'viewPage',
-            'ui/page/edit/:id': 'edit'
+            'ui/page/edit/:type/:id': 'edit',
+            'ui/page/edit/:type/:id/draft/:draft': 'editDraft'
+        },
+        
+        login: function () {
+            $('#bg-wrap').append(new LoginView({ model: new User() }).render().el);
+        },
+        
+        setup: function () {
+            $('#bg-wrap').append(new RegisterView().render().el);
         },
         
         index: function() {
@@ -45,12 +57,13 @@ define([
                 }
             });
         },
-        setup: function () {
-            $('#bg-wrap').append(new RegisterView().render().el);
+
+        dashboard: function() {
+            $('#gutter').empty();
+
+            $('#content').empty();
         },
-        login: function () {
-            $('#bg-wrap').append(new LoginView({ model: new User() }).render().el);
-        },     
+  
         pages: function () {
 
             // Shorthand the application namespace
@@ -70,7 +83,6 @@ define([
                     var $el = view.render().$el;
 
                     $('#gutter').html($el);
-
                     $('#content').empty();
 
                 },
@@ -94,15 +106,32 @@ define([
                 }
             });
 
-        },        
-        edit: function(id) {
+        },
+        add: function () {
+            
+            // Shorthand the application namespace
+            var app = brickpile.app;
+            
+            if (app.pageEditView) {
+                app.pageEditView.dispose();
+            }
 
-            var pageEditView = null;
+            app.pageEditView = new PageEditView({ model: app.pages.currentPage });
+            $('#content').html(app.pageEditView.render().el);
+        },
+        edit: function(type, id) {
+
+            console.log('type:' + type + ' Id:' + id);
+
+            //var pageEditView = null;
 
             // Shorthand the application namespace
             var app = brickpile.app;
 
-            var page = app.pages.get(id);
+            var stringId = [type, id];
+
+            var page = app.pages.get(stringId.join('/'));
+
 
             // If the model is not present locally, refresh from the server
             if (!page) {
@@ -127,19 +156,27 @@ define([
                         $('#gutter').html(pageListview.render().$el);
 
                         page = app.pages.get(id);
-
-                        pageEditView = new PageEditView({ model: page });
-                        $('#content').html(pageEditView.render().el);
-                        app.trigger('brickpile:editorLoaded');
+                        if (app.pageEditView) {
+                            app.pageEditView.dispose();
+                        }
+                        app.pageEditView = new PageEditView({ model: page });
+                        $('#content').html(app.pageEditView.render().el);
+                        
+                        app.trigger('editor:loaded');
                     }
                 });
             } else {
-                pageEditView = new PageEditView({ model: page });
-                $('#content').html(pageEditView.render().el);
-
-                app.trigger('brickpile:editorLoaded');
-
-            }
+                if (app.pageEditView) {
+                    app.pageEditView.dispose();
+                }
+                app.pageEditView = new PageEditView({ model: page });
+                $('#content').html(app.pageEditView.render().el);
+                
+                app.trigger('editor:loaded');
+            }            
+        },
+        editDraft: function(type, id, draft) {
+            console.log('Type: ' + type + ', id: ' + id + ' draft: ' + draft);
         }
     });
 

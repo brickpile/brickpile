@@ -8,6 +8,8 @@ require.config({
         jquery: '/areas/ui/js/libs/jquery/jquery',
         underscore: '/areas/ui/js/libs/underscore/underscore',
         backbone: '/areas/ui/js/libs/backbone/backbone',
+        keymaster: '/areas/ui/js/libs/keymaster/keymaster.min',
+        shortcuts: '/areas/ui/js/libs/backbone.shortcuts/backbone.shortcuts.min',
         form2js: '/areas/ui/js/libs/form2js/form2js',
         form2jsToObject: '/areas/ui/js/libs/form2js/jquery.toObject'
     },   
@@ -18,6 +20,13 @@ require.config({
         backbone: {
             deps: ["underscore", "jquery"],
             exports: "Backbone"
+        },
+        keymaster: {
+            exports: 'keymaster'
+        },
+        shortcuts: {
+            deps: ["underscore", "backbone", "keymaster"],
+            exports: 'shortcuts'
         },
         form2js: {
             exports: 'forms2js'

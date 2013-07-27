@@ -6,8 +6,17 @@
 @Html.Section(@<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>,"scripts")
 @Html.Section(@<script>
                    require(['brickpile'], function (brickpile) {
-                       brickpile.app.on('brickpile:editorLoaded', function () {
-                           tinymce.init({ selector: '.@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty).ToCamelCase()' });
+                       
+                       brickpile.app.on('editor:loaded', function () {
+                           tinymce.init({
+                               selector: '.@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty).ToCamelCase()',
+                           });
+                           
                        });
+
+                       brickpile.app.on('page:saving', function () {
+                           tinymce.triggerSave();
+                       });
+                       
                    });
                </script>, "scripts")

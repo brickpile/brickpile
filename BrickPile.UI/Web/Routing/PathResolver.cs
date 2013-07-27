@@ -95,8 +95,8 @@ namespace BrickPile.UI.Web.Routing {
             if (_pageModel == null) {
                 return null;
             }
-            
-            var contentTypeAttribute = _pageModel.GetType().GetAttribute<ContentTypeAttribute>();
+
+            var contentTypeAttribute = _pageModel.GetType().GetAttribute<PageTypeAttribute>();
 
             if(contentTypeAttribute == null) {
                 throw new NullReferenceException("Missing ContentType attribute");

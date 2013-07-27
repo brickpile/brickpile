@@ -7,7 +7,7 @@ using BrickPile.Domain.Models;
 using BrickPile.Samples.Controllers;
 
 namespace BrickPile.Samples.Models {
-    [ContentType(ControllerType = typeof(ArticleController),Name = "Article")]
+    [PageType(ControllerType = typeof(ArticleController), Name = "Article")]
     public class Article : Page {
 
         public string Heading { get; set; }

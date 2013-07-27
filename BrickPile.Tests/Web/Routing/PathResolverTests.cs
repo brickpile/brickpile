@@ -267,15 +267,15 @@ namespace BrickPile.Tests.Web.Routing {
         }
     }
 
-    [ContentType(Name = "Standard page", ControllerType = typeof(DummyController))]
+    [PageType(Name = "Standard page", ControllerType = typeof(DummyController))]
     public class StandardPage : Page {
     }
 
-    [ContentType(Name = "Dummy", ControllerType = typeof(DummyController))]
+    [PageType(Name = "Dummy", ControllerType = typeof(DummyController))]
     public class DummyModel : Page {
     }
 
-    [ContentType]
+    [PageType]
     public class DummyModelWithoutControllerType : Page {
     }
 

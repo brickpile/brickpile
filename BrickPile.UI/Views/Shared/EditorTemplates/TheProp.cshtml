@@ -12,7 +12,7 @@
 
 @Html.Section(@<script>
                    require(['brickpile','/Content/Test.js'], function (Brickpile, Test) {
-                       Brickpile.app.on('brickpile:editorLoaded', function () {
+                       Brickpile.app.on('editor:loaded', function () {
                            var view = new Test({
                                el: '#@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)'
                            });

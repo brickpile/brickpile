@@ -4,8 +4,10 @@
         'backbone',
         'models/page'
     ],
-    function($, _, Backbone, Page) {
+    function ($, _, Backbone, Page) {
+        
         var ContentTypeListItemView = Backbone.View.extend({
+            
             events: {
                 'click a': 'add'
             },
@@ -15,7 +17,6 @@
             template: _.template($('#tpl-content-type-list-item').html()),
 
             render: function() {
-
                 var html = this.template(this.model.toJSON());
                 $(this.el).html(html);
                 return this;
@@ -28,9 +29,11 @@
                 ev.preventDefault();
 
                 var app = brickpile.app;
+                
+                //app.router.navigate('ui/page/new/', true);
 
                 var $input = $('<input type="text" style="margin-top:15px;margin-left:21px;" placeholder="My awesome page..." autofocus="autofocus" />');
-
+                
                 $input.bind('keypress', function(e) {
                     var code = (e.keyCode ? e.keyCode : e.which);
                     if (code == 13) {
@@ -40,6 +43,7 @@
                         // create a new instance of a page
 
                         var page = new Page();
+
                         page.set({
                             $type: self.model.get('assemblyQualifiedName')
                         });
@@ -55,16 +59,14 @@
                             } else {
                                 url = slug;
                             }
-
                             page.set({
                                 metadata: {
                                     name: $(textbox).val(),
                                     url: url,
                                     slug: slug,
                                     sortOrder: app.pages.length + 1,
-                                    isPublished: false,
-                                    pubblished: new Date(),
-                                    Changed: new Date()
+                                    published: new Date(),
+                                    changed: new Date()
                                 },
                                 parent: {
                                     id: app.pages.currentPage.id,
@@ -94,9 +96,8 @@
                                 metadata: {
                                     name: $(textbox).val(),
                                     sortOrder: 1,
-                                    isPublished: false,
-                                    pubblished: new Date(),
-                                    Changed: new Date()
+                                    published: new Date(),
+                                    changed: new Date()
                                 }
                             });
 

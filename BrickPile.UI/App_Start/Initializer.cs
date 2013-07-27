@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.Runtime.Serialization.Formatters;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -68,12 +69,19 @@ namespace BrickPile.UI {
             //ModelValidatorProviders.Providers.Clear();
             //ModelValidatorProviders.Providers.Add(new ContentTypeMetadataValidatorProvider());
 
-            //JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-            //{
+            //JsonConvert.DefaultSettings = () => new JsonSerializerSettings {
             //    Formatting = Formatting.Indented,
             //    ContractResolver = new CamelCasePropertyNamesContractResolver(),
             //    TypeNameHandling = TypeNameHandling.Objects
             //};
+
+            //var formatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            //formatter.SerializerSettings = new JsonSerializerSettings
+            //    {
+            //        Formatting = Formatting.Indented,
+            //        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            //        TypeNameHandling = TypeNameHandling.Objects
+            //    };
         }
     }
 }

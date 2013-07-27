@@ -55,8 +55,8 @@ namespace BrickPile.UI.Areas.UI.Models {
             get {
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
                     foreach (var type in assembly.GetTypes()) {
-                        if (type.GetCustomAttributes(typeof(ContentTypeAttribute), true).Length > 0) {
-                            yield return new SelectListItem { Text = type.GetAttribute<ContentTypeAttribute>().Name ?? type.Name, Value = type.AssemblyQualifiedName };
+                        if (type.GetCustomAttributes(typeof(PageTypeAttribute), true).Length > 0) {
+                            yield return new SelectListItem { Text = type.GetAttribute<PageTypeAttribute>().Name ?? type.Name, Value = type.AssemblyQualifiedName };
                         }
                     }
                 }

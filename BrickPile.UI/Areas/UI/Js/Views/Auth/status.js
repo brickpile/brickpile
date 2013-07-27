@@ -28,7 +28,7 @@
 
                 $('#login-screen').removeClass('hidden').removeAttr('style');
                 $('#login-screen').addClass('animated fadeInDown');
-                app.router.navigate('ui/login/', true);
+                app.router.navigate('ui/login', true);
 
                 var url = '/api/auth/logoff';
                 $.post(url);

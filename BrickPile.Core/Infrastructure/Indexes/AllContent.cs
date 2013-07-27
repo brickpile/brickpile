@@ -10,11 +10,14 @@ using Raven.Client.Indexes;
 
 namespace BrickPile.Core.Infrastructure.Indexes {
     public class AllPages : AbstractMultiMapIndexCreationTask<IPage> {
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="AllContent"/> class.
+        /// Initializes a new instance of the <see cref="AllPages"/> class.
         /// </summary>
         public AllPages() {
+
             AddMapForAll<IPage>(assets => from asset in assets
+                                          where !asset.Id.Contains("draft")
                                           select new {
                                               asset.Id,
                                               Metadata_Url = asset.Metadata.Url,

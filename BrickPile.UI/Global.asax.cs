@@ -17,6 +17,13 @@ namespace BrickPile.Samples {
 
             HostingEnvironment.RegisterVirtualPathProvider(new NativeVirtualPathProvider());
 
+            //var formatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            //formatter.SerializerSettings = new JsonSerializerSettings {
+            //    Formatting = Formatting.Indented,
+            //    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            //    TypeNameHandling = TypeNameHandling.Objects
+            //};
+
         }
     }
 }

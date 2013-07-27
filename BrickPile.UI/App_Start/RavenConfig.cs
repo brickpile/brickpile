@@ -18,7 +18,7 @@ namespace BrickPile.UI {
         public static DocumentStore InitializeRaven() {
             var store = new EmbeddableDocumentStore
             {
-                Conventions = { IdentityPartsSeparator = "-" },
+                //Conventions = { IdentityPartsSeparator = "-" },
                 DataDirectory = "~/App_Data/Raven"
             };
             if (ConfigurationManager.ConnectionStrings["RavenDB"] != null)

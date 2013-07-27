@@ -4,7 +4,7 @@ using BrickPile.Domain.Models;
 using BrickPile.Samples.Controllers;
 
 namespace BrickPile.Samples.Models {
-    [ContentType(Name = "Home", ControllerType = typeof(HomeController))]
+    [PageType(Name = "Home", ControllerType = typeof(HomeController))]
     public class Home : Page {
 
         public string Heading { get; set; }
@@ -15,7 +15,6 @@ namespace BrickPile.Samples.Models {
         //[Required]
         //[ScaffoldColumn(false)]
         //public Image Image { get; set; }
-
         public TheProp TheProp { get; set; }
 
         /// <summary>

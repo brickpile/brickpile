@@ -96,17 +96,6 @@ namespace BrickPile.UI.Common {
         }
 
         /// <summary>
-        /// Applies the current page.
-        /// </summary>
-        /// <param name="data">The data.</param>
-        /// <param name="content">The content.</param>
-        /// <returns></returns>
-        public static RouteData ApplyCurrentContent(this RouteData data, dynamic content) {
-            data.Values[PageRoute.Contentkey] = content;
-            return data;
-        }
-
-        /// <summary>
         /// Applies the current structure info.
         /// </summary>
         /// <param name="data">The data.</param>
@@ -127,15 +116,6 @@ namespace BrickPile.UI.Common {
             return (T) data.Values[PageRoute.ModelKey];
         }
 
-        /// <summary>
-        /// Gets the content of the current.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data">The data.</param>
-        /// <returns></returns>
-        public static T GetCurrentContent<T>(this RouteData data) {
-            return (T) data.Values[PageRoute.Contentkey];
-        }
         /// <summary>
         /// Gets the structure info.
         /// </summary>
@@ -318,17 +298,18 @@ namespace BrickPile.UI.Common {
             return string.Format(DateFormat, difference.Hours, difference.Hours == 1 ? "hour" : "hours", "ago");
         }
 
+
         /// <summary>
-        /// Gets the available page models.
+        /// Gets the available page types.
         /// </summary>
         /// <param name="helper">The helper.</param>
         /// <returns></returns>
-        public static List<Type> GetAvailablePageModels(this HtmlHelper helper) {
+        public static List<Type> GetAvailablePageTypes(this HtmlHelper helper) {
             if (_availablePageModels == null) {
                 _availablePageModels = new List<Type>();
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
                     foreach (var type in assembly.GetTypes()) {
-                        if (type.GetCustomAttributes(typeof(ContentTypeAttribute), true).Length > 0) {
+                        if (type.GetCustomAttributes(typeof(PageTypeAttribute), true).Length > 0) {
                             _availablePageModels.Add(type);
                         }
                     }

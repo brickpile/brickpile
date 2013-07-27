@@ -4,12 +4,12 @@ using BrickPile.Domain.Models;
 using BrickPile.Samples.Controllers;
 
 namespace BrickPile.Samples.Models {
-    [ContentType(Name = "Container", ControllerType = typeof(ContainerController))]
+    [PageType(Name = "Container", ControllerType = typeof(ContainerController))]
     public class Container : Page {
 
         public string Heading { get; set; }
 
-        [UIHint("Markdown")]
+        //[UIHint("Markdown")]
         public string MainBody { get; set; }
 
         //[Required]

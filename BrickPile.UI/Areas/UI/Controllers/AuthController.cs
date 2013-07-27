@@ -176,29 +176,28 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 
         [System.Web.Http.HttpGet]
         public HttpResponseMessage Session() {
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
+            var jsonSerializerSettings = new JsonSerializerSettings {
                 Formatting = Formatting.Indented,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
             if(Authenticator.IsAuthenticated) {
-                return new HttpResponseMessage
-                {
-                    Content = new StringContent(JsonConvert.SerializeObject(new { username = Authenticator.Current },jsonSerializerSettings)),
+                //return Request.CreateResponse(HttpStatusCode.OK, new { username = Authenticator.Current });
+                return new HttpResponseMessage {
+                    Content = new StringContent(JsonConvert.SerializeObject(new { username = Authenticator.Current }, jsonSerializerSettings)),
                     StatusCode = HttpStatusCode.OK
                 };
             }
 
             var config = _session.Load<IConfiguration>("brickpile/configuration");
             if(config == null) {
-                return new HttpResponseMessage
-                {
+                //return Request.CreateResponse(HttpStatusCode.Forbidden);
+                return new HttpResponseMessage {
                     StatusCode = HttpStatusCode.Forbidden
                 };                                
             }
 
-            return new HttpResponseMessage
-            {
+            //return Request.CreateResponse(HttpStatusCode.Unauthorized);
+            return new HttpResponseMessage {
                 StatusCode = HttpStatusCode.Unauthorized
             };
         }

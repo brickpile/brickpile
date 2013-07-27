@@ -47,8 +47,6 @@ namespace BrickPile.UI.Web.Mvc {
                 return item;
             }
 
-            controllerContext.RouteData.ApplyCurrentContent(item);
-
             return content;
             
         }

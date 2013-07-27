@@ -27,10 +27,10 @@ namespace BrickPile.Domain {
     /// <remarks></remarks>
     /// <example></example>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public class ContentTypeAttribute : Attribute {
+    public class PageTypeAttribute : Attribute {
         private string _name;
         /// <summary>
-        /// Get/Sets the Name of the PageModelAttribute
+        /// Get/Sets the Name of the PageTypeAttribute
         /// </summary>
         /// <value>
         /// The name.
@@ -55,26 +55,29 @@ namespace BrickPile.Domain {
         /// The type of the resource.
         /// </value>
         public Type ResourceType { get; set; }
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContentTypeAttribute"/> class.
+        /// Initializes a new instance of the <see cref="PageTypeAttribute"/> class.
         /// </summary>
-        public ContentTypeAttribute() { }
+        public PageTypeAttribute() { }
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContentTypeAttribute"/> class.
+        /// Initializes a new instance of the <see cref="PageTypeAttribute"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="controllerType">Type of the controller.</param>
-        public ContentTypeAttribute(string name, Type controllerType) {
+        public PageTypeAttribute(string name, Type controllerType) {
             Name = name;
             ControllerType = controllerType;
         }
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContentTypeAttribute"/> class.
+        /// Initializes a new instance of the <see cref="PageTypeAttribute"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="controllerType">Type of the controller.</param>
         /// <param name="resourceType">Type of the resource.</param>
-        public ContentTypeAttribute(string name, Type controllerType, Type resourceType) {
+        public PageTypeAttribute(string name, Type controllerType, Type resourceType) {
             Name = name;
             ControllerType = controllerType;
             ResourceType = resourceType;

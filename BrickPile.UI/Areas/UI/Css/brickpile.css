@@ -85,20 +85,19 @@
 /* =============================================================================
    Body
    ========================================================================== */
-   body { overflow: hidden; }
+   body { overflow: hidden; font-family: 'Open Sans', sans-serif; }
    html.loading main { background: url(/content/loading_throbber.gif) no-repeat center; }
-    .icon span {
-        display: block;
-    }         
-    .icon:before {
+
+    [data-icon]:before {
         font-family: 'Pictos Custom';
         content: attr(data-icon);
+        speak: none;
         font-size: 48px;
         text-shadow: 0 1px 0 rgba(0,0,0,0.6);
         -webkit-font-smoothing: antialiased;
         color: rgba(110,110,110,0.9);
     }
-            
+
     nav {
         position: absolute;
         left: 0;
@@ -132,6 +131,10 @@
         color: #555;
         margin-bottom: 1em;
     }
+
+    nav span {
+        display: block;
+    }
    
     main {
         position: absolute;
@@ -142,25 +145,23 @@
     }
             
     #gutter {
+        border-right: solid 1px #b1b0ae;
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
-        background-color: #2681dc;
+        background-color: #ecebe8;
         width: 20%;
         overflow-y: auto;
-        padding-top: 52px;
     }
    
             #gutter li {
                 position: relative;
             }
             #gutter a.edit {
-                
-                color: #7db4ec;
+                color: #000;
                 display: block;
-                font-size: 13px;
-                font-weight: 600;
+                font-size: 12px;
                 line-height: 50px;
                 min-height: 50px;
                 overflow: hidden;
@@ -168,23 +169,18 @@
                 position: relative;
                 text-decoration: none;
                 text-overflow: ellipsis;
-                /*text-shadow: 0 1px 0 rgba(255,255,255,0.9);*/
-                white-space: pre;                
+                text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+                white-space: pre;
                 
             }
-            #gutter a.edit:before {
-                color: #7cb5ec;
-                font-size: 21px;
-                font-weight: 100;
-                text-shadow: none;
-                margin-right: 9px;
-                position: relative;
-                bottom: -2px;
+            #gutter a.edit:hover {
+                background-color: #d9d9d6;
             }
+
             #gutter a.view {
                 position: absolute;
                 right: 21px;
-                top: 17px;
+                top: 12px;
             }
             #gutter button {
                 
@@ -216,56 +212,57 @@
                 padding: 0;
             }
             #gutter li {
-                border-bottom: solid 1px #3c8ee0;
+                /*border-bottom: solid 1px #3c8ee0;*/
                 padding: 0;
                 min-height: 50px;
             }
+
             #add {
-                font-weight: bold;
-                font-size: 18px;
-                color: #fff;
-                display: block;
-                min-height: 50px;
-                overflow: hidden;
-                padding: 0 40px 0 23px;
-                position: relative;
-                text-decoration: none;
-                text-overflow: ellipsis;
-                white-space: pre;                
-                line-height: 54px;                
-            }
-            #gutter a#add:after {
-                
-                font-family: 'Pictos Custom';
-                content: attr(data-icon);
-                
-                -webkit-font-smoothing: antialiased;
-                color: #fff;                
-                
-                font-size: 34px;
+                color: transparent;
                 position: absolute;
-                right: 23px; 
-                
-                text-shadow: none;
-                
+                right: 26px;
             }
-            #gutter a#add:focus:before,
-            #gutter a#add:active:before {
-                color: #fff;
+            #add:before {
+                font-size: 12px;
+                color: rgba(110,110,110,0.9);
+                border: solid 2px rgba(110,110,110,0.9);
+                border-radius: 3px;
+                padding: 3px 3px 0;
+                text-shadow: none;                           
             }
-            #gutter a.view { text-decoration: none; }
+
+            #more {
+                color: transparent;
+                position: absolute;
+                left: 23px;
+                top: 19px;
+            }
+            #more:before {
+                font-size: 20px;
+                color: rgba(110,110,110,0.9);
+                text-shadow: none;                     
+            }
+
+            #gutter a.view {
+                text-decoration: none;
+                -webkit-transform:rotate(-90deg);
+                -moz-transform: rotate(-90deg);
+            }
             #gutter a.view:before {
-                color: #7db4ec;
-                font-size: 21px;
+                color: rgba(110,110,110,0.5);
+                font-size: 26px;
                 text-shadow: none;
             }
             #content {
+                background-color: #fbfbfb;
                 position: absolute;
                 left: 20%;
-                top: 25px;
                 right: 0;
+                margin-left: 1px;
                 overflow-y: auto;
                 bottom: 0;
+                top: 0;
+                padding-top: 50px;
             }
    
    
@@ -504,7 +501,6 @@
 
 #loginStatus button:before {
     font-size: 32px;
-    line-height: .5;
 }
 
             form {
@@ -513,7 +509,7 @@
             label, .editor-label {
                 font-size: 13px;
                 font-weight: 600;
-                width: 120px;
+                width: 160px;
                 display: inline-block;
                 text-align: right;
                 margin-right: 19px;
@@ -530,7 +526,61 @@
 
 
             .content-types {
-                position: absolute;
-                width: 200px;
-                top: 0;
+                background: transparent url("/areas/ui/content/pagetypes-bg.png") repeat 0 0;
+                position: static;
+                overflow: hidden;
+                padding: 10px 0;
             }
+
+            #gutter .content-types li {
+                float: left;
+                border: 0;
+                min-height: 0;
+            }
+
+            #gutter .content-types a {
+                color: #fff;
+                display: block;
+                text-decoration: none;
+                font-size: 10px;
+                padding: 10px 16px;
+                text-align: center;
+                text-transform: uppercase;
+                font-weight: 100;
+            }
+            #gutter .content-types span:before {
+                color: #fff;
+                font-size: 28px;
+                text-transform: lowercase;
+            }
+            #gutter .content-types a span {
+                display: block;
+            }
+
+button,
+input,
+select,
+textarea {
+    font-family: 'Open Sans', sans-serif;
+}
+
+            #noscript-warning {
+                background-color: #AE0000;
+                color: #FFFFFF;
+                font-family: sans-serif;
+                font-size: 120%;
+                font-weight: bold;
+                left: 0;
+                padding: 5px 0;
+                position: fixed;
+                text-align: center;
+                top: -62px;
+                width: 100%;
+                z-index: 1;
+                
+                -webkit-transition: top .2s linear;
+                   -moz-transition: top .2s linear;
+                     -o-transition: top .2s linear;
+                        transition: top .2s linear;
+            }            
+            html.no-js #noscript-warning { top: 0; }
