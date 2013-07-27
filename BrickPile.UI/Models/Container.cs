@@ -6,7 +6,7 @@ using BrickPile.UI.Web;
 
 namespace BrickPile.Samples.Models {
     [ContentType(Name = "Container", ControllerType = typeof(ContainerController))]
-    public class Container : PageModel {
+    public class Container : Page {
 
         public string Heading { get; set; }        
         [Required]

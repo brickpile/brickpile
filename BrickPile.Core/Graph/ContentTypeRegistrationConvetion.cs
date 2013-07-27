@@ -23,7 +23,7 @@ namespace BrickPile.Core.Graph {
         /// <param name="type">The type.</param>
         /// <param name="registry">The registry.</param>
         public void Process(Type type, Registry registry) {
-            if (typeof(IPageModel).IsAssignableFrom(type)) {
+            if (typeof(IPage).IsAssignableFrom(type)) {
                 var specificRegisterMethod = RegisterMethod.MakeGenericMethod(new[] { type });
                 specificRegisterMethod.Invoke(null, new object[] { registry });
             }
@@ -33,7 +33,7 @@ namespace BrickPile.Core.Graph {
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="registry">The registry.</param>
-        static private void Register<T>(Registry registry) where T : IPageModel {
+        static private void Register<T>(Registry registry) where T : IPage {
             registry.For<T>().UseSpecial(y => y.ConstructedBy(r => GetCurrentPage<T>()));
         }
         /// <summary>
@@ -41,7 +41,7 @@ namespace BrickPile.Core.Graph {
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        static private T GetCurrentPage<T>() where T : IPageModel {
+        static private T GetCurrentPage<T>() where T : IPage {
             var handler = (MvcHandler)HttpContext.Current.Handler;
             if (handler == null)
                 return default(T);

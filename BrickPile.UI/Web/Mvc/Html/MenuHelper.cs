@@ -37,8 +37,8 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <summary>
         /// Gets the current model.
         /// </summary>
-        private static IPageModel CurrentPage {
-            get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPageModel>(); }
+        private static IPage CurrentPage {
+            get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPage>(); }
         }
         /// <summary>
         /// Gets the structure info.
@@ -63,7 +63,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="itemContent">Content of the item.</param>
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPageModel, MvcHtmlString> itemContent, bool enableDisplayInMenu = true) {
+        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPage, MvcHtmlString> itemContent, bool enableDisplayInMenu = true) {
             return Menu(html,StructureInfo.NavigationContext, itemContent, itemContent, enableDisplayInMenu);
         }
         /// <summary>
@@ -74,7 +74,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="selectedItemContent">Content of the selected item.</param>
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true) {
+        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true) {
             return Menu(html, StructureInfo.NavigationContext, itemContent, selectedItemContent, itemContent, enableDisplayInMenu);
         }
         /// <summary>
@@ -86,7 +86,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="expandedItemContent">Content of the expanded item.</param>
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true) {
+        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent, Func<IPage, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true) {
             return Menu(html, StructureInfo.NavigationContext, itemContent, selectedItemContent, expandedItemContent, null, enableDisplayInMenu);
         }
         /// <summary>
@@ -99,7 +99,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="htmlAttributes">The HTML attributes.</param>
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, object htmlAttributes, bool enableDisplayInMenu = true) {
+        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent, Func<IPage, MvcHtmlString> expandedItemContent, object htmlAttributes, bool enableDisplayInMenu = true) {
             return Menu(html, StructureInfo.NavigationContext, itemContent, selectedItemContent, expandedItemContent,htmlAttributes, enableDisplayInMenu);
         }
         /// <summary>
@@ -111,7 +111,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <param name="showRootPage">if set to <c>true</c> [show root page].</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, bool enableDisplayInMenu = true) {
+        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPage> pages, Func<IPage, MvcHtmlString> itemContent, bool enableDisplayInMenu = true) {
             return Menu(html, pages, itemContent, itemContent,enableDisplayInMenu);
         }
         /// <summary>
@@ -124,7 +124,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <param name="showRootPage">if set to <c>true</c> [show root page].</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true) {
+        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPage> pages, Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true) {
             return Menu(html, pages, itemContent, selectedItemContent, itemContent,enableDisplayInMenu);
         }
         /// <summary>
@@ -138,7 +138,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <param name="showRootPage">if set to <c>true</c> [show root page].</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true) {
+        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPage> pages, Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent, Func<IPage, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true) {
             return Menu(html, pages, itemContent, selectedItemContent, expandedItemContent, null, enableDisplayInMenu);
         }
         /// <summary>
@@ -153,7 +153,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <param name="showRootPage">if set to <c>true</c> [show root page].</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPageModel> pages, Func<IPageModel, MvcHtmlString> itemContent, Func<IPageModel, MvcHtmlString> selectedItemContent, Func<IPageModel, MvcHtmlString> expandedItemContent, object htmlAttributes, bool enableDisplayInMenu = true) {
+        public static MvcHtmlString Menu(this HtmlHelper html, IEnumerable<IPage> pages, Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent, Func<IPage, MvcHtmlString> expandedItemContent, object htmlAttributes, bool enableDisplayInMenu = true) {
             if (pages == null) {
                 return MvcHtmlString.Empty;
             }
@@ -168,7 +168,7 @@ namespace BrickPile.UI.Web.Mvc.Html {
             // only render the top level items
             var items = nodes.Where(x => x.Depth == 1);
 
-            IPageModel home;
+            IPage home;
             if(!items.Any()) {
                 // don't render anything
                 // render home if it's published
