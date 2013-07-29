@@ -13,7 +13,7 @@
     <description>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4</description>
 		<tags>brickpile cms ravendb mvc nosql</tags>
     <dependencies>
-      <dependency id="RavenDB.Embedded" version="2.0.2330" />
+      <dependency id="RavenDB.Embedded" version="2.5.2666" />
       <dependency id="structuremap" version="2.6.4.1" />
       <dependency id="WebActivatorEX" version="2.0.1" />
       <dependency id="SquishIt" version="0.9.2" />
