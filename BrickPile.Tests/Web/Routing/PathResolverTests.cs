@@ -248,6 +248,40 @@ namespace BrickPile.Tests.Web.Routing {
             // Assert
             Assert.NotNull(data);
         }
+
+        [Test]
+        public void Can_Query_Page_Using_AllPages_Index_Based_On_Display_In_Menu() {
+
+            // Arrange
+            IPage data;
+
+            // Act
+            using (var session = _store.OpenSession()) {
+
+                var pageModel = new Page {
+                    Id = "DummyPages/1",
+                    Parent = null,
+                    Metadata =
+                        {
+                            Name = "Foo",
+                            DisplayInMenu = true
+                        }
+                };
+                session.Store(pageModel);
+                session.SaveChanges();
+
+            }
+            using (var session = _store.OpenSession()) {
+
+                data = session.Query<IPage, AllPages>()
+                    .Customize(x => x.WaitForNonStaleResults())
+                    .SingleOrDefault(x => x.Metadata.DisplayInMenu);
+            }
+
+            // Assert
+            Assert.NotNull(data);
+        }
+
     }
 
     [ContentType(Name = "Standard page", ControllerType = typeof(DummyController))]

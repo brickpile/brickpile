@@ -24,6 +24,16 @@ namespace BrickPile.Core.Infrastructure.Indexes {
                                               Metadata_Url = page.Metadata.Url,
                                               Metadata_SortOrder = page.Metadata.SortOrder,
                                               Metadata_Name = page.Metadata.Name,
+                                              Metadata_IsPublished = page.Metadata.IsPublished,
+                                              Metadata_IsDeleted = page.Metadata.IsDeleted,
+                                              Metadata_Title = page.Metadata.Title,
+                                              Metadata_Changed = page.Metadata.Changed,
+                                              Metadata_ChangedBy = page.Metadata.ChangedBy,
+                                              Metadata_Description = page.Metadata.Description,
+                                              Metadata_DisplayInMenu = page.Metadata.DisplayInMenu,
+                                              Metadata_Keywords = page.Metadata.Keywords,
+                                              Metadata_Published = page.Metadata.Published,
+                                              Metadata_Slug = page.Metadata.Slug,
                                               page.Parent,
                                               Parent_Id = page.Parent.Id
                                           });
