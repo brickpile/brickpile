@@ -104,8 +104,6 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                 return View("edit", viewModel);
             }
 
-            UpdateModel(_currentPage, "CurrentModel", collection);
-
             _currentPage.Metadata.Changed = DateTime.Now;
             _currentPage.Metadata.ChangedBy = HttpContext.User.Identity.Name;
 
