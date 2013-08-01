@@ -56,8 +56,8 @@ namespace BrickPile.UI {
                                           }),
                                       new MvcRouteHandler()));
 
-            ModelValidatorProviders.Providers.Clear();
             ModelValidatorProviders.Providers.Add(new ContentTypeMetadataValidatorProvider());
+            ModelMetadataProviders.Current = new MetadataProvider();
         }
     }
 }
