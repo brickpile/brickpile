@@ -215,6 +215,7 @@
     <Compile Include="Web\Mvc\Html\ValidationExtensions.cs" />
     <Compile Include="Web\Mvc\IControllerMapper.cs" />
     <Compile Include="Web\Mvc\InheritanceAwareModelBinderProvider.cs" />
+    <Compile Include="Web\Mvc\MetadataProvider.cs" />
     <Compile Include="Web\Mvc\StructureMapDependencyResolver.cs" />
     <Compile Include="Web\Mvc\ValidatablePropertyAdapter.cs" />
     <Compile Include="Web\PageReference.cs" />

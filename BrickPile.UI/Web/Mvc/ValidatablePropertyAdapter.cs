@@ -26,17 +26,15 @@ namespace BrickPile.UI.Web.Mvc {
         /// </returns>
         public override IEnumerable<ModelValidationResult> Validate(object container) {
 
-            var contentType = ControllerContext.RouteData.Values["currentPage"] as IPage;
-
             var model = Metadata.Model;
-            if (model == null || contentType == null) {
+            if (model == null) {
                 return Enumerable.Empty<ModelValidationResult>();
             }
 
             var results = new List<ValidationResult>();
-            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(contentType.GetType())) {
-                if (!typeof(IValidatableProperty).IsAssignableFrom((property.PropertyType))) continue;
-                results.AddRange(((IValidatableProperty)model).Validate(new ValidationContext(model, null, null), property));
+            var property = model as IValidatableProperty;
+            if (property != null) {
+                results.AddRange(property.Validate(new ValidationContext(model,null,null), Metadata));
             }
 
             return ConvertResults(results);
