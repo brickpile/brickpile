@@ -20,7 +20,6 @@ namespace BrickPile.UI.Web.Mvc {
         protected override ModelMetadata CreateMetadata(IEnumerable<Attribute> attributes, Type containerType, Func<object> modelAccessor, Type modelType, string propertyName) {
             var enumerable = attributes as Attribute[] ?? attributes.ToArray();
             var _default = base.CreateMetadata(enumerable, containerType, modelAccessor, modelType, propertyName);
-            //_default.IsRequired = enumerable.Any(x => x is RequiredAttribute);
             var displayAttr = enumerable.OfType<DisplayAttribute>().FirstOrDefault();
             _default.DisplayName = displayAttr != null ? displayAttr.Name : propertyName;
             return _default;
