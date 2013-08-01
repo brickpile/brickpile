@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Mvc;
 using BrickPile.Core.DataAnnotations;
 using BrickPile.Domain.Models;
 
@@ -38,18 +41,15 @@ namespace BrickPile.UI.Web {
         /// Validates the specified validation context.
         /// </summary>
         /// <param name="validationContext">The validation context.</param>
-        /// <param name="propertyDescriptor">The property descriptor.</param>
+        /// <param name="metadata">The metadata.</param>
         /// <returns></returns>
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, PropertyDescriptor propertyDescriptor) {
-            if (propertyDescriptor != null) {
-                var displayAttr = propertyDescriptor.Attributes[typeof(DisplayAttribute)] as DisplayAttribute;
-                var requiredAttr = propertyDescriptor.Attributes[typeof(RequiredAttribute)] as RequiredAttribute;
-                var displayName = displayAttr != null ? displayAttr.Name : propertyDescriptor.DisplayName;
-                if (requiredAttr != null && VirtualPath == null) {
-                    yield return new ValidationResult(requiredAttr.FormatErrorMessage(displayName));
-                }
-            }
-            yield return ValidationResult.Success;            
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ModelMetadata metadata) {
+            if (!metadata.IsRequired || VirtualPath != null) yield break;
+            var customTypeDescriptor = new AssociatedMetadataTypeTypeDescriptionProvider(metadata.ContainerType).GetTypeDescriptor(metadata.ContainerType);
+            if (customTypeDescriptor == null) yield break;
+            var descriptor = customTypeDescriptor.GetProperties().Find(metadata.PropertyName, true);
+            var req = (new List<Attribute>(descriptor.Attributes.OfType<Attribute>())).OfType<RequiredAttribute>().FirstOrDefault();
+            if (req != null) yield return new ValidationResult(req.FormatErrorMessage(metadata.DisplayName));
         }
     }
 }
