@@ -29,6 +29,6 @@ namespace BrickPile.UI.Web.Routing {
         /// <param name="pageModel">The page model.</param>
         /// <param name="routeValueDictionary">The route value dictionary.</param>
         /// <returns></returns>
-        string ResolveVirtualPath(IPageModel pageModel, RouteValueDictionary routeValueDictionary);
+        string ResolveVirtualPath(IPage pageModel, RouteValueDictionary routeValueDictionary);
     }
 }

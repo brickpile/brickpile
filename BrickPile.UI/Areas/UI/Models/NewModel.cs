@@ -37,7 +37,7 @@ namespace BrickPile.UI.Areas.UI.Models {
         /// <value>
         /// The current model.
         /// </value>
-        public IPageModel CurrentModel { get; set; }
+        public IPage CurrentModel { get; set; }
         /// <summary>
         /// Gets or sets the selected page model.
         /// </summary>

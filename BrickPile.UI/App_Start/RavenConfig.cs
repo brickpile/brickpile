@@ -1,4 +1,5 @@
-﻿using BrickPile.Core.Infrastructure.Indexes;
+﻿using System.Configuration;
+using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Core.Infrastructure.Listeners;
 using BrickPile.Domain.Models;
 using Raven.Client.Document;
@@ -15,22 +16,18 @@ namespace BrickPile.UI {
         /// </summary>
         /// <returns></returns>
         public static DocumentStore InitializeRaven() {
-
-            var documentStore = new EmbeddableDocumentStore
+            var store = new EmbeddableDocumentStore
             {
-                ConnectionStringName = "RavenDB",
-                Conventions =
-                {
-                    FindTypeTagName = type => typeof (IPageModel).IsAssignableFrom(type) ? "Pages" : null
-                }
+                DataDirectory = "~/App_Data/Raven"
             };
-
-            documentStore.RegisterListener(new StoreListener());
-            documentStore.Initialize();
-
-            IndexCreation.CreateIndexes(typeof(PageByUrl).Assembly, documentStore);
-
-            return documentStore;
+            if (ConfigurationManager.ConnectionStrings["RavenDB"] != null)
+            {
+                store.ConnectionStringName = "RavenDB";
+            }
+            store.RegisterListener(new StoreListener());
+            store.Initialize();
+            IndexCreation.CreateIndexes(typeof(PageByUrl).Assembly, store);
+            return store;
         }
     }
 }

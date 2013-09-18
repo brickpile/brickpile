@@ -1,4 +1,6 @@
-﻿@model BrickPile.Samples.Models.Home
+﻿@using BrickPile.Samples.Models
+@using BrickPile.UI.Common
+@model Home
 
 @{
     ViewBag.Title = "title";
@@ -6,4 +8,9 @@
 }
 <h1>@Model.Heading</h1>
 <p>@Model.MainIntro</p>
+@Html.Raw(Model.MainBody)
+
+@foreach (Container container in ViewBag.Containers) {
+    @Html.ActionLink(container) <br />
+}
 

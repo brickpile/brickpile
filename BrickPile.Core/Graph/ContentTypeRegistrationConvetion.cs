@@ -3,11 +3,10 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Domain.Models;
-using BrickPile.UI.Common;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 
-namespace BrickPile.UI {
+namespace BrickPile.Core.Graph {
     /// <summary>
     /// 
     /// </summary>
@@ -24,7 +23,7 @@ namespace BrickPile.UI {
         /// <param name="type">The type.</param>
         /// <param name="registry">The registry.</param>
         public void Process(Type type, Registry registry) {
-            if (typeof(IContent).IsAssignableFrom(type)) {
+            if (typeof(IPage).IsAssignableFrom(type)) {
                 var specificRegisterMethod = RegisterMethod.MakeGenericMethod(new[] { type });
                 specificRegisterMethod.Invoke(null, new object[] { registry });
             }
@@ -34,19 +33,19 @@ namespace BrickPile.UI {
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="registry">The registry.</param>
-        static private void Register<T>(Registry registry) where T : IContent {
+        static private void Register<T>(Registry registry) where T : IPage {
             registry.For<T>().UseSpecial(y => y.ConstructedBy(r => GetCurrentPage<T>()));
         }
         /// <summary>
-        /// Gets the current page model.
+        /// Gets the current content.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        static private T GetCurrentPage<T>() where T : IContent {
+        static private T GetCurrentPage<T>() where T : IPage {
             var handler = (MvcHandler)HttpContext.Current.Handler;
             if (handler == null)
                 return default(T);
-            return handler.RequestContext.RouteData.GetCurrentContent<T>();
+            return (T)handler.RequestContext.RouteData.Values["currentPage"];
         }
     }
 }

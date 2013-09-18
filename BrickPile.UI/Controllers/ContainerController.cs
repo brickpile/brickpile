@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BrickPile.Samples.Models;
 
 namespace BrickPile.Samples.Controllers
 {
@@ -11,9 +12,9 @@ namespace BrickPile.Samples.Controllers
         //
         // GET: /Container/
 
-        public ActionResult Index()
+        public ActionResult Index(Container currentPage)
         {
-            return View();
+            return View(currentPage);
         }
 
     }

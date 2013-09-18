@@ -18,40 +18,62 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using BrickPile.Domain.Models;
 using Raven.Client.Indexes;
 
 namespace BrickPile.Core.Infrastructure.Indexes {
-    public class PageModelWithParentsAndChildren : AbstractIndexCreationTask<PageModel> {
+    /// <summary>
+    /// 
+    /// </summary>
+    public class PageModelWithParentsAndChildren : AbstractMultiMapIndexCreationTask<Page> {
         /// <summary>
         /// Initializes a new instance of the <see cref="PageModelWithParentsAndChildren"/> class.
         /// </summary>
         public PageModelWithParentsAndChildren() {
-
-            Map = pages => from page in pages
-                           select new {
-                               page.Id,
-                               page.Children,
-                           };
+            AddMapForAll<Page>(pages => from page in pages
+                                        select new {
+                                            page.Id,
+                                            page.Children
+                                        });
 
             Sort(x => x.Metadata.SortOrder, Raven.Abstractions.Indexing.SortOptions.Int);
 
             TransformResults = (database, pages) => from page in pages
-                                                    let ancestors = Recurse(page, c => database.Load<PageModel>(c.Parent.Id))
-                                                    select new
-                                                    {
+                                                    let ancestors = Recurse(page, c => database.Load<Page>(c.Parent.Id))
+                                                    select new {
                                                         page.Id,
                                                         page.Children,
                                                         Ancestors =
                                                         (
                                                            from ancestor in ancestors
-                                                           select new
-                                                           {
+                                                           select new {
                                                                ancestor.Id,
                                                                ancestor.Children,
                                                            })
                                                     };
+        }
+        protected new void AddMapForAll<TBase>(Expression<Func<IEnumerable<TBase>, IEnumerable>> expr) {
+            // Index the base class.
+            AddMap(expr);
+
+            // Index child classes from all assemblies
+            var children = AppDomain.CurrentDomain.GetAssemblies().ToList()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => typeof(TBase).IsAssignableFrom(p));
+
+            var addMapGeneric = GetType().GetMethod("AddMap", BindingFlags.Instance | BindingFlags.NonPublic);
+            foreach (var child in children) {
+                var genericEnumerable = typeof(IEnumerable<>).MakeGenericType(child);
+                var delegateType = typeof(Func<,>).MakeGenericType(genericEnumerable, typeof(IEnumerable));
+                var lambdaExpression = Expression.Lambda(delegateType, expr.Body, Expression.Parameter(genericEnumerable, expr.Parameters[0].Name));
+                addMapGeneric.MakeGenericMethod(child).Invoke(this, new[] { lambdaExpression });
+            }
         }
     }
 }

@@ -10,7 +10,16 @@ namespace BrickPile.UI.Web.Hosting {
         /// Gets the physical path.
         /// </summary>
         public override string PhysicalPath {
-            get { return ConfigurationManager.AppSettings["PhysicalPath"]; }
+            get { 
+                var path = ConfigurationManager.AppSettings["PhysicalPath"];
+                
+                // If specified path starts with "~"; make it relative to the server map path.
+                if (!string.IsNullOrEmpty(path) && path.StartsWith("~")) {
+                    path = HttpContext.Current.Server.MapPath(path);
+                }
+                
+                return path;
+            }
         }
         /// <summary>
         /// Gets the virtual path root.
