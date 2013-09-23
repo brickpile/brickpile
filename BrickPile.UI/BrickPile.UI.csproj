@@ -208,6 +208,7 @@
     <Compile Include="Web\Mvc\ContentModelBinder.cs" />
     <Compile Include="Web\Mvc\ContentTypeMetadataValidatorProvider.cs" />
     <Compile Include="Web\Mvc\ControllerMapper.cs" />
+    <Compile Include="Web\Mvc\Html\DatePickerHelper.cs" />
     <Compile Include="Web\Mvc\Html\LabelExtensions.cs" />
     <Compile Include="Web\Mvc\Html\MenuHelper.cs" />
     <Compile Include="Web\Mvc\Html\SubMenuHelper.cs" />

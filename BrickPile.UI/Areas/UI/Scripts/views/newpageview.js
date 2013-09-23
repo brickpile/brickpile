@@ -72,7 +72,9 @@ var NewPageView = Backbone.View.extend({
             {
                 dayNamesMin: [ "S", "M", "T", "W", "T", "F", "S" ],
                 firstDay:1,
-                dateFormat: "yy-mm-dd"
+                dateFormat: this.options.dateformat,
+                timeFormat: this.options.timeformat,
+                pickerTimeFormat: this.options.shorttimeformat
             }
         );
     }

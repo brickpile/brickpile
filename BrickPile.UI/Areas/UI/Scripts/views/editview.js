@@ -21,7 +21,6 @@ THE SOFTWARE. */
 var EditView = Backbone.View.extend({
 
     events: {},
-
     initialize: function () {
         this.render();
     },
@@ -32,8 +31,10 @@ var EditView = Backbone.View.extend({
         $('input[type=datetime]').datetimepicker(
             {
                 dayNamesMin: ["S", "M", "T", "W", "T", "F", "S"],
-                firstDay:1,
-                dateFormat: "yy-mm-dd"
+                firstDay: 1,
+                dateFormat: this.options.dateformat,
+                timeFormat: this.options.timeformat,
+                pickerTimeFormat: this.options.shorttimeformat
             }
         );
     }
