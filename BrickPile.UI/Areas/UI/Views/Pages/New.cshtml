@@ -20,6 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
 @using BrickPile.UI.Common
+@using BrickPile.UI.Web.Mvc.Html
 @model BrickPile.UI.Web.ViewModels.NewPageViewModel
 
 @{
@@ -32,7 +33,13 @@ THE SOFTWARE. *@
          // Shorthand for the application namespace
          var app = brickpile.app;
          // Initialize the main view.
-         app.newpageView = new NewPageView({ el: $('#editForm'), slugsInUse: @Html.Raw(Model.SlugsInUse) });
+         app.newpageView = new NewPageView({
+              el: $('#editForm'), 
+              slugsInUse: @Html.Raw(Model.SlugsInUse),
+              dateformat: "@Html.ConvertDateFormat()",
+              timeformat:"@Html.ConvertTimeFormat()",
+              shorttimeformat:"@Html.ConvertShortTimeFormat()"
+         });
      })(jQuery);  
 </script>, "scripts")
 
