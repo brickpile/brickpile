@@ -53,7 +53,7 @@ namespace BrickPile.UI.Web.Routing {
         public IPathData ResolvePath(RouteData routeData, string virtualUrl) {
 
             // Set the default action to index
-            _pathData.Action = UIRoute.DefaultAction;
+            _pathData.Action = PageRoute.DefaultAction;
             // Get an up to date document session from structuremap
             _session = _container.GetInstance<IDocumentSession>();
 
@@ -106,6 +106,9 @@ namespace BrickPile.UI.Web.Routing {
                 string.Format("{0}Controller", _pageModel.GetType().Name) :
                 _controllerMapper.GetControllerName(contentTypeAttribute.ControllerType);
 
+            if (!_controllerMapper.ControllerExists(_controllerName)) {
+                throw new HttpException(500,string.Format("{0} was not found or does not implement IController.", _controllerName));
+            }
 
             if (!_controllerMapper.ControllerHasAction(_controllerName, _pathData.Action)) {
                 return null;

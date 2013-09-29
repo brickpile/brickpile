@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -7,7 +8,6 @@ using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
-using BrickPile.UI.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
@@ -53,6 +53,7 @@ namespace BrickPile.Tests.Web.Routing {
 
             mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
             container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
+            mapper.Setup(m => m.ControllerExists("Dummy")).Returns(true);
             mapper.Setup(x => x.ControllerHasAction("Dummy", "index")).Returns(true);
 
             // Act
@@ -62,10 +63,6 @@ namespace BrickPile.Tests.Web.Routing {
 
                 var content = new StandardPage { Id = "StandardPages/1", Parent = null };
                 session.Store(content);
-
-                // create and store a new page model
-                //var pageModel = new PageModel { Parent = null };
-                //session.Store(pageModel);
                 session.SaveChanges();
 
                 // try to resovle the page via the path
@@ -95,6 +92,7 @@ namespace BrickPile.Tests.Web.Routing {
 
             mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
             container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
+            mapper.Setup(m => m.ControllerExists("Dummy")).Returns(true);
             mapper.Setup(x => x.ControllerHasAction("Dummy", "index")).Returns(true);
 
             // Act
@@ -102,10 +100,6 @@ namespace BrickPile.Tests.Web.Routing {
             using (var session = _store.OpenSession()) {
                 var content = new StandardPage() { Metadata = { Url = "page" } };
                 session.Store(content);
-
-                // create and store a new page model
-                //var pageModel = new PageModel { Metadata = { Url = "page" }, ContentReference = content.Id };
-                //session.Store(pageModel);
                 session.SaveChanges();
 
                 var resolver = new PathResolver(session, pathData, mapper.Object, container.Object);
@@ -133,6 +127,7 @@ namespace BrickPile.Tests.Web.Routing {
 
             mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
             container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
+            mapper.Setup(m => m.ControllerExists("Dummy")).Returns(true);
             mapper.Setup(x => x.ControllerHasAction("Dummy", "myaction")).Returns(true);
 
             // Act
@@ -141,10 +136,6 @@ namespace BrickPile.Tests.Web.Routing {
 
                 var content = new StandardPage() { Metadata = { Url = "page" } };
                 session.Store(content);
-
-                // create and store a new page model
-                //var pageModel = new PageModel { Metadata = { Url = "page" }, ContentReference = content.Id };
-                //session.Store(pageModel);
                 session.SaveChanges();
 
                 var resolver = new PathResolver(session, pathData, mapper.Object, container.Object);
@@ -171,6 +162,7 @@ namespace BrickPile.Tests.Web.Routing {
             var container = new Mock<IContainer>();
 
             mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
+            mapper.Setup(m => m.ControllerExists("Dummy")).Returns(true);
             mapper.Setup(x => x.ControllerHasAction("Dummy", "myaction")).Returns(true);
             container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
 
@@ -180,12 +172,6 @@ namespace BrickPile.Tests.Web.Routing {
 
                 var content = new StandardPage() { Parent = null, Metadata = { Url = virtualUrl }};
                 session.Store(content);
-
-                // create and store a new page model
-
-                //var pageModel = new PageModel { Parent = null, ContentReference = content.Id };
-                //session.Store(pageModel);
-
                 session.SaveChanges();
 
                 var resolver = new PathResolver(session, pathData, mapper.Object, container.Object);
@@ -205,10 +191,8 @@ namespace BrickPile.Tests.Web.Routing {
             var mapper = new Mock<IControllerMapper>();
             var container = new Mock<IContainer>();
 
-            //mapper.Setup(x => x.GetControllerName(typeof(DummyModelWithoutControllerType))).Returns("DummyModelWithoutControllerType");
-            //mapper.Setup(x => x.ControllerHasAction("DummyModelWithoutControllerTypeController", "myaction")).Returns(true);
             container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
-
+            mapper.Setup(m => m.ControllerExists("DummyModelWithoutControllerTypeController")).Returns(true);
             mapper.Setup(m => m.ControllerHasAction("DummyModelWithoutControllerTypeController", "myaction")).Returns(true);
 
             // Act
@@ -218,12 +202,6 @@ namespace BrickPile.Tests.Web.Routing {
 
                 var page = new DummyModelWithoutControllerType { Parent = null };
                 session.Store(page);
-
-                //var content = new DummyModelWithoutControllerType();
-                //session.Store(content);
-
-                //page.ContentReference = content.Id;
-
                 session.SaveChanges();
 
                 var resolver = new PathResolver(session, pathData, mapper.Object, container.Object);
@@ -265,6 +243,20 @@ namespace BrickPile.Tests.Web.Routing {
             // Assert
             Assert.NotNull(data);
         }
+
+        private TimeSpan Time(Action toTime) {
+            var timer = Stopwatch.StartNew();
+            toTime();
+            timer.Stop();
+            return timer.Elapsed;
+        }
+
+        [Test]
+        public void FooPerformance_Pin()
+        {
+            Assert.That(Time( () => Can_Query_Page_Using_AllPages_Index()), Is.LessThanOrEqualTo(TimeSpan.FromSeconds(3)) );
+        }
+
     }
 
     [PageType(Name = "Standard page", ControllerType = typeof(DummyController))]
@@ -294,5 +286,4 @@ namespace BrickPile.Tests.Web.Routing {
         }
 
     }
-    
 }

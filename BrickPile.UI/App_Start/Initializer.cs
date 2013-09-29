@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System;
 using System.Runtime.Serialization.Formatters;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -27,6 +28,9 @@ using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Raven.Abstractions.Data;
+using Raven.Client;
+using Raven.Client.Embedded;
 using Raven.Contrib.AspNet.Auth;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Initializer), "Start")]
@@ -39,6 +43,18 @@ namespace BrickPile.UI {
 
             //Insure that Raven is setup
             var documentStore = RavenConfig.InitializeRaven();
+
+            //using (var session = documentStore.OpenSession()) {
+            //    session.Store(new Raven.Bundles.Versioning.Data.VersioningConfiguration
+            //            {
+            //                Id = "Raven/Versioning/DefaultConfiguration",
+            //                MaxRevisions = 5,
+            //                Exclude = false,
+            //                PurgeOnDelete = false
+            //            });
+            //    session.SaveChanges();
+            //}
+
             //Insure that Structuremap would inject dependecies for any ASP.NET controller created
             var container = StructureMapConfig.InitializeStructureMap(documentStore);
             
@@ -65,6 +81,9 @@ namespace BrickPile.UI {
                                           }),
                                           new RouteValueDictionary(new { controller = "UI|api" }),
                                         new MvcRouteHandler()));
+
+            // Extended metadata provider handling GroupName on the DisplayAttribute
+            ModelMetadataProviders.Current = new ExtendedDataAnnotationsModelMetadataProvider();
 
             //ModelValidatorProviders.Providers.Clear();
             //ModelValidatorProviders.Providers.Add(new ContentTypeMetadataValidatorProvider());

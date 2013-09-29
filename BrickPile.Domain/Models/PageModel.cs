@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -30,7 +31,7 @@ namespace BrickPile.Domain.Models {
     /// Use IPage to create your own base class
     /// </remarks>
     [MetadataType(typeof(PageModelMetadata))]
-    public class Page : IPage {
+    public class Page : IPage, ICloneable {
 
         /// <summary>
         /// Gets or sets the id.
@@ -75,6 +76,10 @@ namespace BrickPile.Domain.Models {
         public Page() {
             Metadata = new PageMetadata();
             Children = new List<string>();
+        }
+
+        public object Clone() {
+            return this.MemberwiseClone();
         }
     }
 }

@@ -24,9 +24,9 @@ define([
             'ui/dashboard/': 'dashboard',
             'ui/page/': 'pages',
             'ui/page/new/': 'add',
-            'ui/page/:id': 'viewPage',
-            'ui/page/edit/:type/:id': 'edit',
-            'ui/page/edit/:type/:id/draft/:draft': 'editDraft'
+            'ui/page/:type/:id': 'view',
+            'ui/page/edit/:type/:id(/draft/:draft)': 'edit',
+            //'ui/page/edit/:type/:id/draft/:draft': 'editDraft'
         },
         
         login: function () {
@@ -92,12 +92,14 @@ define([
             });
 
         },
-        viewPage: function (id) {
+        view: function (type, id) {
 
             // Shorthand the application namespace
             var app = brickpile.app;
+            
+            var stringId = [type, id];
 
-            app.pages = new PageCollection([], { id: id });
+            app.pages = new PageCollection([], { id: stringId.join('/') });
             app.pages.fetch({
                 success: function () {
                     var view = new PageListView({ collection: app.pages });
@@ -119,11 +121,9 @@ define([
             app.pageEditView = new PageEditView({ model: app.pages.currentPage });
             $('#content').html(app.pageEditView.render().el);
         },
-        edit: function(type, id) {
+        edit: function(type, id, draft) {
 
-            console.log('type:' + type + ' Id:' + id);
-
-            //var pageEditView = null;
+            console.log('Type: ' + type + ', id: ' + id + ' draft: ' + draft);
 
             // Shorthand the application namespace
             var app = brickpile.app;
@@ -131,11 +131,9 @@ define([
             var stringId = [type, id];
 
             var page = app.pages.get(stringId.join('/'));
-
-
+            
             // If the model is not present locally, refresh from the server
             if (!page) {
-
                 var parentId;
                 if (app.pages.currentPage && app.pages.currentPage.get('parent')) {
                     parentId = app.pages.currentPage.get('parent').id;
@@ -155,7 +153,8 @@ define([
                         var pageListview = new PageListView({ collection: app.pages });
                         $('#gutter').html(pageListview.render().$el);
 
-                        page = app.pages.get(id);
+                        page = app.pages.get(stringId.join('/'));
+
                         if (app.pageEditView) {
                             app.pageEditView.dispose();
                         }
@@ -169,14 +168,12 @@ define([
                 if (app.pageEditView) {
                     app.pageEditView.dispose();
                 }
+                console.log(page);
                 app.pageEditView = new PageEditView({ model: page });
                 $('#content').html(app.pageEditView.render().el);
                 
                 app.trigger('editor:loaded');
             }            
-        },
-        editDraft: function(type, id, draft) {
-            console.log('Type: ' + type + ', id: ' + id + ' draft: ' + draft);
         }
     });
 

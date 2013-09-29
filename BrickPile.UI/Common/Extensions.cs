@@ -319,5 +319,12 @@ namespace BrickPile.UI.Common {
         }
 
         private static List<Type> _availablePageModels;
+
+        public static string GetGroupName(this ModelMetadata modelMetadata) {
+            if (modelMetadata.AdditionalValues.ContainsKey(ExtendedDataAnnotationsModelMetadataProvider.Key_GroupName))
+                return (modelMetadata.AdditionalValues[ExtendedDataAnnotationsModelMetadataProvider.Key_GroupName] as string);
+
+            return null;
+        }
     }
 }

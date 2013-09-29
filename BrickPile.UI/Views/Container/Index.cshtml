@@ -6,6 +6,7 @@
     Layout = "~/views/shared/_Layout.cshtml";
 }
 
+<link rel="stylesheet" href="http://dfimg.com/medium-editor/dist/css/medium.editor.css"/>
 @Html.Menu()
 
 @Html.SubMenu(
@@ -13,5 +14,12 @@
 )
 
 <h1>@Model.CurrentPage.Heading</h1>
-@Html.Raw(Model.CurrentPage.MainBody)
+<div class="editable" contenteditable="true">
+    <p>
+        @Html.Raw(Model.CurrentPage.MainBody)
+    </p>
+</div>
 
+@Model.CurrentPage.Person.Firstname
+<script src="http://dfimg.com/medium-editor/dist/js/medium.editor.js"></script>
+<script>var editor = new MediumEditor('.editable');</script>

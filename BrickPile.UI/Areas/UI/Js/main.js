@@ -4,6 +4,7 @@
 // There usage will become more apparent further along in the tutorial.
 
 require.config({
+    dir: '/Content',
     paths: {
         jquery: '/areas/ui/js/libs/jquery/jquery',
         underscore: '/areas/ui/js/libs/underscore/underscore',

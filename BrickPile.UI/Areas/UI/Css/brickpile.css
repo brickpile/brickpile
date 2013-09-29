@@ -86,7 +86,7 @@
    Body
    ========================================================================== */
    body { overflow: hidden; font-family: 'Open Sans', sans-serif; }
-   html.loading main { background: url(/content/loading_throbber.gif) no-repeat center; }
+   html.loading main { background: url(/content/loading_throbber.gif) repeat center; }
 
     [data-icon]:before {
         font-family: 'Pictos Custom';
@@ -223,11 +223,11 @@
                 right: 26px;
             }
             #add:before {
-                font-size: 12px;
+                font-size: 24px;
                 color: rgba(110,110,110,0.9);
-                border: solid 2px rgba(110,110,110,0.9);
-                border-radius: 3px;
-                padding: 3px 3px 0;
+                /*border: solid 2px rgba(110,110,110,0.9);*/
+                /*border-radius: 3px;*/
+                /*padding: 3px;*/
                 text-shadow: none;                           
             }
 
@@ -574,7 +574,7 @@ textarea {
                 padding: 5px 0;
                 position: fixed;
                 text-align: center;
-                top: -62px;
+                top: -64px;
                 width: 100%;
                 z-index: 1;
                 

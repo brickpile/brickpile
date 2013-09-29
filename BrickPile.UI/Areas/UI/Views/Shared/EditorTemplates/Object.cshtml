@@ -1,22 +1,67 @@
 ﻿
+@using BrickPile.UI.Common
 @using BrickPile.UI.Web.Mvc.Html
+@using System.Linq
 
-@foreach (var prop in ViewData.ModelMetadata.Properties.Where(pm => pm.ShowForEdit && !ViewData.TemplateInfo.Visited(pm))) {
-    if (prop.HideSurroundingHtml) {
-        <text>@Html.Editor(prop.PropertyName)</text>
-    } else {
-        <div>
-            <div class="editor-label">
-                @if(prop.IsRequired) {
-                    @Html.LabelFor(m => prop, @<em>(mandatory)</em>, prop.GetDisplayName())
-                } else {
-                    @Html.Label(prop.PropertyName)
-                }
-            </div>
-            <div class="editor-field">
-                @Html.Editor(prop.PropertyName)
-                @*@Html.ValidationMessage(prop.PropertyName, "*")*@
-            </div>
-        </div>
-    }
+@{
+    var groups = from property in ViewData.ModelMetadata.Properties
+                 where property.ShowForEdit && !ViewData.TemplateInfo.Visited(property)
+                 group property by property.GetGroupName()
+                 into g
+                 orderby g.Key
+                 select new {Group = g.Key, Properties = g};
+}
+@foreach (var group in groups) {
+    
+        if (!string.IsNullOrEmpty(group.Group)) {
+            <fieldset>
+                <legend>@group.Group</legend>
+
+                @foreach (var prop in group.Properties.OrderBy(x => x.Order)) {
+
+                    if (prop.HideSurroundingHtml) {
+                        <text>@Html.Editor(prop.PropertyName)</text>
+                    }
+                    else {
+                        <div>
+                            <div class="editor-label">
+                                @if (prop.IsRequired) {
+                                    @Html.LabelFor(m => prop, @<em>(mandatory)</em>, prop.GetDisplayName())
+                                }
+                                else {
+                                    @Html.Label(prop.PropertyName)
+                                }
+                            </div>
+                            <div class="editor-field">
+                                @Html.Editor(prop.PropertyName)  
+                            </div>
+                        </div>
+                    }
+                }                
+                
+            </fieldset>
+        }
+        else {
+                foreach (var prop in group.Properties.OrderBy(x => x.Order)) {
+
+                    if (prop.HideSurroundingHtml) {
+                        <text>@Html.Editor(prop.PropertyName)</text>
+                    }
+                    else {
+                        <div>
+                            <div class="editor-label">
+                                @if (prop.IsRequired) {
+                                    @Html.LabelFor(m => prop, @<em>(mandatory)</em>, prop.GetDisplayName())
+                                }
+                                else {
+                                    @Html.Label(prop.PropertyName)
+                                }
+                            </div>
+                            <div class="editor-field">
+                                @Html.Editor(prop.PropertyName)  
+                            </div>
+                        </div>
+                    }
+                }             
+        }
 }

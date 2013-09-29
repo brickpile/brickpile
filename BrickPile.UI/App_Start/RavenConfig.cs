@@ -18,13 +18,13 @@ namespace BrickPile.UI {
         public static DocumentStore InitializeRaven() {
             var store = new EmbeddableDocumentStore
             {
-                //Conventions = { IdentityPartsSeparator = "-" },
                 DataDirectory = "~/App_Data/Raven"
             };
             if (ConfigurationManager.ConnectionStrings["RavenDB"] != null)
             {
                 store.ConnectionStringName = "RavenDB";
             }
+            
             //store.RegisterListener(new StoreListener());
             store.Initialize();
             IndexCreation.CreateIndexes(typeof(PageByUrl).Assembly, store);

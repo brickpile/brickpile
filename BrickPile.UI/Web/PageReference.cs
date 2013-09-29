@@ -21,6 +21,7 @@ THE SOFTWARE. */
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using BrickPile.Core.DataAnnotations;
 
 namespace BrickPile.UI.Web {
@@ -58,8 +59,8 @@ namespace BrickPile.UI.Web {
         /// <returns></returns>
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, PropertyDescriptor propertyDescriptor) {
             if (propertyDescriptor != null) {
-                var displayAttr = propertyDescriptor.Attributes[typeof(DisplayAttribute)] as DisplayAttribute;
-                var requiredAttr = propertyDescriptor.Attributes[typeof(RequiredAttribute)] as RequiredAttribute;
+                var displayAttr = propertyDescriptor.Attributes.OfType<DisplayAttribute>().FirstOrDefault();
+                var requiredAttr = propertyDescriptor.Attributes.OfType<RequiredAttribute>().FirstOrDefault();
                 var displayName = displayAttr != null ? displayAttr.Name : propertyDescriptor.DisplayName;
                 if (!IsValidInput()) {
                     yield return new ValidationResult(string.Format("Value of the {0} field couldn´t be recognized as a valid page ", displayName));

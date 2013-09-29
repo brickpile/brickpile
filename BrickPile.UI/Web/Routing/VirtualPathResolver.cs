@@ -40,11 +40,11 @@ namespace BrickPile.UI.Web.Routing {
 
             var url = page.Metadata.Url ?? string.Empty;
 
-            if (routeValueDictionary.ContainsKey(UIRoute.ActionKey)) {
+            if (routeValueDictionary.ContainsKey(PageRoute.ActionKey)) {
 
-                _action = routeValueDictionary[UIRoute.ActionKey] as string;
+                _action = routeValueDictionary[PageRoute.ActionKey] as string;
 
-                if (_action != null && !_action.ToLower().Equals(UIRoute.DefaultAction)) {
+                if (_action != null && !_action.ToLower().Equals(PageRoute.DefaultAction)) {
 
                     return VirtualPathUtility.AppendTrailingSlash(string.Join("/", new[] { url,_action }.Where(item => !string.IsNullOrWhiteSpace(item)))).ToLower();
 

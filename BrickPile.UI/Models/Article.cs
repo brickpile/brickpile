@@ -15,11 +15,12 @@ namespace BrickPile.Samples.Models {
         [DataType(DataType.MultilineText)]
         public string MainIntro { get; set; }
 
-        [UIHint("Markdown")]
+        //[UIHint("Markdown")]
         public string FireAtWill { get; set; }
 
         public int Count { get; set; }
         
+        [Display(Name = "The contact", GroupName = "Personuppgifter")]
         public Contact Contact { get; set; }
 
         public Article() {
@@ -32,7 +33,9 @@ namespace BrickPile.Samples.Models {
     }
 
     public class Contact {
+        
         public string Firstname { get; set; }
+        
         public string Lastname { get; set; }
     }
     public static class StringExtensions {

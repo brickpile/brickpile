@@ -15,6 +15,7 @@ define([
             }
             e.preventDefault();
             alert('fire');
+            return false;
         }
     });
 });

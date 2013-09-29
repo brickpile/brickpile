@@ -55,6 +55,15 @@ namespace BrickPile.UI.Web.Mvc {
             }
             return false;            
         }
+
+        /// <summary>
+        /// Controllers the exists.
+        /// </summary>
+        /// <param name="controllerName">Name of the controller.</param>
+        /// <returns></returns>
+        public bool ControllerExists(string controllerName) {
+            return ControllerMap.Any(x => x.Key.Name.Equals(controllerName, StringComparison.InvariantCultureIgnoreCase));
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="ControllerMapper"/> class.
         /// </summary>

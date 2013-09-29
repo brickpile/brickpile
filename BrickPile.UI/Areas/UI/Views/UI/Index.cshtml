@@ -72,8 +72,9 @@ THE SOFTWARE. *@
     <script id="tpl-page-current" type="text/template">
         
         <div style="border-bottom:solid 1px #d4d4d4;color:#000;display:block;text-align:center;position:relative;padding:16px 0;background-color:#f3f3f3;">
-            <a href="#" id="more" data-icon="m"></a>
-            <strong style="text-transform:uppercase;">{{currentPage.metadata.name}}</strong>
+            {[ if (typeof currentPage !== "undefined") { ]}
+                <strong style="text-transform:uppercase;">{{currentPage.metadata.name}}</strong>
+            {[ } ]}
             <a href="#" id="add" data-icon="+"></a>
         </div>
 
@@ -87,7 +88,7 @@ THE SOFTWARE. *@
     
     <script id="tpl-page-list-item" type="text/template">
         <li>
-            <a href="/ui/page/edit/{{id}}" class="edit">{{metadata.name}}</a>
+            <a href="/ui/page/edit/{{id}}/draft/1" class="edit">{{metadata.name}}</a>
             {[ if(parent) { ]}
                 <a href="/ui/page/{{id}}" class="icon view" data-icon=">"></a>
             {[ } ]} 
@@ -168,6 +169,7 @@ THE SOFTWARE. *@
                 <input type="hidden" name="metadata.sortOrder" value="{{metadata.sortOrder}}" />
 
                 @Html.EditorFor(x => content, null, "")
+
                 <input type="submit" value="Save"/>
             </form>
             

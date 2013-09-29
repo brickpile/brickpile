@@ -35,5 +35,11 @@ namespace BrickPile.UI.Web.Mvc {
         /// <param name="actionName">Name of the action.</param>
         /// <returns></returns>
         bool ControllerHasAction(string controllerName, string actionName);
+        /// <summary>
+        /// Controllers the exists.
+        /// </summary>
+        /// <param name="controllerName">Name of the controller.</param>
+        /// <returns></returns>
+        bool ControllerExists(string controllerName);
     }
 }

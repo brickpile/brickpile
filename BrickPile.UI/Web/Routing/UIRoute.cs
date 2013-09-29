@@ -11,6 +11,7 @@ namespace BrickPile.UI.Web.Routing {
     /// <summary>
     /// 
     /// </summary>
+    [Obsolete("Removed",true)]
     public class UIRoute : Route, IRouteWithArea {
         private readonly string _url;
         private readonly RouteValueDictionary _defaults;
