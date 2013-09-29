@@ -279,7 +279,7 @@ body.start #button {
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
-            
+    opacity: 1;
     
 }
 
@@ -729,7 +729,7 @@ fieldset.metadata {
 	-ms-transition: all 0.3s ease-in-out;
 	transition: all 0.3s ease-in-out;
     top: 130px;
-    right: 143px;
+    left: 620px;
 }
 .field-validation-error span {
 	background: transparent url(../images/setup/password-error.png) no-repeat 0 top;
@@ -745,7 +745,7 @@ fieldset.metadata {
 #metadata #slug .illigal {
     opacity: 1;
     top: 100px;
-    right: 143px;
+    left: 620px;
 }
 
 #metadata #slug label {
@@ -837,6 +837,7 @@ fieldset label {
 }
 
 fieldset input[type=text],
+fieldset input[type=datetime],
 fieldset textarea {
     border:1px solid #b3c2cb;
     border-radius:4px;

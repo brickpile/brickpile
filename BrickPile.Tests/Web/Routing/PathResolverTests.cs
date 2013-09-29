@@ -25,11 +25,7 @@ namespace BrickPile.Tests.Web.Routing {
         public void Setup() {
             _store = new EmbeddableDocumentStore
             {
-                RunInMemory = true,
-                Conventions =
-                {
-                    FindTypeTagName = type => typeof(IPageModel).IsAssignableFrom(type) ? "Pages" : null
-                }
+                RunInMemory = true
             };
             
             _store.Initialize();
@@ -64,11 +60,8 @@ namespace BrickPile.Tests.Web.Routing {
 
             using (var session = _store.OpenSession()) {
 
-                var content = new StandardPage();
-                session.Store(content);
-
-                // create and store a new page model
-                var pageModel = new PageModel { Parent = null, ContentReference = content.Id };
+                // create and store a new page
+                var pageModel = new StandardPage { Parent = null };
                 session.Store(pageModel);
                 session.SaveChanges();
 
@@ -104,11 +97,9 @@ namespace BrickPile.Tests.Web.Routing {
             // Act
             IPathData data;
             using (var session = _store.OpenSession()) {
-                var content = new StandardPage();
-                session.Store(content);
 
-                // create and store a new page model
-                var pageModel = new PageModel { Metadata = { Url = "page" }, ContentReference = content.Id };
+                // create and store a new page
+                var pageModel = new StandardPage { Metadata = { Url = "page" } };
                 session.Store(pageModel);
                 session.SaveChanges();
 
@@ -143,11 +134,8 @@ namespace BrickPile.Tests.Web.Routing {
             IPathData data;
             using (var session = _store.OpenSession()) {
 
-                var content = new StandardPage();
-                session.Store(content);
-
-                // create and store a new page model
-                var pageModel = new PageModel { Metadata = { Url = "page" }, ContentReference = content.Id };
+                // create and store a new page
+                var pageModel = new StandardPage { Metadata = { Url = "page" } };
                 session.Store(pageModel);
                 session.SaveChanges();
 
@@ -182,13 +170,8 @@ namespace BrickPile.Tests.Web.Routing {
             IPathData data;
             using (var session = _store.OpenSession()) {
 
-                var content = new StandardPage();
-                session.Store(content);
-
-                // create and store a new page model
-
-                var pageModel = new PageModel { Parent = null, ContentReference = content.Id };
-                session.Store(pageModel);
+                var page = new StandardPage {Parent = null };
+                session.Store(page);
 
                 session.SaveChanges();
 
@@ -220,13 +203,8 @@ namespace BrickPile.Tests.Web.Routing {
             using (var session = _store.OpenSession()) {
                 // create and store a new page model
 
-                var page = new PageModel {Parent = null};
+                var page = new DummyModelWithoutControllerType { Parent = null };
                 session.Store(page);
-
-                var content = new DummyModelWithoutControllerType();
-                session.Store(content);
-
-                page.ContentReference = content.Id;
 
                 session.SaveChanges();
 
@@ -245,12 +223,12 @@ namespace BrickPile.Tests.Web.Routing {
         public void Can_Query_Page_Using_AllPages_Index() {
 
             // Arrange
-            IPageModel data;
+            IPage data;
 
             // Act
             using (var session = _store.OpenSession()) {
 
-                var pageModel = new PageModel
+                var pageModel = new Page
                 {
                     Id = "DummyPages/1",
                     Parent = null,
@@ -262,7 +240,7 @@ namespace BrickPile.Tests.Web.Routing {
             }
             using (var session = _store.OpenSession()) {
 
-                data = session.Query<IPageModel>()
+                data = session.Query<IPage, AllPages>()
                     .Customize(x => x.WaitForNonStaleResults())
                     .SingleOrDefault(x => x.Metadata.Name == "Foo");
             }
@@ -270,21 +248,55 @@ namespace BrickPile.Tests.Web.Routing {
             // Assert
             Assert.NotNull(data);
         }
+
+        [Test]
+        public void Can_Query_Page_Using_AllPages_Index_Based_On_Display_In_Menu() {
+
+            // Arrange
+            IPage data;
+
+            // Act
+            using (var session = _store.OpenSession()) {
+
+                var pageModel = new Page {
+                    Id = "DummyPages/1",
+                    Parent = null,
+                    Metadata =
+                        {
+                            Name = "Foo",
+                            DisplayInMenu = true
+                        }
+                };
+                session.Store(pageModel);
+                session.SaveChanges();
+
+            }
+            using (var session = _store.OpenSession()) {
+
+                data = session.Query<IPage, AllPages>()
+                    .Customize(x => x.WaitForNonStaleResults())
+                    .SingleOrDefault(x => x.Metadata.DisplayInMenu);
+            }
+
+            // Assert
+            Assert.NotNull(data);
+        }
+
     }
 
     [ContentType(Name = "Standard page", ControllerType = typeof(DummyController))]
-    public class StandardPage : IContent {
-        public string Id { get; set; }
+    public class StandardPage : Page {
     }
 
+
+    public class StandardPageWithoutControllerType : Page {}
+
     [ContentType(Name = "Dummy", ControllerType = typeof(DummyController))]
-    public class DummyModel : IContent {
-        public string Id { get; set; }
+    public class DummyModel : Page {
     }
 
     [ContentType]
-    public class DummyModelWithoutControllerType : IContent {
-        public string Id { get; set; }
+    public class DummyModelWithoutControllerType : Page {
     }
 
     public class DummyController : Controller {

@@ -20,7 +20,6 @@ THE SOFTWARE. */
 
 using System.Linq;
 using BrickPile.Domain.Models;
-using BrickPile.UI.Web.ViewModels;
 
 namespace BrickPile.UI {
     /// <summary>
@@ -35,36 +34,28 @@ namespace BrickPile.UI {
         /// <value>
         /// The pages.
         /// </value>
-        public IQueryable<IPageModel> NavigationContext { get; set; }
+        public IQueryable<IPage> NavigationContext { get; set; }
         /// <summary>
         /// Gets or sets the current page.
         /// </summary>
         /// <value>
         /// The current page.
         /// </value>
-        public IPageModel CurrentPage { get; set; }
+        public IPage CurrentPage { get; set; }
         /// <summary>
         /// Gets or sets the root page of the web site.
         /// </summary>
         /// <value>
         /// The root page.
         /// </value>
-        public IPageModel StartPage { get; set; }
+        public IPage StartPage { get; set; }
         /// <summary>
         /// Gets or sets the parent page.
         /// </summary>
         /// <value>
         /// The parent page.
         /// </value>
-        public IPageModel ParentPage { get; set; }
-
-        /// <summary>
-        /// Gets or sets the content of the current.
-        /// </summary>
-        /// <value>
-        /// The content of the current.
-        /// </value>
-        public IContent CurrentContent { get; set; }
+        public IPage ParentPage { get; set; }
         
     }        
 }

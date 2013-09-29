@@ -18,10 +18,6 @@ namespace BrickPile.UI {
         public static DocumentStore InitializeRaven() {
             var store = new EmbeddableDocumentStore
             {
-                Conventions =
-                {
-                    FindTypeTagName = type => typeof (IPageModel).IsAssignableFrom(type) ? "Pages" : null
-                },
                 DataDirectory = "~/App_Data/Raven"
             };
             if (ConfigurationManager.ConnectionStrings["RavenDB"] != null)

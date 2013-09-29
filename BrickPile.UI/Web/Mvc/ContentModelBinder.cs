@@ -34,7 +34,7 @@ namespace BrickPile.UI.Web.Mvc {
             var modelBindingContext = new ModelBindingContext(bindingContext)
             {
                 ModelMetadata = ModelMetadataProviders.Current.GetMetadataForType(() => item, item.GetType()),
-                ModelName = "ContentModel",
+                ModelName = "NewPageModel",
                 ModelState = bindingContext.ModelState,
                 ValueProvider = bindingContext.ValueProvider
             };
@@ -47,7 +47,7 @@ namespace BrickPile.UI.Web.Mvc {
                 return item;
             }
 
-            controllerContext.RouteData.ApplyCurrentContent(item);
+            controllerContext.RouteData.ApplyCurrentPage(item);
 
             return content;
             

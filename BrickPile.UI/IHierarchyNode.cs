@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using BrickPile.Domain.Models;
 
 namespace BrickPile.UI {
-    public interface IHierarchyNode<T> where T : IPageModel {
+    public interface IHierarchyNode<T> where T : IPage {
         /// <summary>
         /// Gets or sets the entity.
         /// </summary>

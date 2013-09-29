@@ -18,9 +18,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Mvc;
 using BrickPile.Core.DataAnnotations;
 
 namespace BrickPile.UI.Web {
@@ -50,25 +53,24 @@ namespace BrickPile.UI.Web {
         public override string ToString() {
             return Id;
         }
+
         /// <summary>
         /// Validates the specified validation context.
         /// </summary>
         /// <param name="validationContext">The validation context.</param>
-        /// <param name="propertyDescriptor">The property descriptor.</param>
+        /// <param name="metadata">The metadata.</param>
         /// <returns></returns>
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, PropertyDescriptor propertyDescriptor) {
-            if (propertyDescriptor != null) {
-                var displayAttr = propertyDescriptor.Attributes[typeof(DisplayAttribute)] as DisplayAttribute;
-                var requiredAttr = propertyDescriptor.Attributes[typeof(RequiredAttribute)] as RequiredAttribute;
-                var displayName = displayAttr != null ? displayAttr.Name : propertyDescriptor.DisplayName;
-                if (!IsValidInput()) {
-                    yield return new ValidationResult(string.Format("Value of the {0} field couldn´t be recognized as a valid page ", displayName));
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ModelMetadata metadata) {            
+            if (!IsValidInput()) {
+                yield return new ValidationResult(string.Format("Value of the {0} field couldn´t be recognized as a valid page ", metadata.DisplayName));
+            } else if (metadata.IsRequired && !IsValidPage()) {
+                var customTypeDescriptor = new AssociatedMetadataTypeTypeDescriptionProvider(metadata.ContainerType).GetTypeDescriptor(metadata.ContainerType);
+                if (customTypeDescriptor != null) {
+                    var descriptor = customTypeDescriptor.GetProperties().Find(metadata.PropertyName, true);
+                    var req = (new List<Attribute>(descriptor.Attributes.OfType<Attribute>())).OfType<RequiredAttribute>().FirstOrDefault();
+                    if (req != null) yield return new ValidationResult(req.FormatErrorMessage(metadata.DisplayName));
                 }
-                if (requiredAttr != null && !IsValidPage()) {
-                    yield return new ValidationResult(requiredAttr.FormatErrorMessage(displayName));
-                }                 
             }
-            yield return ValidationResult.Success;
         }
         /// <summary>
         /// Checks if the input contains a valid page

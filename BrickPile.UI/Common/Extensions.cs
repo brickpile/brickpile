@@ -44,7 +44,7 @@ namespace BrickPile.UI.Common {
         /// <returns></returns>
         private static IEnumerable<HierarchyNode<TEntity>> CreateHierarchy<TEntity>(IEnumerable<TEntity> allItems,
                                                                                     TEntity parentItem, int depth)
-            where TEntity : class, IPageModel {
+            where TEntity : class, IPage {
 
             if (parentItem == null)
                 parentItem = allItems.SingleOrDefault(i => i.Parent == null);
@@ -76,8 +76,19 @@ namespace BrickPile.UI.Common {
         /// <param name="allItems">All items.</param>
         /// <returns></returns>
         public static IEnumerable<HierarchyNode<TEntity>> AsHierarchy<TEntity>(this IEnumerable<TEntity> allItems)
-            where TEntity : class, IPageModel {
+            where TEntity : class, IPage {
             return CreateHierarchy(allItems, default(TEntity), 0);
+        }
+
+        /// <summary>
+        /// Applies the current page.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        public static RouteData ApplyCurrentPage(this RouteData data, dynamic model) {
+            data.Values[PageRoute.ModelKey] = model;
+            return data;
         }
 
         /// <summary>
@@ -92,17 +103,6 @@ namespace BrickPile.UI.Common {
             data.Values[PageRoute.ControllerKey] = controllerName.Replace("Controller", "");
             data.Values[PageRoute.ActionKey] = actionName;
             data.Values[PageRoute.ModelKey] = model;
-            return data;
-        }
-
-        /// <summary>
-        /// Applies the current page.
-        /// </summary>
-        /// <param name="data">The data.</param>
-        /// <param name="content">The content.</param>
-        /// <returns></returns>
-        public static RouteData ApplyCurrentContent(this RouteData data, dynamic content) {
-            data.Values[PageRoute.Contentkey] = content;
             return data;
         }
 
@@ -127,15 +127,6 @@ namespace BrickPile.UI.Common {
             return (T) data.Values[PageRoute.ModelKey];
         }
 
-        /// <summary>
-        /// Gets the content of the current.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data">The data.</param>
-        /// <returns></returns>
-        public static T GetCurrentContent<T>(this RouteData data) {
-            return (T) data.Values[PageRoute.Contentkey];
-        }
         /// <summary>
         /// Gets the structure info.
         /// </summary>
@@ -171,7 +162,7 @@ namespace BrickPile.UI.Common {
         /// <param name="htmlHelper">The HTML helper.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, IPageModel model) {
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, IPage model) {
             return htmlHelper.ActionLink(model.Metadata.Name, model);
         }
 
@@ -182,7 +173,7 @@ namespace BrickPile.UI.Common {
         /// <param name="model">The model.</param>
         /// <param name="htmlAttributes">The HTML attributes.</param>
         /// <returns></returns>
-        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, IPageModel model, object htmlAttributes) {
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, IPage model, object htmlAttributes) {
             return htmlHelper.ActionLink(model.Metadata.Name, model, htmlAttributes);
         }
 
@@ -193,7 +184,7 @@ namespace BrickPile.UI.Common {
         /// <param name="linkText">The link text.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, IPageModel model) {
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, IPage model) {
             return htmlHelper.ActionLink(linkText, model, null);
         }
 
@@ -205,7 +196,7 @@ namespace BrickPile.UI.Common {
         /// <param name="model">The model.</param>
         /// <param name="htmlAttributes">The HTML attributes.</param>
         /// <returns></returns>
-        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, IPageModel model,
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, IPage model,
                                                object htmlAttributes) {
             return htmlHelper.ActionLink(linkText, "index", new {currentPage = model}, htmlAttributes);
         }
@@ -216,7 +207,7 @@ namespace BrickPile.UI.Common {
         /// <param name="urlHelper">The URL helper.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public static string Action(this UrlHelper urlHelper, IPageModel model) {
+        public static string Action(this UrlHelper urlHelper, IPage model) {
             return urlHelper.Action("index", new {model});
         }
         /// <summary>
@@ -226,7 +217,7 @@ namespace BrickPile.UI.Common {
         /// <param name="actionName">Name of the action.</param>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        public static string Action(this UrlHelper urlHelper, string actionName, IPageModel model) {
+        public static string Action(this UrlHelper urlHelper, string actionName, IPage model) {
             return urlHelper.Action(actionName, new {model});
         }
         /// <summary>

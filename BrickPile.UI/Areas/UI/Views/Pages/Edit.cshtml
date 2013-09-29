@@ -21,15 +21,19 @@ THE SOFTWARE. *@
 
 @model BrickPile.UI.Web.ViewModels.EditViewModel
 @using BrickPile.UI.Common
-@using Raven.Database.Linq.PrivateExtensions
+@using BrickPile.UI.Web.Mvc.Html
 
 @Html.Section(
 @<script type="text/javascript">
      (function ($) {
          // Shorthand for the application namespace
          var app = brickpile.app;
-         // Initialize the main view.
-         app.editView = new EditView();
+         // Initialize the main view.         
+         app.editView = new EditView({
+             dateformat: "@Html.ConvertDateFormat()",
+             timeformat:"@Html.ConvertTimeFormat()",
+             shorttimeformat:"@Html.ConvertShortTimeFormat()"
+         });
      })(jQuery);  
 </script>, "scripts")
 
@@ -38,7 +42,8 @@ THE SOFTWARE. *@
         <span class="text">@Model.ParentModel.Metadata.Name</span>
         <span class="left"></span>
     </a>
-} else {
+}
+else {
     <a href="@Url.Action("index", "pages", new { model = Model.RootModel })" class="btn back">
         <span class="text">@Model.RootModel.Metadata.Name</span>
         <span class="left"></span>
@@ -46,8 +51,7 @@ THE SOFTWARE. *@
 }
 
 @section PreMain {
-    @if(!ViewData.ModelState.IsValid)
-    {
+    @if (!ViewData.ModelState.IsValid) {
         <div class="alert alert-block alert-error">
             <h4>Oh snap! You got an error!</h4>
             <ul>
@@ -109,7 +113,7 @@ THE SOFTWARE. *@
                 </div>
             </div>
 
-            @Html.EditorFor(model => model.CurrentContent)
+            @Html.EditorFor(model => model.CurrentModel)
 
         </fieldset>
         <div id="button">

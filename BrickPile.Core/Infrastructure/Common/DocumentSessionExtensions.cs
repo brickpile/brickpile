@@ -34,13 +34,13 @@ namespace BrickPile.Core.Infrastructure.Common {
         /// <param name="documentSession">The document session.</param>
         /// <param name="id">The id of the current page</param>
         /// <returns></returns>
-        public static IQueryable<IPageModel> GetPublishedPages(this IDocumentSession documentSession, string id) {
+        public static IQueryable<IPage> GetPublishedPages(this IDocumentSession documentSession, string id) {
             
             if(string.IsNullOrEmpty(id)) {
                 throw new ArgumentNullException("id","cannot be null");
             }
 
-            var page = documentSession.Query<PageModel, PageModelWithParentsAndChildren>()
+            var page = documentSession.Query<Page, PageModelWithParentsAndChildren>()
                 .Include(x => x.Ancestors)
                 .Include(x => x.Children)
                 .SingleOrDefault(x => x.Id == id);
@@ -57,7 +57,7 @@ namespace BrickPile.Core.Infrastructure.Common {
                 }
             }
 
-            return documentSession.Load<IPageModel>(ids).AsQueryable();
+            return documentSession.Load<IPage>(ids).AsQueryable();
         }        
     }
 }
