@@ -837,6 +837,7 @@ fieldset label {
 }
 
 fieldset input[type=text],
+fieldset input[type=datetime],
 fieldset textarea {
     border:1px solid #b3c2cb;
     border-radius:4px;
