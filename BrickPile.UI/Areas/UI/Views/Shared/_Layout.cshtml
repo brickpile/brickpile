@@ -35,6 +35,7 @@ THE SOFTWARE. *@
             .Add(Url.Content("~/areas/ui/content/normalize.css"))
                      .Add(Url.Content("~/areas/ui/content/brickpile.css"))
                      .Add(Url.Content("~/areas/ui/content/ui-progress-bar.css"))
+                     .Add(Url.Content("~/areas/ui/content/ui-datetimepicker.css"))
                      .Render("~/areas/ui/content/brickpile.min_#.css"))
 
         <!--[if lt IE 9]>
@@ -73,6 +74,7 @@ THE SOFTWARE. *@
         @Html.Raw(Bundle.JavaScript()
                      .Add(Url.Content("~/areas/ui/scripts/jquery-1.9.1.js"))
                      .Add(Url.Content("~/areas/ui/scripts/jquery-ui-1.10.0.js"))
+                              .Add(Url.Content("~/areas/ui/scripts/jquery-ui-timepicker-addon.js"))
                               .Add(@Url.Content("~/areas/ui/scripts/underscore.js"))
                               .Add(@Url.Content("~/areas/ui/scripts/backbone.js"))
                               .Add(Url.Content("~/areas/ui/scripts/jquery.timeago.js"))
