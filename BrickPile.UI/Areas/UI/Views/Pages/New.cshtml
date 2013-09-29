@@ -35,7 +35,7 @@ THE SOFTWARE. *@
          // Initialize the main view.
          app.newpageView = new NewPageView({
               el: $('#editForm'), 
-              slugsInUse: @Html.Raw(Model.SlugsInUse),
+              slugsInUse: @(Model.SlugsInUse != null ? Html.Raw(Model.SlugsInUse) : MvcHtmlString.Create("null") ),
               dateformat: "@Html.ConvertDateFormat()",
               timeformat:"@Html.ConvertTimeFormat()",
               shorttimeformat:"@Html.ConvertShortTimeFormat()"
