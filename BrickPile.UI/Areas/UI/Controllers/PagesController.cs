@@ -59,7 +59,9 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                                     RootModel = _structureInfo.StartPage,
                                     CurrentModel = _structureInfo.CurrentPage,
                                     ParentModel = _structureInfo.ParentPage,
-                                    Children = _structureInfo.NavigationContext.Where(x => _structureInfo.CurrentPage.Children.Contains(x.Id))
+                                    Children = deleted ?
+                                        _structureInfo.NavigationContext.Where(x => _structureInfo.CurrentPage.Children.Contains(x.Id) && x.Metadata.IsDeleted) :
+                                        _structureInfo.NavigationContext.Where(x => _structureInfo.CurrentPage.Children.Contains(x.Id))
                                 };
             
             return View("Index", viewModel);
