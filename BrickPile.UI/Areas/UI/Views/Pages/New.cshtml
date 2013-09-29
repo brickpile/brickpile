@@ -20,6 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. *@
 
 @using BrickPile.UI.Common
+@using BrickPile.UI.Web.Mvc.Html
 @model BrickPile.UI.Web.ViewModels.NewPageViewModel
 
 @{
@@ -32,7 +33,13 @@ THE SOFTWARE. *@
          // Shorthand for the application namespace
          var app = brickpile.app;
          // Initialize the main view.
-         app.newpageView = new NewPageView({ el: $('#editForm'), slugsInUse: @Html.Raw(Model.SlugsInUse) });
+         app.newpageView = new NewPageView({
+              el: $('#editForm'), 
+              slugsInUse: @(Model.SlugsInUse != null ? Html.Raw(Model.SlugsInUse) : MvcHtmlString.Create("null") ),
+              dateformat: "@Html.ConvertDateFormat()",
+              timeformat:"@Html.ConvertTimeFormat()",
+              shorttimeformat:"@Html.ConvertShortTimeFormat()"
+         });
      })(jQuery);  
 </script>, "scripts")
 
@@ -100,8 +107,8 @@ THE SOFTWARE. *@
                     @Html.TextBoxFor(model => model.NewPageModel.Metadata.Name, new { @class = "title", placeholder = "My awesome page", autofocus = "autofocus" })
                 </div>
             </div>            
-            @Html.EditorFor(model => model.ContentModel)
-            @Html.HiddenFor(model => model.ContentModel.GetType().AssemblyQualifiedName)
+            @Html.EditorFor(model => model.NewPageModel)
+            @Html.HiddenFor(model => model.NewPageModel.GetType().AssemblyQualifiedName)
         </fieldset>
         <div id="button">
             <input type="submit" value="Save" class="btn btn-large" />

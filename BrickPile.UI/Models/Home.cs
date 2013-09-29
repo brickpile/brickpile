@@ -6,16 +6,17 @@ using BrickPile.UI.Web;
 
 namespace BrickPile.Samples.Models {
     [ContentType(Name = "Home", ControllerType = typeof(HomeController))]
-    public class Home : IContent {
-        [ScaffoldColumn(false)]
-        public string Id { get; set; }
+    public class Home : Page {
 
+        [Required]
         public string Heading { get; set; }
 
         [DataType(DataType.MultilineText)]
         public string MainIntro { get; set; }
 
-        [Required]
+        [DataType(DataType.Html)]
+        public string MainBody { get; set; }
+        
         public Image Image { get; set; }
     }
 }

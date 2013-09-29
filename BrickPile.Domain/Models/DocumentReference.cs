@@ -24,7 +24,7 @@ namespace BrickPile.Domain.Models {
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
-    public class DocumentReference<T> : IDocumentReference where T : IPageModel {
+    public class DocumentReference<T> : IDocumentReference where T : IPage {
         /// <summary>
         /// Get/Sets the Id of the DocumentReference
         /// </summary>

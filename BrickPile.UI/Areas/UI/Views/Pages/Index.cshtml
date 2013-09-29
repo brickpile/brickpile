@@ -81,8 +81,11 @@ THE SOFTWARE. *@
     </thead>
     <tbody>
         @if (Model.ParentModel == null && Model.RootModel != null) {
-            if (Model.RootModel.Metadata.IsDeleted) {
-                if(Request.QueryString["deleted"] != null) {
+            
+            if(Request.QueryString["deleted"] != null) {
+            
+                if (Model.RootModel.Metadata.IsDeleted) {
+
                     <tr id="@Model.RootModel.Id.Replace('/', '_')" class="deleted">
                         <td><span><i class="icon-list"></i></span></td>
                         <td class="name"><span>@Model.RootModel.Metadata.Name</span></td>
@@ -103,30 +106,31 @@ THE SOFTWARE. *@
                         </td>
                     </tr>
                 }
-            } else {
-                <tr id="@Model.RootModel.Id.Replace('/', '_')" class="ui-state-disabled home">
-                    <td><span>&nbsp;</span></td>
-                    <td class="name"><span>@Model.RootModel.Metadata.Name</span></td>
-                    <td class="slug"><span>/@Model.RootModel.Metadata.Slug</span></td>
-                    <td class="publish"><span>@Html.CheckBox(Model.RootModel.Id.Replace("/", "_"), Model.RootModel.Metadata.IsPublished, new { @class = "publish" })</span></td>
-                    <td class="changed"><span><abbr class="timeago" title="@Model.RootModel.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(Model.RootModel.Metadata.Changed.Value.ToString("f") + "</abbr> <strong>by</strong> " + Model.RootModel.Metadata.ChangedBy)</span></td>
-                    <td class="actions">
-                        <span>
-                            <span class="btn-group">
-                                <a href="@Url.Action("edit", new { model = Model.RootModel })" class="btn" title="Edit page">
-                                    <i class="icon-pencil"></i>
-                                </a>
-                                <a href="@Url.RouteUrl("Default_Pages", new RouteValueDictionary(new { currentPage = Model.RootModel }), Request.Url.Scheme, ConfigurationSettings.AppSettings["brickpile/hostname"])" class="btn" title="View page">
-                                    <i class="icon-eye-open"></i>
-                                </a>
-                                <a href="@Url.Action("delete", new { model = Model.RootModel })" class="btn delete" title="Delete page">
-                                    <i class="icon-remove"></i>
-                                </a>
+                
+                } else {
+                    <tr id="@Model.RootModel.Id.Replace('/', '_')" class="ui-state-disabled home">
+                        <td><span>&nbsp;</span></td>
+                        <td class="name"><span>@Model.RootModel.Metadata.Name</span></td>
+                        <td class="slug"><span>/@Model.RootModel.Metadata.Slug</span></td>
+                        <td class="publish"><span>@Html.CheckBox(Model.RootModel.Id.Replace("/", "_"), Model.RootModel.Metadata.IsPublished, new { @class = "publish" })</span></td>
+                        <td class="changed"><span><abbr class="timeago" title="@Model.RootModel.Metadata.Changed.Value.ToString("yyyy-MM-ddTHH:mm:ss")">@Html.Raw(Model.RootModel.Metadata.Changed.Value.ToString("f") + "</abbr> <strong>by</strong> " + Model.RootModel.Metadata.ChangedBy)</span></td>
+                        <td class="actions">
+                            <span>
+                                <span class="btn-group">
+                                    <a href="@Url.Action("edit", new { model = Model.RootModel })" class="btn" title="Edit page">
+                                        <i class="icon-pencil"></i>
+                                    </a>
+                                    <a href="@Url.RouteUrl("Default_Pages", new RouteValueDictionary(new { currentPage = Model.RootModel }), Request.Url.Scheme, ConfigurationSettings.AppSettings["brickpile/hostname"])" class="btn" title="View page">
+                                        <i class="icon-eye-open"></i>
+                                    </a>
+                                    <a href="@Url.Action("delete", new { model = Model.RootModel })" class="btn delete" title="Delete page">
+                                        <i class="icon-remove"></i>
+                                    </a>
+                                </span>
                             </span>
-                        </span>
-                    </td>
-                </tr>                    
-            }
+                        </td>
+                    </tr>                    
+                }
         }
         
         @if (Model.Children.Any()) {

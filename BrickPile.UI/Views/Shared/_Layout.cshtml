@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using BrickPile.UI.Web.Mvc.Html
+<!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -9,6 +10,11 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
+    <header>
+        <nav>
+            @Html.Menu()
+        </nav>
+    </header>
     <div>
         @RenderBody()
     </div>

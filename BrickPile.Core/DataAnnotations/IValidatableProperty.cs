@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace BrickPile.Core.DataAnnotations {
     public interface IValidatableProperty {
@@ -8,8 +8,8 @@ namespace BrickPile.Core.DataAnnotations {
         /// Validates the specified validation context.
         /// </summary>
         /// <param name="validationContext">The validation context.</param>
-        /// <param name="propertyDescriptor">The property descriptor.</param>
+        /// <param name="metadata">The metadata.</param>
         /// <returns></returns>
-        IEnumerable<ValidationResult> Validate(ValidationContext validationContext, PropertyDescriptor propertyDescriptor);
+        IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ModelMetadata metadata);
     }
 }

@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BrickPile.Domain.Models {
     /// <summary>
@@ -65,7 +66,7 @@ namespace BrickPile.Domain.Models {
         /// </summary>
         /// <value>
         /// The published.
-        /// </value>
+        /// </value>       
         DateTime Published { get; set; }
         /// <summary>
         /// Gets or sets the changed.
