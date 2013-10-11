@@ -24,7 +24,7 @@ using BrickPile.UI;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Initializer), "Start")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Initializer), "Start", Order = 2)]
 namespace BrickPile.UI {
     public static class Initializer {
         /// <summary>
@@ -32,6 +32,7 @@ namespace BrickPile.UI {
         /// </summary>
         public static void Start() {
 
+            
             //Insure that Raven is setup
             var documentStore = RavenConfig.InitializeRaven();
             //Insure that Structuremap would inject dependecies for any ASP.NET controller created
