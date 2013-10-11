@@ -19,22 +19,25 @@ namespace BrickPile.UI {
         /// <returns></returns>
         public static DocumentStore InitializeRaven()
         {
+            var store = GetStore();
+            store.RegisterListener(new StoreListener());
+            store.Initialize();
+            IndexCreation.CreateIndexes(typeof(PageByUrl).Assembly, store);
+            return store;
+        }
 
+        private static DocumentStore GetStore()
+        { 
             DocumentStore store;
             if (ObjectFactory.Model.HasDefaultImplementationFor<IDocumentStore>()) {
                 store = (DocumentStore)ObjectFactory.GetInstance(typeof(IDocumentStore));
             }
             else {
-                store = new EmbeddableDocumentStore {
-                                    DataDirectory = "~/App_Data/Raven"
-                                };
+                store = new EmbeddableDocumentStore { DataDirectory = "~/App_Data/Raven" };
                 if (ConfigurationManager.ConnectionStrings["RavenDB"] != null) {
                     store.ConnectionStringName = "RavenDB";
                 }
             }
-            store.RegisterListener(new StoreListener());
-            store.Initialize();
-            IndexCreation.CreateIndexes(typeof(PageByUrl).Assembly, store);
             return store;
         }
     }
