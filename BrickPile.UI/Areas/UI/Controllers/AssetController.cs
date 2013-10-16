@@ -204,10 +204,10 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                         }
                         else if (httpContent.Headers.ContentType.MediaType.Contains("audio")) {
                             var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
-                            file = new Video { Thumbnail = icon.GetBytes() };
+                            file = new Audio { Thumbnail = icon.GetBytes() };
                         } else {
                             var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
-                            file = new Video { Thumbnail = icon.GetBytes() };
+                            file = new Document { Thumbnail = icon.GetBytes() };
                         }
 
                         file.Name = name;
