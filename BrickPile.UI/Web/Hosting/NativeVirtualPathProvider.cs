@@ -9,7 +9,7 @@ namespace BrickPile.UI.Web.Hosting {
         /// <summary>
         /// Gets the physical path.
         /// </summary>
-        public override string PhysicalPath {
+        public string PhysicalPath {
             get { 
                 var path = ConfigurationManager.AppSettings["PhysicalPath"];
                 

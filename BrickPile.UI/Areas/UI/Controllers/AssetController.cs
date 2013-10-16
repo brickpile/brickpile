@@ -14,6 +14,7 @@ using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Web;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace BrickPile.UI.Areas.UI.Controllers {
     /// <summary>
@@ -30,22 +31,22 @@ namespace BrickPile.UI.Areas.UI.Controllers {
             var response = new AssetResponse();
 
             RavenQueryStatistics stats;
-            response.Assets = session.Query<Asset, AllAssets>()
-                .Statistics(out stats)
-                .OrderByDescending(x => x.DateUploaded)
-                .Skip(page * PageSize)
+            response.Assets = Queryable.Skip(session.Query<Asset, AllAssets>()
+                          .Statistics(out stats)
+                          .OrderByDescending(x => x.DateUploaded), page * PageSize)
                 .Take(PageSize).ToArray();
 
             response.SkippedResults = stats.SkippedResults;
             response.TotalResults = stats.TotalResults;
-
+            response.RegistredProvider = VirtualPathProviderRegistry.RegistratedProviders;
             return response;
         }
 
         public class AssetResponse {
             public int TotalResults { get; set; }
             public int SkippedResults { get; set; }
-            public IEnumerable<Asset> Assets { get; set; }  
+            public IEnumerable<Asset> Assets { get; set; }
+            public List<VirtualPathProviderRegistry.CommonProviderSettings> RegistredProvider { get; set; }
         }
 
         /// <summary>
@@ -60,66 +61,52 @@ namespace BrickPile.UI.Areas.UI.Controllers {
             var response = new AssetResponse();
 
             RavenQueryStatistics stats;
-            response.Assets = session.Query<Asset, AllAssets>()
-                .Statistics(out stats)
-                .Where(x => x.DateUploaded > DateTime.Now.AddHours(-48))
-                .OrderByDescending(x => x.DateUploaded)
-                .Skip(page * PageSize)
+            response.Assets = Queryable.Skip(session.Query<Asset, AllAssets>()
+                          .Statistics(out stats)
+                          .Where(x => x.DateUploaded > DateTime.Now.AddHours(-48))
+                          .OrderByDescending(x => x.DateUploaded), page * PageSize)
                 .Take(PageSize).ToArray();
 
             response.SkippedResults = stats.SkippedResults;
             response.TotalResults = stats.TotalResults;
-
+            response.RegistredProvider = VirtualPathProviderRegistry.RegistratedProviders;
             return response;
 
         }
+
         /// <summary>
         /// Gets the specified type.
         /// </summary>
         /// <param name="page">The page.</param>
         /// <param name="type">The type.</param>
+        /// <param name="virtualDirectory">The virtual directory </param>
         /// <returns></returns>
-        public AssetResponse Get(int page, string type) {
-            var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
-
-            var response = new AssetResponse();
-
-            RavenQueryStatistics stats;
-
+        public AssetResponse Get(int page, string type,string virtualDirectory=null) {
             switch (type) {
                 case "image":
-                    response.Assets = session.Query<Image>()
-                        .Statistics(out stats)
-                        .OrderByDescending(x => x.DateUploaded)
-                        .Skip(page * PageSize)
-                        .Take(PageSize).ToArray();
-                    break;
+                    return GetResponse<Image>(page, virtualDirectory);
                 case "video":
-                    response.Assets = session.Query<Video>()
-                        .Statistics(out stats)
-                        .OrderByDescending(x => x.DateUploaded)
-                        .Skip(page * PageSize)
-                        .Take(PageSize).ToArray();
-                    break;
+                    return GetResponse<Video>(page, virtualDirectory);
                 case "audio":
-                    response.Assets = session.Query<Audio>()
-                        .Statistics(out stats)
-                        .OrderByDescending(x => x.DateUploaded)
-                        .Skip(page * PageSize)
-                        .Take(PageSize).ToArray();
-                    break;
+                    return GetResponse<Audio>(page, virtualDirectory);
                 case "document":
-                    response.Assets = session.Query<Document>()
-                        .Statistics(out stats)
-                        .OrderByDescending(x => x.DateUploaded)
-                        .Skip(page * PageSize)
-                        .Take(PageSize).ToArray();
-                    break;
+                    return GetResponse<Document>(page, virtualDirectory);
                 default:
                     return Get(0);
             }
+        }
+        private AssetResponse GetResponse<T>(int page, string virtualDirectory) where T : Asset {
+            var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
+            var response = new AssetResponse();
+            RavenQueryStatistics stats;
+            response.Assets = Queryable.Skip(session.Query<T>()
+                .Statistics(out stats)
+                .Where(x => x.VirtualPath.StartsWith(virtualDirectory, StringComparison.InvariantCultureIgnoreCase))
+                .OrderByDescending(x => x.DateUploaded), page * PageSize)
+                .Take(PageSize).ToArray();
             response.SkippedResults = stats.SkippedResults;
             response.TotalResults = stats.TotalResults;
+            response.RegistredProvider = VirtualPathProviderRegistry.RegistratedProviders;
             return response;
         }
 
@@ -142,8 +129,9 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// <summary>
         /// Posts this instance.
         /// </summary>
+        /// <param name="virtualDirectoryPath"></param>
         /// <returns></returns>
-        public Task<IEnumerable<Asset>> Post() {
+        public Task<IEnumerable<Asset>> Post(string virtualDirectoryPath=null) {
 
             if (!Request.Content.IsMimeMultipartContent()) {
 
@@ -156,9 +144,8 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 
                     var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
 
-                    var virtualPathProvider = HostingEnvironment.VirtualPathProvider as CommonVirtualPathProvider;
 
-                    if (t.IsFaulted || t.IsCanceled || virtualPathProvider == null) {
+                    if (t.IsFaulted || t.IsCanceled) {
                         throw new HttpResponseException(HttpStatusCode.InternalServerError);
                     }
 
@@ -169,7 +156,12 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                         var length = stream.Length;
 
                         // Get root directory of the current virtual path provider
-                        var virtualDirectory = virtualPathProvider.GetDirectory(virtualPathProvider.VirtualPathRoot) as CommonVirtualDirectory;
+                        //TODO Backward compability if virtualDirectoryPath is not posted, remove this after
+                        virtualDirectoryPath = virtualDirectoryPath ??
+                                               VirtualPathProviderRegistry.RegistratedProviders[0].VirtualPathRoot;
+
+
+                        var virtualDirectory = HostingEnvironment.VirtualPathProvider.GetDirectory(virtualDirectoryPath) as CommonVirtualDirectory;
 
                         if (virtualDirectory == null) {
                             throw new HttpResponseException(HttpStatusCode.InternalServerError);

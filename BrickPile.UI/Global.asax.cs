@@ -14,9 +14,15 @@ namespace BrickPile.Samples {
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
-            HostingEnvironment.RegisterVirtualPathProvider(new NativeVirtualPathProvider());
-
+            BrickPile.Core.Hosting.VirtualPathProviderRegistry.RegisterProvider(new NativeVirtualPathProvider(), "Static");
+            BrickPile.Core.Hosting.VirtualPathProviderRegistry.RegisterProvider(new NativeVirtualPathProvider(), "Static2");
+            //BrickPile.Core.Hosting.VirtualPathProviderRegistry.RegisterProvider(new DropboxVirtualPathProvider(),"Dropbox");
+            ////HostingEnvironment.RegisterVirtualPathProvider(new DropboxVirtualPathProvider());
+            ////HostingEnvironment.RegisterVirtualPathProvider(new NativeVirtualPathProvider());
+            //new DropboxSync().SetupScheduler(new Settings {
+            //    DocumentIcon = "~/areas/ui/content/images/document.png",
+            //    IntervalInSeconds = 10
+            //});
         }
     }
 }

@@ -95,6 +95,7 @@
     <Compile Include="Hosting\CommonVirtualPathProvider.cs" />
     <Compile Include="Hosting\CommonVirtualDirectory.cs" />
     <Compile Include="Hosting\CommonVirtualFile.cs" />
+    <Compile Include="Hosting\VirtualPathProviderRegistry.cs" />
     <Compile Include="Infrastructure\Common\DocumentSessionExtensions.cs" />
     <Compile Include="Infrastructure\Indexes\AllAssets.cs" />
     <Compile Include="Infrastructure\Indexes\AllPages.cs" />
@@ -111,6 +112,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
