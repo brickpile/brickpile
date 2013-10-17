@@ -14,8 +14,8 @@ namespace BrickPile.Samples {
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BrickPile.Core.Hosting.VirtualPathProviderRegistry.RegisterProvider(new NativeVirtualPathProvider(), "Static");
-            BrickPile.Core.Hosting.VirtualPathProviderRegistry.RegisterProvider(new NativeVirtualPathProvider(), "Static2");
+            BrickPile.Core.Hosting.VirtualPathProviderRegistry.RegisterProvider(new NativeVirtualPathProvider(), "Static one");
+            BrickPile.Core.Hosting.VirtualPathProviderRegistry.RegisterProvider(new NativeVirtualPathProvider("~/static2"), "Static two");
             //BrickPile.Core.Hosting.VirtualPathProviderRegistry.RegisterProvider(new DropboxVirtualPathProvider(),"Dropbox");
             ////HostingEnvironment.RegisterVirtualPathProvider(new DropboxVirtualPathProvider());
             ////HostingEnvironment.RegisterVirtualPathProvider(new NativeVirtualPathProvider());

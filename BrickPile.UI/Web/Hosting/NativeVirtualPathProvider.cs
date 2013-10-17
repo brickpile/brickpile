@@ -6,6 +6,12 @@ using BrickPile.Core.Hosting;
 
 namespace BrickPile.UI.Web.Hosting {
     public class NativeVirtualPathProvider : CommonVirtualPathProvider {
+        public NativeVirtualPathProvider() {
+
+        }
+        public NativeVirtualPathProvider(string virtualPathRoot) {
+            _virtualPathRoot = virtualPathRoot;
+        }
         /// <summary>
         /// Gets the physical path.
         /// </summary>
@@ -21,12 +27,21 @@ namespace BrickPile.UI.Web.Hosting {
                 return path;
             }
         }
+
         /// <summary>
         /// Gets the virtual path root.
         /// </summary>
         public override string VirtualPathRoot {
-            get { return VirtualPathUtility.AppendTrailingSlash(VirtualPathUtility.ToAbsolute(ConfigurationManager.AppSettings["VirtualPathRoot"])); }
+            get {
+                return
+                    VirtualPathUtility.AppendTrailingSlash(
+                        VirtualPathUtility.ToAbsolute(_virtualPathRoot ??
+                                                      ConfigurationManager.AppSettings["VirtualPathRoot"]
+                            ));
+            }
         }
+
+        private string _virtualPathRoot;
         /// <summary>
         /// Gets a value that indicates whether a file exists in the virtual file system.
         /// </summary>
