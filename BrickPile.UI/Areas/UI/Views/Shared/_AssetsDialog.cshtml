@@ -6,6 +6,8 @@
     @<script id="view-template-virtual-file-dialog" type="text/html">
          <div id="asset-dialog">
              <div id="asset-dialog-header" class="modal-header">
+                 <select id="provider-selector">
+                 </select>
                  <button class="btn" type="button"><i class="icon-download-alt"></i> Add new asset</button>
                  <h1>Select an asset...</h1>
              </div>
@@ -68,5 +70,11 @@
              <div class="ui-progress"></div>
          </div>
          <% } %>
+     </script>,
+    @<script id="view-template-available-vpps" type="text/html">
+        <option value="">All</option>
+        <% _.each(items, function(item) { %>
+            <option value="<%=item.VirtualPathRoot%>"><%=item.FriendlyName%></option>
+        <% }); %>
      </script>,
      "templates")

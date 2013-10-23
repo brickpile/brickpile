@@ -28,7 +28,7 @@ var NewAssetDialogView = Backbone.View.extend({
     currentView: null,
     totalFiles: 0,
     totalSizeUploaded: 0,
-
+    selectedProvider: '',
     close: function () {
 
         $(this.el).fadeOut('fast', function () {
@@ -59,7 +59,7 @@ var NewAssetDialogView = Backbone.View.extend({
                 return xhr;
             },
             type: "POST",
-            url: "/api/asset",
+            url: "/api/asset?virtualDirectoryPath=" + self.selectedProvider,
             contentType: false,
             processData: false,
             data: formData,
@@ -155,6 +155,7 @@ var NewAssetDialogView = Backbone.View.extend({
         var self = this;
 
         this.maxRequestLength = options.maxRequestLength;
+        this.selectedProvider = options.selectedProvider;
 
         this.template = _.template($('#view-template-new-asset-dialog').html());
 

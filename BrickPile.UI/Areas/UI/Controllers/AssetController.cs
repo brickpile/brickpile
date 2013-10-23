@@ -24,7 +24,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
     public class AssetController : ApiController {
         private const int PageSize = 50;
 
-        public AssetResponse Get(int page) {
+        public AssetResponse Get(int page, string virtualDirectory = null) {
             
             var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
 
@@ -34,6 +34,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
             response.Assets = Queryable.Skip(session.Query<Asset, AllAssets>()
                           .Statistics(out stats)
                           .OrderByDescending(x => x.DateUploaded), page * PageSize)
+                          .Where(x => x.VirtualPath.StartsWith(virtualDirectory, StringComparison.InvariantCultureIgnoreCase))
                 .Take(PageSize).ToArray();
 
             response.SkippedResults = stats.SkippedResults;
@@ -55,7 +56,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// <param name="recent">The recent.</param>
         /// <param name="page">The page.</param>
         /// <returns></returns>
-        public AssetResponse Get(int page, int recent) {
+        public AssetResponse Get(int page, int recent, string virtualDirectory = null) {
             var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
 
             var response = new AssetResponse();
@@ -64,6 +65,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
             response.Assets = Queryable.Skip(session.Query<Asset, AllAssets>()
                           .Statistics(out stats)
                           .Where(x => x.DateUploaded > DateTime.Now.AddHours(-48))
+                          .Where(x => x.VirtualPath.StartsWith(virtualDirectory, StringComparison.InvariantCultureIgnoreCase))
                           .OrderByDescending(x => x.DateUploaded), page * PageSize)
                 .Take(PageSize).ToArray();
 
