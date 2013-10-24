@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System.Diagnostics;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.UI;
@@ -41,7 +42,8 @@ namespace BrickPile.UI {
 
             RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             RouteTable.Routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
-            RouteTable.Routes.IgnoreRoute("static/{*pathInfo}");
+            RouteTable.Routes.IgnoreRoute("static1/{*pathInfo}");
+            RouteTable.Routes.IgnoreRoute("static2/{*pathInfo}");
 
             ControllerBuilder.Current.SetControllerFactory(typeof(BrickPileControllerFactory));
 
