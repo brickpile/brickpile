@@ -132,8 +132,9 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// Posts this instance.
         /// </summary>
         /// <param name="virtualDirectoryPath">Directory where file should be created</param>
+        /// <param name="overwrite"></param>
         /// <returns></returns>
-        public Task<IEnumerable<Asset>> Post(string virtualDirectoryPath=null) {
+        public Task<IEnumerable<Asset>> Post(string virtualDirectoryPath=null,bool overwrite=false) {
             return UploadFile(virtualDirectoryPath, false);
         }
         /// <summary>
@@ -165,7 +166,6 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                     var name = !string.IsNullOrWhiteSpace(httpContent.Headers.ContentDisposition.FileName)
                                        ? httpContent.Headers.ContentDisposition.FileName
                                        : "NoName";
-
                     // Clean up the name
                     name = name.Replace("\"", string.Empty);
 
@@ -186,7 +186,6 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                             Content = new StringContent(name)
                         });
                     }
-
                     // Create the file in current directory
                     CommonVirtualFile virtualFile;
                     if (oldAsset == null)
@@ -209,7 +208,6 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                     session.SaveChanges();
                     return file;
                 });
-
                 return asset;
             });
 
@@ -243,6 +241,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                 file = new Audio {Thumbnail = icon.GetBytes()};
             }
             else {
+    
                 var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
                 file = new Document {Thumbnail = icon.GetBytes()};
             }

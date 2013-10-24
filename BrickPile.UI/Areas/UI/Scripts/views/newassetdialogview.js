@@ -116,8 +116,6 @@ var NewAssetDialogView = Backbone.View.extend({
                     });
 
                 })();
-
-
             }
         });
     },
