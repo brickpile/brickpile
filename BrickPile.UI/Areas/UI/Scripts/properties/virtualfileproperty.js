@@ -114,6 +114,7 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         this.collection.page = 0;
         this.collection.query = 'virtualDirectory=' + this.selectedProvider;
         this.reloadResults(ev);
+        
     },
     recent: function(ev) {
         this.collection.page = 0;
@@ -171,7 +172,7 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         return false;
     },
     select: function (model) {
-        this.currentSelectedModel = model;
+        currentSelectedModel = model;
     },
     initialize: function (options) {
         console.log('init');
@@ -188,6 +189,7 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         app.bind('select', this.select, this);
         app.bind('brickpile:asset-deleted', this.assetDeleted, this);
         app.bind('brickpile:asset-uploaded', this.assetUploaded, this);
+        app.bind('brickpile:asset-error', this.assetError, this);
         //this.collection.on('reset', this.render, this);
     },
     render: function () {
@@ -200,11 +202,8 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         // one request at a time
         this.isLoading = false;
         
-        //this.loadResults();
-        
         $(this.el).find('.nano').debounce("scrollend", function() {
             // check if we are at the last page
-            //if((parseInt(self.collection.page)+1) >= self.totalPages) return;
             self.collection.page += 1; // Load next page
             self.loadResults();
             
@@ -220,7 +219,7 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
             }
         });
         //Select the all directory
-        $(this.el).find('#directories li a.all').addClass("selected");
+        //$(this.el).find('#directories li a.all').addClass("selected");
 
         var handler = function (response) {
             self.$el.find('#provider-selector').html(_.template($('#view-template-available-vpps').html(),
@@ -264,10 +263,12 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
     reloadResults: function (ev) {
         
         $(this.el).find('#files ul').empty();
-        $(this.el).find('#directories li a').removeClass("selected");
-        if(ev) {
-            $(ev.target).addClass("selected");
-        }
+        
+        //$(this.el).find('#directories li a').removeClass("selected");
+        //if(ev) {
+        //    $(ev.target).addClass("selected");
+        //}
+        
         this.loadResults();
     },
     loadResults: function () {
@@ -297,12 +298,15 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         // Update the scroll bar
         $(this.el).find('.nano').nanoScroller();
     },
+    assetError: function() {
+        
+    },
     updateStatus: function () {
         $(this.el).find('.modal-footer span').html('Viewing ' + $("#files li").size() + ' files of ' + this.totalResults);
     },
     selectProvider: function (e) {
         this.selectedProvider = $(e.target).val();
-        this.all(e);
+        this.all(null);
     }
 });
 

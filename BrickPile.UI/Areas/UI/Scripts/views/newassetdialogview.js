@@ -29,6 +29,7 @@ var NewAssetDialogView = Backbone.View.extend({
     totalFiles: 0,
     totalSizeUploaded: 0,
     selectedProvider: '',
+    currentView: null,
     close: function () {
 
         $(this.el).fadeOut('fast', function () {
@@ -53,9 +54,16 @@ var NewAssetDialogView = Backbone.View.extend({
                 $('.ui-progress').css('display', 'block');
 
                 xhr.upload.addEventListener("progress", function (ev) {
-                    self.handleProgress(ev);
-                }, false);
 
+                   
+                    if (xhr.status === 409) {
+                        xhr.abort();
+                    }
+                    
+                    self.handleProgress(ev);
+                    
+                }, false);
+                
                 return xhr;
             },
             type: "POST",
@@ -94,8 +102,12 @@ var NewAssetDialogView = Backbone.View.extend({
 
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
+
+                $(self.currentView.el).append('<a href="#">Overwrite...</a>');
+                
+                //console.log(xhr);
+                //alert(xhr.status);
+                //alert(thrownError);
             }
         });
     },
@@ -118,26 +130,27 @@ var NewAssetDialogView = Backbone.View.extend({
     },
 
     processFiles: function (files) {
+        var self = this;
         if (!files || !files.length || this.list.length) return;
 
         this.totalSize = 0;
         this.totalProgress = 0;
 
         for (var i = 0; i < files.length; i++) {
-
-            var view = new DroppedFileView({
+            
+             self.currentView = new DroppedFileView({
                 model: new DroppedFile({
                     name: files[i].name,
                     size: files[i].size,
                     fileSize: bytesToSize(files[i].size)
                 })
             });
-            $('#droparea ul').append(view.render().$el);
+            $('#droparea ul').append(self.currentView.render().$el);
 
             if (files[i].size < this.maxRequestLength) {
 
                 this.list.push(files[i]);
-                this.views.push(view);
+                this.views.push(self.currentView);
                 this.totalSize += files[i].size;
                 this.totalFiles++;
                 this.totalSizeUploaded += files[i].size;
