@@ -153,6 +153,14 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 
                     var asset = t.Result.Contents.Select(httpContent =>
                     {
+
+                        if(httpContent.Headers.ContentDisposition.FileName == "\"draft.jpg\"") {
+                            throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Conflict)
+                            {
+                                Content = new StringContent("draft.jpg")
+                            });
+                        }
+
                         // Read the stream
                         var stream = httpContent.ReadAsStreamAsync().Result;
                         var length = stream.Length;
