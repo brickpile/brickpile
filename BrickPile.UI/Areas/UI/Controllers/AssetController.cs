@@ -132,8 +132,9 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// Posts this instance.
         /// </summary>
         /// <param name="virtualDirectoryPath"></param>
+        /// <param name="overwrite"></param>
         /// <returns></returns>
-        public Task<IEnumerable<Asset>> Post(string virtualDirectoryPath=null) {
+        public Task<IEnumerable<Asset>> Post(string virtualDirectoryPath=null,bool overwrite=false) {
 
             if (!Request.Content.IsMimeMultipartContent()) {
 
@@ -153,30 +154,6 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 
                     var asset = t.Result.Contents.Select(httpContent =>
                     {
-
-                        if(httpContent.Headers.ContentDisposition.FileName == "\"draft.jpg\"") {
-                            throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Conflict)
-                            {
-                                Content = new StringContent("draft.jpg")
-                            });
-                        }
-
-                        // Read the stream
-                        var stream = httpContent.ReadAsStreamAsync().Result;
-                        var length = stream.Length;
-
-                        // Get root directory of the current virtual path provider
-                        //TODO Backward compability if virtualDirectoryPath is not posted, remove this after
-                        virtualDirectoryPath = virtualDirectoryPath ??
-                                               VirtualPathProviderRegistry.RegistratedProviders[0].VirtualPathRoot;
-
-
-                        var virtualDirectory = HostingEnvironment.VirtualPathProvider.GetDirectory(virtualDirectoryPath) as CommonVirtualDirectory;
-
-                        if (virtualDirectory == null) {
-                            throw new HttpResponseException(HttpStatusCode.InternalServerError);
-                        }
-
                         // Set the name and if not present add some bogus name
                         var name = !string.IsNullOrWhiteSpace(httpContent.Headers.ContentDisposition.FileName)
                                            ? httpContent.Headers.ContentDisposition.FileName
@@ -185,51 +162,35 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                         // Clean up the name
                         name = name.Replace("\"", string.Empty);
 
-                        // Create a new name for the file stored in the vpp
-                        var uniqueFileName = Guid.NewGuid().ToString("n");
-                        
+                        var virtualDirectory = GetVirtualDirectory(virtualDirectoryPath);
+
+                        var filePath = VirtualPathUtility.Combine(virtualDirectory.VirtualPath, name);
+                        var oldAsset = session.Query<Asset, AllAssets>().FirstOrDefault(x => x.VirtualPath.Equals(filePath));
+
+                        if (oldAsset != null && !overwrite) {
+                            throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Conflict)
+                            {
+                                Content = new StringContent(name)
+                            });
+                        }
                         // Create the file in current directory
-                        var virtualFile = virtualDirectory.CreateFile(string.Format("{0}{1}",uniqueFileName, VirtualPathUtility.GetExtension(name)));
-
-                        // Write the file to the current storage
-                        using (var s = virtualFile.Open(FileMode.Create)) {
-                            var bytesInStream = new byte[stream.Length];
-                            stream.Read(bytesInStream, 0, bytesInStream.Length);
-                            s.Write(bytesInStream, 0, bytesInStream.Length);
-                        }
-
-                        Asset file;
-                        if (httpContent.Headers.ContentType.MediaType.Contains("image")) {
-                            file = new Image();
-                            using (var image = System.Drawing.Image.FromStream(stream, false, false)) {
-                                ((Image)file).Width = image.Width;
-                                ((Image)file).Height = image.Height;
+                        CommonVirtualFile virtualFile;
+                        if (oldAsset == null)
+                            virtualFile = virtualDirectory.CreateFile(name);
+                        else {
+                            virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(filePath) as CommonVirtualFile;
+                            if (virtualFile == null) {
+                                throw new HttpRequestException("Physical file does not exists but in raven index");
                             }
-                            var mediumThumbnail = new WebImage(stream).Resize(111, 101).Crop(1, 1);
-                            file.Thumbnail = mediumThumbnail.GetBytes();
                         }
-                        else if (httpContent.Headers.ContentType.MediaType.Contains("video")) {
-                            var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
-                            file = new Video { Thumbnail = icon.GetBytes() };
+                        // Read the stream
+                        var stream = httpContent.ReadAsStreamAsync().Result;
+                        var file = StoreFile(virtualFile, httpContent.Headers.ContentType.MediaType, stream);
+                        if (oldAsset != null) {
+                            session.Delete(oldAsset);
                         }
-                        else if (httpContent.Headers.ContentType.MediaType.Contains("audio")) {
-                            var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
-                            file = new Audio { Thumbnail = icon.GetBytes() };
-                        } else {
-                            var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
-                            file = new Document { Thumbnail = icon.GetBytes() };
-                        }
-
-                        file.Name = name;
-                        file.ContentType = httpContent.Headers.ContentType.MediaType;
-                        file.ContentLength = length;
-                        file.DateUploaded = DateTime.Now;
-                        file.VirtualPath = virtualFile.VirtualPath;
-                        file.Url = virtualFile.Url;
-
                         session.Store(file);
                         session.SaveChanges();
-
                         return file;
                     });
 
@@ -237,6 +198,67 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                 });
             
             return task;
+        }
+
+        private Asset StoreFile(CommonVirtualFile virtualFile, string mediaType, Stream stream) {
+            // Write the file to the current storage
+            var length = stream.Length;
+            using (var s = virtualFile.Open(FileMode.Create))
+            {
+                var bytesInStream = new byte[stream.Length];
+                stream.Read(bytesInStream, 0, bytesInStream.Length);
+                s.Write(bytesInStream, 0, bytesInStream.Length);
+            }
+            Asset file;
+            if (mediaType.Contains("image"))
+            {
+                file = new Image();
+                using (var image = System.Drawing.Image.FromStream(stream, false, false))
+                {
+                    ((Image)file).Width = image.Width;
+                    ((Image)file).Height = image.Height;
+                }
+                var mediumThumbnail = new WebImage(stream).Resize(111, 101).Crop(1, 1);
+                file.Thumbnail = mediumThumbnail.GetBytes();
+            }
+            else if (mediaType.Contains("video"))
+            {
+                var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
+                file = new Video { Thumbnail = icon.GetBytes() };
+            }
+            else if (mediaType.Contains("audio"))
+            {
+                var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
+                file = new Audio { Thumbnail = icon.GetBytes() };
+            }
+            else
+            {
+                var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
+                file = new Document { Thumbnail = icon.GetBytes() };
+            }
+
+            file.Name = virtualFile.Name;
+            file.ContentType = mediaType;
+            file.ContentLength = length;
+            file.DateUploaded = DateTime.Now;
+            file.VirtualPath = virtualFile.VirtualPath;
+            file.Url = virtualFile.Url;
+
+            return file;
+        }
+
+
+        private CommonVirtualDirectory GetVirtualDirectory(string virtualDirectoryPath) {
+            virtualDirectoryPath = virtualDirectoryPath ??
+                                   VirtualPathProviderRegistry.RegistratedProviders[0].VirtualPathRoot;
+
+            var virtualDirectory =
+                HostingEnvironment.VirtualPathProvider.GetDirectory(virtualDirectoryPath) as CommonVirtualDirectory;
+
+            if (virtualDirectory == null) {
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
+            return virtualDirectory;
         }
     }
 }
