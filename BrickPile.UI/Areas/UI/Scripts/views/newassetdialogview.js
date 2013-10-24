@@ -29,7 +29,6 @@ var NewAssetDialogView = Backbone.View.extend({
     totalFiles: 0,
     totalSizeUploaded: 0,
     selectedProvider: '',
-    currentView: null,
     close: function () {
 
         $(this.el).fadeOut('fast', function () {
@@ -40,7 +39,7 @@ var NewAssetDialogView = Backbone.View.extend({
 
     },
 
-    uploadFile: function (file) {
+    uploadFile: function (file,update) {
         var self = this;
 
         // prepare FormData
@@ -66,7 +65,7 @@ var NewAssetDialogView = Backbone.View.extend({
                 
                 return xhr;
             },
-            type: "POST",
+            type: update ? "PUT":"POST",
             url: "/api/asset?virtualDirectoryPath=" + self.selectedProvider,
             contentType: false,
             processData: false,
@@ -102,12 +101,23 @@ var NewAssetDialogView = Backbone.View.extend({
 
             },
             error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status != 409) {
+                    console.log(xhr);
+                    alert(xhr.status + " " + thrownError);
+                    return;
+                }
 
-                $(self.currentView.el).append('<a href="#">Overwrite...</a>');
-                
-                //console.log(xhr);
-                //alert(xhr.status);
-                //alert(thrownError);
+                var anchor = $(self.currentView.el).append('<a href="#">Overwrite...</a>');
+                (function() {
+                    var myFile = file;
+                    anchor.click(function () {
+                        self.uploadFile(myFile, true);
+                        anchor.remove();
+                    });
+
+                })();
+
+
             }
         });
     },

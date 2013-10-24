@@ -120,10 +120,10 @@ namespace BrickPile.UI.Areas.UI.Controllers {
             var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
             var item = session.Load<Asset>(id);
 
-            var asset = virtualPathProvider.GetFile(item.VirtualPath) as CommonVirtualFile;
+            var virtualFile = virtualPathProvider.GetFile(item.VirtualPath) as CommonVirtualFile;
 
-            if(asset != null) {
-                asset.Delete();
+            if (virtualFile != null) {
+                virtualFile.Delete();
             }
             session.Delete(item);
             session.SaveChanges();
@@ -131,112 +131,148 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// <summary>
         /// Posts this instance.
         /// </summary>
-        /// <param name="virtualDirectoryPath"></param>
+        /// <param name="virtualDirectoryPath">Directory where file should be created</param>
         /// <returns></returns>
         public Task<IEnumerable<Asset>> Post(string virtualDirectoryPath=null) {
+            return UploadFile(virtualDirectoryPath, false);
+        }
+        /// <summary>
+        /// Updates existing file
+        /// </summary>
+        /// <param name="virtualDirectoryPath">directory where file is located</param>
+        /// <returns></returns>
+        public Task<IEnumerable<Asset>> Put(string virtualDirectoryPath = null) {
+            return UploadFile(virtualDirectoryPath, true);
+        }
 
-            if (!Request.Content.IsMimeMultipartContent()) {
-
+        private Task<IEnumerable<Asset>> UploadFile(string virtualDirectoryPath, bool overwrite) {
+            if (!Request.Content.IsMimeMultipartContent()){
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotAcceptable, "This request is not properly formatted"));
-
             }
 
             var task = Request.Content.ReadAsMultipartAsync(new MultipartMemoryStreamProvider()).ContinueWith(t =>
+            {
+
+                var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
+
+                if (t.IsFaulted || t.IsCanceled) {
+                    throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                }
+
+                var asset = t.Result.Contents.Select(httpContent =>
                 {
+                    // Set the name and if not present add some bogus name
+                    var name = !string.IsNullOrWhiteSpace(httpContent.Headers.ContentDisposition.FileName)
+                                       ? httpContent.Headers.ContentDisposition.FileName
+                                       : "NoName";
 
-                    var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
+                    // Clean up the name
+                    name = name.Replace("\"", string.Empty);
 
+                    var virtualDirectory = GetVirtualDirectory(virtualDirectoryPath);
 
-                    if (t.IsFaulted || t.IsCanceled) {
-                        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                    var filePath = VirtualPathUtility.Combine(virtualDirectory.VirtualPath, name);
+                    var oldAsset = session.Query<Asset, AllAssets>().FirstOrDefault(x => x.VirtualPath.Equals(filePath));
+
+                    if (oldAsset != null && !overwrite) {
+                        throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Conflict)
+                        {
+                            Content = new StringContent(name)
+                        });
+                    }
+                    if (oldAsset == null && overwrite) {
+                        throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound)
+                        {
+                            Content = new StringContent(name)
+                        });
                     }
 
-                    var asset = t.Result.Contents.Select(httpContent =>
+                    // Create the file in current directory
+                    CommonVirtualFile virtualFile;
+                    if (oldAsset == null)
+                        virtualFile = virtualDirectory.CreateFile(name);
+                    else
                     {
-
-                        if(httpContent.Headers.ContentDisposition.FileName == "\"draft.jpg\"") {
-                            throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Conflict)
-                            {
-                                Content = new StringContent("draft.jpg")
-                            });
+                        virtualFile = HostingEnvironment.VirtualPathProvider.GetFile(filePath) as CommonVirtualFile;
+                        if (virtualFile == null)
+                        {
+                            throw new HttpRequestException("Physical file does not exists but in raven index");
                         }
-
-                        // Read the stream
-                        var stream = httpContent.ReadAsStreamAsync().Result;
-                        var length = stream.Length;
-
-                        // Get root directory of the current virtual path provider
-                        //TODO Backward compability if virtualDirectoryPath is not posted, remove this after
-                        virtualDirectoryPath = virtualDirectoryPath ??
-                                               VirtualPathProviderRegistry.RegistratedProviders[0].VirtualPathRoot;
-
-
-                        var virtualDirectory = HostingEnvironment.VirtualPathProvider.GetDirectory(virtualDirectoryPath) as CommonVirtualDirectory;
-
-                        if (virtualDirectory == null) {
-                            throw new HttpResponseException(HttpStatusCode.InternalServerError);
-                        }
-
-                        // Set the name and if not present add some bogus name
-                        var name = !string.IsNullOrWhiteSpace(httpContent.Headers.ContentDisposition.FileName)
-                                           ? httpContent.Headers.ContentDisposition.FileName
-                                           : "NoName";
-
-                        // Clean up the name
-                        name = name.Replace("\"", string.Empty);
-
-                        // Create a new name for the file stored in the vpp
-                        var uniqueFileName = Guid.NewGuid().ToString("n");
-                        
-                        // Create the file in current directory
-                        var virtualFile = virtualDirectory.CreateFile(string.Format("{0}{1}",uniqueFileName, VirtualPathUtility.GetExtension(name)));
-
-                        // Write the file to the current storage
-                        using (var s = virtualFile.Open(FileMode.Create)) {
-                            var bytesInStream = new byte[stream.Length];
-                            stream.Read(bytesInStream, 0, bytesInStream.Length);
-                            s.Write(bytesInStream, 0, bytesInStream.Length);
-                        }
-
-                        Asset file;
-                        if (httpContent.Headers.ContentType.MediaType.Contains("image")) {
-                            file = new Image();
-                            using (var image = System.Drawing.Image.FromStream(stream, false, false)) {
-                                ((Image)file).Width = image.Width;
-                                ((Image)file).Height = image.Height;
-                            }
-                            var mediumThumbnail = new WebImage(stream).Resize(111, 101).Crop(1, 1);
-                            file.Thumbnail = mediumThumbnail.GetBytes();
-                        }
-                        else if (httpContent.Headers.ContentType.MediaType.Contains("video")) {
-                            var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
-                            file = new Video { Thumbnail = icon.GetBytes() };
-                        }
-                        else if (httpContent.Headers.ContentType.MediaType.Contains("audio")) {
-                            var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
-                            file = new Audio { Thumbnail = icon.GetBytes() };
-                        } else {
-                            var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
-                            file = new Document { Thumbnail = icon.GetBytes() };
-                        }
-
-                        file.Name = name;
-                        file.ContentType = httpContent.Headers.ContentType.MediaType;
-                        file.ContentLength = length;
-                        file.DateUploaded = DateTime.Now;
-                        file.VirtualPath = virtualFile.VirtualPath;
-                        file.Url = virtualFile.Url;
-
-                        session.Store(file);
-                        session.SaveChanges();
-
-                        return file;
-                    });
-
-                    return asset;
+                    }
+                    // Read the stream
+                    var stream = httpContent.ReadAsStreamAsync().Result;
+                    var file = StoreFile(virtualFile, httpContent.Headers.ContentType.MediaType, stream);
+                    if (oldAsset != null) {
+                        session.Delete(oldAsset);
+                    }
+                    session.Store(file);
+                    session.SaveChanges();
+                    return file;
                 });
-            
+
+                return asset;
+            });
+
             return task;
+        }
+
+        private Asset StoreFile(CommonVirtualFile virtualFile, string mediaType, Stream stream) {
+            // Write the file to the current storage
+            var length = stream.Length;
+            using (var s = virtualFile.Open(FileMode.Create)) {
+                var bytesInStream = new byte[stream.Length];
+                stream.Read(bytesInStream, 0, bytesInStream.Length);
+                s.Write(bytesInStream, 0, bytesInStream.Length);
+            }
+            Asset file;
+            if (mediaType.Contains("image")) {
+                file = new Image();
+                using (var image = System.Drawing.Image.FromStream(stream, false, false)) {
+                    ((Image) file).Width = image.Width;
+                    ((Image) file).Height = image.Height;
+                }
+                var mediumThumbnail = new WebImage(stream).Resize(111, 101).Crop(1, 1);
+                file.Thumbnail = mediumThumbnail.GetBytes();
+            }
+            else if (mediaType.Contains("video")) {
+                var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
+                file = new Video {Thumbnail = icon.GetBytes()};
+            }
+            else if (mediaType.Contains("audio")) {
+                var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
+                file = new Audio {Thumbnail = icon.GetBytes()};
+            }
+            else {
+                var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
+                file = new Document {Thumbnail = icon.GetBytes()};
+            }
+
+            file.Name = virtualFile.Name;
+            file.ContentType = mediaType;
+            file.ContentLength = length;
+            file.DateUploaded = DateTime.Now;
+            file.VirtualPath = virtualFile.VirtualPath;
+            file.Url = virtualFile.Url;
+
+            return file;
+        }
+
+        /// <summary>
+        /// Gets the CommonVirtualDirectory from virtualDirectory path. If virtualDirectoryPath is ommited return root of default provider
+        /// </summary>
+        /// <param name="virtualDirectoryPath">VirtualPath</param>
+        /// <returns></returns>
+        private CommonVirtualDirectory GetVirtualDirectory(string virtualDirectoryPath) {
+            virtualDirectoryPath = virtualDirectoryPath ??
+                                   VirtualPathProviderRegistry.RegistratedProviders[0].VirtualPathRoot;
+
+            var virtualDirectory =
+                HostingEnvironment.VirtualPathProvider.GetDirectory(virtualDirectoryPath) as CommonVirtualDirectory;
+
+            if (virtualDirectory == null) {
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
+            return virtualDirectory;
         }
     }
 }
