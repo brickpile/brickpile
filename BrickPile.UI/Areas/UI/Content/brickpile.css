@@ -937,6 +937,7 @@ span.select {
 .selectBox-dropdown:focus {
     background:#fff;
     box-shadow:1px 1px 1px rgba(0,0,0,.1) inset;
+    outline: none;
 }
 
 .selectBox-dropdown.selectBox-menuShowing {
