@@ -22,16 +22,20 @@ THE SOFTWARE. */
 // ----------
 
 var VirtualFile = Backbone.Model.extend({
-    Id:null,
-    ContentType:null,
+    Id: null,
+    ContentType: null,
     ContentLength: null,
     Name: null,
     DateUploaded: null,
     VirtualPath: null,
     Url: null,
-    Thumbnail:null,
-    Width:null,
-    Height:null
+    Thumbnail: null,
+    Width: null,
+    Height: null,
+    idAttribute: "Id",
+    url: function () {
+        return '/api/asset/?id=' + this.id;
+    },
 });
 
 var DroppedFile = Backbone.Model.extend({
@@ -44,7 +48,6 @@ var DroppedFileView = Backbone.View.extend({
     template: _.template($('#view-template-dropped-file').html()),
     progress: function(percentComplete) {
         this.$el.find('.ui-progress').animateProgress((percentComplete * 100), function () { }, 2000);
-        //this.$el.find('.percentCompleted').text( Math.round(percentComplete * 100) + '%');
     },
     initialize: function() {
         this.bind('brickpile:upload-progress', this.progress, this);
@@ -73,11 +76,19 @@ var VirtualFileCollection = Backbone.Collection.extend({
     model: VirtualFile,
     page: 0,
     parse: function (response) {
-        console.log('fetching...');
         this.skippedResults = response.SkippedResults;
         this.totalResults = response.TotalResults;
         this.registredProvider = response.RegistredProvider;
         return response.Assets;
+    },
+    comparator: function (a, b) {
+        a = a.get('DateUploaded');
+        b = b.get('DateUploaded');
+        if (a > b)
+            return -1;
+        if (a < b)
+            return 1;
+        return 0;
     }
 });
 
@@ -95,6 +106,7 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
     totalResults:null,
     skippedResults: null,
     selectedProvider: '',
+    nrOfFiles: 0,
     events: {
         'click a.all': 'all',
         'click a.recent': 'recent',
@@ -110,46 +122,75 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
 
         "change #provider-selector": "selectProvider"
     },
-    all: function(ev) {
+    all: function (ev) {
+        var self = this;
         this.collection.page = 0;
         this.collection.query = 'virtualDirectory=' + this.selectedProvider;
-        this.reloadResults(ev);
-        
+        this.collection.fetch({
+            success: function() {
+                self.updateStatus();
+            }
+        });
     },
-    recent: function(ev) {
+    recent: function (ev) {
+        var self = this;
         this.collection.page = 0;
         this.collection.query = 'recent=1&virtualDirectory=' + this.selectedProvider;
-        this.reloadResults(ev);
+        this.collection.fetch({
+            success: function () {
+                self.updateStatus();
+            }
+        });
     },
-    images: function(ev) {
+    images: function (ev) {
+        var self = this;
         this.collection.page = 0;
         this.collection.query = 'type=image&virtualDirectory=' + this.selectedProvider;
-        this.reloadResults(ev);
+        this.collection.fetch({
+            success: function () {
+                self.updateStatus();
+            }
+        });
     },
-    videos: function(ev) {
+    videos: function (ev) {
+        var self = this;
         this.collection.page = 0;
         this.collection.query = 'type=video&virtualDirectory=' + this.selectedProvider;
-        this.reloadResults(ev);
+        this.collection.fetch({
+            success: function () {
+                self.updateStatus();
+            }
+        });
     },
-    audios: function(ev) {
+    audios: function (ev) {
+        var self = this;
         this.collection.page = 0;
         this.collection.query = 'type=audio&virtualDirectory=' + this.selectedProvider;
-        this.reloadResults(ev);        
+        this.collection.fetch({
+            success: function () {
+                self.updateStatus();
+            }
+        });
     },
-    documents: function(ev) {
+    documents: function (ev) {
+        var self = this;
         this.collection.page = 0;
         this.collection.query = 'type=document&virtualDirectory=' + this.selectedProvider;
-        this.reloadResults(ev);
+        this.collection.fetch({
+            success: function () {
+                self.updateStatus();
+            }
+        });
     },
     addAsset: function (ev) {
         var self = this;
         if ($('#droparea').length > 0) return false;
         ev.preventDefault();
         ev.stopPropagation();
-        console.log(self.selectedProvider);
         var modal = new NewAssetDialogView({
             maxRequestLength: self.maxRequestLength,
-            selectedProvider: self.selectedProvider
+            selectedProvider: self.selectedProvider,
+            collection: self.collection
         });
         this.$el.find('#asset-dialog').append(modal.render().el);
     },
@@ -175,12 +216,16 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         currentSelectedModel = model;
     },
     initialize: function (options) {
-        console.log('init');
+
+        var self = this;
 
         this.template = _.template($('#view-template-virtual-file-dialog').html());
 
         // set max request length
         this.maxRequestLength = options.maxRequestLength;
+
+        this.isLoading = false;
+        this.collection = new VirtualFileCollection();
         
         // Shorthand for the application namespace
         var app = brickpile.app;
@@ -189,25 +234,35 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         app.bind('select', this.select, this);
         app.bind('brickpile:asset-deleted', this.assetDeleted, this);
         app.bind('brickpile:asset-uploaded', this.assetUploaded, this);
-        app.bind('brickpile:asset-error', this.assetError, this);
-        //this.collection.on('reset', this.render, this);
+       
+        this.collection.on('sort', function (e) {
+            self.renderResults();
+        }, this);
+
     },
     render: function () {
-        console.log('render');
+
         var self = this;
         
         this.$el.html(this.template());
         
-        // isLoading is a useful flag to make sure we don't send off more than
-        // one request at a time
-        this.isLoading = false;
-        
         $(this.el).find('.nano').debounce("scrollend", function() {
             // check if we are at the last page
-            self.collection.page += 1; // Load next page
-            self.loadResults();
             
-        },500);
+            if (self.isLoading || self.collection.page >= Math.round((parseInt(self.collection.totalResults) / 50))) {
+                return;
+            }
+            self.collection.page += 1; // Load next page
+            self.isLoading = true;
+            self.collection.fetch({
+                remove: false,
+                success: function () {
+                    self.isLoading = false;
+                }
+            });
+            
+        }, 500);
+        
         // Add the backdrop
         if ($('.modal-backdrop').length < 1) {
             $('body').append('<div class="modal-backdrop"></div>');
@@ -218,29 +273,27 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
                 self.cancelAndClose();
             }
         });
-        //Select the all directory
-        //$(this.el).find('#directories li a.all').addClass("selected");
-
-        var handler = function (response) {
-            self.$el.find('#provider-selector').html(_.template($('#view-template-available-vpps').html(),
-            {
-                items: response.registredProvider
-            }));
-
-            self.renderResults(response);
-        };
+        
+        self.isLoading = true;
 
         self.collection.fetch({
-            success: handler
+            success: function () {                
+                var t = _.template($('#view-template-available-vpps').html());
+                self.$el.find('#provider-selector').html(t({ 'items': self.collection.registredProvider }));
+                self.$el.find('#provider-selector').selectBox();
+                self.isLoading = false;
+            }    
         });
         
         return this;
     },
-    renderResults: function (response) {
-        
+    renderResults: function () {
+
         var self = this;
-        
-        $.each(response.models, function (index, file) {
+
+        $(self.el).find('#files ul').empty();
+
+        $.each(this.collection.models, function (index, file) {
             var fileview = new VirtualFileView({
                 model: file,
                 inputUrl: self.$el.find('input:hidden.url'),
@@ -250,59 +303,59 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
             $(self.el).find('#files ul').append(fileview.render().$el);
         });
         
-        // Now we have finished loading set isLoading back to false
-        self.isLoading = false;
-        self.totalResults = self.collection.totalResults;
-        self.skippedResults = self.collection.skippedResults;
-        self.totalPages = Math.round((parseInt(self.collection.totalResults) / 50));
+        self.updateStatus();        
+    },
+    appendResults: function (file) {
+        var self = this;
+        
+        var fileview = new VirtualFileView({
+            model: file,
+            inputUrl: self.$el.find('input:hidden.url'),
+            inputVirtualUrl: self.$el.find('input:hidden.virtualUrl'),
+            thumbnail: self.$el.find('.centerbox img'),
+        });
+        
+        $(self.el).find('#files ul').append(fileview.render().$el);
+        
         self.updateStatus();
-        // Update the scroll bar
-        $(self.el).find('.nano').nanoScroller();
-        
+
     },
-    reloadResults: function (ev) {
-        
-        $(this.el).find('#files ul').empty();
-        
-        //$(this.el).find('#directories li a').removeClass("selected");
-        //if(ev) {
-        //    $(ev.target).addClass("selected");
-        //}
-        
-        this.loadResults();
+    prependResults: function (file) {
+
+        var self = this;
+
+        var fileview = new VirtualFileView({
+            model: file,
+            inputUrl: self.$el.find('input:hidden.url'),
+            inputVirtualUrl: self.$el.find('input:hidden.virtualUrl'),
+            thumbnail: self.$el.find('.centerbox img'),
+        });
+
+        $(self.el).find('#files ul').prepend(fileview.render().$el);
+
+        self.updateStatus();
     },
-    loadResults: function () {
+
+    assetUploaded: function (file) {        
+        this.collection.fetch({ remove: false });
+        this.collection.totalResults++;
+        this.updateStatus();        
+    },
+    assetDeleted: function () {
+        this.collection.totalResults--;
+        this.updateStatus();
+    },
+    updateStatus: function () {
         
         var self = this;
         
-        // we are starting a new load of results so set isLoading to true
-        this.isLoading = true;
-        
-        // fetch is Backbone.js native function for calling and parsing the collection url
-        this.collection.fetch({
-            success: function(response) {
-                self.renderResults(response);
-            }               
-        });
-        
-    },
-    assetUploaded: function () {
-        this.totalResults++;
-        this.updateStatus();
-        // Update the scroll bar
-        $(this.el).find('.nano').nanoScroller();
-    },
-    assetDeleted: function () {
-        this.totalResults--;
-        this.updateStatus();
-        // Update the scroll bar
-        $(this.el).find('.nano').nanoScroller();
-    },
-    assetError: function() {
-        
-    },
-    updateStatus: function () {
-        $(this.el).find('.modal-footer span').html('Viewing ' + $("#files li").size() + ' files of ' + this.totalResults);
+        self.totalResults = self.collection.totalResults;
+        self.skippedResults = self.collection.skippedResults;
+        self.totalPages = Math.round((parseInt(self.collection.totalResults) / 50));
+        self.nrOfFiles = $("#files li").size();
+
+        $(this.el).find('.modal-footer span').html('Viewing ' + self.nrOfFiles + ' files of ' + self.totalResults);
+        $(self.el).find('.nano').nanoScroller();
     },
     selectProvider: function (e) {
         this.selectedProvider = $(e.target).val();
@@ -321,15 +374,12 @@ var VirtualFilePropertyView = Backbone.View.extend({
     },
     open: function (e) {
         e.preventDefault();
-        var coll = new VirtualFileCollection();
         var view = new VirtualFileSelectorModalView(
             {
-                collection: coll,
                 maxRequestLength: this.maxRequestLength
             });
         this.$el.append(view.render().el);
         view.bind('brickpile:close-assets', this.close, this);
-        //coll.fetch();
     },
     close: function (model) {
         this.$el.find('input:hidden.id').val(model.get('Id'));
@@ -376,38 +426,29 @@ var VirtualFileView = Backbone.View.extend({
         app.trigger('select', this.model);
     },
     remove: function () {
-        var self = this;
-        var data = this.model.get('Id');
         this.model.destroy({
-            success:function () {
-                    $.ajax({
-                        type: "DELETE",
-                        url: "/api/asset/?id=" + data,
-                        success: function () {
-                            // Shorthand for the application namespace
-                            var app = brickpile.app;
-                            // Trigger asset delete event
-                            app.trigger('brickpile:asset-deleted');
-                            self.$el.fadeOut('fast', function() {
-                                $(this).remove();
-                            });
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status);
-                            alert(thrownError);
-                        }
-                    });
+            success: function() {
+            // Shorthand for the application namespace
+            var app = brickpile.app;
+            // Trigger asset delete event
+            app.trigger('brickpile:asset-deleted');
             }
         });
         return false;
     },
     initialize: function () {
+        var self = this;
         this.$el.hoverIntent(
             function (e) {
                 $(e.currentTarget).find('button.delete').fadeIn('fast');
         },  function (e) {
                 $(e.currentTarget).find('button.delete').fadeOut('fast');
         });
+
+        this.model.bind("change", this.render, this);
+        this.model.bind("remove", function() {
+            self.$el.remove();
+        } , this);
     },
     render: function () {
         this.$el.html(this.template(this.model.toJSON()));
@@ -422,24 +463,24 @@ function bytesToSize(bytes) {
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[[i]];
 };
 
- (function($) {
-  function debounce(callback, delay) {
-    var self = this, timeout, _arguments;
-    return function() {
-      _arguments = Array.prototype.slice.call(arguments, 0),
-      timeout = clearTimeout(timeout, _arguments),
-      timeout = setTimeout(function() {
-        callback.apply(self, _arguments);
-        timeout = 0;
-      }, delay);
+(function ($) {
+    function debounce(callback, delay) {
+        var self = this, timeout, _arguments;
+        return function () {
+            _arguments = Array.prototype.slice.call(arguments, 0),
+            timeout = clearTimeout(timeout, _arguments),
+            timeout = setTimeout(function () {
+                callback.apply(self, _arguments);
+                timeout = 0;
+            }, delay);
 
-      return this;
-    };
-  }
-
-  $.extend($.fn, {
-    debounce: function(event, callback, delay) {
-      this.bind(event, debounce.apply(this, [callback, delay]));
+            return this;
+        };
     }
-  });
+
+    $.extend($.fn, {
+        debounce: function (event, callback, delay) {
+            this.bind(event, debounce.apply(this, [callback, delay]));
+        }
+    });
 })(jQuery);
