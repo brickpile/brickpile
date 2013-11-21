@@ -57,6 +57,8 @@ var NewAssetDialogView = Backbone.View.extend({
 
                    
                     if (xhr.status === 409) {
+                        console.log('adding class');
+                        
                         xhr.abort();
                     }
                     
@@ -94,12 +96,20 @@ var NewAssetDialogView = Backbone.View.extend({
                     return;
                 }
 
-                var button = $(self.currentView.el).append('<button>Overwrite...</button>');
+
+                
+                var $button = $('<button>Overwrite...</button>');
+                $(self.currentView.el).append($button);
+                $('.ui-progress-bar').addClass('warning');
+                $('.ui-progress').css('width','100%');
                 (function() {
                     var myFile = file;
-                    button.click(function () {
+                    $button.click(function (e) {
+                        e.preventDefault();
+                        $('.ui-progress-bar').removeClass('warning');
+                        $('.ui-progress').css('width', '0');
                         self.uploadFile(myFile, true);
-                        button.remove();
+                        $button.remove();
                     });
 
                 })();
