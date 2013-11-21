@@ -29,6 +29,7 @@ var NewAssetDialogView = Backbone.View.extend({
     totalFiles: 0,
     totalSizeUploaded: 0,
     selectedProvider: '',
+    collection: null,
     close: function () {
 
         $(this.el).fadeOut('fast', function () {
@@ -70,31 +71,17 @@ var NewAssetDialogView = Backbone.View.extend({
             contentType: false,
             processData: false,
             data: formData,
-            success: function (res) {
-
+            success: function (res, xhr) {
+                
                 var item = res[0];
-
-                var fileview = new VirtualFileView({
-                    model: new VirtualFile({
-                        Id: item.Id,
-                        ContentType: item.ContentType,
-                        ContentLength: item.ContentLength,
-                        Name: item.Name,
-                        DateUploaded: item.DateUploaded,
-                        VirtualPath: item.VirtualPath,
-                        Url: item.Url,
-                        Thumbnail: item.Thumbnail,
-                        Width: item.Width,
-                        Height: item.Height
-                    })
-                });
-
-                $('#files > ul').prepend(fileview.render().$el);
+                
+                var virtualFile = new VirtualFile(item);
+                //self.collection.unshift(virtualFile);
 
                 // Shorthand for the application namespace
                 var app = brickpile.app;
                 // Trigger asset delete event
-                app.trigger('brickpile:asset-uploaded');
+                app.trigger('brickpile:asset-uploaded', virtualFile);
                 
                 self.totalProgress += file.size;
                 self.uploadNext();
@@ -107,12 +94,12 @@ var NewAssetDialogView = Backbone.View.extend({
                     return;
                 }
 
-                var anchor = $(self.currentView.el).append('<a href="#">Overwrite...</a>');
+                var button = $(self.currentView.el).append('<button>Overwrite...</button>');
                 (function() {
                     var myFile = file;
-                    anchor.click(function () {
+                    button.click(function () {
                         self.uploadFile(myFile, true);
-                        anchor.remove();
+                        button.remove();
                     });
 
                 })();
@@ -136,7 +123,7 @@ var NewAssetDialogView = Backbone.View.extend({
             this.currentView.trigger('brickpile:upload-progress', progress);
         }
     },
-
+    
     processFiles: function (files) {
         var self = this;
         if (!files || !files.length || this.list.length) return;
@@ -177,6 +164,7 @@ var NewAssetDialogView = Backbone.View.extend({
 
         this.maxRequestLength = options.maxRequestLength;
         this.selectedProvider = options.selectedProvider;
+        this.collection = options.collection;
 
         this.template = _.template($('#view-template-new-asset-dialog').html());
 
