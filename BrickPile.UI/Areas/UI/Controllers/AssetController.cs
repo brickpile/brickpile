@@ -32,9 +32,9 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 
             RavenQueryStatistics stats;
             response.Assets = Queryable.Skip(session.Query<Asset, AllAssets>()
-                          .Statistics(out stats)
-                          .OrderByDescending(x => x.DateUploaded), page * PageSize)
-                          .Where(x => x.VirtualPath.StartsWith(virtualDirectory, StringComparison.InvariantCultureIgnoreCase))
+                .Statistics(out stats)
+                .OrderByDescending(x => x.DateUploaded), page * PageSize)
+                .Where(x => x.VirtualPath.StartsWith(virtualDirectory, StringComparison.InvariantCultureIgnoreCase))
                 .Take(PageSize).ToArray();
 
             response.SkippedResults = stats.SkippedResults;
@@ -53,8 +53,9 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// <summary>
         /// Gets the specified recent.
         /// </summary>
-        /// <param name="recent">The recent.</param>
         /// <param name="page">The page.</param>
+        /// <param name="recent">The recent.</param>
+        /// <param name="virtualDirectory">The virtual directory.</param>
         /// <returns></returns>
         public AssetResponse Get(int page, int recent, string virtualDirectory = null) {
             var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
@@ -81,9 +82,9 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// </summary>
         /// <param name="page">The page.</param>
         /// <param name="type">The type.</param>
-        /// <param name="virtualDirectory">The virtual directory </param>
+        /// <param name="virtualDirectory">The virtual directory</param>
         /// <returns></returns>
-        public AssetResponse Get(int page, string type,string virtualDirectory=null) {
+        public AssetResponse Get(int page, string type, string virtualDirectory=null) {
             switch (type) {
                 case "image":
                     return GetResponse<Image>(page, virtualDirectory);
@@ -134,7 +135,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// <param name="virtualDirectoryPath">Directory where file should be created</param>
         /// <param name="overwrite"></param>
         /// <returns></returns>
-        public Task<IEnumerable<Asset>> Post(string virtualDirectoryPath=null,bool overwrite=false) {
+        public Task<IEnumerable<Asset>> Post(string virtualDirectoryPath=null, bool overwrite=false) {
             return UploadFile(virtualDirectoryPath, false);
         }
         /// <summary>
@@ -202,9 +203,15 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                     var stream = httpContent.ReadAsStreamAsync().Result;
                     var file = StoreFile(virtualFile, httpContent.Headers.ContentType.MediaType, stream);
                     if (oldAsset != null) {
+
                         session.Delete(oldAsset);
+                        session.SaveChanges();                       
+                        session.Store(file, oldAsset.Id);
                     }
-                    session.Store(file);
+                    else {
+                        session.Store(file);
+                    }
+                    
                     session.SaveChanges();
                     return file;
                 });
