@@ -40,7 +40,7 @@ var NewAssetDialogView = Backbone.View.extend({
 
     },
 
-    uploadFile: function (file,update) {
+    uploadFile: function(file, update) {
         var self = this;
 
         // prepare FormData
@@ -48,35 +48,32 @@ var NewAssetDialogView = Backbone.View.extend({
         formData.append(file.name, file);
 
         $.ajax({
-            xhr: function () {
+            xhr: function() {
                 var xhr = new window.XMLHttpRequest();
 
                 $('.ui-progress').css('display', 'block');
 
-                xhr.upload.addEventListener("progress", function (ev) {
-
-                   
-                    if (xhr.status === 409) {
-                        console.log('adding class');
-                        
-                        xhr.abort();
+                xhr.onreadystatechange = function(ev) {
+                    if (ev.currentTarget.status === 409) {
+                        ev.currentTarget.abort();
                     }
-                    
+                };
+
+                xhr.upload.addEventListener("progress", function(ev) {
                     self.handleProgress(ev);
-                    
                 }, false);
-                
+
                 return xhr;
             },
-            type: update ? "PUT":"POST",
+            type: update ? "PUT" : "POST",
             url: "/api/asset?virtualDirectoryPath=" + self.selectedProvider,
             contentType: false,
             processData: false,
             data: formData,
-            success: function (res, xhr) {
-                
+            success: function(res, xhr) {
+
                 var item = res[0];
-                
+
                 var virtualFile = new VirtualFile(item);
                 //self.collection.unshift(virtualFile);
 
@@ -84,27 +81,25 @@ var NewAssetDialogView = Backbone.View.extend({
                 var app = brickpile.app;
                 // Trigger asset delete event
                 app.trigger('brickpile:asset-uploaded', virtualFile);
-                
+
                 self.totalProgress += file.size;
                 self.uploadNext();
 
             },
-            error: function (xhr, ajaxOptions, thrownError) {
+            error: function(xhr, ajaxOptions, thrownError) {
                 if (xhr.status != 409) {
                     console.log(xhr);
                     alert(xhr.status + " " + thrownError);
                     return;
                 }
 
-
-                
                 var $button = $('<button>Overwrite...</button>');
                 $(self.currentView.el).append($button);
                 $('.ui-progress-bar').addClass('warning');
-                $('.ui-progress').css('width','100%');
+                $('.ui-progress').css('width', '100%');
                 (function() {
                     var myFile = file;
-                    $button.click(function (e) {
+                    $button.click(function(e) {
                         e.preventDefault();
                         $('.ui-progress-bar').removeClass('warning');
                         $('.ui-progress').css('width', '0');
@@ -116,7 +111,6 @@ var NewAssetDialogView = Backbone.View.extend({
             }
         });
     },
-
     uploadNext: function () {
         if (this.list.length) {
             var nextFile = this.list.shift();
@@ -129,7 +123,7 @@ var NewAssetDialogView = Backbone.View.extend({
 
     handleProgress: function (ev) {
         if (ev.lengthComputable) {
-            var progress = ev.loaded / ev.total;
+            var progress = Math.ceil(ev.loaded / ev.total) * 100;
             this.currentView.trigger('brickpile:upload-progress', progress);
         }
     },

@@ -47,7 +47,7 @@ var DroppedFileView = Backbone.View.extend({
     tagName: 'li',
     template: _.template($('#view-template-dropped-file').html()),
     progress: function(percentComplete) {
-        this.$el.find('.ui-progress').animateProgress((percentComplete * 100), function () { }, 2000);
+        this.$el.find('.ui-progress').animateProgress((percentComplete), function () { }, 2000);
     },
     initialize: function() {
         this.bind('brickpile:upload-progress', this.progress, this);
