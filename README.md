@@ -10,7 +10,7 @@
 ###Getting Installed
 Installing BrickPile is simply the act of writing a single PowerShell command inside the package manager console.
 
-  PM> Install-Package BrickPile -Pre
+  PM> Install-Package BrickPile
 
 **And that's basically it.** Of course you need an empty ASP.NET MVC 4 web application.
 
