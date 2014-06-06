@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>BrickPile</id>
+		<version>0.1.0.0</version>
+    <title>BrickPile</title>
+    <summary>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4</summary>
+		<authors>Marcus Lindblom</authors>
+		<owners>Marcus Lindblom</owners>
+    <licenseUrl>https://github.com/kloojed/BrickPile/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>http://www.getbrickpile.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 4</description>
+		<tags>brickpile cms ravendb mvc nosql</tags>
+    <dependencies>
+      <dependency id="RavenDB.Embedded" version="2.5.2700" />
+      <dependency id="structuremap" version="2.6.4.1" />
+      <dependency id="WebActivatorEX" version="2.0.1" />
+      <dependency id="SquishIt" version="0.9.2" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="BrickPile.UI\bin\BrickPile.Core.dll" target="lib\net40" />
+    <file src="BrickPile.UI\bin\BrickPile.Domain.dll" target="lib\net40" />
+    <file src="BrickPile.UI\bin\BrickPile.UI.dll" target="lib\net40" />
+    <file src="BrickPile.UI\Areas\UI\Views\**\*.*" target="content\Areas\UI\Views" />
+    <file src="BrickPile.UI\Areas\UI\Scripts\**\*.*" target="content\Areas\UI\Scripts" />
+    <file src="BrickPile.UI\Areas\UI\Styles\**\*.*" target="content\Areas\UI\Styles" />
+    <file src="BrickPile.UI\Areas\UI\Images\**\*.*" target="content\Areas\UI\Images" />
+    <file src="BrickPile.UI\Areas\UI\Content\**\*.*" target="content\Areas\UI\Content" />
+    <file src="web.config.transform" target="content\" />
+  </files>    
+</package>
