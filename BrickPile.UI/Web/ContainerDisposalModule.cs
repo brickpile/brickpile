@@ -21,6 +21,7 @@ THE SOFTWARE. */
 using System;
 using System.Web;
 using StructureMap;
+using StructureMap.Web.Pipeline;
 
 namespace BrickPile.UI.Web {
     class ContainerDisposalModule : IHttpModule {
@@ -38,7 +39,7 @@ namespace BrickPile.UI.Web {
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void Application_EndRequest(object sender, EventArgs e) {
             // Make sure to dispose RavenDB session if created on this web request
-            ObjectFactory.ReleaseAndDisposeAllHttpScopedObjects();
+            HttpContextLifecycle.DisposeAndClearAll();
         }
         /// <summary>
         /// Disposes of the resources (other than memory) used by the module that implements <see cref="T:System.Web.IHttpModule"/>.

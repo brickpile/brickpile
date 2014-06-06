@@ -7,6 +7,8 @@ using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
 using Raven.Client;
 using StructureMap;
+using StructureMap.Graph;
+using StructureMap.Web;
 
 namespace BrickPile.UI {
     /// <summary>
@@ -27,11 +29,8 @@ namespace BrickPile.UI {
 
                 x.For<IDocumentSession>()
                     .HybridHttpOrThreadLocalScoped()
-                    .Use(y =>
-                    {
-                        var store = y.GetInstance<IDocumentStore>();
-                        return store.OpenSession();
-                    });
+                    .Use(container => container.GetInstance<IDocumentStore>().OpenSession());
+
 
                 x.For<IVirtualPathResolver>().Use<VirtualPathResolver>();
 
