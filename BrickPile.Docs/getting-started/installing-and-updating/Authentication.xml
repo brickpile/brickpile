@@ -1,3 +1,0 @@
-﻿<authentication mode="Forms">
-  <forms loginUrl="~/ui/account" timeout="2880" />
-</authentication>
