@@ -13,13 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		web.config.transform = web.config.transform
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{40034A3F-D988-4072-85DA-F50AD614181B}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPile.Core", "BrickPile.Core\BrickPile.Core.csproj", "{6D6BC9A5-DA23-402F-AFED-6B72BF8EAD58}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPile.Domain", "BrickPile.Domain\BrickPile.Domain.csproj", "{827F415E-59D8-4F6A-B47A-1F345A790F5E}"
