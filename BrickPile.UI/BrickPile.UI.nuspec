@@ -20,14 +20,14 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="BrickPile.UI\bin\BrickPile.Core.dll" target="lib\net40" />
-    <file src="BrickPile.UI\bin\BrickPile.Domain.dll" target="lib\net40" />
-    <file src="BrickPile.UI\bin\BrickPile.UI.dll" target="lib\net40" />
-    <file src="BrickPile.UI\Areas\UI\Views\**\*.*" target="content\Areas\UI\Views" />
-    <file src="BrickPile.UI\Areas\UI\Scripts\**\*.*" target="content\Areas\UI\Scripts" />
-    <file src="BrickPile.UI\Areas\UI\Styles\**\*.*" target="content\Areas\UI\Styles" />
-    <file src="BrickPile.UI\Areas\UI\Images\**\*.*" target="content\Areas\UI\Images" />
-    <file src="BrickPile.UI\Areas\UI\Content\**\*.*" target="content\Areas\UI\Content" />
-    <file src="web.config.transform" target="content\" />
+    <file src="bin\BrickPile.Core.dll" target="lib\net40" />
+    <file src="bin\BrickPile.Domain.dll" target="lib\net40" />
+    <file src="bin\BrickPile.UI.dll" target="lib\net40" />
+    <file src="Areas\UI\Views\**\*.*" target="content\Areas\UI\Views" />
+    <file src="Areas\UI\Scripts\**\*.*" target="content\Areas\UI\Scripts" />
+    <file src="Areas\UI\Styles\**\*.*" target="content\Areas\UI\Styles" />
+    <file src="Areas\UI\Images\**\*.*" target="content\Areas\UI\Images" />
+    <file src="Areas\UI\Content\**\*.*" target="content\Areas\UI\Content" />
+    <file src="..\web.config.transform" target="content\" />
   </files>    
 </package>
