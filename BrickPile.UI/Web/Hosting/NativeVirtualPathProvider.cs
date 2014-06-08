@@ -15,7 +15,8 @@ namespace BrickPile.UI.Web.Hosting {
                 
                 // If specified path starts with "~"; make it relative to the server map path.
                 if (!string.IsNullOrEmpty(path) && path.StartsWith("~")) {
-                    path = HttpContext.Current.Server.MapPath(path);
+                    path = HostingEnvironment.MapPath(path);
+
                 }
                 
                 return path;

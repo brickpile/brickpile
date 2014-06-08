@@ -18,26 +18,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
+using BrickPile.Core;
 using BrickPile.UI;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
+using StructureMap;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Initializer), "Start")]
 namespace BrickPile.UI {
     public static class Initializer {
+
+        private static IBrickPileBootstrapper _brickPileBootstrapper;
+        private static bool _initialized;
+
         /// <summary>
         /// Initializer for BrickPile
         /// </summary>
         public static void Start() {
 
-            //Insure that Raven is setup
-            var documentStore = RavenConfig.InitializeRaven();
-            //Insure that Structuremap would inject dependecies for any ASP.NET controller created
-            var container = StructureMapConfig.InitializeStructureMap(documentStore);
+            // Initialize BrickPile using IBrickPileBootstrapper
+            Initialize();
+            
+            // Configure StructureMap
+            StructureMapConfig.ConfigureStructureMap();
 
-            DependencyResolver.SetResolver(new StructureMapDependencyResolver(container));
+            //Insure that Structuremap would inject dependecies for any ASP.NET controller created
+            DependencyResolver.SetResolver(new StructureMapDependencyResolver(ObjectFactory.Container));
 
             RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             RouteTable.Routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
@@ -58,6 +68,35 @@ namespace BrickPile.UI {
 
             ModelValidatorProviders.Providers.Add(new ContentTypeMetadataValidatorProvider());
             ModelMetadataProviders.Current = new MetadataProvider();
+        }
+
+        private static void Initialize()
+        {
+            if (_initialized)
+            {
+                throw new Exception("Unexpected second call to PreStart");
+            }
+
+            _initialized = true;
+
+            // Get the first non-abstract implementation of IBrickPileBootstrapper if one exists in the
+            // app domain. If none exist then just use the default one.
+            var bootstrapperInterface = typeof(IBrickPileBootstrapper);
+            var defaultBootstrapper = typeof(DefaultBrickPileBootstrapper);
+
+            var locatedBootstrappers =
+                from asm in AppDomain.CurrentDomain.GetAssemblies() // TODO ignore known assemblies like m$ and such
+                from type in asm.GetTypes()
+                where bootstrapperInterface.IsAssignableFrom(type)
+                where !type.IsInterface
+                where type != defaultBootstrapper
+                select type;
+
+            var bootStrapperType = locatedBootstrappers.FirstOrDefault() ?? defaultBootstrapper;
+
+            _brickPileBootstrapper = (IBrickPileBootstrapper)Activator.CreateInstance(bootStrapperType);
+
+            _brickPileBootstrapper.Initialise();
         }
     }
 }

@@ -5,10 +5,8 @@ using BrickPile.Domain.Models;
 using BrickPile.UI.Common;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;
-using Raven.Client;
 using StructureMap;
 using StructureMap.Graph;
-using StructureMap.Web;
 
 namespace BrickPile.UI {
     /// <summary>
@@ -18,19 +16,11 @@ namespace BrickPile.UI {
         /// <summary>
         /// Initializes the structure map.
         /// </summary>
-        /// <param name="documentStore">The document store.</param>
         /// <returns></returns>
-        public static IContainer InitializeStructureMap(IDocumentStore documentStore) {
+        public static void ConfigureStructureMap() {
 
-            ObjectFactory.Initialize(x =>
+            ObjectFactory.Configure(x =>
             {
-
-                x.For<IDocumentStore>().Use(documentStore);
-
-                x.For<IDocumentSession>()
-                    .HybridHttpOrThreadLocalScoped()
-                    .Use(container => container.GetInstance<IDocumentStore>().OpenSession());
-
 
                 x.For<IVirtualPathResolver>().Use<VirtualPathResolver>();
 
@@ -43,6 +33,12 @@ namespace BrickPile.UI {
                 x.Scan(scanner =>
                 {
                     scanner.AssembliesFromApplicationBaseDirectory();
+                    scanner.ExcludeNamespace("System");
+                    scanner.ExcludeNamespace("Microsoft");
+                    scanner.ExcludeNamespace("WebActivatorEx");
+                    scanner.ExcludeNamespace("Newtonsoft");
+                    scanner.ExcludeNamespace("Raven");
+                    scanner.WithDefaultConventions();
                     scanner.Convention<ContentTypeRegistrationConvetion>();
                 });
 
@@ -51,8 +47,6 @@ namespace BrickPile.UI {
                 x.For<IStructureInfo>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.GetStructureInfo()));
 
             });
-
-            return ObjectFactory.Container;
             
         }
     }
