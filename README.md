@@ -1,4 +1,4 @@
-#BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 5.
+#BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 5. [![NuGet Version](http://img.shields.io/nuget/v/BrickPile.svg?style=flat)](https://www.nuget.org/packages/BrickPile/) [![NuGet Downloads](http://img.shields.io/nuget/dt/BrickPile.svg?style=flat)](https://www.nuget.org/packages/BrickPile/)
 
 ## Requirements
 ### Brace yourself, BrickPile makes the following demands:
