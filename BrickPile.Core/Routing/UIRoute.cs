@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using BrickPile.Domain.Models;
-using BrickPile.UI.Common;
+using BrickPile.Core.Extensions;
 using StructureMap;
 
-namespace BrickPile.UI.Web.Routing {
+namespace BrickPile.Core.Routing {
     /// <summary>
     /// 
     /// </summary>
@@ -17,14 +15,15 @@ namespace BrickPile.UI.Web.Routing {
         private readonly RouteValueDictionary _constraints;
         private readonly RouteValueDictionary _dataTokens;
         private readonly IRouteHandler _routeHandler;
-        public const string ControllerKey = "controller";
+        //public const string ControllerKey = "controller";
         /// <summary>
         /// Gets the path resolver.
         /// </summary>
-        protected IPathResolver PathResolver {
-            get { return _pathResolver ?? (_pathResolver = ObjectFactory.GetInstance<IPathResolver>()); }
+        protected IRouteResolver PathResolver {
+            get { return _pathResolver ?? (_pathResolver = ObjectFactory.GetInstance<IRouteResolver>()); }
         }
-        private IPathResolver _pathResolver;
+        private IRouteResolver _pathResolver;
+
         /// <summary>
         /// Gets the virtual path resolver.
         /// </summary>
@@ -32,24 +31,7 @@ namespace BrickPile.UI.Web.Routing {
             get { return _virtualPathResolver ?? (_virtualPathResolver = ObjectFactory.GetInstance<IVirtualPathResolver>()); }
         }
         private IVirtualPathResolver _virtualPathResolver;
-        /// <summary>
-        /// Gets the model key.
-        /// </summary>
-        public static string ModelKey {
-            get { return "model"; }
-        }
-        /// <summary>
-        /// Gets the action key.
-        /// </summary>
-        public static string ActionKey {
-            get { return "action"; }
-        }
-        /// <summary>
-        /// Gets the default action.
-        /// </summary>
-        public static string DefaultAction {
-            get { return "index"; }
-        }
+
         /// <summary>
         /// Gets the default controller.
         /// </summary>
@@ -64,7 +46,7 @@ namespace BrickPile.UI.Web.Routing {
         /// </summary>
         /// <returns>The name of the area to associate the route with.</returns>
         public string Area {
-            get { return "ui"; }
+            get { return "UI"; }
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="UIRoute"/> class.
@@ -130,27 +112,21 @@ namespace BrickPile.UI.Web.Routing {
             // get the virtual path of the request
             var virtualPath = httpContext.Request.CurrentExecutionFilePath;
 
-            var routeData = new RouteData(this, _routeHandler);
-            
-            foreach (var defaultPair in this._defaults)
-                routeData.Values[defaultPair.Key] = defaultPair.Value;
+            //foreach (var defaultPair in this._defaults)
+            //    routeData.Values[defaultPair.Key] = defaultPair.Value;
             
             // try to resolve the current item
-            var pathData = PathResolver.ResolvePath(routeData, virtualPath.Replace("/ui/pages", string.Empty));
+            var routeData = PathResolver.ResolveRoute(this, httpContext, virtualPath.Replace("/ui/pages", string.Empty));
 
             // Abort and proceed to other routes in the route table
-            if (pathData == null) {
+            if (routeData == null)
+            {
                 return null;
             }
 
-            routeData.ApplyCurrentPage(DefaultControllerName, pathData.Action, pathData.CurrentPage);
-            routeData.ApplyCurrentStructureInfo(new StructureInfo
-            {
-                NavigationContext = pathData.NavigationContext.OrderBy(x => x.Metadata.SortOrder),
-                CurrentPage = pathData.CurrentPage,
-                StartPage = pathData.NavigationContext.Single(x => x.Parent == null),
-                ParentPage = pathData.CurrentPage.Parent != null ? pathData.NavigationContext.SingleOrDefault(x => x.Id == pathData.CurrentPage.Parent.Id) : null
-            });
+
+            routeData.Values["controller"] = "Pages";
+
             return routeData;
         }
         /// <summary>
@@ -163,7 +139,7 @@ namespace BrickPile.UI.Web.Routing {
         /// </returns>
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
 
-            var model = values[ModelKey] as IPage;
+            var model = values[PageRoute.CurrentPageKey] as IPage;
 
             if (model == null) {
                 VirtualPathData path = base.GetVirtualPath(requestContext, values);
@@ -182,7 +158,7 @@ namespace BrickPile.UI.Web.Routing {
             var queryParams = String.Empty;
             // add query string parameters
             foreach (var kvp in values) {
-                if (kvp.Key.Equals(ModelKey) || kvp.Key.Equals(ControllerKey) || kvp.Key.Equals(ActionKey)) {
+                if (kvp.Key.Equals(PageRoute.CurrentPageKey) || kvp.Key.Equals(PageRoute.ControllerKey) || kvp.Key.Equals(PageRoute.ActionKey)) {
                     continue;
                 }
                 queryParams = queryParams.AddQueryParam(kvp.Key, kvp.Value.ToString());
