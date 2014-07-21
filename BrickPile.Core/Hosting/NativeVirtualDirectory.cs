@@ -4,9 +4,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
-using BrickPile.Core.Hosting;
+using BrickPile.UI.Web.Hosting;
 
-namespace BrickPile.UI.Web.Hosting {
+namespace BrickPile.Core.Hosting {
     public class NativeVirtualDirectory : CommonVirtualDirectory {
         private readonly NativeVirtualPathProvider _provider;
         private readonly string _virtualDir;
