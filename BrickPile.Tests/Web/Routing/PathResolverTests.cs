@@ -1,19 +1,16 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Core.Infrastructure.Indexes;
 using BrickPile.Domain;
-using BrickPile.Domain.Models;
 using BrickPile.UI.Web.Mvc;
-using BrickPile.UI.Web.Routing;
-using BrickPile.UI.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 using StructureMap;
+using IPage = BrickPile.Core.IPage;
 
 namespace BrickPile.Tests.Web.Routing {
     public class PathResolverTests {

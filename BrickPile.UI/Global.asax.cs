@@ -1,8 +1,10 @@
-﻿using System.Web.Hosting;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
-using BrickPile.UI.Web.Hosting;
+using Raven.Client;
+using Raven.Client.Document;
+using StackExchange.Profiling;
+using StructureMap;
 
 namespace BrickPile.Samples {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -15,8 +17,20 @@ namespace BrickPile.Samples {
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            HostingEnvironment.RegisterVirtualPathProvider(new NativeVirtualPathProvider());
+            var store = ObjectFactory.GetInstance<IDocumentStore>();
 
+            // Initialize MiniProfiler
+            MvcMiniProfiler.RavenDb.Profiler.AttachTo((DocumentStore) store);
+        }
+
+        protected void Application_BeginRequest()
+        {
+                MiniProfiler.Start();
+        }
+
+        protected void Application_EndRequest()
+        {
+            MiniProfiler.Stop();
         }
     }
 }

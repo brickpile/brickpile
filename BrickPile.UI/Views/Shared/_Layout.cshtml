@@ -1,4 +1,7 @@
-﻿@using BrickPile.UI.Web.Mvc.Html
+﻿@using BrickPile.Core.Mvc.Html
+@using BrickPile.UI.Common
+@using StackExchange.Profiling
+@model BrickPile.UI.Web.ViewModels.IViewModel<BrickPile.Core.IPage>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -12,11 +15,24 @@
 <body>
     <header>
         <nav>
-            @Html.Menu()
+            @Html.Menu(Model.NavigationContext,
+                page => Html.ActionLink(page),
+                page => Html.DisplayFor(x => page.Metadata.Name))
         </nav>
     </header>
     <div>
-        @RenderBody()
+        <nav>
+            @Html.SubMenu(Model.NavigationContext,
+                page => Html.ActionLink(page),
+                page => Html.DisplayFor(x => page.Metadata.Name))
+        </nav>
+        <main>
+            @RenderBody()    
+        </main>
+        <aside>
+            
+        </aside>
     </div>
+    @MiniProfiler.RenderIncludes()
 </body>
 </html>

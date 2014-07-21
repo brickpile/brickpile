@@ -1,3 +1,4 @@
+using BrickPile.Core.Configuration;
 using BrickPile.UI.Areas.UI.Models;
 
 namespace BrickPile.UI.Web.ViewModels {
@@ -8,7 +9,7 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <value>
         /// The configuration.
         /// </value>
-        public Configuration.Configuration Configuration { get; set; }
+        public Configuration Configuration { get; set; }
         /// <summary>
         /// Gets or sets the setup model.
         /// </summary>

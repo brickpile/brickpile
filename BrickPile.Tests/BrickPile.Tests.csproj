@@ -40,6 +40,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FakeItEasy">
+      <HintPath>..\packages\FakeItEasy.1.21.0\lib\net40\FakeItEasy.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Build.Conversion.v4.0" />
     <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Net4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -97,6 +100,12 @@
       <HintPath>..\packages\RavenDB.Database.2.5.2879\lib\net45\Raven.Database.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Raven.Server">
+      <HintPath>..\packages\RavenDB.Tests.Helpers.2.5.2879\lib\net45\Raven.Server.exe</HintPath>
+    </Reference>
+    <Reference Include="Raven.Tests.Helpers">
+      <HintPath>..\packages\RavenDB.Tests.Helpers.2.5.2879\lib\net45\Raven.Tests.Helpers.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap, Version=3.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\structuremap.3.0.3.116\lib\net40\StructureMap.dll</HintPath>
@@ -153,17 +162,28 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
     </Reference>
+    <Reference Include="xunit.extensions">
+      <HintPath>..\packages\xunit.extensions.1.9.2\lib\net20\xunit.extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\MoqExtensions.cs" />
     <Compile Include="Common\MvcMockHelpers.cs" />
     <Compile Include="Controllers\ContentControllerTests.cs" />
     <Compile Include="Controllers\UIControllerTests.cs" />
+    <Compile Include="Fakes\FakeBootstrapper.cs" />
+    <Compile Include="Fakes\FakeController.cs" />
+    <Compile Include="Fakes\FakePage.cs" />
+    <Compile Include="Infrastructure\Indexes\AllPagesTests.cs" />
+    <Compile Include="Infrastructure\Listeners\StoreListenerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RavenTests\CanCallLastOnArray.cs" />
+    <Compile Include="Routing\PageRouteTests.cs" />
+    <Compile Include="Routing\UrlResolverTests.cs" />
+    <Compile Include="Routing\VirtualPathResolverTests.cs" />
+    <Compile Include="SlugTests.cs" />
     <Compile Include="Web\Hosting\AmazonS3VirtualPathProviderTests.cs" />
     <Compile Include="Web\Hosting\NativeVirtualPathProviderTests.cs" />
-    <Compile Include="Web\Routing\DashboardPathResolverTests.cs" />
-    <Compile Include="Web\Routing\PathResolverTests.cs" />
     <Compile Include="Web\Routing\VirtualPathResolverTests.cs" />
   </ItemGroup>
   <ItemGroup>

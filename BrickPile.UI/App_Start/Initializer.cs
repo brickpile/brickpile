@@ -23,6 +23,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Core;
+using BrickPile.Core.Mvc;
 using BrickPile.UI;
 using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.Routing;

@@ -1,4 +1,4 @@
-﻿using BrickPile.Domain.Models;
+﻿using BrickPile.Core;
 
 namespace BrickPile.UI.Web.ViewModels {
     public class NewPageViewModel {

@@ -1,0 +1,23 @@
+MiniProfiler.RavenDb
+-----------------------
+A RavenDb profiling plugin for MiniProfiler.
+
+Install
+-------
+To setup, all you need to do is attach the profiler to your DocumentStore instance when created.
+Note: EmbeddableDocumentStore is not supported.
+
+protected void Application_Start() {
+	// Do your MVC stuff here...
+
+	var store = new DocumentStore();
+	store.Initialize();
+	MvcMiniProfiler.RavenDb.Profiler.AttachTo(store);
+}
+
+Learn More
+----------
+RavenDb - http://www.ravendb.net  
+MiniProfiler - http://code.google.com/p/mvc-mini-profiler/  
+Chris Sainty - http://csainty.blogspot.com | http://www.twitter.com/csainty/
+

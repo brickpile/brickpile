@@ -1,4 +1,4 @@
-using BrickPile.Domain.Models;
+using IPage = BrickPile.Core.IPage;
 
 namespace BrickPile.UI.Web.ViewModels {
     public class EditViewModel {
