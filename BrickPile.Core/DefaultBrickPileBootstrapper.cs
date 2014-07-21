@@ -340,8 +340,7 @@ namespace BrickPile.Core
         {
             var store = new Raven.Client.Embedded.EmbeddableDocumentStore
             {
-                DataDirectory = DataDirectory,
-                DefaultDatabase = "BrickPile"
+                DataDirectory = DataDirectory                
             };
             if (ConfigurationManager.ConnectionStrings[ConnectionStringName] != null)
             {

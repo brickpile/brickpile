@@ -1,7 +1,6 @@
 ﻿@using System.Globalization
 @using BrickPile.UI.Common
 @using SquishIt.Framework
-@using StackExchange.Profiling
 
 <!DOCTYPE html>
 <html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
@@ -78,8 +77,6 @@
         @RenderSection("styles", false)
         @RenderSection("templates", false)
         @RenderSection("scripts", false)
-        
-        @MiniProfiler.RenderIncludes()
     </body>
 </html>
 
