@@ -49,7 +49,7 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// The parent.
         /// </value>
-        public DocumentReference<IPage> Parent { get; set; }
+        public PageReference Parent { get; set; }
 
         /// <summary>
         /// Gets or sets the ancestors.
