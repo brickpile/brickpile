@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using BrickPile.Core.DataAnnotations;
-using BrickPile.Domain.Models;
 
-namespace BrickPile.UI.Web.Mvc {
+namespace BrickPile.Core.Mvc {
     /// <summary>
     /// 
     /// </summary>
