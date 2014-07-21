@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using BrickPile.Domain.Models;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
 
@@ -19,6 +18,7 @@ namespace BrickPile.Core.Infrastructure.Indexes {
         /// </summary>
         public AllPages() {
             AddMapForAll<IPage>(pages => from page in pages
+                                         where !page.Id.Contains("/draft")
                                           select new {
                                               page.Id,
                                               Metadata_Url = page.Metadata.Url,
