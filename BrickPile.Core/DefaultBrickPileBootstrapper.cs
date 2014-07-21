@@ -329,7 +329,7 @@ namespace BrickPile.Core
         /// <param name="conventions">The conventions.</param>
         public virtual void ConfigureConventions(BrickPileConventions conventions)
         {
-            conventions.VirtualPathProviderConventions.Register("Default", () => new NativeVirtualPathProvider());
+            //conventions.VirtualPathProviderConventions.Register("Default", () => new NativeVirtualPathProvider());
         }
 
         /// <summary>
