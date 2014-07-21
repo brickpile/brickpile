@@ -20,13 +20,13 @@ THE SOFTWARE. */
 
 using System.Web.Mvc;
 using System.Web.Routing;
-using BrickPile.UI.Configuration;
+using BrickPile.Core.Configuration;
 using Raven.Client;
 using StructureMap;
 
-namespace BrickPile.UI.Web.Mvc {
+namespace BrickPile.Core.Mvc {
     public class BrickPileControllerFactory : DefaultControllerFactory {
-        private readonly IDocumentSession _session;
+        private readonly IDocumentStore _store;
         private static bool _hasConfiguration;
         /// <summary>
         /// Creates the specified controller by using the specified request context.
@@ -56,8 +56,12 @@ namespace BrickPile.UI.Web.Mvc {
         ///   <c>true</c> if this instance has configuration; otherwise, <c>false</c>.
         /// </returns>
         private bool HasConfiguration() {
-            if(!_hasConfiguration) {
-                var configuration = _session.Load<IConfiguration>("brickpile/configuration");
+            IConfiguration configuration;
+            using (var session = _store.OpenSession())
+            {
+                configuration = session.Load<IConfiguration>("brickpile/configuration");
+            }
+            if(!_hasConfiguration) {                
                 _hasConfiguration = configuration != null;
             }
             return _hasConfiguration;
@@ -66,7 +70,7 @@ namespace BrickPile.UI.Web.Mvc {
         /// Initializes a new instance of the <see cref="BrickPileControllerFactory"/> class.
         /// </summary>
         public BrickPileControllerFactory() {
-            _session = ObjectFactory.GetInstance<IDocumentSession>();
+            _store = ObjectFactory.GetInstance<IDocumentStore>();
         }
     }
 }
