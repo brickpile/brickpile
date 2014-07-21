@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using BrickPile.Core.DataAnnotations;
 
-namespace BrickPile.UI.Web.Mvc {
+namespace BrickPile.Core.Mvc {
     /// <summary>
     /// 
     /// </summary>
