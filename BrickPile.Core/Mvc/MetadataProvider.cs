@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace BrickPile.UI.Web.Mvc {
+namespace BrickPile.Core.Mvc {
     public class MetadataProvider : DataAnnotationsModelMetadataProvider {
         /// <summary>
         /// Gets the metadata for the specified property.
