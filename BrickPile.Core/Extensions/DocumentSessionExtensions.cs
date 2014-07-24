@@ -9,6 +9,7 @@ using StructureMap;
 
 namespace BrickPile.Core.Extensions {
     public static class DocumentSessionExtensions {
+
         /// <summary>
         /// Get the start page
         /// </summary>
@@ -119,16 +120,14 @@ namespace BrickPile.Core.Extensions {
             bool includeStartPage = false) {
             var structureInfo = ObjectFactory.GetInstance<IStructureInfo>();
 
-            var nodes = structureInfo.GetAncestors(page.Id.Replace("/draft", ""), includeStartPage);
+            var ancestors = structureInfo.GetAncestors(page.Id.Replace("/draft", ""), includeStartPage);
 
-            var ids = new List<string>();
-            foreach (var ancestor in nodes) {
-                ids.Add(ancestor.PageId);
-                ids.AddRange(ancestor.Children.Select(node => node.PageId));
-            }
+            Func<IEnumerable<StructureInfo.Node>, IEnumerable<string>> flatten = null;
+            flatten = nodes => nodes.Select(n => n.PageId)
+                .Union(nodes.SelectMany(n => n.Children).Select(n => n.PageId));
 
             return
-                ((DocumentSession) session).Load<IPage>(ids.Distinct())
+                ((DocumentSession) session).Load<IPage>(flatten(ancestors))
                     .OrderBy(p => p.Metadata.SortOrder);
         }
 
