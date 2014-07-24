@@ -100,13 +100,13 @@ namespace BrickPile.Core.Extensions {
         /// <param name="page">The page.</param>
         /// <param name="includeStartPage">if set to <c>true</c> [include start page].</param>
         /// <returns></returns>
-        public static IEnumerable<T> GetAncestorsFor<T>(this ISyncAdvancedSessionOperation session, IPage page,
-            bool includeStartPage = false) where T : IPage {
+        public static IEnumerable<IPage> GetAncestorsFor(this ISyncAdvancedSessionOperation session, IPage page,
+            bool includeStartPage = false) {
             var structureInfo = ObjectFactory.GetInstance<IStructureInfo>();
 
             var nodes = structureInfo.GetAncestors(page.Id, includeStartPage);
 
-            return ((DocumentSession) session).Load<T>(nodes.Select(n => n.PageId));
+            return ((DocumentSession) session).Load<IPage>(nodes.Select(n => n.PageId));
         }
 
         /// <summary>
