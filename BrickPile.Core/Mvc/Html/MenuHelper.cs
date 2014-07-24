@@ -119,7 +119,7 @@ namespace BrickPile.Core.Mvc.Html
             // merge html attributes
             ul.MergeAttributes(new RouteValueDictionary(htmlAttributes));
 
-            var nodes = navigationContext.CurrentContext.AsHierarchy();
+            var nodes = navigationContext.CurrentContext.FilterForDisplay().AsHierarchy();
 
             // only render the top level items
             var items = nodes.Where(x => x.Depth == 1);

@@ -128,7 +128,7 @@ namespace BrickPile.Core.Mvc.Html
                 return MvcHtmlString.Empty;
             }
 
-            var hierarchyNodes = navigationContext.CurrentContext.AsHierarchy();
+            var hierarchyNodes = navigationContext.CurrentContext.FilterForDisplay().AsHierarchy();
 
             var item = hierarchyNodes.SingleOrDefault(x => x.Expanded);
 

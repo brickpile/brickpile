@@ -73,7 +73,7 @@ namespace BrickPile.Core.Extensions {
 
             for (var i = 0; i < p.Count; i++)
             {
-                if (!HttpContext.Current.User.Identity.IsAuthenticated && !p[i].Metadata.IsPublished && !p[i].Metadata.DisplayInMenu)
+                if (!HttpContext.Current.User.Identity.IsAuthenticated && (!p[i].Metadata.IsPublished || !p[i].Metadata.DisplayInMenu))
                 {
                     p.RemoveAt(i);
                     i--;
