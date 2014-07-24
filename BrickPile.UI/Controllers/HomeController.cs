@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using BrickPile.Core;
 using BrickPile.Core.Extensions;
 using BrickPile.Samples.Models;
@@ -19,24 +20,24 @@ namespace BrickPile.Samples.Controllers
             using (var session = _store.OpenSession())
             {
                 //var children = session.Advanced.GetChildrenFor<Container>(currentPage);
-                var parent = session.Advanced.GetParentFor(currentPage);
+                //var parent = session.Advanced.GetParentFor(currentPage);
                 //var ancestors = session.Advanced.GetAncestorsFor<Container>(currentPage, true);
 
-                var page = new Container();
-                session.Store(page); // Default RavenDB
-                session.Store(page, StoreAction.None); // Default RavenDB
-                session.Store(page, StoreAction.Save); // Save as draft
-                session.Store(page, StoreAction.Publish); // Publish page/draft
-                session.Store(page, StoreAction.UnPublish); // Unpublish page
+                //var page = new Container();
+                //session.Store(page); // Default RavenDB
+                //session.Store(page, StoreAction.None); // Default RavenDB
+                //session.Store(page, StoreAction.Save); // Save as draft
+                //session.Store(page, StoreAction.Publish); // Publish page/draft
+                //session.Store(page, StoreAction.UnPublish); // Unpublish page
 
-                // Maybe this could be an option
-                session.Store(page, parent, StoreAction.Save); // Add page as child and save
+                //// Maybe this could be an option
+                //session.Store(page, parent, StoreAction.Save); // Add page as child and save
 
-
+                //var navigationContext = new NavigationContext(ControllerContext.RequestContext);
                 viewModel = new HomeViewModel
                 {
                     CurrentPage = currentPage,
-                    NavigationContext = session.Advanced.GetNavigationContextFor(currentPage, true).FilterForDisplay()
+                    //NavigationContext = navigationContext
                 };
 
             }

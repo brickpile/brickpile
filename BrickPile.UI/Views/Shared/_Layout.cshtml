@@ -15,14 +15,14 @@
 <body>
     <header>
         <nav>
-            @Html.Menu(Model.NavigationContext,
+            @Html.Menu(
                 page => Html.ActionLink(page),
                 page => Html.DisplayFor(x => page.Metadata.Name))
         </nav>
     </header>
     <div>
         <nav>
-            @Html.SubMenu(Model.NavigationContext,
+            @Html.SubMenu(
                 page => Html.ActionLink(page),
                 page => Html.DisplayFor(x => page.Metadata.Name))
         </nav>

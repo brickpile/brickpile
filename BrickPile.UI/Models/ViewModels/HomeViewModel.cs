@@ -8,7 +8,7 @@ namespace BrickPile.Samples.Models.ViewModels
     {
         public Home CurrentPage { get; set; }
 
-        public IEnumerable<IPage> NavigationContext { get; set; }
+        public NavigationContext NavigationContext { get; set; }
         
     }
 }
