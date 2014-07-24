@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,6 +17,8 @@ namespace BrickPile.Core.Routing
         private readonly Func<IDocumentStore> _store;
         private IPage _currentPage;
         private StructureInfo _structureInfo;
+        private const string DraftKey = "/draft";
+        internal const string NavigationContextKey = "NavigationContext";
 
         /// <summary>
         /// Resolves the route.
@@ -68,21 +71,29 @@ namespace BrickPile.Core.Routing
                     return null;
                 }
 
-                var id = currentNode.PageId;
+                var ancestors = _structureInfo.GetAncestors(currentNode.PageId, true);
 
-                if (string.IsNullOrEmpty(id)) {
-                    return null;
+                Func<IEnumerable<StructureInfo.Node>, IList<string>> flatten = null;
+                flatten = nodes => nodes.Select(n => n.PageId)
+                    .Union(nodes.SelectMany(n => n.Children).Select(n => n.PageId)).ToList();
+
+                var ids = flatten(ancestors);
+
+                if (httpContext.User.Identity.IsAuthenticated && _store.Invoke().Exists(currentNode.PageId + DraftKey))
+                {
+                    ids.Add(currentNode.PageId + DraftKey);
                 }
 
-                // Load page with id n, if draft exist, load that to
-                var pages = session.Advanced.LoadStartingWith<IPage>(id).ToList();
+                var pages = session.Load<IPage>(ids)
+                    .OrderBy(p => p.Metadata.SortOrder)
+                    .ToArray();
 
-                // If the user is authenticated and we have recieved a draft, send it att current page
-                if (httpContext.User.Identity.IsAuthenticated && pages.Any(page => page.Id == id + "/draft")) {
-                    _currentPage = pages.SingleOrDefault(page => page.Id == id + "/draft");
+                // If the user is authenticated and we have recieved a draft, set it as the current page
+                if (httpContext.User.Identity.IsAuthenticated && pages.Any(page => page.Id == currentNode.PageId + DraftKey)) {
+                    _currentPage = pages.SingleOrDefault(page => page.Id == currentNode.PageId + DraftKey);
                 }
                 else {
-                    _currentPage = pages.SingleOrDefault(page => page.Id == id);
+                    _currentPage = pages.SingleOrDefault(page => page.Id == currentNode.PageId);
                 }
 
                 if (_currentPage == null)
@@ -113,6 +124,7 @@ namespace BrickPile.Core.Routing
                 routeData.Values[PageRoute.CurrentPageKey] = _currentPage;
 
                 routeData.DataTokens["structureInfo"] = _structureInfo;
+                routeData.DataTokens[NavigationContextKey] = pages;
                 
                 return routeData;
             }
