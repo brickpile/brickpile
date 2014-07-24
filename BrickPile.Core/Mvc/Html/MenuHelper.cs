@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Core.Extensions;
-using BrickPile.Core.Routing;
 
 namespace BrickPile.Core.Mvc.Html
 {
@@ -21,66 +19,97 @@ namespace BrickPile.Core.Mvc.Html
         /// </summary>
         private static IPage CurrentPage
         {
-            get { return ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.Values[PageRoute.CurrentPageKey] as IPage; }
+            get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPage>(); }
+        }
+
+        /// <summary>
+        /// Gets the navigation context.
+        /// </summary>
+        /// <value>
+        /// The navigation context.
+        /// </value>
+        private static NavigationContext NavigationContext {
+            get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetNavigationContext(); }
         }
 
         /// <summary>
         /// Menus the specified HTML.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="html">The HTML.</param>
-        /// <param name="pages">The pages.</param>
+        /// <param name="itemContent">Content of the item.</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
+        /// <returns></returns>
+        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPage, MvcHtmlString> itemContent,
+            bool enableDisplayInMenu = true) {
+            return Menu(html, NavigationContext, itemContent, enableDisplayInMenu);
+        }
+
+        /// <summary>
+        /// Menus the specified HTML.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="navigationContext">The navigation context.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu<T>(this HtmlHelper html, IEnumerable<T> pages, Func<IPage, MvcHtmlString> itemContent, bool enableDisplayInMenu = true) where T : class, IPage
+        public static MvcHtmlString Menu(this HtmlHelper html, NavigationContext navigationContext, Func<IPage, MvcHtmlString> itemContent, bool enableDisplayInMenu = true)
         {
-            return Menu(html, pages, itemContent, itemContent, enableDisplayInMenu);
+            return Menu(html, navigationContext, itemContent, itemContent, enableDisplayInMenu);
+        }
+
+        /// <summary>
+        /// Menus the specified HTML.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="itemContent">Content of the item.</param>
+        /// <param name="selectedItemContent">Content of the selected item.</param>
+        /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
+        /// <returns></returns>
+        public static MvcHtmlString Menu(this HtmlHelper html, Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true)
+        {
+            return Menu(html, NavigationContext, itemContent, selectedItemContent, itemContent, enableDisplayInMenu);
         }
         /// <summary>
         /// Responsible for creating a main navigation based on an unordered list
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="html">HtmlHelper</param>
-        /// <param name="pages">The pages.</param>
+        /// <param name="navigationContext">The navigation context.</param>
         /// <param name="itemContent">Default content for links</param>
         /// <param name="selectedItemContent">Content for selected links</param>
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu<T>(this HtmlHelper html, IEnumerable<T> pages, Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true) where T : class, IPage
+        public static MvcHtmlString Menu(this HtmlHelper html, NavigationContext navigationContext, Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true)
         {
-            return Menu(html, pages, itemContent, selectedItemContent, itemContent, enableDisplayInMenu);
+            return Menu(html, navigationContext, itemContent, selectedItemContent, itemContent, enableDisplayInMenu);
         }
         /// <summary>
         /// Menus the specified HTML.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="html">The HTML.</param>
-        /// <param name="pages">The pages.</param>
+        /// <param name="navigationContext">The navigation context.</param>
         /// <param name="itemContent">Content of the item.</param>
         /// <param name="selectedItemContent">Content of the selected item.</param>
         /// <param name="expandedItemContent">Content of the expanded item.</param>
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu<T>(this HtmlHelper html, IEnumerable<T> pages, Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent, Func<IPage, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true) where T : class, IPage
+        public static MvcHtmlString Menu(this HtmlHelper html, NavigationContext navigationContext, Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent, Func<IPage, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true)
         {
-            return Menu(html, pages, itemContent, selectedItemContent, expandedItemContent, null, enableDisplayInMenu);
+            return Menu(html, navigationContext, itemContent, selectedItemContent, expandedItemContent, null, enableDisplayInMenu);
         }
         /// <summary>
         /// Menus the specified HTML.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="html">The HTML.</param>
-        /// <param name="pages">The pages.</param>
+        /// <param name="navigationContext">The navigation context.</param>
         /// <param name="itemContent">Content of the item.</param>
         /// <param name="selectedItemContent">Content of the selected item.</param>
         /// <param name="expandedItemContent">Content of the expanded item.</param>
         /// <param name="htmlAttributes">An object that contains the HTML attributes for the element. The attributes are retrieved through reflection by examining the properties of the object. The object is typically created by using object initializer syntax.</param>
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
-        public static MvcHtmlString Menu<T>(this HtmlHelper html, IEnumerable<T> pages, Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent, Func<IPage, MvcHtmlString> expandedItemContent, object htmlAttributes, bool enableDisplayInMenu = true) where T : class, IPage
+        public static MvcHtmlString Menu(this HtmlHelper html, NavigationContext navigationContext, Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent, Func<IPage, MvcHtmlString> expandedItemContent, object htmlAttributes, bool enableDisplayInMenu = true)
         {
-            if (pages == null)
+            if (navigationContext == null)
             {
                 return MvcHtmlString.Empty;
             }
@@ -90,7 +119,7 @@ namespace BrickPile.Core.Mvc.Html
             // merge html attributes
             ul.MergeAttributes(new RouteValueDictionary(htmlAttributes));
 
-            var nodes = pages.AsHierarchy();
+            var nodes = navigationContext.CurrentContext.AsHierarchy();
 
             // only render the top level items
             var items = nodes.Where(x => x.Depth == 1);
@@ -100,7 +129,7 @@ namespace BrickPile.Core.Mvc.Html
             {
                 // don't render anything
                 // render home if it's published
-                home = pages.SingleOrDefault(model => model.Parent == null);
+                home = navigationContext.CurrentContext.SingleOrDefault(model => model.Parent == null);
                 if (home != null)
                 {
                     if (enableDisplayInMenu && !home.Metadata.DisplayInMenu)
@@ -114,7 +143,7 @@ namespace BrickPile.Core.Mvc.Html
             }
 
             // add home item if it's visible
-            home = pages.SingleOrDefault(model => model.Parent == null);
+            home = navigationContext.CurrentContext.SingleOrDefault(model => model.Parent == null);
             if (home != null)
             {
                 if (enableDisplayInMenu && home.Metadata.DisplayInMenu)
