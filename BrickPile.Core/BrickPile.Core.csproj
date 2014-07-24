@@ -165,6 +165,7 @@
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\PageExtensions.cs" />
     <Compile Include="Extensions\RouteCollectionExtensions.cs" />
+    <Compile Include="Extensions\RouteDataExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Graph\ContentTypeRegistrationConvention.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="Mvc\StructureMapControllerActivator.cs" />
     <Compile Include="Mvc\StructureMapDependencyResolver.cs" />
     <Compile Include="Mvc\ValidatablePropertyAdapter.cs" />
+    <Compile Include="NavigationContext.cs" />
     <Compile Include="Page.cs" />
     <Compile Include="PageReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
