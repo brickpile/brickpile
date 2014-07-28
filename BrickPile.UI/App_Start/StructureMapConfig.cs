@@ -39,7 +39,7 @@ namespace BrickPile.UI {
                     scanner.ExcludeNamespace("Newtonsoft");
                     scanner.ExcludeNamespace("Raven");
                     scanner.WithDefaultConventions();
-                    scanner.Convention<ContentTypeRegistrationConvetion>();
+                    scanner.Convention<ContentTypeRegistrationConvention>();
                 });
 
                 x.For<IPage>().UseSpecial(y => y.ConstructedBy(r => ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.GetCurrentPage<IPage>()));
