@@ -10,11 +10,11 @@ namespace BrickPile.Core.Graph {
     /// <summary>
     /// 
     /// </summary>
-    public class ContentTypeRegistrationConvetion : IRegistrationConvention {
+    public class ContentTypeRegistrationConvention : IRegistrationConvention {
         /// <summary>
         /// 
         /// </summary>
-        public static readonly MethodInfo RegisterMethod = typeof(ContentTypeRegistrationConvetion)
+        public static readonly MethodInfo RegisterMethod = typeof(ContentTypeRegistrationConvention)
             .GetMethod("Register", BindingFlags.NonPublic | BindingFlags.Static)
             .GetGenericMethodDefinition();
         /// <summary>
