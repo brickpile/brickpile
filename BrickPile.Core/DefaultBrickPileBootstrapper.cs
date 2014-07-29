@@ -265,7 +265,8 @@ namespace BrickPile.Core
         /// <param name="routes">The routes.</param>
         protected void RegisterCustomRoutes(RouteCollection routes)
         {
-            routes.Add("PageRoute",
+            // ensure that the the PageRoute is first in the collection
+            routes.Insert(0,
                 new PageRoute(
                     new VirtualPathResolver(),
                     new RouteResolver(
@@ -305,6 +306,7 @@ namespace BrickPile.Core
                                 () =>
                                     ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.Values[
                                         PageRoute.CurrentPageKey] as IPage));
+
                 expression.For<IStructureInfo>()
                     .UseSpecial(
                         x =>
