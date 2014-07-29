@@ -4,28 +4,6 @@
     <add key="VirtualPathRoot" value="~/static/" />
   </appSettings>  
   
-	<system.web>
-    
-    <authentication mode="Forms">
-      <forms loginUrl="~/ui/account" timeout="2880" />
-    </authentication>
-
-    <membership defaultProvider="RavenDBMembership">
-      <providers>
-        <clear />
-        <add name="RavenDBMembership" applicationName="BrickPile" type="BrickPile.UI.Web.Security.RavenDBMembershipProvider, BrickPile.UI" />
-      </providers>
-    </membership>
-    
-    <roleManager enabled="true" defaultProvider="RavenDBRole">
-      <providers>
-        <clear />
-        <add name="RavenDBRole" applicationName="BrickPile" type="BrickPile.UI.Web.Security.RavenDBRoleProvider, BrickPile.UI" />
-      </providers>
-    </roleManager>
-    
-	</system.web>
-  
 	<system.webServer>
 		<modules runAllManagedModulesForAllRequests="true">
       <add name="ContainerDisposal" type="BrickPile.UI.Web.ContainerDisposalModule, BrickPile.UI" />
