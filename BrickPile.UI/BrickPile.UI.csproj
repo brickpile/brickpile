@@ -53,6 +53,9 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.1.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -62,6 +65,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.OData.5.6.1\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
@@ -69,6 +84,10 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Raven.Abstractions, Version=2.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -85,6 +104,9 @@
     <Reference Include="Raven.Database, Version=2.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RavenDB.Database.2.5.2879\lib\net45\Raven.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="RavenDB.AspNet.Identity">
+      <HintPath>..\packages\RavenDB.AspNet.Identity.0.9.0\lib\net45\RavenDB.AspNet.Identity.dll</HintPath>
     </Reference>
     <Reference Include="SquishIt.Framework, Version=0.9.5.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -108,9 +130,9 @@
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Spatial, Version=5.6.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -126,35 +148,37 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.0\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.2\lib\net45\System.Web.Http.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.0\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.1.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.0\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    <Reference Include="System.Web.WebPages">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    <Reference Include="System.Web.WebPages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -165,22 +189,22 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="WebActivatorEx">
-      <HintPath>..\packages\WebActivatorEx.2.0.5\lib\net40\WebActivatorEx.dll</HintPath>
-    </Reference>
     <Reference Include="Yahoo.Yui.Compressor">
       <HintPath>..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Yahoo.Yui.Compressor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Areas\UI\Controllers\AccountController.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\UI\Controllers\AssetController.cs" />
+    <Compile Include="Areas\UI\Controllers\AuthController.cs" />
     <Compile Include="Areas\UI\Controllers\DashboardController.cs" />
     <Compile Include="Areas\UI\Controllers\PagesController.cs" />
     <Compile Include="Areas\UI\Controllers\SetupController.cs" />
     <Compile Include="Areas\UI\Controllers\UIController.cs" />
     <Compile Include="Areas\UI\Models\AccountModels.cs" />
+    <Compile Include="Areas\UI\Models\ApplicationUser.cs" />
     <Compile Include="Areas\UI\Models\EditUserModel.cs" />
+    <Compile Include="Areas\UI\Models\LogInModel.cs" />
     <Compile Include="Areas\UI\Models\NewModel.cs" />
     <Compile Include="Areas\UI\UIAreaRegistration.cs" />
     <Compile Include="Common\Extensions.cs">
@@ -188,6 +212,7 @@
     </Compile>
     <Compile Include="Common\HtmlExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="Web\Audio.cs" />
     <Compile Include="Web\ContainerDisposalModule.cs" />
     <Compile Include="Web\Document.cs" />
@@ -196,9 +221,6 @@
     <Compile Include="Web\Mvc\Html\DatePickerHelper.cs" />
     <Compile Include="Web\Mvc\Html\LabelExtensions.cs" />
     <Compile Include="Web\Mvc\Html\ValidationExtensions.cs" />
-    <Compile Include="Web\Security\PasswordUtil.cs" />
-    <Compile Include="Web\Security\RavenDBMembershipProvider.cs" />
-    <Compile Include="Web\Security\RavenDBRoleProvider.cs" />
     <Compile Include="Web\Video.cs" />
     <Compile Include="Web\ViewModels\DefaultViewModel.cs" />
     <Compile Include="Web\ViewModels\EditViewModel.cs" />
@@ -656,6 +678,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\Startup.Bootstrap.cs" />
     <None Include="Areas\UI\Content\webfonts\eot\felttip-roman.eot" />
     <None Include="Areas\UI\Content\webfonts\eot\museo-sans-500.eot" />
     <None Include="Areas\UI\Content\webfonts\eot\museo-sans-700.eot" />
@@ -675,6 +698,7 @@
     <Content Include="Areas\UI\Views\Shared\DisplayTemplates\Image.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\Html.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\Image.cshtml" />
+    <Content Include="Areas\UI\Views\Auth\Login.cshtml" />
     <None Include="Areas\UI\Views\Shared\EditorTemplates\Object.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\PageReference.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\Slug.cshtml" />
@@ -691,13 +715,6 @@
     <None Include="Areas\UI\Styles\webfonts\woff\felttip-roman.woff" />
     <None Include="Areas\UI\Styles\webfonts\woff\museo-sans-500.woff" />
     <None Include="Areas\UI\Styles\webfonts\woff\museo-sans-700.woff" />
-    <Content Include="Areas\UI\Views\Account\ChangePassword.cshtml" />
-    <Content Include="Areas\UI\Views\Account\ChangePasswordSuccess.cshtml" />
-    <Content Include="Areas\UI\Views\Account\EditUser.cshtml" />
-    <Content Include="Areas\UI\Views\Account\LogOn.cshtml" />
-    <Content Include="Areas\UI\Views\Account\ManageRoles.cshtml" />
-    <Content Include="Areas\UI\Views\Account\ManageUsers.cshtml" />
-    <Content Include="Areas\UI\Views\Account\Register.cshtml" />
     <Content Include="Areas\UI\Views\Dashboard\Index.cshtml" />
     <Content Include="Areas\UI\Views\UI\Index.cshtml" />
     <Content Include="Areas\UI\Views\Shared\_AssetsDialog.cshtml" />
