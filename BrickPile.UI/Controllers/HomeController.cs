@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
-using BrickPile.Core;
-using BrickPile.Core.Extensions;
+﻿using System.Web.Mvc;
 using BrickPile.Samples.Models;
 using BrickPile.Samples.Models.ViewModels;
 using Raven.Client;
 
 namespace BrickPile.Samples.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly IDocumentStore _store;

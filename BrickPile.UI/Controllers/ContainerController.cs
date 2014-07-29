@@ -6,6 +6,7 @@ using Raven.Client;
 
 namespace BrickPile.Samples.Controllers
 {
+    [AllowAnonymous]
     public class ContainerController : Controller
     {
         private readonly IDocumentStore _store;

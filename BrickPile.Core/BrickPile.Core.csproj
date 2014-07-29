@@ -192,7 +192,6 @@
     <Compile Include="Infrastructure\Listeners\DeleteListener.cs" />
     <Compile Include="Infrastructure\Listeners\DocumentListenerContext.cs" />
     <Compile Include="Infrastructure\Listeners\StoreListener.cs" />
-    <Compile Include="Initialiser.cs" />
     <Compile Include="IPage.cs" />
     <Compile Include="IStructureInfo.cs" />
     <Compile Include="Metadata.cs" />

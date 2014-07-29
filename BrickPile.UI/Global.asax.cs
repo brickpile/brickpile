@@ -17,10 +17,10 @@ namespace BrickPile.Samples {
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            var store = ObjectFactory.GetInstance<IDocumentStore>();
+            //var store = ObjectFactory.GetInstance<IDocumentStore>();
 
             // Initialize MiniProfiler
-            MvcMiniProfiler.RavenDb.Profiler.AttachTo((DocumentStore) store);
+            //MvcMiniProfiler.RavenDb.Profiler.AttachTo((DocumentStore) store);
         }
 
         protected void Application_BeginRequest()
