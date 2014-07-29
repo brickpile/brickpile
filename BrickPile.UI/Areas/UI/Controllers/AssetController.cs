@@ -21,25 +21,26 @@ namespace BrickPile.UI.Areas.UI.Controllers {
     /// </summary>
     //[Authorize]
     public class AssetController : ApiController {
+        private readonly IDocumentStore _store;
         private const int PageSize = 50;
 
         public AssetResponse Get(int page) {
-            
-            var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
 
-            var response = new AssetResponse();
+            using (var session = _store.OpenSession()) { 
+                var response = new AssetResponse();
 
-            RavenQueryStatistics stats;
-            response.Assets = session.Query<Asset, AllAssets>()
-                .Statistics(out stats)
-                .OrderByDescending(x => x.DateUploaded)
-                .Skip(page * PageSize)
-                .Take(PageSize).ToArray();
+                RavenQueryStatistics stats;
+                response.Assets = session.Query<Asset, AllAssets>()
+                    .Statistics(out stats)
+                    .OrderByDescending(x => x.DateUploaded)
+                    .Skip(page * PageSize)
+                    .Take(PageSize).ToArray();
 
-            response.SkippedResults = stats.SkippedResults;
-            response.TotalResults = stats.TotalResults;
+                response.SkippedResults = stats.SkippedResults;
+                response.TotalResults = stats.TotalResults;
 
-            return response;
+                return response;
+            }
         }
 
         public class AssetResponse {
@@ -54,24 +55,25 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// <param name="recent">The recent.</param>
         /// <param name="page">The page.</param>
         /// <returns></returns>
-        public AssetResponse Get(int page, int recent) {
-            var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
+        public AssetResponse Get(int page, int recent) {            
 
-            var response = new AssetResponse();
+            using (var session = _store.OpenSession()) {
 
-            RavenQueryStatistics stats;
-            response.Assets = session.Query<Asset, AllAssets>()
-                .Statistics(out stats)
-                .Where(x => x.DateUploaded > DateTime.Now.AddHours(-48))
-                .OrderByDescending(x => x.DateUploaded)
-                .Skip(page * PageSize)
-                .Take(PageSize).ToArray();
+                var response = new AssetResponse();
 
-            response.SkippedResults = stats.SkippedResults;
-            response.TotalResults = stats.TotalResults;
+                RavenQueryStatistics stats;
+                response.Assets = session.Query<Asset, AllAssets>()
+                    .Statistics(out stats)
+                    .Where(x => x.DateUploaded > DateTime.Now.AddHours(-48))
+                    .OrderByDescending(x => x.DateUploaded)
+                    .Skip(page*PageSize)
+                    .Take(PageSize).ToArray();
 
-            return response;
+                response.SkippedResults = stats.SkippedResults;
+                response.TotalResults = stats.TotalResults;
 
+                return response;
+            }
         }
         /// <summary>
         /// Gets the specified type.
@@ -80,64 +82,68 @@ namespace BrickPile.UI.Areas.UI.Controllers {
         /// <param name="type">The type.</param>
         /// <returns></returns>
         public AssetResponse Get(int page, string type) {
-            var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
 
-            var response = new AssetResponse();
+            using (var session = _store.OpenSession()) {
 
-            RavenQueryStatistics stats;
+                var response = new AssetResponse();
 
-            switch (type) {
-                case "image":
-                    response.Assets = session.Query<Image>()
-                        .Statistics(out stats)
-                        .OrderByDescending(x => x.DateUploaded)
-                        .Skip(page * PageSize)
-                        .Take(PageSize).ToArray();
-                    break;
-                case "video":
-                    response.Assets = session.Query<Video>()
-                        .Statistics(out stats)
-                        .OrderByDescending(x => x.DateUploaded)
-                        .Skip(page * PageSize)
-                        .Take(PageSize).ToArray();
-                    break;
-                case "audio":
-                    response.Assets = session.Query<Audio>()
-                        .Statistics(out stats)
-                        .OrderByDescending(x => x.DateUploaded)
-                        .Skip(page * PageSize)
-                        .Take(PageSize).ToArray();
-                    break;
-                case "document":
-                    response.Assets = session.Query<Document>()
-                        .Statistics(out stats)
-                        .OrderByDescending(x => x.DateUploaded)
-                        .Skip(page * PageSize)
-                        .Take(PageSize).ToArray();
-                    break;
-                default:
-                    return Get(0);
+                RavenQueryStatistics stats;
+
+                switch (type) {
+                    case "image":
+                        response.Assets = session.Query<Image>()
+                            .Statistics(out stats)
+                            .OrderByDescending(x => x.DateUploaded)
+                            .Skip(page*PageSize)
+                            .Take(PageSize).ToArray();
+                        break;
+                    case "video":
+                        response.Assets = session.Query<Video>()
+                            .Statistics(out stats)
+                            .OrderByDescending(x => x.DateUploaded)
+                            .Skip(page*PageSize)
+                            .Take(PageSize).ToArray();
+                        break;
+                    case "audio":
+                        response.Assets = session.Query<Audio>()
+                            .Statistics(out stats)
+                            .OrderByDescending(x => x.DateUploaded)
+                            .Skip(page*PageSize)
+                            .Take(PageSize).ToArray();
+                        break;
+                    case "document":
+                        response.Assets = session.Query<Document>()
+                            .Statistics(out stats)
+                            .OrderByDescending(x => x.DateUploaded)
+                            .Skip(page*PageSize)
+                            .Take(PageSize).ToArray();
+                        break;
+                    default:
+                        return Get(0);
+                }
+                response.SkippedResults = stats.SkippedResults;
+                response.TotalResults = stats.TotalResults;
+                return response;
             }
-            response.SkippedResults = stats.SkippedResults;
-            response.TotalResults = stats.TotalResults;
-            return response;
         }
 
         public void Delete(string id) {
             // Abort if the provider does not exist
             var virtualPathProvider = HostingEnvironment.VirtualPathProvider as CommonVirtualPathProvider;
             if(virtualPathProvider == null) { return; }
+            
+            using (var session = _store.OpenSession()) {
 
-            var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
-            var item = session.Load<Asset>(id);
+                var item = session.Load<Asset>(id);
 
-            var asset = virtualPathProvider.GetFile(item.VirtualPath) as CommonVirtualFile;
+                var asset = virtualPathProvider.GetFile(item.VirtualPath) as CommonVirtualFile;
 
-            if(asset != null) {
-                asset.Delete();
+                if (asset != null) {
+                    asset.Delete();
+                }
+                session.Delete(item);
+                session.SaveChanges();
             }
-            session.Delete(item);
-            session.SaveChanges();
         }
         /// <summary>
         /// Posts this instance.
@@ -151,10 +157,10 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 
             }
 
-            var task = Request.Content.ReadAsMultipartAsync(new MultipartMemoryStreamProvider()).ContinueWith(t =>
-                {
+            var task = Request.Content.ReadAsMultipartAsync(new MultipartMemoryStreamProvider()).ContinueWith(t => {
 
-                    var session = StructureMap.ObjectFactory.GetInstance<IDocumentSession>();
+                using (var session = _store.OpenSession()) {
+
 
                     var virtualPathProvider = HostingEnvironment.VirtualPathProvider as CommonVirtualPathProvider;
 
@@ -162,14 +168,15 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                         throw new HttpResponseException(HttpStatusCode.InternalServerError);
                     }
 
-                    var asset = t.Result.Contents.Select(httpContent =>
-                    {
+                    var asset = t.Result.Contents.Select(httpContent => {
                         // Read the stream
                         var stream = httpContent.ReadAsStreamAsync().Result;
                         var length = stream.Length;
 
                         // Get root directory of the current virtual path provider
-                        var virtualDirectory = virtualPathProvider.GetDirectory(virtualPathProvider.VirtualPathRoot) as CommonVirtualDirectory;
+                        var virtualDirectory =
+                            virtualPathProvider.GetDirectory(virtualPathProvider.VirtualPathRoot) as
+                                CommonVirtualDirectory;
 
                         if (virtualDirectory == null) {
                             throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -177,17 +184,19 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 
                         // Set the name and if not present add some bogus name
                         var name = !string.IsNullOrWhiteSpace(httpContent.Headers.ContentDisposition.FileName)
-                                           ? httpContent.Headers.ContentDisposition.FileName
-                                           : "NoName";
+                            ? httpContent.Headers.ContentDisposition.FileName
+                            : "NoName";
 
                         // Clean up the name
                         name = name.Replace("\"", string.Empty);
 
                         // Create a new name for the file stored in the vpp
                         var uniqueFileName = Guid.NewGuid().ToString("n");
-                        
+
                         // Create the file in current directory
-                        var virtualFile = virtualDirectory.CreateFile(string.Format("{0}{1}",uniqueFileName, VirtualPathUtility.GetExtension(name)));
+                        var virtualFile =
+                            virtualDirectory.CreateFile(string.Format("{0}{1}", uniqueFileName,
+                                VirtualPathUtility.GetExtension(name)));
 
                         // Write the file to the current storage
                         using (var s = virtualFile.Open(FileMode.Create)) {
@@ -200,22 +209,26 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                         if (httpContent.Headers.ContentType.MediaType.Contains("image")) {
                             file = new Image();
                             using (var image = System.Drawing.Image.FromStream(stream, false, false)) {
-                                ((Image)file).Width = image.Width;
-                                ((Image)file).Height = image.Height;
+                                ((Image) file).Width = image.Width;
+                                ((Image) file).Height = image.Height;
                             }
                             var mediumThumbnail = new WebImage(stream).Resize(111, 101).Crop(1, 1);
                             file.Thumbnail = mediumThumbnail.GetBytes();
                         }
                         else if (httpContent.Headers.ContentType.MediaType.Contains("video")) {
-                            var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
-                            file = new Video { Thumbnail = icon.GetBytes() };
+                            var icon =
+                                new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
+                            file = new Video {Thumbnail = icon.GetBytes()};
                         }
                         else if (httpContent.Headers.ContentType.MediaType.Contains("audio")) {
-                            var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
-                            file = new Video { Thumbnail = icon.GetBytes() };
-                        } else {
-                            var icon = new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
-                            file = new Video { Thumbnail = icon.GetBytes() };
+                            var icon =
+                                new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
+                            file = new Video {Thumbnail = icon.GetBytes()};
+                        }
+                        else {
+                            var icon =
+                                new WebImage(HttpContext.Current.Server.MapPath("~/areas/ui/content/images/document.png"));
+                            file = new Video {Thumbnail = icon.GetBytes()};
                         }
 
                         file.Name = name;
@@ -232,9 +245,19 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                     });
 
                     return asset;
-                });
+                }
+
+            });
             
             return task;
+        }        
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AssetController"/> class.
+        /// </summary>
+        /// <param name="store">The store.</param>
+        public AssetController(IDocumentStore store) {
+            _store = store;
         }
     }
 }

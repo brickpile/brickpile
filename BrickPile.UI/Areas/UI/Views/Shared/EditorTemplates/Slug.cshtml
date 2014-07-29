@@ -1,7 +1,7 @@
 ﻿
 @model String
 @{
-    var parentModel = ViewData["ParentModel"] as BrickPile.Domain.Models.IPage;
+    var parentModel = ViewData["ParentModel"] as BrickPile.Core.IPage;
 }           
 @if (parentModel == null) {
     @Html.TextBoxFor(_ => Model, new { disabled = "disabled" })

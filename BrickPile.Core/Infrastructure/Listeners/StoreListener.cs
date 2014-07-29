@@ -1,10 +1,14 @@
+﻿using System;
 using System.Web;
-using BrickPile.Domain.Models;
-using Raven.Client.Listeners;
 using Raven.Json.Linq;
 
 namespace BrickPile.Core.Infrastructure.Listeners {
-    public class StoreListener : IDocumentStoreListener {
+    internal class StoreListener : Raven.Client.Listeners.IDocumentStoreListener {
+
+        private readonly Action<string, IPage, RavenJObject> _onPagePublish;
+        private readonly Action<string, IPage, RavenJObject> _onPageSave;
+        private readonly Action<string, IPage, RavenJObject> _onPageUnpublish;
+
         /// <summary>
         /// Invoked before the store request is sent to the server.
         /// </summary>
@@ -23,12 +27,30 @@ namespace BrickPile.Core.Infrastructure.Listeners {
             if (entity == null)
                 return false;
 
-            if (entity.Parent != null) {
-                entity.Metadata.Url = entity.Metadata.Slug;
-                entity.Metadata.Url = entity.Metadata.Url.Insert(0, VirtualPathUtility.AppendTrailingSlash(entity.Parent.Url ?? ""));
-            }
+            if (DocumentListenerContext.IsInDocumentListenerContext)
+                return false;
 
-            return true;
+            var action = HttpContext.Current.Items["storeAction"] as StoreAction?;
+
+            using (DocumentListenerContext.Enter()) {
+                switch (action) {
+                    case StoreAction.None:
+                        return false;
+                    case StoreAction.Save:
+                        //_onPageSave(key, entity, metadata);
+                        _onPagePublish(key, entity, metadata);
+                        break;
+                    case StoreAction.Publish:
+                        _onPagePublish(key, entity, metadata);
+                        break;
+                    case StoreAction.UnPublish:
+                        //_onPageUnpublish(key, entity, metadata);
+                        return false;
+                    default:
+                        return false;
+                }
+                return true;
+            }
         }
 
         /// <summary>
@@ -37,6 +59,19 @@ namespace BrickPile.Core.Infrastructure.Listeners {
         /// <param name="key">The key.</param>
         /// <param name="entityInstance">The entity instance.</param>
         /// <param name="metadata">The metadata.</param>
-        public void AfterStore(string key, object entityInstance, RavenJObject metadata) { }
+        public void AfterStore(string key, object entityInstance, RavenJObject metadata) {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StoreListener" /> class.
+        /// </summary>
+        /// <param name="onPagePublish">The on page publish.</param>
+        /// <param name="onPageSave">The on page save.</param>
+        /// <param name="onPageUnPublish">The on page un publish.</param>
+        public StoreListener(Action<string, IPage, RavenJObject> onPagePublish,
+            Action<string, IPage, RavenJObject> onPageSave, Action<string, IPage, RavenJObject> onPageUnPublish) {
+            _onPagePublish = onPagePublish;
+            _onPageSave = onPageSave;
+            _onPageUnpublish = onPageUnPublish;
+        }
     }
 }

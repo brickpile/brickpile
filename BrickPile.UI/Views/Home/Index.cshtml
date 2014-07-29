@@ -1,16 +1,11 @@
-﻿@using BrickPile.Samples.Models
-@using BrickPile.UI.Common
-@model Home
+﻿@model BrickPile.Samples.Models.ViewModels.HomeViewModel
 
 @{
     ViewBag.Title = "title";
     Layout = "~/views/shared/_Layout.cshtml";
 }
-<h1>@Model.Heading</h1>
-<p>@Model.MainIntro</p>
-@Html.Raw(Model.MainBody)
+<h1>@Model.CurrentPage.Heading</h1>
+<p>@Model.CurrentPage.MainIntro</p>
+@Html.Raw(Model.CurrentPage.MainBody)
 
-@foreach (Container container in ViewBag.Containers) {
-    @Html.ActionLink(container) <br />
-}
-
+<img src="@Model.CurrentPage.Image.Url"/>

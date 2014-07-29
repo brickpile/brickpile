@@ -21,7 +21,8 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("acaff462-154b-456b-adaa-082c5e73ffc3")]
-
+[assembly: InternalsVisibleTo("BrickPile.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 // Version information for an assembly consists of the following four values:
 //
 //      Major Version

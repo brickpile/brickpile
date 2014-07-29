@@ -1,7 +1,8 @@
 ﻿using System.Web.Routing;
-using BrickPile.Domain.Models;
-using BrickPile.UI.Web.Routing;
+using BrickPile.Core;
+using BrickPile.Core.Routing;
 using NUnit.Framework;
+using IPage = BrickPile.Core.IPage;
 
 namespace BrickPile.Tests.Web.Routing {
 

@@ -68,7 +68,7 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// The published.
         /// </value>        
-        public virtual DateTime Published { get; set; }
+        public virtual DateTime? Published { get; set; }
         /// <summary>
         /// Gets or sets the changed.
         /// </summary>

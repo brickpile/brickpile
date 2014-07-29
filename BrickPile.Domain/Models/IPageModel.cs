@@ -38,7 +38,7 @@ namespace BrickPile.Domain.Models {
         /// <value>
         /// The parent.
         /// </value>
-        DocumentReference<IPage> Parent { get; set; }
+        PageReference Parent { get; set; }
         /// <summary>
         /// Gets or sets the children.
         /// </summary>

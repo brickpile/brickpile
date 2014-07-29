@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BrickPile.Domain.Models;
+using IPage = BrickPile.Core.IPage;
 
 namespace BrickPile.UI.Web.ViewModels {
     public class IndexViewModel {
@@ -29,5 +29,6 @@ namespace BrickPile.UI.Web.ViewModels {
         /// </value>
         public IEnumerable<IPage> Children { get; set; }
 
+        public IEnumerable<string> Ids { get; set; } 
     }
 }

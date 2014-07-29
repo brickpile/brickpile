@@ -1,25 +1,5 @@
-﻿
-@* Copyright (C) 2011 by Marcus Lindblom
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE. *@
-
-@model BrickPile.UI.Web.ViewModels.EditViewModel
+﻿@model BrickPile.UI.Web.ViewModels.EditViewModel
+@using BrickPile.Core.Extensions
 @using BrickPile.UI.Common
 @using BrickPile.UI.Web.Mvc.Html
 
@@ -38,13 +18,13 @@ THE SOFTWARE. *@
 </script>, "scripts")
 
 @if (Model.ParentModel != null) {
-    <a href="@Url.Action("index", "pages", new { model = Model.ParentModel })" class="btn back">
+    <a href="@Url.Action("index", "pages", new { currentPage = Model.ParentModel })" class="btn back">
         <span class="text">@Model.ParentModel.Metadata.Name</span>
         <span class="left"></span>
     </a>
 }
 else {
-    <a href="@Url.Action("index", "pages", new { model = Model.RootModel })" class="btn back">
+    <a href="@Url.Action("index", "pages", new { currentPage = Model.RootModel })" class="btn back">
         <span class="text">@Model.RootModel.Metadata.Name</span>
         <span class="left"></span>
     </a>    
@@ -61,63 +41,69 @@ else {
             </ul>
         </div>
     }
-}
-
-@using (Html.BeginForm("update", "pages", new { model = Model.CurrentModel }, FormMethod.Post, new { name = "editForm" })) {
-    <div>
-        <fieldset class="metadata">
-            <div id="metadata">
-                <div>
-                    <div>
-                        @Html.LabelFor(model => model.CurrentModel.Metadata.Title)
-                        @Html.EditorFor(model => model.CurrentModel.Metadata.Title)
-                    </div>
-                    <div>
-                        @Html.LabelFor(model => model.CurrentModel.Metadata.Keywords)
-                        @Html.TextBoxFor(model => model.CurrentModel.Metadata.Keywords)
-                    </div>
-                </div>
-                <div>
-                    @Html.LabelFor(model => model.CurrentModel.Metadata.Description)
-                    @Html.TextAreaFor(model => model.CurrentModel.Metadata.Description)                
-                </div>
-                <div id="slug">
-                    <div>
-                        @Html.LabelFor(model => model.CurrentModel.Metadata.Slug)
-                        @Html.TextBoxFor(model => model.CurrentModel.Metadata.Slug, new { disabled = "disabled" })
-                    </div>
-                    <div>
-                        @Html.LabelFor(model => model.CurrentModel.Metadata.Published)
-                        @Html.EditorFor(model => model.CurrentModel.Metadata.Published)
-                    </div>
-                </div>
-                <div>
-                    <div id="visible">
-                        @Html.LabelFor(model => model.CurrentModel.Metadata.DisplayInMenu, "Visible in menu")
-                        @Html.CheckBoxFor(model => model.CurrentModel.Metadata.DisplayInMenu)
-                    </div>
-                    <div id="ispublished">
-                        @Html.LabelFor(model => model.CurrentModel.Metadata.IsPublished, "Published")
-                        @Html.CheckBoxFor(model => model.CurrentModel.Metadata.IsPublished)
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <fieldset style="background-color:#fff;padding-top:31px;padding-bottom:27px;">
-            <div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.CurrentModel.Metadata.Name)
-                </div>
-                <div class="editor-field">
-                    @Html.TextBoxFor(model => model.CurrentModel.Metadata.Name, new { @class = "title", required = "required", placeholder = "My awesome page" })
-                </div>
-            </div>
-
-            @Html.EditorFor(model => model.CurrentModel)
-
-        </fieldset>
-        <div id="button">
-            <input type="submit" value="Save" class="btn btn-large" />
+    
+    @if (Model.CurrentModel.IsDraft()) {
+        <div class="alert alert-draft">
+            <a href="@Url.Action("discard", new { currentPage = Model.CurrentModel })" class="btn btn-mini close">Discard changes</a>
+            You are editing a draft.
         </div>
-    </div>
+    }
 }
+
+    @using (Html.BeginForm("update", "pages", new {currentPage = Model.CurrentModel}, FormMethod.Post, new {name = "editForm"})) {
+        <div>
+            <fieldset class="metadata">
+                <div id="metadata">
+                    <div>
+                        <div>
+                            @Html.LabelFor(model => model.CurrentModel.Metadata.Title)
+                            @Html.EditorFor(model => model.CurrentModel.Metadata.Title)
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.CurrentModel.Metadata.Keywords)
+                            @Html.TextBoxFor(model => model.CurrentModel.Metadata.Keywords)
+                        </div>
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.CurrentModel.Metadata.Description)
+                        @Html.TextAreaFor(model => model.CurrentModel.Metadata.Description)                
+                    </div>
+                    <div id="slug">
+                        <div>
+                            @Html.LabelFor(model => model.CurrentModel.Metadata.Slug)
+                            @Html.TextBoxFor(model => model.CurrentModel.Metadata.Slug, new {disabled = "disabled"})
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.CurrentModel.Metadata.Published)
+                            @Html.EditorFor(model => model.CurrentModel.Metadata.Published)
+                        </div>
+                    </div>
+                    <div>
+                        <div id="visible">
+                            @Html.LabelFor(model => model.CurrentModel.Metadata.DisplayInMenu, "Visible in menu")
+                            @Html.CheckBoxFor(model => model.CurrentModel.Metadata.DisplayInMenu)
+                        </div>
+                        <div id="ispublished">
+                            @Html.LabelFor(model => model.CurrentModel.Metadata.IsPublished, "Published")
+                            @Html.CheckBoxFor(model => model.CurrentModel.Metadata.IsPublished)
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset style="background-color: #fff; padding-top: 31px; padding-bottom: 27px;">
+                <div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.CurrentModel.Metadata.Name)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(model => model.CurrentModel.Metadata.Name, new {@class = "title", required = "required", placeholder = "My awesome page"})
+                    </div>
+                </div>
+
+                @Html.EditorFor(model => model.CurrentModel)
+            </fieldset>
+            <div id="button">
+                <input type="submit" value="Save" class="btn btn-large" />
+            </div>
+        </div>
+    }

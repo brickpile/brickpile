@@ -1,84 +1,17 @@
-﻿/* Copyright (C) 2011 by Marcus Lindblom
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE. */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
+using BrickPile.Core.Routing;
 using BrickPile.Domain;
-using BrickPile.Domain.Models;
-using BrickPile.UI.Web.Routing;
-using StructureMap;
+using IPage = BrickPile.Core.IPage;
 
 namespace BrickPile.UI.Common {
     public static class Extensions {
-        /// <summary>
-        /// Creates the hierarchy.
-        /// </summary>
-        /// <typeparam name="TEntity">The type of the entity.</typeparam>
-        /// <param name="allItems">All items.</param>
-        /// <param name="parentItem">The parent item.</param>
-        /// <param name="depth">The depth.</param>
-        /// <returns></returns>
-        private static IEnumerable<HierarchyNode<TEntity>> CreateHierarchy<TEntity>(IEnumerable<TEntity> allItems,
-                                                                                    TEntity parentItem, int depth)
-            where TEntity : class, IPage {
-
-            if (parentItem == null)
-                parentItem = allItems.SingleOrDefault(i => i.Parent == null);
-
-            if (parentItem == null) {
-                yield break;
-            }
-            IEnumerable<TEntity> childs = allItems.Where(i => i.Parent != null && i.Parent.Id.Equals(parentItem.Id));
-
-            if (childs.Any()) {
-                depth++;
-
-                foreach (var item in childs)
-                    yield return
-                        new HierarchyNode<TEntity>()
-                        {
-                            Entity = item,
-                            ChildNodes = CreateHierarchy(allItems, item, depth),
-                            Depth = depth,
-                            Expanded = allItems.Any(x => x.Parent != null && x.Parent.Id.Equals(item.Id))
-                        };
-            }
-        }
-
-        /// <summary>
-        /// Ases the hierarchy.
-        /// </summary>
-        /// <typeparam name="TEntity">The type of the entity.</typeparam>
-        /// <param name="allItems">All items.</param>
-        /// <returns></returns>
-        public static IEnumerable<HierarchyNode<TEntity>> AsHierarchy<TEntity>(this IEnumerable<TEntity> allItems)
-            where TEntity : class, IPage {
-            return CreateHierarchy(allItems, default(TEntity), 0);
-        }
 
         /// <summary>
         /// Applies the current page.
@@ -87,7 +20,7 @@ namespace BrickPile.UI.Common {
         /// <param name="model">The model.</param>
         /// <returns></returns>
         public static RouteData ApplyCurrentPage(this RouteData data, dynamic model) {
-            data.Values[PageRoute.ModelKey] = model;
+            data.Values[PageRoute.CurrentPageKey] = model;
             return data;
         }
 
@@ -102,39 +35,20 @@ namespace BrickPile.UI.Common {
         public static RouteData ApplyCurrentPage(this RouteData data, string controllerName, string actionName, dynamic model) {
             data.Values[PageRoute.ControllerKey] = controllerName.Replace("Controller", "");
             data.Values[PageRoute.ActionKey] = actionName;
-            data.Values[PageRoute.ModelKey] = model;
+            data.Values[PageRoute.CurrentPageKey] = model;
             return data;
         }
 
         /// <summary>
         /// Applies the current structure info.
         /// </summary>
-        /// <param name="data">The data.</param>
-        /// <param name="structureInfo">The structure info.</param>
-        /// <returns></returns>
-        public static RouteData ApplyCurrentStructureInfo(this RouteData data, IStructureInfo structureInfo) {
-            data.Values[PageRoute.StructureInfoKey] = structureInfo;
-            return data;
-        }
-
-        /// <summary>
-        /// Returns the current model of the current request
-        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="data">The data.</param>
         /// <returns></returns>
         public static T GetCurrentPage<T>(this RouteData data) {
-            return (T) data.Values[PageRoute.ModelKey];
+            return (T)data.Values[PageRoute.CurrentPageKey];
         }
 
-        /// <summary>
-        /// Gets the structure info.
-        /// </summary>
-        /// <param name="routeData">The route data.</param>
-        /// <returns></returns>
-        public static IStructureInfo GetStructureInfo(this RouteData routeData) {
-            return routeData.Values[PageRoute.StructureInfoKey] as IStructureInfo;
-        }
         /// <summary>
         /// Adds the query param.
         /// </summary>
@@ -219,15 +133,6 @@ namespace BrickPile.UI.Common {
         /// <returns></returns>
         public static string Action(this UrlHelper urlHelper, string actionName, IPage model) {
             return urlHelper.Action(actionName, new {model});
-        }
-        /// <summary>
-        /// UIs the controls.
-        /// </summary>
-        /// <param name="htmlHelper">The HTML helper.</param>
-        /// <returns></returns>
-        public static MvcHtmlString UIControls(this HtmlHelper htmlHelper) {
-            var structureInfo = ObjectFactory.GetInstance<IStructureInfo>();
-            return htmlHelper.Partial("~/Areas/UI/Views/Shared/UIControls.cshtml", structureInfo);
         }
 
         /// <summary>

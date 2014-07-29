@@ -1,7 +1,8 @@
-﻿@model BrickPile.Samples.Models.Container
+﻿@using BrickPile.Core.Mvc.Html
+@model BrickPile.UI.Web.ViewModels.DefaultViewModel<BrickPile.Samples.Models.Container>
 @{
     ViewBag.Title = "Index";
     Layout = "~/views/shared/_Layout.cshtml";
 }
 
-<h1>@Model.Heading</h1>
+<h1>@Model.CurrentPage.Heading</h1>

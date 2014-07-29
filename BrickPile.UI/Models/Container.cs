@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using BrickPile.Core;
 using BrickPile.Domain;
 using BrickPile.Domain.Models;
 using BrickPile.Samples.Controllers;

@@ -81,14 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Asset.cs" />
-    <Compile Include="Models\DocumentReference.cs" />
-    <Compile Include="Models\IDocumentReference.cs" />
-    <Compile Include="Models\IPageMetadata.cs" />
-    <Compile Include="Models\IPageModel.cs" />
-    <Compile Include="Models\PageMetadata.cs" />
-    <Compile Include="Models\PageMetadataMetadata.cs" />
-    <Compile Include="Models\PageModel.cs" />
-    <Compile Include="Models\PageModelMetadata.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="ContentTypeAttribute.cs" />
