@@ -122,7 +122,7 @@ namespace BrickPile.UI.Common {
         /// <param name="model">The model.</param>
         /// <returns></returns>
         public static string Action(this UrlHelper urlHelper, IPage model) {
-            return urlHelper.Action("index", new {model});
+            return urlHelper.Action("index", new { currentPage = model });
         }
         /// <summary>
         /// Actions the specified URL helper.
@@ -132,7 +132,7 @@ namespace BrickPile.UI.Common {
         /// <param name="model">The model.</param>
         /// <returns></returns>
         public static string Action(this UrlHelper urlHelper, string actionName, IPage model) {
-            return urlHelper.Action(actionName, new {model});
+            return urlHelper.Action(actionName, new { currentPage = model});
         }
 
         /// <summary>
