@@ -38,7 +38,7 @@ namespace BrickPile.Core.Extensions
                 yield break;
             }
 
-            IEnumerable<TEntity> childs = allItems.Where(i => i.Parent != null && i.Parent.Id.Equals(parentItem.Id));
+            IEnumerable<TEntity> childs = allItems.Where(i => i.Parent != null && i.Parent.Id.Replace("/draft","").Equals(parentItem.Id.Replace("/draft","")));
 
             if (childs.Any())
             {
@@ -51,7 +51,7 @@ namespace BrickPile.Core.Extensions
                             Entity = item,
                             ChildNodes = CreateHierarchy(allItems, item, depth),
                             Depth = depth,
-                            Expanded = allItems.Any(x => x.Parent != null && x.Parent.Id.Equals(item.Id))
+                            Expanded = allItems.Any(x => x.Parent != null && x.Parent.Id.Replace("/draft","").Equals(item.Id.Replace("/draft","")))
                         };
             }
         }

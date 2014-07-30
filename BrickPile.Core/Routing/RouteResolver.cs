@@ -79,8 +79,8 @@ namespace BrickPile.Core.Routing
 
                 var ids = flatten(ancestors);
 
-                if (httpContext.User.Identity.IsAuthenticated && _store.Invoke().Exists(currentNode.PageId + DraftKey))
-                {
+                if (httpContext.User.Identity.IsAuthenticated && _store.Invoke().Exists(currentNode.PageId + DraftKey)) {
+                    ids.Remove(currentNode.PageId);
                     ids.Add(currentNode.PageId + DraftKey);
                 }
 
