@@ -167,7 +167,7 @@ namespace BrickPile.Core
 
                     var nodes = structureInfo.RootNode.Flatten(n => n.Children).ToArray();
 
-                    var parentNode = currentPage.Parent != null ? nodes.SingleOrDefault(n => n.PageId.Replace("/draft","") == currentPage.Parent.Id) : null;
+                    var parentNode = currentPage.Parent != null ? nodes.SingleOrDefault(n => n.PageId == currentPage.Parent.Id.Replace("/draft", "")) : null;
 
                     var currentNode = nodes.SingleOrDefault(n => n.PageId == key.Replace("/draft",""));
                     

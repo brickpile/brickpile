@@ -28,7 +28,7 @@ namespace BrickPile.Core
         /// <returns></returns>
         public static implicit operator PageReference(Page page)
         {
-            return new PageReference(page.Id);
+            return new PageReference(page.Id.Replace("/draft",""));
         }
 
         /// <summary>
