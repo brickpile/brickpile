@@ -1,8 +1,9 @@
 ﻿using RavenDB.AspNet.Identity;
 
-namespace BrickPile.UI.Areas.UI.Models
+namespace BrickPile.Core.Identity
 {
     public class ApplicationUser : IdentityUser
     {
+        public string Email { get; set; }
     }
 }

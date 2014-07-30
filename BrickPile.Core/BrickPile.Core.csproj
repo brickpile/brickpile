@@ -40,6 +40,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.1.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.1\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -98,6 +101,9 @@
     <Reference Include="Raven.Database, Version=2.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RavenDB.Database.2.5.2910\lib\net45\Raven.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="RavenDB.AspNet.Identity">
+      <HintPath>..\packages\RavenDB.AspNet.Identity.0.9.0\lib\net45\RavenDB.AspNet.Identity.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=3.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -175,6 +181,7 @@
     <Compile Include="Extensions\DocumentSessionExtensions.cs" />
     <Compile Include="Extensions\DocumentStoreExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\GravatarHelper.cs" />
     <Compile Include="Extensions\PageExtensions.cs" />
     <Compile Include="Extensions\RouteCollectionExtensions.cs" />
     <Compile Include="Extensions\RouteDataExtensions.cs" />
@@ -188,6 +195,7 @@
     <Compile Include="Hosting\NativeVirtualFile.cs" />
     <Compile Include="Hosting\NativeVirtualPathProvider.cs" />
     <Compile Include="IBrickPileBootstrapper.cs" />
+    <Compile Include="Identity\ApplicationUser.cs" />
     <Compile Include="Infrastructure\Indexes\AllAssets.cs" />
     <Compile Include="Infrastructure\Indexes\AllPages.cs" />
     <Compile Include="Infrastructure\Listeners\DeleteListener.cs" />
@@ -197,6 +205,7 @@
     <Compile Include="IStructureInfo.cs" />
     <Compile Include="Metadata.cs" />
     <Compile Include="Mvc\BrickPileControllerFactory.cs" />
+    <Compile Include="Mvc\BrickPileViewPage.cs" />
     <Compile Include="Mvc\ContentTypeMetadataValidatorProvider.cs" />
     <Compile Include="Mvc\ControllerMapper.cs" />
     <Compile Include="Mvc\ExtendedDataAnnotationsModelMetadataProvider.cs" />
@@ -216,6 +225,7 @@
     <Compile Include="Routing\RouteResolver.cs" />
     <Compile Include="Routing\UIRoute.cs" />
     <Compile Include="Routing\VirtualPathResolver.cs" />
+    <Compile Include="Security\Claims\ApplicationUserPrincipal.cs" />
     <Compile Include="Slug.cs" />
     <Compile Include="StoreAction.cs" />
     <Compile Include="StructureInfo.cs" />

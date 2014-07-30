@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.UI.Areas.UI.Models;
@@ -39,7 +40,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                     if (user != null) {
                         var identity = await userManager.CreateIdentityAsync(
                             user, DefaultAuthenticationTypes.ApplicationCookie);
-
+                        identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
                         GetAuthenticationManager().SignIn(identity);
 
                         return Redirect(GetRedirectUrl(model.ReturnUrl));

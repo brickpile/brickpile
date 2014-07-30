@@ -1,4 +1,5 @@
 ﻿using System;
+using BrickPile.Core.Identity;
 using BrickPile.UI.Areas.UI.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;

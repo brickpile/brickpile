@@ -204,7 +204,6 @@
     <Compile Include="Areas\UI\Controllers\SetupController.cs" />
     <Compile Include="Areas\UI\Controllers\UIController.cs" />
     <Compile Include="Areas\UI\Models\AccountModels.cs" />
-    <Compile Include="Areas\UI\Models\ApplicationUser.cs" />
     <Compile Include="Areas\UI\Models\EditUserModel.cs" />
     <Compile Include="Areas\UI\Models\LogInModel.cs" />
     <Compile Include="Areas\UI\Models\NewModel.cs" />

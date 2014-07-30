@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using BrickPile.Core.Configuration;
+using BrickPile.Core.Identity;
 using BrickPile.UI.Areas.UI.Models;
 using BrickPile.UI.Web.ViewModels;
 using Microsoft.AspNet.Identity;
@@ -33,13 +35,15 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 
                     var user = new ApplicationUser
                     {
-                        UserName = model.SetupModel.UserName
+                        UserName = model.SetupModel.UserName,
+                        Email = model.SetupModel.Email
                     };
 
                     var result = await userManager.CreateAsync(user, model.SetupModel.Password);
 
                     if (result.Succeeded) {
                         var identity = await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                        identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
                         GetAuthenticationManager().SignIn(identity);
                         IConfiguration configuration = new Configuration
                         {
