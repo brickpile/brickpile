@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using BrickPile.Core.Mvc;
 using BrickPile.UI.Areas.UI.Models;
 
 namespace BrickPile.UI.Areas.UI.Controllers {
@@ -22,11 +23,12 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 		// **************************************
 		// URL: /Account/LogOn
 		// **************************************
+        [AllowAnonymous]
 		public ActionResult Index() {
 			return View("LogOn");
 		}
 
-		[HttpPost]
+		[HttpPost, AllowAnonymous]
 		public ActionResult Index(LogOnModel model, string returnUrl)
 		{
 			if (ModelState.IsValid) {
