@@ -4,30 +4,14 @@ using BrickPile.Core;
 using BrickPile.Core.Conventions;
 using StructureMap;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Initialiser), "PreStart")]
-namespace BrickPile.Core
+namespace BrickPile.UI
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    internal static class Initialiser
-    {
+	public partial class Startup
+	{
         private static IBrickPileBootstrapper _brickPileBootstrapper;
-        private static bool _initialised;
 
-        /// <summary>
-        /// Pres the start.
-        /// </summary>
-        /// <exception cref="System.Exception">Unexpected second call to PreStart</exception>
-        public static void PreStart()
-        {
-            if (_initialised)
-            {
-                throw new Exception("Unexpected second call to PreStart");
-            }
-
-            _initialised = true;
-
+        public static void InitialiseBootstrapper()
+        {			
             // Get the first non-abstract implementation of IBrickPileBootstrapper if one exists in the
             // app domain. If none exist then just use the default one.
             var bootstrapperInterface = typeof(IBrickPileBootstrapper);
@@ -48,5 +32,5 @@ namespace BrickPile.Core
             _brickPileBootstrapper.Initialise();
 
         }
-    }
+	}
 }

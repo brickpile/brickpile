@@ -10,7 +10,7 @@
 
 @Html.Section(
 @<script id="view-template-new-page-dialog" type="text/html">
-<div id="models"> 
+<div id="models"> pageroute
     <h1><span>Create page</span></h1>
     <form method="post" action="@Url.Action("new", "pages", new { currentPage = @Model.CurrentModel })">
     @foreach (var type in Html.GetAvailablePageModels()) {

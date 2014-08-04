@@ -1,44 +1,22 @@
 <configuration>
-
-  <appSettings>
-    <add key="VirtualPathRoot" value="~/static/" />
-  </appSettings>  
-  
+	<appSettings>
+		<add key="VirtualPathRoot" value="~/static/" />
+	</appSettings>  
 	<system.web>
-    
-    <authentication mode="Forms">
-      <forms loginUrl="~/ui/account" timeout="2880" />
-    </authentication>
-
-    <membership defaultProvider="RavenDBMembership">
-      <providers>
-        <clear />
-        <add name="RavenDBMembership" applicationName="BrickPile" type="BrickPile.UI.Web.Security.RavenDBMembershipProvider, BrickPile.UI" />
-      </providers>
-    </membership>
-    
-    <roleManager enabled="true" defaultProvider="RavenDBRole">
-      <providers>
-        <clear />
-        <add name="RavenDBRole" applicationName="BrickPile" type="BrickPile.UI.Web.Security.RavenDBRoleProvider, BrickPile.UI" />
-      </providers>
-    </roleManager>
-    
+		<authentication mode="None" />
 	</system.web>
-  
 	<system.webServer>
 		<modules runAllManagedModulesForAllRequests="true">
-      <add name="ContainerDisposal" type="BrickPile.UI.Web.ContainerDisposalModule, BrickPile.UI" />
+			<remove name="FormsAuthenticationModule" />
+			<add name="ContainerDisposal" type="BrickPile.UI.Web.ContainerDisposalModule, BrickPile.UI" />
 		</modules>
 	</system.webServer>
-
-  <location path="static">
-    <system.webServer>
-      <handlers>
-        <clear />
-        <add name="StaticFile" path="*" verb="GET" type="System.Web.StaticFileHandler, System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-      </handlers>
-    </system.webServer>
-  </location>
-  
+	<location path="static">
+		<system.webServer>
+			<handlers>
+				<clear />
+				<add name="StaticFile" path="*" verb="GET" type="System.Web.StaticFileHandler, System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+			</handlers>
+		</system.webServer>
+	</location>
 </configuration>

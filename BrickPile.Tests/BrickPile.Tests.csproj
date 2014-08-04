@@ -40,8 +40,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FakeItEasy">
-      <HintPath>..\packages\FakeItEasy.1.21.0\lib\net40\FakeItEasy.dll</HintPath>
+    <Reference Include="FakeItEasy, Version=1.22.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FakeItEasy.1.22.0\lib\net40\FakeItEasy.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Conversion.v4.0" />
     <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Net4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -67,9 +68,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WindowsAzure.Storage.4.0.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\packages\WindowsAzure.Storage.4.2.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Moq, Version=4.2.1402.2112, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -85,33 +86,34 @@
     </Reference>
     <Reference Include="Raven.Abstractions, Version=2.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\RavenDB.Client.2.5.2879\lib\net45\Raven.Abstractions.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Client.2.5.2910\lib\net45\Raven.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Embedded, Version=2.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\RavenDB.Embedded.2.5.2879\lib\net45\Raven.Client.Embedded.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Embedded.2.5.2910\lib\net45\Raven.Client.Embedded.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Lightweight, Version=2.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\RavenDB.Client.2.5.2879\lib\net45\Raven.Client.Lightweight.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Client.2.5.2910\lib\net45\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Database, Version=2.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\RavenDB.Database.2.5.2879\lib\net45\Raven.Database.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\RavenDB.Database.2.5.2910\lib\net45\Raven.Database.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Server">
-      <HintPath>..\packages\RavenDB.Tests.Helpers.2.5.2879\lib\net45\Raven.Server.exe</HintPath>
+    <Reference Include="Raven.Server, Version=2.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RavenDB.Tests.Helpers.2.5.2910\lib\net45\Raven.Server.exe</HintPath>
     </Reference>
     <Reference Include="Raven.Tests.Helpers">
-      <HintPath>..\packages\RavenDB.Tests.Helpers.2.5.2879\lib\net45\Raven.Tests.Helpers.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Tests.Helpers.2.5.2910\lib\net45\Raven.Tests.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="StructureMap, Version=3.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="StructureMap, Version=3.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\structuremap.3.0.3.116\lib\net40\StructureMap.dll</HintPath>
+      <HintPath>..\packages\structuremap.3.0.5.130\lib\net40\StructureMap.dll</HintPath>
     </Reference>
-    <Reference Include="StructureMap.Net4">
-      <HintPath>..\packages\structuremap.3.0.3.116\lib\net40\StructureMap.Net4.dll</HintPath>
+    <Reference Include="StructureMap.Net4, Version=3.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\structuremap.3.0.5.130\lib\net40\StructureMap.Net4.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -129,29 +131,29 @@
       <HintPath>..\packages\System.Spatial.5.6.1\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.0\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.0\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />

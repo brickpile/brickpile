@@ -1,4 +1,6 @@
 ﻿@using System.Globalization
+@using BrickPile.Core.Extensions
+@using BrickPile.Core.Mvc
 @using BrickPile.UI.Common
 @using SquishIt.Framework
 
@@ -36,7 +38,7 @@
                         @Html.ActionLink("Pages","Index","Pages", null, new { @class = "pages", Area = "UI" })                       
                     </nav>
                 </div>
-                <span>Hello, @Membership.GetUser(HttpContext.Current.User.Identity.Name).UserName &middot; <a href="@Url.Action("logoff","account",null)" data-bypass>Logout</a></span>
+                <span>@Html.Raw(Html.Gravatar(@CurrentUser.Email, 35, GravatarRating.Default, GravatarDefaultImage.Retro, new { @class = "avatar" })) Hello, @CurrentUser.Name &middot; <a href="@Url.Action("LogOut","Auth")">Logout</a></span>
             </header>
             <h1>Welcome @HttpContext.Current.User.Identity.Name! Let's pile some bricks eh?</h1>
             @RenderSection("PreMain",false)
