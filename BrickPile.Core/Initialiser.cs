@@ -43,7 +43,7 @@ namespace BrickPile.Core
 
             var bootStrapperType = locatedBootstrappers.FirstOrDefault() ?? defaultBootstrapper;
 
-            _brickPileBootstrapper = (IBrickPileBootstrapper) Activator.CreateInstance(bootStrapperType, ObjectFactory.Container, new BrickPileConventions());
+            _brickPileBootstrapper = (IBrickPileBootstrapper) Activator.CreateInstance(bootStrapperType);
 
             _brickPileBootstrapper.Initialise();
 
