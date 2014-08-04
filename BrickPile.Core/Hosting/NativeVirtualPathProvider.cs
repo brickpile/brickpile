@@ -2,9 +2,9 @@
 using System.IO;
 using System.Web;
 using System.Web.Hosting;
-using BrickPile.Core.Hosting;
+using BrickPile.UI.Web.Hosting;
 
-namespace BrickPile.UI.Web.Hosting {
+namespace BrickPile.Core.Hosting {
     public class NativeVirtualPathProvider : CommonVirtualPathProvider {
         /// <summary>
         /// Gets the physical path.
@@ -36,8 +36,8 @@ namespace BrickPile.UI.Web.Hosting {
         /// true if the file exists in the virtual file system; otherwise, false.
         /// </returns>
         public override bool FileExists(string virtualPath) {
-            if (virtualPath.StartsWith(VirtualPathRoot)) {
-                return File.Exists(Path.Combine(PhysicalPath, virtualPath.Replace(VirtualPathRoot, string.Empty)));
+            if (virtualPath.StartsWith(this.VirtualPathRoot)) {
+                return File.Exists(Path.Combine(this.PhysicalPath, virtualPath.Replace(this.VirtualPathRoot, string.Empty)));
             }
             return base.FileExists(virtualPath);
         }
@@ -49,8 +49,8 @@ namespace BrickPile.UI.Web.Hosting {
         /// true if the directory exists in the virtual file system; otherwise, false.
         /// </returns>
         public override bool DirectoryExists(string virtualDir) {
-            if (virtualDir.StartsWith(VirtualPathRoot)) {
-                return Directory.Exists(Path.Combine(PhysicalPath, virtualDir.Replace(VirtualPathRoot, string.Empty)));
+            if (virtualDir.StartsWith(this.VirtualPathRoot)) {
+                return Directory.Exists(Path.Combine(this.PhysicalPath, virtualDir.Replace(this.VirtualPathRoot, string.Empty)));
             }
             return base.DirectoryExists(virtualDir);
         }
@@ -62,7 +62,7 @@ namespace BrickPile.UI.Web.Hosting {
         /// A descendent of the <see cref="T:System.Web.Hosting.VirtualDirectory"/> class that represents a directory in the virtual file system.
         /// </returns>
         public override VirtualDirectory GetDirectory(string virtualDir) {
-            if (virtualDir.StartsWith(VirtualPathRoot)) {
+            if (virtualDir.StartsWith(this.VirtualPathRoot)) {
                 return new NativeVirtualDirectory(this,virtualDir);
             }
             return Previous.GetDirectory(virtualDir);
@@ -75,7 +75,7 @@ namespace BrickPile.UI.Web.Hosting {
         /// A descendent of the <see cref="T:System.Web.Hosting.VirtualFile"/> class that represents a file in the virtual file system.
         /// </returns>
         public override VirtualFile GetFile(string virtualPath) {
-            if(virtualPath.StartsWith(VirtualPathRoot)) {
+            if(virtualPath.StartsWith(this.VirtualPathRoot)) {
                 return new NativeVirtualFile(this, virtualPath);
             }
             return this.Previous.GetFile(virtualPath);            
