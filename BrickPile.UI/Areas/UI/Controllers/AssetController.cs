@@ -11,6 +11,7 @@ using System.Web.Hosting;
 using System.Web.Http;
 using BrickPile.Core.Hosting;
 using BrickPile.Core.Infrastructure.Indexes;
+using BrickPile.Core.Mvc;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Web;
 using Raven.Client;
@@ -20,6 +21,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
     /// 
     /// </summary>
     //[Authorize]
+    [EditorControls(Disable = true)]
     public class AssetController : ApiController {
         private readonly IDocumentStore _store;
         private const int PageSize = 50;

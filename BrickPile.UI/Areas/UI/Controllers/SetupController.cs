@@ -1,11 +1,13 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
 using BrickPile.Core.Configuration;
+using BrickPile.Core.Mvc;
 using BrickPile.UI.Areas.UI.Models;
 using BrickPile.UI.Web.ViewModels;
 using Raven.Client;
 
 namespace BrickPile.UI.Areas.UI.Controllers {
+    [EditorControls(Disable = true)]
     public class SetupController : Controller {
         private readonly IMembershipService _membershipService;
         private readonly IFormsAuthenticationService _formsService;
@@ -35,8 +37,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                     _formsService.SignIn(model.SetupModel.UserName, false /* createPersistentCookie */);
                     // Create the site configuration
                     using (var session = _store.OpenSession()) { 
-                        IConfiguration configuration = new Configuration();
-                        configuration.SiteName = model.Configuration.SiteName;
+                        var configuration = new Configuration {SiteName = model.Configuration.SiteName};
                         session.Store(configuration);
                         session.SaveChanges();
                     }
