@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace BrickPile.Core.Configuration {
-    public class Configuration : IConfiguration {
+    public class Configuration {
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
