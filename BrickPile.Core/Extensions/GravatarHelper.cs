@@ -10,21 +10,27 @@ namespace BrickPile.Core.Extensions
     public static class HtmlHelperGravatar
     {
         /// <summary>
-        /// Creates HTML for an <c>img</c> element that presents a Gravatar icon.
+        ///     Creates HTML for an <c>img</c> element that presents a Gravatar icon.
         /// </summary>
-        /// <param name="html">The <see cref="HtmlHelper"/> upon which this extension method is provided.</param>
+        /// <param name="html">The <see cref="HtmlHelper" /> upon which this extension method is provided.</param>
         /// <param name="email">The email address used to identify the icon.</param>
         /// <param name="size">An optional parameter that specifies the size of the square image in pixels.</param>
         /// <param name="rating">An optional parameter that specifies the safety level of allowed images.</param>
-        /// <param name="defaultImage">An optional parameter that controls what image is displayed for email addresses that don't have associated Gravatar icons.</param>
-        /// <param name="htmlAttributes">An optional parameter holding additional attributes to be included on the <c>img</c> element.</param>
+        /// <param name="defaultImage">
+        ///     An optional parameter that controls what image is displayed for email addresses that don't
+        ///     have associated Gravatar icons.
+        /// </param>
+        /// <param name="htmlAttributes">
+        ///     An optional parameter holding additional attributes to be included on the <c>img</c>
+        ///     element.
+        /// </param>
         /// <returns>An HTML string of the <c>img</c> element that presents a Gravatar icon.</returns>
         public static string Gravatar(this HtmlHelper html,
-                                      string email,
-                                      int? size = null,
-                                      GravatarRating rating = GravatarRating.Default,
-                                      GravatarDefaultImage defaultImage = GravatarDefaultImage.MysteryMan,
-                                      object htmlAttributes = null)
+            string email,
+            int? size = null,
+            GravatarRating rating = GravatarRating.Default,
+            GravatarDefaultImage defaultImage = GravatarDefaultImage.MysteryMan,
+            object htmlAttributes = null)
         {
             var url = new StringBuilder("http://www.gravatar.com/avatar/", 90);
             url.Append(GetEmailHash(email));
@@ -100,28 +106,28 @@ namespace BrickPile.Core.Extensions
     public enum GravatarRating
     {
         /// <summary>
-        /// The default value as specified by the Gravatar service.  That is, no rating value is specified
-        /// with the request.  At the time of authoring, the default level was <see cref="G"/>.
+        ///     The default value as specified by the Gravatar service.  That is, no rating value is specified
+        ///     with the request.  At the time of authoring, the default level was <see cref="G" />.
         /// </summary>
         Default,
 
         /// <summary>
-        /// Suitable for display on all websites with any audience type.  This is the default.
+        ///     Suitable for display on all websites with any audience type.  This is the default.
         /// </summary>
         G,
 
         /// <summary>
-        /// May contain rude gestures, provocatively dressed individuals, the lesser swear words, or mild violence.
+        ///     May contain rude gestures, provocatively dressed individuals, the lesser swear words, or mild violence.
         /// </summary>
         Pg,
 
         /// <summary>
-        /// May contain such things as harsh profanity, intense violence, nudity, or hard drug use.
+        ///     May contain such things as harsh profanity, intense violence, nudity, or hard drug use.
         /// </summary>
         R,
 
         /// <summary>
-        /// May contain hardcore sexual imagery or extremely disturbing violence.
+        ///     May contain hardcore sexual imagery or extremely disturbing violence.
         /// </summary>
         X
     }
@@ -129,38 +135,39 @@ namespace BrickPile.Core.Extensions
     public enum GravatarDefaultImage
     {
         /// <summary>
-        /// The default value image.  That is, the image returned when no specific default value is included
-        /// with the request.  At the time of authoring, this image is the Gravatar icon.
+        ///     The default value image.  That is, the image returned when no specific default value is included
+        ///     with the request.  At the time of authoring, this image is the Gravatar icon.
         /// </summary>
         Default,
 
         /// <summary>
-        /// Do not load any image if none is associated with the email hash, instead return an HTTP 404 (File Not Found) response.
+        ///     Do not load any image if none is associated with the email hash, instead return an HTTP 404 (File Not Found)
+        ///     response.
         /// </summary>
         Http404,
 
         /// <summary>
-        /// A simple, cartoon-style silhouetted outline of a person (does not vary by email hash).
+        ///     A simple, cartoon-style silhouetted outline of a person (does not vary by email hash).
         /// </summary>
         MysteryMan,
 
         /// <summary>
-        /// A geometric pattern based on an email hash.
+        ///     A geometric pattern based on an email hash.
         /// </summary>
         Identicon,
 
         /// <summary>
-        /// A generated 'monster' with different colors, faces, etc.
+        ///     A generated 'monster' with different colors, faces, etc.
         /// </summary>
         MonsterId,
 
         /// <summary>
-        /// An awesome generated, 8-bit arcade-style pixelated faces
+        ///     An awesome generated, 8-bit arcade-style pixelated faces
         /// </summary>
         Retro,
 
         /// <summary>
-        /// Generated faces with differing features and backgrounds.
+        ///     Generated faces with differing features and backgrounds.
         /// </summary>
         Wavatar
     }

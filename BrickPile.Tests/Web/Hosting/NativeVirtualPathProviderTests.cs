@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Web;
 using System.Web.Hosting;
 using BrickPile.Core.Hosting;
-using BrickPile.UI.Web.Hosting;
 using NUnit.Framework;
 
 namespace BrickPile.Tests.Web.Hosting {

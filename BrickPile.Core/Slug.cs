@@ -4,10 +4,10 @@ using System.Text;
 
 namespace BrickPile.Core
 {
-    public class Slug
+    internal class Slug
     {
         /// <summary>
-        /// Creates the slug.
+        ///     Creates the slug.
         /// </summary>
         /// <param name="page">The page.</param>
         /// <returns></returns>
@@ -17,7 +17,7 @@ namespace BrickPile.Core
         }
 
         /// <summary>
-        /// Normalizes the URL segment.
+        ///     Normalizes the URL segment.
         /// </summary>
         /// <param name="text">The text.</param>
         /// <returns></returns>
@@ -58,7 +58,7 @@ namespace BrickPile.Core
         }
 
         /// <summary>
-        /// Removes the diacritics.
+        ///     Removes the diacritics.
         /// </summary>
         /// <param name="input">The input.</param>
         private static void RemoveDiacritics(StringBuilder input)

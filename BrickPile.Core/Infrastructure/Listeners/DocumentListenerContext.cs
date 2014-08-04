@@ -1,35 +1,34 @@
 ﻿using System;
+using Raven.Abstractions.Extensions;
 
 namespace BrickPile.Core.Infrastructure.Listeners
 {
+    /// <summary>
+    /// </summary>
     internal static class DocumentListenerContext
     {
-        [ThreadStatic]
-        private static bool _currentlyInContext;
+        [ThreadStatic] private static bool currentlyInContext;
 
         /// <summary>
-        /// Gets a value indicating whether [is in document listener context].
+        ///     Gets a value indicating whether [is in document listener context].
         /// </summary>
         /// <value>
-        /// <c>true</c> if [is in document listener context]; otherwise, <c>false</c>.
+        ///     <c>true</c> if [is in document listener context]; otherwise, <c>false</c>.
         /// </value>
         public static bool IsInDocumentListenerContext
         {
-            get
-            {
-                return _currentlyInContext;
-            }
+            get { return currentlyInContext; }
         }
 
         /// <summary>
-        /// Enters this instance.
+        ///     Enters this instance.
         /// </summary>
         /// <returns></returns>
         public static IDisposable Enter()
         {
-            var old = _currentlyInContext;
-            _currentlyInContext = true;
-            return new Raven.Abstractions.Extensions.DisposableAction(() => _currentlyInContext = old);
+            var old = currentlyInContext;
+            currentlyInContext = true;
+            return new DisposableAction(() => currentlyInContext = old);
         }
     }
 }

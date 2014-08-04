@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
@@ -23,6 +22,9 @@ using StructureMap.Graph;
 
 namespace BrickPile.Core
 {
+    /// <summary>
+    ///     Responsible for handling the default initialisation of BrickPile
+    /// </summary>
     public class DefaultBrickPileBootstrapper : IBrickPileBootstrapper
     {
         private const string ConnectionStringName = "RavenDB";
@@ -31,21 +33,43 @@ namespace BrickPile.Core
 
         private readonly BrickPileConventions conventions;
 
+        /// <summary>
+        ///     Gets the document store.
+        /// </summary>
+        /// <value>
+        ///     The document store.
+        /// </value>
         protected IDocumentStore DocumentStore { get; private set; }
+
+        /// <summary>
+        ///     Gets or sets the application container.
+        /// </summary>
+        /// <value>
+        ///     The application container.
+        /// </value>
         protected IContainer ApplicationContainer { get; set; }
 
+        /// <summary>
+        ///     Gets the conventions.
+        /// </summary>
+        /// <value>
+        ///     The conventions.
+        /// </value>
         protected virtual BrickPileConventions Conventions
         {
             get { return this.conventions; }
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DefaultBrickPileBootstrapper" /> class.
+        /// </summary>
         protected DefaultBrickPileBootstrapper()
         {
             this.conventions = new BrickPileConventions();
         }
 
         /// <summary>
-        ///     Initialises this instance.
+        ///     Initialises BrickPile.
         /// </summary>
         public void Initialise()
         {
@@ -100,6 +124,7 @@ namespace BrickPile.Core
         /// <summary>
         ///     Gets the Container instance - automatically set during initialise.
         /// </summary>
+        /// <returns></returns>
         protected IContainer GetApplicationContainer()
         {
             return ObjectFactory.Container;
@@ -111,7 +136,7 @@ namespace BrickPile.Core
         /// <param name="documentStore">The document store.</param>
         protected void CreateDefaultDocuments(IDocumentStore documentStore)
         {
-            using (IDocumentSession session = this.DocumentStore.OpenSession())
+            using (var session = this.DocumentStore.OpenSession())
             {
                 var structureInfo = session.Load<StructureInfo>(StructureInfoDocumentId);
 
@@ -125,7 +150,7 @@ namespace BrickPile.Core
         [Obsolete("not used atm", false)]
         internal void OnPageSave(string key, IPage currentPage, RavenJObject metadata)
         {
-            using (IDocumentSession session = this.DocumentStore.OpenSession())
+            using (var session = this.DocumentStore.OpenSession())
             {
                 // load structure info
                 var structureInfo = session.Load<StructureInfo>(StructureInfoDocumentId);
@@ -139,9 +164,9 @@ namespace BrickPile.Core
                 }
                 else
                 {
-                    StructureInfo.Node[] nodes = structureInfo.RootNode.Flatten(n => n.Children).ToArray();
+                    var nodes = structureInfo.RootNode.Flatten(n => n.Children).ToArray();
 
-                    StructureInfo.Node parent = currentPage.Parent != null
+                    var parent = currentPage.Parent != null
                         ? nodes.SingleOrDefault(
                             n =>
                                 String.Equals(n.PageId, currentPage.Parent.Id, StringComparison.CurrentCultureIgnoreCase))
@@ -169,9 +194,15 @@ namespace BrickPile.Core
             }
         }
 
+        /// <summary>
+        ///     Called when [page publish].
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="currentPage">The current page.</param>
+        /// <param name="metadata">The metadata.</param>
         internal void OnPagePublish(string key, IPage currentPage, RavenJObject metadata)
         {
-            using (IDocumentSession session = this.DocumentStore.OpenSession())
+            using (var session = this.DocumentStore.OpenSession())
             {
                 // load structure info
                 var structureInfo = session.Load<StructureInfo>(StructureInfoDocumentId);
@@ -185,13 +216,13 @@ namespace BrickPile.Core
                 }
                 else
                 {
-                    StructureInfo.Node[] nodes = structureInfo.RootNode.Flatten(n => n.Children).ToArray();
+                    var nodes = structureInfo.RootNode.Flatten(n => n.Children).ToArray();
 
-                    StructureInfo.Node parentNode = currentPage.Parent != null
+                    var parentNode = currentPage.Parent != null
                         ? nodes.SingleOrDefault(n => n.PageId.CompareToIgnoreDraftId(currentPage.Parent.Id))
                         : null;
 
-                    StructureInfo.Node currentNode = nodes.SingleOrDefault(n => n.PageId.CompareToIgnoreDraftId(key));
+                    var currentNode = nodes.SingleOrDefault(n => n.PageId.CompareToIgnoreDraftId(key));
 
                     if (currentNode != null)
                     {
@@ -207,8 +238,8 @@ namespace BrickPile.Core
                             {
                                 structureInfo.MoveTo(parentNode, currentNode);
 
-                                IEnumerable<string> ids = currentNode.Flatten(x => x.Children).Select(x => x.PageId);
-                                IPage[] pages = session.Load<IPage>(ids);
+                                var ids = currentNode.Flatten(x => x.Children).Select(x => x.PageId);
+                                var pages = session.Load<IPage>(ids);
                                 pages.ForEach(p => { p.Metadata.Url = structureInfo.Get(p.Id).Url; });
                             }
 
@@ -245,6 +276,12 @@ namespace BrickPile.Core
             }
         }
 
+        /// <summary>
+        ///     Called when [page un publish].
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="currentPage">The current page.</param>
+        /// <param name="metadata">The metadata.</param>
         internal void OnPageUnPublish(string key, IPage currentPage, RavenJObject metadata) {}
 
         /// <summary>
@@ -255,11 +292,11 @@ namespace BrickPile.Core
         /// <param name="metadata">The metadata.</param>
         internal void OnDocumentDelete(string key, IPage page, RavenJObject metadata)
         {
-            using (IDocumentSession session = this.DocumentStore.OpenSession())
+            using (var session = this.DocumentStore.OpenSession())
             {
                 var structureInfo = session.Load<StructureInfo>(StructureInfoDocumentId);
 
-                StructureInfo.Node node = structureInfo.Get(key);
+                var node = structureInfo.Get(key);
 
                 if (node != null)
                 {
@@ -342,10 +379,7 @@ namespace BrickPile.Core
         ///     Overrides/configures BrickPile's conventions
         /// </summary>
         /// <param name="brickPileConventions">The brick pile conventions.</param>
-        public virtual void ConfigureConventions(BrickPileConventions brickPileConventions)
-        {
-            //conventions.VirtualPathProviderConventions.Register("Default", () => new NativeVirtualPathProvider());
-        }
+        public virtual void ConfigureConventions(BrickPileConventions brickPileConventions) {}
 
         /// <summary>
         ///     Initialises the document store.

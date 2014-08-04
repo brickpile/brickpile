@@ -1,6 +1,7 @@
 ﻿using System.Web.Routing;
 using BrickPile.Core;
 using BrickPile.Core.Routing;
+using BrickPile.Tests.Fakes;
 using NUnit.Framework;
 using IPage = BrickPile.Core.IPage;
 
@@ -18,7 +19,7 @@ namespace BrickPile.Tests.Web.Routing {
         public void Can_Resolve_Virtual_Path_With_Default_Action() {
 
             // Arrange
-            IPage model = new Page {Metadata = {Url = "page1/page2"}};
+            IPage model = new FakePage { Metadata = { Url = "page1/page2" } };
             var routeValueDictionary = new RouteValueDictionary();
 
             // Act
@@ -36,7 +37,7 @@ namespace BrickPile.Tests.Web.Routing {
         public void Can_Resolve_Virtual_Path_With_Comment_Action() {
 
             // Arrange
-            IPage model = new Page { Metadata = { Url = "page1/page2" } };
+            IPage model = new FakePage { Metadata = { Url = "page1/page2" } };
             var routeValueDictionary = new RouteValueDictionary();
             routeValueDictionary["Action"] = "Comment";
 

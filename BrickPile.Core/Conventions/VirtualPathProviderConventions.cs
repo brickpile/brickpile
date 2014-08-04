@@ -8,23 +8,30 @@ using BrickPile.Core.Hosting;
 
 namespace BrickPile.Core.Conventions
 {
-    public class VirtualPathProviderConventions
+    /// <summary>
+    ///     Represents the registered virtual path providers
+    /// </summary>
+    public sealed class VirtualPathProviderConventions
     {
-        private static IDictionary<string, CommonVirtualPathProvider> _registeredProviders;
+        private static IDictionary<string, CommonVirtualPathProvider> registeredProviders;
 
         /// <summary>
-        /// Gets the registered providers.
+        ///     Gets the registered providers.
         /// </summary>
         /// <value>
-        /// The registered providers.
+        ///     The registered providers.
         /// </value>
         public static IDictionary<string, CommonVirtualPathProvider> RegisteredProviders
         {
-            get { return _registeredProviders ?? (_registeredProviders = new Dictionary<string, CommonVirtualPathProvider>()); }
+            get
+            {
+                return registeredProviders ??
+                       (registeredProviders = new Dictionary<string, CommonVirtualPathProvider>());
+            }
         }
 
         /// <summary>
-        /// Registers the specified name.
+        ///     Registers the specified name.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="provider">The provider.</param>
@@ -36,7 +43,7 @@ namespace BrickPile.Core.Conventions
         }
 
         /// <summary>
-        /// Registers the ignore route.
+        ///     Registers the ignore route.
         /// </summary>
         /// <param name="virtualPathRoot">The virtual path root.</param>
         private static void RegisterIgnoreRoute(string virtualPathRoot)

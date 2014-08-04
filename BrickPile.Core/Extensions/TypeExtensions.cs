@@ -3,10 +3,13 @@ using System.Linq;
 
 namespace BrickPile.Core.Extensions
 {
+    /// <summary>
+    ///     Provides BrickPile <see cref="Type" /> helper methods.
+    /// </summary>
     public static class TypeExtensions
     {
         /// <summary>
-        /// Gets the attribute.
+        ///     Gets the attribute.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="type">The type.</param>

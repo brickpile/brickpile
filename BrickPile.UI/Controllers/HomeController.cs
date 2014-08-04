@@ -5,7 +5,6 @@ using BrickPile.Core.Mvc;
 using BrickPile.Samples.Models;
 using BrickPile.Samples.Models.ViewModels;
 using Raven.Client;
-using Raven.Client.Linq;
 
 namespace BrickPile.Samples.Controllers
 {
@@ -23,7 +22,7 @@ namespace BrickPile.Samples.Controllers
         public ActionResult Index(Home currentPage) {
             HomeViewModel viewModel;
             using (IDocumentSession session = this.documentStore.OpenSession())
-            {
+            {                                
                 //var start = session.Advanced.LoadStartPage();
                 //var draft = session.Advanced.LoadDraftFor<Home>(currentPage);
                 //var children = session.Advanced.LoadChildrenFor(currentPage).FilterForDisplay();
@@ -46,7 +45,7 @@ namespace BrickPile.Samples.Controllers
                 viewModel = new HomeViewModel
                 {
                     CurrentPage = currentPage,
-                    NavigationContext = context
+                    NavigationContext = navigationContext
                 };
             }
 

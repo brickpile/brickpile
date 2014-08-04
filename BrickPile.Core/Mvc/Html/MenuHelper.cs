@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,7 +8,7 @@ using BrickPile.Core.Extensions;
 namespace BrickPile.Core.Mvc.Html
 {
     /// <summary>
-    ///     Extension methods for the <see cref="HtmlHelper" /> object.
+    ///     Provides BrickPile <see cref="HtmlHelper" /> helper methods
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
@@ -21,7 +20,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <value>
         ///     The navigation context.
         /// </value>
-        private static INavigationContext NavigationContext {
+        private static INavigationContext NavigationContext
+        {
             get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetNavigationContext(); }
         }
 
@@ -33,7 +33,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
         public static MvcHtmlString Menu(this HtmlHelper html, Func<IPage, MvcHtmlString> itemContent,
-            bool enableDisplayInMenu = true) {
+            bool enableDisplayInMenu = true)
+        {
             return Menu(html, NavigationContext, itemContent, enableDisplayInMenu);
         }
 
@@ -46,7 +47,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
         public static MvcHtmlString Menu(this HtmlHelper html, INavigationContext navigationContext,
-            Func<IPage, MvcHtmlString> itemContent, bool enableDisplayInMenu = true) {
+            Func<IPage, MvcHtmlString> itemContent, bool enableDisplayInMenu = true)
+        {
             return Menu(html, navigationContext, itemContent, itemContent, enableDisplayInMenu);
         }
 
@@ -59,7 +61,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
         public static MvcHtmlString Menu(this HtmlHelper html, Func<IPage, MvcHtmlString> itemContent,
-            Func<IPage, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true) {
+            Func<IPage, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true)
+        {
             return Menu(html, NavigationContext, itemContent, selectedItemContent, itemContent, enableDisplayInMenu);
         }
 
@@ -74,7 +77,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <returns></returns>
         public static MvcHtmlString Menu(this HtmlHelper html, INavigationContext navigationContext,
             Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent,
-            bool enableDisplayInMenu = true) {
+            bool enableDisplayInMenu = true)
+        {
             return Menu(html, navigationContext, itemContent, selectedItemContent, itemContent, enableDisplayInMenu);
         }
 
@@ -90,7 +94,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <returns></returns>
         public static MvcHtmlString Menu(this HtmlHelper html, INavigationContext navigationContext,
             Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent,
-            Func<IPage, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true) {
+            Func<IPage, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true)
+        {
             return Menu(html, navigationContext, itemContent, selectedItemContent, expandedItemContent, null,
                 enableDisplayInMenu);
         }
@@ -112,7 +117,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <returns></returns>
         public static MvcHtmlString Menu(this HtmlHelper html, INavigationContext navigationContext,
             Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent,
-            Func<IPage, MvcHtmlString> expandedItemContent, object htmlAttributes, bool enableDisplayInMenu = true) {
+            Func<IPage, MvcHtmlString> expandedItemContent, object htmlAttributes, bool enableDisplayInMenu = true)
+        {
             if (navigationContext == null)
             {
                 return MvcHtmlString.Empty;
@@ -123,10 +129,10 @@ namespace BrickPile.Core.Mvc.Html
             // merge html attributes
             ul.MergeAttributes(new RouteValueDictionary(htmlAttributes));
 
-            IEnumerable<dynamic> nodes = navigationContext.CurrentContext.FilterForDisplay().AsHierarchy();
+            var nodes = navigationContext.CurrentContext.FilterForDisplay().AsHierarchy();
 
             // only render the top level items
-            IEnumerable<dynamic> items = nodes.Where(x => x.Depth == 1);
+            var items = nodes.Where(x => x.Depth == 1);
 
             IPage home;
             if (!items.Any())
@@ -168,10 +174,11 @@ namespace BrickPile.Core.Mvc.Html
                 items = items.Where(x => x.Entity.Metadata.DisplayInMenu);
             }
 
-            foreach (dynamic item in items)
+            foreach (var item in items)
             {
                 RenderLi(ul, item.Entity,
-                    ((IPage) item.Entity).Id.Replace("/draft", "").Equals(navigationContext.CurrentPage.Id.Replace("/draft", ""))
+                    ((IPage) item.Entity).Id.Replace("/draft", "")
+                        .Equals(navigationContext.CurrentPage.Id.Replace("/draft", ""))
                         ? selectedItemContent
                         : (item.Expanded ? expandedItemContent : itemContent));
             }
@@ -186,7 +193,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <param name="tagBuilder">The tag builder.</param>
         /// <param name="item">The item.</param>
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
-        private static void RenderLi<T>(TagBuilder tagBuilder, T item, Func<T, MvcHtmlString> itemContent) {
+        private static void RenderLi<T>(TagBuilder tagBuilder, T item, Func<T, MvcHtmlString> itemContent)
+        {
             tagBuilder.InnerHtml +=
                 new TagBuilder("li") {InnerHtml = itemContent(item).ToHtmlString()}.ToString(TagRenderMode.Normal);
         }

@@ -2,10 +2,13 @@
 
 namespace BrickPile.Core.Extensions
 {
+    /// <summary>
+    ///     Provides BrickPile <see cref="string" /> helper methods.
+    /// </summary>
     public static class StringExtensions
     {
         /// <summary>
-        /// Adds the query parameter.
+        ///     Adds the query parameter.
         /// </summary>
         /// <param name="source">The source.</param>
         /// <param name="key">The key.</param>
@@ -29,7 +32,14 @@ namespace BrickPile.Core.Extensions
             return source + delim + HttpUtility.UrlEncode(key) + "=" + HttpUtility.UrlEncode(value);
         }
 
-        public static bool CompareToIgnoreDraftId(this string id, string idToCompare) {
+        /// <summary>
+        ///     Compares to and ignores draft identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="idToCompare">The identifier to compare.</param>
+        /// <returns></returns>
+        public static bool CompareToIgnoreDraftId(this string id, string idToCompare)
+        {
             return id.Replace("/draft", "").Equals(idToCompare.Replace("/draft", ""));
         }
     }

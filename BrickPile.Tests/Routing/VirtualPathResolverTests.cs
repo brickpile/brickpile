@@ -1,6 +1,7 @@
 ﻿using System.Web.Routing;
 using BrickPile.Core;
 using BrickPile.Core.Routing;
+using BrickPile.Tests.Fakes;
 using Xunit;
 
 namespace BrickPile.Tests.Routing
@@ -13,7 +14,7 @@ namespace BrickPile.Tests.Routing
             public void Can_Resolve_Virtual_Path()
             {
                 // Given
-                var page = new Page {Metadata = { Url = "foo/bar/fudge"}};
+                var page = new FakePage {Metadata = { Url = "foo/bar/fudge"}};
                 var resolver = new VirtualPathResolver();
 
                 // When
@@ -29,7 +30,7 @@ namespace BrickPile.Tests.Routing
             public void Can_Append_Action_To_Url()
             {
                 // Given
-                var page = new Page { Metadata = { Url = "foo/bar/fudge" } };
+                var page = new FakePage { Metadata = { Url = "foo/bar/fudge" } };
                 var resolver = new VirtualPathResolver();
 
                 // When

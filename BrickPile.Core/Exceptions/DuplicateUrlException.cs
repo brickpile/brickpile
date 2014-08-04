@@ -2,7 +2,7 @@
 
 namespace BrickPile.Core.Exceptions
 {
-    public class DuplicateUrlException : Exception
+    internal sealed class DuplicateUrlException : Exception
     {
         public DuplicateUrlException(string message) : base(message) { }
     }

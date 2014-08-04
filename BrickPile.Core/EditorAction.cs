@@ -1,5 +1,8 @@
 ﻿namespace BrickPile.Core
 {
+    /// <summary>
+    ///     Represents the different editor actions available in BrickPile.
+    /// </summary>
     public enum EditorAction
     {
         None = 0,

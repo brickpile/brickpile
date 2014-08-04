@@ -4,11 +4,15 @@ using System.Web.Routing;
 
 namespace BrickPile.Core.Routing
 {
-    public class VirtualPathResolver : IVirtualPathResolver {
+    /// <summary>
+    ///     Represents the default virtual path resolver
+    /// </summary>
+    internal class VirtualPathResolver : IVirtualPathResolver
+    {
         private string action;
 
         /// <summary>
-        /// Resolves the virtual path.
+        ///     Resolves the virtual path.
         /// </summary>
         /// <param name="page">The page.</param>
         /// <param name="routeValueDictionary">The route value dictionary.</param>
@@ -23,7 +27,9 @@ namespace BrickPile.Core.Routing
 
             if (this.action != null && !this.action.ToLower().Equals(PageRoute.DefaultAction))
             {
-                return VirtualPathUtility.AppendTrailingSlash(string.Join("/", new[] { url, this.action }.Where(item => !string.IsNullOrWhiteSpace(item)))).ToLower();
+                return
+                    VirtualPathUtility.AppendTrailingSlash(string.Join("/",
+                        new[] {url, this.action}.Where(item => !string.IsNullOrWhiteSpace(item)))).ToLower();
             }
 
             return VirtualPathUtility.AppendTrailingSlash(url).ToLower();

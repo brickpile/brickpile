@@ -7,6 +7,7 @@ using BrickPile.Core.Extensions;
 namespace BrickPile.Core
 {
     /// <summary>
+    ///     Represents the <see cref="StructureInfo" /> that contains an hierarchical data object.
     /// </summary>
     public class StructureInfo
     {
@@ -32,8 +33,9 @@ namespace BrickPile.Core
         /// <param name="pageId">The page identifier.</param>
         /// <param name="includeRoot">if set to <c>true</c> [include root].</param>
         /// <returns></returns>
-        public IEnumerable<Node> GetAncestors(string pageId, bool includeRoot = false) {
-            Node parent = this.Get(pageId);
+        public IEnumerable<Node> GetAncestors(string pageId, bool includeRoot = false)
+        {
+            var parent = this.Get(pageId);
             while (parent != null && (includeRoot || parent.PageId != this.RootNode.PageId))
             {
                 yield return parent;
@@ -43,12 +45,13 @@ namespace BrickPile.Core
             }
         }
 
-        public IEnumerable<string> GetAncestorIdsFor(string pageId, bool includeRoot = false) {
-            IEnumerable<Node> ancestors = this.GetAncestors(pageId, includeRoot);
+        public IEnumerable<string> GetAncestorIdsFor(string pageId, bool includeRoot = false)
+        {
+            var ancestors = this.GetAncestors(pageId, includeRoot);
 
             Func<IEnumerable<Node>, IList<string>> flatten = nodes =>
             {
-                Node[] enumerable = nodes as Node[] ?? nodes.ToArray();
+                var enumerable = nodes as Node[] ?? nodes.ToArray();
                 return enumerable.Select(n => n.PageId)
                     .Union(enumerable.SelectMany(n => n.Children).Select(n => n.PageId)).ToList();
             };
@@ -61,7 +64,8 @@ namespace BrickPile.Core
         /// </summary>
         /// <param name="pageId">The page identifier.</param>
         /// <returns></returns>
-        public Node Get(string pageId) {
+        public Node Get(string pageId)
+        {
             return this.RootNode == null
                 ? null
                 : this.RootNode.Flatten(node => node.Children).SingleOrDefault(node => node.PageId == pageId);
@@ -71,8 +75,9 @@ namespace BrickPile.Core
         ///     Deletes the specified node.
         /// </summary>
         /// <param name="node">The node.</param>
-        public void Delete(Node node) {
-            Node parent = this.RootNode.Flatten(x => x.Children).SingleOrDefault(x => x.Children.Contains(node));
+        public void Delete(Node node)
+        {
+            var parent = this.RootNode.Flatten(x => x.Children).SingleOrDefault(x => x.Children.Contains(node));
             if (parent != null)
             {
                 parent.Children.Remove(node);
@@ -85,8 +90,9 @@ namespace BrickPile.Core
         /// <param name="to">To.</param>
         /// <param name="node">The node.</param>
         /// <exception cref="System.Exception">Cannot find parent node, maybe this is the root page?</exception>
-        public void MoveTo(Node to, Node node) {
-            Node parent = this.RootNode.Flatten(x => x.Children).SingleOrDefault(x => x.Children.Contains(node));
+        public void MoveTo(Node to, Node node)
+        {
+            var parent = this.RootNode.Flatten(x => x.Children).SingleOrDefault(x => x.Children.Contains(node));
 
             if (parent == null)
             {
@@ -105,10 +111,11 @@ namespace BrickPile.Core
         ///     Updates the urls.
         /// </summary>
         /// <param name="node">The node.</param>
-        private void UpdateUrls(Node node) {
-            foreach (Node child in node.Children)
+        private void UpdateUrls(Node node)
+        {
+            foreach (var child in node.Children)
             {
-                string slug = child.Url != null ? child.Url.Split('/').Last() : "";
+                var slug = child.Url != null ? child.Url.Split('/').Last() : "";
 
                 if (!string.IsNullOrEmpty(child.ParentId))
                 {
@@ -118,7 +125,7 @@ namespace BrickPile.Core
                     }
                     else
                     {
-                        Node parent = this.Get(child.ParentId);
+                        var parent = this.Get(child.ParentId);
                         child.Url = slug.Insert(0, VirtualPathUtility.AppendTrailingSlash(parent.Url));
                     }
                 }
@@ -166,7 +173,8 @@ namespace BrickPile.Core
             /// <summary>
             ///     Initializes a new instance of the <see cref="Node" /> class.
             /// </summary>
-            public Node() {
+            public Node()
+            {
                 this.Children = new List<Node>();
             }
         }

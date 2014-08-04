@@ -9,23 +9,21 @@ using BrickPile.Core.Extensions;
 namespace BrickPile.Core.Mvc.Html
 {
     /// <summary>
-    ///     Extension methods for the <see cref="HtmlHelper" /> object.
+    ///     Provides BrickPile <see cref="HtmlHelper" /> helper methods
     /// </summary>
     /// <remarks></remarks>
     /// <example></example>
     public static class SubMenuHelper
     {
-
         /// <summary>
         ///     Gets the navigation context.
         /// </summary>
         /// <value>
         ///     The navigation context.
         /// </value>
-        private static NavigationContext NavigationContext {
-            get {
-                return ((MvcHandler)HttpContext.Current.Handler).RequestContext.RouteData.GetNavigationContext();
-            }
+        private static NavigationContext NavigationContext
+        {
+            get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetNavigationContext(); }
         }
 
         /// <summary>
@@ -36,7 +34,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
         public static MvcHtmlString SubMenu(this HtmlHelper html, Func<IPage, MvcHtmlString> itemContent,
-            bool enableDisplayInMenu = true) {
+            bool enableDisplayInMenu = true)
+        {
             return SubMenu(html, NavigationContext, itemContent, itemContent);
         }
 
@@ -49,7 +48,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
         public static MvcHtmlString SubMenu(this HtmlHelper html, NavigationContext navigationContext,
-            Func<IPage, MvcHtmlString> itemContent, bool enableDisplayInMenu = true) {
+            Func<IPage, MvcHtmlString> itemContent, bool enableDisplayInMenu = true)
+        {
             return SubMenu(html, navigationContext, itemContent, itemContent);
         }
 
@@ -62,7 +62,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         /// <returns></returns>
         public static MvcHtmlString SubMenu(this HtmlHelper html, Func<IPage, MvcHtmlString> itemContent,
-            Func<IPage, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true) {
+            Func<IPage, MvcHtmlString> selectedItemContent, bool enableDisplayInMenu = true)
+        {
             return SubMenu(html, NavigationContext, itemContent, selectedItemContent, itemContent);
         }
 
@@ -77,7 +78,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <returns></returns>
         public static MvcHtmlString SubMenu(this HtmlHelper html, NavigationContext navigationContext,
             Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent,
-            bool enableDisplayInMenu = true) {
+            bool enableDisplayInMenu = true)
+        {
             return SubMenu(html, navigationContext, itemContent, selectedItemContent, itemContent);
         }
 
@@ -92,7 +94,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <returns></returns>
         public static MvcHtmlString SubMenu(this HtmlHelper html, Func<IPage, MvcHtmlString> itemContent,
             Func<IPage, MvcHtmlString> selectedItemContent, Func<IPage, MvcHtmlString> expandedItemContent,
-            bool enableDisplayInMenu = true) {
+            bool enableDisplayInMenu = true)
+        {
             return SubMenu(html, NavigationContext, itemContent, selectedItemContent, expandedItemContent, null);
         }
 
@@ -108,7 +111,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <returns></returns>
         public static MvcHtmlString SubMenu(this HtmlHelper html, NavigationContext navigationContext,
             Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent,
-            Func<IPage, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true) {
+            Func<IPage, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true)
+        {
             return SubMenu(html, navigationContext, itemContent, selectedItemContent, expandedItemContent, null);
         }
 
@@ -125,15 +129,16 @@ namespace BrickPile.Core.Mvc.Html
         /// <returns></returns>
         public static MvcHtmlString SubMenu(this HtmlHelper html, NavigationContext navigationContext,
             Func<IPage, MvcHtmlString> itemContent, Func<IPage, MvcHtmlString> selectedItemContent,
-            Func<IPage, MvcHtmlString> expandedItemContent, object htmlAttributes, bool enableDisplayInMenu = true) {
+            Func<IPage, MvcHtmlString> expandedItemContent, object htmlAttributes, bool enableDisplayInMenu = true)
+        {
             if (navigationContext == null)
             {
                 return MvcHtmlString.Empty;
             }
 
-            IEnumerable<dynamic> hierarchyNodes = navigationContext.CurrentContext.FilterForDisplay().AsHierarchy();
+            var hierarchyNodes = navigationContext.CurrentContext.FilterForDisplay().AsHierarchy();
 
-            dynamic item = hierarchyNodes.SingleOrDefault(x => x.Expanded);
+            var item = hierarchyNodes.SingleOrDefault(x => x.Expanded);
 
             if (item == null)
                 return MvcHtmlString.Empty;
@@ -142,12 +147,13 @@ namespace BrickPile.Core.Mvc.Html
             // merge html attributes
             ul.MergeAttributes(new RouteValueDictionary(htmlAttributes));
 
-            foreach (dynamic node in item.ChildNodes)
+            foreach (var node in item.ChildNodes)
             {
                 if (enableDisplayInMenu && node.Entity.Metadata.DisplayInMenu)
                 {
                     RenderLi(ul, node.Entity,
-                        node.Entity.Id.Replace("/draft", "").Equals(navigationContext.CurrentPage.Id.Replace("/draft", ""))
+                        node.Entity.Id.Replace("/draft", "")
+                            .Equals(navigationContext.CurrentPage.Id.Replace("/draft", ""))
                             ? selectedItemContent
                             : (node.Expanded ? expandedItemContent : itemContent));
                 }
@@ -170,8 +176,9 @@ namespace BrickPile.Core.Mvc.Html
         /// <param name="enableDisplayInMenu">if set to <c>true</c> [enable display in menu].</param>
         private static void AppendChildrenRecursive<T>(TagBuilder tagBuilder, IEnumerable<dynamic> children,
             Func<T, MvcHtmlString> itemContent, Func<T, MvcHtmlString> selectedItemContent,
-            Func<T, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true) where T : IPage {
-            dynamic[] items = children as dynamic[] ?? children.Where(x => x.Entity.Metadata.DisplayInMenu).ToArray();
+            Func<T, MvcHtmlString> expandedItemContent, bool enableDisplayInMenu = true) where T : IPage
+        {
+            var items = children as dynamic[] ?? children.Where(x => x.Entity.Metadata.DisplayInMenu).ToArray();
             if (!items.Any())
             {
                 tagBuilder.InnerHtml += new TagBuilder("li").ToString(TagRenderMode.EndTag);
@@ -180,7 +187,7 @@ namespace BrickPile.Core.Mvc.Html
 
             var ul = new TagBuilder("ul");
 
-            foreach (dynamic item in items)
+            foreach (var item in items)
             {
                 RenderLi(ul, (T) item.Entity,
                     item.Entity.Id.Replace("/draft", "").Equals(NavigationContext.CurrentPage.Id.Replace("/draft", ""))
@@ -201,7 +208,8 @@ namespace BrickPile.Core.Mvc.Html
         /// <param name="item">The item.</param>
         /// <param name="itemContent">A lambda expression defining the content in each tree node</param>
         private static void RenderLi<T>(TagBuilder tagBuilder, T item, Func<T, MvcHtmlString> itemContent)
-            where T : IPage {
+            where T : IPage
+        {
             tagBuilder.InnerHtml += new TagBuilder("li").ToString(TagRenderMode.StartTag) + itemContent(item);
         }
     }

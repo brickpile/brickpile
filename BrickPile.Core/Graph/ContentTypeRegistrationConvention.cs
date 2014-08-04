@@ -8,48 +8,48 @@ using StructureMap.Graph;
 
 namespace BrickPile.Core.Graph
 {
-    public class ContentTypeRegistrationConvention : IRegistrationConvention
+    internal sealed class ContentTypeRegistrationConvention : IRegistrationConvention
     {
         /// <summary>
-        /// The register method
+        ///     The register method
         /// </summary>
-        public static readonly MethodInfo RegisterMethod = typeof(ContentTypeRegistrationConvention)
+        public static readonly MethodInfo RegisterMethod = typeof (ContentTypeRegistrationConvention)
             .GetMethod("Register", BindingFlags.NonPublic | BindingFlags.Static)
             .GetGenericMethodDefinition();
 
         /// <summary>
-        /// Processes the specified type.
+        ///     Processes the specified type.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="registry">The registry.</param>
         public void Process(Type type, Registry registry)
         {
             if (!typeof (IPage).IsAssignableFrom(type)) return;
-            var specificRegisterMethod = RegisterMethod.MakeGenericMethod(new[] { type });
-            specificRegisterMethod.Invoke(null, new object[] { registry });
+            var specificRegisterMethod = RegisterMethod.MakeGenericMethod(new[] {type});
+            specificRegisterMethod.Invoke(null, new object[] {registry});
         }
 
         /// <summary>
-        /// Registers the specified registry.
+        ///     Registers the specified registry.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="registry">The registry.</param>
-        static private void Register<T>(Registry registry) where T : IPage
+        private static void Register<T>(Registry registry) where T : IPage
         {
             registry.For<T>().UseSpecial(y => y.ConstructedBy(r => GetCurrentPage<T>()));
         }
 
         /// <summary>
-        /// Gets the current content.
+        ///     Gets the current content.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        static private T GetCurrentPage<T>() where T : IPage
+        private static T GetCurrentPage<T>() where T : IPage
         {
-            var handler = (MvcHandler)HttpContext.Current.Handler;
+            var handler = (MvcHandler) HttpContext.Current.Handler;
             if (handler == null)
                 return default(T);
-            return (T)handler.RequestContext.RouteData.Values[PageRoute.CurrentPageKey];
+            return (T) handler.RequestContext.RouteData.Values[PageRoute.CurrentPageKey];
         }
     }
 }

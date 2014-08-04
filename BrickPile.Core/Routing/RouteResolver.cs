@@ -1,21 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using BrickPile.Core.Extensions;
 
 namespace BrickPile.Core.Routing
 {
+    /// <summary>
+    ///     Represents the default <see cref="RouteResolver" />.
+    /// </summary>
     internal class RouteResolver : IRouteResolver
     {
-        public Tuple<StructureInfo.Node, string> ResolveRoute(StructureInfo structureInfo, string virtualPath) {
+        public Tuple<StructureInfo.Node, string> ResolveRoute(StructureInfo structureInfo, string virtualPath)
+        {
             // Set the default action to index
-            string action = PageRoute.DefaultAction;
+            var action = PageRoute.DefaultAction;
 
             if (structureInfo == null || structureInfo.RootNode == null) return null;
 
             StructureInfo.Node currentNode;
 
-            string[] segments = virtualPath.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+            var segments = virtualPath.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 
             // The requested url is for the start page with no action
             // so just return the start page
@@ -25,7 +28,7 @@ namespace BrickPile.Core.Routing
             }
             else
             {
-                List<StructureInfo.Node> nodes = structureInfo.RootNode.Flatten(node => node.Children).ToList();
+                var nodes = structureInfo.RootNode.Flatten(node => node.Children).ToList();
 
                 // The normal behaviour is to load the page based on the incoming url
                 currentNode = nodes.SingleOrDefault(n => n.Url == string.Join("/", segments));
