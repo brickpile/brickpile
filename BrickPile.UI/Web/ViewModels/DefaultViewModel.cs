@@ -19,6 +19,6 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <summary>
         /// Gets the structure info.
         /// </summary>
-        public NavigationContext NavigationContext { get; set; }
+        public INavigationContext NavigationContext { get; set; }
     }
 }

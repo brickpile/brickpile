@@ -1,6 +1,6 @@
 ﻿using BrickPile.Core;
 using BrickPile.Core.Conventions;
-using BrickPile.Core.Hosting;
+using BrickPile.UI.Web.Hosting;
 
 namespace BrickPile.Samples
 {

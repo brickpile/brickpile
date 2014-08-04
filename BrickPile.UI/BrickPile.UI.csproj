@@ -176,6 +176,7 @@
     <Compile Include="Areas\UI\Controllers\AccountController.cs" />
     <Compile Include="Areas\UI\Controllers\AssetController.cs" />
     <Compile Include="Areas\UI\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\UI\Controllers\FooController.cs" />
     <Compile Include="Areas\UI\Controllers\PagesController.cs" />
     <Compile Include="Areas\UI\Controllers\SetupController.cs" />
     <Compile Include="Areas\UI\Controllers\UIController.cs" />
@@ -209,6 +210,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\UI\Content\brickpile.css" />
+    <Content Include="Areas\UI\Content\feather.css" />
+    <Content Include="Areas\UI\Content\fonts\feather-webfont.svg" />
     <Content Include="Areas\UI\Content\ui-datetimepicker.css" />
     <Content Include="Areas\UI\Content\images\back-btn.png" />
     <Content Include="Areas\UI\Content\images\dark-wood.jpg" />
@@ -641,6 +644,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\UI\Views\App\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\UI\Views\Web.config" />
@@ -656,6 +660,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\UI\Content\fonts\feather-webfont.eot" />
+    <Content Include="Areas\UI\Content\fonts\feather-webfont.ttf" />
+    <Content Include="Areas\UI\Content\fonts\feather-webfont.woff" />
     <None Include="Areas\UI\Content\webfonts\eot\felttip-roman.eot" />
     <None Include="Areas\UI\Content\webfonts\eot\museo-sans-500.eot" />
     <None Include="Areas\UI\Content\webfonts\eot\museo-sans-700.eot" />
@@ -675,6 +682,7 @@
     <Content Include="Areas\UI\Views\Shared\DisplayTemplates\Image.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\Html.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\Image.cshtml" />
+    <Content Include="Areas\UI\Views\Foo\Index.cshtml" />
     <None Include="Areas\UI\Views\Shared\EditorTemplates\Object.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\PageReference.cshtml" />
     <Content Include="Areas\UI\Views\Shared\EditorTemplates\Slug.cshtml" />
@@ -703,6 +711,7 @@
     <Content Include="Areas\UI\Views\Shared\_AssetsDialog.cshtml" />
     <Content Include="Web.config" />
     <Content Include="packages.brickpile.ui.config" />
+    <Content Include="Areas\UI\Views\Shared\_UIControls.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

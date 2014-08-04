@@ -1,107 +1,164 @@
 ﻿using System;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Core.Extensions;
+using BrickPile.Core.Mvc;
+using BrickPile.Domain;
+using Raven.Client;
 
 namespace BrickPile.Core.Routing
 {
     internal class PageRoute : RouteBase
     {
-        private readonly VirtualPathResolver _virtualPathResolver;
-        private readonly IRouteResolver _routeResolver;
         public const string ControllerKey = "controller";
 
-        /// <summary>
-        /// Gets the model key.
-        /// </summary>
-        /// <value>
-        /// The model key.
-        /// </value>
-        public static string CurrentPageKey
-        {
+        protected VirtualPathResolver VirtualPathResolver { get; private set; }
+        protected IRouteResolver RouteResolver { get; private set; }
+        protected Func<IDocumentStore> DocumentStore { get; private set; }
+        protected IControllerMapper ControllerMapper { get; private set; }
+        protected StructureInfo StructureInfo { get; set; }
+
+        public static string CurrentPageKey {
             get { return "currentPage"; }
         }
 
-        /// <summary>
-        /// Gets the action key.
-        /// </summary>
-        /// <value>
-        /// The action key.
-        /// </value>
-        public static string ActionKey
-        {
+        public static string ActionKey {
             get { return "action"; }
         }
 
-        /// <summary>
-        /// Gets the default action.
-        /// </summary>
-        /// <value>
-        /// The default action.
-        /// </value>
-        public static string DefaultAction
-        {
+        public static string DefaultAction {
             get { return "index"; }
         }
 
+        public PageRoute(VirtualPathResolver virtualPathResolver, IRouteResolver routeResolver,
+            Func<IDocumentStore> documentStore, IControllerMapper controllerMapper) {
+            if (virtualPathResolver == null)
+            {
+                throw new ArgumentNullException("virtualPathResolver");
+            }
+
+            if (routeResolver == null)
+            {
+                throw new ArgumentNullException("routeResolver");
+            }
+
+            if (documentStore == null)
+            {
+                throw new ArgumentNullException("documentStore");
+            }
+
+            if (controllerMapper == null)
+            {
+                throw new ArgumentNullException("controllerMapper");
+            }
+
+            this.VirtualPathResolver = virtualPathResolver;
+            this.RouteResolver = routeResolver;
+            this.DocumentStore = documentStore;
+            this.ControllerMapper = controllerMapper;
+        }
+
         /// <summary>
-        /// When overridden in a derived class, returns route information about the request.
+        ///     When overridden in a derived class, returns route information about the request.
         /// </summary>
         /// <param name="httpContext">An object that encapsulates information about the HTTP request.</param>
         /// <returns>
-        /// An object that contains the values from the route definition if the route matches the current request, or null if the route does not match the request.
+        ///     An object that contains the values from the route definition if the route matches the current request, or null if
+        ///     the route does not match the request.
         /// </returns>
-        public override RouteData GetRouteData(HttpContextBase httpContext)
-        {
+        public override RouteData GetRouteData(HttpContextBase httpContext) {
             // Abort and proceed to other routes in the route table if path contains api or ui
-            var segments = httpContext.Request.Path.Split(new[] { '/' });
+            string[] segments = httpContext.Request.Path.Split(new[] {'/'});
             if (segments.Any(segment => segment.Equals("api", StringComparison.OrdinalIgnoreCase) ||
                                         segment.Equals("ui", StringComparison.OrdinalIgnoreCase)))
             {
                 return null;
             }
 
-            var routeData = _routeResolver.ResolveRoute(this, httpContext, httpContext.Request.Path);
+            using (IDocumentSession session = this.DocumentStore.Invoke().OpenSession())
+            {
+                this.StructureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+            }
 
-            // Abort and proceed to other routes in the route table
-            if (routeData == null)
+            Tuple<StructureInfo.Node, string> nodeAndAction = this.RouteResolver.ResolveRoute(this.StructureInfo,
+                httpContext.Request.Path);
+
+            if (nodeAndAction == null)
             {
                 return null;
             }
 
-            var currentPage = routeData.Values["currentPage"] as IPage;
+            NavigationContext navigationContext = this.PrepareNavigationContext(
+                httpContext.Request.RequestContext,
+                nodeAndAction);
 
-            // throw a proper 404 if the page is not published or if it's deleted
-            if ((currentPage != null && (!currentPage.Metadata.IsPublished || currentPage.Metadata.IsDeleted) && !httpContext.User.Identity.IsAuthenticated))
+            string controllerName = this.ResolveControllerName(navigationContext.CurrentPage);
+
+            if (!this.ControllerMapper.ControllerHasAction(controllerName, nodeAndAction.Item2))
             {
-                throw new HttpException(404, "HTTP/1.1 404 Not Found");
+                return null;
             }
+
+            RouteData routeData = this.PrepareRouteData(
+                this.StructureInfo,
+                navigationContext,
+                controllerName,
+                nodeAndAction.Item2);
 
             return routeData;
         }
 
-        /// <summary>
-        /// When overridden in a derived class, checks whether the route matches the specified values, and if so, generates a URL and retrieves information about the route.
-        /// </summary>
-        /// <param name="requestContext">An object that encapsulates information about the requested route.</param>
-        /// <param name="values">An object that contains the parameters for a route.</param>
-        /// <returns>
-        /// An object that contains the generated URL and information about the route, or null if the route does not match <paramref name="values" />.
-        /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        protected NavigationContext PrepareNavigationContext(RequestContext requestContext,
+            Tuple<StructureInfo.Node, string> nodeAndAction) {
+            using (IDocumentSession session = this.DocumentStore.Invoke().OpenSession())
+            {
+                IPage[] pages =
+                    session.Load<IPage>(this.StructureInfo.GetAncestorIdsFor(nodeAndAction.Item1.PageId, true));
+                return new NavigationContext(requestContext)
+                {
+                    CurrentContext = pages,
+                    CurrentPage = pages.SingleOrDefault(page => page.Id == nodeAndAction.Item1.PageId)
+                };
+            }
+        }
+
+        protected RouteData PrepareRouteData(StructureInfo structureInfo, NavigationContext navigationContext,
+            string controllerName, string action) {
+            var routeData = new RouteData(this, new MvcRouteHandler());
+            routeData.ApplyStructureInfo(structureInfo);
+            routeData.ApplyCurrentContext(navigationContext.CurrentContext);
+            routeData.Values[ControllerKey] = controllerName;
+            routeData.Values[ActionKey] = action;
+            routeData.Values[CurrentPageKey] = navigationContext.CurrentPage;
+            return routeData;
+        }
+
+        protected virtual string ResolveControllerName(IPage currentPage) {
+            var contentTypeAttribute = currentPage.GetType().GetAttribute<ContentTypeAttribute>();
+
+            if (contentTypeAttribute == null)
+            {
+                throw new NullReferenceException("Missing ContentType attribute");
+            }
+
+            return contentTypeAttribute.ControllerType == null
+                ? currentPage.GetType().Name
+                : this.ControllerMapper.GetControllerName(contentTypeAttribute.ControllerType);
+        }
+
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
-            
-            var model = values[CurrentPageKey] as IPage ?? requestContext.RouteData.Values[CurrentPageKey] as IPage;
+            IPage model = values[CurrentPageKey] as IPage ?? requestContext.RouteData.Values[CurrentPageKey] as IPage;
 
             if (model == null)
             {
                 return null;
             }
 
-            var vpd = new VirtualPathData(this, _virtualPathResolver.ResolveVirtualPath(model, values));
+            var vpd = new VirtualPathData(this, this.VirtualPathResolver.ResolveVirtualPath(model, values));
 
-            var queryParams = String.Empty;
+            string queryParams = String.Empty;
             // add query string parameters
             foreach (var kvp in values)
             {
@@ -114,18 +171,5 @@ namespace BrickPile.Core.Routing
             vpd.VirtualPath += queryParams;
             return vpd;
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PageRoute"/> class.
-        /// </summary>
-        /// <param name="virtualPathResolver">The virtual path resolver.</param>
-        /// <param name="routeResolver"></param>
-        public PageRoute(VirtualPathResolver virtualPathResolver, IRouteResolver routeResolver)
-        {
-            _virtualPathResolver = virtualPathResolver;
-            _routeResolver = routeResolver;
-        }
-
-        
     }
 }

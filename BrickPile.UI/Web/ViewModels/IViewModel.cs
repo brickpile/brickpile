@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using BrickPile.Core;
 
 namespace BrickPile.UI.Web.ViewModels {
@@ -17,6 +16,6 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <value>
         /// The hierarchy.
         /// </value>
-        NavigationContext NavigationContext { get; set; }
+        INavigationContext NavigationContext { get; set; }
     }
 }

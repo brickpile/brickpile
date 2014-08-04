@@ -100,10 +100,7 @@
                                     <a href="@Url.Action("edit", new { currentPage = Model.RootModel })" class="btn" title="Edit page">
                                         <i class="icon-pencil"></i>
                                     </a>
-                                    @*<a href="@Url.Action("UI_default", new { currentPage = Model.RootModel })" class="btn" title="Edit page">
-                                        <i class="icon-pencil"></i>
-                                    </a>*@
-                                    <a href="@Url.RouteUrl("PageRoute", new RouteValueDictionary(new { currentPage = Model.RootModel }), Request.Url.Scheme, ConfigurationSettings.AppSettings["brickpile/hostname"])" class="btn" title="View page">
+                                    <a href="@Url.Action("preview", new { currentPage = Model.RootModel })" class="btn" title="Preview page">
                                         <i class="icon-eye-open"></i>
                                     </a>
                                     <a href="@Url.Action("delete", new { currentPage = Model.RootModel })" class="btn delete" title="Delete page">
@@ -153,7 +150,10 @@
                                     <a href="@Url.Action("edit", new { currentPage = item })" class="btn" title="Edit page">
                                         <i class="icon-pencil"></i>
                                     </a>
-                                    <a href="@Url.RouteUrl("PageRoute", new RouteValueDictionary(new { currentPage = item }), Request.Url.Scheme, ConfigurationSettings.AppSettings["brickpile/hostname"])" class="btn" title="View page">
+                                    @*<a href="@Url.RouteUrl("PageRoute", new RouteValueDictionary(new { currentPage = item }), Request.Url.Scheme, ConfigurationSettings.AppSettings["brickpile/hostname"])" class="btn" title="View page">
+                                        <i class="icon-eye-open"></i>
+                                    </a>*@
+                                    <a href="@Url.Action("preview", new { currentPage = item })" class="btn" title="Preview page">
                                         <i class="icon-eye-open"></i>
                                     </a>
                                     <a href="@Url.Action("delete", new { currentPage = item })" class="btn delete" title="Delete page">

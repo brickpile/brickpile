@@ -33,7 +33,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 var container = A.Fake<IContainer>();
                 var store = NewDocumentStore();                
-                var bootStrapper = new FakeBootstrapper(container, new BrickPileConventions(), store);
+                var bootStrapper = new FakeBootstrapper(store);
                 bootStrapper.Initialise();
                 store.RegisterListener(new StoreListener(bootStrapper.OnPagePublish, bootStrapper.OnPageSave, bootStrapper.OnPageUnPublish));
                 store.RegisterListener(new DeleteListener(bootStrapper.OnDocumentDelete));
@@ -819,7 +819,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 var container = A.Fake<IContainer>();
 
                 var store = NewDocumentStore();
-                var bootStrapper = new FakeBootstrapper(container, new BrickPileConventions(), store);
+                var bootStrapper = new FakeBootstrapper(store);
                 bootStrapper.Initialise();
                 store.RegisterListener(new StoreListener(bootStrapper.OnPagePublish, bootStrapper.OnPageSave, bootStrapper.OnPageUnPublish));
                 store.RegisterListener(new DeleteListener(bootStrapper.OnDocumentDelete));

@@ -1,11 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 
 namespace BrickPile.Core.Extensions
 {
     public static class EnumerableExtensions
     {
+        public static IEnumerable<IPage> FilterForDisplay(this IEnumerable<IPage> pages)
+        {
+            var p = pages.ToList();
+
+            for (var i = 0; i < p.Count; i++)
+            {
+                if (!HttpContext.Current.User.Identity.IsAuthenticated && (!p[i].Metadata.IsPublished || !p[i].Metadata.DisplayInMenu))
+                {
+                    p.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            return p.OrderBy(x => x.Metadata.SortOrder);
+        }
 
         public static IEnumerable<T> Flatten<T>(this T source, Func<T, IEnumerable<T>> selector)
         {

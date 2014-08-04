@@ -1,95 +1,205 @@
 ﻿using System.Web;
 using System.Web.Routing;
+using BrickPile.Core;
 using BrickPile.Core.Mvc;
 using BrickPile.Core.Routing;
 using BrickPile.Tests.Fakes;
 using FakeItEasy;
 using Raven.Client;
+using Raven.Tests.Helpers;
 using Xunit;
+using Xunit.Extensions;
 
 namespace BrickPile.Tests.Routing
 {
     public class PageRouteTests
     {
-        //public class GetRouteData {
+        public class GetRouteData : RavenTestBase
+        {
+            [Theory]
+            [InlineData("")]
+            [InlineData("/")]
+            public void Can_Resolve_Home_Page_With_Default_Action(string path)
+            {
+                // Given
 
-        //    [Fact]
-        //    public void Returns_Null_When_Page_Not_Found() {
-        //        // Given
-        //        var context = A.Fake<HttpContextBase>();
-        //        var resolver = A.Fake<IRouteResolver>();
+                var store = NewDocumentStore();
 
-        //        A.CallTo(() => resolver.ResolvePath(context, "")).Returns(null);
+                var mapper = A.Fake<IControllerMapper>();
+                var context = A.Fake<HttpContextBase>();
 
-        //        // When
-        //        var route = new PageRoute(new VirtualPathResolver(), resolver);
-        //        var result = route.GetRouteData(context);
+                A.CallTo(() => context.Request.Path).Returns(path);
+                A.CallTo(() => mapper.GetControllerName(typeof (FakeController))).Returns("FakeController");                
+                A.CallTo(() => mapper.ControllerHasAction("FakeController", "index")).Returns(true);
 
-        //        // Then
-        //        Assert.Null(result);
-        //    }
+                // When
 
-        //    [Fact]
-        //    public void Throws_HttpException_When_Page_Not_Published() {
-        //        // Given
-        //        var context = A.Fake<HttpContextBase>();
-        //        var resolver = A.Fake<IRouteResolver>();
+                RouteData data;
 
-        //        A.CallTo(
-        //            () => resolver.ResolvePath(context, ""))
-        //            .Returns(
-        //                new PathData
-        //                {
-        //                    CurrentPage = new FakePage
-        //                    {
-        //                        Metadata =
-        //                        {
-        //                            Published = new DateTime(2015, 1, 1)
-        //                        }
-        //                    }
-        //                });
+                using (var session = store.OpenSession())
+                {
+                    var node = new StructureInfo.Node
+                    {
+                        PageId = "pages/1"
+                    };
 
-        //        // When
-        //        var route = new PageRoute(new VirtualPathResolver(), resolver);
+                    var page = new FakePage { Id = "pages/1" };
+                    var structureInfo = new StructureInfo
+                    {
+                        Id = DefaultBrickPileBootstrapper.StructureInfoDocumentId,
+                        RootNode = node
+                    };
+                    session.Store(structureInfo);
+                    session.Store(page);
+                    session.SaveChanges();
 
-        //        Assert.Throws(typeof (HttpException), () => route.GetRouteData(context));
+                    var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
+                    data = route.GetRouteData(context);
+                }
 
-        //    }
+                //Then
 
-        //    [Fact]
-        //    public void Returns_UnPublished_Page_When_User_Is_Authenticated()
-        //    {
-        //        // Given
-        //        var context = A.Fake<HttpContextBase>();
-        //        var resolver = A.Fake<IRouteResolver>();
+                Assert.NotNull(data);
+                Assert.Equal("index", data.Values["action"]);
+                Assert.Equal("FakeController", data.Values["controller"]);
+            }
 
-        //        A.CallTo(() => context.User.Identity.IsAuthenticated).Returns(true);
-        //        A.CallTo(
-        //            () => resolver.ResolvePath(context, ""))
-        //            .Returns(
-        //                new PathData
-        //                {
-        //                    CurrentPage = new FakePage
-        //                    {
-        //                        Metadata =
-        //                        {
-        //                            Published = new DateTime(2015, 1, 1)
-        //                        }
-        //                    }
-        //                });
+            [Theory]
+            [InlineData("/myaction")]
+            [InlineData("/myaction/")]
+            public void Can_Resolve_Home_Page_With_Custom_Action(string path)
+            {
+                // Given
 
-        //        // When
-        //        var route = new PageRoute(new VirtualPathResolver(), resolver);
-        //        var result = route.GetRouteData(context);
-                
-        //        // Then
+                var store = NewDocumentStore();
+                var mapper = A.Fake<IControllerMapper>();
+                var context = A.Fake<HttpContextBase>();
 
-        //        Assert.NotNull(result);
+                A.CallTo(() => context.Request.Path).Returns(path);                
+                A.CallTo(() => mapper.GetControllerName(typeof(FakeController))).Returns("FakeController");
+                A.CallTo(() => mapper.ControllerHasAction("FakeController", "myaction")).Returns(true);
 
-        //    }
+                // When
 
-        //}
+                RouteData data;
 
+                using (var session = store.OpenSession())
+                {
+                    var node = new StructureInfo.Node
+                    {
+                        PageId = "pages/1"
+                    };
+
+                    var page = new FakePage { Id = "pages/1" };
+                    session.Store(new StructureInfo
+                    {
+                        Id = DefaultBrickPileBootstrapper.StructureInfoDocumentId,
+                        RootNode = node
+                    });
+                    session.Store(page);
+                    session.SaveChanges();
+
+                    var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
+                    data = route.GetRouteData(context);
+                }
+
+                //Then
+
+                Assert.NotNull(data);
+                Assert.Equal("myaction", data.Values["action"]);
+                Assert.Equal("FakeController", data.Values["controller"]);
+            }
+
+            [Theory]
+            [InlineData("/page/myaction")]
+            [InlineData("/page/myaction/")]
+            public void Can_Resolve_Page_With_Custom_Action(string path)
+            {
+                // Given
+
+                var store = NewDocumentStore();
+                var mapper = A.Fake<IControllerMapper>();
+                var context = A.Fake<HttpContextBase>();
+
+                A.CallTo(() => context.Request.Path).Returns(path);
+                A.CallTo(() => mapper.GetControllerName(typeof(FakeController))).Returns("FakeController");
+                A.CallTo(() => mapper.ControllerHasAction("FakeController", "myaction")).Returns(true);
+
+                // When
+
+                RouteData data;
+
+                using (var session = store.OpenSession())
+                {
+                    var node = new StructureInfo.Node
+                    {
+                        PageId = "pages/1",
+                        Url = "page"
+                    };
+
+                    var page = new FakePage { Id = "pages/1", Metadata = { Url = "page" } };
+                    session.Store(new StructureInfo
+                    {
+                        Id = DefaultBrickPileBootstrapper.StructureInfoDocumentId,
+                        RootNode = node
+                    });
+                    session.Store(page);
+                    session.SaveChanges();
+
+                    var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
+                    data = route.GetRouteData(context);
+                }
+
+                //Then
+
+                Assert.NotNull(data);
+                Assert.Equal("myaction", data.Values["action"]);
+                Assert.Equal("FakeController", data.Values["controller"]);
+            }
+
+            [Theory]
+            [InlineData("/content/js/modern-business.js")]
+            public void Returns_Null_If_Request_Is_For_Static_Content(string path)
+            {
+                // Given
+
+                var store = NewDocumentStore();
+                var mapper = A.Fake<IControllerMapper>();
+                var context = A.Fake<HttpContextBase>();
+
+                A.CallTo(() => context.Request.Path).Returns(path);
+                A.CallTo(() => mapper.GetControllerName(typeof(FakeController))).Returns("FakeController");
+                A.CallTo(() => mapper.ControllerHasAction("FakeController", "index")).Returns(false);
+
+                // When
+
+                RouteData data;
+
+                using (var session = store.OpenSession())
+                {
+                    var page = new FakePage();
+                    session.Store(page);
+                    var node = new StructureInfo.Node
+                    {
+                        PageId = page.Id
+                    };
+                    session.Store(new StructureInfo
+                    {
+                        Id = DefaultBrickPileBootstrapper.StructureInfoDocumentId,
+                        RootNode = node
+                    });
+                    session.SaveChanges();
+
+                    var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
+                    data = route.GetRouteData(context);
+                }
+
+                // Then
+
+                Assert.Null(data);
+            }
+            
+        }
         public class GetVirtualPath
         {
             [Fact]
@@ -112,8 +222,8 @@ namespace BrickPile.Tests.Routing
 
                 // When
 
-                var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(() => store, mapper));
-                VirtualPathData data = route.GetVirtualPath(context.Request.RequestContext, new RouteValueDictionary(new {currentPage }));
+                var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
+                VirtualPathData data = route.GetVirtualPath(context.Request.RequestContext, new RouteValueDictionary(new { currentPage }));
 
                 // Then
 
@@ -125,7 +235,7 @@ namespace BrickPile.Tests.Routing
             public void Can_Resolve_Virtual_Path_For_Page_With_Query_Parameter()
             {
                 // Given
-                
+
                 var store = A.Fake<IDocumentStore>();
                 var mapper = A.Fake<IControllerMapper>();
                 var context = A.Fake<HttpContextBase>();
@@ -141,8 +251,8 @@ namespace BrickPile.Tests.Routing
 
                 // When
 
-                var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(() => store, mapper));
-                VirtualPathData data = route.GetVirtualPath(context.Request.RequestContext, new RouteValueDictionary(new {currentPage, page = "1", mode = "edit" }));
+                var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
+                VirtualPathData data = route.GetVirtualPath(context.Request.RequestContext, new RouteValueDictionary(new { currentPage, page = "1", mode = "edit" }));
 
                 // Then
 

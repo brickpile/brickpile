@@ -28,5 +28,9 @@ namespace BrickPile.Core.Extensions
             }
             return source + delim + HttpUtility.UrlEncode(key) + "=" + HttpUtility.UrlEncode(value);
         }
+
+        public static bool CompareToIgnoreDraftId(this string id, string idToCompare) {
+            return id.Replace("/draft", "").Equals(idToCompare.Replace("/draft", ""));
+        }
     }
 }
