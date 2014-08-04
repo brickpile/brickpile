@@ -13,5 +13,6 @@ namespace BrickPile.Samples.Models {
         public string Heading { get; set; }                
         public PageReference ContainerPage { get; set; }                
         public DateTime CurrentDate { get; set; }
+        public Image Image { get; set; }
     }
 }

@@ -1,0 +1,20 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Foo</title>
+</head>
+<body>
+    <div>
+        @Html.ActionLink("Pages", "index", "Pages")
+        <br/>
+        <a href="@Url.Action("logoff","account",null)" data-bypass>Logout</a>
+    </div>
+</body>
+</html>

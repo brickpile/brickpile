@@ -1,27 +1,35 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using BrickPile.Core;
 using BrickPile.Core.Extensions;
+using BrickPile.Core.Mvc;
 using BrickPile.Samples.Models;
 using BrickPile.Samples.Models.ViewModels;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace BrickPile.Samples.Controllers
 {
+    [AllowAnonymous, EditorControls(Disable = false)]
     public class HomeController : Controller
     {
-        private readonly IDocumentStore _store;
-        //
-        // GET: /Home/
+        private readonly IDocumentStore documentStore;
+        private readonly INavigationContext navigationContext;
+
+        public HomeController(IDocumentStore documentStore, INavigationContext navigationContext) {
+            this.documentStore = documentStore;
+            this.navigationContext = navigationContext;
+        }
 
         public ActionResult Index(Home currentPage) {
-
             HomeViewModel viewModel;
-            using (var session = _store.OpenSession())
+            using (IDocumentSession session = this.documentStore.OpenSession())
             {
-                //var children = session.Advanced.GetChildrenFor<Container>(currentPage);
-                //var parent = session.Advanced.GetParentFor(currentPage);
-                //var ancestors = session.Advanced.GetAncestorsFor<Container>(currentPage, true);
+                //var start = session.Advanced.LoadStartPage();
+                //var draft = session.Advanced.LoadDraftFor<Home>(currentPage);
+                //var children = session.Advanced.LoadChildrenFor(currentPage).FilterForDisplay();
+                //var parent = session.Advanced.LoadParentFor<IPage>(currentPage);
+                //var ancestors = session.Advanced.LoadAncestorsFor(currentPage, false);
+                //ancestors = session.Advanced.LoadAncestorsFor(currentPage, true);
 
                 //var page = new Container();
                 //session.Store(page); // Default RavenDB
@@ -33,21 +41,17 @@ namespace BrickPile.Samples.Controllers
                 //// Maybe this could be an option
                 //session.Store(page, parent, StoreAction.Save); // Add page as child and save
 
-                //var navigationContext = new NavigationContext(ControllerContext.RequestContext);
+                var context = new NavigationContext(ControllerContext.RequestContext);
+                var context2 = ControllerContext.RouteData.GetNavigationContext();
                 viewModel = new HomeViewModel
                 {
                     CurrentPage = currentPage,
-                    //NavigationContext = navigationContext
+                    NavigationContext = context
                 };
-
             }
 
-            
 
             return View(viewModel);
-        }
-        public HomeController(IDocumentStore store) {
-            _store = store;
         }
     }
 }

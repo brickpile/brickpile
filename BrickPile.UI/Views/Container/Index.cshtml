@@ -1,8 +1,26 @@
 ﻿@using BrickPile.Core.Mvc.Html
+@using BrickPile.UI.Common
 @model BrickPile.UI.Web.ViewModels.DefaultViewModel<BrickPile.Samples.Models.Container>
+
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/views/shared/_Layout.cshtml";
+    Layout = null;
 }
 
-<h1>@Model.CurrentPage.Heading</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+    <main>
+        @Html.DisplayFor(model => model.CurrentPage)
+        <br/>
+        @Html.Menu(Model.NavigationContext, page => Html.ActionLink(page))
+        <br/>
+        <img src="@Model.CurrentPage.Image.Url"/>
+        <br/>
+        @Html.SubMenu(page => Html.ActionLink(page))
+    </main>
+</body>
+</html>

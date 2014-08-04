@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Runtime.Remoting;
+using System.Web.Mvc;
 using BrickPile.Core;
 using BrickPile.Samples.Models;
 using BrickPile.UI.Web.ViewModels;
@@ -6,14 +7,15 @@ using Raven.Client;
 
 namespace BrickPile.Samples.Controllers
 {
+    [AllowAnonymous]
     public class ContainerController : Controller
     {
-        private readonly IDocumentStore _store;
+        private readonly IDocumentStore store;
         //
         // GET: /Container/
 
-        public ActionResult Index(Container currentPage) {
-            using (var session = _store.OpenSession())
+        public ActionResult Index(Container currentPage) {            
+            using (var session = this.store.OpenSession())
             {
                 var navigationContext = new NavigationContext(ControllerContext.RequestContext);
                 var viewModel = new DefaultViewModel<Container>
@@ -27,7 +29,7 @@ namespace BrickPile.Samples.Controllers
         }
 
         public ContainerController(IDocumentStore store) {
-            _store = store;
+            this.store = store;
         }
     }
 }

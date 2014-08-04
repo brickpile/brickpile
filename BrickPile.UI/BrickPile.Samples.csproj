@@ -155,6 +155,7 @@
     </Compile>
     <Compile Include="Controllers\ContainerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="CustomBootstrapper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
       <SubType>Code</SubType>
@@ -165,8 +166,45 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\halcyon-splash.jpg" />
+    <Content Include="css\animate.css" />
+    <Content Include="css\bootstrap-theme.css" />
+    <Content Include="css\bootstrap-theme.min.css" />
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\flexslider.css" />
+    <Content Include="css\queries.css" />
+    <Content Include="css\styles.css" />
     <Content Include="Global.asax" />
+    <Content Include="assets\.DS_Store" />
+    <Content Include="css\.DS_Store" />
+    <Content Include="css\bootstrap-theme.css.map" />
+    <Content Include="css\bootstrap.css.map" />
+    <Content Include="img\.DS_Store" />
+    <Content Include="js\.DS_Store" />
+    <Content Include="js\min\.DS_Store" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="img\h1-bg.png" />
+    <Content Include="img\hero-bg.jpg" />
+    <Content Include="img\iphone-bg.png" />
+    <Content Include="img\keyboard-bg.jpg" />
+    <Content Include="img\l1.jpg" />
+    <Content Include="img\plants-bg.jpg" />
+    <Content Include="img\portfolio-01.jpg" />
+    <Content Include="img\portfolio-02.jpg" />
+    <Content Include="img\portfolio-03.jpg" />
+    <Content Include="img\team-01.png" />
+    <Content Include="img\team-02.png" />
+    <Content Include="img\team-03.png" />
+    <Content Include="js\bootstrap.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\jquery.flexslider.js" />
+    <Content Include="js\jquery.smooth-scroll.js" />
+    <Content Include="js\min\scripts-ck.js" />
+    <Content Include="js\modernizr.js" />
+    <Content Include="js\overlay.js" />
+    <Content Include="js\scripts.js" />
+    <Content Include="js\waypoints.min.js" />
     <Content Include="MiniProfiler.RavenDb.Readme.txt" />
     <Content Include="Views\Web.config" />
     <Content Include="Web.config">
