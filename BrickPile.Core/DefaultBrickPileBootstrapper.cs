@@ -12,6 +12,7 @@ using BrickPile.Core.Graph;
 using BrickPile.Core.Infrastructure.Listeners;
 using BrickPile.Core.Mvc;
 using BrickPile.Core.Routing;
+using BrickPile.Core.Routing.Trie;
 using Raven.Abstractions.Extensions;
 using Raven.Client;
 using Raven.Client.Embedded;
@@ -29,7 +30,7 @@ namespace BrickPile.Core
     {
         private const string ConnectionStringName = "RavenDB";
         private const string DataDirectory = "~/App_Data/Raven";
-        public const string StructureInfoDocumentId = "structureinfos/1";
+        public const string TrieId = "brickpile/trie";
 
         private readonly BrickPileConventions conventions;
 
@@ -138,11 +139,11 @@ namespace BrickPile.Core
         {
             using (var session = this.DocumentStore.OpenSession())
             {
-                var structureInfo = session.Load<StructureInfo>(StructureInfoDocumentId);
+                var trie = session.Load<Trie>(TrieId);
 
-                if (structureInfo != null) return;
-                structureInfo = new StructureInfo {Id = StructureInfoDocumentId};
-                session.Store(structureInfo);
+                if (trie != null) return;
+                trie = new Trie { Id = TrieId };
+                session.Store(trie);
                 session.SaveChanges();
             }
         }
@@ -152,19 +153,18 @@ namespace BrickPile.Core
         {
             using (var session = this.DocumentStore.OpenSession())
             {
-                // load structure info
-                var structureInfo = session.Load<StructureInfo>(StructureInfoDocumentId);
+                var trie = session.Load<Trie>(TrieId);
 
-                if (structureInfo.RootNode == null)
+                if (trie.RootNode == null)
                 {
-                    structureInfo.RootNode = new StructureInfo.Node
+                    trie.RootNode = new TrieNode
                     {
                         PageId = key
                     };
                 }
                 else
                 {
-                    var nodes = structureInfo.RootNode.Flatten(n => n.Children).ToArray();
+                    var nodes = trie.RootNode.Flatten(n => n.Children).ToArray();
 
                     var parent = currentPage.Parent != null
                         ? nodes.SingleOrDefault(
@@ -180,7 +180,7 @@ namespace BrickPile.Core
 
                         if (parent.Children.All(n => n.PageId != key.Replace("/draft", "")))
                         {
-                            parent.Children.Add(new StructureInfo.Node
+                            parent.Children.Add(new TrieNode
                             {
                                 PageId = key.Replace("/draft", ""),
                                 ParentId = parent.PageId,
@@ -204,19 +204,18 @@ namespace BrickPile.Core
         {
             using (var session = this.DocumentStore.OpenSession())
             {
-                // load structure info
-                var structureInfo = session.Load<StructureInfo>(StructureInfoDocumentId);
+                var trie = session.Load<Trie>(TrieId);
 
-                if (structureInfo.RootNode == null)
+                if (trie.RootNode == null)
                 {
-                    structureInfo.RootNode = new StructureInfo.Node
+                    trie.RootNode = new TrieNode
                     {
                         PageId = key.Replace("/draft", "")
                     };
                 }
                 else
                 {
-                    var nodes = structureInfo.RootNode.Flatten(n => n.Children).ToArray();
+                    var nodes = trie.RootNode.Flatten(n => n.Children).ToArray();
 
                     var parentNode = currentPage.Parent != null
                         ? nodes.SingleOrDefault(n => n.PageId.CompareToIgnoreDraftId(currentPage.Parent.Id))
@@ -236,11 +235,11 @@ namespace BrickPile.Core
                             // the currentPage has been moved so we are moving the node and rewrites the url for all child pages and the current node
                             if (parentNode.ParentId != currentPage.Parent.Id)
                             {
-                                structureInfo.MoveTo(parentNode, currentNode);
+                                trie.MoveTo(parentNode, currentNode);
 
                                 var ids = currentNode.Flatten(x => x.Children).Select(x => x.PageId);
                                 var pages = session.Load<IPage>(ids);
-                                pages.ForEach(p => { p.Metadata.Url = structureInfo.Get(p.Id).Url; });
+                                pages.ForEach(p => { p.Metadata.Url = trie.Get(p.Id).Url; });
                             }
 
                             currentNode.Url = currentPage.Metadata.Url;
@@ -255,7 +254,7 @@ namespace BrickPile.Core
                             currentPage.Metadata.Url = currentPage.Metadata.Slug.Insert(0,
                                 VirtualPathUtility.AppendTrailingSlash(parentNode.Url ?? ""));
 
-                            parentNode.Children.Add(new StructureInfo.Node
+                            parentNode.Children.Add(new TrieNode
                             {
                                 PageId = key.Replace("/draft", ""),
                                 ParentId = parentNode.PageId,
@@ -294,13 +293,13 @@ namespace BrickPile.Core
         {
             using (var session = this.DocumentStore.OpenSession())
             {
-                var structureInfo = session.Load<StructureInfo>(StructureInfoDocumentId);
+                var trie = session.Load<Trie>(TrieId);
 
-                var node = structureInfo.Get(key);
+                var node = trie.Get(key);
 
                 if (node != null)
                 {
-                    structureInfo.Delete(node);
+                    trie.Delete(node);
                 }
 
                 // Clean up any existing draft for this page

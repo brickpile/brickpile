@@ -4,12 +4,9 @@ using System.Linq;
 using System.Web;
 using BrickPile.Core.Extensions;
 
-namespace BrickPile.Core
+namespace BrickPile.Core.Routing.Trie
 {
-    /// <summary>
-    ///     Represents the <see cref="StructureInfo" /> that contains an hierarchical data object.
-    /// </summary>
-    public class StructureInfo
+    public sealed class Trie
     {
         /// <summary>
         ///     Gets or sets the identifier.
@@ -25,7 +22,7 @@ namespace BrickPile.Core
         /// <value>
         ///     The root node.
         /// </value>
-        public Node RootNode { get; set; }
+        public TrieNode RootNode { get; set; }
 
         /// <summary>
         ///     Gets the ancestors.
@@ -33,7 +30,7 @@ namespace BrickPile.Core
         /// <param name="pageId">The page identifier.</param>
         /// <param name="includeRoot">if set to <c>true</c> [include root].</param>
         /// <returns></returns>
-        public IEnumerable<Node> GetAncestors(string pageId, bool includeRoot = false)
+        public IEnumerable<TrieNode> GetAncestors(string pageId, bool includeRoot = false)
         {
             var parent = this.Get(pageId);
             while (parent != null && (includeRoot || parent.PageId != this.RootNode.PageId))
@@ -49,9 +46,9 @@ namespace BrickPile.Core
         {
             var ancestors = this.GetAncestors(pageId, includeRoot);
 
-            Func<IEnumerable<Node>, IList<string>> flatten = nodes =>
+            Func<IEnumerable<TrieNode>, IList<string>> flatten = nodes =>
             {
-                var enumerable = nodes as Node[] ?? nodes.ToArray();
+                var enumerable = nodes as TrieNode[] ?? nodes.ToArray();
                 return enumerable.Select(n => n.PageId)
                     .Union(enumerable.SelectMany(n => n.Children).Select(n => n.PageId)).ToList();
             };
@@ -64,7 +61,7 @@ namespace BrickPile.Core
         /// </summary>
         /// <param name="pageId">The page identifier.</param>
         /// <returns></returns>
-        public Node Get(string pageId)
+        public TrieNode Get(string pageId)
         {
             return this.RootNode == null
                 ? null
@@ -75,7 +72,7 @@ namespace BrickPile.Core
         ///     Deletes the specified node.
         /// </summary>
         /// <param name="node">The node.</param>
-        public void Delete(Node node)
+        public void Delete(TrieNode node)
         {
             var parent = this.RootNode.Flatten(x => x.Children).SingleOrDefault(x => x.Children.Contains(node));
             if (parent != null)
@@ -90,7 +87,7 @@ namespace BrickPile.Core
         /// <param name="to">To.</param>
         /// <param name="node">The node.</param>
         /// <exception cref="System.Exception">Cannot find parent node, maybe this is the root page?</exception>
-        public void MoveTo(Node to, Node node)
+        public void MoveTo(TrieNode to, TrieNode node)
         {
             var parent = this.RootNode.Flatten(x => x.Children).SingleOrDefault(x => x.Children.Contains(node));
 
@@ -111,7 +108,7 @@ namespace BrickPile.Core
         ///     Updates the urls.
         /// </summary>
         /// <param name="node">The node.</param>
-        private void UpdateUrls(Node node)
+        private void UpdateUrls(TrieNode node)
         {
             foreach (var child in node.Children)
             {
@@ -131,51 +128,6 @@ namespace BrickPile.Core
                 }
 
                 this.UpdateUrls(child);
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        public class Node
-        {
-            /// <summary>
-            ///     Gets or sets the parent identifier.
-            /// </summary>
-            /// <value>
-            ///     The parent identifier.
-            /// </value>
-            public string ParentId { get; set; }
-
-            /// <summary>
-            ///     Gets or sets the page identifier.
-            /// </summary>
-            /// <value>
-            ///     The page identifier.
-            /// </value>
-            public string PageId { get; set; }
-
-            /// <summary>
-            ///     Gets or sets the URL.
-            /// </summary>
-            /// <value>
-            ///     The URL.
-            /// </value>
-            public string Url { get; set; }
-
-            /// <summary>
-            ///     Gets or sets the children.
-            /// </summary>
-            /// <value>
-            ///     The children.
-            /// </value>
-            public List<Node> Children { get; set; }
-
-            /// <summary>
-            ///     Initializes a new instance of the <see cref="Node" /> class.
-            /// </summary>
-            public Node()
-            {
-                this.Children = new List<Node>();
             }
         }
     }

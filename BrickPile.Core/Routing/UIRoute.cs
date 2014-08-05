@@ -55,10 +55,10 @@ namespace BrickPile.Core.Routing
 
             using (var session = base.DocumentStore.Invoke().OpenSession())
             {
-                base.StructureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                base.Trie = session.Load<Trie.Trie>(DefaultBrickPileBootstrapper.TrieId);
             }
 
-            var nodeAndAction = base.RouteResolver.ResolveRoute(base.StructureInfo,
+            var nodeAndAction = base.RouteResolver.ResolveRoute(base.Trie,
                 httpContext.Request.Path.Replace("/ui/pages", ""));
 
             if (nodeAndAction == null)
@@ -71,7 +71,7 @@ namespace BrickPile.Core.Routing
                 nodeAndAction);
 
             var routeData = base.PrepareRouteData(
-                base.StructureInfo,
+                base.Trie,
                 navigationContext,
                 ControllerName,
                 nodeAndAction.Item2);

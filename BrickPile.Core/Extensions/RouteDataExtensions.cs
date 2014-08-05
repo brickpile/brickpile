@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Routing;
 using BrickPile.Core.Routing;
+using BrickPile.Core.Routing.Trie;
 
 namespace BrickPile.Core.Extensions
 {
@@ -22,13 +23,13 @@ namespace BrickPile.Core.Extensions
         }
 
         /// <summary>
-        ///     Applies the structure information.
+        /// Applies the structure information.
         /// </summary>
         /// <param name="routeData">The route data.</param>
-        /// <param name="structureInfo">The structure information.</param>
-        internal static void ApplyStructureInfo(this RouteData routeData, StructureInfo structureInfo)
+        /// <param name="trie">The trie.</param>
+        internal static void ApplyTrie(this RouteData routeData, Trie trie)
         {
-            routeData.DataTokens["brickpile:structureInfo"] = structureInfo;
+            routeData.DataTokens["brickpile:trie"] = trie;
         }
 
         /// <summary>
@@ -66,9 +67,9 @@ namespace BrickPile.Core.Extensions
         /// </summary>
         /// <param name="routeData">The route data.</param>
         /// <returns></returns>
-        public static StructureInfo GetStructureInfo(this RouteData routeData)
+        public static Trie GetStructureInfo(this RouteData routeData)
         {
-            return (StructureInfo) routeData.DataTokens["brickpile:structureInfo"];
+            return (Trie) routeData.DataTokens["brickpile:trie"];
         }
     }
 }

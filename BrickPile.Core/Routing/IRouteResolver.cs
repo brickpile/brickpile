@@ -1,4 +1,5 @@
 ﻿using System;
+using BrickPile.Core.Routing.Trie;
 
 namespace BrickPile.Core.Routing
 {
@@ -8,11 +9,11 @@ namespace BrickPile.Core.Routing
     internal interface IRouteResolver
     {
         /// <summary>
-        ///     Resolves the route based on the incoming <see cref="string" /> url.
+        /// Resolves the route based on the incoming <see cref="string" /> url.
         /// </summary>
-        /// <param name="structureInfo">The structure information.</param>
+        /// <param name="trie">The trie.</param>
         /// <param name="virtualPath">The virtual path.</param>
         /// <returns></returns>
-        Tuple<StructureInfo.Node, string> ResolveRoute(StructureInfo structureInfo, string virtualPath);
+        Tuple<TrieNode, string> ResolveRoute(Trie.Trie trie, string virtualPath);
     }
 }

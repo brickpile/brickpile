@@ -227,12 +227,13 @@
     <Compile Include="Routing\IVirtualPathResolver.cs" />
     <Compile Include="Routing\PageRoute.cs" />
     <Compile Include="Routing\RouteResolver.cs" />
+    <Compile Include="Routing\Trie\Trie.cs" />
+    <Compile Include="Routing\Trie\TrieNode.cs" />
     <Compile Include="Routing\UIRoute.cs" />
     <Compile Include="Routing\VirtualPathResolver.cs" />
     <Compile Include="Security\Claims\ApplicationUserPrincipal.cs" />
     <Compile Include="Slug.cs" />
     <Compile Include="StoreAction.cs" />
-    <Compile Include="StructureInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BrickPile.Domain\BrickPile.Domain.csproj">

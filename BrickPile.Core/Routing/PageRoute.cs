@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Core.Extensions;
 using BrickPile.Core.Mvc;
+using BrickPile.Core.Routing.Trie;
 using BrickPile.Domain;
 using Raven.Client;
 
@@ -49,13 +50,14 @@ namespace BrickPile.Core.Routing
         /// </value>
         protected IControllerMapper ControllerMapper { get; private set; }
 
+
         /// <summary>
-        ///     Gets or sets the structure information.
+        /// Gets or sets the trie.
         /// </summary>
         /// <value>
-        ///     The structure information.
+        /// The trie.
         /// </value>
-        protected StructureInfo StructureInfo { get; set; }
+        protected Trie.Trie Trie { get; set; }
 
         /// <summary>
         ///     Gets the current page key.
@@ -155,10 +157,10 @@ namespace BrickPile.Core.Routing
 
             using (var session = this.DocumentStore.Invoke().OpenSession())
             {
-                this.StructureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                this.Trie = session.Load<Trie.Trie>(DefaultBrickPileBootstrapper.TrieId);
             }
 
-            var nodeAndAction = this.RouteResolver.ResolveRoute(this.StructureInfo,
+            var nodeAndAction = this.RouteResolver.ResolveRoute(this.Trie,
                 httpContext.Request.Path);
 
             if (nodeAndAction == null)
@@ -178,7 +180,7 @@ namespace BrickPile.Core.Routing
             }
 
             var routeData = this.PrepareRouteData(
-                this.StructureInfo,
+                this.Trie,
                 navigationContext,
                 controllerName,
                 nodeAndAction.Item2);
@@ -193,12 +195,12 @@ namespace BrickPile.Core.Routing
         /// <param name="nodeAndAction">The node and action.</param>
         /// <returns></returns>
         protected NavigationContext PrepareNavigationContext(RequestContext requestContext,
-            Tuple<StructureInfo.Node, string> nodeAndAction)
+            Tuple<TrieNode, string> nodeAndAction)
         {
             using (var session = this.DocumentStore.Invoke().OpenSession())
             {
                 var pages =
-                    session.Load<IPage>(this.StructureInfo.GetAncestorIdsFor(nodeAndAction.Item1.PageId, true));
+                    session.Load<IPage>(this.Trie.GetAncestorIdsFor(nodeAndAction.Item1.PageId, true));
                 return new NavigationContext(requestContext)
                 {
                     CurrentContext = pages,
@@ -208,18 +210,18 @@ namespace BrickPile.Core.Routing
         }
 
         /// <summary>
-        ///     Prepares the route data.
+        /// Prepares the route data.
         /// </summary>
-        /// <param name="structureInfo">The structure information.</param>
+        /// <param name="trie">The trie.</param>
         /// <param name="navigationContext">The navigation context.</param>
         /// <param name="controllerName">Name of the controller.</param>
         /// <param name="action">The action.</param>
         /// <returns></returns>
-        protected RouteData PrepareRouteData(StructureInfo structureInfo, NavigationContext navigationContext,
+        protected RouteData PrepareRouteData(Trie.Trie trie, NavigationContext navigationContext,
             string controllerName, string action)
         {
             var routeData = new RouteData(this, new MvcRouteHandler());
-            routeData.ApplyStructureInfo(structureInfo);
+            routeData.ApplyTrie(trie);
             routeData.ApplyCurrentContext(navigationContext.CurrentContext);
             routeData.Values[ControllerKey] = controllerName;
             routeData.Values[ActionKey] = action;
