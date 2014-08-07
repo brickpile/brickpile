@@ -12,7 +12,7 @@ namespace BrickPile.Core.Routing
     /// <summary>
     ///     Associates a route with the BrickPile UI area.
     /// </summary>
-    internal class UiRoute : PageRoute, IRouteWithArea
+    internal class UiRoute : DefaultRoute, IRouteWithArea
     {
         private const string ControllerName = "pages";
 

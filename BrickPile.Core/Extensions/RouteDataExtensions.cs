@@ -19,7 +19,7 @@ namespace BrickPile.Core.Extensions
         /// <returns></returns>
         public static T GetCurrentPage<T>(this RouteData data)
         {
-            return (T) data.Values[PageRoute.CurrentPageKey];
+            return (T) data.Values[DefaultRoute.CurrentPageKey];
         }
 
         /// <summary>

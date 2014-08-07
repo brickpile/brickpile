@@ -49,7 +49,7 @@ namespace BrickPile.Core.Graph
             var handler = (MvcHandler) HttpContext.Current.Handler;
             if (handler == null)
                 return default(T);
-            return (T) handler.RequestContext.RouteData.Values[PageRoute.CurrentPageKey];
+            return (T) handler.RequestContext.RouteData.Values[DefaultRoute.CurrentPageKey];
         }
     }
 }

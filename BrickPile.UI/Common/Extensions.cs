@@ -20,7 +20,7 @@ namespace BrickPile.UI.Common {
         /// <param name="model">The model.</param>
         /// <returns></returns>
         public static RouteData ApplyCurrentPage(this RouteData data, dynamic model) {
-            data.Values[PageRoute.CurrentPageKey] = model;
+            data.Values[DefaultRoute.CurrentPageKey] = model;
             return data;
         }
 
@@ -33,9 +33,9 @@ namespace BrickPile.UI.Common {
         /// <param name="model">The model.</param>
         /// <returns></returns>
         public static RouteData ApplyCurrentPage(this RouteData data, string controllerName, string actionName, dynamic model) {
-            data.Values[PageRoute.ControllerKey] = controllerName.Replace("Controller", "");
-            data.Values[PageRoute.ActionKey] = actionName;
-            data.Values[PageRoute.CurrentPageKey] = model;
+            data.Values[DefaultRoute.ControllerKey] = controllerName.Replace("Controller", "");
+            data.Values[DefaultRoute.ActionKey] = actionName;
+            data.Values[DefaultRoute.CurrentPageKey] = model;
             return data;
         }
 
@@ -46,7 +46,7 @@ namespace BrickPile.UI.Common {
         /// <param name="data">The data.</param>
         /// <returns></returns>
         public static T GetCurrentPage<T>(this RouteData data) {
-            return (T)data.Values[PageRoute.CurrentPageKey];
+            return (T)data.Values[DefaultRoute.CurrentPageKey];
         }
 
         /// <summary>

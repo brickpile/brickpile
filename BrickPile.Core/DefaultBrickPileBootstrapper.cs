@@ -321,7 +321,7 @@ namespace BrickPile.Core
         {
             // ensure that the the PageRoute is first in the collection
             routes.Insert(0,
-                new PageRoute(
+                new DefaultRoute(
                     new VirtualPathResolver(),
                     new RouteResolver(),
                     () => this.DocumentStore,

@@ -53,7 +53,7 @@ namespace BrickPile.Tests.Routing
                     session.Store(page);
                     session.SaveChanges();
 
-                    var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
+                    var route = new DefaultRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
                     data = route.GetRouteData(context);
                 }
 
@@ -99,7 +99,7 @@ namespace BrickPile.Tests.Routing
                     session.Store(page);
                     session.SaveChanges();
 
-                    var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
+                    var route = new DefaultRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
                     data = route.GetRouteData(context);
                 }
 
@@ -146,7 +146,7 @@ namespace BrickPile.Tests.Routing
                     session.Store(page);
                     session.SaveChanges();
 
-                    var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
+                    var route = new DefaultRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
                     data = route.GetRouteData(context);
                 }
 
@@ -190,7 +190,7 @@ namespace BrickPile.Tests.Routing
                     });
                     session.SaveChanges();
 
-                    var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
+                    var route = new DefaultRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
                     data = route.GetRouteData(context);
                 }
 
@@ -218,11 +218,11 @@ namespace BrickPile.Tests.Routing
                         Url = "fake-page"
                     }
                 };
-                context.Request.RequestContext.RouteData.Values[PageRoute.CurrentPageKey] = currentPage;
+                context.Request.RequestContext.RouteData.Values[DefaultRoute.CurrentPageKey] = currentPage;
 
                 // When
 
-                var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
+                var route = new DefaultRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
                 VirtualPathData data = route.GetVirtualPath(context.Request.RequestContext, new RouteValueDictionary(new { currentPage }));
 
                 // Then
@@ -247,11 +247,11 @@ namespace BrickPile.Tests.Routing
                         Url = "fake-page"
                     }
                 };
-                context.Request.RequestContext.RouteData.Values[PageRoute.CurrentPageKey] = currentPage;
+                context.Request.RequestContext.RouteData.Values[DefaultRoute.CurrentPageKey] = currentPage;
 
                 // When
 
-                var route = new PageRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
+                var route = new DefaultRoute(new VirtualPathResolver(), new RouteResolver(), () => store, mapper);
                 VirtualPathData data = route.GetVirtualPath(context.Request.RequestContext, new RouteValueDictionary(new { currentPage, page = "1", mode = "edit" }));
 
                 // Then

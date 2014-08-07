@@ -60,7 +60,7 @@ namespace BrickPile.Core.Mvc
                 var editAction = (EditorAction) filterContext.Controller.TempData["EditorAction"];
                 // replace the current page with the draft if the user is logged on and we have a draft saved
                 if (editAction != EditorAction.Preview) return;
-                filterContext.RouteData.Values[PageRoute.CurrentPageKey] =
+                filterContext.RouteData.Values[DefaultRoute.CurrentPageKey] =
                     this.documentStore.OpenSession().Load<IPage>(currentPage.Id + "/draft");
                 filterContext.Controller.TempData["EditorAction"] = EditorAction.Preview;
             }

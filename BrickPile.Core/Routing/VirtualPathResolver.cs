@@ -21,11 +21,11 @@ namespace BrickPile.Core.Routing
         {
             var url = page.Metadata.Url ?? string.Empty;
 
-            if (!routeValueDictionary.ContainsKey(PageRoute.ActionKey))
+            if (!routeValueDictionary.ContainsKey(DefaultRoute.ActionKey))
                 return VirtualPathUtility.AppendTrailingSlash(url).ToLower();
-            this.action = routeValueDictionary[PageRoute.ActionKey] as string;
+            this.action = routeValueDictionary[DefaultRoute.ActionKey] as string;
 
-            if (this.action != null && !this.action.ToLower().Equals(PageRoute.DefaultAction))
+            if (this.action != null && !this.action.ToLower().Equals(DefaultRoute.DefaultAction))
             {
                 return
                     VirtualPathUtility.AppendTrailingSlash(string.Join("/",

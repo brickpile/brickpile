@@ -13,7 +13,7 @@ namespace BrickPile.Core.Routing
         public Tuple<TrieNode, string> ResolveRoute(Trie.Trie trie, string virtualPath)
         {
             // Set the default action to index
-            var action = PageRoute.DefaultAction;
+            var action = DefaultRoute.DefaultAction;
 
             if (trie == null || trie.RootNode == null) return null;
 
