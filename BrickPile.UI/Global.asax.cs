@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Raven.Client;
 using Raven.Client.Document;
-using StackExchange.Profiling;
+//using StackExchange.Profiling;
 using StructureMap;
 
 namespace BrickPile.Samples {
@@ -20,12 +20,12 @@ namespace BrickPile.Samples {
 
         protected void Application_BeginRequest()
         {
-                MiniProfiler.Start();
+                //MiniProfiler.Start();
         }
 
         protected void Application_EndRequest()
         {
-            MiniProfiler.Stop();
+            //MiniProfiler.Stop();
         }
     }
 }
