@@ -8,11 +8,11 @@ namespace BrickPile.Core.Routing
     internal interface IVirtualPathResolver
     {
         /// <summary>
-        ///     Resolves the virtual path base on <see cref="IPage" />.
+        /// Resolves the virtual path base on <see cref="IPage" />.
         /// </summary>
         /// <param name="page">The page.</param>
         /// <param name="routeValueDictionary">The route value dictionary.</param>
         /// <returns></returns>
-        string ResolveVirtualPath(IPage page, RouteValueDictionary routeValueDictionary);
+        string Resolve(IPage page, RouteValueDictionary routeValueDictionary);
     }
 }

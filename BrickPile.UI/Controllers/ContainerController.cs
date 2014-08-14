@@ -1,7 +1,7 @@
-﻿using System.Runtime.Remoting;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using BrickPile.Core;
-using BrickPile.Samples.Models;
+using BrickPile.Samples.Models.ContentParts;
+using BrickPile.Samples.Models.ContentTypes;
 using BrickPile.UI.Web.ViewModels;
 using Raven.Client;
 
@@ -10,13 +10,29 @@ namespace BrickPile.Samples.Controllers
     [AllowAnonymous]
     public class ContainerController : Controller
     {
-        private readonly IDocumentStore store;
-        //
-        // GET: /Container/
+        private readonly IDocumentStore store;        
 
-        public ActionResult Index(Container currentPage) {            
-            using (var session = this.store.OpenSession())
+        public ContainerController(IDocumentStore store)
+        {
+            this.store = store;            
+        }
+
+        public ActionResult Index(Container currentPage)
+        {
+            using (IDocumentSession session = this.store.OpenSession())
             {
+
+                var hero = new Hero
+                {
+                    Heading = "HALCYONDAYS",
+                    Caption = "An exclusive HTML5/CSS3 freebie by Peter Finlan, for Codrops",
+                    ArticleUrl = "http://tempuri.org",
+                    ActionText = "Back to the article"
+                };
+
+                session.Store(hero);
+                session.SaveChanges();
+
                 var navigationContext = new NavigationContext(ControllerContext.RequestContext);
                 var viewModel = new DefaultViewModel<Container>
                 {
@@ -26,10 +42,6 @@ namespace BrickPile.Samples.Controllers
 
                 return View(viewModel);
             }
-        }
-
-        public ContainerController(IDocumentStore store) {
-            this.store = store;
         }
     }
 }

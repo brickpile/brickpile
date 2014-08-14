@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Routing;
 using BrickPile.Core.Extensions;
 
@@ -31,8 +32,9 @@ namespace BrickPile.Core
                 throw new ArgumentNullException("requestContext");
             }
 
-            this.CurrentContext = this.RequestContext.RouteData.GetCurrentContext();
+            this.StartPage = this.RequestContext.RouteData.GetPages().SingleOrDefault(x => x.Parent == null);
             this.CurrentPage = this.RequestContext.RouteData.GetCurrentPage<IPage>();
+            this.OpenPages = this.RequestContext.RouteData.GetPages();            
         }
 
         /// <summary>
@@ -41,7 +43,15 @@ namespace BrickPile.Core
         /// <value>
         ///     The request context.
         /// </value>
-        public RequestContext RequestContext { get; private set; }
+        public RequestContext RequestContext { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start page.
+        /// </summary>
+        /// <value>
+        /// The start page.
+        /// </value>
+        public IPage StartPage { get; set; }
 
         /// <summary>
         ///     Gets or sets the current page.
@@ -57,6 +67,6 @@ namespace BrickPile.Core
         /// <value>
         ///     The current context.
         /// </value>
-        public IEnumerable<IPage> CurrentContext { get; set; }
+        public IEnumerable<IPage> OpenPages { get; set; }
     }
 }

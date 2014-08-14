@@ -17,6 +17,14 @@ namespace BrickPile.Core
         RequestContext RequestContext { get; }
 
         /// <summary>
+        /// Gets or sets the start page.
+        /// </summary>
+        /// <value>
+        /// The start page.
+        /// </value>
+        IPage StartPage { get; set; }
+
+        /// <summary>
         ///     Gets or sets the current page.
         /// </summary>
         /// <value>
@@ -30,6 +38,6 @@ namespace BrickPile.Core
         /// <value>
         ///     The current context.
         /// </value>
-        IEnumerable<IPage> CurrentContext { get; set; }
+        IEnumerable<IPage> OpenPages { get; set; }
     }
 }

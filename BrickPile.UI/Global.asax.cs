@@ -16,11 +16,6 @@ namespace BrickPile.Samples {
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
-            //var store = ObjectFactory.GetInstance<IDocumentStore>();
-
-            // Initialize MiniProfiler
-            //MvcMiniProfiler.RavenDb.Profiler.AttachTo((DocumentStore) store);
         }
 
         protected void Application_BeginRequest()

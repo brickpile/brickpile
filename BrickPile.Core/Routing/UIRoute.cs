@@ -23,8 +23,8 @@ namespace BrickPile.Core.Routing
         /// <param name="routeResolver">The route resolver.</param>
         /// <param name="documentStore">The document store.</param>
         /// <param name="controllerMapper">The controller mapper.</param>
-        public UiRoute(VirtualPathResolver virtualPathResolver, IRouteResolver routeResolver,
-            Func<IDocumentStore> documentStore,
+        public UiRoute(IVirtualPathResolver virtualPathResolver, IRouteResolver routeResolver,
+            IDocumentStore documentStore,
             IControllerMapper controllerMapper)
             : base(virtualPathResolver, routeResolver, documentStore, controllerMapper) {}
 
@@ -47,34 +47,29 @@ namespace BrickPile.Core.Routing
         /// </returns>
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {
-            var segments = httpContext.Request.Path.Split(new[] {'/'});
+            string[] segments = httpContext.Request.Path.Split(new[] {'/'});
             if (!segments.Any(segment => segment.Equals("ui", StringComparison.OrdinalIgnoreCase)))
             {
                 return null;
             }
 
-            using (var session = base.DocumentStore.Invoke().OpenSession())
-            {
-                base.Trie = session.Load<Trie.Trie>(DefaultBrickPileBootstrapper.TrieId);
-            }
+            ResolveResult result = RouteResolver.Resolve(httpContext.Request.Path.Replace("/ui/pages", ""));
 
-            var nodeAndAction = base.RouteResolver.ResolveRoute(base.Trie,
-                httpContext.Request.Path.Replace("/ui/pages", ""));
-
-            if (nodeAndAction == null)
+            if (result == null)
             {
                 return null;
             }
 
-            var navigationContext = base.PrepareNavigationContext(
-                httpContext.Request.RequestContext,
-                nodeAndAction);
+            IPage currentPage;
+            using (IDocumentSession session = DocumentStore.OpenSession())
+            {
+                currentPage = session.Load<IPage>(result.TrieNode.PageId);
+            }
 
-            var routeData = base.PrepareRouteData(
-                base.Trie,
-                navigationContext,
-                ControllerName,
-                nodeAndAction.Item2);
+            var routeData = new RouteData(this, new MvcRouteHandler());
+            routeData.Values[ControllerKey] = ControllerName;
+            routeData.Values[ActionKey] = result.Action;
+            routeData.Values[CurrentPageKey] = currentPage;
 
             return routeData;
         }
@@ -98,11 +93,11 @@ namespace BrickPile.Core.Routing
                 return null;
             }
 
-            var vpd = new VirtualPathData(this, VirtualPathResolver.ResolveVirtualPath(model, values));
+            var vpd = new VirtualPathData(this, VirtualPathResolver.Resolve(model, values));
 
             vpd.VirtualPath = string.Format("/ui/pages".TrimStart(new[] {'/'}) + "/{0}", vpd.VirtualPath);
 
-            var queryParams = String.Empty;
+            string queryParams = String.Empty;
             // add query string parameters
             foreach (var kvp in values)
             {

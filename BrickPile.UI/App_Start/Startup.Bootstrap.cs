@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Linq;
 using BrickPile.Core;
-using BrickPile.Core.Conventions;
-using StructureMap;
 
 namespace BrickPile.UI
 {
 	public partial class Startup
 	{
-        private static IBrickPileBootstrapper _brickPileBootstrapper;
+        private static IBrickPileBootstrapper brickPileBootstrapper;
 
         public static void InitialiseBootstrapper()
         {			
@@ -27,9 +25,9 @@ namespace BrickPile.UI
 
             var bootStrapperType = locatedBootstrappers.FirstOrDefault() ?? defaultBootstrapper;
 
-            _brickPileBootstrapper = (IBrickPileBootstrapper) Activator.CreateInstance(bootStrapperType);
+            brickPileBootstrapper = (IBrickPileBootstrapper) Activator.CreateInstance(bootStrapperType);
 
-            _brickPileBootstrapper.Initialise();
+            brickPileBootstrapper.Initialise();
 
         }
 	}

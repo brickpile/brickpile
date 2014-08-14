@@ -148,13 +148,22 @@
     </Compile>
     <Compile Include="Controllers\ContainerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Business\HomeViewModelTransformer.cs" />
     <Compile Include="CustomBootstrapper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Container.cs" />
-    <Compile Include="Models\Home.cs" />
+    <Compile Include="Models\ContentParts\PortfolioItem.cs" />
+    <Compile Include="Models\ContentParts\Service.cs" />
+    <Compile Include="Models\ContentParts\TeamMember.cs" />
+    <Compile Include="Models\ContentTypes\Container.cs" />
+    <Compile Include="Models\ContentParts\Feature.cs" />
+    <Compile Include="Models\ContentParts\Hero.cs" />
+    <Compile Include="Models\Features.cs" />
+    <Compile Include="Models\ContentTypes\Home.cs" />
+    <Compile Include="Models\Introduction.cs" />
+    <Compile Include="Models\Portfolio.cs" />
     <Compile Include="Models\ViewModels\HomeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

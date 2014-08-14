@@ -23,7 +23,7 @@ namespace BrickPile.Core.Mvc.Html
         /// </value>
         private static NavigationContext NavigationContext
         {
-            get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetNavigationContext(); }
+            get { return new NavigationContext(((MvcHandler) HttpContext.Current.Handler).RequestContext); }
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace BrickPile.Core.Mvc.Html
                 return MvcHtmlString.Empty;
             }
 
-            var hierarchyNodes = navigationContext.CurrentContext.FilterForDisplay().AsHierarchy();
+            var hierarchyNodes = navigationContext.OpenPages.FilterForDisplay().AsHierarchy();
 
             var item = hierarchyNodes.SingleOrDefault(x => x.Expanded);
 

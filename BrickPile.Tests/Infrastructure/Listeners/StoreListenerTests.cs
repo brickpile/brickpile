@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Claims;
+using System.Reflection;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Routing;
 using BrickPile.Core;
-using BrickPile.Core.Conventions;
 using BrickPile.Core.Exceptions;
 using BrickPile.Core.Extensions;
-using BrickPile.Core.Infrastructure.Indexes;
-using BrickPile.Core.Infrastructure.Listeners;
+using BrickPile.Core.Routing.Trie;
 using BrickPile.Tests.Fakes;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax;
 using Raven.Client;
-using Raven.Client.Indexes;
 using Raven.Tests.Helpers;
 using StructureMap;
 using Xunit;
@@ -31,13 +27,15 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 HttpContext.Current = null;
                 RouteTable.Routes.Clear();
 
-                var container = A.Fake<IContainer>();
-                var store = NewDocumentStore();                
-                var bootStrapper = new FakeBootstrapper(store);
+                var store = NewDocumentStore();
+
+                var bootStrapper = new FakeBootstrapper();
+                var field = typeof(DefaultBrickPileBootstrapper).GetField("DocStore",
+                    BindingFlags.Static | BindingFlags.NonPublic);
+
+                field.SetValue(null, new Lazy<IDocumentStore>(() => store));
                 bootStrapper.Initialise();
-                store.RegisterListener(new StoreListener(bootStrapper.OnPagePublish, bootStrapper.OnPageSave, bootStrapper.OnPageUnPublish));
-                store.RegisterListener(new DeleteListener(bootStrapper.OnDocumentDelete));
-                IndexCreation.CreateIndexes(typeof(DefaultBrickPileBootstrapper).Assembly, store);
+
                 HttpContext.Current = new HttpContext(new HttpRequest(null, "http://tempuri.org", null), new HttpResponse(null))
                 {
                     User = A.Fake<IPrincipal>()
@@ -50,7 +48,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
                 IPage page, draft;
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 var store = SetupContext();
                
                 // When
@@ -63,7 +61,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                     page = session.Load<IPage>("FakePages/1");
                     draft = session.Load<IPage>("FakePages/1/Draft");
                 }
@@ -86,7 +84,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
                 IPage page, draft;
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 var store = SetupContext();
 
                 // When
@@ -99,7 +97,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                     page = session.Load<IPage>("FakePages/1");
                     draft = session.Load<IPage>("FakePages/1/Draft");
                 }
@@ -123,7 +121,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 var store = SetupContext();
                 IPage page;
 
@@ -146,7 +144,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 using (var session = store.OpenSession())
                 {
                     page = session.Load<IPage>("FakePages/1");
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                 }
 
                 // Then
@@ -164,7 +162,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 var store = SetupContext();
                 IPage page, draft;
 
@@ -188,7 +186,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 {
                     draft = session.Load<IPage>("FakePages/1/Draft");
                     page = session.Load<IPage>("FakePages/1");
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                 }
 
                 // Then
@@ -203,7 +201,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 var store = SetupContext();
                 IPage page, draft;
 
@@ -227,7 +225,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 {
                     page = session.Load<IPage>("FakePages/1");
                     draft = session.Load<IPage>("FakePages/1/Draft");
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                 }
 
                 // Then
@@ -248,7 +246,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 IPage draft;
                 var store = SetupContext();
 
@@ -262,7 +260,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                     draft = session.Load<IPage>("FakePages/1");
                 }
 
@@ -280,7 +278,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 IPage page;
 
                 var store = SetupContext();
@@ -305,7 +303,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {                    
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                     page = session.Load<FakePage>("FakePages/2");
                 }
 
@@ -327,7 +325,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 IPage page;
 
                 var store = SetupContext();
@@ -352,7 +350,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                     page = session.Load<FakePage>("fakepages/2");
                 }
 
@@ -375,7 +373,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 IPage page;
 
                 var store = SetupContext();
@@ -408,7 +406,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                     page = session.Load<FakePage>("FakePages/2/draft");
                 }
 
@@ -432,7 +430,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 IPage page, draft;
 
                 var store = SetupContext();
@@ -465,7 +463,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                     draft = session.Load<FakePage>("FakePages/2/Draft");
                     page = session.Load<FakePage>("FakePages/2");
                 }
@@ -483,7 +481,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 IPage page;
 
                 var store = SetupContext();
@@ -499,7 +497,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                     page = session.Load<FakePage>("FakePages/2");
                 }
 
@@ -522,7 +520,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 IPage page;
 
                 var store = SetupContext();
@@ -539,7 +537,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                     page = session.Load<FakePage>("FakePages/3");
                 }
 
@@ -562,7 +560,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
 
                 var store = SetupContext();
 
@@ -584,7 +582,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 }
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                 }
 
                 // Then
@@ -598,7 +596,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
 
                 var store = SetupContext();
 
@@ -623,7 +621,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 }
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                 }
 
                 // Then
@@ -645,7 +643,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
 
                 var store = SetupContext();
 
@@ -667,7 +665,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                 }
 
                 // Then
@@ -681,7 +679,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 var store = SetupContext();
 
                 // When
@@ -702,7 +700,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                 }
 
                 // Then
@@ -715,7 +713,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
                 var store = SetupContext();
 
                 // When
@@ -736,7 +734,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                 }
 
                 // Then
@@ -749,7 +747,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
 
                 var store = SetupContext();
 
@@ -770,7 +768,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                 }
 
                 // Then
@@ -783,7 +781,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
                 IPage draft;
-                StructureInfo structureInfo;
+                Trie structureInfo;
 
                 var store = SetupContext();
 
@@ -799,7 +797,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 using (var session = store.OpenSession())
                 {
                     draft = session.Load<IPage>("FakePages/1/draft");
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                 }
 
                 // Then
@@ -817,12 +815,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 IPage fakePage;
                 IPage draft;
                 var container = A.Fake<IContainer>();
-
-                var store = NewDocumentStore();
-                var bootStrapper = new FakeBootstrapper(store);
-                bootStrapper.Initialise();
-                store.RegisterListener(new StoreListener(bootStrapper.OnPagePublish, bootStrapper.OnPageSave, bootStrapper.OnPageUnPublish));
-                store.RegisterListener(new DeleteListener(bootStrapper.OnDocumentDelete));
+                var store = this.SetupContext();
 
                 // When
 
@@ -905,7 +898,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
 
                 var store = SetupContext();
 
@@ -928,7 +921,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                     page = session.Load<FakePage>("fakepages/1/draft");
                 }
 
@@ -944,7 +937,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
 
                 var store = SetupContext();
 
@@ -967,7 +960,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                     page = session.Load<FakePage>("FakePages/1/Draft");
                 }
 
@@ -983,7 +976,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             public void Can_Publish_Then_Unpublish_And_Republish_Root_Page_With_Children() {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
 
                 var store = SetupContext();
 
@@ -1014,7 +1007,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                 }
 
                 // Then
@@ -1027,7 +1020,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
 
                 var store = SetupContext();
 
@@ -1061,7 +1054,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 using (var session = store.OpenSession())
                 {
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                     child = session.Load<FakePage>("FakePages/2/Draft");
                 }
 
@@ -1078,7 +1071,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                StructureInfo structureInfo;
+                Trie structureInfo;
 
                 var store = SetupContext();
 
@@ -1112,7 +1105,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                     session.Store(child, StoreAction.Publish);
                     session.SaveChanges();
 
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                 }
 
                 // Then
@@ -1245,13 +1238,16 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 Assert.Equal(default(DateTime?), child.Metadata.Published);
             }
 
+            /// <summary>
+            /// Can_s the save_ start_ page_ and_ add_ child.
+            /// </summary>
             [Fact]
             public void Can_Save_Start_Page_And_Add_Child()
             {
                 // Given
 
                 var store = SetupContext();
-                StructureInfo structureInfo;
+                Trie structureInfo;
 
                 // When
 
@@ -1270,7 +1266,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 using (var session = store.OpenSession())
                 {
 
-                    structureInfo = session.Load<StructureInfo>(DefaultBrickPileBootstrapper.StructureInfoDocumentId);
+                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
                 }
 
                 // Then

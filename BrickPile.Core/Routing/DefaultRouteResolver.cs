@@ -6,12 +6,21 @@ using BrickPile.Core.Routing.Trie;
 namespace BrickPile.Core.Routing
 {
     /// <summary>
-    ///     Represents the default <see cref="RouteResolver" />.
+    ///     Represents the default <see cref="DefaultRouteResolver" />.
     /// </summary>
-    internal class RouteResolver : IRouteResolver
+    internal class DefaultRouteResolver : IRouteResolver
     {
-        public Tuple<TrieNode, string> ResolveRoute(Trie.Trie trie, string virtualPath)
+        private readonly IRouteResolverTrie routeResolverTrie;
+
+        public DefaultRouteResolver(IRouteResolverTrie routeResolverTrie)
         {
+            this.routeResolverTrie = routeResolverTrie;
+        }
+
+        public ResolveResult Resolve(string virtualPath)
+        {
+            var trie = this.routeResolverTrie.LoadTrie();
+
             // Set the default action to index
             var action = DefaultRoute.DefaultAction;
 
@@ -19,7 +28,7 @@ namespace BrickPile.Core.Routing
 
             TrieNode currentNode;
 
-            var segments = virtualPath.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+            var segments = virtualPath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
             // The requested url is for the start page with no action
             // so just return the start page
@@ -44,7 +53,7 @@ namespace BrickPile.Core.Routing
                 }
             }
 
-            return currentNode == null ? null : new Tuple<TrieNode, string>(currentNode, action);
+            return currentNode == null ? null : new ResolveResult(currentNode, action);
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Core.Extensions;
+using BrickPile.Core.Routing;
+using BrickPile.Core.Routing.Trie;
 using Raven.Client;
-using StructureMap;
 
 namespace BrickPile.Core.Mvc
 {
@@ -11,15 +12,22 @@ namespace BrickPile.Core.Mvc
     /// </summary>
     internal sealed class BrickPileControllerFactory : DefaultControllerFactory
     {
-        private readonly IDocumentStore documentStore;
         private static bool hasConfiguration;
+        private readonly IBrickPileContextFactory contextFactory;
+        private readonly IDocumentStore documentStore;
+        private readonly IRouteResolverTrie routeResolverTrie;
+        private readonly INavigationContextFactory navigationContextFactory;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="BrickPileControllerFactory" /> class.
         /// </summary>
-        public BrickPileControllerFactory()
+        public BrickPileControllerFactory(IDocumentStore documentStore, IBrickPileContextFactory contextFactory,
+            IRouteResolverTrie routeResolverTrie, INavigationContextFactory navigationContextFactory)
         {
-            this.documentStore = ObjectFactory.GetInstance<IDocumentStore>();
+            this.documentStore = documentStore;
+            this.contextFactory = contextFactory;
+            this.routeResolverTrie = routeResolverTrie;
+            this.navigationContextFactory = navigationContextFactory;
         }
 
         /// <summary>
@@ -34,11 +42,32 @@ namespace BrickPile.Core.Mvc
         /// <exception cref="T:System.ArgumentException">The <paramref name="controllerName" /> parameter is null or empty.</exception>
         public override IController CreateController(RequestContext requestContext, string controllerName)
         {
-            if (this.HasConfiguration()) return base.CreateController(requestContext, controllerName);
+            if (this.HasConfiguration())
+            {
+                this.CreateContext(requestContext);
+                return base.CreateController(requestContext, controllerName);
+            }
             requestContext.RouteData.DataTokens["area"] = "ui";
             requestContext.RouteData.Values["action"] = "index";
             requestContext.RouteData.Values["controller"] = "setup";
             return base.CreateController(requestContext, "setup");
+        }
+
+        /// <summary>
+        ///     Creates the brick pile context.
+        /// </summary>
+        /// <param name="requestContext">The request context.</param>
+        private void CreateContext(RequestContext requestContext)
+        {
+            var currentPage = requestContext.RouteData.GetCurrentPage<IPage>();
+            if (currentPage == null)
+                return;
+
+            BrickPileContext context = this.contextFactory.Create(requestContext);
+
+            requestContext.RouteData.ApplyTrie(context.Trie);
+            requestContext.RouteData.ApplyCurrentContext(context);
+            requestContext.RouteData.ApplyPages(context.NavigationContext.OpenPages);
         }
 
         /// <summary>

@@ -19,7 +19,7 @@ namespace BrickPile.Tests.Routing
 
                 // When
 
-                var result = resolver.ResolveVirtualPath(page, new RouteValueDictionary( new { action = "index" } ));
+                var result = resolver.Resolve(page, new RouteValueDictionary( new { action = "index" } ));
 
                 // Then
 
@@ -35,7 +35,7 @@ namespace BrickPile.Tests.Routing
 
                 // When
 
-                var result = resolver.ResolveVirtualPath(page, new RouteValueDictionary(new { action = "comment" }));
+                var result = resolver.Resolve(page, new RouteValueDictionary(new { action = "comment" }));
 
                 // Then
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Web;
 using System.Web.Routing;
 using BrickPile.Core.Routing;
 using BrickPile.Core.Routing.Trie;
@@ -33,33 +32,33 @@ namespace BrickPile.Core.Extensions
         }
 
         /// <summary>
-        ///     Applies the current context.
+        /// Applies the current context.
+        /// </summary>
+        /// <param name="routeData">The route data.</param>
+        /// <param name="context">The context.</param>
+        internal static void ApplyCurrentContext(this RouteData routeData, BrickPileContext context)
+        {
+            routeData.DataTokens["brickpile:context"] = context;
+        }
+
+        /// <summary>
+        /// Gets the pages.
+        /// </summary>
+        /// <param name="routeData">The route data.</param>
+        /// <returns></returns>
+        internal static IPage[] GetPages(this RouteData routeData)
+        {
+            return (IPage[])routeData.DataTokens["brickpile:pages"];
+        }
+
+        /// <summary>
+        /// Applies the pages.
         /// </summary>
         /// <param name="routeData">The route data.</param>
         /// <param name="pages">The pages.</param>
-        internal static void ApplyCurrentContext(this RouteData routeData, IEnumerable<IPage> pages)
+        internal static void ApplyPages(this RouteData routeData, IEnumerable<IPage> pages)
         {
-            routeData.DataTokens["brickpile:currentcontext"] = pages;
-        }
-
-        /// <summary>
-        ///     Gets the current context.
-        /// </summary>
-        /// <param name="routeData">The route data.</param>
-        /// <returns></returns>
-        public static IEnumerable<IPage> GetCurrentContext(this RouteData routeData)
-        {
-            return (IEnumerable<IPage>) routeData.DataTokens["brickpile:currentcontext"];
-        }
-
-        /// <summary>
-        ///     Gets the navigation context.
-        /// </summary>
-        /// <param name="routeData">The route data.</param>
-        /// <returns></returns>
-        public static NavigationContext GetNavigationContext(this RouteData routeData)
-        {
-            return new NavigationContext(HttpContext.Current.Request.RequestContext);
+            routeData.DataTokens["brickpile:pages"] = pages;
         }
 
         /// <summary>
@@ -67,7 +66,7 @@ namespace BrickPile.Core.Extensions
         /// </summary>
         /// <param name="routeData">The route data.</param>
         /// <returns></returns>
-        public static Trie GetStructureInfo(this RouteData routeData)
+        public static Trie GetTrie(this RouteData routeData)
         {
             return (Trie) routeData.DataTokens["brickpile:trie"];
         }

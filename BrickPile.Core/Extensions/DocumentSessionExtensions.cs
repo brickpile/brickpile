@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using BrickPile.Core.Routing.Trie;
 using Raven.Client;
 using Raven.Client.Document;
 
@@ -20,12 +21,25 @@ namespace BrickPile.Core.Extensions
         /// <exception cref="System.NullReferenceException">StructureInfo</exception>
         public static IPage GetStartPage(this ISyncAdvancedSessionOperation session)
         {
-            var structureInfo = HttpContext.Current.Request.RequestContext.RouteData.GetStructureInfo();
-            if (structureInfo == null)
+            try
             {
-                throw new NullReferenceException("The RouteData DataToken does not contains the StructureInfo object.");
+                var context = new BrickPileContext(HttpContext.Current.Request.RequestContext);
+                if (context.NavigationContext.StartPage != null)
+                {
+                    return context.NavigationContext.StartPage;
+                }
+
+                Trie trie = context.Trie;
+
+                if (trie == null)
+                {
+                    throw new NullReferenceException("The RouteData DataToken does not contains the Trie object.");
+                }
+
+                return ((DocumentSession) session).Load<Page>(trie.RootNode.PageId);
             }
-            return ((DocumentSession) session).Load<Page>(structureInfo.RootNode.PageId);
+            catch (ArgumentNullException exception) {}
+            return null;
         }
 
         /// <summary>
@@ -37,20 +51,31 @@ namespace BrickPile.Core.Extensions
         /// <exception cref="System.NullReferenceException">StructureInfo</exception>
         public static IEnumerable<IPage> GetChildrenFor(this ISyncAdvancedSessionOperation session, IPage page)
         {
-            var structureInfo = HttpContext.Current.Request.RequestContext.RouteData.GetStructureInfo();
-            if (structureInfo == null)
+            try
             {
-                throw new NullReferenceException("The RouteData DataToken does not contains the StructureInfo object");
+                var context = new BrickPileContext(HttpContext.Current.Request.RequestContext);
+                if (context.NavigationContext != null && context.NavigationContext.OpenPages != null)
+                {
+                    return context.NavigationContext.OpenPages.Where(x => x.Parent != null && x.Parent.Id == page.Id);
+                }
+
+                Trie trie = context.Trie;
+                if (trie == null)
+                {
+                    throw new NullReferenceException("The RouteData DataToken does not contains the Trie object");
+                }
+
+                IEnumerable<TrieNode> nodes = trie.RootNode.Flatten(n => n.Children);
+
+                TrieNode node = nodes.SingleOrDefault(n => n.PageId.CompareToIgnoreDraftId(page.Id));
+
+                return node != null
+                    ? ((DocumentSession) session).Load<IPage>(node.Children.Select(n => n.PageId).ToArray())
+                        .OrderBy(p => p.Metadata.SortOrder)
+                    : Enumerable.Empty<IPage>();
             }
-
-            var nodes = structureInfo.RootNode.Flatten(n => n.Children);
-
-            var node = nodes.SingleOrDefault(n => n.PageId.CompareToIgnoreDraftId(page.Id));
-
-            return node != null
-                ? ((DocumentSession) session).Load<IPage>(node.Children.Select(n => n.PageId).ToArray())
-                    .OrderBy(p => p.Metadata.SortOrder)
-                : Enumerable.Empty<IPage>();
+            catch (ArgumentNullException exception) {}
+            return null;
         }
 
         /// <summary>
@@ -62,6 +87,21 @@ namespace BrickPile.Core.Extensions
         /// <returns></returns>
         public static T GetParentFor<T>(this ISyncAdvancedSessionOperation session, IPage page) where T : IPage
         {
+            if (page.Parent == null)
+            {
+                return default(T);
+            }
+
+            try
+            {
+                var context = new BrickPileContext(HttpContext.Current.Request.RequestContext);
+                if (context.NavigationContext.OpenPages.Any(x => x.Id == page.Parent.Id))
+                {
+                    return (T) context.NavigationContext.OpenPages.Single(x => x.Id == page.Parent.Id);
+                }
+            }
+            catch (ArgumentNullException exception) {}
+
             return page.Parent == null ? default(T) : ((DocumentSession) session).Load<T>(page.Parent.Id);
         }
 
@@ -76,14 +116,19 @@ namespace BrickPile.Core.Extensions
         public static IEnumerable<IPage> GetAncestorsFor(this ISyncAdvancedSessionOperation session, IPage page,
             bool includeStartPage = false)
         {
-            var structureInfo = HttpContext.Current.Request.RequestContext.RouteData.GetStructureInfo();
-            if (structureInfo == null)
+            try
             {
-                throw new NullReferenceException("The RouteData DataToken does not contains the StructureInfo object");
-            }
-            var nodes = structureInfo.GetAncestors(page.Id, includeStartPage);
+                var context = new BrickPileContext(HttpContext.Current.Request.RequestContext);
+                if (context.Trie == null)
+                {
+                    throw new NullReferenceException("The RouteData DataToken does not contains the Trie object");
+                }
+                IEnumerable<TrieNode> nodes = context.Trie.GetAncestors(page.Id, includeStartPage);
 
-            return ((DocumentSession) session).Load<IPage>(nodes.Select(n => n.PageId));
+                return ((DocumentSession) session).Load<IPage>(nodes.Select(n => n.PageId));
+            }
+            catch (ArgumentNullException exception) {}
+            return null;
         }
 
         /// <summary>

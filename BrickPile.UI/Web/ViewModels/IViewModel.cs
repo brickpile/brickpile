@@ -16,6 +16,6 @@ namespace BrickPile.UI.Web.ViewModels {
         /// <value>
         /// The hierarchy.
         /// </value>
-        INavigationContext NavigationContext { get; set; }
+        //INavigationContext NavigationContext { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace BrickPile.Core.Mvc.Html
         /// </value>
         private static INavigationContext NavigationContext
         {
-            get { return ((MvcHandler) HttpContext.Current.Handler).RequestContext.RouteData.GetNavigationContext(); }
+            get { return new NavigationContext(((MvcHandler) HttpContext.Current.Handler).RequestContext); }
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace BrickPile.Core.Mvc.Html
             // merge html attributes
             ul.MergeAttributes(new RouteValueDictionary(htmlAttributes));
 
-            var nodes = navigationContext.CurrentContext.FilterForDisplay().AsHierarchy();
+            var nodes = navigationContext.OpenPages.FilterForDisplay().AsHierarchy();
 
             // only render the top level items
             var items = nodes.Where(x => x.Depth == 1);
@@ -139,7 +139,7 @@ namespace BrickPile.Core.Mvc.Html
             {
                 // don't render anything
                 // render home if it's published
-                home = navigationContext.CurrentContext.SingleOrDefault(model => model.Parent == null);
+                home = navigationContext.OpenPages.SingleOrDefault(model => model.Parent == null);
                 if (home != null)
                 {
                     if (enableDisplayInMenu && !home.Metadata.DisplayInMenu)
@@ -156,7 +156,7 @@ namespace BrickPile.Core.Mvc.Html
             }
 
             // add home item if it's visible
-            home = navigationContext.CurrentContext.SingleOrDefault(model => model.Parent == null);
+            home = navigationContext.OpenPages.SingleOrDefault(model => model.Parent == null);
             if (home != null)
             {
                 if (enableDisplayInMenu && home.Metadata.DisplayInMenu)

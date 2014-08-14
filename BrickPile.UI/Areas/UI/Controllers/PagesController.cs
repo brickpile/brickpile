@@ -21,10 +21,11 @@ namespace BrickPile.UI.Areas.UI.Controllers
         private readonly IDocumentStore documentStore;
 
         /// <summary>
-        ///     Initializes a new instance of the <b>PagesController</b> class.
+        /// Initializes a new instance of the <b>PagesController</b> class.
         /// </summary>
         /// <param name="documentStore">The documentStore.</param>
-        public PagesController(IDocumentStore documentStore) {
+        public PagesController(IDocumentStore documentStore)
+        {
             this.documentStore = documentStore;
         }
 
@@ -87,7 +88,10 @@ namespace BrickPile.UI.Areas.UI.Controllers
         /// <param name="currentPage">The current page.</param>
         /// <returns></returns>
         public ActionResult Preview(IPage currentPage) {
-            TempData.Add("EditorAction", EditorAction.Preview);
+            if (!TempData.ContainsKey("EditoAction"))
+            {
+                TempData["EditorAction"] = EditorAction.Preview;
+            }            
             return
                 new RedirectResult(string.Concat("~/", VirtualPathUtility.AppendTrailingSlash(currentPage.Metadata.Url)));
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,7 @@ using BrickPile.Core.Routing;
 using BrickPile.Core.Routing.Trie;
 using Raven.Abstractions.Extensions;
 using Raven.Client;
+using Raven.Client.Document;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 using Raven.Json.Linq;
@@ -32,7 +34,20 @@ namespace BrickPile.Core
         private const string DataDirectory = "~/App_Data/Raven";
         public const string TrieId = "brickpile/trie";
 
-        private readonly BrickPileConventions conventions;
+        private static readonly Lazy<IDocumentStore> DocStore = new Lazy<IDocumentStore>(() =>
+        {
+            var store = new EmbeddableDocumentStore
+            {
+                DataDirectory = DataDirectory
+            };
+            if (ConfigurationManager.ConnectionStrings[ConnectionStringName] != null)
+            {
+                store.ConnectionStringName = ConnectionStringName;
+            }
+            store.Configuration.RunInUnreliableYetFastModeThatIsNotSuitableForProduction = true;
+            store.Initialize();
+            return store;
+        });
 
         /// <summary>
         ///     Gets the document store.
@@ -40,7 +55,10 @@ namespace BrickPile.Core
         /// <value>
         ///     The document store.
         /// </value>
-        protected IDocumentStore DocumentStore { get; private set; }
+        public static IDocumentStore DocumentStore
+        {
+            get { return DocStore.Value; }
+        }
 
         /// <summary>
         ///     Gets or sets the application container.
@@ -48,7 +66,7 @@ namespace BrickPile.Core
         /// <value>
         ///     The application container.
         /// </value>
-        protected IContainer ApplicationContainer { get; set; }
+        protected IContainer Container { get; set; }
 
         /// <summary>
         ///     Gets the conventions.
@@ -56,17 +74,14 @@ namespace BrickPile.Core
         /// <value>
         ///     The conventions.
         /// </value>
-        protected virtual BrickPileConventions Conventions
-        {
-            get { return this.conventions; }
-        }
+        protected BrickPileConventions Conventions { get; set; }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="DefaultBrickPileBootstrapper" /> class.
         /// </summary>
         protected DefaultBrickPileBootstrapper()
         {
-            this.conventions = new BrickPileConventions();
+            this.Conventions = new BrickPileConventions();
         }
 
         /// <summary>
@@ -74,26 +89,28 @@ namespace BrickPile.Core
         /// </summary>
         public void Initialise()
         {
-            this.DocumentStore = this.InitialiseDocumentStore();
+            this.ConfigureDocumentStoreInternal((DocumentStore) DocumentStore);
 
-            this.ApplicationContainer = this.GetApplicationContainer();
+            this.ConfigureDocumentStore((DocumentStore) DocumentStore);
 
-            this.ConfigureApplicationContainerInternal(this.ApplicationContainer, this.DocumentStore);
+            this.Container = this.GetApplicationContainer();
 
-            this.ConfigureApplicationContainer(this.ApplicationContainer);
+            this.ConfigureApplicationContainerInternal(this.Container, DocumentStore);
+
+            this.ConfigureApplicationContainer(this.Container);
 
             this.ConfigureConventions(this.Conventions);
 
-            this.CreateDefaultDocuments(this.DocumentStore);
+            this.CreateDefaultDocuments(DocumentStore);
 
-            this.RegisterCustomRoutes(RouteTable.Routes);
+            this.RegisterRoutes(RouteTable.Routes);
 
             // Register structuremap as dependency resolver
-            DependencyResolver.SetResolver(new StructureMapDependencyResolver(this.ApplicationContainer));
+            DependencyResolver.SetResolver(new StructureMapDependencyResolver(this.Container));
 
             // Set the dependency resolver for the web api
             GlobalConfiguration.Configuration.Services.Replace(typeof (IHttpControllerActivator),
-                new StructureMapControllerActivator(this.ApplicationContainer));
+                new StructureMapControllerActivator(this.Container));
 
             // Extended metadata provider handling GroupName on the DisplayAttribute
             ModelMetadataProviders.Current = new ExtendedDataAnnotationsModelMetadataProvider();
@@ -102,7 +119,27 @@ namespace BrickPile.Core
 
             ModelMetadataProviders.Current = new MetadataProvider();
 
-            ControllerBuilder.Current.SetControllerFactory(typeof (BrickPileControllerFactory));
+            ControllerBuilder.Current.SetControllerFactory(new BrickPileControllerFactory(
+                DocumentStore,
+                new DefaultBrickPileContextFactory(
+                    new RouteResolverTrie(
+                        () => new HttpContextWrapper(HttpContext.Current),
+                        DocumentStore),
+                    new DefaultNavigationContextFactory(
+                        () => new HttpContextWrapper(HttpContext.Current).Request.RequestContext,
+                        new RouteResolverTrie(
+                            () => new HttpContextWrapper(HttpContext.Current),
+                            DocumentStore),
+                        DocumentStore)),
+                new RouteResolverTrie(
+                    () => new HttpContextWrapper(HttpContext.Current),
+                    DocumentStore),
+                new DefaultNavigationContextFactory(
+                    () => new HttpContextWrapper(HttpContext.Current).Request.RequestContext,
+                    new RouteResolverTrie(
+                        () => new HttpContextWrapper(HttpContext.Current),
+                        DocumentStore),
+                    DocumentStore)));
 
             RouteTable.Routes.RouteExistingFiles = false;
 
@@ -115,12 +152,8 @@ namespace BrickPile.Core
             ViewEngines.Engines.Add(new RazorViewEngine());
 
             // Ensure secure by default
-            GlobalFilters.Filters.Add(new AuthorizeContentAttribute(this.DocumentStore));
-
-            // Add editor tools as global filter
-            GlobalFilters.Filters.Add(new EditorControlsAttribute());
+            GlobalFilters.Filters.Add(new AuthorizeContentAttribute(DocumentStore));
         }
-
 
         /// <summary>
         ///     Gets the Container instance - automatically set during initialise.
@@ -128,7 +161,7 @@ namespace BrickPile.Core
         /// <returns></returns>
         protected IContainer GetApplicationContainer()
         {
-            return ObjectFactory.Container;
+            return new Container();
         }
 
         /// <summary>
@@ -137,59 +170,13 @@ namespace BrickPile.Core
         /// <param name="documentStore">The document store.</param>
         protected void CreateDefaultDocuments(IDocumentStore documentStore)
         {
-            using (var session = this.DocumentStore.OpenSession())
+            using (IDocumentSession session = DocumentStore.OpenSession())
             {
                 var trie = session.Load<Trie>(TrieId);
 
                 if (trie != null) return;
-                trie = new Trie { Id = TrieId };
+                trie = new Trie {Id = TrieId};
                 session.Store(trie);
-                session.SaveChanges();
-            }
-        }
-
-        [Obsolete("not used atm", false)]
-        internal void OnPageSave(string key, IPage currentPage, RavenJObject metadata)
-        {
-            using (var session = this.DocumentStore.OpenSession())
-            {
-                var trie = session.Load<Trie>(TrieId);
-
-                if (trie.RootNode == null)
-                {
-                    trie.RootNode = new TrieNode
-                    {
-                        PageId = key
-                    };
-                }
-                else
-                {
-                    var nodes = trie.RootNode.Flatten(n => n.Children).ToArray();
-
-                    var parent = currentPage.Parent != null
-                        ? nodes.SingleOrDefault(
-                            n =>
-                                String.Equals(n.PageId, currentPage.Parent.Id, StringComparison.CurrentCultureIgnoreCase))
-                        : null;
-
-                    if (parent != null)
-                    {
-                        currentPage.Metadata.Slug = Slug.CreateSlug(currentPage);
-                        currentPage.Metadata.Url = currentPage.Metadata.Slug.Insert(0,
-                            VirtualPathUtility.AppendTrailingSlash(parent.Url ?? ""));
-
-                        if (parent.Children.All(n => n.PageId != key.Replace("/draft", "")))
-                        {
-                            parent.Children.Add(new TrieNode
-                            {
-                                PageId = key.Replace("/draft", ""),
-                                ParentId = parent.PageId,
-                                Url = currentPage.Metadata.Url
-                            });
-                        }
-                    }
-                }
-
                 session.SaveChanges();
             }
         }
@@ -202,7 +189,7 @@ namespace BrickPile.Core
         /// <param name="metadata">The metadata.</param>
         internal void OnPagePublish(string key, IPage currentPage, RavenJObject metadata)
         {
-            using (var session = this.DocumentStore.OpenSession())
+            using (IDocumentSession session = DocumentStore.OpenSession())
             {
                 var trie = session.Load<Trie>(TrieId);
 
@@ -215,13 +202,13 @@ namespace BrickPile.Core
                 }
                 else
                 {
-                    var nodes = trie.RootNode.Flatten(n => n.Children).ToArray();
+                    TrieNode[] nodes = trie.RootNode.Flatten(n => n.Children).ToArray();
 
-                    var parentNode = currentPage.Parent != null
+                    TrieNode parentNode = currentPage.Parent != null
                         ? nodes.SingleOrDefault(n => n.PageId.CompareToIgnoreDraftId(currentPage.Parent.Id))
                         : null;
 
-                    var currentNode = nodes.SingleOrDefault(n => n.PageId.CompareToIgnoreDraftId(key));
+                    TrieNode currentNode = nodes.SingleOrDefault(n => n.PageId.CompareToIgnoreDraftId(key));
 
                     if (currentNode != null)
                     {
@@ -237,8 +224,8 @@ namespace BrickPile.Core
                             {
                                 trie.MoveTo(parentNode, currentNode);
 
-                                var ids = currentNode.Flatten(x => x.Children).Select(x => x.PageId);
-                                var pages = session.Load<IPage>(ids);
+                                IEnumerable<string> ids = currentNode.Flatten(x => x.Children).Select(x => x.PageId);
+                                IPage[] pages = session.Load<IPage>(ids);
                                 pages.ForEach(p => { p.Metadata.Url = trie.Get(p.Id).Url; });
                             }
 
@@ -291,11 +278,11 @@ namespace BrickPile.Core
         /// <param name="metadata">The metadata.</param>
         internal void OnDocumentDelete(string key, IPage page, RavenJObject metadata)
         {
-            using (var session = this.DocumentStore.OpenSession())
+            using (IDocumentSession session = DocumentStore.OpenSession())
             {
                 var trie = session.Load<Trie>(TrieId);
 
-                var node = trie.Get(key);
+                TrieNode node = trie.Get(key);
 
                 if (node != null)
                 {
@@ -317,31 +304,56 @@ namespace BrickPile.Core
         ///     Registers the custom route.
         /// </summary>
         /// <param name="routes">The routes.</param>
-        protected void RegisterCustomRoutes(RouteCollection routes)
+        protected void RegisterRoutes(RouteCollection routes)
         {
             // ensure that the the PageRoute is first in the collection
             routes.Insert(0,
                 new DefaultRoute(
                     new VirtualPathResolver(),
-                    new RouteResolver(),
-                    () => this.DocumentStore,
+                    new DefaultRouteResolver(
+                        new RouteResolverTrie(
+                            () => new HttpContextWrapper(HttpContext.Current),
+                            DocumentStore)),
+                    DocumentStore,
                     new ControllerMapper()));
+
+            routes.Insert(1,
+                new UiRoute(
+                    new VirtualPathResolver(),
+                    new DefaultRouteResolver(
+                        new RouteResolverTrie(
+                            () => new HttpContextWrapper(HttpContext.Current),
+                            DocumentStore)),
+                    DocumentStore,
+                    new ControllerMapper()));
+        }
+
+        /// <summary>
+        ///     Configures the document store internal.
+        /// </summary>
+        /// <param name="documentStore">The document store.</param>
+        private void ConfigureDocumentStoreInternal(DocumentStore documentStore)
+        {
+            documentStore.RegisterListener(new StoreListener(this.OnPagePublish, this.OnPageSave, this.OnPageUnPublish));
+            documentStore.RegisterListener(new DeleteListener(this.OnDocumentDelete));
+
+            IndexCreation.CreateIndexes(typeof (DefaultBrickPileBootstrapper).Assembly, documentStore);
         }
 
         /// <summary>
         ///     Configures the application container with registrations needed for BrickPile to work properly
         /// </summary>
-        /// <param name="existingContainer">The existing container.</param>
+        /// <param name="container">The container.</param>
         /// <param name="documentStore">The document store.</param>
-        protected void ConfigureApplicationContainerInternal(IContainer existingContainer, IDocumentStore documentStore)
+        protected void ConfigureApplicationContainerInternal(IContainer container, IDocumentStore documentStore)
         {
-            existingContainer.Configure(expression =>
+            container.Configure(expression =>
             {
                 expression.For<IDocumentStore>()
                     .Singleton()
                     .Use(documentStore);
                 expression.For<IRouteResolver>()
-                    .Use<RouteResolver>();
+                    .Use<DefaultRouteResolver>();
                 expression.Scan(scanner =>
                 {
                     scanner.AssembliesFromApplicationBaseDirectory();
@@ -364,15 +376,23 @@ namespace BrickPile.Core
                     .UseSpecial(
                         x =>
                             x.ConstructedBy(
-                                () => new NavigationContext(((MvcHandler) HttpContext.Current.Handler).RequestContext)));
+                                () =>
+                                    new NavigationContext(((MvcHandler) HttpContext.Current.Handler).RequestContext)));
+                expression.For<IBrickPileContext>()
+                    .UseSpecial(
+                        x => x.ConstructedBy(
+                            () =>
+                                new BrickPileContext(((MvcHandler) HttpContext.Current.Handler).RequestContext)
+                            )
+                    );
             });
         }
 
         /// <summary>
         ///     Configures the application container with any additional registrations
         /// </summary>
-        /// <param name="existingContainer">The existing container.</param>
-        public virtual void ConfigureApplicationContainer(IContainer existingContainer) {}
+        /// <param name="container">The container.</param>
+        public virtual void ConfigureApplicationContainer(IContainer container) {}
 
         /// <summary>
         ///     Overrides/configures BrickPile's conventions
@@ -381,24 +401,59 @@ namespace BrickPile.Core
         public virtual void ConfigureConventions(BrickPileConventions brickPileConventions) {}
 
         /// <summary>
-        ///     Initialises the document store.
+        ///     Configures the document store.
         /// </summary>
-        /// <returns></returns>
-        public virtual IDocumentStore InitialiseDocumentStore()
+        /// <param name="documentStore">The document store.</param>
+        public virtual void ConfigureDocumentStore(DocumentStore documentStore) {}
+
+        #region may be removed
+
+        [Obsolete("not used atm", false)]
+        internal void OnPageSave(string key, IPage currentPage, RavenJObject metadata)
         {
-            var store = new EmbeddableDocumentStore
+            using (IDocumentSession session = DocumentStore.OpenSession())
             {
-                DataDirectory = DataDirectory
-            };
-            if (ConfigurationManager.ConnectionStrings[ConnectionStringName] != null)
-            {
-                store.ConnectionStringName = ConnectionStringName;
+                var trie = session.Load<Trie>(TrieId);
+
+                if (trie.RootNode == null)
+                {
+                    trie.RootNode = new TrieNode
+                    {
+                        PageId = key
+                    };
+                }
+                else
+                {
+                    TrieNode[] nodes = trie.RootNode.Flatten(n => n.Children).ToArray();
+
+                    TrieNode parent = currentPage.Parent != null
+                        ? nodes.SingleOrDefault(
+                            n =>
+                                String.Equals(n.PageId, currentPage.Parent.Id, StringComparison.CurrentCultureIgnoreCase))
+                        : null;
+
+                    if (parent != null)
+                    {
+                        currentPage.Metadata.Slug = Slug.CreateSlug(currentPage);
+                        currentPage.Metadata.Url = currentPage.Metadata.Slug.Insert(0,
+                            VirtualPathUtility.AppendTrailingSlash(parent.Url ?? ""));
+
+                        if (parent.Children.All(n => n.PageId != key.Replace("/draft", "")))
+                        {
+                            parent.Children.Add(new TrieNode
+                            {
+                                PageId = key.Replace("/draft", ""),
+                                ParentId = parent.PageId,
+                                Url = currentPage.Metadata.Url
+                            });
+                        }
+                    }
+                }
+
+                session.SaveChanges();
             }
-            store.RegisterListener(new StoreListener(this.OnPagePublish, this.OnPageSave, this.OnPageUnPublish));
-            store.RegisterListener(new DeleteListener(this.OnDocumentDelete));
-            store.Initialize();
-            IndexCreation.CreateIndexes(typeof (DefaultBrickPileBootstrapper).Assembly, store);
-            return store;
         }
+
+        #endregion
     }
 }

@@ -25,7 +25,7 @@ namespace BrickPile.Tests.Web.Routing {
             // Act
 
             var virtualPathResolver = new VirtualPathResolver();
-            var virtualPath = virtualPathResolver.ResolveVirtualPath(model, routeValueDictionary);
+            var virtualPath = virtualPathResolver.Resolve(model, routeValueDictionary);
 
             // Assert
 
@@ -44,7 +44,7 @@ namespace BrickPile.Tests.Web.Routing {
             // Act
 
             var virtualPathResolver = new VirtualPathResolver();
-            var virtualPath = virtualPathResolver.ResolveVirtualPath(model, routeValueDictionary);
+            var virtualPath = virtualPathResolver.Resolve(model, routeValueDictionary);
 
             // Assert
 

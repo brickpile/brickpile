@@ -17,7 +17,7 @@ namespace BrickPile.Core.Routing
         /// <param name="page">The page.</param>
         /// <param name="routeValueDictionary">The route value dictionary.</param>
         /// <returns></returns>
-        public virtual string ResolveVirtualPath(IPage page, RouteValueDictionary routeValueDictionary)
+        public virtual string Resolve(IPage page, RouteValueDictionary routeValueDictionary)
         {
             var url = page.Metadata.Url ?? string.Empty;
 

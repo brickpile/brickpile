@@ -14,5 +14,10 @@
         {
             return page.Id.Contains("draft");
         }
+
+        public static string ContentId(this IPage page)
+        {
+            return page.Id + "/content";
+        }
     }
 }

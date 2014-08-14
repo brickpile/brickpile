@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Reflection;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Routing;
 using BrickPile.Core;
 using BrickPile.Core.Mvc;
 using BrickPile.Core.Routing;
+using BrickPile.Core.Routing.Trie;
 using BrickPile.Tests.Fakes;
 using FakeItEasy;
+using Raven.Client;
 using Raven.Tests.Helpers;
 using Xunit;
 using Xunit.Extensions;
@@ -14,47 +18,76 @@ namespace BrickPile.Tests.Routing
 {
     public class UrlResolverTests {
         public class ResolvePath : RavenTestBase {
+
+            private IDocumentStore SetupContext()
+            {
+
+                HttpContext.Current = null;
+                RouteTable.Routes.Clear();
+
+                var store = NewDocumentStore();
+
+                var bootStrapper = new FakeBootstrapper();
+                var field = typeof(DefaultBrickPileBootstrapper).GetField("DocStore",
+                    BindingFlags.Static | BindingFlags.NonPublic);
+
+                field.SetValue(null, new Lazy<IDocumentStore>(() => store));
+                bootStrapper.Initialise();
+
+                HttpContext.Current = new HttpContext(new HttpRequest(null, "http://tempuri.org", null), new HttpResponse(null))
+                {
+                    User = A.Fake<IPrincipal>()
+                };
+                return store;
+            }
+
             [Theory]
             [InlineData("")]
             [InlineData("/")]
             public void Can_Resolve_Home_Page_With_Default_Action(string path) {
                 // Given
 
-                var store = NewDocumentStore();                
+                var store = this.SetupContext();
+                var routeResolverTrie = A.Fake<IRouteResolverTrie>();
                 //var mapper = A.Fake<IControllerMapper>();
 
+
+                
                 //A.CallTo(() => mapper.GetControllerName(typeof (FakeController))).Returns("FakeController");                
                 //A.CallTo(() => mapper.ControllerHasAction("FakeController", "index")).Returns(true);
 
                 // When
 
-                Tuple<StructureInfo.Node, string> data;
+                ResolveResult data;
 
                 using (var session = store.OpenSession()) {
-                    var node = new StructureInfo.Node
+                    var node = new TrieNode
                     {
                         PageId = "pages/1"
                     };
 
                     var page = new FakePage {Id = "pages/1"};
-                    var structureInfo = new StructureInfo
+                    var structureInfo = new Trie
                     {
-                        Id = DefaultBrickPileBootstrapper.StructureInfoDocumentId,
+                        Id = DefaultBrickPileBootstrapper.TrieId,
                         RootNode = node
                     };
                     session.Store(structureInfo);
                     session.Store(page);
                     session.SaveChanges();
 
-                    var resolver = new RouteResolver();
-                    data = resolver.ResolveRoute(structureInfo, path);
+                    var resolver = new DefaultRouteResolver(routeResolverTrie);
+
+                    A.CallTo(() => routeResolverTrie.LoadTrie()).Returns(structureInfo);
+
+                    data = resolver.Resolve(path);
                 }
 
                 //Then
 
                 Assert.NotNull(data);
-                Assert.Equal(data.Item1.PageId, "pages/1");
-                Assert.Equal("index", data.Item2);                
+                Assert.Equal(data.TrieNode.PageId, "pages/1");
+                Assert.Equal("index", data.Action);
             }
 
             //[Theory]
