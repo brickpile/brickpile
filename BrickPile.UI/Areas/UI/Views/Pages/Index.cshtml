@@ -47,7 +47,7 @@ THE SOFTWARE. *@
         // Shorthand for the application namespace
         var app = brickpile.app;
         // Initialize the main view.
-        app.pagesView = new PagesView({ el: $('#main') });
+        app.pagesView = new PagesView({ el: $('#main'), basePath: '@Url.Content("~/")' });
     })(jQuery);  
 </script>, "scripts")
 

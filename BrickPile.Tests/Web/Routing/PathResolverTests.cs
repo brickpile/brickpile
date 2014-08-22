@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -75,6 +76,45 @@ namespace BrickPile.Tests.Web.Routing {
             Assert.NotNull(data);
             Assert.AreEqual("index", data.Action);
             Assert.AreEqual("Dummy", data.Controller);
+        }
+        [TestCase("/foo")]
+        [TestCase("/foo/")]
+        public void Home_Page_With_Default_Action_Using_Custom_HostUrl(string path)
+        {
+
+            // Arrange
+            var pathData = new PathData();
+            var mapper = new Mock<IControllerMapper>();
+            var container = new Mock<IContainer>();
+            ConfigurationManager.AppSettings["HostUrl"] = "http://example.org/foo";
+
+            mapper.Setup(x => x.GetControllerName(typeof(DummyController))).Returns("Dummy");
+            container.Setup(x => x.GetInstance<IDocumentSession>()).Returns(_store.OpenSession());
+            mapper.Setup(x => x.ControllerHasAction("Dummy", "index")).Returns(true);
+
+            // Act
+            IPathData data;
+
+            using (var session = _store.OpenSession())
+            {
+
+                // create and store a new page
+                var pageModel = new StandardPage { Parent = null };
+                session.Store(pageModel);
+                session.SaveChanges();
+
+                // try to resovle the page via the path
+                var resolver = new PathResolver(session, pathData, mapper.Object, container.Object);
+                data = resolver.ResolvePath(new RouteData(), path);
+
+            }
+
+            // Assert
+            Assert.NotNull(data);
+            Assert.AreEqual("index", data.Action);
+            Assert.AreEqual("Dummy", data.Controller);
+
+            ConfigurationManager.AppSettings["HostUrl"] = null;
         }
         /// <summary>
         /// This test is based on a request for the page with the url ~/page with the default action index

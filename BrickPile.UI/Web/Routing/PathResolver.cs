@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 using System;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Routing;
@@ -44,6 +45,7 @@ namespace BrickPile.UI.Web.Routing {
         private IDocumentSession _session;
         private IPage _pageModel;
         private string _controllerName;
+        private const string HostUrlAppSettingsName = "HostUrl";
         /// <summary>
         /// Resolves the path.
         /// </summary>
@@ -56,6 +58,25 @@ namespace BrickPile.UI.Web.Routing {
             _pathData.Action = UIRoute.DefaultAction;
             // Get an up to date document session from structuremap
             _session = _container.GetInstance<IDocumentSession>();
+
+            var hostUrl = ConfigurationManager.AppSettings.Get(HostUrlAppSettingsName);
+
+            if (!string.IsNullOrEmpty(hostUrl))
+            {
+                try
+                {
+                    var uri = new Uri(hostUrl, UriKind.Absolute);
+                    virtualUrl = virtualUrl.Substring(uri.LocalPath.Length);
+                }
+                catch (ArgumentNullException exception)
+                {
+                    throw new ApplicationException("The host url cannot be empty, please remove setting from web.config or add a correct URI", exception);
+                }
+                catch (UriFormatException exception)
+                {
+                    throw new ApplicationException("Invalid URI: The format of the URI could not be determined: ", exception);
+                }
+            }
 
             // The requested url is for the start page with no action
             if (string.IsNullOrEmpty(virtualUrl) || string.Equals(virtualUrl, "/")) {

@@ -23,6 +23,7 @@ var NewAssetDialogView = Backbone.View.extend({
     list: [],
     totalSize: 0,
     maxRequestLength: null,
+    basePath:null,
     totalProgress: 0,
     views: [],
     currentView: null,
@@ -59,7 +60,7 @@ var NewAssetDialogView = Backbone.View.extend({
                 return xhr;
             },
             type: "POST",
-            url: "/api/asset",
+            url: self.basePath + "api/asset",
             contentType: false,
             processData: false,
             data: formData,
@@ -79,7 +80,8 @@ var NewAssetDialogView = Backbone.View.extend({
                         Thumbnail: item.Thumbnail,
                         Width: item.Width,
                         Height: item.Height
-                    })
+                    }),
+                    basePath: self.basePath
                 });
 
                 $('#files > ul').prepend(fileview.render().$el);
@@ -155,6 +157,7 @@ var NewAssetDialogView = Backbone.View.extend({
         var self = this;
 
         this.maxRequestLength = options.maxRequestLength;
+        this.basePath = options.basePath;
 
         this.template = _.template($('#view-template-new-asset-dialog').html());
 

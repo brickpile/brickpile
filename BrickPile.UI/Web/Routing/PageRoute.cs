@@ -83,7 +83,7 @@ namespace BrickPile.UI.Web.Routing {
             var routeData = new RouteData(this, _routeHandler);
 
             // get the virtual path of the request
-            var virtualPath = httpContextBase.Request.CurrentExecutionFilePath.TrimStart(new[] { '/' });
+            var virtualPath = httpContextBase.Request.Path;
 
             // try to resolve the current item
             var pathData = this.PathResolver.ResolvePath(routeData, virtualPath);

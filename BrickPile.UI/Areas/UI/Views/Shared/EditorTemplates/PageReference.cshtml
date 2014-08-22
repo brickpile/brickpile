@@ -20,7 +20,7 @@
             // Shorthand for the application namespace
             var app = brickpile.app;
             // Initialize the main view.
-            app.@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty) = new PageReferenceView({ el: $('#@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)') });
+            app.@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty) = new PageReferenceView({ el: $('#@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)'), basePath: '@Url.Content("~/")' });
         })(jQuery);  
     </script>
 , "scripts")

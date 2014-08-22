@@ -64,9 +64,9 @@ var VirtualFileCollection = Backbone.Collection.extend({
     query: null,
     url: function () {
         if(this.query) {
-            return '/api/asset/?page=' + this.page + '&' + this.query;    
+            return this.basePath + 'api/asset/?page=' + this.page + '&' + this.query;    
         } else {
-            return '/api/asset/?page=' + this.page;
+            return this.basePath + 'api/asset/?page=' + this.page;
         }
     },
     model: VirtualFile,
@@ -82,7 +82,8 @@ var VirtualFileCollection = Backbone.Collection.extend({
 // -------------------------------
 
 var VirtualFileSelectorModalView = Backbone.View.extend({
-    maxRequestLength:null,
+    maxRequestLength: null,
+    basePath: null,
     tagName:  'div',
     currentSelectedModel: null,
     currentPath: null,
@@ -139,8 +140,9 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         ev.preventDefault();
         ev.stopPropagation();
         var modal = new NewAssetDialogView({
-            maxRequestLength: this.maxRequestLength
-        });
+            maxRequestLength: this.maxRequestLength,
+            basePath: this.basePath
+    });
         this.$el.find('#asset-dialog').append(modal.render().el);
     },
     cancelAndClose: function () {
@@ -166,6 +168,7 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
     },
     initialize: function (options) {
         this.maxRequestLength = options.maxRequestLength;
+        this.basePath = options.basePath;
         this.template = _.template($('#view-template-virtual-file-dialog').html());
         // Shorthand for the application namespace
         var app = brickpile.app;
@@ -220,6 +223,7 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
         // we are starting a new load of results so set isLoading to true
         this.isLoading = true;
         // fetch is Backbone.js native function for calling and parsing the collection url
+        this.collection.basePath = this.basePath;
         this.collection.fetch({
             success: function (assets) {
                 // Once the results are returned lets populate our template
@@ -229,6 +233,7 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
                         inputUrl: self.$el.find('input:hidden.url'),
                         inputVirtualUrl: self.$el.find('input:hidden.virtualUrl'),
                         thumbnail: self.$el.find('.centerbox img'),
+                        basePath: self.basePath
                     });
                     $(self.el).find('#files ul').append(fileview.render().$el);
                 });
@@ -266,6 +271,7 @@ var VirtualFileSelectorModalView = Backbone.View.extend({
 
 var VirtualFilePropertyView = Backbone.View.extend({
     maxRequestLength: null,
+    basePath:null,
     events: {
         'click button.browse': 'open',
         'click a.clear': 'clear'
@@ -274,10 +280,11 @@ var VirtualFilePropertyView = Backbone.View.extend({
         e.preventDefault();
         var coll = new VirtualFileCollection();
         var view = new VirtualFileSelectorModalView(
-            {
-                collection: coll,
-                maxRequestLength: this.maxRequestLength
-            });
+        {
+            collection: coll,
+            maxRequestLength: this.maxRequestLength,
+            basePath: this.basePath
+        });
         this.$el.append(view.render().el);
         view.bind('brickpile:close-assets', this.close, this);
         coll.fetch();
@@ -301,6 +308,7 @@ var VirtualFilePropertyView = Backbone.View.extend({
     },
     initialize: function (options) {
         this.maxRequestLength = options.maxRequestLength;
+        this.basePath = options.basePath;
     },
     render: function () {
         $('.dropdown-toggle').dropdown();
@@ -311,6 +319,7 @@ var VirtualFilePropertyView = Backbone.View.extend({
 // -------------------------
 
 var VirtualFileView = Backbone.View.extend({
+    basePath: null,
     tagName: 'li',
     template: _.template($('#view-template-virtual-file').html()),
     events: {
@@ -333,7 +342,7 @@ var VirtualFileView = Backbone.View.extend({
             success:function () {
                     $.ajax({
                         type: "DELETE",
-                        url: "/api/asset/?id=" + data,
+                        url: self.basePath + "api/asset/?id=" + data,
                         success: function () {
                             // Shorthand for the application namespace
                             var app = brickpile.app;
@@ -352,7 +361,8 @@ var VirtualFileView = Backbone.View.extend({
         });
         return false;
     },
-    initialize: function () {
+    initialize: function (options) {
+        this.basePath = options.basePath;
         this.$el.hoverIntent(
             function (e) {
                 $(e.currentTarget).find('button.delete').fadeIn('fast');

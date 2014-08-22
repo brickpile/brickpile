@@ -19,12 +19,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 var PageReferenceView = Backbone.View.extend({
-
+    basePath:null,
     events: {
         'click button.clear': 'clear'
     },
 
-    initialize: function () {
+    initialize: function (options) {
+        this.basePath = options.basePath;
         this.pageInput = $(this.el).find('input[type=text]');
         this.pageHidden = $(this.el).find('input[type=hidden]');
         this.emptyMessage = $(this.el).find('.field-validation-error');
@@ -39,7 +40,7 @@ var PageReferenceView = Backbone.View.extend({
 
         $(this.el).find('input[type=text]').autocomplete({
             autoFocus: true,
-            source: '/pages/search',
+            source: self.basePath + 'pages/search',
             select: function (event, ui) {
                 self.pageInput.val(ui.item ? ui.item.label : '');
                 self.pageHidden.val(ui.item ? ui.item.id : '');

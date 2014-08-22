@@ -44,7 +44,7 @@
     });
     function assetBrowser(field_name, url, type, win) {        
         var $callbackfield = $(win.document.getElementById(field_name));
-        var view = new HtmlEditorVirtualFilePropertyView({ el: $('#@ViewData.TemplateInfo.GetFullHtmlFieldId("wrapper")'), callbackfield: $callbackfield, maxRequestLength: @maxRequestLength });
+        var view = new HtmlEditorVirtualFilePropertyView({ el: $('#@ViewData.TemplateInfo.GetFullHtmlFieldId("wrapper")'), callbackfield: $callbackfield, maxRequestLength: @maxRequestLength, basePath: '@Url.Content("~/")' });
         view.open();                
     }
 </script>, "scripts")

@@ -1,11 +1,13 @@
 ﻿var HtmlEditorVirtualFilePropertyView = Backbone.View.extend({
     maxRequestLength: null,
+    basePath:null,
     open: function () {
         var coll = new VirtualFileCollection();
         var view = new VirtualFileSelectorModalView(
             {
                 collection: coll,
-                maxRequestLength: this.maxRequestLength
+                maxRequestLength: this.maxRequestLength,
+                basePath: this.basePath
             });
 
         this.$el.append(view.render().el);
@@ -21,6 +23,7 @@
 
     initialize: function (options) {
         this.maxRequestLength = options.maxRequestLength;
+        this.basePath = options.basePath;
         var app = brickpile.app;
         app.bind("brickpile:opendialog", this.open, this);
     },

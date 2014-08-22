@@ -32,12 +32,13 @@ var PagesView = Backbone.View.extend({
 
     // Publish or unpublish a page
     publishPage: function (event) {
+        var self = this;
         try {
             var $elm = $(event.currentTarget).parents('tr').find('abbr.timeago');
             var d = new Date();
             $elm.html(jQuery.timeago(ISODateString(d)));
             $(event.currentTarget).parents('tr').find('span').effect('highlight', { color: '#ffffaa' }, 3000);
-            $.post('/pages/publish/', { id: $(event.currentTarget).attr('name'), published: event.currentTarget.checked });
+            $.post(self.basePath + 'publish/', { id: $(event.currentTarget).attr('name'), published: event.currentTarget.checked });
         } catch (exception) {
             throw "An error occured when trying to publish a page";
         }
@@ -60,11 +61,12 @@ var PagesView = Backbone.View.extend({
 
     // Deletes a page
     deletePage: function (event) {
+        var self = this;
         event.preventDefault();
         var $row = $(event.currentTarget).closest('tr');
         try {
             $.ajax({
-                url: '/pages/delete/',
+                url: self.basePath + 'delete/',
                 type: 'POST',
                 dataType: 'html',
                 data: { id: $row.attr('id'), permanent: false },
@@ -80,11 +82,12 @@ var PagesView = Backbone.View.extend({
 
     // Remove the page permanently
     permanentDelete: function (event) {
+        var self = this;
         event.preventDefault();
         var $row = $(event.currentTarget).closest('tr');
         try {
             $.ajax({
-                url: '/pages/delete/',
+                url: self.basePath + 'delete/',
                 type: 'POST',
                 dataType: 'html',
                 data: { id: $row.attr('id'), permanent: true },
@@ -100,11 +103,12 @@ var PagesView = Backbone.View.extend({
 
     // Restore the page
     restorePage: function (event) {
+        var self = this;
         event.preventDefault();
         var $row = $(event.currentTarget).closest('tr');
         try {
             $.ajax({
-                url: '/pages/restore/',
+                url: self.basePath + 'restore/',
                 type: 'POST',
                 dataType: 'html',
                 data: { id: $row.attr('id') },
@@ -119,8 +123,13 @@ var PagesView = Backbone.View.extend({
     },
 
     // Initialize this view
-    initialize: function () {
+    initialize: function (options) {
+
+        _.extend(this, _.pick(options, "basePath"));
+
         this.render();
+
+        var self = this;
 
         $('table.sortable tbody').sortable({
             handle: 'td.sort',
@@ -136,7 +145,7 @@ var PagesView = Backbone.View.extend({
                 try {
                     $.ajax({
                         type: 'POST',
-                        url: '/pages/sort/',
+                        url: self.basePath + 'sort/',
                         data: { items: $(this).sortable('toArray') },
                         traditional: true,
                         success: function () {
