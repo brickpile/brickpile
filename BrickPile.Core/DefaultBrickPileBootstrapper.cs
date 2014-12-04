@@ -89,9 +89,9 @@ namespace BrickPile.Core
         /// </summary>
         public void Initialise()
         {
-            this.ConfigureDocumentStoreInternal((DocumentStore) DocumentStore);
+            this.ConfigureDocumentStoreInternal((EmbeddableDocumentStore) DocumentStore);
 
-            this.ConfigureDocumentStore((DocumentStore) DocumentStore);
+            this.ConfigureDocumentStore(DocumentStore);
 
             this.Container = this.GetApplicationContainer();
 
@@ -332,7 +332,7 @@ namespace BrickPile.Core
         ///     Configures the document store internal.
         /// </summary>
         /// <param name="documentStore">The document store.</param>
-        private void ConfigureDocumentStoreInternal(DocumentStore documentStore)
+        private void ConfigureDocumentStoreInternal(EmbeddableDocumentStore documentStore)
         {
             documentStore.RegisterListener(new StoreListener(this.OnPagePublish, this.OnPageSave, this.OnPageUnPublish));
             documentStore.RegisterListener(new DeleteListener(this.OnDocumentDelete));
@@ -404,7 +404,7 @@ namespace BrickPile.Core
         ///     Configures the document store.
         /// </summary>
         /// <param name="documentStore">The document store.</param>
-        public virtual void ConfigureDocumentStore(DocumentStore documentStore) {}
+        public virtual void ConfigureDocumentStore(IDocumentStore documentStore) {}
 
         #region may be removed
 

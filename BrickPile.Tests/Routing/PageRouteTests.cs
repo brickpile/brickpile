@@ -29,10 +29,20 @@ namespace BrickPile.Tests.Routing
                 var mapper = A.Fake<IControllerMapper>();
                 var context = A.Fake<HttpContextBase>();
                 var trie = A.Fake<IRouteResolverTrie>();
+                var theTrie = new Trie
+                {
+                    Id = DefaultBrickPileBootstrapper.TrieId,
+                    RootNode = new TrieNode
+                    {
+                        PageId = "pages/1",
+                        Url = "page"
+                    }
+                };
 
                 A.CallTo(() => context.Request.Path).Returns(path);
                 A.CallTo(() => mapper.GetControllerName(typeof (FakeController))).Returns("FakeController");                
                 A.CallTo(() => mapper.ControllerHasAction("FakeController", "index")).Returns(true);
+                A.CallTo(() => trie.LoadTrie()).Returns(theTrie);
 
                 // When
 
@@ -40,18 +50,8 @@ namespace BrickPile.Tests.Routing
 
                 using (var session = store.OpenSession())
                 {
-                    var node = new TrieNode
-                    {
-                        PageId = "pages/1"
-                    };
-
                     var page = new FakePage { Id = "pages/1" };
-                    var structureInfo = new Trie
-                    {
-                        Id = DefaultBrickPileBootstrapper.TrieId,
-                        RootNode = node
-                    };
-                    session.Store(structureInfo);
+
                     session.Store(page);
                     session.SaveChanges();
 
@@ -77,10 +77,19 @@ namespace BrickPile.Tests.Routing
                 var mapper = A.Fake<IControllerMapper>();
                 var context = A.Fake<HttpContextBase>();
                 var trie = A.Fake<IRouteResolverTrie>();
+                var theTrie = new Trie
+                {
+                    Id = DefaultBrickPileBootstrapper.TrieId,
+                    RootNode = new TrieNode
+                    {
+                        PageId = "pages/1"
+                    }
+                };
 
                 A.CallTo(() => context.Request.Path).Returns(path);                
                 A.CallTo(() => mapper.GetControllerName(typeof(FakeController))).Returns("FakeController");
                 A.CallTo(() => mapper.ControllerHasAction("FakeController", "myaction")).Returns(true);
+                A.CallTo(() => trie.LoadTrie()).Returns(theTrie);
 
                 // When
 
@@ -88,17 +97,8 @@ namespace BrickPile.Tests.Routing
 
                 using (var session = store.OpenSession())
                 {
-                    var node = new TrieNode
-                    {
-                        PageId = "pages/1"
-                    };
-
                     var page = new FakePage { Id = "pages/1" };
-                    session.Store(new Trie
-                    {
-                        Id = DefaultBrickPileBootstrapper.TrieId,
-                        RootNode = node
-                    });
+
                     session.Store(page);
                     session.SaveChanges();
 
@@ -124,10 +124,20 @@ namespace BrickPile.Tests.Routing
                 var mapper = A.Fake<IControllerMapper>();
                 var context = A.Fake<HttpContextBase>();
                 var trie = A.Fake<IRouteResolverTrie>();
+                var theTrie = new Trie
+                {
+                    Id = DefaultBrickPileBootstrapper.TrieId,
+                    RootNode = new TrieNode
+                    {
+                        PageId = "pages/1",
+                        Url = "page"
+                    }
+                };
 
                 A.CallTo(() => context.Request.Path).Returns(path);
                 A.CallTo(() => mapper.GetControllerName(typeof(FakeController))).Returns("FakeController");
                 A.CallTo(() => mapper.ControllerHasAction("FakeController", "myaction")).Returns(true);
+                A.CallTo(() => trie.LoadTrie()).Returns(theTrie);
 
                 // When
 
@@ -135,18 +145,7 @@ namespace BrickPile.Tests.Routing
 
                 using (var session = store.OpenSession())
                 {
-                    var node = new TrieNode
-                    {
-                        PageId = "pages/1",
-                        Url = "page"
-                    };
-
                     var page = new FakePage { Id = "pages/1", Metadata = { Url = "page" } };
-                    session.Store(new Trie
-                    {
-                        Id = DefaultBrickPileBootstrapper.TrieId,
-                        RootNode = node
-                    });
                     session.Store(page);
                     session.SaveChanges();
 
