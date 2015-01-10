@@ -79,7 +79,7 @@ namespace BrickPile.Core
         /// <summary>
         ///     Initializes a new instance of the <see cref="DefaultBrickPileBootstrapper" /> class.
         /// </summary>
-        protected DefaultBrickPileBootstrapper()
+        public DefaultBrickPileBootstrapper()
         {
             this.Conventions = new BrickPileConventions();
         }
