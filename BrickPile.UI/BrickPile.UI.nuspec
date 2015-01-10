@@ -10,7 +10,6 @@
     <licenseUrl>https://github.com/brickpile/brickpile/blob/master/LICENSE.txt</licenseUrl>
     <projectUrl>https://github.com/brickpile/brickpile</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <iconUrl>https://avatars2.githubusercontent.com/u/3171689?v=3&s=200</iconUrl>
     <description>BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 5</description>
 		<tags>brickpile cms ravendb mvc nosql</tags>
     <dependencies>
