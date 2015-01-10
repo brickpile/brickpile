@@ -183,6 +183,7 @@
     <Compile Include="DefaultBrickPileContextFactory.cs" />
     <Compile Include="EditorAction.cs" />
     <Compile Include="Exceptions\DuplicateUrlException.cs" />
+    <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="Extensions\DocumentSessionExtensions.cs" />
     <Compile Include="Extensions\DocumentStoreExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
