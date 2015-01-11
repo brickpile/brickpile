@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
+using BrickPile.Core;
 using BrickPile.Core.Routing;
 using BrickPile.Domain;
 using IPage = BrickPile.Core.IPage;
@@ -113,6 +114,20 @@ namespace BrickPile.UI.Common {
         public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, IPage model,
                                                object htmlAttributes) {
             return htmlHelper.ActionLink(linkText, "index", new {currentPage = model}, htmlAttributes);
+        }
+
+        /// <summary>
+        /// Actions the specified URL helper.
+        /// </summary>
+        /// <param name="urlHelper">The URL helper.</param>
+        /// <param name="pageReference">The page reference.</param>
+        /// <returns></returns>
+        public static string Action(this UrlHelper urlHelper, PageReference pageReference)
+        {
+            if (pageReference == null || string.IsNullOrEmpty(pageReference.Id)) return string.Empty;
+            var context = new BrickPileContext(urlHelper.RequestContext);
+            var node = context.Trie.Get(pageReference.Id);
+            return node.Url;
         }
 
         /// <summary>

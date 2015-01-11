@@ -10,6 +10,7 @@ using System.Web.Routing;
 using BrickPile.Core.Conventions;
 using BrickPile.Core.Extensions;
 using BrickPile.Core.Graph;
+using BrickPile.Core.Hosting;
 using BrickPile.Core.Infrastructure.Listeners;
 using BrickPile.Core.Mvc;
 using BrickPile.Core.Routing;
@@ -398,7 +399,10 @@ namespace BrickPile.Core
         ///     Overrides/configures BrickPile's conventions
         /// </summary>
         /// <param name="brickPileConventions">The brick pile conventions.</param>
-        public virtual void ConfigureConventions(BrickPileConventions brickPileConventions) {}
+        public virtual void ConfigureConventions(BrickPileConventions brickPileConventions)
+        {
+            brickPileConventions.VirtualPathProviderConventions.Register("static", () => new NativeVirtualPathProvider());
+        }
 
         /// <summary>
         ///     Configures the document store.

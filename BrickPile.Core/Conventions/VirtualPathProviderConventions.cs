@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Hosting;
-using System.Web.Mvc;
 using System.Web.Routing;
 using BrickPile.Core.Hosting;
 
@@ -48,7 +47,7 @@ namespace BrickPile.Core.Conventions
         /// <param name="virtualPathRoot">The virtual path root.</param>
         private static void RegisterIgnoreRoute(string virtualPathRoot)
         {
-            RouteTable.Routes.IgnoreRoute(VirtualPathUtility.MakeRelative("~/", virtualPathRoot) + "{*pathInfo}");
+            RouteTable.Routes.Insert(0, new Route(VirtualPathUtility.MakeRelative("~/", virtualPathRoot) + "{*pathInfo}", new StopRoutingHandler()));
         }
     }
 }

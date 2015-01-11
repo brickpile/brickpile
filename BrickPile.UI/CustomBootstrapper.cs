@@ -10,20 +10,21 @@ using Raven.Client.Indexes;
 
 namespace BrickPile.Samples
 {
-    //public class CustomBootstrapper : DefaultBrickPileBootstrapper
-    //{
-    //    public override void ConfigureConventions(BrickPileConventions brickPileConventions) {
-    //        brickPileConventions.VirtualPathProviderConventions.Register("static",() => new NativeVirtualPathProvider());
-    //    }
+    public class CustomBootstrapper : DefaultBrickPileBootstrapper
+    {
+        //public override void ConfigureConventions(BrickPileConventions brickPileConventions)
+        //{
+        //    brickPileConventions.VirtualPathProviderConventions.Register("static", () => new NativeVirtualPathProvider());
+        //}
 
-    //    public override void ConfigureDocumentStore(IDocumentStore documentStore)
-    //    {
-    //        IndexCreation.CreateIndexes(typeof(CustomBootstrapper).Assembly, documentStore);
+        public override void ConfigureDocumentStore(IDocumentStore documentStore)
+        {
+            IndexCreation.CreateIndexes(typeof(CustomBootstrapper).Assembly, documentStore);
 
-    //        // Initialize MiniProfiler
-    //        //MvcMiniProfiler.RavenDb.Profiler.AttachTo(documentStore);
-    //    }
-    //}
+            // Initialize MiniProfiler
+            //MvcMiniProfiler.RavenDb.Profiler.AttachTo(documentStore);
+        }
+    }
 
     public class MyTransformer : AbstractTransformerCreationTask<Home>
     {
