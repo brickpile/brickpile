@@ -246,6 +246,7 @@
     <Compile Include="Security\Claims\ApplicationUserPrincipal.cs" />
     <Compile Include="Slug.cs" />
     <Compile Include="StoreAction.cs" />
+    <Compile Include="UnitTestDetector.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BrickPile.Domain\BrickPile.Domain.csproj">

@@ -401,7 +401,10 @@ namespace BrickPile.Core
         /// <param name="brickPileConventions">The brick pile conventions.</param>
         public virtual void ConfigureConventions(BrickPileConventions brickPileConventions)
         {
-            brickPileConventions.VirtualPathProviderConventions.Register("static", () => new NativeVirtualPathProvider());
+            if (!UnitTestDetector.IsRunningFromNunit)
+            {
+                brickPileConventions.VirtualPathProviderConventions.Register("static", () => new NativeVirtualPathProvider());    
+            }            
         }
 
         /// <summary>
