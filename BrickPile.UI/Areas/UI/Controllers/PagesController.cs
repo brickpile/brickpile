@@ -244,7 +244,7 @@ namespace BrickPile.UI.Areas.UI.Controllers
 
             using (IDocumentSession session = this.documentStore.OpenSession())
             {
-                session.Store(pageModel, StoreAction.Save);
+                session.Store(pageModel, pageModel.Metadata.IsPublished ? StoreAction.Publish : StoreAction.Save);
 
                 if (parent != null)
                 {
