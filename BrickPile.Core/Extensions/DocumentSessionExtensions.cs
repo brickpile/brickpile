@@ -174,7 +174,7 @@ namespace BrickPile.Core.Extensions
                     break;
                 case StoreAction.Publish:
                     page.Metadata.IsPublished = true;
-                    page.Metadata.Published = DateTime.UtcNow;
+                    page.Metadata.Published = page.Metadata.Published ?? DateTime.UtcNow;
                     page.Metadata.Changed = DateTime.UtcNow;
                     page.Metadata.ChangedBy = HttpContext.Current.User.Identity.Name;
                     if (page.IsDraft())
