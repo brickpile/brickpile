@@ -53,7 +53,7 @@ namespace BrickPile.Core.Routing
                 IPage[] pages = session.Load<IPage>(
                     this.routeResolverTrie.LoadTrie().GetAncestorIdsFor(
                         this.RequestContext.RouteData.GetCurrentPage<IPage>().Id,
-                        true));
+                        true)).OrderBy(x => x.Metadata.SortOrder).ToArray();
 
                 var navigationContext = new NavigationContext
                 {
