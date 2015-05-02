@@ -168,37 +168,39 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 // Given
 
                 Trie structureInfo;
-                var store = SetupContext();
                 IPage page, draft;
 
                 // When
 
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage(), StoreAction.Publish);
-                    session.SaveChanges();
-                }
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage(), StoreAction.Publish);
+                        session.SaveChanges();
+                    }
 
-                using (var session = store.OpenSession())
-                {
-                    page = session.Load<IPage>("FakePages/1");
-                    page.Metadata.Name = "Renamed";
-                    session.Store(page, StoreAction.Save);
-                    session.SaveChanges();
-                }
+                    using (var session = store.OpenSession())
+                    {
+                        page = session.Load<IPage>("FakePages/1");
+                        page.Metadata.Name = "Renamed";
+                        session.Store(page, StoreAction.Save);
+                        session.SaveChanges();
+                    }
 
-                using (var session = store.OpenSession())
-                {
-                    draft = session.Load<IPage>("FakePages/1/Draft");
-                    page = session.Load<IPage>("FakePages/1");
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                }
+                    using (var session = store.OpenSession())
+                    {
+                        draft = session.Load<IPage>("FakePages/1/Draft");
+                        page = session.Load<IPage>("FakePages/1");
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                    }
 
-                // Then
-              
-                Assert.NotNull(draft);
-                Assert.NotNull(page);
-                Assert.NotNull(structureInfo.RootNode.PageId);
+                    // Then
+
+                    Assert.NotNull(draft);
+                    Assert.NotNull(page);
+                    Assert.NotNull(structureInfo.RootNode.PageId);
+                }
             }
 
             [Fact]
@@ -207,43 +209,44 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 // Given
 
                 Trie structureInfo;
-                var store = SetupContext();
                 IPage page, draft;
 
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage(), StoreAction.Save);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage(), StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        page = session.Load<IPage>("FakePages/1");
+                        page.Metadata.Name = "Renamed";
+                        session.Store(page, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        page = session.Load<IPage>("FakePages/1");
+                        draft = session.Load<IPage>("FakePages/1/Draft");
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                    }
+
+                    // Then
+
+                    Assert.NotNull(structureInfo.RootNode);
+                    Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
+                    Assert.Null(structureInfo.RootNode.ParentId);
+                    Assert.Null(structureInfo.RootNode.Url);
+                    Assert.Equal(0, structureInfo.RootNode.Children.Count);
+                    Assert.Equal("Renamed", page.Metadata.Name);
+                    Assert.Null(page.Metadata.Slug);
+                    Assert.Null(page.Metadata.Url);
+                    Assert.Null(draft);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    page = session.Load<IPage>("FakePages/1");
-                    page.Metadata.Name = "Renamed";
-                    session.Store(page, StoreAction.Publish);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    page = session.Load<IPage>("FakePages/1");
-                    draft = session.Load<IPage>("FakePages/1/Draft");
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                }
-
-                // Then
-
-                Assert.NotNull(structureInfo.RootNode);
-                Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
-                Assert.Null(structureInfo.RootNode.ParentId);
-                Assert.Null(structureInfo.RootNode.Url);
-                Assert.Equal(0, structureInfo.RootNode.Children.Count);
-                Assert.Equal("Renamed", page.Metadata.Name);
-                Assert.Null(page.Metadata.Slug);
-                Assert.Null(page.Metadata.Url);
-                Assert.Null(draft);
             }
 
             [Fact]
@@ -253,29 +256,31 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 Trie structureInfo;
                 IPage draft;
-                var store = SetupContext();
+                
 
                 // When
 
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage(), StoreAction.Save);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage(), StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                        draft = session.Load<IPage>("FakePages/1");
+                    }
+
+                    // Then
+
+                    Assert.NotNull(structureInfo.RootNode);
+                    Assert.NotNull(structureInfo.RootNode.PageId);
+                    Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
+                    Assert.NotNull(draft);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                    draft = session.Load<IPage>("FakePages/1");
-                }
-
-                // Then
-                
-                Assert.NotNull(structureInfo.RootNode);
-                Assert.NotNull(structureInfo.RootNode.PageId);
-                Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
-                Assert.NotNull(draft);
-
             }
 
             [Fact]
@@ -285,8 +290,6 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 Trie structureInfo;
                 IPage page;
-
-                //var store = SetupContext();
 
                 // When
 
@@ -337,44 +340,47 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 Trie structureInfo;
                 IPage page;
 
-                var store = SetupContext();
 
                 // When
 
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "fakepages/1", Metadata = { Name = "Start" } }, StoreAction.Publish);
-                    IPage p = new FakePage
+                    using (var session = store.OpenSession())
                     {
-                        Id = "fakepages/2",
-                        Parent = new PageReference("fakepages/1"),
-                        Metadata =
+                        session.Store(new FakePage {Id = "fakepages/1", Metadata = {Name = "Start"}},
+                            StoreAction.Publish);
+                        IPage p = new FakePage
                         {
-                            Name = "Child page"
-                        }
-                    };
-                    session.Store(p, StoreAction.Publish);
-                    session.SaveChanges();
+                            Id = "fakepages/2",
+                            Parent = new PageReference("fakepages/1"),
+                            Metadata =
+                            {
+                                Name = "Child page"
+                            }
+                        };
+                        session.Store(p, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                        page = session.Load<FakePage>("fakepages/2");
+                    }
+
+                    // Then
+
+                    Assert.NotNull(structureInfo.RootNode);
+                    Assert.Equal("fakepages/1", structureInfo.RootNode.PageId);
+                    Assert.Null(structureInfo.RootNode.ParentId);
+                    Assert.Null(structureInfo.RootNode.Url);
+                    Assert.Equal(1, structureInfo.RootNode.Children.Count);
+                    Assert.NotNull(structureInfo.RootNode.Children.First().PageId);
+                    Assert.Equal("fakepages/1", structureInfo.RootNode.Children.First().ParentId);
+                    Assert.Equal("child-page", structureInfo.RootNode.Children.First().Url);
+                    Assert.Equal(page.Metadata.Url, structureInfo.RootNode.Children.First().Url);
+                    Assert.Equal("child-page", page.Metadata.Slug);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                    page = session.Load<FakePage>("fakepages/2");
-                }
-
-                // Then
-
-                Assert.NotNull(structureInfo.RootNode);
-                Assert.Equal("fakepages/1", structureInfo.RootNode.PageId);
-                Assert.Null(structureInfo.RootNode.ParentId);
-                Assert.Null(structureInfo.RootNode.Url);
-                Assert.Equal(1, structureInfo.RootNode.Children.Count);
-                Assert.NotNull(structureInfo.RootNode.Children.First().PageId);
-                Assert.Equal("fakepages/1", structureInfo.RootNode.Children.First().ParentId);
-                Assert.Equal("child-page", structureInfo.RootNode.Children.First().Url);
-                Assert.Equal(page.Metadata.Url, structureInfo.RootNode.Children.First().Url);
-                Assert.Equal("child-page", page.Metadata.Slug);                
             }
 
             [Fact]
@@ -444,47 +450,50 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 Trie structureInfo;
                 IPage page, draft;
 
-                var store = SetupContext();
-
                 // When
 
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "FakePages/1", Metadata = { Name = "Start" } }, StoreAction.Publish);
-                    IPage p = new FakePage
+
+                    using (var session = store.OpenSession())
                     {
-                        Id = "FakePages/2",
-                        Parent = new PageReference("FakePages/1"),
-                        Metadata =
+                        session.Store(new FakePage {Id = "FakePages/1", Metadata = {Name = "Start"}},
+                            StoreAction.Publish);
+                        IPage p = new FakePage
                         {
-                            Name = "Child page"
-                        }
-                    };
-                    session.Store(p, StoreAction.Save);
-                    session.SaveChanges();
+                            Id = "FakePages/2",
+                            Parent = new PageReference("FakePages/1"),
+                            Metadata =
+                            {
+                                Name = "Child page"
+                            }
+                        };
+                        session.Store(p, StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        page = session.Load<FakePage>("FakePages/2");
+                        page.Metadata.Name = "Page name changed";
+                        session.Store(page, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                        draft = session.Load<FakePage>("FakePages/2/Draft");
+                        page = session.Load<FakePage>("FakePages/2");
+                    }
+
+                    // Then
+
+                    Assert.Null(draft);
+                    Assert.NotNull(page);
+                    Assert.Equal("FakePages/2", structureInfo.RootNode.Children.First().PageId);
+                    Assert.Equal(1, structureInfo.RootNode.Children.Count);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    page = session.Load<FakePage>("FakePages/2");
-                    page.Metadata.Name = "Page name changed";
-                    session.Store(page, StoreAction.Publish);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                    draft = session.Load<FakePage>("FakePages/2/Draft");
-                    page = session.Load<FakePage>("FakePages/2");
-                }
-
-                // Then
-
-                Assert.Null(draft);
-                Assert.NotNull(page);
-                Assert.Equal("FakePages/2", structureInfo.RootNode.Children.First().PageId);                
-                Assert.Equal(1,structureInfo.RootNode.Children.Count);
             }
 
             [Fact]
@@ -495,35 +504,44 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 Trie structureInfo;
                 IPage page;
 
-                var store = SetupContext();
+                
 
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "FakePages/1", Metadata = { Name = "Start" } }, StoreAction.Publish);
-                    session.Store(new FakePage { Id = "FakePages/2", Parent = new PageReference("FakePages/1"), Metadata = { Name = "Child page" }}, StoreAction.Publish);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Id = "FakePages/1", Metadata = {Name = "Start"}},
+                            StoreAction.Publish);
+                        session.Store(
+                            new FakePage
+                            {
+                                Id = "FakePages/2",
+                                Parent = new PageReference("FakePages/1"),
+                                Metadata = {Name = "Child page"}
+                            }, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                        page = session.Load<FakePage>("FakePages/2");
+                    }
+
+                    // Then
+
+                    Assert.NotNull(structureInfo.RootNode);
+                    Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
+                    Assert.Null(structureInfo.RootNode.ParentId);
+                    Assert.Null(structureInfo.RootNode.Url);
+                    Assert.Equal(1, structureInfo.RootNode.Children.Count);
+                    Assert.Equal("FakePages/2", structureInfo.RootNode.Children.First().PageId);
+                    Assert.Equal("FakePages/1", structureInfo.RootNode.Children.First().ParentId);
+                    Assert.Equal("child-page", structureInfo.RootNode.Children.First().Url);
+                    Assert.Equal(page.Metadata.Url, structureInfo.RootNode.Children.First().Url);
+                    Assert.Equal("child-page", page.Metadata.Slug);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                    page = session.Load<FakePage>("FakePages/2");
-                }
-
-                // Then
-
-                Assert.NotNull(structureInfo.RootNode);
-                Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
-                Assert.Null(structureInfo.RootNode.ParentId);
-                Assert.Null(structureInfo.RootNode.Url);
-                Assert.Equal(1, structureInfo.RootNode.Children.Count);
-                Assert.Equal("FakePages/2", structureInfo.RootNode.Children.First().PageId);
-                Assert.Equal("FakePages/1", structureInfo.RootNode.Children.First().ParentId);
-                Assert.Equal("child-page", structureInfo.RootNode.Children.First().Url);
-                Assert.Equal(page.Metadata.Url, structureInfo.RootNode.Children.First().Url);
-                Assert.Equal("child-page", page.Metadata.Slug);
             }
 
             [Fact]
@@ -534,36 +552,51 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 Trie structureInfo;
                 IPage page;
 
-                var store = SetupContext();
+                
 
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "FakePages/1", Metadata = { Name = "Start" } });
-                    session.Store(new FakePage { Id = "FakePages/2", Parent = new PageReference("FakePages/1"), Metadata = { Name = "Child page" } }, StoreAction.Publish);
-                    session.Store(new FakePage { Id = "FakePages/3", Parent = new PageReference("FakePages/2"), Metadata = { Name = "Child page 2" } }, StoreAction.Publish);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Id = "FakePages/1", Metadata = {Name = "Start"}});
+                        session.Store(
+                            new FakePage
+                            {
+                                Id = "FakePages/2",
+                                Parent = new PageReference("FakePages/1"),
+                                Metadata = {Name = "Child page"}
+                            }, StoreAction.Publish);
+                        session.Store(
+                            new FakePage
+                            {
+                                Id = "FakePages/3",
+                                Parent = new PageReference("FakePages/2"),
+                                Metadata = {Name = "Child page 2"}
+                            }, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                        page = session.Load<FakePage>("FakePages/3");
+                    }
+
+                    // Then
+
+                    Assert.NotNull(structureInfo.RootNode);
+                    Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
+                    Assert.Null(structureInfo.RootNode.ParentId);
+                    Assert.Null(structureInfo.RootNode.Url);
+                    Assert.Equal(1, structureInfo.RootNode.Children.Count);
+                    Assert.Equal("FakePages/2", structureInfo.RootNode.Children.First().PageId);
+                    Assert.Equal("FakePages/1", structureInfo.RootNode.Children.First().ParentId);
+                    Assert.Equal("child-page", structureInfo.RootNode.Children.First().Url);
+                    Assert.Equal(page.Metadata.Url,
+                        structureInfo.RootNode.Children.First().Children.Single(x => x.PageId == page.Id).Url);
+                    Assert.Equal("child-page-2", page.Metadata.Slug);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                    page = session.Load<FakePage>("FakePages/3");
-                }
-
-                // Then
-
-                Assert.NotNull(structureInfo.RootNode);
-                Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
-                Assert.Null(structureInfo.RootNode.ParentId);
-                Assert.Null(structureInfo.RootNode.Url);
-                Assert.Equal(1, structureInfo.RootNode.Children.Count);
-                Assert.Equal("FakePages/2", structureInfo.RootNode.Children.First().PageId);
-                Assert.Equal("FakePages/1", structureInfo.RootNode.Children.First().ParentId);
-                Assert.Equal("child-page", structureInfo.RootNode.Children.First().Url);
-                Assert.Equal(page.Metadata.Url, structureInfo.RootNode.Children.First().Children.Single(x => x.PageId == page.Id).Url);
-                Assert.Equal("child-page-2", page.Metadata.Slug);
             }
 
             [Fact]
@@ -573,33 +606,48 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 Trie structureInfo;
 
-                var store = SetupContext();
+                
 
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "fakepages/1", Metadata = { Name = "Start" } }, StoreAction.Publish);
-                    session.Store(new FakePage { Id = "fakepages/2", Parent = new PageReference("fakepages/1"), Metadata = { Name = "Child page" } }, StoreAction.Publish);
-                    session.Store(new FakePage { Id = "fakepages/3", Parent = new PageReference("fakepages/2"), Metadata = { Name = "Child page" } }, StoreAction.Publish);
-                    session.SaveChanges();
-                }
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Id = "fakepages/1", Metadata = {Name = "Start"}},
+                            StoreAction.Publish);
+                        session.Store(
+                            new FakePage
+                            {
+                                Id = "fakepages/2",
+                                Parent = new PageReference("fakepages/1"),
+                                Metadata = {Name = "Child page"}
+                            }, StoreAction.Publish);
+                        session.Store(
+                            new FakePage
+                            {
+                                Id = "fakepages/3",
+                                Parent = new PageReference("fakepages/2"),
+                                Metadata = {Name = "Child page"}
+                            }, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
 
-                using (var session = store.OpenSession())
-                {
-                    IPage fakeChild = session.Load<FakePage>("fakepages/3");
-                    fakeChild.Parent = new PageReference("fakepages/1");
-                    session.SaveChanges();
-                }
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                }
+                    using (var session = store.OpenSession())
+                    {
+                        IPage fakeChild = session.Load<FakePage>("fakepages/3");
+                        fakeChild.Parent = new PageReference("fakepages/1");
+                        session.SaveChanges();
+                    }
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                    }
 
-                // Then
-                
-                Assert.Equal("fakepages/1", structureInfo.RootNode.Children.Single(node => node.PageId == "fakepages/3").ParentId);
+                    // Then
 
+                    Assert.Equal("fakepages/1",
+                        structureInfo.RootNode.Children.Single(node => node.PageId == "fakepages/3").ParentId);
+                }
             }
 
             [Fact]
@@ -609,44 +657,78 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 Trie structureInfo;
 
-                var store = SetupContext();
-
                 // When
 
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "fakepages/1", Metadata = { Name = "Start" } });
-                    session.Store(new FakePage { Id = "fakepages/2", Parent = new PageReference("fakepages/1"), Metadata = { Name = "Child page 1" } }, StoreAction.Publish);
-                    session.Store(new FakePage { Id = "fakepages/3", Parent = new PageReference("fakepages/2"), Metadata = { Name = "Child page 2" } }, StoreAction.Publish);
-                    session.Store(new FakePage { Id = "fakepages/4", Parent = new PageReference("fakepages/3"), Metadata = { Name = "Child page 3" } }, StoreAction.Publish);
-                    session.Store(new FakePage { Id = "fakepages/5", Parent = new PageReference("fakepages/4"), Metadata = { Name = "Child page 4" } }, StoreAction.Publish);
-                    session.Store(new FakePage { Id = "fakepages/6", Parent = new PageReference("fakepages/4"), Metadata = { Name = "Child page 5" } }, StoreAction.Publish);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Id = "fakepages/1", Metadata = {Name = "Start"}});
+                        session.Store(
+                            new FakePage
+                            {
+                                Id = "fakepages/2",
+                                Parent = new PageReference("fakepages/1"),
+                                Metadata = {Name = "Child page 1"}
+                            }, StoreAction.Publish);
+                        session.Store(
+                            new FakePage
+                            {
+                                Id = "fakepages/3",
+                                Parent = new PageReference("fakepages/2"),
+                                Metadata = {Name = "Child page 2"}
+                            }, StoreAction.Publish);
+                        session.Store(
+                            new FakePage
+                            {
+                                Id = "fakepages/4",
+                                Parent = new PageReference("fakepages/3"),
+                                Metadata = {Name = "Child page 3"}
+                            }, StoreAction.Publish);
+                        session.Store(
+                            new FakePage
+                            {
+                                Id = "fakepages/5",
+                                Parent = new PageReference("fakepages/4"),
+                                Metadata = {Name = "Child page 4"}
+                            }, StoreAction.Publish);
+                        session.Store(
+                            new FakePage
+                            {
+                                Id = "fakepages/6",
+                                Parent = new PageReference("fakepages/4"),
+                                Metadata = {Name = "Child page 5"}
+                            }, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        IPage fakeChild = session.Load<FakePage>("fakepages/4");
+                        fakeChild.Parent = new PageReference("fakepages/2");
+                        session.SaveChanges();
+                    }
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                    }
+
+                    // Then
+
+                    var parent = structureInfo.RootNode.Flatten(n => n.Children).Single(n => n.PageId == "fakepages/2");
+                    var childPage3 =
+                        structureInfo.RootNode.Flatten(n => n.Children).Single(n => n.PageId == "fakepages/4");
+                    var childPage4 =
+                        structureInfo.RootNode.Flatten(n => n.Children).Single(n => n.PageId == "fakepages/5");
+                    var childPage5 =
+                        structureInfo.RootNode.Flatten(n => n.Children).Single(n => n.PageId == "fakepages/6");
+
+                    Assert.Equal(2, parent.Children.Count);
+                    Assert.Equal("child-page-1/child-page-3", childPage3.Url);
+                    Assert.Equal(2, childPage3.Children.Count);
+                    Assert.Equal("child-page-1/child-page-3/child-page-4", childPage4.Url);
+                    Assert.Equal("child-page-1/child-page-3/child-page-5", childPage5.Url);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    IPage fakeChild = session.Load<FakePage>("fakepages/4");
-                    fakeChild.Parent = new PageReference("fakepages/2");
-                    session.SaveChanges();
-                }
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                }
-
-                // Then
-
-                var parent = structureInfo.RootNode.Flatten(n => n.Children).Single(n => n.PageId == "fakepages/2");
-                var childPage3 = structureInfo.RootNode.Flatten(n => n.Children).Single(n => n.PageId == "fakepages/4");
-                var childPage4 = structureInfo.RootNode.Flatten(n => n.Children).Single(n => n.PageId == "fakepages/5");
-                var childPage5 = structureInfo.RootNode.Flatten(n => n.Children).Single(n => n.PageId == "fakepages/6");
-
-                Assert.Equal(2, parent.Children.Count);
-                Assert.Equal("child-page-1/child-page-3", childPage3.Url);
-                Assert.Equal(2, childPage3.Children.Count);
-                Assert.Equal("child-page-1/child-page-3/child-page-4", childPage4.Url);
-                Assert.Equal("child-page-1/child-page-3/child-page-5", childPage5.Url);
             }
 
             [Fact]
@@ -656,33 +738,40 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 Trie structureInfo;
 
-                var store = SetupContext();
-
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "fakepages/1", Metadata = { Name = "Start" } }, StoreAction.Publish);
-                    session.Store(new FakePage { Id = "fakepages/2", Parent = new PageReference("fakepages/1"), Metadata = { Name = "Child page" } }, StoreAction.Publish);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Id = "fakepages/1", Metadata = {Name = "Start"}},
+                            StoreAction.Publish);
+                        session.Store(
+                            new FakePage
+                            {
+                                Id = "fakepages/2",
+                                Parent = new PageReference("fakepages/1"),
+                                Metadata = {Name = "Child page"}
+                            }, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        IPage page = session.Load<FakePage>("fakepages/2");
+                        session.Delete(page);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                    }
+
+                    // Then
+
+                    Assert.NotNull(structureInfo.RootNode);
+                    Assert.Equal(0, structureInfo.RootNode.Children.Count);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    IPage page = session.Load<FakePage>("fakepages/2");
-                    session.Delete(page);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                }
-
-                // Then
-
-                Assert.NotNull(structureInfo.RootNode);
-                Assert.Equal(0, structureInfo.RootNode.Children.Count);
             }
 
             [Fact]
@@ -691,32 +780,40 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 // Given
 
                 Trie structureInfo;
-                var store = SetupContext();
 
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "FakePages/1", Metadata = { Name = "Start" } }, StoreAction.Publish);
-                    session.Store(new FakePage { Id = "FakePages/2", Parent = new PageReference("FakePages/1"), Metadata = { Name = "Child page" } }, StoreAction.Publish);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Id = "FakePages/1", Metadata = {Name = "Start"}},
+                            StoreAction.Publish);
+                        session.Store(
+                            new FakePage
+                            {
+                                Id = "FakePages/2",
+                                Parent = new PageReference("FakePages/1"),
+                                Metadata = {Name = "Child page"}
+                            }, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        IPage page = session.Load<FakePage>("FakePages/2");
+                        page.Metadata.Slug = "new-slug";
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                    }
+
+                    // Then
+
+                    Assert.Equal("new-slug", structureInfo.RootNode.Children.First().Url);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    IPage page = session.Load<FakePage>("FakePages/2");
-                    page.Metadata.Slug = "new-slug";
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                }
-
-                // Then
-
-                Assert.Equal("new-slug", structureInfo.RootNode.Children.First().Url);              
             }
 
             [Fact]
@@ -725,32 +822,40 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 // Given
 
                 Trie structureInfo;
-                var store = SetupContext();
 
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "FakePages/1", Metadata = { Name = "Start" } }, StoreAction.Publish);
-                    session.Store(new FakePage { Id = "FakePages/2", Parent = new PageReference("FakePages/1"), Metadata = { Name = "Child page" } }, StoreAction.Publish);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Id = "FakePages/1", Metadata = {Name = "Start"}},
+                            StoreAction.Publish);
+                        session.Store(
+                            new FakePage
+                            {
+                                Id = "FakePages/2",
+                                Parent = new PageReference("FakePages/1"),
+                                Metadata = {Name = "Child page"}
+                            }, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        IPage page = session.Load<FakePage>("FakePages/2");
+                        page.Metadata.Name = "The new name";
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                    }
+
+                    // Then
+
+                    Assert.Equal("child-page", structureInfo.RootNode.Children.First().Url);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    IPage page = session.Load<FakePage>("FakePages/2");
-                    page.Metadata.Name = "The new name";
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                }
-
-                // Then
-
-                Assert.Equal("child-page", structureInfo.RootNode.Children.First().Url);
             }
 
             [Fact]
@@ -760,31 +865,32 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 Trie structureInfo;
 
-                var store = SetupContext();
-
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "fakepages/1", Metadata = { Name = "Start" } }, StoreAction.Publish);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Id = "fakepages/1", Metadata = {Name = "Start"}},
+                            StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        IPage page = session.Load<FakePage>("fakepages/1");
+                        page.Metadata.Name = "The new name";
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                    }
+
+                    // Then
+
+                    Assert.Null(structureInfo.RootNode.Url);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    IPage page = session.Load<FakePage>("fakepages/1");
-                    page.Metadata.Name = "The new name";
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                }
-
-                // Then
-
-                Assert.Null(structureInfo.RootNode.Url);
             }
 
             [Fact(Skip = "Fix this test")]
@@ -794,29 +900,29 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 IPage draft;
                 Trie structureInfo;
 
-                var store = SetupContext();
-
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    draft = new FakePage { Metadata = { Name = "Draft" }};
-                    session.Store(draft, StoreAction.Save);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        draft = new FakePage {Metadata = {Name = "Draft"}};
+                        session.Store(draft, StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        draft = session.Load<IPage>("FakePages/1/draft");
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                    }
+
+                    // Then
+
+                    Assert.NotNull(draft);
+                    Assert.NotNull(structureInfo.RootNode);
+                    Assert.Null(structureInfo.RootNode.PageId);
+                    Assert.Null(structureInfo.RootNode.Url);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    draft = session.Load<IPage>("FakePages/1/draft");
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                }
-
-                // Then
-
-                Assert.NotNull(draft);
-                Assert.NotNull(structureInfo.RootNode);
-                Assert.Null(structureInfo.RootNode.PageId);
-                Assert.Null(structureInfo.RootNode.Url);
             }
 
             [Fact]
@@ -826,46 +932,47 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 IPage fakePage;
                 IPage draft;
                 var container = A.Fake<IContainer>();
-                var store = this.SetupContext();
 
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    fakePage = new FakePage
+                    using (var session = store.OpenSession())
                     {
-                        Id = "fakepages/1",
-                        Metadata =
+                        fakePage = new FakePage
                         {
-                            Name = "Published version"
-                        }
-                    };
-                    session.Store(fakePage, StoreAction.Publish);
-                    session.SaveChanges();
-                }
+                            Id = "fakepages/1",
+                            Metadata =
+                            {
+                                Name = "Published version"
+                            }
+                        };
+                        session.Store(fakePage, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
 
-                using (var session = store.OpenSession())
-                {
-                    draft = session.Load<IPage>("fakepages/1");
-                    draft.Metadata.Name = "Page draft";                    
-                    session.Store(draft, StoreAction.Save);
-                    session.SaveChanges();
-                }
+                    using (var session = store.OpenSession())
+                    {
+                        draft = session.Load<IPage>("fakepages/1");
+                        draft.Metadata.Name = "Page draft";
+                        session.Store(draft, StoreAction.Save);
+                        session.SaveChanges();
+                    }
 
-                using (var session = store.OpenSession())
-                {
-                    fakePage = session.Load<IPage>("fakepages/1");
-                    draft = session.Load<IPage>("fakepages/1/draft");
-                }
+                    using (var session = store.OpenSession())
+                    {
+                        fakePage = session.Load<IPage>("fakepages/1");
+                        draft = session.Load<IPage>("fakepages/1/draft");
+                    }
 
-                // Then
-                
-                Assert.NotNull(fakePage);
-                Assert.Equal("fakepages/1", fakePage.Id);
-                Assert.Equal("Published version", fakePage.Metadata.Name);
-                Assert.NotNull(draft);
-                Assert.Equal("fakepages/1/draft", draft.Id);
-                Assert.Equal("Page draft", draft.Metadata.Name);
+                    // Then
+
+                    Assert.NotNull(fakePage);
+                    Assert.Equal("fakepages/1", fakePage.Id);
+                    Assert.Equal("Published version", fakePage.Metadata.Name);
+                    Assert.NotNull(draft);
+                    Assert.Equal("fakepages/1/draft", draft.Id);
+                    Assert.Equal("Page draft", draft.Metadata.Name);
+                }
             }
 
             [Fact(Skip = "Not sure if this is a good idea or not")]
@@ -911,36 +1018,36 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 Trie structureInfo;
 
-                var store = SetupContext();
-
                 IPage page;
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "fakepages/1", Metadata = { Name = "Start" } });
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Id = "fakepages/1", Metadata = {Name = "Start"}});
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        page = session.Load<FakePage>("fakepages/1");
+                        page.Metadata.Name = "The new name";
+                        session.Store(page, StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                        page = session.Load<FakePage>("fakepages/1/draft");
+                    }
+
+                    // Then
+
+                    Assert.Null(page.Metadata.Url);
+                    Assert.Null(page.Metadata.Slug);
+                    Assert.Null(structureInfo.RootNode.Url);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    page = session.Load<FakePage>("fakepages/1");
-                    page.Metadata.Name = "The new name";
-                    session.Store(page, StoreAction.Save);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                    page = session.Load<FakePage>("fakepages/1/draft");
-                }
-
-                // Then
-
-                Assert.Null(page.Metadata.Url);
-                Assert.Null(page.Metadata.Slug);
-                Assert.Null(structureInfo.RootNode.Url);                
             }
 
             [Fact]
@@ -950,37 +1057,37 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 Trie structureInfo;
 
-                var store = SetupContext();
-
                 IPage page;
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Metadata = { Name = "Start" } }, StoreAction.Save);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Metadata = {Name = "Start"}}, StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        page = session.Load<FakePage>("FakePages/1");
+                        page.Metadata.Name = "The new name";
+                        session.Store(page, StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                        page = session.Load<FakePage>("FakePages/1/Draft");
+                    }
+
+                    // Then
+
+                    Assert.Null(page.Metadata.Url);
+                    Assert.Null(page.Metadata.Slug);
+                    Assert.Null(structureInfo.RootNode.Url);
+                    Assert.Empty(structureInfo.RootNode.Children);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    page = session.Load<FakePage>("FakePages/1");
-                    page.Metadata.Name = "The new name";
-                    session.Store(page, StoreAction.Save);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                    page = session.Load<FakePage>("FakePages/1/Draft");
-                }
-
-                // Then
-
-                Assert.Null(page.Metadata.Url);
-                Assert.Null(page.Metadata.Slug);
-                Assert.Null(structureInfo.RootNode.Url);
-                Assert.Empty(structureInfo.RootNode.Children);
             }
 
             [Fact]
@@ -989,41 +1096,43 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 Trie structureInfo;
 
-                var store = SetupContext();
-
                 IPage start;
 
                 // When
-
-                using (var session = store.OpenSession()) {
-                    start = new FakePage {Metadata = {Name = "Start"}};
-                    session.Store(start, StoreAction.Publish);
-                    session.Store(new FakePage { Parent = new PageReference(start.Id) ,Metadata = { Name = "Child" }}, StoreAction.Publish);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    start = session.Load<FakePage>("FakePages/1");
-                    session.Store(start, StoreAction.Save);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        start = new FakePage {Metadata = {Name = "Start"}};
+                        session.Store(start, StoreAction.Publish);
+                        session.Store(new FakePage {Parent = new PageReference(start.Id), Metadata = {Name = "Child"}},
+                            StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        start = session.Load<FakePage>("FakePages/1");
+                        session.Store(start, StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        start = session.Load<FakePage>("FakePages/1/draft");
+                        session.Store(start, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                    }
+
+                    // Then
+
+                    Assert.NotEmpty(structureInfo.RootNode.Children);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    start = session.Load<FakePage>("FakePages/1/draft");
-                    session.Store(start, StoreAction.Publish);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                }
-
-                // Then
-
-                Assert.NotEmpty(structureInfo.RootNode.Children);                
             }
 
             [Fact]
@@ -1033,48 +1142,51 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 Trie structureInfo;
 
-                var store = SetupContext();
-
                 IPage start, child;
 
                 // When
-
-                using (var session = store.OpenSession()) {
-                    start = new FakePage {Metadata = {Name = "Start"}};
-                    session.Store(start, StoreAction.Publish);
-                    child = new FakePage {Parent = new PageReference(start.Id), Metadata = {Name = "Child"}};
-                    session.Store(child, StoreAction.Publish);
-                    session.Store(new FakePage { Parent = new PageReference(child.Id), Metadata = { Name = "Child2"}}, StoreAction.Publish);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    child = session.Load<FakePage>("FakePages/2");
-                    session.Store(child, StoreAction.Save);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        start = new FakePage {Metadata = {Name = "Start"}};
+                        session.Store(start, StoreAction.Publish);
+                        child = new FakePage {Parent = new PageReference(start.Id), Metadata = {Name = "Child"}};
+                        session.Store(child, StoreAction.Publish);
+                        session.Store(
+                            new FakePage {Parent = new PageReference(child.Id), Metadata = {Name = "Child2"}},
+                            StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        child = session.Load<FakePage>("FakePages/2");
+                        session.Store(child, StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        child = session.Load<FakePage>("FakePages/2/Draft");
+                        child.Metadata.Name = "Do it";
+                        session.Store(child, StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                        child = session.Load<FakePage>("FakePages/2/Draft");
+                    }
+
+                    // Then
+
+                    Assert.NotEmpty(structureInfo.RootNode.Children);
+                    Assert.NotNull(child);
+                    //Assert.NotEmpty(structureInfo.RootNode.Children.Single(x => x.DraftId == "FakePages/2/draft").Children);
+                    //Assert.NotNull(structureInfo.RootNode.Children.Single(x => x.DraftId == "FakePages/2/draft").ParentId);'}
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    child = session.Load<FakePage>("FakePages/2/Draft");
-                    child.Metadata.Name = "Do it";
-                    session.Store(child, StoreAction.Save);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                    child = session.Load<FakePage>("FakePages/2/Draft");
-                }
-
-                // Then
-
-                Assert.NotEmpty(structureInfo.RootNode.Children);
-                Assert.NotNull(child);
-                //Assert.NotEmpty(structureInfo.RootNode.Children.Single(x => x.DraftId == "FakePages/2/draft").Children);
-                //Assert.NotNull(structureInfo.RootNode.Children.Single(x => x.DraftId == "FakePages/2/draft").ParentId);
             }
 
             [Fact]
@@ -1084,47 +1196,48 @@ namespace BrickPile.Tests.Infrastructure.Listeners
 
                 Trie structureInfo;
 
-                var store = SetupContext();
-
                 IPage child;
 
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new  FakePage(), StoreAction.Publish);
-
-                    child = new FakePage
+                    using (var session = store.OpenSession())
                     {
-                        Parent = new PageReference("FakePages/1"),
-                        Metadata = { Name = "Child" }
-                    };
-                    session.Store(child, StoreAction.Save);
+                        session.Store(new FakePage(), StoreAction.Publish);
 
-                    session.Store(new FakePage
+                        child = new FakePage
+                        {
+                            Parent = new PageReference("FakePages/1"),
+                            Metadata = {Name = "Child"}
+                        };
+                        session.Store(child, StoreAction.Save);
+
+                        session.Store(new FakePage
+                        {
+                            Parent = new PageReference(child.Id),
+                            Metadata = {Name = "Child2"}
+                        }, StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
                     {
-                        Parent = new PageReference(child.Id),
-                        Metadata = { Name = "Child2" }
-                    }, StoreAction.Save);
-                    session.SaveChanges();
+
+                        child = session.Load<IPage>("FakePages/2");
+                        child.Metadata.Name = "Changed name";
+                        session.Store(child, StoreAction.Publish);
+                        session.SaveChanges();
+
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                    }
+
+                    // Then
+
+                    Assert.NotNull(child);
+                    Assert.NotEmpty(structureInfo.RootNode.Children);
+                    Assert.NotEmpty(structureInfo.Get("FakePages/2").Children);
+                    //Assert.NotNull(structureInfo.GetNode("FakePages/3/draft").ParentId);
                 }
-
-                using (var session = store.OpenSession()) {
-
-                    child = session.Load<IPage>("FakePages/2");
-                    child.Metadata.Name = "Changed name";
-                    session.Store(child, StoreAction.Publish);
-                    session.SaveChanges();
-
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                }
-
-                // Then
-
-                Assert.NotNull(child);
-                Assert.NotEmpty(structureInfo.RootNode.Children);
-                Assert.NotEmpty(structureInfo.Get("FakePages/2").Children);
-                //Assert.NotNull(structureInfo.GetNode("FakePages/3/draft").ParentId);
             }
 
             [Fact]
@@ -1132,41 +1245,43 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                var store = SetupContext();
-
                 IPage start, child;
 
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    start = new FakePage { Metadata = { Name = "Start" } };
-                    session.Store(start, StoreAction.Publish);                    
+                    using (var session = store.OpenSession())
+                    {
+                        start = new FakePage {Metadata = {Name = "Start"}};
+                        session.Store(start, StoreAction.Publish);
 
-                    child = new FakePage { Parent = new PageReference(start.Id), Metadata = { Name = "Child" } };
-                    session.Store(child, StoreAction.Save);                    
+                        child = new FakePage {Parent = new PageReference(start.Id), Metadata = {Name = "Child"}};
+                        session.Store(child, StoreAction.Save);
 
-                    session.Store(new FakePage { Parent = new PageReference(child.Id), Metadata = { Name = "Child2" } }, StoreAction.Save);
-                    session.SaveChanges();
+                        session.Store(
+                            new FakePage {Parent = new PageReference(child.Id), Metadata = {Name = "Child2"}},
+                            StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        child = session.Load<IPage>("FakePages/2");
+                        child.Metadata.Name = "Changed name";
+                        session.Store(child, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        child = session.Load<IPage>("FakePages/3");
+                    }
+
+                    // Then
+
+                    Assert.Equal(child.Parent.Id, "FakePages/2");
+                    Assert.Equal(default(DateTime?), child.Metadata.Published);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    child = session.Load<IPage>("FakePages/2");
-                    child.Metadata.Name = "Changed name";
-                    session.Store(child, StoreAction.Publish);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    child = session.Load<IPage>("FakePages/3");                    
-                }
-
-                // Then
-
-                Assert.Equal(child.Parent.Id,"FakePages/2");
-                Assert.Equal(default(DateTime?), child.Metadata.Published);
             }
 
             [Fact]
@@ -1216,38 +1331,38 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             [Fact]
             public void Can_UnPublish_Page() {
                 // Given
-
-                var store = SetupContext();
                 IPage start, child;
 
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    start = new FakePage { Metadata = { Name = "Start" } };
+                    using (var session = store.OpenSession())
+                    {
+                        start = new FakePage {Metadata = {Name = "Start"}};
 
-                    session.Store(start, StoreAction.Publish);
-                    session.SaveChanges();
+                        session.Store(start, StoreAction.Publish);
+                        session.SaveChanges();
 
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        child = session.Load<IPage>("FakePages/1");
+                        child.Metadata.Name = "changed";
+                        session.Store(child, StoreAction.UnPublish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+
+                        child = session.Load<IPage>("FakePages/1");
+                    }
+
+                    // Then
+
+                    Assert.Equal(default(DateTime?), child.Metadata.Published);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    child = session.Load<IPage>("FakePages/1");
-                    child.Metadata.Name = "changed";
-                    session.Store(child, StoreAction.UnPublish);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-
-                    child = session.Load<IPage>("FakePages/1");
-                }
-
-                // Then
-    
-                Assert.Equal(default(DateTime?), child.Metadata.Published);
             }
 
             /// <summary>
@@ -1257,33 +1372,34 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             public void Can_Save_Start_Page_And_Add_Child()
             {
                 // Given
-
-                var store = SetupContext();
                 Trie structureInfo;
 
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "fakepages/1", Metadata = { Name = "Start" } }, StoreAction.Save);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Id = "fakepages/1", Metadata = {Name = "Start"}}, StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Id = "fakepages/2", Parent = new PageReference("fakepages/1")},
+                            StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                    }
+
+                    // Then
+
+                    Assert.Equal(2, structureInfo.RootNode.Flatten(node => node.Children).Count());
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    session.Store(new FakePage { Id = "fakepages/2", Parent = new PageReference("fakepages/1") }, StoreAction.Save);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                }
-
-                // Then
-
-                Assert.Equal(2, structureInfo.RootNode.Flatten(node => node.Children).Count());
             }
 
             [Fact]
@@ -1291,40 +1407,43 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                var store = SetupContext();               
                 IPage page, draft;
 
                 // When
-
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "fakepages/1", Metadata = { Name = "Start" } }, StoreAction.Save);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Id = "fakepages/1", Metadata = {Name = "Start"}}, StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage {Id = "fakepages/2", Parent = new PageReference("fakepages/1")},
+                            StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        page = session.Load<IPage>("fakepages/2");
+                        page.Metadata.Name = "Changed name";
+                        session.Store(page, StoreAction.Save);
+                    }
+
+
+                    using (var session = store.OpenSession())
+                    {
+                        page = session.Load<IPage>("fakepages/2");
+                        draft = session.Load<IPage>("fakepages/2/draft");
+                    }
+
+                    // Then
+
+                    Assert.NotNull(page);
+                    Assert.Null(draft);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    session.Store(new FakePage { Id = "fakepages/2", Parent = new PageReference("fakepages/1") }, StoreAction.Save);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    page = session.Load<IPage>("fakepages/2");
-                    page.Metadata.Name = "Changed name";
-                    session.Store(page, StoreAction.Save);
-                }
-
-
-                using (var session = store.OpenSession()) {
-                    page = session.Load<IPage>("fakepages/2");
-                    draft = session.Load<IPage>("fakepages/2/draft");
-                }
-
-                // Then
-                
-                Assert.NotNull(page);
-                Assert.Null(draft);
             }
         }
     }
