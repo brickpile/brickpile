@@ -125,39 +125,41 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 // Given
 
                 Trie structureInfo;
-                var store = SetupContext();
                 IPage page;
 
                 // When
 
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage(), StoreAction.Publish);
-                    session.SaveChanges();
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage(), StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        page = session.Load<IPage>("FakePages/1");
+                        page.Metadata.Name = "Renamed";
+                        session.Store(page, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        page = session.Load<IPage>("FakePages/1");
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                    }
+
+                    // Then
+
+                    Assert.NotNull(structureInfo.RootNode);
+                    Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
+                    Assert.Null(structureInfo.RootNode.ParentId);
+                    Assert.Null(structureInfo.RootNode.Url);
+                    Assert.Equal(0, structureInfo.RootNode.Children.Count);
+                    Assert.Equal("Renamed", page.Metadata.Name);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    page = session.Load<IPage>("FakePages/1");
-                    page.Metadata.Name = "Renamed";
-                    session.Store(page, StoreAction.Publish);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    page = session.Load<IPage>("FakePages/1");
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                }
-
-                // Then
-
-                Assert.NotNull(structureInfo.RootNode);
-                Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
-                Assert.Null(structureInfo.RootNode.ParentId);
-                Assert.Null(structureInfo.RootNode.Url);
-                Assert.Equal(0, structureInfo.RootNode.Children.Count);
-                Assert.Equal("Renamed", page.Metadata.Name);
             }
 
             [Fact]
