@@ -40,6 +40,8 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                         Email = model.SetupModel.Email
                     };
 
+                    session.Store(user);
+
                     var result = await userManager.CreateAsync(user, model.SetupModel.Password);
 
                     if (result.Succeeded) {
