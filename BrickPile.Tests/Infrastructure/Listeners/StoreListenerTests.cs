@@ -776,7 +776,7 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 Assert.Null(structureInfo.RootNode.Url);
             }
 
-            [Fact(Skip = "")]
+            [Fact(Skip = "Fix this test")]
             public void Can_Create_Root_Page_As_Draft()
             {
                 // Given
