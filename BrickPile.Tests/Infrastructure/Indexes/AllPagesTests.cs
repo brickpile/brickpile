@@ -17,32 +17,36 @@ namespace BrickPile.Tests.Infrastructure.Indexes
 
             // Arrange
             IPage data;
-            var store = NewDocumentStore();
-            IndexCreation.CreateIndexes(typeof(DefaultBrickPileBootstrapper).Assembly, store);
 
-            // Act
-            using (var session = store.OpenSession())
+            using (var store = NewDocumentStore())
             {
 
-                var pageModel = new FakePage
+                IndexCreation.CreateIndexes(typeof (DefaultBrickPileBootstrapper).Assembly, store);
+
+                // Act
+                using (var session = store.OpenSession())
                 {
-                    Id = "fakepages/1",
-                    Parent = null,
-                    Metadata = { Name = "Foo" }
-                };
-                session.Store(pageModel);
-                session.SaveChanges();
 
-            }
-            using (var session = store.OpenSession())
-            {
-                data = session.Query<IPage, AllPages>()
-                    .Customize(x => x.WaitForNonStaleResults())
-                    .SingleOrDefault(x => x.Metadata.Name == "Foo");
-            }
+                    var pageModel = new FakePage
+                    {
+                        Id = "fakepages/1",
+                        Parent = null,
+                        Metadata = {Name = "Foo"}
+                    };
+                    session.Store(pageModel);
+                    session.SaveChanges();
 
-            // Assert
-            Assert.NotNull(data);
+                }
+                using (var session = store.OpenSession())
+                {
+                    data = session.Query<IPage, AllPages>()
+                        .Customize(x => x.WaitForNonStaleResults())
+                        .SingleOrDefault(x => x.Metadata.Name == "Foo");
+                }
+
+                // Assert
+                Assert.NotNull(data);
+            }
         }
     }
 }

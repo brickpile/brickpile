@@ -49,34 +49,37 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 // Given
                 IPage page, draft;
                 Trie structureInfo;
-                var store = SetupContext();
                
                 // When
 
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage(), StoreAction.Save);
-                    session.SaveChanges();
+
+                    using (var session = store.OpenSession())
+                    {
+                        session.Store(new FakePage(), StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                        page = session.Load<IPage>("FakePages/1");
+                        draft = session.Load<IPage>("FakePages/1/Draft");
+                    }
+
+                    // Then
+
+                    Assert.NotNull(structureInfo.RootNode);
+                    Assert.NotNull(structureInfo.RootNode.PageId);
+                    Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
+
+                    Assert.NotNull(page);
+                    Assert.Null(draft);
+
+                    Assert.False(page.Metadata.IsPublished);
+                    Assert.Equal(default(DateTime?), page.Metadata.Published);
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                    page = session.Load<IPage>("FakePages/1");
-                    draft = session.Load<IPage>("FakePages/1/Draft");
-                }
-
-                // Then
-
-                Assert.NotNull(structureInfo.RootNode);
-                Assert.NotNull(structureInfo.RootNode.PageId);
-                Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
-
-                Assert.NotNull(page);
-                Assert.Null(draft);
-
-                Assert.False(page.Metadata.IsPublished);
-                Assert.Equal(default(DateTime?), page.Metadata.Published);
             }
 
             [Fact]
@@ -1163,42 +1166,43 @@ namespace BrickPile.Tests.Infrastructure.Listeners
             {
                 // Given
 
-                var store = SetupContext();
-
                 IPage start, child;
 
                 // When
 
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    start = new FakePage { Metadata = { Name = "Start" } };
+                    using (var session = store.OpenSession())
+                    {
+                        start = new FakePage {Metadata = {Name = "Start"}};
 
-                    session.Store(start, StoreAction.Save);
-                    session.SaveChanges();
+                        session.Store(start, StoreAction.Save);
+                        session.SaveChanges();
 
-                    child = new FakePage { Parent = new PageReference(start.Id), Metadata = { Name = "Child" } };
-                    session.Store(child, StoreAction.Save);
-                    session.SaveChanges();
+                        child = new FakePage {Parent = new PageReference(start.Id), Metadata = {Name = "Child"}};
+                        session.Store(child, StoreAction.Save);
+                        session.SaveChanges();
 
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        child = session.Load<IPage>("FakePages/1");
+                        child.Metadata.Name = "Changed name";
+                        session.Store(child, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+
+                        child = session.Load<IPage>("FakePages/2");
+                    }
+
+                    // Then
+
+                    Assert.Equal(child.Parent.Id, "FakePages/1");
                 }
-
-                using (var session = store.OpenSession())
-                {
-                    child = session.Load<IPage>("FakePages/1");
-                    child.Metadata.Name = "Changed name";
-                    session.Store(child, StoreAction.Publish);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-
-                    child = session.Load<IPage>("FakePages/2");
-                }
-
-                // Then
-
-                Assert.Equal(child.Parent.Id, "FakePages/1");
             }
 
             [Fact]
