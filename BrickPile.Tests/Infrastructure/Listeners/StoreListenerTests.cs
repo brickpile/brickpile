@@ -286,43 +286,47 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 Trie structureInfo;
                 IPage page;
 
-                var store = SetupContext();
+                //var store = SetupContext();
 
                 // When
 
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "FakePages/1", Metadata = { Name = "Start" } }, StoreAction.Publish);
-                    IPage draft = new FakePage
+                    using (var session = store.OpenSession())
                     {
-                        Id = "FakePages/2",
-                        Parent = new PageReference("FakePages/1"),
-                        Metadata =
+                        session.Store(new FakePage {Id = "FakePages/1", Metadata = {Name = "Start"}},
+                            StoreAction.Publish);
+                        IPage draft = new FakePage
                         {
-                            Name = "Child page"
-                        }
-                    };
-                    session.Store(draft, StoreAction.Save);
-                    session.SaveChanges();
+                            Id = "FakePages/2",
+                            Parent = new PageReference("FakePages/1"),
+                            Metadata =
+                            {
+                                Name = "Child page"
+                            }
+                        };
+                        session.Store(draft, StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                        page = session.Load<FakePage>("FakePages/2");
+                    }
+
+                    // Then
+
+                    Assert.NotNull(structureInfo.RootNode);
+                    Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
+                    Assert.Null(structureInfo.RootNode.ParentId);
+                    Assert.Null(structureInfo.RootNode.Url);
+                    Assert.Equal(1, structureInfo.RootNode.Children.Count);
+                    Assert.Equal("FakePages/1", structureInfo.RootNode.Children.First().ParentId);
+                    Assert.Equal("child-page", structureInfo.RootNode.Children.First().Url);
+                    Assert.Equal(page.Metadata.Url, structureInfo.RootNode.Children.First().Url);
+                    Assert.Equal("child-page", page.Metadata.Slug);
                 }
-
-                using (var session = store.OpenSession())
-                {                    
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                    page = session.Load<FakePage>("FakePages/2");
-                }
-
-                // Then
-
-                Assert.NotNull(structureInfo.RootNode);
-                Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
-                Assert.Null(structureInfo.RootNode.ParentId);
-                Assert.Null(structureInfo.RootNode.Url);
-                Assert.Equal(1, structureInfo.RootNode.Children.Count);                
-                Assert.Equal("FakePages/1", structureInfo.RootNode.Children.First().ParentId);                
-                Assert.Equal("child-page", structureInfo.RootNode.Children.First().Url);
-                Assert.Equal(page.Metadata.Url, structureInfo.RootNode.Children.First().Url);
-                Assert.Equal("child-page", page.Metadata.Slug);
             }
 
             [Fact]
@@ -381,53 +385,55 @@ namespace BrickPile.Tests.Infrastructure.Listeners
                 Trie structureInfo;
                 IPage page;
 
-                var store = SetupContext();
-
                 // When
 
-                using (var session = store.OpenSession())
+                using (var store = this.SetupContext())
                 {
-                    session.Store(new FakePage { Id = "FakePages/1", Metadata = { Name = "Start" } }, StoreAction.Publish);
-                    IPage p = new FakePage
+                    using (var session = store.OpenSession())
                     {
-                        Id = "FakePages/2",
-                        Parent = new PageReference("FakePages/1"),
-                        Metadata =
+                        session.Store(new FakePage {Id = "FakePages/1", Metadata = {Name = "Start"}},
+                            StoreAction.Publish);
+                        IPage p = new FakePage
                         {
-                            Name = "Child page"
-                        }
-                    };
-                    session.Store(p, StoreAction.Publish);
-                    session.SaveChanges();
+                            Id = "FakePages/2",
+                            Parent = new PageReference("FakePages/1"),
+                            Metadata =
+                            {
+                                Name = "Child page"
+                            }
+                        };
+                        session.Store(p, StoreAction.Publish);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        page = session.Load<FakePage>("FakePages/2");
+                        page.Metadata.Name = "Page name changed";
+                        session.Store(page, StoreAction.Save);
+                        session.SaveChanges();
+                    }
+
+                    using (var session = store.OpenSession())
+                    {
+                        structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
+                        page = session.Load<FakePage>("FakePages/2/draft");
+                    }
+
+                    // Then
+
+                    Assert.NotNull(structureInfo.RootNode);
+                    Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
+                    Assert.Null(structureInfo.RootNode.ParentId);
+                    Assert.Null(structureInfo.RootNode.Url);
+                    Assert.Equal(1, structureInfo.RootNode.Children.Count);
+                    Assert.Equal("FakePages/2", structureInfo.RootNode.Children.First().PageId);
+                    Assert.Equal("FakePages/1", structureInfo.RootNode.Children.First().ParentId);
+                    Assert.Equal("child-page", structureInfo.RootNode.Children.First().Url);
+                    Assert.Equal(page.Metadata.Url, structureInfo.RootNode.Children.First().Url);
+                    Assert.Equal("child-page", page.Metadata.Slug);
+                    Assert.False(page.Metadata.IsPublished);
                 }
-
-                using (var session = store.OpenSession())
-                {                    
-                    page = session.Load<FakePage>("FakePages/2");
-                    page.Metadata.Name = "Page name changed";
-                    session.Store(page, StoreAction.Save);
-                    session.SaveChanges();
-                }
-
-                using (var session = store.OpenSession())
-                {
-                    structureInfo = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                    page = session.Load<FakePage>("FakePages/2/draft");
-                }
-
-                // Then
-
-                Assert.NotNull(structureInfo.RootNode);
-                Assert.Equal("FakePages/1", structureInfo.RootNode.PageId);
-                Assert.Null(structureInfo.RootNode.ParentId);
-                Assert.Null(structureInfo.RootNode.Url);
-                Assert.Equal(1, structureInfo.RootNode.Children.Count);
-                Assert.Equal("FakePages/2", structureInfo.RootNode.Children.First().PageId);
-                Assert.Equal("FakePages/1", structureInfo.RootNode.Children.First().ParentId);
-                Assert.Equal("child-page", structureInfo.RootNode.Children.First().Url);
-                Assert.Equal(page.Metadata.Url, structureInfo.RootNode.Children.First().Url);
-                Assert.Equal("child-page", page.Metadata.Slug);                
-                Assert.False(page.Metadata.IsPublished);
             }
 
             [Fact]

@@ -24,8 +24,6 @@ namespace BrickPile.Tests.Routing
             {
                 // Given
 
-                var store = NewDocumentStore();
-
                 var mapper = A.Fake<IControllerMapper>();
                 var context = A.Fake<HttpContextBase>();
                 var trie = A.Fake<IRouteResolverTrie>();
@@ -48,6 +46,8 @@ namespace BrickPile.Tests.Routing
 
                 RouteData data;
 
+                using (var store = NewDocumentStore()) { 
+
                 using (var session = store.OpenSession())
                 {
                     var page = new FakePage { Id = "pages/1" };
@@ -57,6 +57,8 @@ namespace BrickPile.Tests.Routing
 
                     var route = new DefaultRoute(new VirtualPathResolver(), new DefaultRouteResolver(trie), store, mapper);
                     data = route.GetRouteData(context);
+                }
+
                 }
 
                 //Then
