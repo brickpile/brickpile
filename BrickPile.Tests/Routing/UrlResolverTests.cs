@@ -47,7 +47,7 @@ namespace BrickPile.Tests.Routing
             public void Can_Resolve_Home_Page_With_Default_Action(string path) {
                 // Given
 
-                var store = this.SetupContext();
+                //var store = this.SetupContext();
                 var routeResolverTrie = A.Fake<IRouteResolverTrie>();
                 //var mapper = A.Fake<IControllerMapper>();
 
@@ -60,34 +60,38 @@ namespace BrickPile.Tests.Routing
 
                 ResolveResult data;
 
-                using (var session = store.OpenSession()) {
-                    var node = new TrieNode
+                using (var store = this.SetupContext())
+                {
+                    using (var session = store.OpenSession())
                     {
-                        PageId = "pages/1"
-                    };
+                        var node = new TrieNode
+                        {
+                            PageId = "pages/1"
+                        };
 
-                    var page = new FakePage {Id = "pages/1"};
-                    var structureInfo = new Trie
-                    {
-                        Id = DefaultBrickPileBootstrapper.TrieId,
-                        RootNode = node
-                    };
-                    session.Store(structureInfo);
-                    session.Store(page);
-                    session.SaveChanges();
+                        var page = new FakePage {Id = "pages/1"};
+                        var structureInfo = new Trie
+                        {
+                            Id = DefaultBrickPileBootstrapper.TrieId,
+                            RootNode = node
+                        };
+                        session.Store(structureInfo);
+                        session.Store(page);
+                        session.SaveChanges();
 
-                    var resolver = new DefaultRouteResolver(routeResolverTrie);
+                        var resolver = new DefaultRouteResolver(routeResolverTrie);
 
-                    A.CallTo(() => routeResolverTrie.LoadTrie()).Returns(structureInfo);
+                        A.CallTo(() => routeResolverTrie.LoadTrie()).Returns(structureInfo);
 
-                    data = resolver.Resolve(path);
+                        data = resolver.Resolve(path);
+                    }
+
+                    //Then
+
+                    Assert.NotNull(data);
+                    Assert.Equal(data.TrieNode.PageId, "pages/1");
+                    Assert.Equal("index", data.Action);
                 }
-
-                //Then
-
-                Assert.NotNull(data);
-                Assert.Equal(data.TrieNode.PageId, "pages/1");
-                Assert.Equal("index", data.Action);
             }
 
             //[Theory]
