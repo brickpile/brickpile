@@ -1,4 +1,4 @@
-#BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 5. [![NuGet Version](http://img.shields.io/nuget/v/BrickPile.svg?style=flat)](https://www.nuget.org/packages/BrickPile/) [![NuGet Downloads](http://img.shields.io/nuget/dt/BrickPile.svg?style=flat)](https://www.nuget.org/packages/BrickPile/)
+# BrickPile is a lightweight CMS built on RavenDB and ASP.NET MVC 5. [![NuGet Version](http://img.shields.io/nuget/v/BrickPile.svg?style=flat)](https://www.nuget.org/packages/BrickPile/) [![NuGet Downloads](http://img.shields.io/nuget/dt/BrickPile.svg?style=flat)](https://www.nuget.org/packages/BrickPile/)
 
 ## Requirements
 ### Brace yourself, BrickPile makes the following demands:
@@ -6,15 +6,15 @@
 * [RavenDB](http://ravendb.net/)
 
 **And that's about it.** A slight bit of knowledge about ASP.NET MVC development is also required.
-##Installing
-###Getting Installed
+## Installing
+### Getting Installed
 Installing BrickPile is simply the act of writing a single PowerShell command inside the package manager console.
 
   PM> Install-Package BrickPile
 
 **And that's basically it.** Of course you need an empty ASP.NET MVC 5 web application with Web Api.
 
-##Configuration
+## Configuration
 As default BrickPile will run RavenDB in embedded mode and store the documents in `~\App_Data\Raven`. This can easily be configured to use an other location or RavenDB server. The following example shows how to use RavenDB server.
 ```xml
 <connectionStrings>
