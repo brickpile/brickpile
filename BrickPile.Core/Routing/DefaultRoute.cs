@@ -6,7 +6,8 @@ using System.Web.Routing;
 using BrickPile.Core.Extensions;
 using BrickPile.Core.Mvc;
 using BrickPile.Domain;
-using Raven.Client;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 
 namespace BrickPile.Core.Routing
 {

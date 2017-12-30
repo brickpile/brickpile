@@ -27,6 +27,7 @@ namespace BrickPile.Samples.Models.ContentTypes {
 
         // Button, ignite your passion, not editable atm
 
+        [Display(GroupName = "Team")]
         public List<ContentPart> TeamCarousel { get; set; }
 
         // Form, not editable atm
@@ -37,6 +38,7 @@ namespace BrickPile.Samples.Models.ContentTypes {
         {
             ServicesCarousel = new List<ContentPart>();
             PortfolioCarousel = new List<ContentPart>();
+            TeamCarousel = new List<ContentPart>();
         }
     }
 

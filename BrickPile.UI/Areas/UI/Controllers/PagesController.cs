@@ -12,6 +12,8 @@ using BrickPile.UI.Web.Mvc;
 using BrickPile.UI.Web.ViewModels;
 using Newtonsoft.Json;
 using Raven.Client;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 
 namespace BrickPile.UI.Areas.UI.Controllers
 {
@@ -37,7 +39,7 @@ namespace BrickPile.UI.Areas.UI.Controllers
         /// <returns>
         ///     Returns a list of children to the current page
         /// </returns>
-        public ActionResult Index(dynamic currentPage, bool deleted = false) {
+        public ActionResult Index(dynamic currentPage, bool deleted = false) { // Changed from dynamic
             // If the current page is null, assume we haven't created the start page yet
             if (!(currentPage is Page))
             {
@@ -291,10 +293,10 @@ namespace BrickPile.UI.Areas.UI.Controllers
             // load all documents
             using (IDocumentSession session = this.documentStore.OpenSession())
             {
-                IPage[] documents = session.Load<IPage>(ids.ToArray());
+                IDictionary<string, IPage> documents = session.Load<IPage>(ids.ToArray());
 
                 int order = 1;
-                foreach (IPage model in documents)
+                foreach (IPage model in documents.Values)
                 {
                     model.Metadata.SortOrder = order++;
                 }

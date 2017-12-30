@@ -6,6 +6,7 @@ using BrickPile.UI.Areas.UI.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Raven.Client;
+using Raven.Client.Documents;
 
 namespace BrickPile.UI.Areas.UI.Controllers {
 
@@ -31,7 +32,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                 return View();
             }
 
-            using (var session = _store.OpenSession()) {
+            using (var session = _store.OpenAsyncSession()) {
 
                 using (var userManager = Startup.UserManagerFactory.Invoke(session)) {
 

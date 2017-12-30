@@ -15,12 +15,9 @@ using BrickPile.Core.Infrastructure.Listeners;
 using BrickPile.Core.Mvc;
 using BrickPile.Core.Routing;
 using BrickPile.Core.Routing.Trie;
-using Raven.Abstractions.Extensions;
-using Raven.Client;
-using Raven.Client.Document;
-using Raven.Client.Embedded;
-using Raven.Client.Indexes;
-using Raven.Json.Linq;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Indexes;
+using Raven.Client.Documents.Session;
 using StructureMap;
 using StructureMap.Graph;
 
@@ -32,20 +29,20 @@ namespace BrickPile.Core
     public class DefaultBrickPileBootstrapper : IBrickPileBootstrapper
     {
         private const string ConnectionStringName = "RavenDB";
-        private const string DataDirectory = "~/App_Data/Raven";
         public const string TrieId = "brickpile/trie";
 
         private static readonly Lazy<IDocumentStore> DocStore = new Lazy<IDocumentStore>(() =>
         {
-            var store = new EmbeddableDocumentStore
+            var store = new DocumentStore
             {
-                DataDirectory = DataDirectory
+                Urls = new []{ ConfigurationManager.ConnectionStrings[ConnectionStringName].ConnectionString },
+                Database = "brickpile"
             };
-            if (ConfigurationManager.ConnectionStrings[ConnectionStringName] != null)
+            var listener = new StoreListener(OnPagePublish, OnPageSave, OnPageUnPublish);
+            store.OnBeforeStore += (sender, args) =>
             {
-                store.ConnectionStringName = ConnectionStringName;
-            }
-            store.Configuration.RunInUnreliableYetFastModeThatIsNotSuitableForProduction = true;
+                listener.BeforeStore(args.DocumentId, args.Entity, args.DocumentMetadata, null);
+            };            
             store.Initialize();
             return store;
         });
@@ -90,7 +87,7 @@ namespace BrickPile.Core
         /// </summary>
         public void Initialise()
         {
-            this.ConfigureDocumentStoreInternal((EmbeddableDocumentStore) DocumentStore);
+            this.ConfigureDocumentStoreInternal(DocumentStore);
 
             this.ConfigureDocumentStore(DocumentStore);
 
@@ -176,7 +173,7 @@ namespace BrickPile.Core
                 var trie = session.Load<Trie>(TrieId);
 
                 if (trie != null) return;
-                trie = new Trie {Id = TrieId};
+                trie = new Trie { Id = TrieId };                
                 session.Store(trie);
                 session.SaveChanges();
             }
@@ -188,7 +185,7 @@ namespace BrickPile.Core
         /// <param name="key">The key.</param>
         /// <param name="currentPage">The current page.</param>
         /// <param name="metadata">The metadata.</param>
-        internal void OnPagePublish(string key, IPage currentPage, RavenJObject metadata)
+        internal static void OnPagePublish(string key, IPage currentPage, IMetadataDictionary metadata)
         {
             using (IDocumentSession session = DocumentStore.OpenSession())
             {
@@ -226,8 +223,11 @@ namespace BrickPile.Core
                                 trie.MoveTo(parentNode, currentNode);
 
                                 IEnumerable<string> ids = currentNode.Flatten(x => x.Children).Select(x => x.PageId);
-                                IPage[] pages = session.Load<IPage>(ids);
-                                pages.ForEach(p => { p.Metadata.Url = trie.Get(p.Id).Url; });
+                                IDictionary<string, IPage> pages = session.Load<IPage>(ids); // TODO handle null values
+                                foreach (var page in pages.Values)
+                                {
+                                    page.Metadata.Url = trie.Get(page.Id).Url;
+                                }                                
                             }
 
                             currentNode.Url = currentPage.Metadata.Url;
@@ -253,7 +253,7 @@ namespace BrickPile.Core
                 }
 
                 // Clean up any existing draft for this page
-                if (session.Advanced.DocumentStore.Exists(key + "/draft"))
+                if (session.Advanced.Exists(key + "/draft"))
                 {
                     var draft = session.Load<IPage>(key + "/draft");
                     session.Delete(draft);
@@ -269,7 +269,7 @@ namespace BrickPile.Core
         /// <param name="key">The key.</param>
         /// <param name="currentPage">The current page.</param>
         /// <param name="metadata">The metadata.</param>
-        internal void OnPageUnPublish(string key, IPage currentPage, RavenJObject metadata) {}
+        internal static void OnPageUnPublish(string key, IPage currentPage, IMetadataDictionary metadata) {}
 
         /// <summary>
         ///     Called when [document delete].
@@ -277,7 +277,7 @@ namespace BrickPile.Core
         /// <param name="key">The key.</param>
         /// <param name="page">The currentPage.</param>
         /// <param name="metadata">The metadata.</param>
-        internal void OnDocumentDelete(string key, IPage page, RavenJObject metadata)
+        internal void OnDocumentDelete(string key, IPage page, IMetadataDictionary metadata)
         {
             using (IDocumentSession session = DocumentStore.OpenSession())
             {
@@ -291,7 +291,7 @@ namespace BrickPile.Core
                 }
 
                 // Clean up any existing draft for this page
-                if (session.Advanced.DocumentStore.Exists(key + "/draft"))
+                if (session.Advanced.Exists(key + "/draft"))
                 {
                     var draft = session.Load<IPage>(key + "/draft");
                     session.Delete(draft);
@@ -333,11 +333,8 @@ namespace BrickPile.Core
         ///     Configures the document store internal.
         /// </summary>
         /// <param name="documentStore">The document store.</param>
-        private void ConfigureDocumentStoreInternal(EmbeddableDocumentStore documentStore)
+        private void ConfigureDocumentStoreInternal(IDocumentStore documentStore)
         {
-            documentStore.RegisterListener(new StoreListener(this.OnPagePublish, this.OnPageSave, this.OnPageUnPublish));
-            documentStore.RegisterListener(new DeleteListener(this.OnDocumentDelete));
-
             IndexCreation.CreateIndexes(typeof (DefaultBrickPileBootstrapper).Assembly, documentStore);
         }
 
@@ -416,7 +413,7 @@ namespace BrickPile.Core
         #region may be removed
 
         [Obsolete("not used atm", false)]
-        internal void OnPageSave(string key, IPage currentPage, RavenJObject metadata)
+        internal static void OnPageSave(string key, IPage currentPage, IMetadataDictionary metadata)
         {
             using (IDocumentSession session = DocumentStore.OpenSession())
             {

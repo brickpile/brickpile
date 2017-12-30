@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using BrickPile.Core.Routing.Trie;
-using Raven.Client;
-using Raven.Client.Document;
+using Raven.Client.Documents.Session;
 
 namespace BrickPile.Core.Extensions
 {
@@ -19,7 +18,7 @@ namespace BrickPile.Core.Extensions
         /// <param name="session">The session.</param>
         /// <returns></returns>
         /// <exception cref="System.NullReferenceException">StructureInfo</exception>
-        public static IPage GetStartPage(this ISyncAdvancedSessionOperation session)
+        public static IPage GetStartPage(this IAdvancedSessionOperations session)
         {
             try
             {
@@ -49,7 +48,7 @@ namespace BrickPile.Core.Extensions
         /// <param name="page">The page.</param>
         /// <returns></returns>
         /// <exception cref="System.NullReferenceException">StructureInfo</exception>
-        public static IEnumerable<IPage> GetChildrenFor(this ISyncAdvancedSessionOperation session, IPage page)
+        public static IEnumerable<IPage> GetChildrenFor(this IAdvancedSessionOperations session, IPage page)
         {
             try
             {
@@ -70,7 +69,8 @@ namespace BrickPile.Core.Extensions
                 TrieNode node = nodes.SingleOrDefault(n => n.PageId.CompareToIgnoreDraftId(page.Id));
 
                 return node != null
-                    ? ((DocumentSession) session).Load<IPage>(node.Children.Select(n => n.PageId).ToArray())
+                    ? ((DocumentSession) session).Load<IPage>(node.Children.Select(n => n.PageId).ToArray()) //TODO handle null values
+                        .Values
                         .OrderBy(p => p.Metadata.SortOrder)
                     : Enumerable.Empty<IPage>();
             }
@@ -85,7 +85,7 @@ namespace BrickPile.Core.Extensions
         /// <param name="session">The session.</param>
         /// <param name="page">The page.</param>
         /// <returns></returns>
-        public static T GetParentFor<T>(this ISyncAdvancedSessionOperation session, IPage page) where T : IPage
+        public static T GetParentFor<T>(this IAdvancedSessionOperations session, IPage page) where T : IPage
         {
             if (page.Parent == null)
             {
@@ -113,7 +113,7 @@ namespace BrickPile.Core.Extensions
         /// <param name="includeStartPage">if set to <c>true</c> [include start page].</param>
         /// <returns></returns>
         /// <exception cref="System.NullReferenceException">StructureInfo</exception>
-        public static IEnumerable<IPage> GetAncestorsFor(this ISyncAdvancedSessionOperation session, IPage page,
+        public static IEnumerable<IPage> GetAncestorsFor(this IAdvancedSessionOperations session, IPage page,
             bool includeStartPage = false)
         {
             try
@@ -125,7 +125,7 @@ namespace BrickPile.Core.Extensions
                 }
                 IEnumerable<TrieNode> nodes = context.Trie.GetAncestors(page.Id, includeStartPage);
 
-                return ((DocumentSession) session).Load<IPage>(nodes.Select(n => n.PageId));
+                return ((IDocumentSession) session).Load<IPage>(nodes.Select(n => n.PageId)).Values; // TODO handle null values
             }
             catch (ArgumentNullException exception) {}
             return null;
@@ -138,9 +138,9 @@ namespace BrickPile.Core.Extensions
         /// <param name="session">The session.</param>
         /// <param name="page">The page.</param>
         /// <returns></returns>
-        public static T GetDraftFor<T>(this ISyncAdvancedSessionOperation session, IPage page)
+        public static T GetDraftFor<T>(this IAdvancedSessionOperations session, IPage page)
         {
-            return ((DocumentSession) session).Load<T>(page.Id.Replace("/draft", "") + "/draft");
+            return ((IDocumentSession) session).Load<T>(page.Id.Replace("/draft", "") + "/draft");
         }
 
         /// <summary>
@@ -166,22 +166,22 @@ namespace BrickPile.Core.Extensions
                     page.Metadata.IsPublished = false;
                     page.Metadata.Changed = DateTime.UtcNow;
                     page.Metadata.ChangedBy = HttpContext.Current.User.Identity.Name;
-                    if (!page.IsDraft() && session.Advanced.DocumentStore.Exists(page.Id))
-                    {
-                        session.Advanced.Evict(page);
-                        session.Store(page, page.Id + "/draft");
-                    }
+                    //if (!page.IsDraft() && session.Advanced.Exists(page.Id))
+                    //{
+                    //    session.Advanced.Evict(page);
+                    //    session.Store(page, page.Id + "/draft");
+                    //}
                     break;
                 case StoreAction.Publish:
                     page.Metadata.IsPublished = true;
                     page.Metadata.Published = page.Metadata.Published ?? DateTime.UtcNow;
                     page.Metadata.Changed = DateTime.UtcNow;
                     page.Metadata.ChangedBy = HttpContext.Current.User.Identity.Name;
-                    if (page.IsDraft())
-                    {
-                        session.Advanced.Evict(page);
-                        session.Store(page, page.Id.Replace("/draft", ""));
-                    }
+                    //if (page.IsDraft())
+                    //{
+                    //    session.Advanced.Evict(page);
+                    //    session.Store(page, page.Id.Replace("/draft", ""));
+                    //}
                     break;
                 case StoreAction.UnPublish:
                     page.Metadata.IsPublished = false;

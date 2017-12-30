@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
 using BrickPile.Core.Extensions;
 using BrickPile.Core.Routing.Trie;
 using Raven.Client;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 
 namespace BrickPile.Core.Routing
 {
@@ -50,16 +53,18 @@ namespace BrickPile.Core.Routing
 
             using (IDocumentSession session = this.documentStore.OpenSession())
             {
-                IPage[] pages = session.Load<IPage>(
+                IDictionary<string, IPage> pages = session.Load<IPage>(
                     this.routeResolverTrie.LoadTrie().GetAncestorIdsFor(
                         this.RequestContext.RouteData.GetCurrentPage<IPage>().Id,
-                        true)).OrderBy(x => x.Metadata.SortOrder).ToArray();
+                        true)); //.OrderBy(x => x.Metadata.SortOrder).ToArray(); //TODO check if some pages is null
+
+
 
                 var navigationContext = new NavigationContext
                 {
-                    StartPage = pages.SingleOrDefault(x => x.Parent == null),
+                    StartPage = pages.Values.Where(x => x != null).SingleOrDefault(x => x.Parent == null),
                     CurrentPage = this.RequestContext.RouteData.GetCurrentPage<IPage>(),
-                    OpenPages = pages,
+                    OpenPages = pages.Values.Where(x => x != null).OrderBy(x => x.Metadata.SortOrder).ToArray(),
                     RequestContext = this.RequestContext
                 };
 

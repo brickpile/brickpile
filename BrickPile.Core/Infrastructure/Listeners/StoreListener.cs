@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Web;
-using Raven.Client.Listeners;
-using Raven.Json.Linq;
+using Raven.Client.Documents.Session;
 
 namespace BrickPile.Core.Infrastructure.Listeners
 {
     /// <summary>
     ///     Hook for users to provide additional logic on store operations
     /// </summary>
-    internal class StoreListener : IDocumentStoreListener
+    internal class StoreListener
     {
-        private readonly Action<string, IPage, RavenJObject> onPagePublish;
-        private readonly Action<string, IPage, RavenJObject> onPageSave;
-        private readonly Action<string, IPage, RavenJObject> onPageUnpublish;
+        private readonly Action<string, IPage, IMetadataDictionary> onPagePublish;
+        private readonly Action<string, IPage, IMetadataDictionary> onPageSave;
+        private readonly Action<string, IPage, IMetadataDictionary> onPageUnpublish;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="StoreListener" /> class.
@@ -20,8 +19,8 @@ namespace BrickPile.Core.Infrastructure.Listeners
         /// <param name="onPagePublish">The on page publish.</param>
         /// <param name="onPageSave">The on page save.</param>
         /// <param name="onPageUnPublish">The on page un publish.</param>
-        public StoreListener(Action<string, IPage, RavenJObject> onPagePublish,
-            Action<string, IPage, RavenJObject> onPageSave, Action<string, IPage, RavenJObject> onPageUnPublish)
+        public StoreListener(Action<string, IPage, IMetadataDictionary> onPagePublish,
+            Action<string, IPage, IMetadataDictionary> onPageSave, Action<string, IPage, IMetadataDictionary> onPageUnPublish)
         {
             this.onPagePublish = onPagePublish;
             this.onPageSave = onPageSave;
@@ -40,7 +39,7 @@ namespace BrickPile.Core.Infrastructure.Listeners
         ///     Returning true would force re-serialization of the entity, returning false would
         ///     mean that any changes to the entityInstance would be ignored in the current SaveChanges call.
         /// </returns>
-        public bool BeforeStore(string key, object entityInstance, RavenJObject metadata, RavenJObject original)
+        public bool BeforeStore(string key, object entityInstance, IMetadataDictionary metadata, IMetadataDictionary original)
         {
             var entity = entityInstance as IPage;
 
@@ -81,6 +80,6 @@ namespace BrickPile.Core.Infrastructure.Listeners
         /// <param name="key">The key.</param>
         /// <param name="entityInstance">The entity instance.</param>
         /// <param name="metadata">The metadata.</param>
-        public void AfterStore(string key, object entityInstance, RavenJObject metadata) {}
+        public void AfterStore(string key, object entityInstance, IMetadataDictionary metadata) {}
     }
 }

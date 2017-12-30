@@ -16,5 +16,7 @@ namespace BrickPile.Samples.Models.ViewModels
         public List<Feature> Features { get; set; }
 
         public List<Service> Services { get; set; }
+
+        public List<TeamMember> Team { get; set; }
     }
 }
