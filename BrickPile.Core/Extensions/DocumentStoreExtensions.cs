@@ -1,4 +1,5 @@
 ﻿using Raven.Client;
+using Raven.Client.Documents;
 
 namespace BrickPile.Core.Extensions
 {
@@ -13,9 +14,9 @@ namespace BrickPile.Core.Extensions
         /// <param name="documentStore">The document store.</param>
         /// <param name="key">The key.</param>
         /// <returns></returns>
-        public static bool Exists(this IDocumentStore documentStore, string key)
-        {
-            return documentStore.DatabaseCommands.Head(key) != null;
-        }
+        //public static bool Exists(this IDocumentStore documentStore, string key)
+        //{
+        //    return documentStore.DatabaseCommands.Head(key) != null;
+        //}
     }
 }

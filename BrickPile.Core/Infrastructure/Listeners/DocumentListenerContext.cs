@@ -1,5 +1,5 @@
 ﻿using System;
-using Raven.Abstractions.Extensions;
+using Raven.Client.Util;
 
 namespace BrickPile.Core.Infrastructure.Listeners
 {

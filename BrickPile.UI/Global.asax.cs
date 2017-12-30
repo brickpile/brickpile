@@ -1,10 +1,7 @@
 ﻿using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Raven.Client;
-using Raven.Client.Document;
-using StackExchange.Profiling;
-using StructureMap;
+
 
 namespace BrickPile.Samples {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -20,12 +17,10 @@ namespace BrickPile.Samples {
 
         protected void Application_BeginRequest()
         {
-                MiniProfiler.Start();
         }
 
         protected void Application_EndRequest()
         {
-            MiniProfiler.Stop();
         }
     }
 }

@@ -15,6 +15,8 @@ using BrickPile.Core.Mvc;
 using BrickPile.Domain.Models;
 using BrickPile.UI.Web;
 using Raven.Client;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 
 namespace BrickPile.UI.Areas.UI.Controllers {
     /// <summary>
@@ -31,7 +33,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
             using (var session = _store.OpenSession()) { 
                 var response = new AssetResponse();
 
-                RavenQueryStatistics stats;
+                QueryStatistics stats;
                 response.Assets = session.Query<Asset, AllAssets>()
                     .Statistics(out stats)
                     .OrderByDescending(x => x.DateUploaded)
@@ -63,7 +65,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 
                 var response = new AssetResponse();
 
-                RavenQueryStatistics stats;
+                QueryStatistics stats;
                 response.Assets = session.Query<Asset, AllAssets>()
                     .Statistics(out stats)
                     .Where(x => x.DateUploaded > DateTime.Now.AddHours(-48))
@@ -89,7 +91,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
 
                 var response = new AssetResponse();
 
-                RavenQueryStatistics stats;
+                QueryStatistics stats;
 
                 switch (type) {
                     case "image":

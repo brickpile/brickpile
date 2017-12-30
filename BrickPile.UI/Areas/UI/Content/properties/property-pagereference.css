@@ -104,5 +104,6 @@ fieldset input.property-pagereference.spinning {
     top: 36px;        
 }
 .field-validation-error.empty {
+    z-index: 1;
     opacity: 1;
 }

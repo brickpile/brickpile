@@ -2,6 +2,7 @@
 using BrickPile.Core.Extensions;
 using BrickPile.Core.Routing;
 using Raven.Client;
+using Raven.Client.Documents;
 
 namespace BrickPile.Core.Mvc
 {
@@ -54,15 +55,18 @@ namespace BrickPile.Core.Mvc
 
             if (!filterContext.Controller.TempData.ContainsKey("EditorAction")) return;
 
-            if (filterContext.RequestContext.HttpContext.User.Identity.IsAuthenticated &&
-                this.documentStore.Exists(currentPage.Id + "/draft"))
+            using (var session = documentStore.OpenSession())
             {
-                var editAction = (EditorAction) filterContext.Controller.TempData["EditorAction"];
-                // replace the current page with the draft if the user is logged on and we have a draft saved
-                if (editAction != EditorAction.Preview) return;
-                filterContext.RouteData.Values[DefaultRoute.CurrentPageKey] =
-                    this.documentStore.OpenSession().Load<IPage>(currentPage.Id + "/draft");
-                filterContext.Controller.TempData["EditorAction"] = EditorAction.Preview;
+                if (filterContext.RequestContext.HttpContext.User.Identity.IsAuthenticated &&
+                    session.Advanced.Exists(currentPage.Id + "/draft"))
+                {
+                    var editAction = (EditorAction)filterContext.Controller.TempData["EditorAction"];
+                    // replace the current page with the draft if the user is logged on and we have a draft saved
+                    if (editAction != EditorAction.Preview) return;
+                    filterContext.RouteData.Values[DefaultRoute.CurrentPageKey] =
+                        session.Load<IPage>(currentPage.Id + "/draft");
+                    filterContext.Controller.TempData["EditorAction"] = EditorAction.Preview;
+                }
             }
         }
     }

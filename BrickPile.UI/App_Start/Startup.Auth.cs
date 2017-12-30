@@ -1,18 +1,16 @@
 ﻿using System;
 using BrickPile.Core.Identity;
-using BrickPile.UI.Areas.UI.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using Raven.Client;
-using RavenDB.AspNet.Identity;
+using Raven.Client.Documents.Session;
 
 namespace BrickPile.UI {
 
     public partial class Startup {
 
-        public static Func<IDocumentSession, UserManager<ApplicationUser>> UserManagerFactory { get; private set; }
+        public static Func<IAsyncDocumentSession, UserManager<ApplicationUser>> UserManagerFactory { get; private set; }
 
         public void ConfigureAuth(IAppBuilder app)
         {
