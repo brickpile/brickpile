@@ -3,7 +3,7 @@ using System.Web.Routing;
 using BrickPile.Core.Extensions;
 using BrickPile.Core.Routing;
 using BrickPile.Core.Routing.Trie;
-using Raven.Client;
+using Raven.Client.Documents;
 
 namespace BrickPile.Core.Mvc
 {
@@ -80,7 +80,10 @@ namespace BrickPile.Core.Mvc
         {
             if (!hasConfiguration)
             {
-                hasConfiguration = this.documentStore.Exists("brickpile/configuration");
+                using (var session = documentStore.OpenSession())
+                {
+                    hasConfiguration = session.Advanced.Exists("brickpile/configuration");
+                }                
             }
             return hasConfiguration;
         }

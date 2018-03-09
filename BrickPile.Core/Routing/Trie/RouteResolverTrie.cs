@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Web;
 using Raven.Client;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 
 namespace BrickPile.Core.Routing.Trie
 {
@@ -45,7 +47,8 @@ namespace BrickPile.Core.Routing.Trie
             using (IDocumentSession session = this.documentStore.OpenSession())
             {
                 var trie = session.Load<Trie>(DefaultBrickPileBootstrapper.TrieId);
-                session.Advanced.MarkReadOnly(trie);
+                //TODO check if we can make a document readonly
+                //session.Advanced.MarkReadOnly(trie);
                 this.ContextBase.Items["brickpile:trie"] = trie;
                 return trie;
             }

@@ -10,6 +10,7 @@ using BrickPile.UI.Web.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Raven.Client;
+using Raven.Client.Documents;
 
 namespace BrickPile.UI.Areas.UI.Controllers {
     [EditorControls(Disable = true)]
@@ -30,7 +31,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
             {
                 return View();
             }
-            using (var session = _store.OpenSession()) {
+            using (var session = _store.OpenAsyncSession()) {
 
                 using (var userManager = Startup.UserManagerFactory.Invoke(session)) {
 
@@ -40,7 +41,7 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                         Email = model.SetupModel.Email
                     };
 
-                    session.Store(user);
+                    await session.StoreAsync(user);
 
                     var result = await userManager.CreateAsync(user, model.SetupModel.Password);
 
@@ -52,8 +53,8 @@ namespace BrickPile.UI.Areas.UI.Controllers {
                         {
                             SiteName = model.Configuration.SiteName
                         };
-                        session.Store(configuration);
-                        session.SaveChanges();
+                        await session.StoreAsync(configuration);
+                        await session.SaveChangesAsync();
                         return RedirectToAction("Index", "UI", new { area = "UI" });
                     }
 

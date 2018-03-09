@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Raven.Abstractions.Indexing;
-using Raven.Client.Indexes;
+using Raven.Client.Documents.Indexes;
 
 namespace BrickPile.Core.Infrastructure.Indexes
 {
@@ -21,6 +20,7 @@ namespace BrickPile.Core.Infrastructure.Indexes
         {
             this.AddMapForAll<IPage>(pages => from page in pages
                 where !page.Id.Contains("/draft")
+                //orderby page.Metadata.SortOrder <- sorting?
                 select new
                 {
                     page.Id,
@@ -41,7 +41,7 @@ namespace BrickPile.Core.Infrastructure.Indexes
                     Parent_Id = page.Parent.Id
                 });
 
-            Sort(x => x.Metadata.SortOrder, SortOptions.Int);
+            //Sort(x => x.Metadata.SortOrder, SortOptions.Int); //TODO how can I sort the result?
         }
 
         /// <summary>

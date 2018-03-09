@@ -5,8 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using BrickPile.Domain.Models;
-using Raven.Abstractions.Indexing;
-using Raven.Client.Indexes;
+using Raven.Client.Documents.Indexes;
 
 namespace BrickPile.Core.Infrastructure.Indexes
 {
@@ -31,7 +30,7 @@ namespace BrickPile.Core.Infrastructure.Indexes
                     asset.ContentLength
                 });
 
-            Indexes.Add(x => x.ContentType, FieldIndexing.Analyzed);
+            Indexes.Add(x => x.ContentType, FieldIndexing.Search);
         }
 
         /// <summary>
