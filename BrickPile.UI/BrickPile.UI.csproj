@@ -753,10 +753,6 @@
     <Content Include="Areas\UI\Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\RavenDB.AspNet.Identity\RavenDB.AspNet.Identity\RavenDB.AspNet.Identity.csproj">
-      <Project>{c147fa58-04f8-4139-9e6e-e3d72f3e30ec}</Project>
-      <Name>RavenDB.AspNet.Identity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BrickPile.Core\BrickPile.Core.csproj">
       <Project>{6D6BC9A5-DA23-402F-AFED-6B72BF8EAD58}</Project>
       <Name>BrickPile.Core</Name>
@@ -764,6 +760,10 @@
     <ProjectReference Include="..\BrickPile.Domain\BrickPile.Domain.csproj">
       <Project>{827F415E-59D8-4F6A-B47A-1F345A790F5E}</Project>
       <Name>BrickPile.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RavenDB.AspNet.Identity\RavenDB.AspNet.Identity\RavenDB.AspNet.Identity.csproj">
+      <Project>{c147fa58-04f8-4139-9e6e-e3d72f3e30ec}</Project>
+      <Name>RavenDB.AspNet.Identity</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

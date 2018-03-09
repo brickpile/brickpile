@@ -362,13 +362,13 @@
     <Compile Include="UnitTestDetector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\RavenDB.AspNet.Identity\RavenDB.AspNet.Identity\RavenDB.AspNet.Identity.csproj">
-      <Project>{c147fa58-04f8-4139-9e6e-e3d72f3e30ec}</Project>
-      <Name>RavenDB.AspNet.Identity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BrickPile.Domain\BrickPile.Domain.csproj">
       <Project>{827F415E-59D8-4F6A-B47A-1F345A790F5E}</Project>
       <Name>BrickPile.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RavenDB.AspNet.Identity\RavenDB.AspNet.Identity\RavenDB.AspNet.Identity.csproj">
+      <Project>{c147fa58-04f8-4139-9e6e-e3d72f3e30ec}</Project>
+      <Name>RavenDB.AspNet.Identity</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
