@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{127364
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RavenDB.AspNet.Identity", "..\RavenDB.AspNet.Identity\RavenDB.AspNet.Identity\RavenDB.AspNet.Identity.csproj", "{C147FA58-04F8-4139-9E6E-E3D72F3E30EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RavenDB.AspNet.Identity", "RavenDB.AspNet.Identity\RavenDB.AspNet.Identity\RavenDB.AspNet.Identity.csproj", "{C147FA58-04F8-4139-9E6E-E3D72F3E30EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
