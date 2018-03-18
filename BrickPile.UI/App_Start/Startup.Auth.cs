@@ -5,7 +5,6 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using Raven.Client.Documents.Session;
-using RavenDB.AspNet.Identity;
 
 namespace BrickPile.UI {
 

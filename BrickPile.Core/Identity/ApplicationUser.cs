@@ -1,6 +1,4 @@
-﻿using RavenDB.AspNet.Identity;
-
-namespace BrickPile.Core.Identity
+﻿namespace BrickPile.Core.Identity
 {
     /// <summary>
     ///     Represents a common BrickPile user
