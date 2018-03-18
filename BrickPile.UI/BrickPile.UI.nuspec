@@ -27,8 +27,7 @@
       <dependency id="Microsoft.Owin.Security" version="3.0.1" />
       <dependency id="Microsoft.Owin.Security.Cookies" version="3.0.1" />
       <dependency id="Newtonsoft.Json" version="6.0.8" />
-      <dependency id="RavenDB.AspNet.Identity" version="0.9.1" />
-      <dependency id="RavenDB.Embedded" version="3.0.3660" />
+      <dependency id="RavenDB.Client" version="4.0.2" />
       <dependency id="structuremap" version="3.1.5.154" />
       <dependency id="structuremap.web" version="3.1.5.154" />
       <dependency id="SquishIt" version="0.9.5.4" />
