@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>RavenDB.AspNet.Identity</id>
+    <version>1.0.2.1</version>
+    <title>RavenDB.AspNet.Identity</title>
+    <authors>David Boike, Judah Gabriel Himango</authors>
+    <owners>judahgabriel</owners>
+    <licenseUrl>https://github.com/JudahGabriel/RavenDB.AspNet.Identity/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/JudahGabriel/RavenDB.AspNet.Identity</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ASP.NET Identity provider for RavenDB</description>
+    <copyright>Copyright 2013-2017 BitShuva</copyright>
+    <tags>RavenDB Identity Raven Membership NoSQL ASP.NET</tags>
+    <iconUrl>https://github.com/JudahGabriel/RavenDB.AspNet.Identity/blob/master/RavenDB.AspNet.Identity/nuget-icon.png?raw=true</iconUrl>
+		<dependencies>
+			<dependency id="Microsoft.AspNet.Identity.Core" version="2.2.1" />
+			<dependency id="RavenDB.Client" version="3.0.30143" />
+		</dependencies>
+  </metadata>
+	<files>
+		<file src="../ReadMe.md" />
+	</files>
+</package>
