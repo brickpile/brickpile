@@ -1,0 +1,1 @@
+.nuget\nuget.exe pack RavenDB.AspNet.Identity\RavenDB.AspNet.Identity.csproj -IncludeReferencedProjects
