@@ -28,15 +28,14 @@ namespace BrickPile.Core
     /// </summary>
     public class DefaultBrickPileBootstrapper : IBrickPileBootstrapper
     {
-        private const string ConnectionStringName = "RavenDB";
         public const string TrieId = "brickpile/trie";
 
         private static readonly Lazy<IDocumentStore> DocStore = new Lazy<IDocumentStore>(() =>
         {
             var store = new DocumentStore
             {
-                Urls = new []{ ConfigurationManager.ConnectionStrings[ConnectionStringName].ConnectionString },
-                Database = "brickpile"
+                Urls = ConfigurationManager.AppSettings["RavenDBUrls"].Split(new []{','}, StringSplitOptions.RemoveEmptyEntries),
+                Database = ConfigurationManager.AppSettings["RavenDBDatabase"]
             };
             var listener = new StoreListener(OnPagePublish, OnPageSave, OnPageUnPublish);
             store.OnBeforeStore += (sender, args) =>
