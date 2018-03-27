@@ -15,7 +15,9 @@ using BrickPile.Core.Infrastructure.Listeners;
 using BrickPile.Core.Mvc;
 using BrickPile.Core.Routing;
 using BrickPile.Core.Routing.Trie;
+using BrickPile.Domain.Models;
 using Raven.Client.Documents;
+using Raven.Client.Documents.Conventions;
 using Raven.Client.Documents.Indexes;
 using Raven.Client.Documents.Session;
 using StructureMap;
@@ -41,9 +43,19 @@ namespace BrickPile.Core
             store.OnBeforeStore += (sender, args) =>
             {
                 listener.BeforeStore(args.DocumentId, args.Entity, args.DocumentMetadata, null);
-            };            
-            store.Initialize();
-            return store;
+            };
+            {
+                store.Conventions.FindCollectionName = type =>
+                {
+                    if (typeof(Asset).IsAssignableFrom(type))
+                        return "Asset";
+                    if (typeof(IPage).IsAssignableFrom(type))
+                        return "Page";
+                    return DocumentConventions.DefaultGetCollectionName(type);
+                };
+                store.Initialize();
+                return store;
+            }
         });
 
         /// <summary>

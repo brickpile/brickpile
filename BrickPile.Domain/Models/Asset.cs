@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BrickPile.Domain.Models {
 
-    public class Asset {
+    public abstract class Asset {
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
