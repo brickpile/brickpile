@@ -17,7 +17,7 @@ namespace BrickPile.Samples.Controllers
 
         public ContainerController(IDocumentStore store)
         {
-            this.store = store;            
+            this.store = store;
         }
 
         public ActionResult Index(Container currentPage)

@@ -15,7 +15,9 @@ using BrickPile.Core.Infrastructure.Listeners;
 using BrickPile.Core.Mvc;
 using BrickPile.Core.Routing;
 using BrickPile.Core.Routing.Trie;
+using BrickPile.Domain.Models;
 using Raven.Client.Documents;
+using Raven.Client.Documents.Conventions;
 using Raven.Client.Documents.Indexes;
 using Raven.Client.Documents.Session;
 using StructureMap;
@@ -38,6 +40,7 @@ namespace BrickPile.Core
                 Urls = new []{ ConfigurationManager.ConnectionStrings[ConnectionStringName].ConnectionString },
                 Database = "brickpile"
             };
+
             var listener = new StoreListener(OnPagePublish, OnPageSave, OnPageUnPublish);
             store.OnBeforeStore += (sender, args) =>
             {

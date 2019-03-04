@@ -52,21 +52,24 @@ namespace BrickPile.Core.Infrastructure.Indexes
         protected new void AddMapForAll<TBase>(Expression<Func<IEnumerable<TBase>, IEnumerable>> expr)
         {
             // Index the base class.
-            AddMap(expr);
+            if (typeof(TBase).GetTypeInfo().IsAbstract == false &&
+                typeof(TBase).GetTypeInfo().IsInterface == false)
+                AddMap(expr);
 
-            // Index child classes from all assemblies
-            var children = AppDomain.CurrentDomain.GetAssemblies().ToList()
-                .SelectMany(s => s.GetTypes())
-                .Where(p => typeof (TBase).IsAssignableFrom(p));
-
+            // Index child classes.
+            var children = AppDomain.CurrentDomain.GetAssemblies().ToList().SelectMany(s => s.GetTypes()).Where(p => typeof(TBase).IsAssignableFrom(p));
             var addMapGeneric = GetType().GetMethod("AddMap", BindingFlags.Instance | BindingFlags.NonPublic);
             foreach (var child in children)
             {
-                var genericEnumerable = typeof (IEnumerable<>).MakeGenericType(child);
-                var delegateType = typeof (Func<,>).MakeGenericType(genericEnumerable, typeof (IEnumerable));
-                var lambdaExpression = Expression.Lambda(delegateType, expr.Body,
-                    Expression.Parameter(genericEnumerable, expr.Parameters[0].Name));
-                addMapGeneric.MakeGenericMethod(child).Invoke(this, new[] {lambdaExpression});
+                if (child.GetTypeInfo().IsGenericTypeDefinition ||
+                    child.GetTypeInfo().IsAbstract ||
+                    child.GetTypeInfo().IsInterface)
+                    continue;
+
+                var genericEnumerable = typeof(IEnumerable<>).MakeGenericType(child);
+                var delegateType = typeof(Func<,>).MakeGenericType(genericEnumerable, typeof(IEnumerable));
+                var lambdaExpression = Expression.Lambda(delegateType, expr.Body, Expression.Parameter(genericEnumerable, expr.Parameters[0].Name));
+                addMapGeneric.MakeGenericMethod(child).Invoke(this, new[] { lambdaExpression });
             }
         }
     }
