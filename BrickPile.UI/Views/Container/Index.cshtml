@@ -18,7 +18,7 @@
         <br/>
         @Html.Menu(Model.NavigationContext, page => Html.ActionLink(page))
         <br/>
-        <img src="@Model.CurrentPage.Image.Url"/>
+        <img src="@Model.CurrentPage.Image.Url" alt="@Model.CurrentPage.Image.AltText"/>
         <br/>
         @Html.SubMenu(page => Html.ActionLink(page))
     </main>
