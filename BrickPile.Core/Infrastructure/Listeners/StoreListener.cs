@@ -7,7 +7,7 @@ namespace BrickPile.Core.Infrastructure.Listeners
     /// <summary>
     ///     Hook for users to provide additional logic on store operations
     /// </summary>
-    internal class StoreListener
+    public class StoreListener
     {
         private readonly Action<string, IPage, IMetadataDictionary> onPagePublish;
         private readonly Action<string, IPage, IMetadataDictionary> onPageSave;
